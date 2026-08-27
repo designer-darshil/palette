@@ -27,90 +27,100 @@ import { CURATED_COMBOS } from './data/combos';
 import { CURATED_GRADIENTS } from './data/gradients';
 
 function parseUrlToRoute(): RouteType {
-  const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
-  if (!path) return { path: 'home' };
+  const rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '');
+  if (!rawPath) return { path: 'home' };
 
+  const path = rawPath.toLowerCase();
   const segments = path.split('/');
-  if (segments[0] === 'palette-generator' || segments[0] === 'generator') {
+  const s0 = segments[0];
+  const s1 = segments[1];
+
+  // 1. Dedicated Live Atmosphere Routes (Prioritized before dynamic palette slugs)
+  if (
+    path === 'palettes/live' ||
+    path === 'palette/live' ||
+    path === 'palettes/live-atmosphere' ||
+    path === 'palette/live-atmosphere' ||
+    s0 === 'live' ||
+    s0 === 'live-atmosphere'
+  ) {
+    return { path: 'live' };
+  }
+
+  // 2. Tools & Generators
+  if (s0 === 'palette-generator' || s0 === 'generator') {
     const params = new URLSearchParams(window.location.search);
     const colors = params.get('colors') || undefined;
     return { path: 'palette-generator', colors };
   }
-  if (segments[0] === 'contrast-checker' || segments[0] === 'contrast') {
+  if (s0 === 'contrast-checker' || s0 === 'contrast') {
     const params = new URLSearchParams(window.location.search);
     const fg = params.get('fg') || params.get('foreground') || undefined;
     const bg = params.get('bg') || params.get('background') || undefined;
     return { path: 'contrast-checker', fg, bg };
   }
-  if (segments[0] === 'color-name-finder' || segments[0] === 'name-finder' || segments[0] === 'name') {
+  if (s0 === 'color-name-finder' || s0 === 'name-finder' || s0 === 'name') {
     const params = new URLSearchParams(window.location.search);
     const hex = params.get('hex') || params.get('color') || undefined;
     return { path: 'color-name-finder', hex };
   }
-  if (segments[0] === 'extract-from-image' || segments[0] === 'extract' || segments[0] === 'image') {
+  if (s0 === 'extract-from-image' || s0 === 'extract' || s0 === 'image') {
     const params = new URLSearchParams(window.location.search);
     const imagePreset = params.get('preset') || undefined;
     return { path: 'extract-from-image', imagePreset };
   }
-  if (segments[0] === 'brand-kit' || segments[0] === 'brand') {
+  if (s0 === 'brand-kit' || s0 === 'brand') {
     const id = segments[1] || undefined;
     const params = new URLSearchParams(window.location.search);
     const paletteSlug = params.get('palette') || undefined;
     return { path: 'brand-kit', id, paletteSlug };
   }
-  if (segments[0] === 'colors' || segments[0] === 'color') {
-    if (segments[1]) {
+
+  // 3. Catalogs & Detail Routes
+  if (s0 === 'colors' || s0 === 'color') {
+    if (s1) {
       return { path: 'color-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'colors' };
   }
-  if (segments[0] === 'palettes' || segments[0] === 'palette') {
-    if (segments[1] === 'live' || segments[1] === 'live-atmosphere') {
-      return { path: 'live' };
-    }
-    if (segments[1]) {
+  if (s0 === 'palettes' || s0 === 'palette') {
+    if (s1) {
       return { path: 'palette-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'palettes' };
   }
-  if (segments[0] === 'combos' || segments[0] === 'combo') {
-    if (segments[1]) {
+  if (s0 === 'combos' || s0 === 'combo') {
+    if (s1) {
       return { path: 'combo-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'combos' };
   }
-  if (segments[0] === 'gradients' || segments[0] === 'gradient') {
-    if (segments[1]) {
+  if (s0 === 'gradients' || s0 === 'gradient') {
+    if (s1) {
       return { path: 'gradient-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'gradients' };
   }
-  if (segments[0] === 'live' || segments[0] === 'live-atmosphere') {
-    return { path: 'live' };
-  }
-  if (segments[0] === 'admin') {
+  if (s0 === 'admin') {
     return { path: 'admin', tab: segments[1] || 'dashboard' };
   }
-  if (segments[0] === 'saved') {
+  if (s0 === 'saved') {
     return { path: 'saved' };
   }
 
-  // Direct slug support (e.g. /terracotta-cyan-split or /celestial-cobalt)
+  // 4. Direct slug support (e.g. /terracotta-cyan-split or /celestial-cobalt)
   if (segments.length === 1) {
     const singleSlug = decodeURIComponent(segments[0]);
-    if (singleSlug === 'live' || singleSlug === 'live-atmosphere') {
-      return { path: 'live' };
-    }
-    const colorMatch = CURATED_COLORS.find((c) => c.slug === singleSlug);
+    const colorMatch = CURATED_COLORS.find((c) => c.slug.toLowerCase() === singleSlug);
     if (colorMatch) return { path: 'color-detail', slug: colorMatch.slug };
 
-    const comboMatch = CURATED_COMBOS.find((cb) => cb.slug === singleSlug);
+    const comboMatch = CURATED_COMBOS.find((cb) => cb.slug.toLowerCase() === singleSlug);
     if (comboMatch) return { path: 'combo-detail', slug: comboMatch.slug };
 
-    const paletteMatch = CURATED_PALETTES.find((p) => p.slug === singleSlug);
+    const paletteMatch = CURATED_PALETTES.find((p) => p.slug.toLowerCase() === singleSlug);
     if (paletteMatch) return { path: 'palette-detail', slug: paletteMatch.slug };
 
-    const gradientMatch = CURATED_GRADIENTS.find((g) => g.slug === singleSlug);
+    const gradientMatch = CURATED_GRADIENTS.find((g) => g.slug.toLowerCase() === singleSlug);
     if (gradientMatch) return { path: 'gradient-detail', slug: gradientMatch.slug };
   }
 
@@ -173,6 +183,28 @@ function routeToUrl(route: RouteType): string {
 export const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<RouteType>(parseUrlToRoute);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // Configure manual browser scroll restoration to prevent stuck scroll positions
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
+  // Global Scroll Restoration — Every client-side navigation resets scroll to (0, 0)
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant' as ScrollBehavior,
+    });
+    if (typeof document !== 'undefined' && document.documentElement) {
+      document.documentElement.scrollTop = 0;
+    }
+    if (typeof document !== 'undefined' && document.body) {
+      document.body.scrollTop = 0;
+    }
+  }, [currentRoute]);
 
   // Sync browser back/forward
   useEffect(() => {

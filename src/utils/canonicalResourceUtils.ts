@@ -26,11 +26,11 @@ export function createPaletteSlug(title: string, colors: { hex: string }[]): str
   return `palette-${colorHash}`;
 }
 
-// Decode dynamic palette from slug or query (e.g. "gen-pal-e9c46a-111215..." or hex list)
+// Decode dynamic palette from slug or query (e.g. "gen-pal-e9c46a-111215..." or "ext-pal-...")
 export function decodePaletteFromSlugOrId(identifier: string): PaletteItem | null {
   if (!identifier) return null;
 
-  const clean = identifier.replace(/^(palettes|palette|gen-pal|custom-palette|gen)-/i, '');
+  const clean = identifier.replace(/^(palettes|palette|gen-pal|ext-pal|live-pal|custom-palette|gen|ext|live)-/i, '');
   const hexParts = clean.match(/[0-9a-fA-F]{6}/g);
   if (hexParts && hexParts.length >= 2) {
     const swatches = hexParts.map((h, i) => {
@@ -40,15 +40,16 @@ export function decodePaletteFromSlugOrId(identifier: string): PaletteItem | nul
       return { name, hex, role };
     });
 
+    const isExtracted = identifier.toLowerCase().includes('ext');
     const title = `${swatches[0].name} & ${swatches[1]?.name || 'Harmonic'} Gamut`;
     return {
       id: `pal-dyn-${identifier}`,
       slug: identifier,
-      title,
-      category: 'Curated Generation',
+      title: isExtracted ? `Extracted: ${title}` : title,
+      category: isExtracted ? 'Image Extraction' : 'Curated Generation',
       description: `Harmonic color system with ${swatches.length} chromatic balance points.`,
       colors: swatches,
-      tags: ['dynamic', 'custom', 'generated'],
+      tags: isExtracted ? ['extracted', 'image', 'dynamic'] : ['dynamic', 'custom', 'generated'],
     };
   }
 

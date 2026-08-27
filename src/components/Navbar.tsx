@@ -14,6 +14,7 @@ import {
   Monitor,
   ShieldCheck,
   ChevronDown,
+  Image as ImageIcon,
   Wrench,
   Compass,
 } from 'lucide-react';
@@ -49,6 +50,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     currentRoute.path === 'palette-generator' ||
     currentRoute.path === 'contrast-checker' ||
     currentRoute.path === 'color-name-finder' ||
+    currentRoute.path === 'extract-from-image' ||
+    currentRoute.path === 'brand-kit' ||
     currentRoute.path === 'live';
 
   const isActive = (path: string) => {
@@ -61,6 +64,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     if (path === 'palette-generator' && currentRoute.path === 'palette-generator') return true;
     if (path === 'contrast-checker' && currentRoute.path === 'contrast-checker') return true;
     if (path === 'color-name-finder' && currentRoute.path === 'color-name-finder') return true;
+    if (path === 'extract-from-image' && currentRoute.path === 'extract-from-image') return true;
+    if (path === 'brand-kit' && currentRoute.path === 'brand-kit') return true;
     if (path === 'saved' && currentRoute.path === 'saved') return true;
     return false;
   };
@@ -85,6 +90,20 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
       description: 'Touch-first palette generation with locking & export',
       icon: <Sparkles size={16} className="text-amber-400" />,
       path: { path: 'palette-generator' } as RouteType,
+    },
+    {
+      id: 'extract-from-image',
+      title: 'Extract from Image',
+      description: 'Perceptual photo color extraction & role mapping',
+      icon: <ImageIcon size={16} className="text-purple-400" />,
+      path: { path: 'extract-from-image' } as RouteType,
+    },
+    {
+      id: 'brand-kit',
+      title: 'Brand Kit Studio',
+      description: 'Mini design system builder with live UI preview',
+      icon: <Palette size={16} className="text-pink-400" />,
+      path: { path: 'brand-kit' } as RouteType,
     },
     {
       id: 'contrast-checker',
@@ -319,6 +338,20 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <span>Palette Generator</span>
               <Sparkles size={16} color="#E9C46A" />
+            </button>
+            <button
+              className={`mobile-nav-link ${isActive('extract-from-image') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'extract-from-image' })}
+            >
+              <span>Extract from Image</span>
+              <ImageIcon size={16} className="text-purple-400" />
+            </button>
+            <button
+              className={`mobile-nav-link ${isActive('brand-kit') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'brand-kit' })}
+            >
+              <span>Brand Kit Studio</span>
+              <Palette size={16} className="text-pink-400" />
             </button>
             <button
               className={`mobile-nav-link ${isActive('contrast-checker') ? 'active' : ''}`}

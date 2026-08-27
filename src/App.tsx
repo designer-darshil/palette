@@ -17,6 +17,8 @@ import { SavedPage } from './pages/SavedPage';
 import { MobilePaletteGeneratorPage } from './pages/MobilePaletteGeneratorPage';
 import { ContrastCheckerPage } from './pages/ContrastCheckerPage';
 import { ColorNameFinderPage } from './pages/ColorNameFinderPage';
+import { ExtractFromImagePage } from './pages/ExtractFromImagePage';
+import { BrandKitPage } from './pages/BrandKitPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminHubPage } from './pages/admin/AdminHubPage';
 import { CURATED_COLORS } from './data/colors';
@@ -44,6 +46,17 @@ function parseUrlToRoute(): RouteType {
     const params = new URLSearchParams(window.location.search);
     const hex = params.get('hex') || params.get('color') || undefined;
     return { path: 'color-name-finder', hex };
+  }
+  if (segments[0] === 'extract-from-image' || segments[0] === 'extract' || segments[0] === 'image') {
+    const params = new URLSearchParams(window.location.search);
+    const imagePreset = params.get('preset') || undefined;
+    return { path: 'extract-from-image', imagePreset };
+  }
+  if (segments[0] === 'brand-kit' || segments[0] === 'brand') {
+    const id = segments[1] || undefined;
+    const params = new URLSearchParams(window.location.search);
+    const paletteSlug = params.get('palette') || undefined;
+    return { path: 'brand-kit', id, paletteSlug };
   }
   if (segments[0] === 'colors' || segments[0] === 'color') {
     if (segments[1]) {
@@ -132,6 +145,14 @@ function routeToUrl(route: RouteType): string {
       }
     case 'color-name-finder':
       return route.hex ? `/color-name-finder?hex=${route.hex.replace('#', '')}` : '/color-name-finder';
+    case 'extract-from-image':
+      return route.imagePreset ? `/extract-from-image?preset=${route.imagePreset}` : '/extract-from-image';
+    case 'brand-kit':
+      {
+        if (route.id) return `/brand-kit/${route.id}`;
+        if (route.paletteSlug) return `/brand-kit?palette=${route.paletteSlug}`;
+        return '/brand-kit';
+      }
     case 'admin':
       return route.tab ? `/admin/${route.tab}` : '/admin';
     case 'saved':
@@ -206,6 +227,12 @@ export const App: React.FC = () => {
       case 'color-name-finder':
         document.title = 'Color Name Finder & Perceptual Gamut Identifier | KROMA';
         break;
+      case 'extract-from-image':
+        document.title = 'Extract Color Palette from Image | KROMA Spectrum';
+        break;
+      case 'brand-kit':
+        document.title = 'Brand Kit Studio & Design System Tokens | KROMA';
+        break;
       case 'admin':
         document.title = 'Editorial CMS & Library Control | KROMA Admin';
         break;
@@ -264,6 +291,21 @@ export const App: React.FC = () => {
         return (
           <ColorNameFinderPage
             initialHex={currentRoute.hex}
+            onNavigate={handleNavigate}
+          />
+        );
+      case 'extract-from-image':
+        return (
+          <ExtractFromImagePage
+            imagePreset={currentRoute.imagePreset}
+            onNavigate={handleNavigate}
+          />
+        );
+      case 'brand-kit':
+        return (
+          <BrandKitPage
+            initialId={currentRoute.id}
+            initialPaletteSlug={currentRoute.paletteSlug}
             onNavigate={handleNavigate}
           />
         );

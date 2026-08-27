@@ -12,6 +12,7 @@ import { CombosPage } from './pages/CombosPage';
 import { ComboDetailPage } from './pages/ComboDetailPage';
 import { GradientsPage } from './pages/GradientsPage';
 import { GradientDetailPage } from './pages/GradientDetailPage';
+import { LiveColorsPage } from './pages/LiveColorsPage';
 import { SavedPage } from './pages/SavedPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { CURATED_COLORS } from './data/colors';
@@ -56,6 +57,9 @@ function parseUrlToRoute(): RouteType {
     }
     return { path: 'gradients' };
   }
+  if (segments[0] === 'live') {
+    return { path: 'live' };
+  }
   if (segments[0] === 'saved') {
     return { path: 'saved' };
   }
@@ -99,6 +103,8 @@ function routeToUrl(route: RouteType): string {
       return '/gradients';
     case 'gradient-detail':
       return `/gradients/${route.slug}`;
+    case 'live':
+      return '/live';
     case 'saved':
       return '/saved';
     case 'not-found':
@@ -159,6 +165,9 @@ export const App: React.FC = () => {
       case 'gradient-detail':
         document.title = `${currentRoute.slug.replace(/-/g, ' ').toUpperCase()} | Gradient Specimen | KROMA`;
         break;
+      case 'live':
+        document.title = 'Live Colors — Real-Time Environmental Palette | KROMA';
+        break;
       case 'saved':
         document.title = 'Saved Specimens | Curator Workspace | KROMA';
         break;
@@ -188,6 +197,8 @@ export const App: React.FC = () => {
         return <GradientsPage onNavigate={handleNavigate} />;
       case 'gradient-detail':
         return <GradientDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
+      case 'live':
+        return <LiveColorsPage onNavigate={handleNavigate} />;
       case 'saved':
         return <SavedPage onNavigate={handleNavigate} />;
       case 'not-found':

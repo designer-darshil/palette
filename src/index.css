@@ -1416,6 +1416,20 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   color: var(--text-tertiary);
 }
 
+/* Micro Spin Animation */
+.spin-anim {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Reduced Motion Compliance */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

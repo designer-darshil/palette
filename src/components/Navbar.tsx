@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bookmark, Menu, X, Layers, Palette, Sparkles, Wand2 } from 'lucide-react';
+import { Search, Bookmark, Menu, X, Layers, Palette, Sparkles, Wand2, Radio } from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
 
@@ -19,6 +19,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     if (path === 'palettes' && (currentRoute.path === 'palettes' || currentRoute.path === 'palette-detail')) return true;
     if (path === 'combos' && (currentRoute.path === 'combos' || currentRoute.path === 'combo-detail')) return true;
     if (path === 'gradients' && (currentRoute.path === 'gradients' || currentRoute.path === 'gradient-detail')) return true;
+    if (path === 'live' && currentRoute.path === 'live') return true;
     if (path === 'saved' && currentRoute.path === 'saved') return true;
     return false;
   };
@@ -70,6 +71,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <Sparkles size={15} />
               <span>Gradients</span>
+            </button>
+            <button
+              className={`nav-link ${isActive('live') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'live' })}
+            >
+              <Radio size={14} color={isActive('live') ? '#E9C46A' : '#E63946'} />
+              <span>Live</span>
             </button>
           </nav>
 
@@ -142,6 +150,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <span>Gradients</span>
               <Sparkles size={16} />
+            </button>
+            <button
+              className={`mobile-nav-link ${isActive('live') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'live' })}
+            >
+              <span>Live Atmosphere</span>
+              <Radio size={16} color="#E63946" />
             </button>
             <button
               className={`mobile-nav-link ${isActive('saved') ? 'active' : ''}`}

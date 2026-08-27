@@ -40,6 +40,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li>
                 <button onClick={() => handleNav({ path: 'gradients' })}>CSS Gradients</button>
               </li>
+              <li>
+                <button onClick={() => handleNav({ path: 'live' })}>Live Atmosphere</button>
+              </li>
             </ul>
           </div>
 

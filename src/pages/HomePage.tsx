@@ -124,6 +124,48 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
+      {/* Live Atmospheric Doorway */}
+      <section style={{ marginBottom: '48px' }}>
+        <div
+          style={{
+            background: 'linear-gradient(135deg, #111216 0%, #181A20 100%)',
+            border: '1px solid var(--border-medium)',
+            borderRadius: 'var(--radius-md)',
+            padding: '24px 28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '20px',
+            boxShadow: 'var(--shadow-specimen)',
+          }}
+        >
+          <div style={{ maxWidth: '560px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <span className="brand-glyph" style={{ width: 8, height: 8 }} />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', textTransform: 'uppercase', color: '#E63946', letterSpacing: '0.1em', fontWeight: 700 }}>
+                LIVE ATMOSPHERE BROADCAST
+              </span>
+            </div>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '4px' }}>
+              What does the world look like right now?
+            </h2>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+              Deterministic real-time chromatic atmospheres calibrated from solar elevation, Rayleigh scatter, time of day, and environmental temperatures.
+            </p>
+          </div>
+
+          <button
+            className="btn-primary"
+            onClick={() => onNavigate({ path: 'live' })}
+            style={{ padding: '10px 18px', fontSize: '0.82rem' }}
+          >
+            <span>Explore Live Colors</span>
+            <ArrowRight size={14} />
+          </button>
+        </div>
+      </section>
+
       {/* Featured Colors Grid */}
       <section style={{ marginBottom: '64px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>

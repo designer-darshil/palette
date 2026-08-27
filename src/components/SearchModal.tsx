@@ -66,7 +66,16 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
       g.stops.some((s) => s.color.toLowerCase().includes(rawQ) || s.color.toLowerCase() === hexQ)
   ).slice(0, 3);
 
-  const allResults: { type: 'color' | 'palette' | 'combo' | 'gradient'; route: RouteType }[] = [
+  const isLiveMatch =
+    rawQ.includes('live') ||
+    rawQ.includes('atmo') ||
+    rawQ.includes('real') ||
+    rawQ.includes('sun') ||
+    rawQ.includes('weather') ||
+    rawQ.includes('time');
+
+  const allResults: { type: 'color' | 'palette' | 'combo' | 'gradient' | 'live'; route: RouteType }[] = [
+    ...(isLiveMatch ? [{ type: 'live' as const, route: { path: 'live' as const } }] : []),
     ...matchedColors.map((c) => ({ type: 'color' as const, route: { path: 'color-detail' as const, slug: c.slug } })),
     ...matchedPalettes.map((p) => ({ type: 'palette' as const, route: { path: 'palette-detail' as const, slug: p.slug } })),
     ...matchedCombos.map((cb) => ({ type: 'combo' as const, route: { path: 'combo-detail' as const, slug: cb.slug } })),

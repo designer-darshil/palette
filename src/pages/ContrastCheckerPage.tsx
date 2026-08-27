@@ -33,6 +33,7 @@ import {
   rgbToHex,
   copyToClipboard,
 } from '../utils/colorUtils';
+import { findClosestColorName } from '../utils/paletteGenerator';
 import {
   getContrastSuggestions,
   simulateCvd,
@@ -53,7 +54,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 }) => {
   const { showToast } = useToast();
   const { saveItem, isSaved } = useSaved();
-  const { palettes } = useLibraryData();
+  const { palettes, addCombo } = useLibraryData();
 
   // Color State (defaults to classic high-contrast pairing)
   const [fgHex, setFgHex] = useState<string>(() => {
@@ -186,15 +187,37 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
   // Save Contrast Specimen
   const handleSave = () => {
-    const id = `contrast-${fgHex.replace('#', '')}-${bgHex.replace('#', '')}`;
+    const hex1 = fgHex.replace('#', '').toLowerCase();
+    const hex2 = bgHex.replace('#', '').toLowerCase();
+    const canonicalSlug = `contrast-${hex1}-${hex2}`;
+    const name1 = findClosestColorName(fgHex);
+    const name2 = findClosestColorName(bgHex);
+    const title = `${name1} on ${name2}`;
+
     saveItem({
-      id,
+      id: canonicalSlug,
       type: 'combo',
-      title: `${fgHex} on ${bgHex}`,
-      slug: `contrast-${Date.now()}`,
+      title,
+      slug: canonicalSlug,
       preview: `${fgHex},${bgHex}`,
       metadata: `Contrast Ratio ${ratio}:1 • ${ratio >= 7 ? 'AAA' : ratio >= 4.5 ? 'AA' : 'Non-Compliant'}`,
     });
+
+    addCombo({
+      id: canonicalSlug,
+      slug: canonicalSlug,
+      title,
+      harmonyType: 'Accessibility Contrast',
+      description: `Accessibility contrast pairing featuring ${name1} on ${name2} with a tested ratio of ${ratio}:1.`,
+      colors: [
+        { name: name1, hex: fgHex, role: 'Foreground' },
+        { name: name2, hex: bgHex, role: 'Background' },
+      ],
+      contrastScore: `${ratio}:1`,
+      usageContext: 'Typography & Interface Surface Pairing',
+      tags: ['contrast', 'pairing', 'custom'],
+    });
+
     showToast('Saved contrast specimen to collection', `${ratio}:1 Ratio`);
   };
 

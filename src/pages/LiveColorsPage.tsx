@@ -39,6 +39,7 @@ import { CURATED_GRADIENTS } from '../data/gradients';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
+import { useLibraryData } from '../context/LibraryDataContext';
 import { ColorCard } from '../components/ColorCard';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
@@ -51,6 +52,7 @@ interface LiveColorsPageProps {
 export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) => {
   const { showToast } = useToast();
   const { isSaved, saveItem } = useSaved();
+  const { addPalette } = useLibraryData();
 
   const [selectedLocation, setSelectedLocation] = useState<LiveLocation>(PRESET_LOCATIONS[1]); // Default Ahmedabad
   const [weatherData, setWeatherData] = useState<LiveWeatherData | null>(null);
@@ -99,21 +101,21 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
 
     setLoadingWeather(true);
     navigator.geolocation.getCurrentPosition(
-      async (pos) => {
+      (pos) => {
         const userLoc: LiveLocation = {
-          name: 'My Current Location',
-          country: 'Local',
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+          name: 'Current Device Location',
+          country: 'Local Horizon',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           latitude: pos.coords.latitude,
           longitude: pos.coords.longitude,
         };
         setSelectedLocation(userLoc);
         setSimulatedHour(null);
-        showToast('Located via GPS', `${pos.coords.latitude.toFixed(2)}°, ${pos.coords.longitude.toFixed(2)}°`);
+        showToast('Connected to Local Satellite Data', `${pos.coords.latitude.toFixed(2)}°, ${pos.coords.longitude.toFixed(2)}°`);
       },
-      (err) => {
+      () => {
         setLoadingWeather(false);
-        showToast('Location permission declined', 'Using regional preset instead');
+        showToast('Unable to retrieve location', 'Using preset observatory data');
       },
       { timeout: 8000 }
     );
@@ -141,17 +143,38 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
     }
   };
 
-  const isCurrentSaved = isSaved(`live-${selectedLocation.name}-${atmosphere.solarPhase}`);
+  const hexHash = atmosphere.swatches.map((s) => s.hex.replace('#', '').toLowerCase()).join('-');
+  const canonicalSlug = `live-${atmosphere.locationName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${atmosphere.solarPhase.toLowerCase()}-${hexHash.slice(0, 12)}`;
+  const isCurrentSaved = isSaved(canonicalSlug);
 
   const handleSaveToWorkspace = () => {
+    const title = `${atmosphere.locationName} ${atmosphere.solarPhase}`;
+    const preview = atmosphere.swatches.map((s) => s.hex).join(',');
+
     saveItem({
-      id: `live-${selectedLocation.name}-${atmosphere.solarPhase}`,
+      id: canonicalSlug,
       type: 'palette',
-      title: `${selectedLocation.name} ${atmosphere.solarPhase}`,
-      slug: 'live',
-      preview: atmosphere.swatches.map((s) => s.hex).join(','),
+      title,
+      slug: canonicalSlug,
+      preview,
       metadata: `${atmosphere.solarPhase} • ${atmosphere.weatherSummary}`,
     });
+
+    // Also persist as canonical Palette in Library Data
+    addPalette({
+      id: canonicalSlug,
+      slug: canonicalSlug,
+      title: `${title} Atmosphere`,
+      category: 'Live Atmosphere',
+      description: `Atmospheric color spectrum captured from ${atmosphere.locationName} during ${atmosphere.solarPhase}. ${atmosphere.weatherSummary}.`,
+      colors: atmosphere.swatches.map((s, i) => ({
+        name: s.name,
+        hex: s.hex,
+        role: s.role || (i === 0 ? 'Background Anchor' : i === 1 ? 'Primary Dominant' : i === 2 ? 'Accent Focus' : 'Surface / Highlight'),
+      })),
+      tags: ['live', 'atmosphere', atmosphere.solarPhase.toLowerCase()],
+    });
+
     showToast(
       isCurrentSaved ? 'Removed from saved' : 'Saved live atmosphere to collection',
       atmosphere.title

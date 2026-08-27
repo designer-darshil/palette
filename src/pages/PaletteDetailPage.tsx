@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Copy, Bookmark, Share2, Code, ArrowRight, Layers, ExternalLink } from 'lucide-react';
-import { RouteType } from '../types';
-import { CURATED_PALETTES } from '../data/palettes';
-import { CURATED_COLORS } from '../data/colors';
-import { CURATED_COMBOS } from '../data/combos';
-import { CURATED_GRADIENTS } from '../data/gradients';
+import React, { useState, useMemo } from 'react';
+import { ArrowLeft, Copy, Bookmark, Share2, Code, ArrowRight, Layers, ExternalLink, ShieldCheck } from 'lucide-react';
+import { RouteType, PaletteItem } from '../types';
+import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
-
+import { decodePaletteFromSlugOrId } from '../utils/canonicalResourceUtils';
+import { findClosestColorName } from '../utils/paletteGenerator';
 import { NotFoundPage } from './NotFoundPage';
 
 interface PaletteDetailPageProps {
@@ -21,10 +19,54 @@ interface PaletteDetailPageProps {
 
 export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem } = useSaved();
+  const { isSaved, saveItem, savedItems } = useSaved();
+  const { palettes, colors: libraryColors, combos: libraryCombos, gradients: libraryGradients } = useLibraryData();
   const [exportMode, setExportMode] = useState<'hex' | 'css' | 'tailwind' | 'json'>('css');
 
-  const palette = CURATED_PALETTES.find((p) => p.slug === slug);
+  // Resolve palette comprehensively
+  const palette: PaletteItem | null = useMemo(() => {
+    if (!slug) return null;
+    const cleanSlug = slug.toLowerCase();
+
+    // 1. Check Library Data (Curated + Custom + Admin)
+    const matchLib = palettes.find(
+      (p) => p.slug.toLowerCase() === cleanSlug || p.id.toLowerCase() === cleanSlug
+    );
+    if (matchLib) return matchLib;
+
+    // 2. Check Saved Items
+    const matchSaved = savedItems.find(
+      (s) => s.type === 'palette' && (s.slug.toLowerCase() === cleanSlug || s.id.toLowerCase() === cleanSlug)
+    );
+    if (matchSaved && matchSaved.preview) {
+      const hexList = matchSaved.preview.split(',').filter((h) => h.startsWith('#') || /^[0-9A-Fa-f]{6}$/.test(h));
+      if (hexList.length > 0) {
+        return {
+          id: matchSaved.id,
+          slug: matchSaved.slug,
+          title: matchSaved.title,
+          category: 'Curator Workspace',
+          description: matchSaved.metadata || `Saved palette system with ${hexList.length} tonal swatches.`,
+          colors: hexList.map((hex, i) => {
+            const cleanHex = hex.startsWith('#') ? hex.toUpperCase() : `#${hex.toUpperCase()}`;
+            return {
+              name: findClosestColorName(cleanHex),
+              hex: cleanHex,
+              role: i === 0 ? 'Background Anchor' : i === 1 ? 'Primary Dominant' : i === 2 ? 'Accent Focus' : 'Surface / Highlight',
+            };
+          }),
+          tags: ['saved', 'workspace', 'custom'],
+        };
+      }
+    }
+
+    // 3. Check dynamic decoder from slug
+    const decoded = decodePaletteFromSlugOrId(slug);
+    if (decoded) return decoded;
+
+    return null;
+  }, [slug, palettes, savedItems]);
+
   if (!palette) {
     return <NotFoundPage requestedUrl={`/palettes/${slug}`} onNavigate={onNavigate} />;
   }
@@ -108,21 +150,21 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
 
   // Find color item in library if exists
   const findMatchingColorSlug = (hex: string) => {
-    const match = CURATED_COLORS.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
+    const match = libraryColors.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
     return match ? match.slug : null;
   };
 
   // Cross resource discovery
-  const relatedPalettes = CURATED_PALETTES.filter(
-    (p) => p.id !== palette.id && (p.category === palette.category || p.tags.some((t) => palette.tags.includes(t)))
+  const relatedPalettes = palettes.filter(
+    (p) => p.id !== palette.id && (p.category === palette.category || (p.tags && palette.tags && p.tags.some((t) => palette.tags.includes(t))))
   ).slice(0, 2);
 
-  const relatedCombos = CURATED_COMBOS.filter(
-    (cb) => cb.tags.some((t) => palette.tags.includes(t)) || cb.colors.some((c) => palette.colors.some((pc) => pc.hex.toLowerCase() === c.hex.toLowerCase()))
+  const relatedCombos = libraryCombos.filter(
+    (cb) => (cb.tags && palette.tags && cb.tags.some((t) => palette.tags.includes(t))) || cb.colors.some((c) => palette.colors.some((pc) => pc.hex.toLowerCase() === c.hex.toLowerCase()))
   ).slice(0, 2);
 
-  const relatedGradients = CURATED_GRADIENTS.filter(
-    (g) => g.tags.some((t) => palette.tags.includes(t)) || g.category === palette.category
+  const relatedGradients = libraryGradients.filter(
+    (g) => (g.tags && palette.tags && g.tags.some((t) => palette.tags.includes(t))) || g.category === palette.category
   ).slice(0, 2);
 
   return (

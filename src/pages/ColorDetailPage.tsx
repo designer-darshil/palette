@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ArrowLeft, Copy, Bookmark, Share2, Check, ShieldCheck, ArrowRight, Sparkles, Layers, Wand2 } from 'lucide-react';
 import { RouteType, ColorItem } from '../types';
-import { CURATED_COLORS } from '../data/colors';
-import { CURATED_PALETTES } from '../data/palettes';
-import { CURATED_COMBOS } from '../data/combos';
-import { CURATED_GRADIENTS } from '../data/gradients';
+import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard, calculateHarmonies, assessPracticalUi, getContrastRating } from '../utils/colorUtils';
+import { findClosestColorName } from '../utils/paletteGenerator';
+import { createColorItemFromHex } from '../utils/canonicalResourceUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { ColorCard } from '../components/ColorCard';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
-
 import { NotFoundPage } from './NotFoundPage';
 
 interface ColorDetailPageProps {
@@ -22,9 +20,37 @@ interface ColorDetailPageProps {
 
 export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem } = useSaved();
+  const { isSaved, saveItem, savedItems } = useSaved();
+  const { colors, palettes, combos, gradients } = useLibraryData();
 
-  const color = CURATED_COLORS.find((c) => c.slug === slug);
+  const color: ColorItem | null = useMemo(() => {
+    if (!slug) return null;
+    const cleanSlug = slug.toLowerCase();
+
+    // 1. Check Library Data (Curated + Custom + Admin)
+    const matchLib = colors.find(
+      (c) => c.slug.toLowerCase() === cleanSlug || c.id.toLowerCase() === cleanSlug
+    );
+    if (matchLib) return matchLib;
+
+    // 2. Check Saved Items
+    const matchSaved = savedItems.find(
+      (s) => s.type === 'color' && (s.slug.toLowerCase() === cleanSlug || s.id.toLowerCase() === cleanSlug)
+    );
+    if (matchSaved && matchSaved.preview) {
+      const hex = matchSaved.preview.startsWith('#') ? matchSaved.preview.toUpperCase() : `#${matchSaved.preview.toUpperCase()}`;
+      return createColorItemFromHex(hex, matchSaved.title);
+    }
+
+    // 3. Dynamic HEX Slug Support (e.g. /colors/E9C46A or /colors/10288C)
+    if (/^[0-9A-Fa-f]{6}$/.test(cleanSlug)) {
+      const hex = `#${cleanSlug.toUpperCase()}`;
+      return createColorItemFromHex(hex);
+    }
+
+    return null;
+  }, [slug, colors, savedItems]);
+
   if (!color) {
     return <NotFoundPage requestedUrl={`/colors/${slug}`} onNavigate={onNavigate} />;
   }
@@ -66,32 +92,32 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
 
   // Helper to find a library color matching a hex or finding nearest
   const findMatchingColor = (hex: string) => {
-    return CURATED_COLORS.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
+    return colors.find((c: ColorItem) => c.hex.toLowerCase() === hex.toLowerCase());
   };
 
   // Connected Resource Network
-  const relatedColors = CURATED_COLORS.filter(
-    (c) => c.id !== color.id && (c.family === color.family || c.hueGroup === color.hueGroup)
+  const relatedColors = colors.filter(
+    (c: ColorItem) => c.id !== color.id && (c.family === color.family || c.hueGroup === color.hueGroup)
   ).slice(0, 3);
 
-  const relatedPalettes = CURATED_PALETTES.filter(
+  const relatedPalettes = palettes.filter(
     (p) =>
       p.colors.some((c) => c.hex.toLowerCase() === color.hex.toLowerCase()) ||
-      p.tags.includes(color.family) ||
-      p.tags.includes(color.hueGroup)
+      (color.family && p.tags && p.tags.includes(color.family)) ||
+      (color.hueGroup && p.tags && p.tags.includes(color.hueGroup))
   ).slice(0, 2);
 
-  const relatedCombos = CURATED_COMBOS.filter(
+  const relatedCombos = combos.filter(
     (cb) =>
       cb.colors.some((c) => c.hex.toLowerCase() === color.hex.toLowerCase()) ||
-      cb.tags.includes(color.family)
+      (color.family && cb.tags && cb.tags.includes(color.family))
   ).slice(0, 2);
 
-  const relatedGradients = CURATED_GRADIENTS.filter(
+  const relatedGradients = gradients.filter(
     (g) =>
       g.stops.some((s) => s.color.toLowerCase() === color.hex.toLowerCase()) ||
-      g.tags.includes(color.family) ||
-      g.tags.includes(color.hueGroup)
+      (color.family && g.tags && g.tags.includes(color.family)) ||
+      (color.hueGroup && g.tags && g.tags.includes(color.hueGroup))
   ).slice(0, 2);
 
   return (

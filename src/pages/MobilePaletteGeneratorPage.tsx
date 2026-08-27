@@ -178,22 +178,24 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
   // Save Palette
   const handleSavePalette = () => {
     const title = `${colors[0].name} & ${colors[1]?.name || 'Gamut'} System`;
-    const paletteId = `gen-pal-${colors.map((c) => c.hex.replace('#', '')).join('-')}`;
+    const hexHash = colors.map((c) => c.hex.replace('#', '').toLowerCase()).join('-');
+    const canonicalSlug = `gen-pal-${hexHash}`;
+    const paletteId = canonicalSlug;
     const preview = colors.map((c) => c.hex).join(',');
 
     saveItem({
       id: paletteId,
       type: 'palette',
       title,
-      slug: `gen-${Date.now()}`,
+      slug: canonicalSlug,
       preview,
-      metadata: `${colors.length} Colors • ${harmony.toUpperCase()}`,
+      metadata: `${colors.length} Colors • ${harmony.toUpperCase()} System`,
     });
 
     // Also add to active Library Data
     addPalette({
       id: paletteId,
-      slug: `custom-palette-${Date.now()}`,
+      slug: canonicalSlug,
       title,
       category: 'Curated Generation',
       description: `Generated dynamic ${harmony} balance system with ${colors.length} chromatic steps.`,

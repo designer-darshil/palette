@@ -39,39 +39,31 @@ function parseUrlToRoute(): RouteType {
     const bg = params.get('bg') || params.get('background') || undefined;
     return { path: 'contrast-checker', fg, bg };
   }
-  if (segments[0] === 'colors') {
+  if (segments[0] === 'colors' || segments[0] === 'color') {
     if (segments[1]) {
-      const match = CURATED_COLORS.find((c) => c.slug === segments[1]);
-      if (match) return { path: 'color-detail', slug: match.slug };
-      return { path: 'not-found', requestedUrl: window.location.pathname };
+      return { path: 'color-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'colors' };
   }
-  if (segments[0] === 'palettes') {
+  if (segments[0] === 'palettes' || segments[0] === 'palette') {
     if (segments[1]) {
-      const match = CURATED_PALETTES.find((p) => p.slug === segments[1]);
-      if (match) return { path: 'palette-detail', slug: match.slug };
-      return { path: 'not-found', requestedUrl: window.location.pathname };
+      return { path: 'palette-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'palettes' };
   }
-  if (segments[0] === 'combos') {
+  if (segments[0] === 'combos' || segments[0] === 'combo') {
     if (segments[1]) {
-      const match = CURATED_COMBOS.find((cb) => cb.slug === segments[1]);
-      if (match) return { path: 'combo-detail', slug: match.slug };
-      return { path: 'not-found', requestedUrl: window.location.pathname };
+      return { path: 'combo-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'combos' };
   }
-  if (segments[0] === 'gradients') {
+  if (segments[0] === 'gradients' || segments[0] === 'gradient') {
     if (segments[1]) {
-      const match = CURATED_GRADIENTS.find((g) => g.slug === segments[1]);
-      if (match) return { path: 'gradient-detail', slug: match.slug };
-      return { path: 'not-found', requestedUrl: window.location.pathname };
+      return { path: 'gradient-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'gradients' };
   }
-  if (segments[0] === 'live') {
+  if (segments[0] === 'live' || segments[0] === 'live-atmosphere') {
     return { path: 'live' };
   }
   if (segments[0] === 'admin') {
@@ -83,7 +75,7 @@ function parseUrlToRoute(): RouteType {
 
   // Direct slug support (e.g. /terracotta-cyan-split or /celestial-cobalt)
   if (segments.length === 1) {
-    const singleSlug = segments[0];
+    const singleSlug = decodeURIComponent(segments[0]);
     const colorMatch = CURATED_COLORS.find((c) => c.slug === singleSlug);
     if (colorMatch) return { path: 'color-detail', slug: colorMatch.slug };
 

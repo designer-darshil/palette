@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ArrowLeft, Copy, Bookmark, Sparkles, RefreshCw, Share2, ExternalLink } from 'lucide-react';
-import { RouteType } from '../types';
-import { CURATED_GRADIENTS } from '../data/gradients';
-import { CURATED_COLORS } from '../data/colors';
-import { CURATED_PALETTES } from '../data/palettes';
-import { CURATED_COMBOS } from '../data/combos';
+import { RouteType, GradientItem } from '../types';
+import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { GradientCard } from '../components/GradientCard';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
-
 import { NotFoundPage } from './NotFoundPage';
 
 interface GradientDetailPageProps {
@@ -21,9 +17,43 @@ interface GradientDetailPageProps {
 
 export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem } = useSaved();
+  const { isSaved, saveItem, savedItems } = useSaved();
+  const { gradients, colors, palettes, combos } = useLibraryData();
 
-  const baseGradient = CURATED_GRADIENTS.find((g) => g.slug === slug);
+  const baseGradient: GradientItem | null = useMemo(() => {
+    if (!slug) return null;
+    const cleanSlug = slug.toLowerCase();
+
+    // 1. Check Library Data (Curated + Custom + Admin)
+    const matchLib = gradients.find(
+      (g) => g.slug.toLowerCase() === cleanSlug || g.id.toLowerCase() === cleanSlug
+    );
+    if (matchLib) return matchLib;
+
+    // 2. Check Saved Items
+    const matchSaved = savedItems.find(
+      (s) => s.type === 'gradient' && (s.slug.toLowerCase() === cleanSlug || s.id.toLowerCase() === cleanSlug)
+    );
+    if (matchSaved && matchSaved.preview) {
+      return {
+        id: matchSaved.id,
+        slug: matchSaved.slug,
+        title: matchSaved.title,
+        type: 'linear',
+        css: matchSaved.preview,
+        category: 'Curator Workspace',
+        description: matchSaved.metadata || `Saved gradient specimen ${matchSaved.title}.`,
+        stops: [
+          { color: '#1D4ED8', position: 0, name: 'Start' },
+          { color: '#7E22CE', position: 100, name: 'End' },
+        ],
+        tags: ['saved', 'gradient', 'custom'],
+      };
+    }
+
+    return null;
+  }, [slug, gradients, savedItems]);
+
   if (!baseGradient) {
     return <NotFoundPage requestedUrl={`/gradients/${slug}`} onNavigate={onNavigate} />;
   }
@@ -75,20 +105,20 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
   };
 
   const findMatchingColorSlug = (hex: string) => {
-    const match = CURATED_COLORS.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
+    const match = colors.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
     return match ? match.slug : null;
   };
 
-  const relatedGradients = CURATED_GRADIENTS.filter(
-    (g) => g.id !== baseGradient.id && (g.category === baseGradient.category || g.tags.some((t) => baseGradient.tags.includes(t)))
+  const relatedGradients = gradients.filter(
+    (g) => g.id !== baseGradient.id && (g.category === baseGradient.category || (g.tags && baseGradient.tags && g.tags.some((t) => baseGradient.tags.includes(t))))
   ).slice(0, 2);
 
-  const relatedPalettes = CURATED_PALETTES.filter(
-    (p) => p.tags.some((t) => baseGradient.tags.includes(t)) || p.category === baseGradient.category
+  const relatedPalettes = palettes.filter(
+    (p) => (p.tags && baseGradient.tags && p.tags.some((t) => baseGradient.tags.includes(t))) || p.category === baseGradient.category
   ).slice(0, 2);
 
-  const relatedCombos = CURATED_COMBOS.filter(
-    (cb) => cb.tags.some((t) => baseGradient.tags.includes(t))
+  const relatedCombos = combos.filter(
+    (cb) => cb.tags && baseGradient.tags && cb.tags.some((t) => baseGradient.tags.includes(t))
   ).slice(0, 2);
 
   return (

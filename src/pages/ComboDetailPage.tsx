@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ArrowLeft, Copy, Bookmark, Share2, ShieldCheck, ExternalLink, Check } from 'lucide-react';
-import { RouteType } from '../types';
+import { RouteType, ComboItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard, getComboKeyColors } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { ComboCard } from '../components/ComboCard';
 import { PaletteCard } from '../components/PaletteCard';
+import { decodeComboFromSlugOrId } from '../utils/canonicalResourceUtils';
+import { findClosestColorName } from '../utils/paletteGenerator';
 import { NotFoundPage } from './NotFoundPage';
 
 interface ComboDetailPageProps {
@@ -16,10 +18,54 @@ interface ComboDetailPageProps {
 
 export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem } = useSaved();
+  const { isSaved, saveItem, savedItems } = useSaved();
   const { combos, palettes, colors } = useLibraryData();
 
-  const combo = combos.find((c) => c.slug === slug);
+  const combo: ComboItem | null = useMemo(() => {
+    if (!slug) return null;
+    const cleanSlug = slug.toLowerCase();
+
+    // 1. Check Library Data (Curated + Custom + Admin)
+    const matchLib = combos.find(
+      (c) => c.slug.toLowerCase() === cleanSlug || c.id.toLowerCase() === cleanSlug
+    );
+    if (matchLib) return matchLib;
+
+    // 2. Check Saved Items
+    const matchSaved = savedItems.find(
+      (s) => s.type === 'combo' && (s.slug.toLowerCase() === cleanSlug || s.id.toLowerCase() === cleanSlug)
+    );
+    if (matchSaved && matchSaved.preview) {
+      const hexList = matchSaved.preview.split(',').filter((h) => h.startsWith('#') || /^[0-9A-Fa-f]{6}$/.test(h));
+      if (hexList.length >= 2) {
+        return {
+          id: matchSaved.id,
+          slug: matchSaved.slug,
+          title: matchSaved.title,
+          harmonyType: 'Curator Workspace',
+          description: matchSaved.metadata || `Saved harmony pairing ${matchSaved.title}.`,
+          colors: hexList.map((hex, i) => {
+            const cleanHex = hex.startsWith('#') ? hex.toUpperCase() : `#${hex.toUpperCase()}`;
+            return {
+              name: findClosestColorName(cleanHex),
+              hex: cleanHex,
+              role: i === 0 ? 'Foreground Dominant' : 'Background Canvas',
+            };
+          }),
+          contrastScore: matchSaved.metadata?.match(/[0-9.]+:[0-9.]+/)?.[0] || 'Tested',
+          usageContext: 'Typography & Interface Surface Pairing',
+          tags: ['saved', 'combo', 'custom'],
+        };
+      }
+    }
+
+    // 3. Dynamic combo decoder
+    const decoded = decodeComboFromSlugOrId(slug);
+    if (decoded) return decoded;
+
+    return null;
+  }, [slug, combos, savedItems]);
+
   if (!combo) {
     return <NotFoundPage requestedUrl={`/combos/${slug}`} onNavigate={onNavigate} />;
   }

@@ -9,8 +9,9 @@ export interface BrandKitRoles {
   surface: string;
   text: string;
   mutedText: string;
+  buttonText: string;
+  cardText: string;
   border: string;
-  buttonText?: string;
   success: string;
   warning: string;
   error: string;
@@ -77,9 +78,10 @@ export const DEFAULT_BRAND_KIT: BrandKitItem = {
     background: '#0F1117',
     surface: '#1A1D27',
     text: '#F8FAFC',
+    buttonText: '#FFFFFF',
+    cardText: '#F8FAFC',
     mutedText: '#94A3B8',
     border: '#334155',
-    buttonText: '#FFFFFF',
     success: '#10B981',
     warning: '#F59E0B',
     error: '#EF4444',
@@ -139,11 +141,16 @@ export function findOptimalContrastColor(
 }
 
 /**
- * Audit the four strict semantic brand kit roles independently.
+ * Audit the four strict semantic brand kit roles independently against their actual backgrounds.
  */
-export function auditBrandKitRoles(roles: BrandKitRoles): SemanticAuditReport {
-  const { primary, background, surface, text, mutedText } = roles;
-  const btnFg = roles.buttonText || getTextColorForBackground(primary);
+export function auditBrandKitRoles(roles: Partial<BrandKitRoles>): SemanticAuditReport {
+  const primary = roles.primary || DEFAULT_BRAND_KIT.roles.primary;
+  const background = roles.background || DEFAULT_BRAND_KIT.roles.background;
+  const surface = roles.surface || DEFAULT_BRAND_KIT.roles.surface;
+  const text = roles.text || '#F8FAFC';
+  const buttonText = roles.buttonText || getTextColorForBackground(primary);
+  const cardText = roles.cardText || text;
+  const mutedText = roles.mutedText || '#94A3B8';
 
   // 1. Body Text on Canvas
   const bodyOnCanvasRatio = getContrastRatio(text, background);
@@ -151,14 +158,14 @@ export function auditBrandKitRoles(roles: BrandKitRoles): SemanticAuditReport {
   const bodyOptimal = findOptimalContrastColor(background, text, 4.5, false);
 
   // 2. Primary Button Text
-  const btnRatio = getContrastRatio(btnFg, primary);
+  const btnRatio = getContrastRatio(buttonText, primary);
   const btnPass = btnRatio >= 4.5;
-  const btnOptimal = findOptimalContrastColor(primary, btnFg, 4.5, false);
+  const btnOptimal = findOptimalContrastColor(primary, buttonText, 4.5, false);
 
   // 3. Card Body on Surface
-  const cardBodyRatio = getContrastRatio(text, surface);
+  const cardBodyRatio = getContrastRatio(cardText, surface);
   const cardPass = cardBodyRatio >= 4.5;
-  const cardOptimal = findOptimalContrastColor(surface, text, 4.5, false);
+  const cardOptimal = findOptimalContrastColor(surface, cardText, 4.5, false);
 
   // 4. Muted Text on Canvas
   const mutedRatio = getContrastRatio(mutedText, background);
@@ -183,7 +190,7 @@ export function auditBrandKitRoles(roles: BrandKitRoles): SemanticAuditReport {
       id: 'primaryButtonText',
       label: 'PRIMARY BUTTON TEXT',
       description: 'Call-to-action text against primary button background',
-      fg: btnFg,
+      fg: buttonText,
       bg: primary,
       ratio: btnRatio,
       threshold: 4.5,
@@ -195,8 +202,8 @@ export function auditBrandKitRoles(roles: BrandKitRoles): SemanticAuditReport {
     {
       id: 'cardBodyOnSurface',
       label: 'CARD BODY ON SURFACE',
-      description: 'Secondary component & card text against surface background',
-      fg: text,
+      description: 'Card body text against surface background',
+      fg: cardText,
       bg: surface,
       ratio: cardBodyRatio,
       threshold: 4.5,
@@ -231,29 +238,51 @@ export function auditBrandKitRoles(roles: BrandKitRoles): SemanticAuditReport {
 }
 
 /**
+ * Resolver that assigns strictly passing colors to all 4 semantic roles.
+ */
+export function resolveAuditedBrandKitRoles(roles: Partial<BrandKitRoles>): BrandKitRoles {
+  const primary = roles.primary || DEFAULT_BRAND_KIT.roles.primary;
+  const secondary = roles.secondary || DEFAULT_BRAND_KIT.roles.secondary;
+  const accent = roles.accent || DEFAULT_BRAND_KIT.roles.accent;
+  const background = roles.background || DEFAULT_BRAND_KIT.roles.background;
+  const surface = roles.surface || DEFAULT_BRAND_KIT.roles.surface;
+  const border = roles.border || DEFAULT_BRAND_KIT.roles.border;
+  const success = roles.success || DEFAULT_BRAND_KIT.roles.success;
+  const warning = roles.warning || DEFAULT_BRAND_KIT.roles.warning;
+  const error = roles.error || DEFAULT_BRAND_KIT.roles.error;
+
+  const textCandidate = roles.text || '#F8FAFC';
+  const buttonTextCandidate = roles.buttonText || getTextColorForBackground(primary);
+  const cardTextCandidate = roles.cardText || textCandidate;
+  const mutedTextCandidate = roles.mutedText || '#94A3B8';
+
+  const optimalText = findOptimalContrastColor(background, textCandidate, 4.5, false);
+  const optimalButtonText = findOptimalContrastColor(primary, buttonTextCandidate, 4.5, false);
+  const optimalCardText = findOptimalContrastColor(surface, cardTextCandidate, 4.5, false);
+  const optimalMutedText = findOptimalContrastColor(background, mutedTextCandidate, 3.0, true);
+
+  return {
+    primary,
+    secondary,
+    accent,
+    background,
+    surface,
+    text: optimalText.color,
+    buttonText: optimalButtonText.color,
+    cardText: optimalCardText.color,
+    mutedText: optimalMutedText.color,
+    border,
+    success,
+    warning,
+    error,
+  };
+}
+
+/**
  * Automatically remediate all failing semantic roles to guaranteed passing colors.
  */
 export function autoRemediateBrandKitRoles(roles: BrandKitRoles): BrandKitRoles {
-  const audit = auditBrandKitRoles(roles);
-  let updated = { ...roles };
-
-  for (const item of audit.results) {
-    if (!item.pass && item.suggestedFg) {
-      if (item.id === 'bodyTextOnCanvas') {
-        updated.text = item.suggestedFg;
-      } else if (item.id === 'primaryButtonText') {
-        updated.buttonText = item.suggestedFg;
-      } else if (item.id === 'cardBodyOnSurface') {
-        // If text fails on surface, adjust surface lightness slightly or align text
-        const optimalSurfaceText = findOptimalContrastColor(updated.surface, updated.text, 4.5);
-        updated.text = optimalSurfaceText.color;
-      } else if (item.id === 'mutedTextOnCanvas') {
-        updated.mutedText = item.suggestedFg;
-      }
-    }
-  }
-
-  return updated;
+  return resolveAuditedBrandKitRoles(roles);
 }
 
 const STORAGE_KEY = 'kroma_saved_brand_kits';
@@ -302,6 +331,7 @@ export function generateBrandKitCssTokens(kit: BrandKitItem): string {
   --brand-text: ${kit.roles.text};
   --brand-text-muted: ${kit.roles.mutedText};
   --brand-button-text: ${btnText};
+  --brand-card-text: ${kit.roles.cardText || kit.roles.text};
   --brand-border: ${kit.roles.border};
   --brand-success: ${kit.roles.success};
   --brand-warning: ${kit.roles.warning};

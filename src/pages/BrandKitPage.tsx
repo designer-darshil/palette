@@ -46,6 +46,7 @@ import {
   generateBrandKitCssTokens,
   auditBrandKitRoles,
   autoRemediateBrandKitRoles,
+  resolveAuditedBrandKitRoles,
   SemanticAuditRoleResult,
 } from '../utils/brandKitStorage';
 
@@ -89,7 +90,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       const hexParts = clean.match(/[0-9a-fA-F]{6}/g);
       if (hexParts && hexParts.length >= 2) {
         const hexList = hexParts.map((h) => `#${h.toUpperCase()}`);
-        const rawRoles: BrandKitRoles = {
+        const rawRoles: Partial<BrandKitRoles> = {
           ...brandKit.roles,
           primary: hexList[0] || brandKit.roles.primary,
           secondary: hexList[1] || brandKit.roles.secondary,
@@ -97,10 +98,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           background: hexList[3] || '#0F1117',
           surface: hexList[4] || '#1A1D27',
         };
-        const remediated = autoRemediateBrandKitRoles(rawRoles);
+        const resolved = resolveAuditedBrandKitRoles(rawRoles);
         setBrandKit((prev) => ({
           ...prev,
-          roles: remediated,
+          roles: resolved,
           updatedAt: new Date().toISOString(),
         }));
         showToast('Applied palette & verified contrast', `${hexList.length} swatches mapped`);
@@ -112,20 +113,23 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
   const handleRoleColorChange = (roleKey: keyof BrandKitRoles, newHex: string) => {
     const clean = newHex.startsWith('#') ? newHex.toUpperCase() : `#${newHex.toUpperCase()}`;
     if (/^#[0-9A-F]{0,6}$/i.test(clean)) {
-      setBrandKit((prev) => ({
-        ...prev,
-        roles: {
+      setBrandKit((prev) => {
+        const updatedRoles = {
           ...prev.roles,
           [roleKey]: clean,
-        },
-        updatedAt: new Date().toISOString(),
-      }));
+        };
+        return {
+          ...prev,
+          roles: updatedRoles,
+          updatedAt: new Date().toISOString(),
+        };
+      });
     }
   };
 
   // Auto-Remediate all failing roles
   const handleAutoRemediate = () => {
-    const remediated = autoRemediateBrandKitRoles(brandKit.roles);
+    const remediated = resolveAuditedBrandKitRoles(brandKit.roles);
     setBrandKit((prev) => ({
       ...prev,
       roles: remediated,
@@ -138,10 +142,12 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
   const handleApplyRoleFix = (result: SemanticAuditRoleResult) => {
     if (!result.suggestedFg) return;
     let updated = { ...brandKit.roles };
-    if (result.id === 'bodyTextOnCanvas' || result.id === 'cardBodyOnSurface') {
+    if (result.id === 'bodyTextOnCanvas') {
       updated.text = result.suggestedFg;
     } else if (result.id === 'primaryButtonText') {
       updated.buttonText = result.suggestedFg;
+    } else if (result.id === 'cardBodyOnSurface') {
+      updated.cardText = result.suggestedFg;
     } else if (result.id === 'mutedTextOnCanvas') {
       updated.mutedText = result.suggestedFg;
     }
@@ -153,12 +159,12 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     showToast(`Remediated ${result.label}`, `Updated foreground to ${result.suggestedFg}`);
   };
 
-  // Quick palette loader
+  // Quick palette loader with strict semantic role assignment
   const handleApplyPalette = (palette: PaletteItem) => {
     if (!palette.colors || palette.colors.length === 0) return;
     const cols = palette.colors.map((c) => c.hex);
 
-    const rawRoles: BrandKitRoles = {
+    const rawRoles: Partial<BrandKitRoles> = {
       ...brandKit.roles,
       primary: cols[0] || brandKit.roles.primary,
       secondary: cols[1] || brandKit.roles.secondary,
@@ -166,13 +172,13 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       background: cols[3] || '#0F1117',
       surface: cols[4] || '#1A1D27',
     };
-    const remediated = autoRemediateBrandKitRoles(rawRoles);
+    const resolved = resolveAuditedBrandKitRoles(rawRoles);
 
     setBrandKit((prev) => ({
       ...prev,
       paletteSlug: palette.slug,
       paletteTitle: palette.title,
-      roles: remediated,
+      roles: resolved,
       updatedAt: new Date().toISOString(),
     }));
     showToast(`Loaded ${palette.title}`, 'Brand roles remapped & contrast verified');
@@ -205,9 +211,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     if (exportFormat === 'css') {
       return generateBrandKitCssTokens(brandKit);
     }
-    const btnText = brandKit.roles.buttonText || getTextColorForBackground(brandKit.roles.primary);
     if (exportFormat === 'json') {
-      return JSON.stringify({ ...brandKit, computed: { buttonText: btnText } }, null, 2);
+      return JSON.stringify(brandKit, null, 2);
     }
     return `module.exports = {
   theme: {
@@ -221,7 +226,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           surface: '${brandKit.roles.surface}',
           text: '${brandKit.roles.text}',
           muted: '${brandKit.roles.mutedText}',
-          buttonText: '${btnText}',
+          buttonText: '${brandKit.roles.buttonText}',
+          cardText: '${brandKit.roles.cardText}',
           border: '${brandKit.roles.border}',
         }
       },
@@ -241,7 +247,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   };
 
-  const primaryBtnText = brandKit.roles.buttonText || getTextColorForBackground(brandKit.roles.primary);
+  const primaryBtnText = brandKit.roles.buttonText;
+  const cardBodyText = brandKit.roles.cardText || brandKit.roles.text;
 
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 flex flex-col gap-6 sm:gap-8 min-w-0">
@@ -365,8 +372,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   ['accent', 'Accent Highlight', brandKit.roles.accent],
                   ['background', 'Canvas Background', brandKit.roles.background],
                   ['surface', 'Card / Surface', brandKit.roles.surface],
-                  ['text', 'Primary Text', brandKit.roles.text],
-                  ['mutedText', 'Muted Text', brandKit.roles.mutedText],
+                  ['text', 'Body Text (Canvas)', brandKit.roles.text],
+                  ['buttonText', 'Primary Button Text', brandKit.roles.buttonText],
+                  ['cardText', 'Card Body Text', brandKit.roles.cardText],
+                  ['mutedText', 'Muted Text (Canvas)', brandKit.roles.mutedText],
                   ['border', 'UI Border', brandKit.roles.border],
                 ] as const
               ).map(([key, label, hex]) => (

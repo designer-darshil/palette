@@ -65,6 +65,9 @@ function parseUrlToRoute(): RouteType {
     return { path: 'colors' };
   }
   if (segments[0] === 'palettes' || segments[0] === 'palette') {
+    if (segments[1] === 'live' || segments[1] === 'live-atmosphere') {
+      return { path: 'live' };
+    }
     if (segments[1]) {
       return { path: 'palette-detail', slug: decodeURIComponent(segments[1]) };
     }
@@ -95,6 +98,9 @@ function parseUrlToRoute(): RouteType {
   // Direct slug support (e.g. /terracotta-cyan-split or /celestial-cobalt)
   if (segments.length === 1) {
     const singleSlug = decodeURIComponent(segments[0]);
+    if (singleSlug === 'live' || singleSlug === 'live-atmosphere') {
+      return { path: 'live' };
+    }
     const colorMatch = CURATED_COLORS.find((c) => c.slug === singleSlug);
     if (colorMatch) return { path: 'color-detail', slug: colorMatch.slug };
 
@@ -132,7 +138,7 @@ function routeToUrl(route: RouteType): string {
     case 'gradient-detail':
       return `/gradients/${route.slug}`;
     case 'live':
-      return '/live';
+      return '/palettes/live';
     case 'palette-generator':
       return route.colors ? `/palette-generator?colors=${route.colors}` : '/palette-generator';
     case 'contrast-checker':

@@ -262,26 +262,27 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
   };
 
   return (
-    <div className="live-page" style={{ display: 'flex', flexDirection: 'column', gap: '36px' }}>
+    <div className="live-page w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
       {/* Editorial Header */}
-      <header className="page-header" style={{ marginBottom: 0 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+      <header className="page-header mb-0">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div>
-            <span className="page-category-label">
+            <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
               REAL-TIME ENVIRONMENTAL SPECIMEN • SECTION 05
             </span>
-            <h1 className="page-title">Live Atmosphere Colors</h1>
-            <p className="page-description">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
+              Live Atmosphere Colors
+            </h1>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
               What does the world look like right now? Deterministic chromatic atmospheres synthesized from real-time solar elevation, Rayleigh scatter, geographic coordinates, and atmospheric temperatures.
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap w-full sm:w-auto">
             <button
-              className="btn-secondary"
+              className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial whitespace-nowrap"
               onClick={() => updateAtmosphere(selectedLocation, simulatedHour)}
               disabled={loadingWeather}
-              style={{ padding: '8px 14px', fontSize: '0.8rem' }}
               title="Refresh environmental data"
             >
               <RefreshCw size={13} className={loadingWeather ? 'spin-anim' : ''} />
@@ -289,9 +290,8 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
             </button>
 
             <button
-              className="btn-secondary"
+              className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial whitespace-nowrap"
               onClick={handleShare}
-              style={{ padding: '8px 12px', fontSize: '0.8rem' }}
               title="Share Live Atmosphere URL"
             >
               <Share2 size={13} />
@@ -299,9 +299,8 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
             </button>
 
             <button
-              className="btn-secondary"
+              className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center justify-center gap-1.5 w-full sm:w-auto whitespace-nowrap"
               onClick={handleSaveToWorkspace}
-              style={{ padding: '8px 14px', fontSize: '0.8rem' }}
             >
               <Bookmark size={13} fill={isCurrentSaved ? '#E9C46A' : 'none'} color={isCurrentSaved ? '#E9C46A' : 'currentColor'} />
               <span>{isCurrentSaved ? 'Saved' : 'Save Atmosphere'}</span>
@@ -311,11 +310,11 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       </header>
 
       {/* Location & Context Control Strip */}
-      <section className="filter-bar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-            <MapPin size={14} color="#E9C46A" />
-            <span style={{ textTransform: 'uppercase', color: 'var(--text-tertiary)' }}>LOCATION:</span>
+      <section className="filter-bar flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 p-3 sm:p-4 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-1.5 font-mono text-xs text-[var(--text-secondary)]">
+            <MapPin size={14} className="text-[var(--accent-gold)] flex-shrink-0" />
+            <span className="uppercase text-[var(--text-tertiary)] font-bold">LOCATION:</span>
           </div>
 
           <select
@@ -325,16 +324,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               setSelectedLocation(loc);
               setSimulatedHour(null);
             }}
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-medium)',
-              borderRadius: 'var(--radius-xs)',
-              padding: '6px 12px',
-              fontSize: '0.82rem',
-              color: 'var(--text-primary)',
-              fontFamily: 'var(--font-mono)',
-              cursor: 'pointer',
-            }}
+            className="bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-xs px-3 py-1.5 text-xs text-[var(--text-primary)] font-mono cursor-pointer flex-1 sm:flex-initial min-w-[140px]"
             aria-label="Select location"
           >
             {PRESET_LOCATIONS.map((loc) => (
@@ -345,9 +335,8 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
           </select>
 
           <button
-            className="filter-pill"
+            className="filter-pill text-xs px-3 py-1.5 inline-flex items-center gap-1.5"
             onClick={handleUseDeviceLocation}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
           >
             <Compass size={12} />
             <span>Use My Location</span>
@@ -355,173 +344,104 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         </div>
 
         {/* Live Context Telemetry */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Clock size={13} color="var(--text-tertiary)" />
+        <div className="flex items-center gap-3 sm:gap-4 font-mono text-xs text-[var(--text-secondary)] pt-2 sm:pt-0 border-t sm:border-t-0 border-[var(--border-subtle)] flex-wrap">
+          <div className="flex items-center gap-1.5">
+            <Clock size={13} className="text-[var(--text-tertiary)]" />
             <span>{atmosphere.localTimeFormatted}</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div className="flex items-center gap-1.5">
             {getPhaseIcon()}
-            <span style={{ textTransform: 'uppercase', fontWeight: 600, color: 'var(--text-primary)' }}>
+            <span className="uppercase font-bold text-[var(--text-primary)]">
               {atmosphere.solarPhase}
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Thermometer size={13} color="var(--text-tertiary)" />
+          <div className="flex items-center gap-1.5">
+            <Thermometer size={13} className="text-[var(--text-tertiary)]" />
             <span>{atmosphere.temperatureC}°C ({atmosphere.season})</span>
           </div>
         </div>
       </section>
 
       {/* Large Live Color Field Specimen */}
-      <section className="detail-hero-specimen">
+      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
         <div
-          style={{
-            height: '320px',
-            background: atmosphere.gradientCss,
-            padding: '32px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative',
-            transition: 'background 400ms ease',
-          }}
+          className="min-h-[260px] sm:min-h-[320px] p-5 sm:p-8 flex flex-col justify-between relative transition-all duration-300"
+          style={{ background: atmosphere.gradientCss }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(0,0,0,0.5)', padding: '4px 10px', borderRadius: '4px', backdropFilter: 'blur(8px)' }}>
-              <span className="brand-glyph" style={{ width: 8, height: 8 }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2 bg-black/55 px-2.5 py-1 rounded-xs backdrop-blur-md self-start border border-white/10 shadow-sm max-w-full">
+              <span className="brand-glyph w-2 h-2 flex-shrink-0" />
+              <span className="font-mono text-[10px] sm:text-xs text-white uppercase tracking-wider font-bold truncate">
                 LIVE BROADCAST • {atmosphere.solarPhase.toUpperCase()} • {atmosphere.weatherSummary}
               </span>
             </div>
 
             <button
               onClick={handleCopyAll}
-              style={{
-                background: 'rgba(0,0,0,0.5)',
-                color: '#FFFFFF',
-                padding: '6px 12px',
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                fontFamily: 'var(--font-mono)',
-              }}
+              className="bg-black/50 hover:bg-black/70 text-white px-3.5 py-1.5 rounded-xs flex items-center gap-1.5 text-xs font-bold font-mono self-start sm:self-auto shadow-sm transition-colors whitespace-nowrap"
             >
               <Copy size={12} />
               <span>COPY PALETTE</span>
             </button>
           </div>
 
-          <div>
-            <h2
-              className="specimen-title-huge"
-              style={{
-                color: '#FFFFFF',
-                textShadow: '0 2px 8px rgba(0,0,0,0.6)',
-              }}
-            >
+          <div className="mt-4 sm:mt-0">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white drop-shadow-md">
               {atmosphere.title}
             </h2>
-            <p
-              style={{
-                color: '#FFFFFF',
-                opacity: 0.92,
-                fontSize: '0.95rem',
-                maxWidth: '640px',
-                lineHeight: 1.6,
-                textShadow: '0 1px 4px rgba(0,0,0,0.6)',
-                marginTop: '6px',
-              }}
-            >
+            <p className="text-xs sm:text-sm text-white/95 max-w-2xl leading-relaxed drop-shadow-sm mt-1.5">
               {atmosphere.description}
             </p>
           </div>
         </div>
 
-        {/* Live Swatch Strip */}
-        <div style={{ height: '140px', display: 'flex', width: '100%' }}>
-          {atmosphere.swatches.map((s, idx) => (
-            <div
-              key={idx}
-              style={{
-                backgroundColor: s.hex,
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: '16px',
-                cursor: 'pointer',
-                transition: 'flex 200ms ease',
-              }}
-              onClick={() => handleCopySingleHex(s.hex, s.name)}
-              title={`Click to copy ${s.name} (${s.hex})`}
-            >
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.68rem',
-                  fontWeight: 600,
-                  color: '#FFFFFF',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                  background: 'rgba(0,0,0,0.45)',
-                  padding: '2px 6px',
-                  borderRadius: '2px',
-                  width: 'fit-content',
-                }}
+        {/* Live Swatch Strip — Horizontally scrollable on mobile */}
+        <div className="w-full overflow-x-auto pb-0.5">
+          <div className="h-32 sm:h-36 flex min-w-[540px] sm:min-w-0 w-full border-t border-white/10">
+            {atmosphere.swatches.map((s, idx) => (
+              <div
+                key={idx}
+                style={{ backgroundColor: s.hex }}
+                className="flex-1 flex flex-col justify-between p-3 sm:p-4 cursor-pointer transition-all duration-200 min-w-0"
+                onClick={() => handleCopySingleHex(s.hex, s.name)}
+                title={`Click to copy ${s.name} (${s.hex})`}
               >
-                0{idx + 1}
-              </span>
+                <span className="font-mono text-[9px] sm:text-[10px] font-semibold text-white bg-black/45 px-1.5 py-0.5 rounded-xs w-fit shadow-sm">
+                  0{idx + 1}
+                </span>
 
-              <div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.88rem',
-                    fontWeight: 700,
-                    color: '#FFFFFF',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                  }}
-                >
-                  {s.hex}
-                </div>
-                <div
-                  style={{
-                    fontSize: '0.75rem',
-                    color: '#FFFFFF',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                    opacity: 0.9,
-                  }}
-                >
-                  {s.name}
+                <div className="min-w-0 overflow-hidden">
+                  <div className="font-mono text-[11px] sm:text-sm font-bold text-white drop-shadow-md truncate">
+                    {s.hex}
+                  </div>
+                  <div className="text-[10px] sm:text-xs text-white drop-shadow-md opacity-90 truncate">
+                    {s.name}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* 24-Hour Solar Simulation Timeline */}
-      <section className="contrast-assessment-box">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+      <section className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
               Solar Elevation &amp; Time Simulator
             </h2>
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
               Explore how atmospheric Rayleigh scattering and solar angles transform {selectedLocation.name} throughout the 24-hour cycle.
             </p>
           </div>
 
           {simulatedHour !== null && (
             <button
-              className="btn-secondary"
+              className="btn-secondary text-xs px-2.5 py-1 inline-flex items-center gap-1 self-start sm:self-auto"
               onClick={() => setSimulatedHour(null)}
-              style={{ padding: '4px 10px', fontSize: '0.75rem' }}
             >
               <RefreshCw size={11} />
               <span>Reset to Current Time</span>
@@ -529,7 +449,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
           )}
         </div>
 
-        <div className="filter-pills" style={{ marginTop: '4px' }}>
+        <div className="filter-pills flex items-center gap-1.5 overflow-x-auto pb-1 mt-1">
           {[
             { label: 'Dawn 05:15', hour: 5.2 },
             { label: 'Sunrise 06:45', hour: 6.8 },
@@ -543,7 +463,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
           ].map((btn) => (
             <button
               key={btn.label}
-              className={`filter-pill ${simulatedHour === btn.hour ? 'active' : ''}`}
+              className={`filter-pill text-xs px-2.5 py-1 whitespace-nowrap ${simulatedHour === btn.hour ? 'active' : ''}`}
               onClick={() => setSimulatedHour(btn.hour)}
             >
               {btn.label}
@@ -553,59 +473,49 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       </section>
 
       {/* Detailed Swatch Cards with Roles */}
-      <section>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '14px' }}>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+      <section className="flex flex-col gap-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
             Atmospheric Swatch Spectrum
           </h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
+          <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase">
             CLICK ANY SWATCH TO COPY OR EXPLORE
           </span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
           {atmosphere.swatches.map((s, idx) => {
             const slug = findMatchingColorSlug(s.hex);
             return (
-              <div key={idx} className="detail-spec-card">
-                <div
-                  style={{
-                    height: '70px',
-                    backgroundColor: s.hex,
-                    borderRadius: '3px',
-                    border: '1px solid var(--border-subtle)',
-                    marginBottom: '8px',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => handleCopySingleHex(s.hex, s.name)}
-                />
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <span style={{ fontWeight: 700, fontSize: '0.92rem' }}>{s.name}</span>
-                  <button
+              <div key={idx} className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm transition-all flex flex-col justify-between">
+                <div>
+                  <div
+                    className="h-18 rounded-xs border border-[var(--border-subtle)] mb-2.5 cursor-pointer shadow-inner"
+                    style={{ backgroundColor: s.hex, height: '72px' }}
                     onClick={() => handleCopySingleHex(s.hex, s.name)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--text-secondary)' }}
-                  >
-                    {s.hex}
-                  </button>
+                    title="Click to copy HEX"
+                  />
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="font-bold text-xs sm:text-sm text-[var(--text-primary)] truncate">{s.name}</span>
+                    <button
+                      onClick={() => handleCopySingleHex(s.hex, s.name)}
+                      className="font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold flex-shrink-0"
+                    >
+                      {s.hex}
+                    </button>
+                  </div>
+                  <div className="font-mono text-[10px] text-[var(--accent-gold)] uppercase mt-0.5">
+                    ROLE: {s.role}
+                  </div>
+                  <p className="text-[11px] text-[var(--text-tertiary)] mt-1.5 leading-relaxed">
+                    {s.description}
+                  </p>
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--accent-gold)', marginTop: '2px' }}>
-                  ROLE: {s.role}
-                </div>
-                <p style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)', marginTop: '4px', lineHeight: 1.4 }}>
-                  {s.description}
-                </p>
                 {slug && (
-                  <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px solid var(--border-subtle)' }}>
+                  <div className="mt-3 pt-2 border-t border-[var(--border-subtle)]">
                     <button
                       onClick={() => onNavigate({ path: 'color-detail', slug })}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.72rem',
-                        fontFamily: 'var(--font-mono)',
-                        color: 'var(--text-secondary)',
-                      }}
+                      className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-gold)] hover:underline"
                     >
                       <span>View Color Specimen</span>
                       <ExternalLink size={10} />

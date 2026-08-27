@@ -30,8 +30,190 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+    <!-- Critical Boot Styles to Guarantee 0ms White-Flash Prevention and Instant Loader Visibility -->
+    <style>
+      html, body {
+        background-color: #090A0C !important;
+        margin: 0;
+        padding: 0;
+        color: #F8F9FA;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+      body.kroma-locked {
+        overflow: hidden !important;
+      }
+      #kroma-boot-loader {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        z-index: 99999;
+        background-color: #090A0C;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-sizing: border-box;
+        opacity: 1;
+        transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: all;
+      }
+      #kroma-boot-loader.kroma-loader-exit {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .kroma-loader-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 340px;
+        padding: 0 24px;
+        box-sizing: border-box;
+      }
+      .kroma-loader-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 36px;
+      }
+      .kroma-loader-glyph {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #E63946;
+        box-shadow: 0 0 12px rgba(230, 57, 70, 0.55);
+        flex-shrink: 0;
+        animation: kromaBootPulse 2.4s ease-in-out infinite;
+      }
+      .kroma-loader-wordmark {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 1.35rem;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #F8F9FA;
+      }
+      .kroma-loader-track-wrap {
+        width: 100%;
+        margin-bottom: 16px;
+      }
+      .kroma-loader-track {
+        width: 100%;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+      .kroma-loader-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #E63946 0%, #E9C46A 100%);
+        border-radius: 2px;
+        transition: width 240ms cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .kroma-loader-pct {
+        font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #F8F9FA;
+        line-height: 1;
+        margin-bottom: 10px;
+        font-variant-numeric: tabular-nums;
+      }
+      .kroma-loader-label {
+        font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #606675;
+      }
+      @keyframes kromaBootPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.82); }
+      }
+    </style>
   </head>
-  <body>
+  <body class="kroma-locked">
+    <!-- Immediate Zero-Flicker Boot Loader (Painted on Frame 0 before JS/CSS bundle) -->
+    <div id="kroma-boot-loader" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="KROMA is loading" aria-live="polite">
+      <div class="kroma-loader-inner">
+        <div class="kroma-loader-brand">
+          <span class="kroma-loader-glyph" aria-hidden="true"></span>
+          <span class="kroma-loader-wordmark">KROMA</span>
+        </div>
+        <div class="kroma-loader-track-wrap" aria-hidden="true">
+          <div class="kroma-loader-track">
+            <div id="kroma-boot-fill" class="kroma-loader-fill"></div>
+          </div>
+        </div>
+        <div id="kroma-boot-pct" class="kroma-loader-pct" aria-hidden="true">00%</div>
+        <div class="kroma-loader-label" aria-hidden="true">LOADING EXPERIENCE</div>
+      </div>
+    </div>
+
+    <!-- Boot Loader Progress Engine -->
+    <script>
+      (function() {
+        var fill = document.getElementById('kroma-boot-fill');
+        var pct = document.getElementById('kroma-boot-pct');
+        var loader = document.getElementById('kroma-boot-loader');
+        if (!fill || !pct || !loader) return;
+
+        var progress = 0;
+        var dismissed = false;
+
+        function setProgress(val) {
+          if (dismissed || val <= progress) return;
+          progress = val;
+          fill.style.width = progress + '%';
+          pct.textContent = (progress < 10 ? '0' : '') + progress + '%';
+          loader.setAttribute('aria-valuenow', progress);
+
+          if (progress >= 100) {
+            dismissed = true;
+            setTimeout(function() {
+              loader.classList.add('kroma-loader-exit');
+              setTimeout(function() {
+                if (loader && loader.parentNode) {
+                  loader.parentNode.removeChild(loader);
+                }
+                document.body.classList.remove('kroma-locked');
+              }, 380);
+            }, 260);
+          }
+        }
+
+        var schedule = [
+          { p: 28, d: 100 },
+          { p: 52, d: 240 },
+          { p: 72, d: 420 },
+          { p: 86, d: 640 },
+          { p: 94, d: 880 },
+          { p: 100, d: 1180 }
+        ];
+
+        schedule.forEach(function(item) {
+          setTimeout(function() {
+            setProgress(item.p);
+          }, item.d);
+        });
+
+        // Global bridge so React or any lifecycle event can complete the loader cleanly
+        window.__KROMA_LOADER_COMPLETE__ = function() {
+          setProgress(100);
+        };
+      })();
+    </script>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

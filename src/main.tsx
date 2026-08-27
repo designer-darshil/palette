@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
-import { AppLoader } from './components/AppLoader';
 import { ToastProvider } from './context/ToastContext';
 import { SavedProvider } from './context/SavedContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -14,42 +13,31 @@ initAnalytics();
 
 // ─────────────────────────────────────────────────────────────
 // Root Shell
-// Renders the AppLoader as a true sibling — not a descendant —
-// of the application tree so it can never be affected by any
-// provider, page component, or layout container.
+// The boot loader is parsed and painted on Frame 0 via index.html
+// with inline critical CSS at z-index 99999.
+// When Root mounts and performs its initial paint, we signal
+// the boot loader to seamlessly complete to 100% and fade away.
 // ─────────────────────────────────────────────────────────────
 const Root: React.FC = () => {
-  const [appReady, setAppReady] = useState(false);
-
-  // Signal ready after the first browser paint of the main tree.
-  // useEffect fires after DOM paint, so by the time this runs
-  // the App is mounted and interactive.
   useEffect(() => {
-    // requestAnimationFrame ensures at least one paint has occurred.
-    const raf = requestAnimationFrame(() => {
-      setAppReady(true);
-    });
-    return () => cancelAnimationFrame(raf);
+    // Notify boot loader that React tree has mounted
+    if (typeof window !== 'undefined' && (window as any).__KROMA_LOADER_COMPLETE__) {
+      (window as any).__KROMA_LOADER_COMPLETE__();
+    }
   }, []);
 
   return (
-    <>
-      {/* Loader: position fixed, inset 0, z-index 9999 — completely independent */}
-      <AppLoader isReady={appReady} />
-
-      {/* Full application tree */}
-      <ThemeProvider>
-        <AdminAuthProvider>
-          <LibraryDataProvider>
-            <SavedProvider>
-              <ToastProvider>
-                <App />
-              </ToastProvider>
-            </SavedProvider>
-          </LibraryDataProvider>
-        </AdminAuthProvider>
-      </ThemeProvider>
-    </>
+    <ThemeProvider>
+      <AdminAuthProvider>
+        <LibraryDataProvider>
+          <SavedProvider>
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+          </SavedProvider>
+        </LibraryDataProvider>
+      </AdminAuthProvider>
+    </ThemeProvider>
   );
 };
 
@@ -58,4 +46,3 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Root />
   </React.StrictMode>
 );
-

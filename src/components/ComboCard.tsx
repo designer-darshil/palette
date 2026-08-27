@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Bookmark, Share2, ArrowRight, Check } from 'lucide-react';
 import { ComboItem, RouteType } from '../types';
-import { copyToClipboard } from '../utils/colorUtils';
+import { copyToClipboard, getComboKeyColors } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 
@@ -17,9 +17,8 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
 
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
 
-  // Extract the primary two colors representing the relationship
-  const color1 = combo.colors[0] || { name: 'Color A', hex: '#1D4ED8' };
-  const color2 = combo.colors[1] || combo.colors[0] || { name: 'Color B', hex: '#E63946' };
+  // Extract the true focal color pair representing the relationship
+  const [color1, color2] = getComboKeyColors(combo.colors);
 
   const handleCopyHex = async (e: React.MouseEvent, hex: string, name: string) => {
     e.stopPropagation();

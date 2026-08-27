@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   LayoutDashboard,
   Palette,
@@ -15,6 +15,8 @@ import {
   Sun,
   Moon,
   Monitor,
+  Menu,
+  X,
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -35,6 +37,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 }) => {
   const { currentUser, logout, isSuperAdmin } = useAdminAuth();
   const { theme, setTheme } = useTheme();
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const navItems = [
     { section: 'OVERVIEW', items: [{ id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard }] },
@@ -70,24 +73,72 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     },
   ];
 
+  const handleTabClick = (tabId: string) => {
+    onNavigateTab(tabId);
+    setMobileSidebarOpen(false);
+  };
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-canvas)', color: 'var(--text-primary)' }}>
+    <div className="admin-layout-wrapper">
+      {/* Mobile Top App Bar */}
+      <header className="admin-mobile-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button
+            onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+            aria-label="Toggle Admin Sidebar"
+            style={{
+              background: 'var(--bg-surface-2)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-xs)',
+              padding: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {mobileSidebarOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span className="brand-glyph" style={{ width: 10, height: 10 }} />
+            <span style={{ fontWeight: 800, fontSize: '0.88rem', letterSpacing: '0.04em' }}>KROMA ADMIN</span>
+          </div>
+        </div>
+
+        <button
+          onClick={() => onNavigatePublic({ path: 'home' })}
+          title="Return to Public Library"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--text-secondary)',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            fontSize: '0.75rem',
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          <ArrowLeft size={13} />
+          <span>Public</span>
+        </button>
+      </header>
+
+      {/* Backdrop for Mobile Drawer */}
+      {mobileSidebarOpen && (
+        <div
+          className="admin-sidebar-backdrop"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside
-        style={{
-          width: '260px',
-          background: 'var(--bg-surface-1)',
-          borderRight: '1px solid var(--border-subtle)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '20px 16px',
-          flexShrink: 0,
-        }}
+        className={`admin-sidebar ${mobileSidebarOpen ? 'open' : ''}`}
       >
         <div>
           {/* Brand Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', paddingBottom: '16px', borderBottom: '1px solid var(--border-subtle)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', paddingBottom: '14px', borderBottom: '1px solid var(--border-subtle)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span className="brand-glyph" style={{ width: 10, height: 10 }} />
               <span style={{ fontWeight: 800, fontSize: '0.95rem', letterSpacing: '0.05em' }}>KROMA ADMIN</span>
@@ -121,7 +172,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                 border: '1px solid var(--border-subtle)',
                 borderRadius: 'var(--radius-xs)',
                 padding: '10px',
-                marginBottom: '20px',
+                marginBottom: '18px',
               }}
             >
               <div style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -134,7 +185,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           )}
 
           {/* Navigation Items */}
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {navItems.map((group) => (
               <div key={group.section}>
                 <div style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px', paddingLeft: '8px' }}>
@@ -147,7 +198,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                     return (
                       <button
                         key={item.id}
-                        onClick={() => onNavigateTab(item.id)}
+                        onClick={() => handleTabClick(item.id)}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -163,6 +214,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                           textAlign: 'left',
                           width: '100%',
                           transition: 'background 120ms ease',
+                          whiteSpace: 'nowrap',
                         }}
                       >
                         <Icon size={15} color={isActive ? '#E9C46A' : 'currentColor'} />
@@ -177,7 +229,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         </div>
 
         {/* Footer Actions */}
-        <div style={{ paddingTop: '16px', borderTop: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ paddingTop: '16px', borderTop: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '20px' }}>
           {/* Theme Quick Switcher */}
           <div style={{ display: 'flex', background: 'var(--bg-surface-2)', borderRadius: 'var(--radius-xs)', padding: '2px' }}>
             <button
@@ -250,6 +302,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
               color: 'var(--text-secondary)',
               fontSize: '0.78rem',
               cursor: 'pointer',
+              whiteSpace: 'nowrap',
             }}
           >
             <LogOut size={13} />
@@ -259,7 +312,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       </aside>
 
       {/* Main Content Area */}
-      <main style={{ flex: 1, overflowY: 'auto', padding: '32px 40px', background: 'var(--bg-canvas)' }}>
+      <main className="admin-main-stage">
         {children}
       </main>
     </div>

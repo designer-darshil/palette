@@ -240,3 +240,35 @@ export function copyToClipboard(text: string): Promise<boolean> {
     }
   }
 }
+
+export function getComboKeyColors(colors: Array<{ name: string; hex: string; role?: string; percentage?: number }>): [{ name: string; hex: string; role?: string }, { name: string; hex: string; role?: string }] {
+  if (!colors || colors.length === 0) {
+    return [{ name: 'Primary', hex: '#1D4ED8' }, { name: 'Accent', hex: '#E63946' }];
+  }
+  if (colors.length === 2) {
+    return [colors[0], colors[1]];
+  }
+
+  // Identify Primary / Dominant and Accent / Focus roles
+  const primary = colors.find((c) =>
+    (c.role || '').toLowerCase().includes('primary') || (c.role || '').toLowerCase().includes('dominant')
+  );
+  const accent = colors.find(
+    (c) =>
+      ((c.role || '').toLowerCase().includes('accent') || (c.role || '').toLowerCase().includes('focus')) &&
+      c !== primary
+  );
+
+  if (primary && accent) {
+    return [primary, accent];
+  }
+
+  // If roles are not explicitly labeled, filter out background roles
+  const nonBg = colors.filter((c) => !(c.role || '').toLowerCase().includes('background'));
+  if (nonBg.length >= 2) {
+    return [nonBg[0], nonBg[1]];
+  }
+
+  return [colors[0], colors[1] || colors[0]];
+}
+

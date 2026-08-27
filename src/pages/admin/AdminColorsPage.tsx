@@ -293,11 +293,11 @@ export const AdminColorsPage: React.FC = () => {
 
       {/* Dense Table */}
       <div
+        className="admin-table-container"
         style={{
           background: 'var(--bg-surface-1)',
           border: '1px solid var(--border-subtle)',
           borderRadius: 'var(--radius-sm)',
-          overflow: 'hidden',
         }}
       >
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.82rem' }}>

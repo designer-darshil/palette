@@ -38,6 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     if (path === 'live' && currentRoute.path === 'live') return true;
     if (path === 'palette-generator' && currentRoute.path === 'palette-generator') return true;
     if (path === 'contrast-checker' && currentRoute.path === 'contrast-checker') return true;
+    if (path === 'color-name-finder' && currentRoute.path === 'color-name-finder') return true;
     if (path === 'saved' && currentRoute.path === 'saved') return true;
     return false;
   };
@@ -111,6 +112,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <ShieldCheck size={14} color="#3B82F6" />
               <span>Contrast</span>
+            </button>
+            <button
+              className={`nav-link ${isActive('color-name-finder') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'color-name-finder' })}
+            >
+              <Search size={14} color="#10B981" />
+              <span>Name Finder</span>
             </button>
             <button
               className={`nav-link ${isActive('live') ? 'active' : ''}`}
@@ -228,6 +236,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <span>Color Contrast Checker</span>
               <ShieldCheck size={16} color="#3B82F6" />
+            </button>
+            <button
+              className={`mobile-nav-link ${isActive('color-name-finder') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'color-name-finder' })}
+            >
+              <span>Color Name Finder</span>
+              <Search size={16} color="#10B981" />
             </button>
             <button
               className={`mobile-nav-link ${isActive('live') ? 'active' : ''}`}

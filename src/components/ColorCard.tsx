@@ -1,5 +1,5 @@
 import React from 'react';
-import { Copy, Bookmark, Share2 } from 'lucide-react';
+import { Copy, Bookmark, Share2, Search } from 'lucide-react';
 import { ColorItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
@@ -100,6 +100,17 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
           </span>
 
           <div className="card-action-icons">
+            <button
+              className="card-icon-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                onNavigate({ path: 'color-name-finder', hex: color.hex });
+              }}
+              aria-label="Find closest color name"
+              title="Identify in Color Name Finder"
+            >
+              <Search size={13} />
+            </button>
             <button
               className="card-icon-btn"
               onClick={handleShare}

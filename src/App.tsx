@@ -16,6 +16,7 @@ import { LiveColorsPage } from './pages/LiveColorsPage';
 import { SavedPage } from './pages/SavedPage';
 import { MobilePaletteGeneratorPage } from './pages/MobilePaletteGeneratorPage';
 import { ContrastCheckerPage } from './pages/ContrastCheckerPage';
+import { ColorNameFinderPage } from './pages/ColorNameFinderPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminHubPage } from './pages/admin/AdminHubPage';
 import { CURATED_COLORS } from './data/colors';
@@ -38,6 +39,11 @@ function parseUrlToRoute(): RouteType {
     const fg = params.get('fg') || params.get('foreground') || undefined;
     const bg = params.get('bg') || params.get('background') || undefined;
     return { path: 'contrast-checker', fg, bg };
+  }
+  if (segments[0] === 'color-name-finder' || segments[0] === 'name-finder' || segments[0] === 'name') {
+    const params = new URLSearchParams(window.location.search);
+    const hex = params.get('hex') || params.get('color') || undefined;
+    return { path: 'color-name-finder', hex };
   }
   if (segments[0] === 'colors' || segments[0] === 'color') {
     if (segments[1]) {
@@ -124,6 +130,8 @@ function routeToUrl(route: RouteType): string {
         const qs = params.toString();
         return qs ? `/contrast-checker?${qs}` : '/contrast-checker';
       }
+    case 'color-name-finder':
+      return route.hex ? `/color-name-finder?hex=${route.hex.replace('#', '')}` : '/color-name-finder';
     case 'admin':
       return route.tab ? `/admin/${route.tab}` : '/admin';
     case 'saved':
@@ -195,6 +203,9 @@ export const App: React.FC = () => {
       case 'contrast-checker':
         document.title = 'WCAG Color Contrast Checker & Accessibility Engine | KROMA';
         break;
+      case 'color-name-finder':
+        document.title = 'Color Name Finder & Perceptual Gamut Identifier | KROMA';
+        break;
       case 'admin':
         document.title = 'Editorial CMS & Library Control | KROMA Admin';
         break;
@@ -246,6 +257,13 @@ export const App: React.FC = () => {
           <ContrastCheckerPage
             initialFg={currentRoute.fg}
             initialBg={currentRoute.bg}
+            onNavigate={handleNavigate}
+          />
+        );
+      case 'color-name-finder':
+        return (
+          <ColorNameFinderPage
+            initialHex={currentRoute.hex}
             onNavigate={handleNavigate}
           />
         );

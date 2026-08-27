@@ -307,9 +307,18 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
             {/* Foreground Input Control */}
             <div className="flex flex-col gap-2 p-3.5 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-sm">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-mono text-[var(--text-secondary)] font-bold uppercase">
-                  FOREGROUND (TEXT / ICON)
-                </label>
+                <div className="flex items-center gap-2">
+                  <label className="text-xs font-mono text-[var(--text-secondary)] font-bold uppercase">
+                    FOREGROUND (TEXT / ICON)
+                  </label>
+                  <button
+                    onClick={() => onNavigate({ path: 'color-name-finder', hex: fgHex })}
+                    className="text-[10px] font-mono text-[var(--accent-gold)] hover:underline"
+                    title="Find closest color name"
+                  >
+                    Find Name →
+                  </button>
+                </div>
                 <span className="text-[11px] font-mono text-[var(--text-tertiary)]">
                   {hexToOklch(fgHex)}
                 </span>
@@ -354,9 +363,18 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
             {/* Background Input Control */}
             <div className="flex flex-col gap-2 p-3.5 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-sm">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-mono text-[var(--text-secondary)] font-bold uppercase">
-                  BACKGROUND (CANVAS / SURFACE)
-                </label>
+                <div className="flex items-center gap-2">
+                  <label className="text-xs font-mono text-[var(--text-secondary)] font-bold uppercase">
+                    BACKGROUND (CANVAS / SURFACE)
+                  </label>
+                  <button
+                    onClick={() => onNavigate({ path: 'color-name-finder', hex: bgHex })}
+                    className="text-[10px] font-mono text-[var(--accent-gold)] hover:underline"
+                    title="Find closest color name"
+                  >
+                    Find Name →
+                  </button>
+                </div>
                 <span className="text-[11px] font-mono text-[var(--text-tertiary)]">
                   {hexToOklch(bgHex)}
                 </span>

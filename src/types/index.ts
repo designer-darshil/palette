@@ -83,6 +83,7 @@ export type RouteType =
   | { path: 'live' }
   | { path: 'palette-generator'; colors?: string }
   | { path: 'contrast-checker'; fg?: string; bg?: string }
+  | { path: 'color-name-finder'; hex?: string }
   | { path: 'admin'; tab?: string }
   | { path: 'saved' }
   | { path: 'not-found'; requestedUrl?: string };

@@ -121,31 +121,29 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
   ).slice(0, 2);
 
   return (
-    <div className="detail-container">
+    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
       {/* Navigation Breadcrumbs & Actions */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button
-          className="detail-back-btn"
+          className="detail-back-btn w-fit inline-flex items-center gap-2"
           onClick={() => onNavigate({ path: 'colors' })}
         >
           <ArrowLeft size={16} />
           <span>Back to Colors Library</span>
         </button>
 
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
-            className="btn-secondary"
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
             onClick={handleShare}
-            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
             title="Share Specimen URL"
           >
             <Share2 size={13} />
             <span>Share</span>
           </button>
           <button
-            className="btn-secondary"
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
             onClick={handleToggleSave}
-            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
           >
             <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
             <span>{saved ? 'Saved' : 'Save'}</span>
@@ -154,38 +152,29 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       </div>
 
       {/* Hero Color Specimen */}
-      <section className="detail-hero-specimen">
+      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
         <div
-          className="color-specimen-giant"
+          className="color-specimen-giant p-5 sm:p-8 min-h-[220px] sm:min-h-[280px] flex flex-col justify-between"
           style={{ backgroundColor: color.hex, color: color.bestTextColor }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', opacity: 0.9 }}>
-              SPECIMEN Nº {color.id.toUpperCase()} • {color.family.toUpperCase()} GAMUT • {color.hueGroup.toUpperCase()}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <span className="font-mono text-[11px] sm:text-xs uppercase tracking-wider opacity-90 truncate max-w-md">
+              SPECIMEN Nº {color.id.toUpperCase()} • {color.family.toUpperCase()} GAMUT
             </span>
             <button
               onClick={() => handleCopyValue(color.hex, 'HEX')}
-              style={{
-                background: 'rgba(0,0,0,0.35)',
-                color: '#FFFFFF',
-                padding: '6px 12px',
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                fontFamily: 'var(--font-mono)',
-              }}
+              className="bg-black/35 hover:bg-black/50 text-white px-3 py-1.5 rounded-xs flex items-center gap-1.5 text-xs font-bold font-mono self-start sm:self-auto shadow-sm transition-colors whitespace-nowrap"
             >
               <Copy size={12} />
               <span>COPY HEX</span>
             </button>
           </div>
 
-          <div>
-            <h1 className="specimen-title-huge">{color.name}</h1>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem', marginTop: '4px', opacity: 0.95 }}>
+          <div className="mt-4 sm:mt-0">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow-sm">
+              {color.name}
+            </h1>
+            <div className="font-mono text-base sm:text-xl font-bold mt-1 opacity-95">
               {color.hex}
             </div>
           </div>
@@ -193,99 +182,103 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       </section>
 
       {/* Quick Color Formats */}
-      <section>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '14px' }}>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+      <section className="flex flex-col gap-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
             Calibrated Color Values
           </h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
+          <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase">
             CLICK ANY SPEC TO COPY
           </span>
         </div>
 
-        <div className="detail-specs-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <div
-            className="detail-spec-card"
-            style={{ cursor: 'pointer' }}
+            className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm cursor-pointer transition-all"
             onClick={() => handleCopyValue(color.hex, 'HEX')}
           >
-            <div className="detail-spec-card-header">
+            <div className="detail-spec-card-header flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)]">
               <span>HEX CODE</span>
               <Copy size={12} />
             </div>
-            <div className="detail-spec-value">{color.hex}</div>
+            <div className="detail-spec-value font-mono text-sm sm:text-base font-bold text-[var(--text-primary)] mt-1">
+              {color.hex}
+            </div>
           </div>
 
           <div
-            className="detail-spec-card"
-            style={{ cursor: 'pointer' }}
+            className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm cursor-pointer transition-all"
             onClick={() => handleCopyValue(color.rgb, 'RGB')}
           >
-            <div className="detail-spec-card-header">
+            <div className="detail-spec-card-header flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)]">
               <span>sRGB SPACE</span>
               <Copy size={12} />
             </div>
-            <div className="detail-spec-value">{color.rgb}</div>
+            <div className="detail-spec-value font-mono text-sm sm:text-base font-bold text-[var(--text-primary)] mt-1">
+              {color.rgb}
+            </div>
           </div>
 
           <div
-            className="detail-spec-card"
-            style={{ cursor: 'pointer' }}
+            className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm cursor-pointer transition-all"
             onClick={() => handleCopyValue(color.hsl, 'HSL')}
           >
-            <div className="detail-spec-card-header">
+            <div className="detail-spec-card-header flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)]">
               <span>HSL CANONICAL</span>
               <Copy size={12} />
             </div>
-            <div className="detail-spec-value">{color.hsl}</div>
+            <div className="detail-spec-value font-mono text-sm sm:text-base font-bold text-[var(--text-primary)] mt-1">
+              {color.hsl}
+            </div>
           </div>
 
           <div
-            className="detail-spec-card"
-            style={{ cursor: 'pointer' }}
+            className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm cursor-pointer transition-all"
             onClick={() => handleCopyValue(color.oklch, 'OKLCH')}
           >
-            <div className="detail-spec-card-header">
+            <div className="detail-spec-card-header flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)]">
               <span>OKLCH PERCEPTUAL</span>
               <Copy size={12} />
             </div>
-            <div className="detail-spec-value">{color.oklch}</div>
+            <div className="detail-spec-value font-mono text-xs sm:text-sm font-bold text-[var(--text-primary)] mt-1 break-all">
+              {color.oklch}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Practical UI Assessment Matrix */}
-      <section className="contrast-assessment-box">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <section className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
               Practical UI &amp; Accessibility Assessment
             </h2>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
               Calculated contrast compliance under WCAG 2.1 criteria and recommended interface roles.
             </p>
           </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
+          <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold self-start sm:self-auto">
             CALCULATED METRICS
           </span>
         </div>
 
-        <div className="contrast-test-tiles">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
           {/* Contrast on White */}
           <div
-            className="contrast-test-tile"
+            className="contrast-test-tile p-4 rounded-sm flex flex-col justify-between gap-3 min-h-[120px]"
             style={{ backgroundColor: '#FFFFFF', color: color.hex, border: '1px solid var(--border-medium)' }}
           >
             <div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#606675', textTransform: 'uppercase' }}>
+              <span className="font-mono text-[10px] text-[#606675] uppercase block">
                 ON WHITE SURFACE (#FFFFFF)
               </span>
-              <div style={{ fontWeight: 800, fontSize: '1.15rem', marginTop: '4px' }}>
+              <div className="font-extrabold text-base sm:text-lg mt-1">
                 Specimen Typography Sample
               </div>
-              <div style={{ fontSize: '0.82rem', opacity: 0.85 }}>Body text contrast preview</div>
+              <div className="text-xs opacity-85">Body text contrast preview</div>
             </div>
-            <div className="contrast-score-line" style={{ color: '#111111' }}>
+            <div className="contrast-score-line flex items-center justify-between font-mono text-xs font-bold text-[#111111] pt-2 border-t border-black/10">
               <span>RATIO: {practicalUi.onWhiteRatio}:1</span>
               <span style={{ color: practicalUi.onWhiteRating.passAA ? '#15803D' : '#DC2626' }}>
                 {practicalUi.onWhiteRating.label}
@@ -295,19 +288,19 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
 
           {/* Contrast on Black / Dark */}
           <div
-            className="contrast-test-tile"
+            className="contrast-test-tile p-4 rounded-sm flex flex-col justify-between gap-3 min-h-[120px]"
             style={{ backgroundColor: '#111215', color: color.hex, border: '1px solid var(--border-medium)' }}
           >
             <div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#9DA3AF', textTransform: 'uppercase' }}>
+              <span className="font-mono text-[10px] text-[#9DA3AF] uppercase block">
                 ON DARK CANVAS (#111215)
               </span>
-              <div style={{ fontWeight: 800, fontSize: '1.15rem', marginTop: '4px' }}>
+              <div className="font-extrabold text-base sm:text-lg mt-1">
                 Specimen Typography Sample
               </div>
-              <div style={{ fontSize: '0.82rem', opacity: 0.85 }}>Dark mode contrast preview</div>
+              <div className="text-xs opacity-85">Dark mode contrast preview</div>
             </div>
-            <div className="contrast-score-line" style={{ color: '#F8F9FA' }}>
+            <div className="contrast-score-line flex items-center justify-between font-mono text-xs font-bold text-[#F8F9FA] pt-2 border-t border-white/10">
               <span>RATIO: {practicalUi.onBlackRatio}:1</span>
               <span style={{ color: practicalUi.onBlackRating.passAA ? '#4ADE80' : '#F87171' }}>
                 {practicalUi.onBlackRating.label}
@@ -317,33 +310,33 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
         </div>
 
         {/* UI Role Suitability */}
-        <div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--text-tertiary)', display: 'block', marginBottom: '8px' }}>
+        <div className="pt-2 border-t border-[var(--border-subtle)]">
+          <span className="font-mono text-[10px] sm:text-xs uppercase text-[var(--text-tertiary)] block mb-2 font-semibold">
             RECOMMENDED UI ROLES:
           </span>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <div className="flex flex-wrap gap-2">
             {practicalUi.recommendedRoles.primaryButton && (
-              <span className="combo-harmony-badge" style={{ backgroundColor: 'rgba(59, 130, 246, 0.15)', color: '#93C5FD', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
+              <span className="combo-harmony-badge text-xs px-2.5 py-1 rounded-xs" style={{ backgroundColor: 'rgba(59, 130, 246, 0.15)', color: '#93C5FD', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
                 ✓ Primary Action Button
               </span>
             )}
             {practicalUi.recommendedRoles.accentBadge && (
-              <span className="combo-harmony-badge" style={{ backgroundColor: 'rgba(233, 196, 106, 0.15)', color: '#FDE047', border: '1px solid rgba(233, 196, 106, 0.3)' }}>
+              <span className="combo-harmony-badge text-xs px-2.5 py-1 rounded-xs" style={{ backgroundColor: 'rgba(233, 196, 106, 0.15)', color: '#FDE047', border: '1px solid rgba(233, 196, 106, 0.3)' }}>
                 ✓ Accent / Focus Indicator
               </span>
             )}
             {practicalUi.recommendedRoles.editorialText && (
-              <span className="combo-harmony-badge" style={{ backgroundColor: 'rgba(34, 197, 94, 0.15)', color: '#86EFAC', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+              <span className="combo-harmony-badge text-xs px-2.5 py-1 rounded-xs" style={{ backgroundColor: 'rgba(34, 197, 94, 0.15)', color: '#86EFAC', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
                 ✓ Heading &amp; Editorial Text
               </span>
             )}
             {practicalUi.recommendedRoles.cardSurface && (
-              <span className="combo-harmony-badge" style={{ backgroundColor: 'rgba(141, 153, 174, 0.15)', color: '#E2E8F0', border: '1px solid rgba(141, 153, 174, 0.3)' }}>
+              <span className="combo-harmony-badge text-xs px-2.5 py-1 rounded-xs" style={{ backgroundColor: 'rgba(141, 153, 174, 0.15)', color: '#E2E8F0', border: '1px solid rgba(141, 153, 174, 0.3)' }}>
                 ✓ Canvas / Card Background
               </span>
             )}
             {practicalUi.recommendedRoles.subtleBorder && (
-              <span className="combo-harmony-badge" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', color: '#CBD5E1', border: '1px solid var(--border-subtle)' }}>
+              <span className="combo-harmony-badge text-xs px-2.5 py-1 rounded-xs" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', color: '#CBD5E1', border: '1px solid var(--border-subtle)' }}>
                 ✓ Border &amp; Grid Lines
               </span>
             )}
@@ -509,32 +502,34 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       </section>
 
       {/* Tonal Shade Step Matrix */}
-      <section>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '14px' }}>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+      <section className="flex flex-col gap-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
             Tonal Step Matrix (100–950)
           </h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
-            CLICK ANY STEP TO COPY
+          <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase">
+            CLICK ANY STEP TO COPY • SWIPE FOR FULL SPECTRUM
           </span>
         </div>
 
-        <div className="shade-matrix-row">
-          {color.shades.map((shade, idx) => (
-            <div
-              key={idx}
-              className="shade-step"
-              style={{
-                backgroundColor: shade.hex,
-                color: idx < 3 ? '#111111' : '#FFFFFF',
-              }}
-              onClick={() => handleCopyValue(shade.hex, `Shade ${shade.level}`)}
-              title={`Click to copy Shade ${shade.level}: ${shade.hex}`}
-            >
-              <span>{shade.level}</span>
-              <span style={{ fontWeight: 600 }}>{shade.hex}</span>
-            </div>
-          ))}
+        <div className="w-full overflow-x-auto pb-1.5 -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="shade-matrix-row min-w-[620px] sm:min-w-0">
+            {color.shades.map((shade, idx) => (
+              <div
+                key={idx}
+                className="shade-step"
+                style={{
+                  backgroundColor: shade.hex,
+                  color: idx < 3 ? '#111111' : '#FFFFFF',
+                }}
+                onClick={() => handleCopyValue(shade.hex, `Shade ${shade.level}`)}
+                title={`Click to copy Shade ${shade.level}: ${shade.hex}`}
+              >
+                <span>{shade.level}</span>
+                <span style={{ fontWeight: 600 }}>{shade.hex}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

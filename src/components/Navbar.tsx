@@ -232,28 +232,28 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
           </nav>
 
           {/* Unified Action Controls (Search, Saved, Theme, Menu) */}
-          <div className="nav-actions">
+          <div className="nav-actions flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
             {/* Quick Search */}
             <button
-              className="search-trigger-btn"
+              className="search-trigger-btn w-9 h-9 sm:w-auto p-0 sm:px-2.5 flex items-center justify-center"
               onClick={onOpenSearch}
               aria-label="Search color library"
               title="Search Library (⌘K)"
             >
-              <Search size={14} />
-              <span className="search-text">Search</span>
-              <kbd className="kbd-shortcut">⌘K</kbd>
+              <Search size={15} />
+              <span className="search-text hidden sm:inline text-xs">Search</span>
+              <kbd className="kbd-shortcut hidden sm:inline-block">⌘K</kbd>
             </button>
 
             {/* Saved Items */}
             <button
-              className={`saved-nav-btn ${isActive('saved') ? 'active' : ''}`}
+              className={`saved-nav-btn w-9 h-9 sm:w-auto p-0 sm:px-2.5 flex items-center justify-center ${isActive('saved') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'saved' })}
               aria-label={`Saved collection (${savedItems.length} items)`}
               title="View Saved Specimens"
             >
-              <Bookmark size={14} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
-              <span className="saved-nav-text">Saved</span>
+              <Bookmark size={15} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
+              <span className="saved-nav-text hidden sm:inline text-xs">Saved</span>
               {savedItems.length > 0 && (
                 <span className="saved-count-badge">{savedItems.length}</span>
               )}
@@ -262,23 +262,23 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             {/* Compact Geometric Theme Toggle */}
             <button
               onClick={cycleTheme}
-              className="theme-toggle-btn"
+              className="theme-toggle-btn w-9 h-9 sm:w-auto p-0 sm:px-2.5 flex items-center justify-center"
               title={`Active Theme: ${theme.toUpperCase()} (Click to toggle Light / Dark / System)`}
               aria-label={`Current Theme: ${theme}. Click to switch theme.`}
             >
               {theme === 'system' ? (
-                <Monitor size={14} />
+                <Monitor size={15} />
               ) : resolvedTheme === 'dark' ? (
-                <Moon size={14} />
+                <Moon size={15} />
               ) : (
-                <Sun size={14} color="#E9C46A" />
+                <Sun size={15} color="#E9C46A" />
               )}
-              <span className="theme-name-text">{theme}</span>
+              <span className="theme-name-text hidden sm:inline">{theme}</span>
             </button>
 
             {/* Mobile Navigation Toggle */}
             <button
-              className="mobile-menu-toggle"
+              className="mobile-menu-toggle w-9 h-9 flex items-center justify-center p-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle navigation menu"
               aria-expanded={mobileOpen}

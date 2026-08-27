@@ -122,31 +122,29 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
   ).slice(0, 2);
 
   return (
-    <div className="detail-container">
-      {/* Navigation Breadcrumb & Share */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      {/* Navigation Breadcrumb & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button
-          className="detail-back-btn"
+          className="detail-back-btn w-fit inline-flex items-center gap-2"
           onClick={() => onNavigate({ path: 'gradients' })}
         >
           <ArrowLeft size={16} />
           <span>Back to Gradients Library</span>
         </button>
 
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
-            className="btn-secondary"
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
             onClick={handleShare}
-            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
             title="Share Gradient URL"
           >
             <Share2 size={13} />
             <span>Share</span>
           </button>
           <button
-            className="btn-secondary"
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
             onClick={handleToggleSave}
-            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
           >
             <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
             <span>{saved ? 'Saved' : 'Save'}</span>
@@ -155,46 +153,18 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
       </div>
 
       {/* Hero Gradient Stage */}
-      <section className="detail-hero-specimen">
+      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
         <div
-          style={{
-            height: '320px',
-            background: computedCss,
-            padding: '32px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative',
-          }}
+          className="h-60 sm:h-80 p-5 sm:p-8 flex flex-col justify-between relative shadow-inner"
+          style={{ background: computedCss }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.75rem',
-                color: '#FFFFFF',
-                background: 'rgba(0,0,0,0.5)',
-                padding: '3px 8px',
-                borderRadius: '3px',
-                textTransform: 'uppercase',
-              }}
-            >
-              {baseGradient.type.toUpperCase()} • {angle}° ANGLE
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-mono text-[10px] sm:text-xs text-white bg-black/50 px-2 py-0.5 rounded-xs uppercase tracking-wider font-semibold shadow-sm truncate">
+              {baseGradient.type.toUpperCase()} • {baseGradient.stops.length} STOPS • {angle}°
             </span>
             <button
               onClick={handleCopyCss}
-              style={{
-                background: 'rgba(0,0,0,0.5)',
-                color: '#FFFFFF',
-                padding: '6px 12px',
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                fontFamily: 'var(--font-mono)',
-              }}
+              className="bg-black/50 hover:bg-black/70 text-white px-3 py-1.5 rounded-xs flex items-center gap-1.5 text-xs font-bold font-mono shadow-sm transition-colors whitespace-nowrap"
             >
               <Copy size={12} />
               <span>COPY CSS</span>

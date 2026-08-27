@@ -168,31 +168,29 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
   ).slice(0, 2);
 
   return (
-    <div className="detail-container">
-      {/* Navigation Breadcrumb & Share */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      {/* Navigation Breadcrumb & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button
-          className="detail-back-btn"
+          className="detail-back-btn w-fit inline-flex items-center gap-2"
           onClick={() => onNavigate({ path: 'palettes' })}
         >
           <ArrowLeft size={16} />
           <span>Back to Palettes Catalog</span>
         </button>
 
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
-            className="btn-secondary"
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
             onClick={handleShare}
-            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
             title="Share Palette URL"
           >
             <Share2 size={13} />
             <span>Share</span>
           </button>
           <button
-            className="btn-secondary"
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
             onClick={handleToggleSave}
-            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
           >
             <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
             <span>{saved ? 'Saved' : 'Save'}</span>
@@ -201,60 +199,25 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       </div>
 
       {/* Palette Hero Swatch Banner */}
-      <section className="detail-hero-specimen">
-        <div style={{ height: '240px', display: 'flex', width: '100%' }}>
+      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
+        <div className="h-44 sm:h-60 flex w-full">
           {palette.colors.map((c, idx) => (
             <div
               key={idx}
-              style={{
-                backgroundColor: c.hex,
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: '16px',
-                cursor: 'pointer',
-                transition: 'flex 200ms ease',
-              }}
+              style={{ backgroundColor: c.hex }}
+              className="flex-1 flex flex-col justify-between p-2.5 sm:p-4 cursor-pointer transition-all duration-200 min-w-0"
               onClick={() => handleCopySingleHex(c.hex, c.name)}
               title={`Click to copy ${c.name} (${c.hex})`}
             >
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
-                  color: '#FFFFFF',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                  background: 'rgba(0,0,0,0.45)',
-                  padding: '2px 6px',
-                  borderRadius: '2px',
-                  width: 'fit-content',
-                }}
-              >
+              <span className="font-mono text-[9px] sm:text-[11px] font-semibold text-white bg-black/45 px-1.5 py-0.5 rounded-xs w-fit shadow-sm">
                 0{idx + 1}
               </span>
 
-              <div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.88rem',
-                    fontWeight: 700,
-                    color: '#FFFFFF',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                  }}
-                >
+              <div className="min-w-0 overflow-hidden">
+                <div className="font-mono text-[11px] sm:text-sm font-bold text-white drop-shadow-md truncate">
                   {c.hex}
                 </div>
-                <div
-                  style={{
-                    fontSize: '0.78rem',
-                    color: '#FFFFFF',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                    opacity: 0.9,
-                  }}
-                >
+                <div className="text-[10px] sm:text-xs text-white drop-shadow-md opacity-95 truncate hidden xs:block">
                   {c.name}
                 </div>
               </div>
@@ -264,80 +227,76 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       </section>
 
       {/* Palette Header & Meta */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
-          <span className="page-category-label">
+          <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
             {palette.category.toUpperCase()} SYSTEM • {palette.colors.length} TONAL SPECIMENS
           </span>
-          <h1 className="page-title">{palette.title}</h1>
-          <p className="page-description">{palette.description}</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
+            {palette.title}
+          </h1>
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
+            {palette.description}
+          </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button className="btn-primary" onClick={handleCopyExportCode}>
-            <Copy size={15} />
+        <div className="flex gap-2.5 flex-shrink-0">
+          <button
+            className="btn-primary w-full sm:w-auto text-xs px-4 py-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap"
+            onClick={handleCopyExportCode}
+          >
+            <Copy size={14} />
             <span>Copy Palette Tokens</span>
           </button>
         </div>
       </div>
 
       {/* Swatch Breakdown Cards with Direct Navigation to Color Specimen */}
-      <section>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '14px' }}>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+      <section className="flex flex-col gap-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
             Swatches &amp; Architectural Roles
           </h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
+          <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase">
             CLICK COLOR TO EXPLORE OR COPY
           </span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
           {palette.colors.map((c, idx) => {
             const slug = findMatchingColorSlug(c.hex);
             return (
               <div
                 key={idx}
-                className="detail-spec-card"
-                style={{ position: 'relative' }}
+                className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm transition-all"
               >
                 <div
-                  style={{
-                    height: '80px',
-                    backgroundColor: c.hex,
-                    borderRadius: '3px',
-                    border: '1px solid var(--border-subtle)',
-                    marginBottom: '8px',
-                    cursor: 'pointer',
-                  }}
+                  className="h-20 rounded-xs border border-[var(--border-subtle)] mb-2.5 cursor-pointer shadow-inner"
+                  style={{ backgroundColor: c.hex }}
                   onClick={() => handleCopySingleHex(c.hex, c.name)}
+                  title="Click to copy HEX"
                 />
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <span style={{ fontWeight: 700, fontSize: '0.92rem' }}>{c.name}</span>
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="font-bold text-xs sm:text-sm text-[var(--text-primary)] truncate">
+                    {c.name}
+                  </span>
                   <button
                     onClick={() => handleCopySingleHex(c.hex, c.name)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}
+                    className="font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold flex-shrink-0"
                   >
                     {c.hex}
                   </button>
                 </div>
                 {c.role && (
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-tertiary)', marginTop: '2px' }}>
+                  <div className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase mt-0.5 truncate">
                     ROLE: {c.role}
                   </div>
                 )}
                 {slug && (
-                  <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px solid var(--border-subtle)' }}>
+                  <div className="mt-2 pt-2 border-t border-[var(--border-subtle)]">
                     <button
                       onClick={() => onNavigate({ path: 'color-detail', slug })}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.72rem',
-                        fontFamily: 'var(--font-mono)',
-                        color: 'var(--text-secondary)',
-                      }}
+                      className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-gold)] hover:underline"
                     >
                       <span>View Color Specimen</span>
                       <ExternalLink size={10} />
@@ -351,101 +310,76 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       </section>
 
       {/* Live Specimen UI Proof */}
-      <section className="contrast-assessment-box">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <section className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
               Live Specimen UI Proof
             </h2>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
               Demonstrating surface hierarchy, typographic contrast, and deliberate accent placement.
             </p>
           </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
+          <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold self-start sm:self-auto">
             SYSTEM APPLICATION
           </span>
         </div>
 
         {/* Mock UI Card using the palette's actual colors */}
         <div
+          className="rounded-md p-5 sm:p-8 border flex flex-col gap-4 sm:gap-5 shadow-lg"
           style={{
             backgroundColor: palette.colors[0]?.hex || '#111215',
             color: '#FFFFFF',
-            borderRadius: '6px',
-            padding: '32px',
-            border: '1px solid var(--border-strong)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
+            borderColor: 'var(--border-strong)',
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="flex items-center justify-between gap-2">
             <span
+              className="font-mono text-[10px] font-bold px-2.5 py-1 rounded-xs uppercase tracking-wider shadow-sm"
               style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
                 backgroundColor: palette.colors[1]?.hex || '#E63946',
                 color: '#FFFFFF',
-                padding: '3px 8px',
-                borderRadius: '3px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
               }}
             >
               ACTIVE GAMUT
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', opacity: 0.7 }}>
+            <span className="font-mono text-[11px] font-bold opacity-80 truncate">
               {palette.title.toUpperCase()}
             </span>
           </div>
 
           <div>
             <h3
-              style={{
-                fontSize: '1.8rem',
-                fontWeight: 800,
-                color: palette.colors[3]?.hex || '#FFFFFF',
-                letterSpacing: '-0.02em',
-                marginBottom: '8px',
-              }}
+              className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight mb-2"
+              style={{ color: palette.colors[3]?.hex || '#FFFFFF' }}
             >
               Architectural Clarity &amp; Chromatic Balance
             </h3>
             <p
-              style={{
-                fontSize: '0.95rem',
-                color: palette.colors[2]?.hex || '#8D99AE',
-                maxWidth: '560px',
-                lineHeight: 1.6,
-              }}
+              className="text-xs sm:text-sm leading-relaxed max-w-xl"
+              style={{ color: palette.colors[2]?.hex || '#8D99AE' }}
             >
               Every tone serves an ergonomic purpose. Surfaces support scanning; accents command focus without friction.
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mt-1">
             <button
+              className="px-5 py-2.5 rounded-xs font-bold text-xs uppercase tracking-wider shadow-md w-full sm:w-auto text-center whitespace-nowrap"
               style={{
                 backgroundColor: palette.colors[1]?.hex || '#E63946',
                 color: '#FFFFFF',
-                padding: '10px 18px',
-                borderRadius: '3px',
-                fontWeight: 700,
-                fontSize: '0.85rem',
-                textTransform: 'uppercase',
               }}
             >
               Primary Action
             </button>
             <button
+              className="px-5 py-2.5 rounded-xs font-semibold text-xs border w-full sm:w-auto text-center whitespace-nowrap"
               style={{
                 backgroundColor: 'transparent',
                 color: palette.colors[3]?.hex || '#FFFFFF',
-                border: `1px solid ${palette.colors[2]?.hex || 'rgba(255,255,255,0.2)'}`,
-                padding: '10px 18px',
-                borderRadius: '3px',
-                fontWeight: 600,
-                fontSize: '0.85rem',
+                borderColor: palette.colors[2]?.hex || 'rgba(255,255,255,0.2)',
               }}
             >
               Secondary Outline
@@ -455,38 +389,38 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       </section>
 
       {/* Code Export Tokens */}
-      <section className="contrast-assessment-box">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <section className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
               Export Tokens for Design &amp; Code
             </h2>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
               Formatted for instant drop-in into CSS, Tailwind, or design tokens.
             </p>
           </div>
 
-          <div className="filter-pills">
+          <div className="filter-pills flex flex-wrap gap-1.5 self-start sm:self-auto">
             <button
-              className={`filter-pill ${exportMode === 'css' ? 'active' : ''}`}
+              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'css' ? 'active' : ''}`}
               onClick={() => setExportMode('css')}
             >
               CSS Variables
             </button>
             <button
-              className={`filter-pill ${exportMode === 'hex' ? 'active' : ''}`}
+              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'hex' ? 'active' : ''}`}
               onClick={() => setExportMode('hex')}
             >
               HEX List
             </button>
             <button
-              className={`filter-pill ${exportMode === 'tailwind' ? 'active' : ''}`}
+              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'tailwind' ? 'active' : ''}`}
               onClick={() => setExportMode('tailwind')}
             >
               Tailwind
             </button>
             <button
-              className={`filter-pill ${exportMode === 'json' ? 'active' : ''}`}
+              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'json' ? 'active' : ''}`}
               onClick={() => setExportMode('json')}
             >
               JSON

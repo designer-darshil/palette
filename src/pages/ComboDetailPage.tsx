@@ -130,31 +130,29 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
     .slice(0, 2);
 
   return (
-    <div className="detail-container">
-      {/* Navigation Breadcrumb & Share */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      {/* Navigation Breadcrumb & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button
-          className="detail-back-btn"
+          className="detail-back-btn w-fit inline-flex items-center gap-2"
           onClick={() => onNavigate({ path: 'combos' })}
         >
           <ArrowLeft size={16} />
           <span>Back to Combos Library</span>
         </button>
 
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
-            className="btn-secondary"
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
             onClick={handleShare}
-            style={{ padding: '6px 12px', fontSize: '0.78rem', whiteSpace: 'nowrap' }}
             title="Share Combo URL"
           >
             <Share2 size={13} />
             <span>Share</span>
           </button>
           <button
-            className="btn-secondary"
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
             onClick={handleToggleSave}
-            style={{ padding: '6px 12px', fontSize: '0.78rem', whiteSpace: 'nowrap' }}
           >
             <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
             <span>{saved ? 'Saved' : 'Save'}</span>
@@ -163,38 +161,16 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
       </div>
 
       {/* Hero Hierarchy Stage — High Impact 2-Color Specimen Showcase */}
-      <section className="detail-hero-specimen" style={{ overflow: 'hidden', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-        <div style={{ minHeight: '260px', display: 'flex', width: '100%', flexDirection: 'row', flexWrap: 'wrap' }}>
+      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
+        <div className="min-h-[260px] flex flex-col sm:flex-row w-full">
           {/* Focal Color 1 */}
           <div
-            style={{
-              backgroundColor: focal1.hex,
-              flex: '1 1 240px',
-              minHeight: '160px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              padding: '24px',
-              cursor: 'pointer',
-            }}
+            className="flex-1 min-h-[150px] sm:min-h-[220px] flex flex-col justify-between p-5 sm:p-7 cursor-pointer"
+            style={{ backgroundColor: focal1.hex }}
             onClick={() => handleCopySingleHex(focal1.hex, focal1.name)}
             title={`Click to copy ${focal1.name} (${focal1.hex})`}
           >
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                color: '#FFFFFF',
-                textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                background: 'rgba(0,0,0,0.45)',
-                padding: '3px 8px',
-                borderRadius: '3px',
-                width: 'fit-content',
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-              }}
-            >
+            <span className="font-mono text-[10px] sm:text-xs font-bold text-white bg-black/45 px-2 py-0.5 rounded-xs w-fit uppercase tracking-wider shadow-sm">
               {focal1.role || 'Primary / Dominant'}
             </span>
 

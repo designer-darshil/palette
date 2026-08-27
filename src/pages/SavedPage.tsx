@@ -45,25 +45,32 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="saved-page">
+    <div className="saved-page w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
       <header className="page-header">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div>
-            <span className="page-category-label">Curator Workspace</span>
-            <h1 className="page-title">Saved Color Specimens ({savedItems.length})</h1>
-            <p className="page-description">
+            <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
+              Curator Workspace
+            </span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
+              Saved Color Specimens ({savedItems.length})
+            </h1>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
               Your personal library of bookmarked colors, palette systems, harmonies, and gradient tokens.
             </p>
           </div>
 
           {savedItems.length > 0 && (
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button className="btn-secondary" onClick={handleExportJson}>
+            <div className="flex items-center gap-2.5 self-start sm:self-auto flex-wrap">
+              <button
+                className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center gap-1.5 whitespace-nowrap"
+                onClick={handleExportJson}
+              >
                 <Download size={14} />
                 <span>Export JSON</span>
               </button>
               <button
-                className="btn-secondary"
+                className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center gap-1.5 whitespace-nowrap"
                 onClick={() => {
                   if (window.confirm('Clear all saved items?')) {
                     clearAll();
@@ -81,42 +88,32 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
       </header>
 
       {savedItems.length === 0 ? (
-        <div
-          style={{
-            padding: '80px 24px',
-            textAlign: 'center',
-            background: 'var(--bg-surface-1)',
-            borderRadius: 'var(--radius-md)',
-            border: '1px solid var(--border-subtle)',
-            maxWidth: '600px',
-            margin: '40px auto',
-          }}
-        >
-          <Bookmark size={36} color="#606675" style={{ marginBottom: '16px' }} />
-          <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '8px' }}>
+        <div className="p-8 sm:p-14 text-center bg-[var(--bg-surface-1)] rounded-md border border-[var(--border-subtle)] max-w-xl mx-auto my-6 flex flex-col items-center">
+          <Bookmark size={40} className="text-[var(--text-tertiary)] mb-4" />
+          <h2 className="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">
             No Saved Specimens Yet
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '24px', lineHeight: 1.6 }}>
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mb-6 leading-relaxed max-w-md">
             Click the bookmark icon on any color card, palette system, harmony combo, or gradient to save it here for fast reference and export.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
-            <button className="btn-primary" onClick={() => onNavigate({ path: 'colors' })}>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center">
+            <button
+              className="btn-primary text-xs px-5 py-2.5 inline-flex items-center justify-center gap-2 w-full sm:w-auto whitespace-nowrap"
+              onClick={() => onNavigate({ path: 'colors' })}
+            >
               <span>Explore Colors</span>
               <ArrowRight size={14} />
             </button>
-            <button className="btn-secondary" onClick={() => onNavigate({ path: 'palettes' })}>
+            <button
+              className="btn-secondary text-xs px-5 py-2.5 inline-flex items-center justify-center w-full sm:w-auto whitespace-nowrap"
+              onClick={() => onNavigate({ path: 'palettes' })}
+            >
               <span>Explore Palettes</span>
             </button>
           </div>
         </div>
       ) : (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-            gap: '20px',
-          }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {savedItems.map((item) => (
             <div
               key={item.id}

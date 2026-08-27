@@ -13,6 +13,10 @@ import { ComboDetailPage } from './pages/ComboDetailPage';
 import { GradientsPage } from './pages/GradientsPage';
 import { GradientDetailPage } from './pages/GradientDetailPage';
 import { SavedPage } from './pages/SavedPage';
+import { CURATED_COLORS } from './data/colors';
+import { CURATED_PALETTES } from './data/palettes';
+import { CURATED_COMBOS } from './data/combos';
+import { CURATED_GRADIENTS } from './data/gradients';
 
 function parseUrlToRoute(): RouteType {
   const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
@@ -38,6 +42,20 @@ function parseUrlToRoute(): RouteType {
   if (segments[0] === 'saved') {
     return { path: 'saved' };
   }
+
+  // Direct slug support (e.g. /terracotta-cyan-split or /celestial-cobalt)
+  const singleSlug = segments[0];
+  const colorMatch = CURATED_COLORS.find((c) => c.slug === singleSlug);
+  if (colorMatch) return { path: 'color-detail', slug: colorMatch.slug };
+
+  const comboMatch = CURATED_COMBOS.find((cb) => cb.slug === singleSlug);
+  if (comboMatch) return { path: 'combo-detail', slug: comboMatch.slug };
+
+  const paletteMatch = CURATED_PALETTES.find((p) => p.slug === singleSlug);
+  if (paletteMatch) return { path: 'palette-detail', slug: paletteMatch.slug };
+
+  const gradientMatch = CURATED_GRADIENTS.find((g) => g.slug === singleSlug);
+  if (gradientMatch) return { path: 'gradient-detail', slug: gradientMatch.slug };
 
   return { path: 'home' };
 }

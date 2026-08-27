@@ -15,6 +15,7 @@ import { GradientDetailPage } from './pages/GradientDetailPage';
 import { LiveColorsPage } from './pages/LiveColorsPage';
 import { SavedPage } from './pages/SavedPage';
 import { MobilePaletteGeneratorPage } from './pages/MobilePaletteGeneratorPage';
+import { ContrastCheckerPage } from './pages/ContrastCheckerPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminHubPage } from './pages/admin/AdminHubPage';
 import { CURATED_COLORS } from './data/colors';
@@ -31,6 +32,12 @@ function parseUrlToRoute(): RouteType {
     const params = new URLSearchParams(window.location.search);
     const colors = params.get('colors') || undefined;
     return { path: 'palette-generator', colors };
+  }
+  if (segments[0] === 'contrast-checker' || segments[0] === 'contrast') {
+    const params = new URLSearchParams(window.location.search);
+    const fg = params.get('fg') || params.get('foreground') || undefined;
+    const bg = params.get('bg') || params.get('background') || undefined;
+    return { path: 'contrast-checker', fg, bg };
   }
   if (segments[0] === 'colors') {
     if (segments[1]) {
@@ -117,6 +124,14 @@ function routeToUrl(route: RouteType): string {
       return '/live';
     case 'palette-generator':
       return route.colors ? `/palette-generator?colors=${route.colors}` : '/palette-generator';
+    case 'contrast-checker':
+      {
+        const params = new URLSearchParams();
+        if (route.fg) params.set('fg', route.fg.replace('#', ''));
+        if (route.bg) params.set('bg', route.bg.replace('#', ''));
+        const qs = params.toString();
+        return qs ? `/contrast-checker?${qs}` : '/contrast-checker';
+      }
     case 'admin':
       return route.tab ? `/admin/${route.tab}` : '/admin';
     case 'saved':
@@ -185,6 +200,9 @@ export const App: React.FC = () => {
       case 'palette-generator':
         document.title = 'Mobile Palette Generator | Fast Touch-First Harmonies | KROMA';
         break;
+      case 'contrast-checker':
+        document.title = 'WCAG Color Contrast Checker & Accessibility Engine | KROMA';
+        break;
       case 'admin':
         document.title = 'Editorial CMS & Library Control | KROMA Admin';
         break;
@@ -228,6 +246,14 @@ export const App: React.FC = () => {
         return (
           <MobilePaletteGeneratorPage
             initialColorsQuery={currentRoute.colors}
+            onNavigate={handleNavigate}
+          />
+        );
+      case 'contrast-checker':
+        return (
+          <ContrastCheckerPage
+            initialFg={currentRoute.fg}
+            initialBg={currentRoute.bg}
             onNavigate={handleNavigate}
           />
         );

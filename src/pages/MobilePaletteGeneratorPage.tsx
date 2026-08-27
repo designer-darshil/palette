@@ -287,6 +287,14 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
             <Share2 size={14} />
           </button>
           <button
+            className="generator-action-btn"
+            onClick={() => onNavigate({ path: 'contrast-checker', fg: colors[1]?.hex || colors[0]?.hex, bg: colors[0]?.hex })}
+            title="Check Contrast in WCAG Accessibility Checker"
+            aria-label="Check contrast"
+          >
+            <ShieldCheck size={14} color="#3B82F6" />
+          </button>
+          <button
             className="generator-action-btn primary"
             onClick={handleSavePalette}
             title="Save Palette"

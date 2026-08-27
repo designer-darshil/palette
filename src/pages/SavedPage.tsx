@@ -4,6 +4,8 @@ import { RouteType } from '../types';
 import { useSaved, SavedItem } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
 import { copyToClipboard } from '../utils/colorUtils';
+import { SEOHead } from '../components/seo/SEOHead';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 interface SavedPageProps {
   onNavigate: (route: RouteType) => void;
@@ -46,6 +48,22 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="saved-page w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      <SEOHead
+        title="Saved Color Specimens | Curator Workspace"
+        description="Your personal library of bookmarked colors, palette systems, harmonies, and gradient tokens."
+        canonicalPath="/saved"
+        noindex={true}
+        nofollow={true}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Saved Library', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       <header className="page-header">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div>

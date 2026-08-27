@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ArrowLeft, Copy, Bookmark, Share2, Check, ShieldCheck, ArrowRight, Sparkles, Layers, Wand2 } from 'lucide-react';
+import { ArrowLeft, Copy, Bookmark, Share2, Check, ShieldCheck, ArrowRight, Sparkles, Layers, Wand2, Search } from 'lucide-react';
 import { RouteType, ColorItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard, calculateHarmonies, assessPracticalUi, getContrastRating } from '../utils/colorUtils';
@@ -12,6 +12,11 @@ import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
 import { NotFoundPage } from './NotFoundPage';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateColorSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface ColorDetailPageProps {
   slug: string;
@@ -59,9 +64,14 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
   const calculatedHarmonies = calculateHarmonies(color.hex);
   const practicalUi = assessPracticalUi(color.hex);
 
+  const colorSchema = useMemo(() => {
+    return generateColorSchema(color);
+  }, [color]);
+
   const handleCopyValue = async (value: string, format: string) => {
     const success = await copyToClipboard(value);
     if (success) {
+      Analytics.trackColorCopy(value, format, color.name);
       showToast(`Copied ${format}`, color.name, value);
     }
   };
@@ -83,6 +93,9 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       preview: color.hex,
       metadata: `${color.family} • ${color.hex}`,
     });
+    if (!saved) {
+      Analytics.trackSpecimenSave('color', color.id, color.name);
+    }
     showToast(
       saved ? 'Removed from saved' : 'Saved to specimen library',
       color.name,
@@ -122,17 +135,54 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
 
   return (
     <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      <SEOHead
+        title={`${color.name} — ${color.hex} | ${color.family.toUpperCase()} Color Specimen`}
+        description={`${color.description} Calibrated color specimen values: HEX ${color.hex}, ${color.rgb}, ${color.hsl}, OKLCH ${color.oklch}. Contrast with White: ${color.contrastWithWhite}:1.`}
+        canonicalPath={`/colors/${color.slug}`}
+        jsonLd={colorSchema}
+        keywords={[color.name, color.hex, color.family, color.hueGroup, ...color.tags]}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Colors', to: { path: 'colors' } },
+          { label: color.family.toUpperCase(), to: `/colors?family=${color.family}` },
+          { label: color.name, isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Navigation Breadcrumbs & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <button
+        <Link
+          to={{ path: 'colors' }}
+          onNavigate={onNavigate}
           className="detail-back-btn w-fit inline-flex items-center gap-2"
-          onClick={() => onNavigate({ path: 'colors' })}
         >
           <ArrowLeft size={16} />
           <span>Back to Colors Library</span>
-        </button>
+        </Link>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          <Link
+            to={{ path: 'contrast-checker', fg: color.hex.replace('#', ''), bg: 'FFFFFF' }}
+            onNavigate={onNavigate}
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
+            title={`Test ${color.name} in Contrast Checker`}
+          >
+            <ShieldCheck size={13} className="text-blue-400" />
+            <span>Check Contrast</span>
+          </Link>
+          <Link
+            to={{ path: 'palette-generator', colors: color.hex.replace('#', '') }}
+            onNavigate={onNavigate}
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
+            title={`Generate Palette from ${color.name}`}
+          >
+            <Sparkles size={13} className="text-amber-400" />
+            <span>Gen Palette</span>
+          </Link>
           <button
             className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
             onClick={handleShare}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ShieldCheck, Lock, Mail, ArrowLeft, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { RouteType } from '../../types';
+import { SEOHead } from '../../components/seo/SEOHead';
 
 interface AdminLoginPageProps {
   onNavigatePublic: (route: RouteType) => void;
@@ -44,6 +45,13 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
         background: 'var(--bg-canvas)',
       }}
     >
+      <SEOHead
+        title="Admin Sign In | KROMA"
+        description="Administrative access authentication."
+        canonicalPath="/admin"
+        noindex={true}
+        nofollow={true}
+      />
       <div
         style={{
           width: '100%',

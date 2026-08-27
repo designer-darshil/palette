@@ -50,6 +50,11 @@ import {
   SemanticAuditRoleResult,
 } from '../utils/brandKitStorage';
 import { ColorPickerModal } from '../components/ColorPickerModal';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface BrandKitPageProps {
   initialId?: string;
@@ -256,8 +261,35 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
   const primaryBtnText = brandKit.roles.buttonText;
   const cardBodyText = brandKit.roles.cardText || brandKit.roles.text;
 
+  const brandKitSchema = useMemo(() => {
+    return generateWebApplicationSchema({
+      name: 'Brand Kit Studio & Design System Generator',
+      description:
+        'Interactive design system builder and brand token exporter with real-time web, mobile app, and dashboard UI live preview testing.',
+      url: '/brand-kit',
+      applicationCategory: 'DesignApplication',
+    });
+  }, []);
+
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 flex flex-col gap-6 sm:gap-8 min-w-0">
+      <SEOHead
+        title="Brand Kit Studio & Design System Tokens | KROMA"
+        description="Build comprehensive mini design systems from color palettes with semantic role mapping, typography pairing, WCAG audit, and multi-surface UI previews."
+        canonicalPath="/brand-kit"
+        jsonLd={brandKitSchema}
+        keywords={['brand kit generator', 'design system tokens', 'brand color palette studio', 'UI color system creator']}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Tools', to: { path: 'palettes' } },
+          { label: 'Brand Kit Studio', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-[var(--border-subtle)]">
         <div>

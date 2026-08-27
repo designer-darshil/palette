@@ -35,6 +35,11 @@ import {
   ColorMatchResult,
 } from '../utils/colorNameFinder';
 import { createPaletteSlug } from '../utils/canonicalResourceUtils';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface ColorNameFinderPageProps {
   initialHex?: string;
@@ -199,10 +204,37 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
   const textColor = getTextColorForBackground(currentHex);
   const isDarkText = textColor === '#111111';
 
+  const finderSchema = useMemo(() => {
+    return generateWebApplicationSchema({
+      name: 'Color Name Finder & Perceptual Gamut Identifier',
+      description:
+        'Bidirectional color naming engine with perceptual delta-E distance matching across 2,200+ curated color names and full palette bulk identification.',
+      url: '/color-name-finder',
+      applicationCategory: 'DesignApplication',
+    });
+  }, []);
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col gap-8">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 flex flex-col gap-6 sm:gap-8 min-w-0">
+      <SEOHead
+        title="Color Name Finder & Perceptual Gamut Identifier | KROMA"
+        description="Identify color names from any HEX code with perceptual color distance algorithm (CIEDE2000), search colors by name, and inspect multi-color palettes."
+        canonicalPath="/color-name-finder"
+        jsonLd={finderSchema}
+        keywords={['color name finder', 'HEX color identifier', 'what color is this hex', 'color naming tool']}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Tools', to: { path: 'palettes' } },
+          { label: 'Color Name Finder', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Page Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[var(--border-subtle)]">
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-[var(--border-subtle)]">
         <div>
           <span className="font-mono text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
             PERCEPTUAL COLOR IDENTIFICATION ENGINE

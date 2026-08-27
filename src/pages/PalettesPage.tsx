@@ -3,6 +3,9 @@ import { RouteType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { PaletteCard } from '../components/PaletteCard';
 import { Search, Loader2 } from 'lucide-react';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateCollectionPageSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 interface PalettesPageProps {
   onNavigate: (route: RouteType) => void;
@@ -62,10 +65,10 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
     const observer = new IntersectionObserver(
       (entries) => {
         const first = entries[0];
-        if (first.isIntersecting && visibleCount < filteredPalettes.length && !isLoadingMore) {
+        if (first.isIntersecting && visibleCount < filteredColors.length && !isLoadingMore) {
           setIsLoadingMore(true);
           setTimeout(() => {
-            setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, filteredPalettes.length));
+            setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, filteredColors.length));
             setIsLoadingMore(false);
           }, 80);
         }
@@ -73,16 +76,45 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
       { rootMargin: '400px' }
     );
 
+    const filteredColors = filteredPalettes;
     observer.observe(target);
     return () => observer.disconnect();
-  }, [visibleCount, filteredPalettes.length, isLoadingMore]);
+  }, [visibleCount, filteredPalettes, isLoadingMore]);
 
   const displayedPalettes = useMemo(() => {
     return filteredPalettes.slice(0, visibleCount);
   }, [filteredPalettes, visibleCount]);
 
+  const collectionSchema = useMemo(() => {
+    return generateCollectionPageSchema({
+      name: 'Curated Palette Systems Catalogue',
+      description: `Modernist and architectural 5-tone color palette systems curated for UI/UX and identity systems.`,
+      url: '/palettes',
+      items: palettes.slice(0, 30).map((p) => ({
+        name: p.title,
+        url: `/palettes/${p.slug}`,
+        description: p.description,
+      })),
+    });
+  }, [palettes]);
+
   return (
     <div className="palettes-page">
+      <SEOHead
+        title="Curated Palette Systems | 5-Tone Design Harmonies"
+        description={`Explore ${palettes.length.toLocaleString()} modernist, architectural, and editorial color palettes curated with calibrated contrast and design token exports.`}
+        canonicalPath="/palettes"
+        jsonLd={collectionSchema}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Palettes', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       <header className="page-header">
         <span className="page-category-label">Digital Library • Section 02</span>
         <h1 className="page-title">Curated Palette Systems</h1>

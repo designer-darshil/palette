@@ -42,6 +42,9 @@ import {
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { Analytics } from '../utils/analytics';
 
 interface MobilePaletteGeneratorProps {
   initialColorsQuery?: string;
@@ -237,8 +240,26 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
   const activeColor = activeEditingIndex !== null ? colors[activeEditingIndex] : null;
 
+  const generatorSchema = React.useMemo(() => {
+    return generateWebApplicationSchema({
+      name: 'Mobile Color Palette Generator',
+      description:
+        'Touch-first color palette generator with harmonic constraints, individual swatch locking, OKLCH perception, and instant CSS token export.',
+      url: '/palette-generator',
+      applicationCategory: 'DesignApplication',
+    });
+  }, []);
+
   return (
     <div className="generator-page-container">
+      <SEOHead
+        title="Mobile Palette Generator | Fast Touch-First Harmonies"
+        description="Generate curated 5-tone color palette systems with harmonic locks, shade adjustments, and multi-format CSS, Tailwind, and JSON token exports."
+        canonicalPath="/palette-generator"
+        jsonLd={generatorSchema}
+        keywords={['color palette generator', 'palette creator', 'harmonic palette tool', 'design system color tokens']}
+      />
+
       {/* Top Header Bar */}
       <header className="generator-top-bar">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

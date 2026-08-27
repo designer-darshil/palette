@@ -1,0 +1,29 @@
+# Robots.txt for KROMA Digital Color Library (https://kroma.design)
+
+User-agent: *
+Allow: /
+Allow: /colors
+Allow: /colors/*
+Allow: /palettes
+Allow: /palettes/*
+Allow: /combos
+Allow: /combos/*
+Allow: /gradients
+Allow: /gradients/*
+Allow: /contrast-checker
+Allow: /palette-generator
+Allow: /color-name-finder
+Allow: /extract-from-image
+Allow: /brand-kit
+Allow: /palettes/live
+
+# Disallow admin CMS and private client workspace states
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /saved
+Disallow: /saved/
+Disallow: /404
+
+# Sitemap Location
+Sitemap: https://kroma.design/sitemap.xml

@@ -4,6 +4,8 @@ import { GradientItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
+import { Link } from './common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface GradientCardProps {
   gradient: GradientItem;
@@ -19,6 +21,7 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
     e.stopPropagation();
     const success = await copyToClipboard(`background: ${gradient.css};`);
     if (success) {
+      Analytics.trackColorCopy(gradient.css, 'CSS Gradient', gradient.title);
       showToast('Copied CSS Gradient', gradient.title, gradient.css);
     }
   };
@@ -42,6 +45,9 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
       preview: gradient.css,
       metadata: `${gradient.type} • ${gradient.category}`,
     });
+    if (!saved) {
+      Analytics.trackSpecimenSave('gradient', gradient.id, gradient.title);
+    }
     showToast(
       saved ? 'Removed gradient from saved' : 'Saved gradient to collection',
       gradient.title
@@ -88,12 +94,14 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
         </div>
 
         <h3 className="palette-card-title">
-          <button
-            onClick={() => onNavigate({ path: 'gradient-detail', slug: gradient.slug })}
-            style={{ textAlign: 'left' }}
+          <Link
+            to={{ path: 'gradient-detail', slug: gradient.slug }}
+            onNavigate={onNavigate}
+            style={{ textAlign: 'left', display: 'inline-block', color: 'inherit', textDecoration: 'none' }}
+            className="hover:underline"
           >
             {gradient.title}
-          </button>
+          </Link>
         </h3>
 
         <div className="palette-color-hex-list">

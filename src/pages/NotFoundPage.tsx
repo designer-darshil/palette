@@ -1,6 +1,8 @@
 import React from 'react';
 import { ArrowLeft, Palette, Layers, Wand2, Sparkles } from 'lucide-react';
 import { RouteType } from '../types';
+import { SEOHead } from '../components/seo/SEOHead';
+import { Link } from '../components/common/Link';
 
 interface NotFoundPageProps {
   requestedUrl?: string;
@@ -20,6 +22,14 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ requestedUrl, onNavi
         textAlign: 'center',
       }}
     >
+      <SEOHead
+        title="404 — Specimen Not Found | KROMA"
+        description="The requested color specimen, palette, harmony, or gradient does not exist in the curated catalog."
+        canonicalPath="/404"
+        noindex={true}
+        nofollow={true}
+      />
+
       <span
         style={{
           fontFamily: 'var(--font-mono)',
@@ -67,30 +77,34 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ requestedUrl, onNavi
       </p>
 
       <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-        <button
+        <Link
+          to={{ path: 'colors' }}
+          onNavigate={onNavigate}
           className="btn-primary"
-          onClick={() => onNavigate({ path: 'colors' })}
         >
           <Palette size={15} />
           <span>Browse Colors</span>
-        </button>
+        </Link>
 
-        <button
+        <Link
+          to={{ path: 'palettes' }}
+          onNavigate={onNavigate}
           className="btn-secondary"
-          onClick={() => onNavigate({ path: 'palettes' })}
         >
           <Layers size={15} />
           <span>Browse Palettes</span>
-        </button>
+        </Link>
 
-        <button
+        <Link
+          to={{ path: 'home' }}
+          onNavigate={onNavigate}
           className="btn-secondary"
-          onClick={() => onNavigate({ path: 'home' })}
         >
           <ArrowLeft size={15} />
           <span>Return Home</span>
-        </button>
+        </Link>
       </div>
     </div>
   );
 };
+

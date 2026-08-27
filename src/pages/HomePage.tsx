@@ -11,6 +11,10 @@ import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateWebSiteSchema } from '../utils/schemaGenerator';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface HomePageProps {
   onNavigate: (route: RouteType) => void;
@@ -22,12 +26,21 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const handleCopyQuick = async (hex: string, name: string) => {
     const success = await copyToClipboard(hex);
     if (success) {
+      Analytics.trackColorCopy(hex, 'HEX', name);
       showToast(`Copied ${hex}`, name, hex);
     }
   };
 
   return (
     <div className="home-container">
+      <SEOHead
+        rawTitle
+        title="KROMA — Digital Color Library & Design Specimen Reference"
+        description="A curated digital color library, modernist palette catalogue, WCAG AAA harmony combinations, and CSS gradient specimens for designers and digital architects."
+        canonicalPath="/"
+        jsonLd={generateWebSiteSchema()}
+      />
+
       {/* Hero Section */}
       <section className="hero-editorial">
         <div className="hero-editorial-grid">
@@ -47,21 +60,23 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </p>
 
             <div className="hero-actions">
-              <button
-                className="btn-primary"
-                onClick={() => onNavigate({ path: 'colors' })}
+              <Link
+                to={{ path: 'colors' }}
+                onNavigate={onNavigate}
+                className="btn-primary inline-flex items-center gap-2"
               >
                 <span>Explore Colors</span>
                 <ArrowRight size={16} />
-              </button>
+              </Link>
 
-              <button
-                className="btn-secondary"
-                onClick={() => onNavigate({ path: 'palettes' })}
+              <Link
+                to={{ path: 'palettes' }}
+                onNavigate={onNavigate}
+                className="btn-secondary inline-flex items-center gap-2"
               >
                 <span>Palette Systems</span>
                 <Layers size={16} />
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -155,14 +170,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <button
-            className="btn-primary"
-            onClick={() => onNavigate({ path: 'live' })}
+          <Link
+            to={{ path: 'live' }}
+            onNavigate={onNavigate}
+            className="btn-primary inline-flex items-center gap-1.5"
             style={{ padding: '10px 18px', fontSize: '0.82rem' }}
           >
             <span>Explore Live Colors</span>
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -175,14 +191,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Master Color Specimens
             </h2>
           </div>
-          <button
-            className="btn-secondary"
-            onClick={() => onNavigate({ path: 'colors' })}
+          <Link
+            to={{ path: 'colors' }}
+            onNavigate={onNavigate}
+            className="btn-secondary inline-flex items-center gap-1.5"
             style={{ padding: '8px 14px', fontSize: '0.8rem' }}
           >
             <span>View All Colors ({CURATED_COLORS.length})</span>
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
 
         <div className="specimen-grid-colors">
@@ -201,14 +218,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Modernist &amp; Earthen Palettes
             </h2>
           </div>
-          <button
-            className="btn-secondary"
-            onClick={() => onNavigate({ path: 'palettes' })}
+          <Link
+            to={{ path: 'palettes' }}
+            onNavigate={onNavigate}
+            className="btn-secondary inline-flex items-center gap-1.5"
             style={{ padding: '8px 14px', fontSize: '0.8rem' }}
           >
             <span>All Palettes ({CURATED_PALETTES.length})</span>
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
 
         <div className="specimen-grid-palettes">
@@ -227,14 +245,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Color Harmonies &amp; Combinations
             </h2>
           </div>
-          <button
-            className="btn-secondary"
-            onClick={() => onNavigate({ path: 'combos' })}
+          <Link
+            to={{ path: 'combos' }}
+            onNavigate={onNavigate}
+            className="btn-secondary inline-flex items-center gap-1.5"
             style={{ padding: '8px 14px', fontSize: '0.8rem' }}
           >
             <span>All Harmonies ({CURATED_COMBOS.length})</span>
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
 
         <div className="specimen-grid-combos">
@@ -253,14 +272,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Curated CSS Gradients
             </h2>
           </div>
-          <button
-            className="btn-secondary"
-            onClick={() => onNavigate({ path: 'gradients' })}
+          <Link
+            to={{ path: 'gradients' }}
+            onNavigate={onNavigate}
+            className="btn-secondary inline-flex items-center gap-1.5"
             style={{ padding: '8px 14px', fontSize: '0.8rem' }}
           >
             <span>All Gradients ({CURATED_GRADIENTS.length})</span>
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
 
         <div className="specimen-grid-gradients">

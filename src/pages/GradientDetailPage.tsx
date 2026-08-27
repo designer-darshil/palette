@@ -9,6 +9,11 @@ import { GradientCard } from '../components/GradientCard';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { NotFoundPage } from './NotFoundPage';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateGradientSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface GradientDetailPageProps {
   slug: string;
@@ -61,6 +66,10 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
 
   const saved = isSaved(baseGradient.id);
 
+  const gradientSchema = useMemo(() => {
+    return generateGradientSchema(baseGradient);
+  }, [baseGradient]);
+
   const computedCss =
     baseGradient.type === 'linear'
       ? `linear-gradient(${angle}deg, ${baseGradient.stops
@@ -71,6 +80,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
   const handleCopyCss = async () => {
     const success = await copyToClipboard(`background: ${computedCss};`);
     if (success) {
+      Analytics.trackColorCopy(computedCss, 'CSS Gradient', baseGradient.title);
       showToast('Copied CSS Gradient', baseGradient.title, computedCss);
     }
   };
@@ -78,6 +88,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
   const handleCopyStopHex = async (hex: string, name: string) => {
     const success = await copyToClipboard(hex);
     if (success) {
+      Analytics.trackColorCopy(hex, 'HEX', name);
       showToast(`Copied ${hex}`, name, hex);
     }
   };
@@ -98,6 +109,9 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
       preview: computedCss,
       metadata: `${baseGradient.type} • ${baseGradient.category}`,
     });
+    if (!saved) {
+      Analytics.trackSpecimenSave('gradient', baseGradient.id, baseGradient.title);
+    }
     showToast(
       saved ? 'Removed gradient from saved' : 'Saved gradient to collection',
       baseGradient.title
@@ -123,15 +137,33 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
 
   return (
     <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      <SEOHead
+        title={`${baseGradient.title} — ${baseGradient.category.toUpperCase()} CSS Gradient`}
+        description={`CSS gradient specimen ${baseGradient.title} featuring ${baseGradient.stops.length} color stops (${baseGradient.stops.map((s) => s.color).join(', ')}). Copy pure CSS background rule.`}
+        canonicalPath={`/gradients/${baseGradient.slug}`}
+        jsonLd={gradientSchema}
+        keywords={[baseGradient.title, baseGradient.category, ...baseGradient.tags, ...baseGradient.stops.map((s) => s.color)]}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Gradients', to: { path: 'gradients' } },
+          { label: baseGradient.title, isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Navigation Breadcrumb & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <button
+        <Link
+          to={{ path: 'gradients' }}
+          onNavigate={onNavigate}
           className="detail-back-btn w-fit inline-flex items-center gap-2"
-          onClick={() => onNavigate({ path: 'gradients' })}
         >
           <ArrowLeft size={16} />
           <span>Back to Gradients Library</span>
-        </button>
+        </Link>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button

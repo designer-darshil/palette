@@ -4,6 +4,8 @@ import { ComboItem, RouteType } from '../types';
 import { copyToClipboard, getComboKeyColors } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
+import { Link } from './common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface ComboCardProps {
   combo: ComboItem;
@@ -26,6 +28,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
     if (success) {
       setCopiedHex(hex);
       setTimeout(() => setCopiedHex(null), 1400);
+      Analytics.trackColorCopy(hex, 'HEX', name);
       showToast(`Copied ${hex}`, name, hex);
     }
   };
@@ -49,6 +52,9 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
       preview: `${color1.hex},${color2.hex}`,
       metadata: `${combo.harmonyType} • ${combo.contrastScore}`,
     });
+    if (!saved) {
+      Analytics.trackSpecimenSave('combo', combo.id, combo.title);
+    }
     showToast(
       saved ? 'Removed harmony from saved' : 'Saved harmony to collection',
       combo.title
@@ -57,10 +63,15 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
 
   return (
     <article
-      className="combo-specimen-card"
-      onClick={() => onNavigate({ path: 'combo-detail', slug: combo.slug })}
+      className="combo-specimen-card relative group"
       aria-label={`Color harmony combo: ${combo.title} (${color1.hex} and ${color2.hex})`}
     >
+      <Link
+        to={{ path: 'combo-detail', slug: combo.slug }}
+        onNavigate={onNavigate}
+        className="absolute inset-0 z-0 pointer-events-auto"
+        aria-label={`View ${combo.title} harmony details`}
+      />
       {/* Pure Two-Color Split Visual Hero — Zero Text Overlay */}
       <div className="combo-two-color-stage">
         <div

@@ -4,6 +4,8 @@ import { PaletteItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
+import { Link } from './common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface PaletteCardProps {
   palette: PaletteItem;
@@ -19,6 +21,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
     e.stopPropagation();
     const success = await copyToClipboard(hex);
     if (success) {
+      Analytics.trackColorCopy(hex, 'HEX', name);
       showToast(`Copied ${hex}`, name, hex);
     }
   };
@@ -28,6 +31,10 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
     const allHexes = palette.colors.map((c) => c.hex).join(', ');
     const success = await copyToClipboard(allHexes);
     if (success) {
+      Analytics.trackPaletteCopy(
+        palette.title,
+        palette.colors.map((c) => c.hex)
+      );
       showToast(`Copied all ${palette.colors.length} hex values`, palette.title);
     }
   };
@@ -51,6 +58,9 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
       preview: palette.colors.map((c) => c.hex).join(','),
       metadata: `${palette.category} • ${palette.colors.length} swatches`,
     });
+    if (!saved) {
+      Analytics.trackSpecimenSave('palette', palette.id, palette.title);
+    }
     showToast(
       saved ? 'Removed palette from saved' : 'Saved palette to collection',
       palette.title
@@ -89,12 +99,14 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
         </div>
 
         <h3 className="palette-card-title">
-          <button
-            onClick={() => onNavigate({ path: 'palette-detail', slug: palette.slug })}
-            style={{ textAlign: 'left' }}
+          <Link
+            to={{ path: 'palette-detail', slug: palette.slug }}
+            onNavigate={onNavigate}
+            style={{ textAlign: 'left', display: 'inline-block', color: 'inherit', textDecoration: 'none' }}
+            className="hover:underline"
           >
             {palette.title}
-          </button>
+          </Link>
         </h3>
 
         <p className="color-card-desc">{palette.description}</p>

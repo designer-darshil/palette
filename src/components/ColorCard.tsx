@@ -4,6 +4,8 @@ import { ColorItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
+import { Link } from './common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface ColorCardProps {
   color: ColorItem;
@@ -19,6 +21,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
     e.stopPropagation();
     const success = await copyToClipboard(color.hex);
     if (success) {
+      Analytics.trackColorCopy(color.hex, 'HEX', color.name);
       showToast(`Copied ${color.hex}`, color.name, color.hex);
     }
   };
@@ -42,6 +45,9 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
       preview: color.hex,
       metadata: `${color.family} • ${color.hex}`,
     });
+    if (!saved) {
+      Analytics.trackSpecimenSave('color', color.id, color.name);
+    }
     showToast(
       saved ? 'Removed from saved' : 'Saved to specimen library',
       color.name,
@@ -74,12 +80,14 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
       <div className="color-card-body">
         <div className="color-card-header">
           <h3 className="color-card-name">
-            <button
-              onClick={() => onNavigate({ path: 'color-detail', slug: color.slug })}
-              style={{ textAlign: 'left' }}
+            <Link
+              to={{ path: 'color-detail', slug: color.slug }}
+              onNavigate={onNavigate}
+              style={{ textAlign: 'left', display: 'inline-block', color: 'inherit', textDecoration: 'none' }}
+              className="hover:underline"
             >
               {color.name}
-            </button>
+            </Link>
           </h3>
 
           <button

@@ -3,6 +3,9 @@ import { RouteType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { GradientCard } from '../components/GradientCard';
 import { Search, Loader2 } from 'lucide-react';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateCollectionPageSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 interface GradientsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -80,8 +83,36 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
     return filteredGradients.slice(0, visibleCount);
   }, [filteredGradients, visibleCount]);
 
+  const collectionSchema = useMemo(() => {
+    return generateCollectionPageSchema({
+      name: 'Curated CSS Gradients Catalogue',
+      description: `Continuous color transitions engineered for clean browser rendering, editorial atmosphere, and digital backdrops.`,
+      url: '/gradients',
+      items: gradients.slice(0, 30).map((g) => ({
+        name: g.title,
+        url: `/gradients/${g.slug}`,
+        description: `CSS gradient with ${g.stops.length} color stops (${g.category}).`,
+      })),
+    });
+  }, [gradients]);
+
   return (
     <div className="gradients-page">
+      <SEOHead
+        title="CSS Gradients & Multi-Stop Spectra | KROMA"
+        description={`Explore ${gradients.length.toLocaleString()} smooth CSS gradients across sunset, atmospheric, holographic, and minimal spectrum categories with instant CSS copy.`}
+        canonicalPath="/gradients"
+        jsonLd={collectionSchema}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Gradients', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       <header className="page-header">
         <span className="page-category-label">Digital Library • Section 04</span>
         <h1 className="page-title">Curated CSS Gradients</h1>

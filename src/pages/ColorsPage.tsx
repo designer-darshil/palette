@@ -3,6 +3,9 @@ import { RouteType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { ColorCard } from '../components/ColorCard';
 import { Search, Loader2 } from 'lucide-react';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateCollectionPageSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 interface ColorsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -74,8 +77,36 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
     return filteredColors.slice(0, visibleCount);
   }, [filteredColors, visibleCount]);
 
+  const collectionSchema = useMemo(() => {
+    return generateCollectionPageSchema({
+      name: 'Curated Color Specimens Library',
+      description: `Comprehensive digital color library featuring ${colors.length} calibrated pigments with sRGB, HSL, and OKLCH color metrics.`,
+      url: '/colors',
+      items: colors.slice(0, 30).map((c) => ({
+        name: `${c.name} (${c.hex})`,
+        url: `/colors/${c.slug}`,
+        description: c.description,
+      })),
+    });
+  }, [colors]);
+
   return (
     <div className="colors-page">
+      <SEOHead
+        title="Color Specimens Library | 500+ Curated Gamuts"
+        description={`Explore KROMA's catalog of ${colors.length.toLocaleString()} calibrated digital color specimens across 16 spectrum families with OKLCH, sRGB, and WCAG contrast ratings.`}
+        canonicalPath="/colors"
+        jsonLd={collectionSchema}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Colors', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       <header className="page-header">
         <span className="page-category-label">Digital Library • Section 01</span>
         <h1 className="page-title">Curated Color Specimens</h1>

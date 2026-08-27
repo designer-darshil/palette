@@ -223,66 +223,6 @@ export const App: React.FC = () => {
     }
   };
 
-  // SEO & Head Title Management
-  useEffect(() => {
-    switch (currentRoute.path) {
-      case 'home':
-        document.title = 'KROMA — The Definitive Editorial Color & Palette Library';
-        break;
-      case 'colors':
-        document.title = 'Color Specimens Library | 500+ Curated Gamuts | KROMA';
-        break;
-      case 'color-detail':
-        document.title = `${currentRoute.slug.toUpperCase()} | Color Specimen | KROMA`;
-        break;
-      case 'palettes':
-        document.title = 'Curated Palette Systems | 5-Tone Design Harmonies | KROMA';
-        break;
-      case 'palette-detail':
-        document.title = `${currentRoute.slug.toUpperCase()} | Palette System | KROMA`;
-        break;
-      case 'combos':
-        document.title = 'Editorial Harmonies & Pairings | WCAG AAA Tested | KROMA';
-        break;
-      case 'combo-detail':
-        document.title = `${currentRoute.slug.toUpperCase()} | Color Harmony | KROMA`;
-        break;
-      case 'gradients':
-        document.title = 'CSS Gradients & Multi-Stop Spectra | KROMA';
-        break;
-      case 'gradient-detail':
-        document.title = `${currentRoute.slug.toUpperCase()} | Gradient Specimen | KROMA`;
-        break;
-      case 'live':
-        document.title = 'Real-Time Global Color Stream | KROMA Live';
-        break;
-      case 'palette-generator':
-        document.title = 'Mobile Palette Generator | Fast Touch-First Harmonies | KROMA';
-        break;
-      case 'contrast-checker':
-        document.title = 'WCAG Color Contrast Checker & Accessibility Engine | KROMA';
-        break;
-      case 'color-name-finder':
-        document.title = 'Color Name Finder & Perceptual Gamut Identifier | KROMA';
-        break;
-      case 'extract-from-image':
-        document.title = 'Extract Color Palette from Image | KROMA Spectrum';
-        break;
-      case 'brand-kit':
-        document.title = 'Brand Kit Studio & Design System Tokens | KROMA';
-        break;
-      case 'admin':
-        document.title = 'Editorial CMS & Library Control | KROMA Admin';
-        break;
-      case 'saved':
-        document.title = 'Saved Specimens | Curator Workspace | KROMA';
-        break;
-      case 'not-found':
-        document.title = '404 — Specimen Not Found | KROMA';
-        break;
-    }
-  }, [currentRoute]);
-
   // Admin route renders its own standalone layout
   if (currentRoute.path === 'admin') {
     return <AdminHubPage onNavigatePublic={handleNavigate} />;

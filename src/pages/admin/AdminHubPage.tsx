@@ -14,6 +14,7 @@ import { AdminImportPage } from './AdminImportPage';
 import { AdminValidationPage } from './AdminValidationPage';
 import { AdminSecurityPage } from './AdminSecurityPage';
 import { AdminUsersPage } from './AdminUsersPage';
+import { SEOHead } from '../../components/seo/SEOHead';
 
 interface AdminHubPageProps {
   onNavigatePublic: (route: RouteType) => void;
@@ -62,12 +63,22 @@ export const AdminHubPage: React.FC<AdminHubPageProps> = ({ onNavigatePublic }) 
   };
 
   return (
-    <AdminLayout
-      currentTab={currentTab}
-      onNavigateTab={setCurrentTab}
-      onNavigatePublic={onNavigatePublic}
-    >
-      {renderTabContent()}
-    </AdminLayout>
+    <>
+      <SEOHead
+        title="Admin Control Hub | KROMA"
+        description="Restricted administration center for curated library taxonomy and asset management."
+        canonicalPath="/admin"
+        noindex={true}
+        nofollow={true}
+      />
+      <AdminLayout
+        currentTab={currentTab}
+        onNavigateTab={setCurrentTab}
+        onNavigatePublic={onNavigatePublic}
+      >
+        {renderTabContent()}
+      </AdminLayout>
+    </>
   );
 };
+

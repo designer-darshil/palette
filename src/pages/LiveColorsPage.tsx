@@ -40,6 +40,11 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 import { ColorCard } from '../components/ColorCard';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
@@ -261,8 +266,35 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
     }
   };
 
+  const liveSchema = React.useMemo(() => {
+    return generateWebApplicationSchema({
+      name: 'Live Atmosphere Color Synthesizer',
+      description:
+        'Real-time chromatic synthesis engine rendering deterministic environmental color palettes from solar angles, atmospheric Rayleigh scatter, and weather conditions.',
+      url: '/palettes/live',
+      applicationCategory: 'DesignApplication',
+    });
+  }, []);
+
   return (
     <div className="live-page w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      <SEOHead
+        title="Live Atmosphere Colors | Real-Time Solar & Sky Palettes"
+        description="Real-time environmental color palettes synthesized from live solar elevation, Rayleigh scatter, geographic coordinates, and global meteorological conditions."
+        canonicalPath="/palettes/live"
+        jsonLd={liveSchema}
+        keywords={['live atmosphere colors', 'real time color generator', 'sky color palette', 'solar elevation color']}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Palettes', to: { path: 'palettes' } },
+          { label: 'Live Atmosphere', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Editorial Header */}
       <header className="page-header mb-0">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">

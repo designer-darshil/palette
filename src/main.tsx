@@ -6,7 +6,10 @@ import { SavedProvider } from './context/SavedContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { LibraryDataProvider } from './context/LibraryDataContext';
+import { initAnalytics } from './utils/analytics';
 import './index.css';
+
+initAnalytics();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

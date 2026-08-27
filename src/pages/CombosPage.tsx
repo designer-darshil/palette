@@ -3,6 +3,9 @@ import { RouteType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { ComboCard } from '../components/ComboCard';
 import { Search, Loader2 } from 'lucide-react';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateCollectionPageSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 interface CombosPageProps {
   onNavigate: (route: RouteType) => void;
@@ -81,8 +84,36 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
     return filteredCombos.slice(0, visibleCount);
   }, [filteredCombos, visibleCount]);
 
+  const collectionSchema = useMemo(() => {
+    return generateCollectionPageSchema({
+      name: 'Color Harmonies & Relational Combinations Catalogue',
+      description: `Curated relational color combinations tested for WCAG AAA contrast ratio and chromatic equilibrium.`,
+      url: '/combos',
+      items: combos.slice(0, 30).map((c) => ({
+        name: c.title,
+        url: `/combos/${c.slug}`,
+        description: c.description,
+      })),
+    });
+  }, [combos]);
+
   return (
     <div className="combos-page">
+      <SEOHead
+        title="Editorial Harmonies & Pairings | WCAG AAA Tested"
+        description={`Browse ${combos.length.toLocaleString()} calibrated color harmony pairings across complementary, analogous, triadic, and split relationships with contrast verification.`}
+        canonicalPath="/combos"
+        jsonLd={collectionSchema}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Combos', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       <header className="page-header">
         <span className="page-category-label">Digital Library • Section 03</span>
         <h1 className="page-title">Color Harmonies &amp; Combinations</h1>

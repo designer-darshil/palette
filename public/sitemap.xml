@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://kroma.design/sitemap-main.xml</loc>
+    <lastmod>2026-08-27</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://kroma.design/sitemap-colors.xml</loc>
+    <lastmod>2026-08-27</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://kroma.design/sitemap-palettes.xml</loc>
+    <lastmod>2026-08-27</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://kroma.design/sitemap-combos.xml</loc>
+    <lastmod>2026-08-27</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://kroma.design/sitemap-gradients.xml</loc>
+    <lastmod>2026-08-27</lastmod>
+  </sitemap>
+</sitemapindex>

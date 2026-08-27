@@ -35,6 +35,11 @@ import {
 } from '../utils/imageColorExtractor';
 import { createPaletteSlug } from '../utils/canonicalResourceUtils';
 import { findClosestColorName } from '../utils/paletteGenerator';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface ExtractFromImagePageProps {
   imagePreset?: string;
@@ -280,10 +285,37 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
     'Surface / Border',
   ];
 
+  const extractorSchema = React.useMemo(() => {
+    return generateWebApplicationSchema({
+      name: 'Extract Color Palette from Image',
+      description:
+        'Upload images to extract dominant color spectra, perceptual hues, semantic UI roles, and create reusable palettes.',
+      url: '/extract-from-image',
+      applicationCategory: 'DesignApplication',
+    });
+  }, []);
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col gap-8">
+    <div className="w-full max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col gap-6 sm:gap-8">
+      <SEOHead
+        title="Extract Color Palette from Image | KROMA Spectrum"
+        description="Extract dominant and harmonious color palettes from photographs and graphic assets with automatic semantic UI role mapping and instant token exports."
+        canonicalPath="/extract-from-image"
+        jsonLd={extractorSchema}
+        keywords={['extract color from image', 'image color palette generator', 'photo color picker', 'image hex extractor']}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Tools', to: { path: 'palettes' } },
+          { label: 'Extract from Image', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Page Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[var(--border-subtle)]">
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-[var(--border-subtle)]">
         <div>
           <span className="font-mono text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
             IMAGE CHROMATIC HARMONY ENGINE

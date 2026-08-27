@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ArrowLeft, Copy, Bookmark, Share2, ShieldCheck, ExternalLink, Check } from 'lucide-react';
+import { ArrowLeft, Copy, Bookmark, Share2, ShieldCheck, ExternalLink, Check, Sparkles } from 'lucide-react';
 import { RouteType, ComboItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard, getComboKeyColors } from '../utils/colorUtils';
@@ -10,6 +10,11 @@ import { PaletteCard } from '../components/PaletteCard';
 import { decodeComboFromSlugOrId } from '../utils/canonicalResourceUtils';
 import { findClosestColorName } from '../utils/paletteGenerator';
 import { NotFoundPage } from './NotFoundPage';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateComboSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface ComboDetailPageProps {
   slug: string;
@@ -73,9 +78,14 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
 
   const [focal1, focal2] = getComboKeyColors(combo.colors);
 
+  const comboSchema = useMemo(() => {
+    return generateComboSchema(combo);
+  }, [combo]);
+
   const handleCopySingleHex = async (hex: string, name: string) => {
     const success = await copyToClipboard(hex);
     if (success) {
+      Analytics.trackColorCopy(hex, 'HEX', name);
       showToast(`Copied ${hex}`, name, hex);
     }
   };
@@ -91,6 +101,10 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
     const all = combo.colors.map((c) => `${c.hex} /* ${c.name} - ${c.role} */`).join('\n');
     const success = await copyToClipboard(all);
     if (success) {
+      Analytics.trackPaletteCopy(
+        combo.title,
+        combo.colors.map((c) => c.hex)
+      );
       showToast(`Copied harmony tokens`, combo.title);
     }
   };
@@ -104,6 +118,9 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
       preview: `${focal1.hex},${focal2.hex}`,
       metadata: `${combo.harmonyType} • ${combo.contrastScore}`,
     });
+    if (!saved) {
+      Analytics.trackSpecimenSave('combo', combo.id, combo.title);
+    }
     showToast(
       saved ? 'Removed harmony from saved' : 'Saved harmony to collection',
       combo.title
@@ -131,17 +148,48 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
 
   return (
     <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      <SEOHead
+        title={`${combo.title} — ${combo.harmonyType} Color Pairing`}
+        description={`${combo.description} Chromatic pairing featuring ${combo.colors.map((c) => `${c.name} (${c.hex})`).join(' and ')} with ${combo.contrastScore} contrast ratio.`}
+        canonicalPath={`/combos/${combo.slug}`}
+        jsonLd={comboSchema}
+        keywords={[combo.title, combo.harmonyType, ...combo.tags, ...combo.colors.map((c) => c.name)]}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Combos', to: { path: 'combos' } },
+          { label: combo.title, isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Navigation Breadcrumb & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <button
+        <Link
+          to={{ path: 'combos' }}
+          onNavigate={onNavigate}
           className="detail-back-btn w-fit inline-flex items-center gap-2"
-          onClick={() => onNavigate({ path: 'combos' })}
         >
           <ArrowLeft size={16} />
           <span>Back to Combos Library</span>
-        </button>
+        </Link>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          <Link
+            to={{
+              path: 'contrast-checker',
+              fg: focal1.hex.replace('#', ''),
+              bg: focal2.hex.replace('#', ''),
+            }}
+            onNavigate={onNavigate}
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
+            title="Test pairing in Contrast Checker"
+          >
+            <ShieldCheck size={13} className="text-blue-400" />
+            <span>Test Contrast</span>
+          </Link>
           <button
             className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
             onClick={handleShare}

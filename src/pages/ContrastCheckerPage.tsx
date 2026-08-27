@@ -41,6 +41,10 @@ import {
   ContrastSuggestion,
 } from '../utils/contrastSuggestions';
 import { ColorPickerModal } from '../components/ColorPickerModal';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Analytics } from '../utils/analytics';
 
 interface ContrastCheckerPageProps {
   initialFg?: string;
@@ -242,8 +246,35 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
     else setBgHex(newHex);
   };
 
+  const contrastSchema = useMemo(() => {
+    return generateWebApplicationSchema({
+      name: 'WCAG Color Contrast Checker & Accessibility Engine',
+      description:
+        'Calculate precise WCAG 2.1 contrast ratios, verify AA/AAA compliance for normal and large text, and simulate color blindness vision impairments.',
+      url: '/contrast-checker',
+      applicationCategory: 'DesignApplication',
+    });
+  }, []);
+
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 flex flex-col gap-6 sm:gap-8 min-w-0">
+      <SEOHead
+        title="WCAG Color Contrast Checker & Accessibility Engine"
+        description="Verify WCAG 2.1 AA & AAA luminance contrast ratios for text, UI components, and graphical surfaces with instant automated color remediation."
+        canonicalPath="/contrast-checker"
+        jsonLd={contrastSchema}
+        keywords={['color contrast checker', 'WCAG contrast ratio', 'accessible color pairs', 'WCAG AAA color checker', 'contrast validator']}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Tools', to: { path: 'palettes' } },
+          { label: 'Contrast Checker', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Page Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-[var(--border-subtle)]">
         <div>

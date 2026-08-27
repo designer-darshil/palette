@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteType } from '../types';
+import { Link } from './common/Link';
 
 interface FooterProps {
   onNavigate: (route: RouteType) => void;
@@ -29,19 +30,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="footer-col-title">Color Resources</div>
             <ul className="footer-links-list">
               <li>
-                <button onClick={() => handleNav({ path: 'colors' })}>Curated Colors</button>
+                <Link to={{ path: 'colors' }} onNavigate={handleNav}>Curated Colors</Link>
               </li>
               <li>
-                <button onClick={() => handleNav({ path: 'palettes' })}>Palette Systems</button>
+                <Link to={{ path: 'palettes' }} onNavigate={handleNav}>Palette Systems</Link>
               </li>
               <li>
-                <button onClick={() => handleNav({ path: 'combos' })}>Harmonies &amp; Combos</button>
+                <Link to={{ path: 'combos' }} onNavigate={handleNav}>Harmonies &amp; Combos</Link>
               </li>
               <li>
-                <button onClick={() => handleNav({ path: 'gradients' })}>CSS Gradients</button>
+                <Link to={{ path: 'gradients' }} onNavigate={handleNav}>CSS Gradients</Link>
               </li>
               <li>
-                <button onClick={() => handleNav({ path: 'live' })}>Live Atmosphere</button>
+                <Link to={{ path: 'live' }} onNavigate={handleNav}>Live Atmosphere</Link>
               </li>
             </ul>
           </div>
@@ -50,16 +51,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="footer-col-title">Color Gamuts</div>
             <ul className="footer-links-list">
               <li>
-                <button onClick={() => handleNav({ path: 'colors' })}>HEX / sRGB Matrix</button>
+                <Link to={{ path: 'colors' }} onNavigate={handleNav}>HEX / sRGB Matrix</Link>
               </li>
               <li>
-                <button onClick={() => handleNav({ path: 'colors' })}>OKLCH Perceptual</button>
+                <Link to={{ path: 'colors' }} onNavigate={handleNav}>OKLCH Perceptual</Link>
               </li>
               <li>
-                <button onClick={() => handleNav({ path: 'combos' })}>WCAG AAA Contrast</button>
+                <Link to={{ path: 'combos' }} onNavigate={handleNav}>WCAG AAA Contrast</Link>
               </li>
               <li>
-                <button onClick={() => handleNav({ path: 'saved' })}>Saved Workspace</button>
+                <Link to={{ path: 'saved' }} onNavigate={handleNav}>Saved Workspace</Link>
               </li>
             </ul>
           </div>

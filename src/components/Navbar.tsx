@@ -21,6 +21,7 @@ import {
 import { RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
 import { useTheme } from '../context/ThemeContext';
+import { Link } from './common/Link';
 
 interface NavbarProps {
   currentRoute: RouteType;
@@ -133,45 +134,50 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
       <header className="navbar" role="banner">
         <div className="navbar-inner">
           {/* Brand Logo */}
-          <button
+          <Link
+            to={{ path: 'home' }}
+            onNavigate={handleNav}
             className="brand-logo"
-            onClick={() => handleNav({ path: 'home' })}
             aria-label="KROMA Color Library Home"
           >
             <span className="brand-glyph" />
             <span className="brand-title-text">KROMA</span>
-          </button>
+          </Link>
 
           {/* Desktop Navigation Links — Streamlined & Uncluttered */}
           <nav className="nav-links" aria-label="Main Navigation">
-            <button
+            <Link
+              to={{ path: 'colors' }}
+              onNavigate={handleNav}
               className={`nav-link ${isActive('colors') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'colors' })}
             >
               <Palette size={15} />
               <span>Colors</span>
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'palettes' }}
+              onNavigate={handleNav}
               className={`nav-link ${isActive('palettes') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'palettes' })}
             >
               <Layers size={15} />
               <span>Palettes</span>
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'combos' }}
+              onNavigate={handleNav}
               className={`nav-link ${isActive('combos') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'combos' })}
             >
               <Wand2 size={15} />
               <span>Combos</span>
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'gradients' }}
+              onNavigate={handleNav}
               className={`nav-link ${isActive('gradients') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'gradients' })}
             >
               <Sparkles size={15} />
               <span>Gradients</span>
-            </button>
+            </Link>
 
             {/* Clean Tools & Studio Dropdown */}
             <div className="relative" ref={toolsDropdownRef}>
@@ -198,9 +204,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                   {toolsList.map((tool) => {
                     const isSelected = isActive(tool.id);
                     return (
-                      <button
+                      <Link
                         key={tool.id}
-                        onClick={() => handleNav(tool.path)}
+                        to={tool.path}
+                        onNavigate={handleNav}
                         className={`w-full flex items-start gap-3 p-2.5 rounded-xs text-left transition-all ${
                           isSelected
                             ? 'bg-[var(--bg-surface-3)] text-[var(--text-primary)]'
@@ -223,7 +230,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                             {tool.description}
                           </p>
                         </div>
-                      </button>
+                      </Link>
                     );
                   })}
                 </div>
@@ -246,9 +253,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             </button>
 
             {/* Saved Items — Desktop Only (Mobile uses Drawer) */}
-            <button
+            <Link
+              to={{ path: 'saved' }}
+              onNavigate={handleNav}
               className={`saved-nav-btn hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 ${isActive('saved') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'saved' })}
               aria-label={`Saved collection (${savedItems.length} items)`}
               title="View Saved Specimens"
             >
@@ -257,7 +265,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               {savedItems.length > 0 && (
                 <span className="saved-count-badge">{savedItems.length}</span>
               )}
-            </button>
+            </Link>
 
             {/* Compact Geometric Theme Toggle — Desktop Only (Mobile uses Drawer) */}
             <button
@@ -294,95 +302,107 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             <div className="px-4 py-2 font-mono text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
               LIBRARY CATALOG
             </div>
-            <button
+            <Link
+              to={{ path: 'home' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('home') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'home' })}
             >
               <span>Home Library</span>
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'colors' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('colors') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'colors' })}
             >
               <span>Color Specimens</span>
               <Palette size={16} />
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'palettes' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('palettes') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'palettes' })}
             >
               <span>Palette Systems</span>
               <Layers size={16} />
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'combos' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('combos') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'combos' })}
             >
               <span>Harmonies &amp; Combos</span>
               <Wand2 size={16} />
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'gradients' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('gradients') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'gradients' })}
             >
               <span>CSS Gradients</span>
               <Sparkles size={16} />
-            </button>
+            </Link>
 
             <div className="px-4 pt-4 pb-2 font-mono text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-semibold border-t border-[var(--border-subtle)] mt-2">
               STUDIO &amp; TOOLS
             </div>
-            <button
+            <Link
+              to={{ path: 'palette-generator' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('palette-generator') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'palette-generator' })}
             >
               <span>Palette Generator</span>
               <Sparkles size={16} color="#E9C46A" />
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'extract-from-image' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('extract-from-image') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'extract-from-image' })}
             >
               <span>Extract from Image</span>
               <ImageIcon size={16} className="text-purple-400" />
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'brand-kit' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('brand-kit') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'brand-kit' })}
             >
               <span>Brand Kit Studio</span>
               <Palette size={16} className="text-pink-400" />
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'contrast-checker' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('contrast-checker') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'contrast-checker' })}
             >
               <span>Color Contrast Checker</span>
               <ShieldCheck size={16} color="#3B82F6" />
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'color-name-finder' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('color-name-finder') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'color-name-finder' })}
             >
               <span>Color Name Finder</span>
               <Search size={16} color="#10B981" />
-            </button>
-            <button
+            </Link>
+            <Link
+              to={{ path: 'live' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('live') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'live' })}
             >
               <span>Real-Time Live Atmosphere</span>
               <Radio size={16} color="#E63946" />
-            </button>
+            </Link>
 
             <div className="px-4 pt-4 pb-2 font-mono text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-semibold border-t border-[var(--border-subtle)] mt-2">
               PREFERENCES &amp; WORKSPACE
             </div>
 
             {/* Saved Items Link in Drawer */}
-            <button
+            <Link
+              to={{ path: 'saved' }}
+              onNavigate={handleNav}
               className={`mobile-nav-link ${isActive('saved') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'saved' })}
             >
               <div className="flex items-center gap-2">
                 <Bookmark size={16} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
@@ -391,7 +411,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               {savedItems.length > 0 && (
                 <span className="saved-count-badge">{savedItems.length}</span>
               )}
-            </button>
+            </Link>
 
             {/* Appearance / Theme Selector in Drawer */}
             <div className="px-3.5 py-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] mt-1 flex flex-col gap-2.5">

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowLeft, Copy, Bookmark, Share2, Code, ArrowRight, Layers, ExternalLink, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Copy, Bookmark, Share2, Code, ArrowRight, Layers, ExternalLink, ShieldCheck, Sparkles, Wand2 } from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard } from '../utils/colorUtils';
@@ -11,6 +11,11 @@ import { GradientCard } from '../components/GradientCard';
 import { decodePaletteFromSlugOrId } from '../utils/canonicalResourceUtils';
 import { findClosestColorName } from '../utils/paletteGenerator';
 import { NotFoundPage } from './NotFoundPage';
+import { SEOHead } from '../components/seo/SEOHead';
+import { generatePaletteSchema } from '../utils/schemaGenerator';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { Link } from '../components/common/Link';
+import { Analytics } from '../utils/analytics';
 
 interface PaletteDetailPageProps {
   slug: string;
@@ -72,9 +77,14 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
   }
   const saved = isSaved(palette.id);
 
+  const paletteSchema = useMemo(() => {
+    return generatePaletteSchema(palette);
+  }, [palette]);
+
   const handleCopySingleHex = async (hex: string, name: string) => {
     const success = await copyToClipboard(hex);
     if (success) {
+      Analytics.trackColorCopy(hex, 'HEX', name);
       showToast(`Copied ${hex}`, name, hex);
     }
   };
@@ -95,6 +105,9 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       preview: palette.colors.map((c) => c.hex).join(','),
       metadata: `${palette.category} • ${palette.colors.length} swatches`,
     });
+    if (!saved) {
+      Analytics.trackSpecimenSave('palette', palette.id, palette.title);
+    }
     showToast(
       saved ? 'Removed palette from saved' : 'Saved palette to collection',
       palette.title
@@ -144,6 +157,10 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
   const handleCopyExportCode = async () => {
     const success = await copyToClipboard(currentExportCode);
     if (success) {
+      Analytics.trackPaletteCopy(
+        palette.title,
+        palette.colors.map((c) => c.hex)
+      );
       showToast(`Copied ${exportMode.toUpperCase()} tokens`, palette.title);
     }
   };
@@ -167,19 +184,58 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
     (g) => (g.tags && palette.tags && g.tags.some((t) => palette.tags.includes(t))) || g.category === palette.category
   ).slice(0, 2);
 
+  const paletteHexParam = palette.colors.map((c) => c.hex.replace('#', '')).join('-');
+
   return (
     <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+      <SEOHead
+        title={`${palette.title} — ${palette.category.toUpperCase()} Color Palette System`}
+        description={`${palette.description} Formulated with ${palette.colors.length} chromatic balance points: ${palette.colors.map((c) => `${c.name} (${c.hex})`).join(', ')}.`}
+        canonicalPath={`/palettes/${palette.slug}`}
+        jsonLd={paletteSchema}
+        keywords={[palette.title, palette.category, ...palette.tags, ...palette.colors.map((c) => c.name)]}
+      />
+
+      <Breadcrumbs
+        items={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Palettes', to: { path: 'palettes' } },
+          { label: palette.category.toUpperCase(), to: `/palettes?category=${palette.category}` },
+          { label: palette.title, isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Navigation Breadcrumb & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <button
+        <Link
+          to={{ path: 'palettes' }}
+          onNavigate={onNavigate}
           className="detail-back-btn w-fit inline-flex items-center gap-2"
-          onClick={() => onNavigate({ path: 'palettes' })}
         >
           <ArrowLeft size={16} />
           <span>Back to Palettes Catalog</span>
-        </button>
+        </Link>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          <Link
+            to={{ path: 'brand-kit', paletteSlug: palette.slug }}
+            onNavigate={onNavigate}
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
+            title="Open Palette in Brand Kit Studio"
+          >
+            <Layers size={13} className="text-pink-400" />
+            <span>Brand Kit Studio</span>
+          </Link>
+          <Link
+            to={{ path: 'palette-generator', colors: paletteHexParam }}
+            onNavigate={onNavigate}
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
+            title="Customize in Generator"
+          >
+            <Sparkles size={13} className="text-amber-400" />
+            <span>Customize</span>
+          </Link>
           <button
             className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
             onClick={handleShare}
@@ -294,13 +350,14 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
                 )}
                 {slug && (
                   <div className="mt-2 pt-2 border-t border-[var(--border-subtle)]">
-                    <button
-                      onClick={() => onNavigate({ path: 'color-detail', slug })}
+                    <Link
+                      to={{ path: 'color-detail', slug }}
+                      onNavigate={onNavigate}
                       className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-gold)] hover:underline"
                     >
                       <span>View Color Specimen</span>
                       <ExternalLink size={10} />
-                    </button>
+                    </Link>
                   </div>
                 )}
               </div>

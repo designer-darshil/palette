@@ -12,6 +12,8 @@ import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
 
+import { NotFoundPage } from './NotFoundPage';
+
 interface PaletteDetailPageProps {
   slug: string;
   onNavigate: (route: RouteType) => void;
@@ -22,7 +24,10 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
   const { isSaved, saveItem } = useSaved();
   const [exportMode, setExportMode] = useState<'hex' | 'css' | 'tailwind' | 'json'>('css');
 
-  const palette = CURATED_PALETTES.find((p) => p.slug === slug) || CURATED_PALETTES[0];
+  const palette = CURATED_PALETTES.find((p) => p.slug === slug);
+  if (!palette) {
+    return <NotFoundPage requestedUrl={`/palettes/${slug}`} onNavigate={onNavigate} />;
+  }
   const saved = isSaved(palette.id);
 
   const handleCopySingleHex = async (hex: string, name: string) => {

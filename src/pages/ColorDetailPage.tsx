@@ -13,6 +13,8 @@ import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
 
+import { NotFoundPage } from './NotFoundPage';
+
 interface ColorDetailPageProps {
   slug: string;
   onNavigate: (route: RouteType) => void;
@@ -22,7 +24,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
   const { showToast } = useToast();
   const { isSaved, saveItem } = useSaved();
 
-  const color = CURATED_COLORS.find((c) => c.slug === slug) || CURATED_COLORS[0];
+  const color = CURATED_COLORS.find((c) => c.slug === slug);
+  if (!color) {
+    return <NotFoundPage requestedUrl={`/colors/${slug}`} onNavigate={onNavigate} />;
+  }
   const saved = isSaved(color.id);
 
   const calculatedHarmonies = calculateHarmonies(color.hex);

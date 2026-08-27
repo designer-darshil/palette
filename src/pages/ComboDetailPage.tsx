@@ -10,6 +10,8 @@ import { useSaved } from '../context/SavedContext';
 import { ComboCard } from '../components/ComboCard';
 import { PaletteCard } from '../components/PaletteCard';
 
+import { NotFoundPage } from './NotFoundPage';
+
 interface ComboDetailPageProps {
   slug: string;
   onNavigate: (route: RouteType) => void;
@@ -19,7 +21,10 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
   const { showToast } = useToast();
   const { isSaved, saveItem } = useSaved();
 
-  const combo = CURATED_COMBOS.find((c) => c.slug === slug) || CURATED_COMBOS[0];
+  const combo = CURATED_COMBOS.find((c) => c.slug === slug);
+  if (!combo) {
+    return <NotFoundPage requestedUrl={`/combos/${slug}`} onNavigate={onNavigate} />;
+  }
   const saved = isSaved(combo.id);
 
   const handleCopySingleHex = async (hex: string, name: string) => {

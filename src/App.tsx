@@ -13,6 +13,7 @@ import { ComboDetailPage } from './pages/ComboDetailPage';
 import { GradientsPage } from './pages/GradientsPage';
 import { GradientDetailPage } from './pages/GradientDetailPage';
 import { SavedPage } from './pages/SavedPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { CURATED_COLORS } from './data/colors';
 import { CURATED_PALETTES } from './data/palettes';
 import { CURATED_COMBOS } from './data/combos';
@@ -24,19 +25,35 @@ function parseUrlToRoute(): RouteType {
 
   const segments = path.split('/');
   if (segments[0] === 'colors') {
-    if (segments[1]) return { path: 'color-detail', slug: segments[1] };
+    if (segments[1]) {
+      const match = CURATED_COLORS.find((c) => c.slug === segments[1]);
+      if (match) return { path: 'color-detail', slug: match.slug };
+      return { path: 'not-found', requestedUrl: window.location.pathname };
+    }
     return { path: 'colors' };
   }
   if (segments[0] === 'palettes') {
-    if (segments[1]) return { path: 'palette-detail', slug: segments[1] };
+    if (segments[1]) {
+      const match = CURATED_PALETTES.find((p) => p.slug === segments[1]);
+      if (match) return { path: 'palette-detail', slug: match.slug };
+      return { path: 'not-found', requestedUrl: window.location.pathname };
+    }
     return { path: 'palettes' };
   }
   if (segments[0] === 'combos') {
-    if (segments[1]) return { path: 'combo-detail', slug: segments[1] };
+    if (segments[1]) {
+      const match = CURATED_COMBOS.find((cb) => cb.slug === segments[1]);
+      if (match) return { path: 'combo-detail', slug: match.slug };
+      return { path: 'not-found', requestedUrl: window.location.pathname };
+    }
     return { path: 'combos' };
   }
   if (segments[0] === 'gradients') {
-    if (segments[1]) return { path: 'gradient-detail', slug: segments[1] };
+    if (segments[1]) {
+      const match = CURATED_GRADIENTS.find((g) => g.slug === segments[1]);
+      if (match) return { path: 'gradient-detail', slug: match.slug };
+      return { path: 'not-found', requestedUrl: window.location.pathname };
+    }
     return { path: 'gradients' };
   }
   if (segments[0] === 'saved') {
@@ -44,20 +61,22 @@ function parseUrlToRoute(): RouteType {
   }
 
   // Direct slug support (e.g. /terracotta-cyan-split or /celestial-cobalt)
-  const singleSlug = segments[0];
-  const colorMatch = CURATED_COLORS.find((c) => c.slug === singleSlug);
-  if (colorMatch) return { path: 'color-detail', slug: colorMatch.slug };
+  if (segments.length === 1) {
+    const singleSlug = segments[0];
+    const colorMatch = CURATED_COLORS.find((c) => c.slug === singleSlug);
+    if (colorMatch) return { path: 'color-detail', slug: colorMatch.slug };
 
-  const comboMatch = CURATED_COMBOS.find((cb) => cb.slug === singleSlug);
-  if (comboMatch) return { path: 'combo-detail', slug: comboMatch.slug };
+    const comboMatch = CURATED_COMBOS.find((cb) => cb.slug === singleSlug);
+    if (comboMatch) return { path: 'combo-detail', slug: comboMatch.slug };
 
-  const paletteMatch = CURATED_PALETTES.find((p) => p.slug === singleSlug);
-  if (paletteMatch) return { path: 'palette-detail', slug: paletteMatch.slug };
+    const paletteMatch = CURATED_PALETTES.find((p) => p.slug === singleSlug);
+    if (paletteMatch) return { path: 'palette-detail', slug: paletteMatch.slug };
 
-  const gradientMatch = CURATED_GRADIENTS.find((g) => g.slug === singleSlug);
-  if (gradientMatch) return { path: 'gradient-detail', slug: gradientMatch.slug };
+    const gradientMatch = CURATED_GRADIENTS.find((g) => g.slug === singleSlug);
+    if (gradientMatch) return { path: 'gradient-detail', slug: gradientMatch.slug };
+  }
 
-  return { path: 'home' };
+  return { path: 'not-found', requestedUrl: window.location.pathname };
 }
 
 function routeToUrl(route: RouteType): string {
@@ -82,6 +101,8 @@ function routeToUrl(route: RouteType): string {
       return `/gradients/${route.slug}`;
     case 'saved':
       return '/saved';
+    case 'not-found':
+      return route.requestedUrl || '/404';
     default:
       return '/';
   }
@@ -141,6 +162,9 @@ export const App: React.FC = () => {
       case 'saved':
         document.title = 'Saved Specimens | Curator Workspace | KROMA';
         break;
+      case 'not-found':
+        document.title = '404 — Specimen Not Found | KROMA';
+        break;
     }
   }, [currentRoute]);
 
@@ -166,6 +190,8 @@ export const App: React.FC = () => {
         return <GradientDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
       case 'saved':
         return <SavedPage onNavigate={handleNavigate} />;
+      case 'not-found':
+        return <NotFoundPage requestedUrl={currentRoute.requestedUrl} onNavigate={handleNavigate} />;
       default:
         return <HomePage onNavigate={handleNavigate} />;
     }

@@ -80,4 +80,5 @@ export type RouteType =
   | { path: 'combo-detail'; slug: string }
   | { path: 'gradients' }
   | { path: 'gradient-detail'; slug: string }
-  | { path: 'saved' };
+  | { path: 'saved' }
+  | { path: 'not-found'; requestedUrl?: string };

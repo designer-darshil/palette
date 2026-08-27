@@ -12,6 +12,8 @@ import { GradientCard } from '../components/GradientCard';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 
+import { NotFoundPage } from './NotFoundPage';
+
 interface GradientDetailPageProps {
   slug: string;
   onNavigate: (route: RouteType) => void;
@@ -21,7 +23,10 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
   const { showToast } = useToast();
   const { isSaved, saveItem } = useSaved();
 
-  const baseGradient = CURATED_GRADIENTS.find((g) => g.slug === slug) || CURATED_GRADIENTS[0];
+  const baseGradient = CURATED_GRADIENTS.find((g) => g.slug === slug);
+  if (!baseGradient) {
+    return <NotFoundPage requestedUrl={`/gradients/${slug}`} onNavigate={onNavigate} />;
+  }
   const [angle, setAngle] = useState<number>(baseGradient.angle || 135);
 
   const saved = isSaved(baseGradient.id);

@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { RouteType } from '../types';
-import { CURATED_PALETTES } from '../data/palettes';
+import { useLibraryData } from '../context/LibraryDataContext';
 import { PaletteCard } from '../components/PaletteCard';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
 
 interface PalettesPageProps {
   onNavigate: (route: RouteType) => void;
 }
 
+const BATCH_SIZE = 24;
+
 export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
+  const { palettes } = useLibraryData();
+
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [visibleCount, setVisibleCount] = useState<number>(36);
+  const [visibleCount, setVisibleCount] = useState<number>(BATCH_SIZE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const categories = [
     'all',
@@ -25,22 +32,54 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
     'dark-mode',
   ];
 
-  const filteredPalettes = CURATED_PALETTES.filter((p) => {
-    if (selectedCategory !== 'all' && p.category !== selectedCategory) return false;
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      const matchTitle = p.title.toLowerCase().includes(q);
-      const matchCategory = p.category.toLowerCase().includes(q);
-      const matchTag = p.tags.some((t) => t.toLowerCase().includes(q));
-      const matchColor = p.colors.some(
-        (c) => c.name.toLowerCase().includes(q) || c.hex.toLowerCase().includes(q)
-      );
-      if (!matchTitle && !matchCategory && !matchTag && !matchColor) return false;
-    }
-    return true;
-  });
+  const filteredPalettes = useMemo(() => {
+    return palettes.filter((p) => {
+      if (selectedCategory !== 'all' && p.category !== selectedCategory) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchTitle = p.title.toLowerCase().includes(q);
+        const matchCategory = p.category.toLowerCase().includes(q);
+        const matchTag = p.tags.some((t) => t.toLowerCase().includes(q));
+        const matchColor = p.colors.some(
+          (c) => c.name.toLowerCase().includes(q) || c.hex.toLowerCase().includes(q)
+        );
+        if (!matchTitle && !matchCategory && !matchTag && !matchColor) return false;
+      }
+      return true;
+    });
+  }, [palettes, selectedCategory, searchQuery]);
 
-  const displayedPalettes = filteredPalettes.slice(0, visibleCount);
+  // Reset pagination on filter or search change
+  useEffect(() => {
+    setVisibleCount(BATCH_SIZE);
+  }, [selectedCategory, searchQuery]);
+
+  // IntersectionObserver for seamless infinite scrolling
+  useEffect(() => {
+    const target = observerRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && visibleCount < filteredPalettes.length && !isLoadingMore) {
+          setIsLoadingMore(true);
+          setTimeout(() => {
+            setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, filteredPalettes.length));
+            setIsLoadingMore(false);
+          }, 80);
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [visibleCount, filteredPalettes.length, isLoadingMore]);
+
+  const displayedPalettes = useMemo(() => {
+    return filteredPalettes.slice(0, visibleCount);
+  }, [filteredPalettes, visibleCount]);
 
   return (
     <div className="palettes-page">
@@ -48,7 +87,7 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
         <span className="page-category-label">Digital Library • Section 02</span>
         <h1 className="page-title">Curated Palette Systems</h1>
         <p className="page-description">
-          A catalogue of {CURATED_PALETTES.length.toLocaleString()} modernist, architectural, and botanical harmonic palettes assembled for identity systems, design tokens, and editorial specimen documents.
+          A catalogue of {palettes.length.toLocaleString()} modernist, architectural, and botanical harmonic palettes assembled for identity systems, design tokens, and editorial specimen documents.
         </p>
       </header>
 
@@ -62,10 +101,7 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
             <button
               key={cat}
               className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => {
-                setSelectedCategory(cat);
-                setVisibleCount(36);
-              }}
+              onClick={() => setSelectedCategory(cat)}
             >
               {cat}
             </button>
@@ -80,10 +116,7 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
             style={{ paddingLeft: '32px' }}
             placeholder="Filter palettes, tags, hex..."
             value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setVisibleCount(36);
-            }}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -102,7 +135,6 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
             onClick={() => {
               setSelectedCategory('all');
               setSearchQuery('');
-              setVisibleCount(36);
             }}
           >
             Reset Filters
@@ -116,16 +148,19 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
             ))}
           </div>
 
-          {visibleCount < filteredPalettes.length && (
-            <div style={{ textAlign: 'center', marginTop: '40px' }}>
-              <button
-                className="btn-secondary"
-                onClick={() => setVisibleCount((prev) => prev + 36)}
-                style={{ padding: '12px 28px', fontSize: '0.88rem' }}
-              >
-                <span>Load More Palettes ({filteredPalettes.length - visibleCount} remaining)</span>
-                <ChevronDown size={15} />
-              </button>
+          {/* Infinite Scroll Trigger Sentinel */}
+          <div ref={observerRef} style={{ height: '20px', margin: '20px 0' }} />
+
+          {isLoadingMore && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', padding: '24px', color: 'var(--text-secondary)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>
+              <Loader2 size={16} className="animate-spin" />
+              <span>Loading more palette systems...</span>
+            </div>
+          )}
+
+          {visibleCount >= filteredPalettes.length && filteredPalettes.length > BATCH_SIZE && (
+            <div style={{ textAlign: 'center', padding: '32px 0 16px 0', fontSize: '0.78rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
+              END OF PALETTE STREAM • ALL {filteredPalettes.length.toLocaleString()} SYSTEMS LOADED
             </div>
           )}
         </>

@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Plus, Trash2, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GradientItem } from '../../types';
-import { CURATED_GRADIENTS } from '../../data/gradients';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { useLibraryData } from '../../context/LibraryDataContext';
 
 export const AdminGradientsPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
-  const [gradients, setGradients] = useState<GradientItem[]>(() => [...CURATED_GRADIENTS]);
+  const { gradients, deleteGradient } = useLibraryData();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +31,7 @@ export const AdminGradientsPage: React.FC = () => {
 
   const handleDelete = (id: string, title: string) => {
     if (confirm(`Remove gradient specimen "${title}"?`)) {
-      setGradients(gradients.filter((g) => g.id !== id));
+      deleteGradient(id);
       logActivity('Deleted Gradient', `Removed gradient "${title}"`);
     }
   };

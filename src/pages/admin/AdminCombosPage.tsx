@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Plus, Trash2, Wand2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ComboItem } from '../../types';
-import { CURATED_COMBOS } from '../../data/combos';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { useLibraryData } from '../../context/LibraryDataContext';
 
 export const AdminCombosPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
-  const [combos, setCombos] = useState<ComboItem[]>(() => [...CURATED_COMBOS]);
+  const { combos, deleteCombo } = useLibraryData();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedHarmony, setSelectedHarmony] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +31,7 @@ export const AdminCombosPage: React.FC = () => {
 
   const handleDelete = (id: string, title: string) => {
     if (confirm(`Remove harmony combination "${title}"?`)) {
-      setCombos(combos.filter((cb) => cb.id !== id));
+      deleteCombo(id);
       logActivity('Deleted Combo', `Removed harmony "${title}"`);
     }
   };

@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { RouteType } from '../types';
-import { CURATED_GRADIENTS } from '../data/gradients';
+import { useLibraryData } from '../context/LibraryDataContext';
 import { GradientCard } from '../components/GradientCard';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
 
 interface GradientsPageProps {
   onNavigate: (route: RouteType) => void;
 }
 
+const BATCH_SIZE = 24;
+
 export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
+  const { gradients } = useLibraryData();
+
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [visibleCount, setVisibleCount] = useState<number>(36);
+  const [visibleCount, setVisibleCount] = useState<number>(BATCH_SIZE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const categories = [
     'all',
@@ -24,22 +31,54 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
     'minimal',
   ];
 
-  const filteredGradients = CURATED_GRADIENTS.filter((g) => {
-    if (selectedCategory !== 'all' && g.category !== selectedCategory) return false;
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      const matchTitle = g.title.toLowerCase().includes(q);
-      const matchCategory = g.category.toLowerCase().includes(q);
-      const matchTag = g.tags.some((t) => t.toLowerCase().includes(q));
-      const matchStop = g.stops.some(
-        (s) => s.color.toLowerCase().includes(q) || (s.name && s.name.toLowerCase().includes(q))
-      );
-      if (!matchTitle && !matchCategory && !matchTag && !matchStop) return false;
-    }
-    return true;
-  });
+  const filteredGradients = useMemo(() => {
+    return gradients.filter((g) => {
+      if (selectedCategory !== 'all' && g.category !== selectedCategory) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchTitle = g.title.toLowerCase().includes(q);
+        const matchCategory = g.category.toLowerCase().includes(q);
+        const matchTag = g.tags.some((t) => t.toLowerCase().includes(q));
+        const matchStop = g.stops.some(
+          (s) => s.color.toLowerCase().includes(q) || (s.name && s.name.toLowerCase().includes(q))
+        );
+        if (!matchTitle && !matchCategory && !matchTag && !matchStop) return false;
+      }
+      return true;
+    });
+  }, [gradients, selectedCategory, searchQuery]);
 
-  const displayedGradients = filteredGradients.slice(0, visibleCount);
+  // Reset pagination on filter or search change
+  useEffect(() => {
+    setVisibleCount(BATCH_SIZE);
+  }, [selectedCategory, searchQuery]);
+
+  // IntersectionObserver for seamless infinite scrolling
+  useEffect(() => {
+    const target = observerRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && visibleCount < filteredGradients.length && !isLoadingMore) {
+          setIsLoadingMore(true);
+          setTimeout(() => {
+            setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, filteredGradients.length));
+            setIsLoadingMore(false);
+          }, 80);
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [visibleCount, filteredGradients.length, isLoadingMore]);
+
+  const displayedGradients = useMemo(() => {
+    return filteredGradients.slice(0, visibleCount);
+  }, [filteredGradients, visibleCount]);
 
   return (
     <div className="gradients-page">
@@ -47,7 +86,7 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
         <span className="page-category-label">Digital Library • Section 04</span>
         <h1 className="page-title">Curated CSS Gradients</h1>
         <p className="page-description">
-          A library of {CURATED_GRADIENTS.length.toLocaleString()} continuous color transitions engineered for clean browser rendering, editorial atmosphere, and digital backdrops.
+          A library of {gradients.length.toLocaleString()} continuous color transitions engineered for clean browser rendering, editorial atmosphere, and digital backdrops.
         </p>
       </header>
 
@@ -61,10 +100,7 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
             <button
               key={cat}
               className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => {
-                setSelectedCategory(cat);
-                setVisibleCount(36);
-              }}
+              onClick={() => setSelectedCategory(cat)}
             >
               {cat}
             </button>
@@ -79,10 +115,7 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
             style={{ paddingLeft: '32px' }}
             placeholder="Filter gradients, hex..."
             value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setVisibleCount(36);
-            }}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -101,7 +134,6 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
             onClick={() => {
               setSelectedCategory('all');
               setSearchQuery('');
-              setVisibleCount(36);
             }}
           >
             Reset Filters
@@ -115,16 +147,19 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
             ))}
           </div>
 
-          {visibleCount < filteredGradients.length && (
-            <div style={{ textAlign: 'center', marginTop: '40px' }}>
-              <button
-                className="btn-secondary"
-                onClick={() => setVisibleCount((prev) => prev + 36)}
-                style={{ padding: '12px 28px', fontSize: '0.88rem' }}
-              >
-                <span>Load More Gradients ({filteredGradients.length - visibleCount} remaining)</span>
-                <ChevronDown size={15} />
-              </button>
+          {/* Infinite Scroll Trigger Sentinel */}
+          <div ref={observerRef} style={{ height: '20px', margin: '20px 0' }} />
+
+          {isLoadingMore && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', padding: '24px', color: 'var(--text-secondary)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>
+              <Loader2 size={16} className="animate-spin" />
+              <span>Loading more gradients...</span>
+            </div>
+          )}
+
+          {visibleCount >= filteredGradients.length && filteredGradients.length > BATCH_SIZE && (
+            <div style={{ textAlign: 'center', padding: '32px 0 16px 0', fontSize: '0.78rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
+              END OF GRADIENT STREAM • ALL {filteredGradients.length.toLocaleString()} SPECIMENS LOADED
             </div>
           )}
         </>

@@ -63,7 +63,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     },
     {
       section: 'SYSTEM & SECURITY',
-      items: [{ id: 'security', label: 'Security & Password', icon: ShieldCheck }],
+      items: [
+        ...(isSuperAdmin ? [{ id: 'users', label: 'User & Role Access', icon: ShieldCheck }] : []),
+        { id: 'security', label: 'Security & Password', icon: ShieldCheck },
+      ],
     },
   ];
 

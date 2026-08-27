@@ -155,24 +155,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               )}
             </button>
 
-            {/* Admin Link */}
-            <button
-              onClick={() => handleNav({ path: 'admin' })}
-              className={`btn-secondary ${isActive('admin') ? 'active' : ''}`}
-              style={{
-                padding: '6px 10px',
-                fontSize: '0.75rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                borderColor: isAuthenticated ? 'rgba(230, 57, 70, 0.35)' : 'var(--border-medium)',
-              }}
-              title="Admin Panel"
-            >
-              <Shield size={13} color={isAuthenticated ? '#E63946' : 'currentColor'} />
-              <span>Admin</span>
-            </button>
-
             <button
               className="mobile-menu-toggle"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -233,13 +215,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <span>Saved Specimens ({savedItems.length})</span>
               <Bookmark size={16} />
-            </button>
-            <button
-              className={`mobile-nav-link ${isActive('admin') ? 'active' : ''}`}
-              onClick={() => handleNav({ path: 'admin' })}
-            >
-              <span>Admin Management</span>
-              <Shield size={16} color="#E63946" />
             </button>
           </div>
         )}

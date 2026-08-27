@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { RouteType } from '../types';
-import { CURATED_COMBOS } from '../data/combos';
+import { useLibraryData } from '../context/LibraryDataContext';
 import { ComboCard } from '../components/ComboCard';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
 
 interface CombosPageProps {
   onNavigate: (route: RouteType) => void;
 }
 
+const BATCH_SIZE = 24;
+
 export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
+  const { combos } = useLibraryData();
+
   const [selectedHarmony, setSelectedHarmony] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [visibleCount, setVisibleCount] = useState<number>(36);
+  const [visibleCount, setVisibleCount] = useState<number>(BATCH_SIZE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const harmonyTypes = [
     'all',
@@ -25,22 +32,54 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
     'Editorial Balance',
   ];
 
-  const filteredCombos = CURATED_COMBOS.filter((cb) => {
-    if (selectedHarmony !== 'all' && cb.harmonyType !== selectedHarmony) return false;
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      const matchTitle = cb.title.toLowerCase().includes(q);
-      const matchHarmony = cb.harmonyType.toLowerCase().includes(q);
-      const matchTag = cb.tags.some((t) => t.toLowerCase().includes(q));
-      const matchColor = cb.colors.some(
-        (c) => c.name.toLowerCase().includes(q) || c.hex.toLowerCase().includes(q)
-      );
-      if (!matchTitle && !matchHarmony && !matchTag && !matchColor) return false;
-    }
-    return true;
-  });
+  const filteredCombos = useMemo(() => {
+    return combos.filter((cb) => {
+      if (selectedHarmony !== 'all' && cb.harmonyType !== selectedHarmony) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchTitle = cb.title.toLowerCase().includes(q);
+        const matchHarmony = cb.harmonyType.toLowerCase().includes(q);
+        const matchTag = cb.tags.some((t) => t.toLowerCase().includes(q));
+        const matchColor = cb.colors.some(
+          (c) => c.name.toLowerCase().includes(q) || c.hex.toLowerCase().includes(q)
+        );
+        if (!matchTitle && !matchHarmony && !matchTag && !matchColor) return false;
+      }
+      return true;
+    });
+  }, [combos, selectedHarmony, searchQuery]);
 
-  const displayedCombos = filteredCombos.slice(0, visibleCount);
+  // Reset pagination on filter or search change
+  useEffect(() => {
+    setVisibleCount(BATCH_SIZE);
+  }, [selectedHarmony, searchQuery]);
+
+  // IntersectionObserver for seamless infinite scrolling
+  useEffect(() => {
+    const target = observerRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && visibleCount < filteredCombos.length && !isLoadingMore) {
+          setIsLoadingMore(true);
+          setTimeout(() => {
+            setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, filteredCombos.length));
+            setIsLoadingMore(false);
+          }, 80);
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [visibleCount, filteredCombos.length, isLoadingMore]);
+
+  const displayedCombos = useMemo(() => {
+    return filteredCombos.slice(0, visibleCount);
+  }, [filteredCombos, visibleCount]);
 
   return (
     <div className="combos-page">
@@ -48,7 +87,7 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
         <span className="page-category-label">Digital Library • Section 03</span>
         <h1 className="page-title">Color Harmonies &amp; Combinations</h1>
         <p className="page-description">
-          A library of {CURATED_COMBOS.length.toLocaleString()} relational color combinations with explicit surface proportions, WCAG AAA contrast scores, and architectural role definitions.
+          A library of {combos.length.toLocaleString()} relational color combinations with explicit surface proportions, WCAG AAA contrast scores, and architectural role definitions.
         </p>
       </header>
 
@@ -62,10 +101,7 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
             <button
               key={type}
               className={`filter-pill ${selectedHarmony === type ? 'active' : ''}`}
-              onClick={() => {
-                setSelectedHarmony(type);
-                setVisibleCount(36);
-              }}
+              onClick={() => setSelectedHarmony(type)}
             >
               {type}
             </button>
@@ -80,10 +116,7 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
             style={{ paddingLeft: '32px' }}
             placeholder="Filter combinations..."
             value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setVisibleCount(36);
-            }}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -102,7 +135,6 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
             onClick={() => {
               setSelectedHarmony('all');
               setSearchQuery('');
-              setVisibleCount(36);
             }}
           >
             Reset Filters
@@ -116,16 +148,19 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
             ))}
           </div>
 
-          {visibleCount < filteredCombos.length && (
-            <div style={{ textAlign: 'center', marginTop: '40px' }}>
-              <button
-                className="btn-secondary"
-                onClick={() => setVisibleCount((prev) => prev + 36)}
-                style={{ padding: '12px 28px', fontSize: '0.88rem' }}
-              >
-                <span>Load More Harmonies ({filteredCombos.length - visibleCount} remaining)</span>
-                <ChevronDown size={15} />
-              </button>
+          {/* Infinite Scroll Trigger Sentinel */}
+          <div ref={observerRef} style={{ height: '20px', margin: '20px 0' }} />
+
+          {isLoadingMore && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', padding: '24px', color: 'var(--text-secondary)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>
+              <Loader2 size={16} className="animate-spin" />
+              <span>Loading more color harmonies...</span>
+            </div>
+          )}
+
+          {visibleCount >= filteredCombos.length && filteredCombos.length > BATCH_SIZE && (
+            <div style={{ textAlign: 'center', padding: '32px 0 16px 0', fontSize: '0.78rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
+              END OF HARMONY STREAM • ALL {filteredCombos.length.toLocaleString()} COMBOS LOADED
             </div>
           )}
         </>

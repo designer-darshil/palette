@@ -12,11 +12,8 @@ import {
   Shield,
   Clock,
 } from 'lucide-react';
-import { CURATED_COLORS } from '../../data/colors';
-import { CURATED_PALETTES } from '../../data/palettes';
-import { CURATED_COMBOS } from '../../data/combos';
-import { CURATED_GRADIENTS } from '../../data/gradients';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { useLibraryData } from '../../context/LibraryDataContext';
 
 interface AdminDashboardPageProps {
   onNavigateTab: (tab: string) => void;
@@ -24,12 +21,13 @@ interface AdminDashboardPageProps {
 
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNavigateTab }) => {
   const { currentUser, activityLogs } = useAdminAuth();
+  const { colors, palettes, combos, gradients } = useLibraryData();
 
   const metrics = [
     {
       id: 'colors',
       label: 'COLOR SPECIMENS',
-      count: CURATED_COLORS.length.toLocaleString(),
+      count: colors.length.toLocaleString(),
       subtext: '16 spectrum groups • OKLCH/sRGB',
       icon: Palette,
       accent: '#3B82F6',
@@ -37,7 +35,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
     {
       id: 'palettes',
       label: 'PALETTE SYSTEMS',
-      count: CURATED_PALETTES.length.toLocaleString(),
+      count: palettes.length.toLocaleString(),
       subtext: '8 aesthetic categories • 5-tone sets',
       icon: Layers,
       accent: '#E9C46A',
@@ -45,7 +43,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
     {
       id: 'combos',
       label: 'COLOR HARMONIES',
-      count: CURATED_COMBOS.length.toLocaleString(),
+      count: combos.length.toLocaleString(),
       subtext: 'WCAG AAA validated pairings',
       icon: Wand2,
       accent: '#E63946',
@@ -53,7 +51,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
     {
       id: 'gradients',
       label: 'CSS GRADIENTS',
-      count: CURATED_GRADIENTS.length.toLocaleString(),
+      count: gradients.length.toLocaleString(),
       subtext: 'Continuous multi-stop spectra',
       icon: Sparkles,
       accent: '#A855F7',
@@ -72,7 +70,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
             Production Library Overview
           </h1>
           <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-            System state, live telemetry, and administrative control for {CURATED_COLORS.length.toLocaleString()} total specimens.
+            System state, live telemetry, and administrative control for {colors.length.toLocaleString()} total specimens.
           </p>
         </div>
 

@@ -1,39 +1,78 @@
-import React, { useState } from 'react';
-import { RouteType, ColorItem } from '../types';
-import { CURATED_COLORS } from '../data/colors';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { RouteType } from '../types';
+import { useLibraryData } from '../context/LibraryDataContext';
 import { ColorCard } from '../components/ColorCard';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
 
 interface ColorsPageProps {
   onNavigate: (route: RouteType) => void;
 }
 
+const BATCH_SIZE = 36;
+
 export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
+  const { colors } = useLibraryData();
+
   const [selectedFamily, setSelectedFamily] = useState<string>('all');
   const [selectedTone, setSelectedTone] = useState<string>('all');
   const [selectedHueGroup, setSelectedHueGroup] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [visibleCount, setVisibleCount] = useState<number>(48);
+  const [visibleCount, setVisibleCount] = useState<number>(BATCH_SIZE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const families = ['all', 'warm', 'cool', 'earth', 'neutral', 'pastel', 'vibrant', 'deep'];
   const tones = ['all', 'light', 'medium', 'dark', 'muted'];
   const hueGroups = ['all', 'red', 'orange', 'yellow', 'green', 'teal', 'cyan', 'blue', 'indigo', 'purple', 'pink', 'neutral'];
 
-  const filteredColors = CURATED_COLORS.filter((c) => {
-    if (selectedFamily !== 'all' && c.family !== selectedFamily) return false;
-    if (selectedTone !== 'all' && c.tone !== selectedTone) return false;
-    if (selectedHueGroup !== 'all' && c.hueGroup !== selectedHueGroup) return false;
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      const matchName = c.name.toLowerCase().includes(q);
-      const matchHex = c.hex.toLowerCase().includes(q);
-      const matchTag = c.tags.some((t) => t.toLowerCase().includes(q));
-      if (!matchName && !matchHex && !matchTag) return false;
-    }
-    return true;
-  });
+  const filteredColors = useMemo(() => {
+    return colors.filter((c) => {
+      if (selectedFamily !== 'all' && c.family !== selectedFamily) return false;
+      if (selectedTone !== 'all' && c.tone !== selectedTone) return false;
+      if (selectedHueGroup !== 'all' && c.hueGroup !== selectedHueGroup) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchName = c.name.toLowerCase().includes(q);
+        const matchHex = c.hex.toLowerCase().includes(q);
+        const matchTag = c.tags.some((t) => t.toLowerCase().includes(q));
+        if (!matchName && !matchHex && !matchTag) return false;
+      }
+      return true;
+    });
+  }, [colors, selectedFamily, selectedTone, selectedHueGroup, searchQuery]);
 
-  const displayedColors = filteredColors.slice(0, visibleCount);
+  // Reset pagination on filter or search change
+  useEffect(() => {
+    setVisibleCount(BATCH_SIZE);
+  }, [selectedFamily, selectedTone, selectedHueGroup, searchQuery]);
+
+  // IntersectionObserver for seamless infinite scrolling
+  useEffect(() => {
+    const target = observerRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && visibleCount < filteredColors.length && !isLoadingMore) {
+          setIsLoadingMore(true);
+          setTimeout(() => {
+            setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, filteredColors.length));
+            setIsLoadingMore(false);
+          }, 80);
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [visibleCount, filteredColors.length, isLoadingMore]);
+
+  const displayedColors = useMemo(() => {
+    return filteredColors.slice(0, visibleCount);
+  }, [filteredColors, visibleCount]);
 
   return (
     <div className="colors-page">
@@ -41,7 +80,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
         <span className="page-category-label">Digital Library • Section 01</span>
         <h1 className="page-title">Curated Color Specimens</h1>
         <p className="page-description">
-          A calibrated catalog of {CURATED_COLORS.length.toLocaleString()} digital pigments across all 16 spectrum families. Each tone is documented with sRGB, HSL, OKLCH, contrast scores against dark and light grounds, and harmonious relationships.
+          A calibrated catalog of {colors.length.toLocaleString()} digital pigments across all 16 spectrum families. Each tone is documented with sRGB, HSL, OKLCH, contrast scores against dark and light grounds, and harmonious relationships.
         </p>
       </header>
 
@@ -56,10 +95,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
               <button
                 key={hg}
                 className={`filter-pill ${selectedHueGroup === hg ? 'active' : ''}`}
-                onClick={() => {
-                  setSelectedHueGroup(hg);
-                  setVisibleCount(48);
-                }}
+                onClick={() => setSelectedHueGroup(hg)}
               >
                 {hg}
               </button>
@@ -75,10 +111,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                 <button
                   key={f}
                   className={`filter-pill ${selectedFamily === f ? 'active' : ''}`}
-                  onClick={() => {
-                    setSelectedFamily(f);
-                    setVisibleCount(48);
-                  }}
+                  onClick={() => setSelectedFamily(f)}
                 >
                   {f}
                 </button>
@@ -93,10 +126,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                 <button
                   key={t}
                   className={`filter-pill ${selectedTone === t ? 'active' : ''}`}
-                  onClick={() => {
-                    setSelectedTone(t);
-                    setVisibleCount(48);
-                  }}
+                  onClick={() => setSelectedTone(t)}
                 >
                   {t}
                 </button>
@@ -113,10 +143,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
             style={{ paddingLeft: '32px' }}
             placeholder="Filter by name, hex, tag..."
             value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setVisibleCount(48);
-            }}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -137,7 +164,6 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
               setSelectedTone('all');
               setSelectedHueGroup('all');
               setSearchQuery('');
-              setVisibleCount(48);
             }}
           >
             Reset Filters
@@ -151,16 +177,19 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
             ))}
           </div>
 
-          {visibleCount < filteredColors.length && (
-            <div style={{ textAlign: 'center', marginTop: '40px' }}>
-              <button
-                className="btn-secondary"
-                onClick={() => setVisibleCount((prev) => prev + 48)}
-                style={{ padding: '12px 28px', fontSize: '0.88rem' }}
-              >
-                <span>Load More Colors ({filteredColors.length - visibleCount} remaining)</span>
-                <ChevronDown size={15} />
-              </button>
+          {/* Infinite Scroll Trigger Sentinel */}
+          <div ref={observerRef} style={{ height: '20px', margin: '20px 0' }} />
+
+          {isLoadingMore && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', padding: '24px', color: 'var(--text-secondary)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>
+              <Loader2 size={16} className="animate-spin" />
+              <span>Loading more color specimens...</span>
+            </div>
+          )}
+
+          {visibleCount >= filteredColors.length && filteredColors.length > BATCH_SIZE && (
+            <div style={{ textAlign: 'center', padding: '32px 0 16px 0', fontSize: '0.78rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
+              END OF SPECIMEN STREAM • ALL {filteredColors.length.toLocaleString()} SPECIMENS LOADED
             </div>
           )}
         </>

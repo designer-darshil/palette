@@ -13,6 +13,7 @@ import { AdminRelationshipsPage } from './AdminRelationshipsPage';
 import { AdminImportPage } from './AdminImportPage';
 import { AdminValidationPage } from './AdminValidationPage';
 import { AdminSecurityPage } from './AdminSecurityPage';
+import { AdminUsersPage } from './AdminUsersPage';
 
 interface AdminHubPageProps {
   onNavigatePublic: (route: RouteType) => void;
@@ -51,6 +52,8 @@ export const AdminHubPage: React.FC<AdminHubPageProps> = ({ onNavigatePublic }) 
         return <AdminImportPage />;
       case 'validation':
         return <AdminValidationPage />;
+      case 'users':
+        return <AdminUsersPage />;
       case 'security':
         return <AdminSecurityPage />;
       default:

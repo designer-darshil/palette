@@ -14,8 +14,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { ColorItem } from '../../types';
-import { CURATED_COLORS } from '../../data/colors';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { useLibraryData } from '../../context/LibraryDataContext';
 import {
   hexToRgb,
   hexToHsl,
@@ -26,7 +26,7 @@ import {
 
 export const AdminColorsPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
-  const [colors, setColors] = useState<ColorItem[]>(() => [...CURATED_COLORS]);
+  const { colors, addColor, updateColor, deleteColor } = useLibraryData();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFamily, setSelectedFamily] = useState('all');
   const [selectedTone, setSelectedTone] = useState('all');
@@ -144,31 +144,26 @@ export const AdminColorsPage: React.FC = () => {
         shades: [],
       };
 
-      setColors([newColor, ...colors]);
+      addColor(newColor);
       logActivity('Created Color', `Added specimen "${formName}" (${formHex.toUpperCase()})`);
     } else if (editingColor) {
-      const updated = colors.map((c) => {
-        if (c.id === editingColor.id) {
-          return {
-            ...c,
-            name: formName,
-            hex: formHex.toUpperCase(),
-            rgb: rgbString,
-            hsl: hslString,
-            oklch: oklchString,
-            family: formFamily,
-            hueGroup: formHueGroup,
-            tone: formTone,
-            description: formDescription,
-            tags: tagArray,
-            contrastWithWhite: contrastWhite,
-            contrastWithBlack: contrastBlack,
-            bestTextColor,
-          };
-        }
-        return c;
-      });
-      setColors(updated);
+      const updatedItem: ColorItem = {
+        ...editingColor,
+        name: formName,
+        hex: formHex.toUpperCase(),
+        rgb: rgbString,
+        hsl: hslString,
+        oklch: oklchString,
+        family: formFamily,
+        hueGroup: formHueGroup,
+        tone: formTone,
+        description: formDescription,
+        tags: tagArray,
+        contrastWithWhite: contrastWhite,
+        contrastWithBlack: contrastBlack,
+        bestTextColor,
+      };
+      updateColor(updatedItem);
       logActivity('Updated Color', `Modified specimen "${formName}" (${formHex.toUpperCase()})`);
     }
 
@@ -178,7 +173,7 @@ export const AdminColorsPage: React.FC = () => {
 
   const handleDelete = (id: string, name: string) => {
     if (confirm(`Are you sure you want to remove specimen "${name}"?`)) {
-      setColors(colors.filter((c) => c.id !== id));
+      deleteColor(id);
       logActivity('Deleted Color', `Removed specimen "${name}"`);
     }
   };

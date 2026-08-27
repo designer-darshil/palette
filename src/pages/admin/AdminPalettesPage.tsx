@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Plus, Edit2, Trash2, Layers, ChevronLeft, ChevronRight } from 'lucide-react';
 import { PaletteItem } from '../../types';
-import { CURATED_PALETTES } from '../../data/palettes';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { useLibraryData } from '../../context/LibraryDataContext';
 
 export const AdminPalettesPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
-  const [palettes, setPalettes] = useState<PaletteItem[]>(() => [...CURATED_PALETTES]);
+  const { palettes, deletePalette } = useLibraryData();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +31,7 @@ export const AdminPalettesPage: React.FC = () => {
 
   const handleDelete = (id: string, title: string) => {
     if (confirm(`Remove palette "${title}"?`)) {
-      setPalettes(palettes.filter((p) => p.id !== id));
+      deletePalette(id);
       logActivity('Deleted Palette', `Removed palette "${title}"`);
     }
   };

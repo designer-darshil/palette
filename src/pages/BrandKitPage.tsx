@@ -44,6 +44,9 @@ import {
   saveBrandKitToStorage,
   deleteBrandKitFromStorage,
   generateBrandKitCssTokens,
+  auditBrandKitRoles,
+  autoRemediateBrandKitRoles,
+  SemanticAuditRoleResult,
 } from '../utils/brandKitStorage';
 
 interface BrandKitPageProps {
@@ -76,25 +79,31 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
   const [exportFormat, setExportFormat] = useState<'css' | 'json' | 'tailwind'>('css');
 
-  // If initialPaletteSlug provided, map its colors into roles
+  // Strict Semantic Accessibility Audit Report (Single source of truth)
+  const auditReport = useMemo(() => auditBrandKitRoles(brandKit.roles), [brandKit.roles]);
+
+  // If initialPaletteSlug provided, map its colors into roles and auto-remediate contrast
   useEffect(() => {
     if (initialPaletteSlug) {
       const clean = initialPaletteSlug.replace(/^(palettes|palette|gen-pal|ext-pal)-/i, '');
       const hexParts = clean.match(/[0-9a-fA-F]{6}/g);
       if (hexParts && hexParts.length >= 2) {
         const hexList = hexParts.map((h) => `#${h.toUpperCase()}`);
+        const rawRoles: BrandKitRoles = {
+          ...brandKit.roles,
+          primary: hexList[0] || brandKit.roles.primary,
+          secondary: hexList[1] || brandKit.roles.secondary,
+          accent: hexList[2] || brandKit.roles.accent,
+          background: hexList[3] || '#0F1117',
+          surface: hexList[4] || '#1A1D27',
+        };
+        const remediated = autoRemediateBrandKitRoles(rawRoles);
         setBrandKit((prev) => ({
           ...prev,
-          roles: {
-            ...prev.roles,
-            primary: hexList[0] || prev.roles.primary,
-            secondary: hexList[1] || prev.roles.secondary,
-            accent: hexList[2] || prev.roles.accent,
-            background: hexList[3] || prev.roles.background,
-            surface: hexList[4] || prev.roles.surface,
-          },
+          roles: remediated,
+          updatedAt: new Date().toISOString(),
         }));
-        showToast('Applied palette colors to Brand Kit', `${hexList.length} swatches mapped`);
+        showToast('Applied palette & verified contrast', `${hexList.length} swatches mapped`);
       }
     }
   }, [initialPaletteSlug]);
@@ -114,73 +123,60 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   };
 
+  // Auto-Remediate all failing roles
+  const handleAutoRemediate = () => {
+    const remediated = autoRemediateBrandKitRoles(brandKit.roles);
+    setBrandKit((prev) => ({
+      ...prev,
+      roles: remediated,
+      updatedAt: new Date().toISOString(),
+    }));
+    showToast('Remediated All Semantic Roles', 'Contrast thresholds satisfied');
+  };
+
+  // Apply single role fix
+  const handleApplyRoleFix = (result: SemanticAuditRoleResult) => {
+    if (!result.suggestedFg) return;
+    let updated = { ...brandKit.roles };
+    if (result.id === 'bodyTextOnCanvas' || result.id === 'cardBodyOnSurface') {
+      updated.text = result.suggestedFg;
+    } else if (result.id === 'primaryButtonText') {
+      updated.buttonText = result.suggestedFg;
+    } else if (result.id === 'mutedTextOnCanvas') {
+      updated.mutedText = result.suggestedFg;
+    }
+    setBrandKit((prev) => ({
+      ...prev,
+      roles: updated,
+      updatedAt: new Date().toISOString(),
+    }));
+    showToast(`Remediated ${result.label}`, `Updated foreground to ${result.suggestedFg}`);
+  };
+
   // Quick palette loader
   const handleApplyPalette = (palette: PaletteItem) => {
     if (!palette.colors || palette.colors.length === 0) return;
     const cols = palette.colors.map((c) => c.hex);
 
+    const rawRoles: BrandKitRoles = {
+      ...brandKit.roles,
+      primary: cols[0] || brandKit.roles.primary,
+      secondary: cols[1] || brandKit.roles.secondary,
+      accent: cols[2] || brandKit.roles.accent,
+      background: cols[3] || '#0F1117',
+      surface: cols[4] || '#1A1D27',
+    };
+    const remediated = autoRemediateBrandKitRoles(rawRoles);
+
     setBrandKit((prev) => ({
       ...prev,
       paletteSlug: palette.slug,
       paletteTitle: palette.title,
-      roles: {
-        ...prev.roles,
-        primary: cols[0] || prev.roles.primary,
-        secondary: cols[1] || prev.roles.secondary,
-        accent: cols[2] || prev.roles.accent,
-        background: cols[3] || '#0F1117',
-        surface: cols[4] || '#1A1D27',
-      },
+      roles: remediated,
       updatedAt: new Date().toISOString(),
     }));
-    showToast(`Loaded ${palette.title}`, 'Brand roles remapped');
+    showToast(`Loaded ${palette.title}`, 'Brand roles remapped & contrast verified');
   };
-
-  // Accessibility Matrix Evaluation
-  const accessibilityChecks = useMemo(() => {
-    const { primary, background, surface, text, mutedText } = brandKit.roles;
-    const textOnBgRatio = getContrastRatio(text, background);
-    const primaryOnBgRatio = getContrastRatio(primary, background);
-    const textOnSurfaceRatio = getContrastRatio(text, surface);
-    const btnText = getTextColorForBackground(primary);
-    const btnTextOnPrimaryRatio = getContrastRatio(btnText, primary);
-    const mutedOnBgRatio = getContrastRatio(mutedText, background);
-
-    return [
-      {
-        label: 'Body Text on Canvas',
-        ratio: textOnBgRatio,
-        pass: textOnBgRatio >= 4.5,
-        target: '4.5:1 (WCAG AA)',
-        fg: text,
-        bg: background,
-      },
-      {
-        label: 'Primary Button Text',
-        ratio: btnTextOnPrimaryRatio,
-        pass: btnTextOnPrimaryRatio >= 4.5,
-        target: '4.5:1 (WCAG AA)',
-        fg: btnText,
-        bg: primary,
-      },
-      {
-        label: 'Card Body on Surface',
-        ratio: textOnSurfaceRatio,
-        pass: textOnSurfaceRatio >= 4.5,
-        target: '4.5:1 (WCAG AA)',
-        fg: text,
-        bg: surface,
-      },
-      {
-        label: 'Muted Text on Canvas',
-        ratio: mutedOnBgRatio,
-        pass: mutedOnBgRatio >= 3.0,
-        target: '3.0:1 (Large/Muted)',
-        fg: mutedText,
-        bg: background,
-      },
-    ];
-  }, [brandKit.roles]);
 
   // Save Brand Kit
   const handleSaveBrandKit = () => {
@@ -209,8 +205,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     if (exportFormat === 'css') {
       return generateBrandKitCssTokens(brandKit);
     }
+    const btnText = brandKit.roles.buttonText || getTextColorForBackground(brandKit.roles.primary);
     if (exportFormat === 'json') {
-      return JSON.stringify(brandKit, null, 2);
+      return JSON.stringify({ ...brandKit, computed: { buttonText: btnText } }, null, 2);
     }
     return `module.exports = {
   theme: {
@@ -224,6 +221,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           surface: '${brandKit.roles.surface}',
           text: '${brandKit.roles.text}',
           muted: '${brandKit.roles.mutedText}',
+          buttonText: '${btnText}',
           border: '${brandKit.roles.border}',
         }
       },
@@ -243,7 +241,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   };
 
-  const primaryBtnText = getTextColorForBackground(brandKit.roles.primary);
+  const primaryBtnText = brandKit.roles.buttonText || getTextColorForBackground(brandKit.roles.primary);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 flex flex-col gap-6 sm:gap-8 min-w-0">
@@ -456,50 +454,120 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </div>
           </div>
 
-          {/* WCAG Accessibility Summary */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 shadow-lg flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-                ACCESSIBILITY MATRIX
-              </span>
-              <button
-                onClick={() =>
-                  onNavigate({
-                    path: 'contrast-checker',
-                    fg: brandKit.roles.text,
-                    bg: brandKit.roles.background,
-                  })
-                }
-                className="text-[11px] font-mono text-[var(--accent-gold)] hover:underline flex items-center gap-1"
-              >
-                <span>Full Audit</span>
-                <ExternalLink size={10} />
-              </button>
+          {/* Strict Semantic Accessibility Audit Card */}
+          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 shadow-lg flex flex-col gap-3.5">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
+                  SEMANTIC ACCESSIBILITY AUDIT
+                </span>
+                <div className="text-[11px] text-[var(--text-secondary)] mt-0.5">
+                  {auditReport.passingCount} of {auditReport.totalCount} core semantic roles pass WCAG AA thresholds
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {!auditReport.overallPass && (
+                  <button
+                    onClick={handleAutoRemediate}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-mono font-bold uppercase bg-[var(--accent-gold)] text-black rounded-xs shadow-sm transition-opacity hover:opacity-90"
+                    title="Auto-Fix all failing contrast roles"
+                  >
+                    <Sparkles size={11} />
+                    <span>Auto-Fix</span>
+                  </button>
+                )}
+                <button
+                  onClick={() =>
+                    onNavigate({
+                      path: 'contrast-checker',
+                      fg: brandKit.roles.text,
+                      bg: brandKit.roles.background,
+                    })
+                  }
+                  className="text-[11px] font-mono text-[var(--accent-gold)] hover:underline flex items-center gap-1"
+                >
+                  <span>Full Engine</span>
+                  <ExternalLink size={10} />
+                </button>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              {accessibilityChecks.map((item, i) => (
+            {/* The 4 Strict Audited Roles */}
+            <div className="flex flex-col gap-2.5">
+              {auditReport.results.map((item) => (
                 <div
-                  key={i}
-                  className="flex items-center justify-between p-2 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs text-xs gap-2"
+                  key={item.id}
+                  className={`p-3 rounded-xs border flex flex-col gap-2 transition-all ${
+                    item.pass
+                      ? 'bg-[var(--bg-surface-2)] border-[var(--border-subtle)]'
+                      : 'bg-rose-950/20 border-rose-800/40'
+                  }`}
                 >
-                  <div className="flex items-center gap-2 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[11px] font-bold text-[var(--text-primary)] tracking-wide">
+                      {item.label}
+                    </span>
                     <span
-                      className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                        item.pass ? 'bg-emerald-500' : 'bg-rose-500'
+                      className={`font-mono text-[10px] font-extrabold px-1.5 py-0.5 rounded-xs flex items-center gap-1 ${
+                        item.pass
+                          ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                          : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
                       }`}
-                    />
-                    <span className="text-[var(--text-primary)] font-medium truncate">{item.label}</span>
+                    >
+                      {item.pass ? '✓ PASS' : '✕ FAILS AA'}
+                    </span>
                   </div>
 
-                  <div className="font-mono text-[11px] flex items-center gap-2 flex-shrink-0">
-                    <span className={item.pass ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
-                      {item.ratio}:1
-                    </span>
-                    <span className="text-[10px] text-[var(--text-tertiary)]">
-                      {item.pass ? 'PASS' : 'FAIL'}
-                    </span>
+                  <div className="grid grid-cols-3 gap-2 font-mono text-[10px] pt-1 border-t border-[var(--border-subtle)]/60 text-[var(--text-secondary)]">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] text-[var(--text-tertiary)] uppercase">Foreground</span>
+                      <div className="flex items-center gap-1 font-bold text-[var(--text-primary)] mt-0.5">
+                        <span
+                          className="w-2.5 h-2.5 rounded-xs border border-white/20 flex-shrink-0"
+                          style={{ backgroundColor: item.fg }}
+                        />
+                        <span>{item.fg}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                      <span className="text-[9px] text-[var(--text-tertiary)] uppercase">Background</span>
+                      <div className="flex items-center gap-1 font-bold text-[var(--text-primary)] mt-0.5">
+                        <span
+                          className="w-2.5 h-2.5 rounded-xs border border-white/20 flex-shrink-0"
+                          style={{ backgroundColor: item.bg }}
+                        />
+                        <span>{item.bg}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col text-right">
+                      <span className="text-[9px] text-[var(--text-tertiary)] uppercase">Contrast</span>
+                      <span
+                        className={`font-bold mt-0.5 ${
+                          item.pass ? 'text-emerald-400 font-extrabold' : 'text-rose-400 font-extrabold'
+                        }`}
+                      >
+                        {item.ratio}:1
+                      </span>
+                    </div>
                   </div>
+
+                  {/* Remediation suggestion if failing */}
+                  {!item.pass && item.suggestedFg && (
+                    <div className="flex items-center justify-between pt-2 border-t border-rose-800/30 text-[10px] font-mono">
+                      <span className="text-rose-300">
+                        Suggested: <strong className="text-white">{item.suggestedFg}</strong> ({item.suggestedRatio}:1)
+                      </span>
+                      <button
+                        onClick={() => handleApplyRoleFix(item)}
+                        className="px-2 py-0.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xs font-bold transition-colors"
+                      >
+                        Apply Fix
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

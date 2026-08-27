@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* KROMA — Editorial Digital Color Library Design System */
 
 :root {

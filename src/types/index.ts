@@ -6,15 +6,15 @@ export interface ColorItem {
   rgb: string;
   hsl: string;
   oklch: string;
-  family: 'warm' | 'cool' | 'neutral' | 'earth' | 'pastel' | 'vibrant' | 'deep';
-  hueGroup: 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'cyan' | 'blue' | 'indigo' | 'purple' | 'pink' | 'neutral';
-  tone: 'light' | 'medium' | 'dark' | 'muted';
+  family: string;
+  hueGroup: string;
+  tone: string;
   description: string;
   usageNotes: string;
   tags: string[];
   contrastWithWhite: number;
   contrastWithBlack: number;
-  bestTextColor: '#FFFFFF' | '#111111';
+  bestTextColor: string;
   complementaryHex: string;
   analogousHexes: [string, string];
   triadicHexes: [string, string];
@@ -25,7 +25,7 @@ export interface PaletteItem {
   id: string;
   slug: string;
   title: string;
-  category: 'editorial' | 'minimal' | 'nature' | 'architectural' | 'vintage' | 'vibrant' | 'monochrome' | 'dark-mode';
+  category: string;
   description: string;
   colors: {
     name: string;
@@ -41,15 +41,15 @@ export interface ComboItem {
   id: string;
   slug: string;
   title: string;
-  harmonyType: 'Complementary' | 'Analogous' | 'Triadic' | 'Split Complementary' | 'Monochromatic' | 'Warm & Cool' | 'High Contrast' | 'Editorial Balance';
+  harmonyType: string;
   description: string;
   colors: {
     name: string;
     hex: string;
-    role: 'Background' | 'Surface' | 'Primary / Dominant' | 'Accent / Focus' | 'Muted Tone';
+    role: string;
     percentage?: number;
   }[];
-  contrastScore: string; // e.g. "AAA (14.2:1)" or "AA (6.8:1)"
+  contrastScore: string;
   usageContext: string;
   tags: string[];
 }
@@ -58,7 +58,7 @@ export interface GradientItem {
   id: string;
   slug: string;
   title: string;
-  type: 'linear' | 'radial' | 'conic' | 'mesh';
+  type: string;
   angle?: number;
   stops: {
     color: string;
@@ -66,7 +66,7 @@ export interface GradientItem {
     name?: string;
   }[];
   css: string;
-  category: 'atmospheric' | 'sunset' | 'holographic' | 'deep-space' | 'organic' | 'editorial-metal' | 'minimal';
+  category: string;
   tags: string[];
 }
 

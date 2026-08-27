@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { RouteType } from '../types';
 import { CURATED_GRADIENTS } from '../data/gradients';
 import { GradientCard } from '../components/GradientCard';
-import { Search } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 
 interface GradientsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -11,6 +11,7 @@ interface GradientsPageProps {
 export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState<number>(36);
 
   const categories = [
     'all',
@@ -18,7 +19,9 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
     'sunset',
     'holographic',
     'deep-space',
+    'organic',
     'editorial-metal',
+    'minimal',
   ];
 
   const filteredGradients = CURATED_GRADIENTS.filter((g) => {
@@ -36,13 +39,15 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
     return true;
   });
 
+  const displayedGradients = filteredGradients.slice(0, visibleCount);
+
   return (
     <div className="gradients-page">
       <header className="page-header">
         <span className="page-category-label">Digital Library • Section 04</span>
         <h1 className="page-title">Curated CSS Gradients</h1>
         <p className="page-description">
-          Continuous color transitions engineered for clean browser rendering, editorial atmosphere, and digital backdrops.
+          A library of {CURATED_GRADIENTS.length.toLocaleString()} continuous color transitions engineered for clean browser rendering, editorial atmosphere, and digital backdrops.
         </p>
       </header>
 
@@ -56,7 +61,10 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
             <button
               key={cat}
               className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setVisibleCount(36);
+              }}
             >
               {cat}
             </button>
@@ -71,9 +79,16 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
             style={{ paddingLeft: '32px' }}
             placeholder="Filter gradients, hex..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setVisibleCount(36);
+            }}
           />
         </div>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
+        <span>SHOWING {displayedGradients.length.toLocaleString()} OF {filteredGradients.length.toLocaleString()} GRADIENT SPECIMENS</span>
       </div>
 
       {filteredGradients.length === 0 ? (
@@ -86,17 +101,33 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
             onClick={() => {
               setSelectedCategory('all');
               setSearchQuery('');
+              setVisibleCount(36);
             }}
           >
             Reset Filters
           </button>
         </div>
       ) : (
-        <div className="specimen-grid-gradients">
-          {filteredGradients.map((gradient) => (
-            <GradientCard key={gradient.id} gradient={gradient} onNavigate={onNavigate} />
-          ))}
-        </div>
+        <>
+          <div className="specimen-grid-gradients">
+            {displayedGradients.map((gradient) => (
+              <GradientCard key={gradient.id} gradient={gradient} onNavigate={onNavigate} />
+            ))}
+          </div>
+
+          {visibleCount < filteredGradients.length && (
+            <div style={{ textAlign: 'center', marginTop: '40px' }}>
+              <button
+                className="btn-secondary"
+                onClick={() => setVisibleCount((prev) => prev + 36)}
+                style={{ padding: '12px 28px', fontSize: '0.88rem' }}
+              >
+                <span>Load More Gradients ({filteredGradients.length - visibleCount} remaining)</span>
+                <ChevronDown size={15} />
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

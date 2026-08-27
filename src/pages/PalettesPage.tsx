@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { RouteType } from '../types';
 import { CURATED_PALETTES } from '../data/palettes';
 import { PaletteCard } from '../components/PaletteCard';
-import { Search } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 
 interface PalettesPageProps {
   onNavigate: (route: RouteType) => void;
@@ -11,6 +11,7 @@ interface PalettesPageProps {
 export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState<number>(36);
 
   const categories = [
     'all',
@@ -39,13 +40,15 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
     return true;
   });
 
+  const displayedPalettes = filteredPalettes.slice(0, visibleCount);
+
   return (
     <div className="palettes-page">
       <header className="page-header">
         <span className="page-category-label">Digital Library • Section 02</span>
         <h1 className="page-title">Curated Palette Systems</h1>
         <p className="page-description">
-          Modernist, architectural, and botanical harmonic palettes assembled for identity systems, design tokens, and editorial specimen documents.
+          A catalogue of {CURATED_PALETTES.length.toLocaleString()} modernist, architectural, and botanical harmonic palettes assembled for identity systems, design tokens, and editorial specimen documents.
         </p>
       </header>
 
@@ -59,7 +62,10 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
             <button
               key={cat}
               className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setVisibleCount(36);
+              }}
             >
               {cat}
             </button>
@@ -74,9 +80,16 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
             style={{ paddingLeft: '32px' }}
             placeholder="Filter palettes, tags, hex..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setVisibleCount(36);
+            }}
           />
         </div>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
+        <span>SHOWING {displayedPalettes.length.toLocaleString()} OF {filteredPalettes.length.toLocaleString()} PALETTE SYSTEMS</span>
       </div>
 
       {filteredPalettes.length === 0 ? (
@@ -89,17 +102,33 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
             onClick={() => {
               setSelectedCategory('all');
               setSearchQuery('');
+              setVisibleCount(36);
             }}
           >
             Reset Filters
           </button>
         </div>
       ) : (
-        <div className="specimen-grid-palettes">
-          {filteredPalettes.map((palette) => (
-            <PaletteCard key={palette.id} palette={palette} onNavigate={onNavigate} />
-          ))}
-        </div>
+        <>
+          <div className="specimen-grid-palettes">
+            {displayedPalettes.map((palette) => (
+              <PaletteCard key={palette.id} palette={palette} onNavigate={onNavigate} />
+            ))}
+          </div>
+
+          {visibleCount < filteredPalettes.length && (
+            <div style={{ textAlign: 'center', marginTop: '40px' }}>
+              <button
+                className="btn-secondary"
+                onClick={() => setVisibleCount((prev) => prev + 36)}
+                style={{ padding: '12px 28px', fontSize: '0.88rem' }}
+              >
+                <span>Load More Palettes ({filteredPalettes.length - visibleCount} remaining)</span>
+                <ChevronDown size={15} />
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

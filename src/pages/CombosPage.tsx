@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { RouteType } from '../types';
 import { CURATED_COMBOS } from '../data/combos';
 import { ComboCard } from '../components/ComboCard';
-import { Search } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 
 interface CombosPageProps {
   onNavigate: (route: RouteType) => void;
@@ -11,6 +11,7 @@ interface CombosPageProps {
 export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
   const [selectedHarmony, setSelectedHarmony] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState<number>(36);
 
   const harmonyTypes = [
     'all',
@@ -19,6 +20,7 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
     'Triadic',
     'Split Complementary',
     'Monochromatic',
+    'Warm & Cool',
     'High Contrast',
     'Editorial Balance',
   ];
@@ -38,13 +40,15 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
     return true;
   });
 
+  const displayedCombos = filteredCombos.slice(0, visibleCount);
+
   return (
     <div className="combos-page">
       <header className="page-header">
         <span className="page-category-label">Digital Library • Section 03</span>
         <h1 className="page-title">Color Harmonies &amp; Combinations</h1>
         <p className="page-description">
-          Engineered relational color combinations with explicit surface proportions, WCAG contrast scores, and architectural role definitions.
+          A library of {CURATED_COMBOS.length.toLocaleString()} relational color combinations with explicit surface proportions, WCAG AAA contrast scores, and architectural role definitions.
         </p>
       </header>
 
@@ -58,7 +62,10 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
             <button
               key={type}
               className={`filter-pill ${selectedHarmony === type ? 'active' : ''}`}
-              onClick={() => setSelectedHarmony(type)}
+              onClick={() => {
+                setSelectedHarmony(type);
+                setVisibleCount(36);
+              }}
             >
               {type}
             </button>
@@ -73,9 +80,16 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
             style={{ paddingLeft: '32px' }}
             placeholder="Filter combinations..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setVisibleCount(36);
+            }}
           />
         </div>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
+        <span>SHOWING {displayedCombos.length.toLocaleString()} OF {filteredCombos.length.toLocaleString()} COLOR HARMONIES</span>
       </div>
 
       {filteredCombos.length === 0 ? (
@@ -88,17 +102,33 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
             onClick={() => {
               setSelectedHarmony('all');
               setSearchQuery('');
+              setVisibleCount(36);
             }}
           >
             Reset Filters
           </button>
         </div>
       ) : (
-        <div className="specimen-grid-combos">
-          {filteredCombos.map((combo) => (
-            <ComboCard key={combo.id} combo={combo} onNavigate={onNavigate} />
-          ))}
-        </div>
+        <>
+          <div className="specimen-grid-combos">
+            {displayedCombos.map((combo) => (
+              <ComboCard key={combo.id} combo={combo} onNavigate={onNavigate} />
+            ))}
+          </div>
+
+          {visibleCount < filteredCombos.length && (
+            <div style={{ textAlign: 'center', marginTop: '40px' }}>
+              <button
+                className="btn-secondary"
+                onClick={() => setVisibleCount((prev) => prev + 36)}
+                style={{ padding: '12px 28px', fontSize: '0.88rem' }}
+              >
+                <span>Load More Harmonies ({filteredCombos.length - visibleCount} remaining)</span>
+                <ChevronDown size={15} />
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

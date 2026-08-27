@@ -14,6 +14,7 @@ import { GradientsPage } from './pages/GradientsPage';
 import { GradientDetailPage } from './pages/GradientDetailPage';
 import { LiveColorsPage } from './pages/LiveColorsPage';
 import { SavedPage } from './pages/SavedPage';
+import { MobilePaletteGeneratorPage } from './pages/MobilePaletteGeneratorPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminHubPage } from './pages/admin/AdminHubPage';
 import { CURATED_COLORS } from './data/colors';
@@ -26,6 +27,11 @@ function parseUrlToRoute(): RouteType {
   if (!path) return { path: 'home' };
 
   const segments = path.split('/');
+  if (segments[0] === 'palette-generator' || segments[0] === 'generator') {
+    const params = new URLSearchParams(window.location.search);
+    const colors = params.get('colors') || undefined;
+    return { path: 'palette-generator', colors };
+  }
   if (segments[0] === 'colors') {
     if (segments[1]) {
       const match = CURATED_COLORS.find((c) => c.slug === segments[1]);
@@ -109,6 +115,8 @@ function routeToUrl(route: RouteType): string {
       return `/gradients/${route.slug}`;
     case 'live':
       return '/live';
+    case 'palette-generator':
+      return route.colors ? `/palette-generator?colors=${route.colors}` : '/palette-generator';
     case 'admin':
       return route.tab ? `/admin/${route.tab}` : '/admin';
     case 'saved':
@@ -141,41 +149,44 @@ export const App: React.FC = () => {
     }
   };
 
-  // Update document title for SEO
+  // SEO & Head Title Management
   useEffect(() => {
     switch (currentRoute.path) {
       case 'home':
-        document.title = 'KROMA — Digital Color Library & Design Reference';
+        document.title = 'KROMA — The Definitive Editorial Color & Palette Library';
         break;
       case 'colors':
-        document.title = 'Curated Colors | KROMA Digital Library';
+        document.title = 'Color Specimens Library | 500+ Curated Gamuts | KROMA';
         break;
       case 'color-detail':
-        document.title = `${currentRoute.slug.replace(/-/g, ' ').toUpperCase()} | Color Specimen | KROMA`;
+        document.title = `${currentRoute.slug.toUpperCase()} | Color Specimen | KROMA`;
         break;
       case 'palettes':
-        document.title = 'Palette Systems | Curated Modernist Palettes | KROMA';
+        document.title = 'Curated Palette Systems | 5-Tone Design Harmonies | KROMA';
         break;
       case 'palette-detail':
-        document.title = `${currentRoute.slug.replace(/-/g, ' ').toUpperCase()} | Palette System | KROMA`;
+        document.title = `${currentRoute.slug.toUpperCase()} | Palette System | KROMA`;
         break;
       case 'combos':
-        document.title = 'Color Harmonies & Combos | Relational Color Theory | KROMA';
+        document.title = 'Editorial Harmonies & Pairings | WCAG AAA Tested | KROMA';
         break;
       case 'combo-detail':
-        document.title = `${currentRoute.slug.replace(/-/g, ' ').toUpperCase()} | Color Harmony | KROMA`;
+        document.title = `${currentRoute.slug.toUpperCase()} | Color Harmony | KROMA`;
         break;
       case 'gradients':
-        document.title = 'CSS Gradients | Curated Atmosphere & Gamut | KROMA';
+        document.title = 'CSS Gradients & Multi-Stop Spectra | KROMA';
         break;
       case 'gradient-detail':
-        document.title = `${currentRoute.slug.replace(/-/g, ' ').toUpperCase()} | Gradient Specimen | KROMA`;
+        document.title = `${currentRoute.slug.toUpperCase()} | Gradient Specimen | KROMA`;
         break;
       case 'live':
-        document.title = 'Live Colors — Real-Time Environmental Palette | KROMA';
+        document.title = 'Real-Time Global Color Stream | KROMA Live';
+        break;
+      case 'palette-generator':
+        document.title = 'Mobile Palette Generator | Fast Touch-First Harmonies | KROMA';
         break;
       case 'admin':
-        document.title = 'Administration Command Center | KROMA';
+        document.title = 'Editorial CMS & Library Control | KROMA Admin';
         break;
       case 'saved':
         document.title = 'Saved Specimens | Curator Workspace | KROMA';
@@ -213,6 +224,13 @@ export const App: React.FC = () => {
         return <GradientDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
       case 'live':
         return <LiveColorsPage onNavigate={handleNavigate} />;
+      case 'palette-generator':
+        return (
+          <MobilePaletteGeneratorPage
+            initialColorsQuery={currentRoute.colors}
+            onNavigate={handleNavigate}
+          />
+        );
       case 'saved':
         return <SavedPage onNavigate={handleNavigate} />;
       case 'not-found':

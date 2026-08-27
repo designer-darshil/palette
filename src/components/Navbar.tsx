@@ -35,6 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     if (path === 'combos' && (currentRoute.path === 'combos' || currentRoute.path === 'combo-detail')) return true;
     if (path === 'gradients' && (currentRoute.path === 'gradients' || currentRoute.path === 'gradient-detail')) return true;
     if (path === 'live' && currentRoute.path === 'live') return true;
+    if (path === 'palette-generator' && currentRoute.path === 'palette-generator') return true;
     if (path === 'saved' && currentRoute.path === 'saved') return true;
     return false;
   };
@@ -94,6 +95,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <Sparkles size={15} />
               <span>Gradients</span>
+            </button>
+            <button
+              className={`nav-link ${isActive('palette-generator') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'palette-generator' })}
+            >
+              <Sparkles size={14} color="#E9C46A" />
+              <span>Generator</span>
             </button>
             <button
               className={`nav-link ${isActive('live') ? 'active' : ''}`}
@@ -197,6 +205,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <span>CSS Gradients</span>
               <Sparkles size={16} />
+            </button>
+            <button
+              className={`mobile-nav-link ${isActive('palette-generator') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'palette-generator' })}
+            >
+              <span>Mobile Palette Generator</span>
+              <Sparkles size={16} color="#E9C46A" />
             </button>
             <button
               className={`mobile-nav-link ${isActive('live') ? 'active' : ''}`}

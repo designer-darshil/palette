@@ -12,12 +12,10 @@ import {
   Sun,
   Moon,
   Monitor,
-  Shield,
 } from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
 import { useTheme } from '../context/ThemeContext';
-import { useAdminAuth } from '../context/AdminAuthContext';
 
 interface NavbarProps {
   currentRoute: RouteType;
@@ -28,7 +26,6 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpenSearch }) => {
   const { savedItems } = useSaved();
   const { theme, setTheme, resolvedTheme } = useTheme();
-  const { isAuthenticated } = useAdminAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isActive = (path: string) => {
@@ -39,7 +36,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     if (path === 'gradients' && (currentRoute.path === 'gradients' || currentRoute.path === 'gradient-detail')) return true;
     if (path === 'live' && currentRoute.path === 'live') return true;
     if (path === 'saved' && currentRoute.path === 'saved') return true;
-    if (path === 'admin' && currentRoute.path === 'admin') return true;
     return false;
   };
 
@@ -59,15 +55,17 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     <>
       <header className="navbar" role="banner">
         <div className="navbar-inner">
+          {/* Brand Logo */}
           <button
             className="brand-logo"
             onClick={() => handleNav({ path: 'home' })}
             aria-label="KROMA Color Library Home"
           >
             <span className="brand-glyph" />
-            <span>KROMA</span>
+            <span className="brand-title-text">KROMA</span>
           </button>
 
+          {/* Desktop Navigation Links */}
           <nav className="nav-links" aria-label="Main Navigation">
             <button
               className={`nav-link ${isActive('colors') ? 'active' : ''}`}
@@ -106,107 +104,105 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             </button>
           </nav>
 
+          {/* Unified Action Controls (Search, Saved, Theme, Menu) */}
           <div className="nav-actions">
+            {/* Quick Search */}
             <button
               className="search-trigger-btn"
               onClick={onOpenSearch}
-              aria-label="Search Library"
+              aria-label="Search color library"
+              title="Search Library (⌘K)"
             >
               <Search size={14} />
               <span className="search-text">Search</span>
               <kbd className="kbd-shortcut">⌘K</kbd>
             </button>
 
-            {/* Theme Toggle Button */}
-            <button
-              onClick={cycleTheme}
-              className="btn-secondary"
-              style={{
-                padding: '6px 10px',
-                fontSize: '0.75rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-              title={`Current Theme: ${theme.toUpperCase()} (Click to toggle Light/Dark/System)`}
-              aria-label="Toggle light, dark, or system theme"
-            >
-              {theme === 'system' ? (
-                <Monitor size={13} />
-              ) : resolvedTheme === 'dark' ? (
-                <Moon size={13} />
-              ) : (
-                <Sun size={13} color="#E9C46A" />
-              )}
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', textTransform: 'capitalize' }}>
-                {theme}
-              </span>
-            </button>
-
+            {/* Saved Items */}
             <button
               className={`saved-nav-btn ${isActive('saved') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'saved' })}
-              aria-label={`Saved items (${savedItems.length})`}
+              aria-label={`Saved collection (${savedItems.length} items)`}
+              title="View Saved Specimens"
             >
-              <Bookmark size={14} />
-              <span>Saved</span>
+              <Bookmark size={14} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
+              <span className="saved-nav-text">Saved</span>
               {savedItems.length > 0 && (
                 <span className="saved-count-badge">{savedItems.length}</span>
               )}
             </button>
 
+            {/* Compact Geometric Theme Toggle */}
+            <button
+              onClick={cycleTheme}
+              className="theme-toggle-btn"
+              title={`Active Theme: ${theme.toUpperCase()} (Click to toggle Light / Dark / System)`}
+              aria-label={`Current Theme: ${theme}. Click to switch theme.`}
+            >
+              {theme === 'system' ? (
+                <Monitor size={14} />
+              ) : resolvedTheme === 'dark' ? (
+                <Moon size={14} />
+              ) : (
+                <Sun size={14} color="#E9C46A" />
+              )}
+              <span className="theme-name-text">{theme}</span>
+            </button>
+
+            {/* Mobile Navigation Toggle */}
             <button
               className="mobile-menu-toggle"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle navigation menu"
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
 
+        {/* Mobile Navigation Overlay */}
         {mobileOpen && (
           <div className="mobile-nav-overlay">
             <button
               className={`mobile-nav-link ${isActive('home') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'home' })}
             >
-              <span>Home</span>
+              <span>Home Library</span>
             </button>
             <button
               className={`mobile-nav-link ${isActive('colors') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'colors' })}
             >
-              <span>Colors</span>
+              <span>Color Specimens</span>
               <Palette size={16} />
             </button>
             <button
               className={`mobile-nav-link ${isActive('palettes') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'palettes' })}
             >
-              <span>Palettes</span>
+              <span>Palette Systems</span>
               <Layers size={16} />
             </button>
             <button
               className={`mobile-nav-link ${isActive('combos') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'combos' })}
             >
-              <span>Combos</span>
+              <span>Harmonies &amp; Combos</span>
               <Wand2 size={16} />
             </button>
             <button
               className={`mobile-nav-link ${isActive('gradients') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'gradients' })}
             >
-              <span>Gradients</span>
+              <span>CSS Gradients</span>
               <Sparkles size={16} />
             </button>
             <button
               className={`mobile-nav-link ${isActive('live') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'live' })}
             >
-              <span>Live Atmosphere</span>
+              <span>Real-Time Live Atmosphere</span>
               <Radio size={16} color="#E63946" />
             </button>
             <button
@@ -214,7 +210,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               onClick={() => handleNav({ path: 'saved' })}
             >
               <span>Saved Specimens ({savedItems.length})</span>
-              <Bookmark size={16} />
+              <Bookmark size={16} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
             </button>
           </div>
         )}

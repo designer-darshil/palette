@@ -15,6 +15,7 @@ import { GradientDetailPage } from './pages/GradientDetailPage';
 import { LiveColorsPage } from './pages/LiveColorsPage';
 import { SavedPage } from './pages/SavedPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { AdminHubPage } from './pages/admin/AdminHubPage';
 import { CURATED_COLORS } from './data/colors';
 import { CURATED_PALETTES } from './data/palettes';
 import { CURATED_COMBOS } from './data/combos';
@@ -59,6 +60,9 @@ function parseUrlToRoute(): RouteType {
   }
   if (segments[0] === 'live') {
     return { path: 'live' };
+  }
+  if (segments[0] === 'admin') {
+    return { path: 'admin', tab: segments[1] || 'dashboard' };
   }
   if (segments[0] === 'saved') {
     return { path: 'saved' };
@@ -105,6 +109,8 @@ function routeToUrl(route: RouteType): string {
       return `/gradients/${route.slug}`;
     case 'live':
       return '/live';
+    case 'admin':
+      return route.tab ? `/admin/${route.tab}` : '/admin';
     case 'saved':
       return '/saved';
     case 'not-found':
@@ -168,6 +174,9 @@ export const App: React.FC = () => {
       case 'live':
         document.title = 'Live Colors — Real-Time Environmental Palette | KROMA';
         break;
+      case 'admin':
+        document.title = 'Administration Command Center | KROMA';
+        break;
       case 'saved':
         document.title = 'Saved Specimens | Curator Workspace | KROMA';
         break;
@@ -176,6 +185,11 @@ export const App: React.FC = () => {
         break;
     }
   }, [currentRoute]);
+
+  // Admin route renders its own standalone layout
+  if (currentRoute.path === 'admin') {
+    return <AdminHubPage onNavigatePublic={handleNavigate} />;
+  }
 
   const renderCurrentPage = () => {
     switch (currentRoute.path) {

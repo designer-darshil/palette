@@ -81,5 +81,6 @@ export type RouteType =
   | { path: 'gradients' }
   | { path: 'gradient-detail'; slug: string }
   | { path: 'live' }
+  | { path: 'admin'; tab?: string }
   | { path: 'saved' }
   | { path: 'not-found'; requestedUrl?: string };

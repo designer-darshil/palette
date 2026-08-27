@@ -1,7 +1,23 @@
 import React, { useState } from 'react';
-import { Search, Bookmark, Menu, X, Layers, Palette, Sparkles, Wand2, Radio } from 'lucide-react';
+import {
+  Search,
+  Bookmark,
+  Menu,
+  X,
+  Layers,
+  Palette,
+  Sparkles,
+  Wand2,
+  Radio,
+  Sun,
+  Moon,
+  Monitor,
+  Shield,
+} from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
+import { useTheme } from '../context/ThemeContext';
+import { useAdminAuth } from '../context/AdminAuthContext';
 
 interface NavbarProps {
   currentRoute: RouteType;
@@ -11,6 +27,8 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpenSearch }) => {
   const { savedItems } = useSaved();
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { isAuthenticated } = useAdminAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isActive = (path: string) => {
@@ -21,6 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     if (path === 'gradients' && (currentRoute.path === 'gradients' || currentRoute.path === 'gradient-detail')) return true;
     if (path === 'live' && currentRoute.path === 'live') return true;
     if (path === 'saved' && currentRoute.path === 'saved') return true;
+    if (path === 'admin' && currentRoute.path === 'admin') return true;
     return false;
   };
 
@@ -28,6 +47,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     onNavigate(route);
     setMobileOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const cycleTheme = () => {
+    if (theme === 'dark') setTheme('light');
+    else if (theme === 'light') setTheme('system');
+    else setTheme('dark');
   };
 
   return (
@@ -92,6 +117,32 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               <kbd className="kbd-shortcut">⌘K</kbd>
             </button>
 
+            {/* Theme Toggle Button */}
+            <button
+              onClick={cycleTheme}
+              className="btn-secondary"
+              style={{
+                padding: '6px 10px',
+                fontSize: '0.75rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+              title={`Current Theme: ${theme.toUpperCase()} (Click to toggle Light/Dark/System)`}
+              aria-label="Toggle light, dark, or system theme"
+            >
+              {theme === 'system' ? (
+                <Monitor size={13} />
+              ) : resolvedTheme === 'dark' ? (
+                <Moon size={13} />
+              ) : (
+                <Sun size={13} color="#E9C46A" />
+              )}
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', textTransform: 'capitalize' }}>
+                {theme}
+              </span>
+            </button>
+
             <button
               className={`saved-nav-btn ${isActive('saved') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'saved' })}
@@ -102,6 +153,24 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               {savedItems.length > 0 && (
                 <span className="saved-count-badge">{savedItems.length}</span>
               )}
+            </button>
+
+            {/* Admin Link */}
+            <button
+              onClick={() => handleNav({ path: 'admin' })}
+              className={`btn-secondary ${isActive('admin') ? 'active' : ''}`}
+              style={{
+                padding: '6px 10px',
+                fontSize: '0.75rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                borderColor: isAuthenticated ? 'rgba(230, 57, 70, 0.35)' : 'var(--border-medium)',
+              }}
+              title="Admin Panel"
+            >
+              <Shield size={13} color={isAuthenticated ? '#E63946' : 'currentColor'} />
+              <span>Admin</span>
             </button>
 
             <button
@@ -164,6 +233,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <span>Saved Specimens ({savedItems.length})</span>
               <Bookmark size={16} />
+            </button>
+            <button
+              className={`mobile-nav-link ${isActive('admin') ? 'active' : ''}`}
+              onClick={() => handleNav({ path: 'admin' })}
+            >
+              <span>Admin Management</span>
+              <Shield size={16} color="#E63946" />
             </button>
           </div>
         )}

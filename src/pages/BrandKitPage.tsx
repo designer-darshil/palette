@@ -49,6 +49,7 @@ import {
   resolveAuditedBrandKitRoles,
   SemanticAuditRoleResult,
 } from '../utils/brandKitStorage';
+import { ColorPickerModal } from '../components/ColorPickerModal';
 
 interface BrandKitPageProps {
   initialId?: string;
@@ -79,6 +80,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
   const [exportFormat, setExportFormat] = useState<'css' | 'json' | 'tailwind'>('css');
+  const [pickerTarget, setPickerTarget] = useState<{
+    key: keyof BrandKitRoles;
+    label: string;
+    color: string;
+  } | null>(null);
 
   // Strict Semantic Accessibility Audit Report (Single source of truth)
   const auditReport = useMemo(() => auditBrandKitRoles(brandKit.roles), [brandKit.roles]);
@@ -384,11 +390,12 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   className="p-2.5 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs flex items-center justify-between gap-2 min-w-0"
                 >
                   <div className="flex items-center gap-2 min-w-0 flex-1">
-                    <input
-                      type="color"
-                      value={hex}
-                      onChange={(e) => handleRoleColorChange(key, e.target.value)}
-                      className="w-7 h-7 border border-[var(--border-medium)] rounded-xs p-0 bg-transparent cursor-pointer flex-shrink-0"
+                    <button
+                      type="button"
+                      onClick={() => setPickerTarget({ key, label, color: hex })}
+                      className="w-7 h-7 border border-[var(--border-medium)] hover:scale-105 rounded-xs p-0 flex-shrink-0 shadow-sm transition-transform cursor-pointer"
+                      style={{ backgroundColor: hex }}
+                      title={`Open Color Selector for ${label}`}
                     />
                     <div className="min-w-0 flex-1">
                       <div className="text-[11px] font-bold text-[var(--text-primary)] truncate">
@@ -1036,6 +1043,20 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Interactive Color Selector Modal */}
+      {pickerTarget && (
+        <ColorPickerModal
+          isOpen={!!pickerTarget}
+          initialColor={pickerTarget.color}
+          paletteColors={palettes.flatMap((p) => p.colors.map((c) => c.hex)).slice(0, 8)}
+          title={`SELECT ${pickerTarget.label.toUpperCase()}`}
+          onApply={(hex) => {
+            handleRoleColorChange(pickerTarget.key, hex);
+          }}
+          onClose={() => setPickerTarget(null)}
+        />
       )}
     </div>
   );

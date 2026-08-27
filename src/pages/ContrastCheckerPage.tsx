@@ -40,6 +40,7 @@ import {
   CvdType,
   ContrastSuggestion,
 } from '../utils/contrastSuggestions';
+import { ColorPickerModal } from '../components/ColorPickerModal';
 
 interface ContrastCheckerPageProps {
   initialFg?: string;
@@ -77,6 +78,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
   const [matrixOpen, setMatrixOpen] = useState<boolean>(false);
   const [cvdMode, setCvdMode] = useState<CvdType>('normal');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [pickerTarget, setPickerTarget] = useState<'fg' | 'bg' | null>(null);
 
   // Sync URL query state
   useEffect(() => {
@@ -327,12 +329,12 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
               {/* Main Input Row */}
               <div className="flex items-center gap-2.5 min-w-0">
-                <input
-                  type="color"
-                  value={fgHex}
-                  onChange={(e) => setFgHex(e.target.value.toUpperCase())}
-                  className="w-10 h-10 sm:w-11 sm:h-10 border border-[var(--border-medium)] rounded-xs bg-transparent cursor-pointer p-0 flex-shrink-0"
-                  title="Pick Foreground Color"
+                <button
+                  type="button"
+                  onClick={() => setPickerTarget('fg')}
+                  className="w-10 h-10 sm:w-11 sm:h-10 border border-[var(--border-medium)] hover:scale-105 rounded-xs p-0 flex-shrink-0 shadow-inner cursor-pointer transition-transform"
+                  style={{ backgroundColor: fgHex }}
+                  title="Open Color Selector for Foreground"
                 />
                 <input
                   type="text"
@@ -392,12 +394,12 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
               {/* Main Input Row */}
               <div className="flex items-center gap-2.5 min-w-0">
-                <input
-                  type="color"
-                  value={bgHex}
-                  onChange={(e) => setBgHex(e.target.value.toUpperCase())}
-                  className="w-10 h-10 sm:w-11 sm:h-10 border border-[var(--border-medium)] rounded-xs bg-transparent cursor-pointer p-0 flex-shrink-0"
-                  title="Pick Background Color"
+                <button
+                  type="button"
+                  onClick={() => setPickerTarget('bg')}
+                  className="w-10 h-10 sm:w-11 sm:h-10 border border-[var(--border-medium)] hover:scale-105 rounded-xs p-0 flex-shrink-0 shadow-inner cursor-pointer transition-transform"
+                  style={{ backgroundColor: bgHex }}
+                  title="Open Color Selector for Background"
                 />
                 <input
                   type="text"
@@ -836,6 +838,21 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Interactive Color Selector Modal */}
+      {pickerTarget && (
+        <ColorPickerModal
+          isOpen={!!pickerTarget}
+          initialColor={pickerTarget === 'fg' ? fgHex : bgHex}
+          paletteColors={selectedPalette?.colors?.map((c) => c.hex) || []}
+          title={pickerTarget === 'fg' ? 'SELECT FOREGROUND COLOR' : 'SELECT BACKGROUND COLOR'}
+          onApply={(hex) => {
+            if (pickerTarget === 'fg') setFgHex(hex);
+            else setBgHex(hex);
+          }}
+          onClose={() => setPickerTarget(null)}
+        />
+      )}
     </div>
   );
 };

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Copy, Bookmark, Sparkles, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Copy, Bookmark, Sparkles, RefreshCw, Share2, ExternalLink } from 'lucide-react';
 import { RouteType } from '../types';
 import { CURATED_GRADIENTS } from '../data/gradients';
 import { CURATED_COLORS } from '../data/colors';
+import { CURATED_PALETTES } from '../data/palettes';
+import { CURATED_COMBOS } from '../data/combos';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { GradientCard } from '../components/GradientCard';
-import { ColorCard } from '../components/ColorCard';
+import { PaletteCard } from '../components/PaletteCard';
+import { ComboCard } from '../components/ComboCard';
 
 interface GradientDetailPageProps {
   slug: string;
@@ -37,6 +40,20 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
     }
   };
 
+  const handleCopyStopHex = async (hex: string, name: string) => {
+    const success = await copyToClipboard(hex);
+    if (success) {
+      showToast(`Copied ${hex}`, name, hex);
+    }
+  };
+
+  const handleShare = async () => {
+    const success = await copyToClipboard(window.location.href);
+    if (success) {
+      showToast('Gradient link copied to clipboard', baseGradient.title);
+    }
+  };
+
   const handleToggleSave = () => {
     saveItem({
       id: baseGradient.id,
@@ -52,14 +69,27 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
     );
   };
 
+  const findMatchingColorSlug = (hex: string) => {
+    const match = CURATED_COLORS.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
+    return match ? match.slug : null;
+  };
+
   const relatedGradients = CURATED_GRADIENTS.filter(
-    (g) => g.id !== baseGradient.id && g.category === baseGradient.category
+    (g) => g.id !== baseGradient.id && (g.category === baseGradient.category || g.tags.some((t) => baseGradient.tags.includes(t)))
+  ).slice(0, 2);
+
+  const relatedPalettes = CURATED_PALETTES.filter(
+    (p) => p.tags.some((t) => baseGradient.tags.includes(t)) || p.category === baseGradient.category
+  ).slice(0, 2);
+
+  const relatedCombos = CURATED_COMBOS.filter(
+    (cb) => cb.tags.some((t) => baseGradient.tags.includes(t))
   ).slice(0, 2);
 
   return (
     <div className="detail-container">
-      {/* Navigation Breadcrumb */}
-      <div>
+      {/* Navigation Breadcrumb & Share */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button
           className="detail-back-btn"
           onClick={() => onNavigate({ path: 'gradients' })}
@@ -67,6 +97,26 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
           <ArrowLeft size={16} />
           <span>Back to Gradients Library</span>
         </button>
+
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button
+            className="btn-secondary"
+            onClick={handleShare}
+            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+            title="Share Gradient URL"
+          >
+            <Share2 size={13} />
+            <span>Share</span>
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={handleToggleSave}
+            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+          >
+            <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
+            <span>{saved ? 'Saved' : 'Save'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Hero Gradient Stage */}
@@ -97,7 +147,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
               {baseGradient.type.toUpperCase()} • {angle}° ANGLE
             </span>
             <button
-              onClick={handleToggleSave}
+              onClick={handleCopyCss}
               style={{
                 background: 'rgba(0,0,0,0.5)',
                 color: '#FFFFFF',
@@ -106,12 +156,13 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                fontSize: '0.8rem',
+                fontSize: '0.78rem',
                 fontWeight: 600,
+                fontFamily: 'var(--font-mono)',
               }}
             >
-              <Bookmark size={15} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : '#FFFFFF'} />
-              <span>{saved ? 'Saved' : 'Save Gradient'}</span>
+              <Copy size={12} />
+              <span>COPY CSS</span>
             </button>
           </div>
 
@@ -170,6 +221,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
               value={angle}
               onChange={(e) => setAngle(Number(e.target.value))}
               style={{ flex: 1, accentColor: '#F8F9FA' }}
+              aria-label="Gradient angle slider"
             />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', width: '40px', textAlign: 'right' }}>
               {angle}°
@@ -178,44 +230,80 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
         </section>
       )}
 
-      {/* Color Stop Breakdown */}
+      {/* Color Stop Breakdown with Direct Links to Color Specimens */}
       <section>
-        <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '16px', letterSpacing: '-0.01em' }}>
-          Gradient Stops Breakdown
-        </h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '14px' }}>
+          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+            Gradient Stops &amp; Color Specimens
+          </h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
+            CLICK ANY STOP TO EXPLORE
+          </span>
+        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
-          {baseGradient.stops.map((stop, idx) => (
-            <div key={idx} className="detail-spec-card">
-              <div
-                style={{
-                  height: '40px',
-                  backgroundColor: stop.color,
-                  borderRadius: '3px',
-                  border: '1px solid var(--border-subtle)',
-                  marginBottom: '8px',
-                }}
-              />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{stop.name || `Stop 0${idx + 1}`}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                  {stop.color}
-                </span>
+          {baseGradient.stops.map((stop, idx) => {
+            const slug = findMatchingColorSlug(stop.color);
+            return (
+              <div key={idx} className="detail-spec-card">
+                <div
+                  style={{
+                    height: '40px',
+                    backgroundColor: stop.color,
+                    borderRadius: '3px',
+                    border: '1px solid var(--border-subtle)',
+                    marginBottom: '8px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => handleCopyStopHex(stop.color, stop.name || `Stop 0${idx + 1}`)}
+                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{stop.name || `Stop 0${idx + 1}`}</span>
+                  <button
+                    onClick={() => handleCopyStopHex(stop.color, stop.name || `Stop 0${idx + 1}`)}
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}
+                  >
+                    {stop.color}
+                  </button>
+                </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
+                  POSITION: {stop.position}%
+                </div>
+                {slug && (
+                  <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px solid var(--border-subtle)' }}>
+                    <button
+                      onClick={() => onNavigate({ path: 'color-detail', slug })}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '0.72rem',
+                        fontFamily: 'var(--font-mono)',
+                        color: 'var(--text-secondary)',
+                      }}
+                    >
+                      <span>View Color Specimen</span>
+                      <ExternalLink size={10} />
+                    </button>
+                  </div>
+                )}
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
-                POSITION: {stop.position}%
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
       {/* CSS Code Specimen */}
       <section className="contrast-assessment-box">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-            Production CSS Snippet
-          </h2>
+          <div>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+              Production CSS Snippet
+            </h2>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              Standard modern cross-browser linear/radial declaration.
+            </p>
+          </div>
           <button className="btn-primary" onClick={handleCopyCss} style={{ padding: '8px 14px', fontSize: '0.8rem' }}>
             <Copy size={13} />
             <span>Copy CSS</span>
@@ -239,6 +327,37 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
           </pre>
         </div>
       </section>
+
+      {/* Connected Network: Harmonies & Palettes */}
+      {relatedPalettes.length > 0 && (
+        <section>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+              Palette Systems with Matching Vibrancy
+            </h2>
+          </div>
+          <div className="specimen-grid-palettes">
+            {relatedPalettes.map((p) => (
+              <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {relatedCombos.length > 0 && (
+        <section>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+              Color Harmonies in this Aesthetic
+            </h2>
+          </div>
+          <div className="specimen-grid-combos">
+            {relatedCombos.map((cb) => (
+              <ComboCard key={cb.id} combo={cb} onNavigate={onNavigate} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Related Gradients */}
       {relatedGradients.length > 0 && (

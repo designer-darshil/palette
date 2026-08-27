@@ -1,8 +1,9 @@
 import React from 'react';
-import { ArrowLeft, Copy, Bookmark, Check, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Copy, Bookmark, Share2, ShieldCheck, ExternalLink } from 'lucide-react';
 import { RouteType } from '../types';
 import { CURATED_COMBOS } from '../data/combos';
 import { CURATED_PALETTES } from '../data/palettes';
+import { CURATED_COLORS } from '../data/colors';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
@@ -28,11 +29,18 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
     }
   };
 
+  const handleShare = async () => {
+    const success = await copyToClipboard(window.location.href);
+    if (success) {
+      showToast('Harmony link copied to clipboard', combo.title);
+    }
+  };
+
   const handleCopyAll = async () => {
-    const all = combo.colors.map((c) => `${c.name}: ${c.hex}`).join('\n');
+    const all = combo.colors.map((c) => `${c.hex} /* ${c.name} - ${c.role} */`).join('\n');
     const success = await copyToClipboard(all);
     if (success) {
-      showToast(`Copied combo harmony`, combo.title);
+      showToast(`Copied harmony tokens`, combo.title);
     }
   };
 
@@ -51,13 +59,21 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
     );
   };
 
+  const findMatchingColorSlug = (hex: string) => {
+    const match = CURATED_COLORS.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
+    return match ? match.slug : null;
+  };
+
   const relatedCombos = CURATED_COMBOS.filter((c) => c.id !== combo.id).slice(0, 2);
-  const relatedPalettes = CURATED_PALETTES.slice(0, 2);
+  const relatedPalettes = CURATED_PALETTES.filter((p) =>
+    p.colors.some((pc) => combo.colors.some((cc) => cc.hex.toLowerCase() === pc.hex.toLowerCase())) ||
+    p.tags.some((t) => combo.tags.includes(t))
+  ).slice(0, 2);
 
   return (
     <div className="detail-container">
-      {/* Navigation Breadcrumb */}
-      <div>
+      {/* Navigation Breadcrumb & Share */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button
           className="detail-back-btn"
           onClick={() => onNavigate({ path: 'combos' })}
@@ -65,6 +81,26 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
           <ArrowLeft size={16} />
           <span>Back to Combos Library</span>
         </button>
+
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button
+            className="btn-secondary"
+            onClick={handleShare}
+            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+            title="Share Combo URL"
+          >
+            <Share2 size={13} />
+            <span>Share</span>
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={handleToggleSave}
+            style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+          >
+            <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
+            <span>{saved ? 'Saved' : 'Save'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Hero Hierarchy Stage */}
@@ -143,50 +179,70 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
         </div>
 
         <div style={{ display: 'flex', gap: '10px' }}>
-          <button className="btn-secondary" onClick={handleToggleSave}>
-            <Bookmark size={15} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save Combo'}</span>
-          </button>
           <button className="btn-primary" onClick={handleCopyAll}>
             <Copy size={15} />
-            <span>Copy All Values</span>
+            <span>Copy Harmony Tokens</span>
           </button>
         </div>
       </div>
 
-      {/* Relational Balance Breakdown */}
+      {/* Relational Balance Breakdown with Color Links */}
       <section className="contrast-assessment-box">
         <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
           Visual Balance &amp; Role Allocation
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-          {combo.colors.map((c, idx) => (
-            <div
-              key={idx}
-              className="detail-spec-card"
-              style={{ cursor: 'pointer' }}
-              onClick={() => handleCopySingleHex(c.hex, c.name)}
-            >
+          {combo.colors.map((c, idx) => {
+            const slug = findMatchingColorSlug(c.hex);
+            return (
               <div
-                style={{
-                  height: '60px',
-                  backgroundColor: c.hex,
-                  borderRadius: '3px',
-                  border: '1px solid var(--border-subtle)',
-                  marginBottom: '8px',
-                }}
-              />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>{c.name}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                  {c.hex}
-                </span>
+                key={idx}
+                className="detail-spec-card"
+              >
+                <div
+                  style={{
+                    height: '60px',
+                    backgroundColor: c.hex,
+                    borderRadius: '3px',
+                    border: '1px solid var(--border-subtle)',
+                    marginBottom: '8px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => handleCopySingleHex(c.hex, c.name)}
+                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>{c.name}</span>
+                  <button
+                    onClick={() => handleCopySingleHex(c.hex, c.name)}
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--text-secondary)' }}
+                  >
+                    {c.hex}
+                  </button>
+                </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--accent-gold)' }}>
+                  {c.role} ({c.percentage}%)
+                </div>
+                {slug && (
+                  <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px solid var(--border-subtle)' }}>
+                    <button
+                      onClick={() => onNavigate({ path: 'color-detail', slug })}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '0.72rem',
+                        fontFamily: 'var(--font-mono)',
+                        color: 'var(--text-secondary)',
+                      }}
+                    >
+                      <span>View Color Specimen</span>
+                      <ExternalLink size={10} />
+                    </button>
+                  </div>
+                )}
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--accent-gold)' }}>
-                {c.role}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div style={{ padding: '16px', background: 'var(--bg-surface-2)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)', marginTop: '8px' }}>
@@ -199,7 +255,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
         </div>
       </section>
 
-      {/* Related Combos */}
+      {/* Related Harmonies */}
       {relatedCombos.length > 0 && (
         <section>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
@@ -220,7 +276,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
         <section>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
             <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-              Complementary Palette Systems
+              Palette Systems Sharing this Gamut
             </h2>
           </div>
           <div className="specimen-grid-palettes">

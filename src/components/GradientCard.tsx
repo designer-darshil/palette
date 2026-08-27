@@ -1,5 +1,5 @@
 import React from 'react';
-import { Copy, Bookmark, Sparkles } from 'lucide-react';
+import { Copy, Bookmark, Share2 } from 'lucide-react';
 import { GradientItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
@@ -20,6 +20,15 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
     const success = await copyToClipboard(`background: ${gradient.css};`);
     if (success) {
       showToast('Copied CSS Gradient', gradient.title, gradient.css);
+    }
+  };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/gradients/${gradient.slug}`;
+    const success = await copyToClipboard(url);
+    if (success) {
+      showToast('Copied gradient link', gradient.title);
     }
   };
 
@@ -116,6 +125,14 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
           </button>
 
           <div className="card-action-icons">
+            <button
+              className="card-icon-btn"
+              onClick={handleShare}
+              aria-label="Share gradient link"
+              title="Share gradient link"
+            >
+              <Share2 size={14} />
+            </button>
             <button
               className={`card-icon-btn ${saved ? 'saved' : ''}`}
               onClick={handleToggleSave}

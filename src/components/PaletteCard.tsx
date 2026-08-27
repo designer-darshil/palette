@@ -32,6 +32,15 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
     }
   };
 
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/palettes/${palette.slug}`;
+    const success = await copyToClipboard(url);
+    if (success) {
+      showToast('Copied palette link', palette.title);
+    }
+  };
+
   const handleToggleSave = (e: React.MouseEvent) => {
     e.stopPropagation();
     saveItem({
@@ -115,6 +124,14 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
           </button>
 
           <div className="card-action-icons">
+            <button
+              className="card-icon-btn"
+              onClick={handleShare}
+              aria-label="Share palette link"
+              title="Share palette link"
+            >
+              <Share2 size={14} />
+            </button>
             <button
               className={`card-icon-btn ${saved ? 'saved' : ''}`}
               onClick={handleToggleSave}

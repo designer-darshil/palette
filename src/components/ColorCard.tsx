@@ -1,5 +1,5 @@
 import React from 'react';
-import { Copy, Bookmark, Check } from 'lucide-react';
+import { Copy, Bookmark, Share2 } from 'lucide-react';
 import { ColorItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
@@ -20,6 +20,15 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
     const success = await copyToClipboard(color.hex);
     if (success) {
       showToast(`Copied ${color.hex}`, color.name, color.hex);
+    }
+  };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/colors/${color.slug}`;
+    const success = await copyToClipboard(url);
+    if (success) {
+      showToast('Copied specimen link', color.name);
     }
   };
 
@@ -91,6 +100,14 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
           </span>
 
           <div className="card-action-icons">
+            <button
+              className="card-icon-btn"
+              onClick={handleShare}
+              aria-label="Share specimen URL"
+              title="Share specimen link"
+            >
+              <Share2 size={14} />
+            </button>
             <button
               className={`card-icon-btn ${saved ? 'saved' : ''}`}
               onClick={handleToggleSave}

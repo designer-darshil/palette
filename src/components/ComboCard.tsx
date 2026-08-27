@@ -1,5 +1,5 @@
 import React from 'react';
-import { Copy, Bookmark } from 'lucide-react';
+import { Copy, Bookmark, Share2 } from 'lucide-react';
 import { ComboItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
@@ -25,10 +25,19 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
 
   const handleCopyCombo = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const allHexes = combo.colors.map((c) => c.hex).join(', ');
+    const allHexes = combo.colors.map((c) => `${c.hex} (${c.name})`).join(', ');
     const success = await copyToClipboard(allHexes);
     if (success) {
       showToast(`Copied combo harmony`, combo.title);
+    }
+  };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/combos/${combo.slug}`;
+    const success = await copyToClipboard(url);
+    if (success) {
+      showToast('Copied combo link', combo.title);
     }
   };
 
@@ -119,6 +128,14 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
           </button>
 
           <div className="card-action-icons">
+            <button
+              className="card-icon-btn"
+              onClick={handleShare}
+              aria-label="Share combo link"
+              title="Share combo link"
+            >
+              <Share2 size={14} />
+            </button>
             <button
               className={`card-icon-btn ${saved ? 'saved' : ''}`}
               onClick={handleToggleSave}

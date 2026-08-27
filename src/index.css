@@ -328,6 +328,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .nav-links {
     display: none;
   }
+  .saved-nav-btn,
+  .theme-toggle-btn {
+    display: none !important;
+  }
   .search-trigger-btn .search-text,
   .search-trigger-btn .kbd-shortcut {
     display: none;
@@ -338,20 +342,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   }
   .mobile-menu-toggle {
     display: inline-flex;
-  }
-}
-
-@media (max-width: 520px) {
-  .saved-nav-text,
-  .theme-name-text {
-    display: none;
-  }
-  .saved-nav-btn,
-  .theme-toggle-btn {
-    padding: 0 8px;
-  }
-  .nav-actions {
-    gap: 6px;
   }
 }
 

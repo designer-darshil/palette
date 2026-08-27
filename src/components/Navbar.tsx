@@ -233,52 +233,52 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
 
           {/* Unified Action Controls (Search, Saved, Theme, Menu) */}
           <div className="nav-actions flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-            {/* Quick Search */}
+            {/* Quick Search — Visible on all viewports */}
             <button
-              className="search-trigger-btn w-9 h-9 sm:w-auto p-0 sm:px-2.5 flex items-center justify-center"
+              className="search-trigger-btn w-9 h-9 md:w-auto p-0 md:px-2.5 flex items-center justify-center"
               onClick={onOpenSearch}
               aria-label="Search color library"
               title="Search Library (⌘K)"
             >
               <Search size={15} />
-              <span className="search-text hidden sm:inline text-xs">Search</span>
-              <kbd className="kbd-shortcut hidden sm:inline-block">⌘K</kbd>
+              <span className="search-text hidden md:inline text-xs">Search</span>
+              <kbd className="kbd-shortcut hidden md:inline-block">⌘K</kbd>
             </button>
 
-            {/* Saved Items */}
+            {/* Saved Items — Desktop Only (Mobile uses Drawer) */}
             <button
-              className={`saved-nav-btn w-9 h-9 sm:w-auto p-0 sm:px-2.5 flex items-center justify-center ${isActive('saved') ? 'active' : ''}`}
+              className={`saved-nav-btn hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 ${isActive('saved') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'saved' })}
               aria-label={`Saved collection (${savedItems.length} items)`}
               title="View Saved Specimens"
             >
-              <Bookmark size={15} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
-              <span className="saved-nav-text hidden sm:inline text-xs">Saved</span>
+              <Bookmark size={14} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
+              <span className="saved-nav-text text-xs">Saved</span>
               {savedItems.length > 0 && (
                 <span className="saved-count-badge">{savedItems.length}</span>
               )}
             </button>
 
-            {/* Compact Geometric Theme Toggle */}
+            {/* Compact Geometric Theme Toggle — Desktop Only (Mobile uses Drawer) */}
             <button
               onClick={cycleTheme}
-              className="theme-toggle-btn w-9 h-9 sm:w-auto p-0 sm:px-2.5 flex items-center justify-center"
+              className="theme-toggle-btn hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5"
               title={`Active Theme: ${theme.toUpperCase()} (Click to toggle Light / Dark / System)`}
               aria-label={`Current Theme: ${theme}. Click to switch theme.`}
             >
               {theme === 'system' ? (
-                <Monitor size={15} />
+                <Monitor size={14} />
               ) : resolvedTheme === 'dark' ? (
-                <Moon size={15} />
+                <Moon size={14} />
               ) : (
-                <Sun size={15} color="#E9C46A" />
+                <Sun size={14} color="#E9C46A" />
               )}
-              <span className="theme-name-text hidden sm:inline">{theme}</span>
+              <span className="theme-name-text text-xs">{theme}</span>
             </button>
 
-            {/* Mobile Navigation Toggle */}
+            {/* Mobile Navigation Toggle — Mobile/Tablet Only */}
             <button
-              className="mobile-menu-toggle w-9 h-9 flex items-center justify-center p-0"
+              className="mobile-menu-toggle w-9 h-9 flex items-center justify-center p-0 md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle navigation menu"
               aria-expanded={mobileOpen}
@@ -376,15 +376,77 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             </button>
 
             <div className="px-4 pt-4 pb-2 font-mono text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-semibold border-t border-[var(--border-subtle)] mt-2">
-              WORKSPACE
+              PREFERENCES &amp; WORKSPACE
             </div>
+
+            {/* Saved Items Link in Drawer */}
             <button
               className={`mobile-nav-link ${isActive('saved') ? 'active' : ''}`}
               onClick={() => handleNav({ path: 'saved' })}
             >
-              <span>Saved Specimens ({savedItems.length})</span>
-              <Bookmark size={16} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
+              <div className="flex items-center gap-2">
+                <Bookmark size={16} fill={savedItems.length > 0 ? 'currentColor' : 'none'} />
+                <span>Saved Specimens</span>
+              </div>
+              {savedItems.length > 0 && (
+                <span className="saved-count-badge">{savedItems.length}</span>
+              )}
             </button>
+
+            {/* Appearance / Theme Selector in Drawer */}
+            <div className="px-3.5 py-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] mt-1 flex flex-col gap-2.5">
+              <div className="flex items-center justify-between text-xs font-mono text-[var(--text-secondary)] font-semibold uppercase tracking-wider">
+                <span className="flex items-center gap-1.5">
+                  {resolvedTheme === 'dark' ? <Moon size={14} /> : <Sun size={14} color="#E9C46A" />}
+                  <span>Appearance</span>
+                </span>
+                <span className="text-[var(--accent-gold)] capitalize font-bold">{theme}</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setTheme('light')}
+                  className={`py-1.5 px-2 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all ${
+                    theme === 'light'
+                      ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-sm'
+                      : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
+                  }`}
+                  aria-label="Set Light Theme"
+                >
+                  <Sun size={13} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />
+                  <span>Light</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setTheme('dark')}
+                  className={`py-1.5 px-2 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all ${
+                    theme === 'dark'
+                      ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-sm'
+                      : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
+                  }`}
+                  aria-label="Set Dark Theme"
+                >
+                  <Moon size={13} />
+                  <span>Dark</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setTheme('system')}
+                  className={`py-1.5 px-2 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all ${
+                    theme === 'system'
+                      ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-sm'
+                      : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
+                  }`}
+                  aria-label="Set System Theme"
+                >
+                  <Monitor size={13} />
+                  <span>System</span>
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </header>

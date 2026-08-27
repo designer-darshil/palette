@@ -717,83 +717,131 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: inline-block;
 }
 
-/* Combo Card */
-.combo-card {
+/* Redesigned Two-Color Combo Specimen Card */
+.combo-specimen-card {
   background: var(--bg-surface-1);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+  cursor: pointer;
+  transition: transform var(--transition-quick), border-color var(--transition-quick), box-shadow var(--transition-quick);
 }
 
-.combo-card:hover {
+.combo-specimen-card:hover {
   transform: translateY(-2px);
   border-color: var(--border-strong);
   box-shadow: var(--shadow-specimen);
 }
 
-.combo-specimen-stage {
-  height: 180px;
+.combo-two-color-stage {
+  height: 160px;
   display: flex;
+  width: 100%;
   position: relative;
   overflow: hidden;
 }
 
-.combo-stage-surface {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 16px;
-  transition: flex 200ms ease;
-  cursor: pointer;
-}
-
-.combo-role-label {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 2px 6px;
-  border-radius: 2px;
-  background: rgba(0, 0, 0, 0.45);
-  color: #FFFFFF;
-  width: fit-content;
-}
-
-.combo-card-body {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.combo-color-half {
   flex: 1;
+  height: 100%;
+  transition: opacity var(--transition-quick);
 }
 
-.combo-badge-row {
+.combo-color-half:hover {
+  opacity: 0.92;
+}
+
+.combo-card-content {
+  padding: 12px 14px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  flex-direction: column;
+  background: var(--bg-surface-1);
 }
 
-.combo-harmony-badge {
-  background: var(--bg-surface-3);
+.combo-hex-names-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.combo-color-col {
+  display: flex;
+  flex-direction: column;
+  max-width: 48%;
+}
+
+.combo-color-col.left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.combo-color-col.right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.combo-hex-btn {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--text-primary);
-  padding: 2px 6px;
-  border-radius: 2px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: color var(--transition-quick);
+}
+
+.combo-hex-btn:hover {
+  color: var(--accent-gold);
+}
+
+.combo-color-name {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: inline-block;
+}
+
+.combo-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.combo-relationship-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.combo-contrast-badge {
-  color: var(--accent-gold);
-  border: 1px solid rgba(233, 196, 106, 0.25);
-  padding: 1px 6px;
-  border-radius: 2px;
+.combo-arrow-icon {
+  color: var(--text-tertiary);
+  transition: transform var(--transition-quick), color var(--transition-quick);
+}
+
+.combo-specimen-card:hover .combo-arrow-icon {
+  transform: translateX(2px);
+  color: var(--text-primary);
 }
 
 /* Gradient Card */

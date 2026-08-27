@@ -1,5 +1,5 @@
-import React from 'react';
-import { Copy, Bookmark, Share2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bookmark, Share2, ArrowRight, Check } from 'lucide-react';
 import { ComboItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
@@ -15,20 +15,19 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
   const { isSaved, saveItem } = useSaved();
   const saved = isSaved(combo.id);
 
-  const handleCopySingleHex = async (e: React.MouseEvent, hex: string, name: string) => {
+  const [copiedHex, setCopiedHex] = useState<string | null>(null);
+
+  // Extract the primary two colors representing the relationship
+  const color1 = combo.colors[0] || { name: 'Color A', hex: '#1D4ED8' };
+  const color2 = combo.colors[1] || combo.colors[0] || { name: 'Color B', hex: '#E63946' };
+
+  const handleCopyHex = async (e: React.MouseEvent, hex: string, name: string) => {
     e.stopPropagation();
     const success = await copyToClipboard(hex);
     if (success) {
+      setCopiedHex(hex);
+      setTimeout(() => setCopiedHex(null), 1400);
       showToast(`Copied ${hex}`, name, hex);
-    }
-  };
-
-  const handleCopyCombo = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const allHexes = combo.colors.map((c) => `${c.hex} (${c.name})`).join(', ');
-    const success = await copyToClipboard(allHexes);
-    if (success) {
-      showToast(`Copied combo harmony`, combo.title);
     }
   };
 
@@ -48,7 +47,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
       type: 'combo',
       title: combo.title,
       slug: combo.slug,
-      preview: combo.colors.map((c) => c.hex).join(','),
+      preview: `${color1.hex},${color2.hex}`,
       metadata: `${combo.harmonyType} • ${combo.contrastScore}`,
     });
     showToast(
@@ -58,74 +57,70 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
   };
 
   return (
-    <article className="combo-card" aria-label={`Color harmony combo: ${combo.title}`}>
-      <div className="combo-specimen-stage">
-        {combo.colors.map((c, idx) => (
-          <div
-            key={idx}
-            className="combo-stage-surface"
-            style={{
-              backgroundColor: c.hex,
-              flex: c.percentage || 25,
-            }}
-            onClick={(e) => handleCopySingleHex(e, c.hex, c.name)}
-            title={`${c.name} (${c.hex}) - ${c.role}`}
-          >
-            <span className="combo-role-label">{c.role.split('/')[0]}</span>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 600,
-                color: '#FFFFFF',
-                textShadow: '0 1px 2px rgba(0,0,0,0.6)',
-              }}
-            >
-              {c.hex}
-            </span>
-          </div>
-        ))}
+    <article
+      className="combo-specimen-card"
+      onClick={() => onNavigate({ path: 'combo-detail', slug: combo.slug })}
+      aria-label={`Color harmony combo: ${combo.title} (${color1.hex} and ${color2.hex})`}
+    >
+      {/* Pure Two-Color Split Visual Hero — Zero Text Overlay */}
+      <div className="combo-two-color-stage">
+        <div
+          className="combo-color-half"
+          style={{ backgroundColor: color1.hex }}
+          onClick={(e) => handleCopyHex(e, color1.hex, color1.name)}
+          title={`Click to copy ${color1.name} (${color1.hex})`}
+        />
+        <div
+          className="combo-color-half"
+          style={{ backgroundColor: color2.hex }}
+          onClick={(e) => handleCopyHex(e, color2.hex, color2.name)}
+          title={`Click to copy ${color2.name} (${color2.hex})`}
+        />
       </div>
 
-      <div className="combo-card-body">
-        <div className="combo-badge-row">
-          <span className="combo-harmony-badge">{combo.harmonyType}</span>
-          <span className="combo-contrast-badge">{combo.contrastScore}</span>
-        </div>
-
-        <h3 className="palette-card-title">
-          <button
-            onClick={() => onNavigate({ path: 'combo-detail', slug: combo.slug })}
-            style={{ textAlign: 'left' }}
-          >
-            {combo.title}
-          </button>
-        </h3>
-
-        <p className="color-card-desc">{combo.description}</p>
-
-        <div className="palette-color-hex-list">
-          {combo.colors.map((c, idx) => (
+      {/* Information Area Below Color Visualization */}
+      <div className="combo-card-content">
+        {/* Two-Column Aligned HEX Values & Names */}
+        <div className="combo-hex-names-row">
+          {/* Left Specimen Info */}
+          <div className="combo-color-col left">
             <button
-              key={idx}
-              className="palette-mini-hex-pill"
-              onClick={(e) => handleCopySingleHex(e, c.hex, c.name)}
+              type="button"
+              className="combo-hex-btn"
+              onClick={(e) => handleCopyHex(e, color1.hex, color1.name)}
+              title="Click to copy HEX"
             >
-              <span className="palette-mini-dot" style={{ backgroundColor: c.hex }} />
-              <span>{c.hex}</span>
+              <span>{copiedHex === color1.hex ? 'COPIED' : color1.hex}</span>
+              {copiedHex === color1.hex && <Check size={11} />}
             </button>
-          ))}
+            <span className="combo-color-name" title={color1.name}>
+              {color1.name}
+            </span>
+          </div>
+
+          {/* Right Specimen Info */}
+          <div className="combo-color-col right">
+            <button
+              type="button"
+              className="combo-hex-btn"
+              onClick={(e) => handleCopyHex(e, color2.hex, color2.name)}
+              title="Click to copy HEX"
+            >
+              <span>{copiedHex === color2.hex ? 'COPIED' : color2.hex}</span>
+              {copiedHex === color2.hex && <Check size={11} />}
+            </button>
+            <span className="combo-color-name" title={color2.name}>
+              {color2.name}
+            </span>
+          </div>
         </div>
 
-        <div className="color-card-footer" style={{ marginTop: '12px' }}>
-          <button
-            className="color-card-hex-btn"
-            onClick={handleCopyCombo}
-            aria-label="Copy entire combination"
-          >
-            <Copy size={11} />
-            <span>Copy Values</span>
-          </button>
+        {/* Level 3: Compact Relationship / Footer Bar */}
+        <div className="combo-card-footer">
+          <div className="combo-relationship-label">
+            <span>{combo.harmonyType}</span>
+            <ArrowRight size={12} className="combo-arrow-icon" />
+          </div>
 
           <div className="card-action-icons">
             <button
@@ -134,14 +129,15 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
               aria-label="Share combo link"
               title="Share combo link"
             >
-              <Share2 size={14} />
+              <Share2 size={13} />
             </button>
             <button
               className={`card-icon-btn ${saved ? 'saved' : ''}`}
               onClick={handleToggleSave}
               aria-label={saved ? 'Remove from saved' : 'Save combo'}
+              title={saved ? 'Saved' : 'Save combo'}
             >
-              <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
+              <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </button>
           </div>
         </div>

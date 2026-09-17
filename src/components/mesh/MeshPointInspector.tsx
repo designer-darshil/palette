@@ -11,6 +11,7 @@ import {
   Move,
   Palette,
 } from 'lucide-react';
+import { ColorSwatchPicker } from '../common/ColorSwatchPicker';
 
 interface MeshPointInspectorProps {
   config: MeshGradientConfig;
@@ -149,12 +150,11 @@ export const MeshPointInspector: React.FC<MeshPointInspectorProps> = ({
                 Color Value
               </span>
               <div className="flex items-center gap-2">
-                <input
-                  type="color"
+                <ColorSwatchPicker
                   value={selectedPoint.color}
-                  onChange={(e) => onUpdatePoint(selectedPoint.id, { color: e.target.value })}
-                  className="w-8 h-8 rounded-xs cursor-pointer border border-[var(--border-subtle)] bg-transparent p-0"
-                  aria-label="Pick Color"
+                  onChange={(color) => onUpdatePoint(selectedPoint.id, { color })}
+                  showLabel={false}
+                  size="md"
                 />
                 <div className="flex-1 flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-2 py-1">
                   <input

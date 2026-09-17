@@ -1,6 +1,7 @@
 import React from 'react';
 import { MeshGradientConfig, BackgroundMode } from '../../utils/meshEngine';
 import { Sliders, Grid, Sparkles, Layers, Paintbrush, Compass } from 'lucide-react';
+import { ColorSwatchPicker } from '../common/ColorSwatchPicker';
 
 interface MeshControlsProps {
   config: MeshGradientConfig;
@@ -241,12 +242,11 @@ export const MeshControls: React.FC<MeshControlsProps> = ({
 
           {config.background === 'solid' && (
             <div className="flex items-center gap-2 bg-[var(--bg-surface-2)] px-2.5 py-1 rounded-xs border border-[var(--border-subtle)]">
-              <input
-                type="color"
+              <ColorSwatchPicker
                 value={config.solidColor}
-                onChange={(e) => onChange({ solidColor: e.target.value })}
-                className="w-6 h-6 rounded-xs cursor-pointer border border-[var(--border-subtle)] bg-transparent p-0"
-                aria-label="Solid background color"
+                onChange={(solidColor) => onChange({ solidColor })}
+                showLabel={false}
+                size="sm"
               />
               <span className="font-mono text-xs text-[var(--text-primary)] uppercase">
                 {config.solidColor}

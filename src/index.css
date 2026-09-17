@@ -2294,3 +2294,42 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   }
 }
 
+/* ===================================================================
+   PaletteParadise Studio Custom Color Picker System
+   =================================================================== */
+.kroma-custom-picker {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-subtle);
+  animation: pickerPopIn 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] .kroma-custom-picker {
+  box-shadow: 0 14px 36px -6px rgba(0, 0, 0, 0.14), 0 0 0 1px var(--border-medium);
+}
+
+@keyframes pickerPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.color-swatch-trigger {
+  position: relative;
+  transition: all 120ms ease;
+}
+
+.color-swatch-trigger:hover {
+  transform: translateY(-1px);
+}
+
+.color-swatch-trigger:active {
+  transform: translateY(0);
+}
+
+

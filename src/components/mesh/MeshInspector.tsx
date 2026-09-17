@@ -14,6 +14,7 @@ import {
   Layers,
   Compass,
 } from 'lucide-react';
+import { ColorSwatchPicker } from '../common/ColorSwatchPicker';
 
 interface MeshInspectorProps {
   config: MeshGradientConfig;
@@ -204,12 +205,11 @@ export const MeshInspector: React.FC<MeshInspectorProps> = ({
                     Color Value
                   </span>
                   <div className="flex items-center gap-2">
-                    <input
-                      type="color"
+                    <ColorSwatchPicker
                       value={selectedPoint.color}
-                      onChange={(e) => onUpdatePoint(selectedPoint.id, { color: e.target.value })}
-                      className="w-8 h-8 rounded-xs cursor-pointer border border-[var(--border-subtle)] bg-transparent p-0"
-                      aria-label="Pick color"
+                      onChange={(color) => onUpdatePoint(selectedPoint.id, { color })}
+                      showLabel={false}
+                      size="md"
                     />
                     <div className="flex-1 flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-2.5 py-1">
                       <input
@@ -496,11 +496,11 @@ export const MeshInspector: React.FC<MeshInspectorProps> = ({
 
                 {config.background === 'solid' && (
                   <div className="flex items-center gap-2 bg-[var(--bg-surface-2)] px-2.5 py-1.5 rounded-xs border border-[var(--border-subtle)]">
-                    <input
-                      type="color"
+                    <ColorSwatchPicker
                       value={config.solidColor}
-                      onChange={(e) => onChangeConfig({ solidColor: e.target.value })}
-                      className="w-6 h-6 rounded-xs cursor-pointer border border-[var(--border-subtle)] bg-transparent p-0"
+                      onChange={(solidColor) => onChangeConfig({ solidColor })}
+                      showLabel={false}
+                      size="sm"
                     />
                     <span className="font-mono text-xs text-[var(--text-primary)] uppercase">
                       {config.solidColor}

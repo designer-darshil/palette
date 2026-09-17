@@ -16,6 +16,7 @@ import {
   StudioControlRow,
   StudioSegmented,
 } from '../studio/StudioInspector';
+import { ColorSwatchPicker } from '../common/ColorSwatchPicker';
 
 interface RampsInspectorProps {
   config: RampsConfig;
@@ -102,17 +103,12 @@ export const RampsInspector: React.FC<RampsInspectorProps> = ({
         <StudioInspectorSection title="Brand Anchor Color">
           <StudioControlRow label="Base Anchor Hex">
             <div className="flex items-center gap-2">
-              <div
-                className="w-7 h-7 rounded-xs border border-white/20 flex-shrink-0 relative overflow-hidden cursor-pointer"
-                style={{ backgroundColor: `#${config.brand}` }}
-              >
-                <input
-                  type="color"
-                  value={`#${config.brand}`}
-                  onChange={(e) => onChange({ brand: e.target.value.replace('#', '') })}
-                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                />
-              </div>
+              <ColorSwatchPicker
+                value={`#${config.brand}`}
+                onChange={(val) => onChange({ brand: val.replace('#', '') })}
+                showLabel={false}
+                size="md"
+              />
 
               <div className="flex-1 flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-2 py-1">
                 <span className="font-mono text-xs text-[var(--text-tertiary)] mr-1">#</span>

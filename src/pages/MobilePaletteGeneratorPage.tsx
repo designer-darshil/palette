@@ -42,6 +42,8 @@ import {
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
+import { CustomColorPicker } from '../components/common/CustomColorPicker';
+import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { Analytics } from '../utils/analytics';
@@ -499,42 +501,16 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
-              {/* Native Color Picker & Hex Input */}
-              <div>
-                <label style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px' }}>
-                  HEX VALUE
-                </label>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <input
-                    type="color"
-                    value={activeColor.hex}
-                    onChange={(e) => handleColorUpdate(e.target.value)}
-                    style={{
-                      width: '44px',
-                      height: '40px',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      background: 'none',
-                      cursor: 'pointer',
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={activeColor.hex}
-                    onChange={(e) => handleColorUpdate(e.target.value)}
-                    style={{
-                      flex: 1,
-                      background: 'var(--bg-surface-2)',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      padding: '0 12px',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.95rem',
-                      color: 'var(--text-primary)',
-                      fontWeight: 700,
-                    }}
-                  />
-                </div>
+              {/* Custom Color Picker Engine */}
+              <div className="flex flex-col gap-1.5">
+                <CustomColorPicker
+                  color={activeColor.hex}
+                  onChange={(hex) => handleColorUpdate(hex)}
+                  showAlpha={false}
+                  showRecent={true}
+                  showFormatSwitcher={true}
+                  className="w-full border-none shadow-none p-0"
+                />
               </div>
 
               {/* Color Code Representations */}
@@ -685,19 +661,12 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                 <label style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
                   BASE ANCHOR COLOR (OPTIONAL)
                 </label>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <input
-                    type="color"
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <ColorSwatchPicker
                     value={baseColor || '#1D4ED8'}
-                    onChange={(e) => setBaseColor(e.target.value)}
-                    style={{
-                      width: '44px',
-                      height: '40px',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      background: 'none',
-                      cursor: 'pointer',
-                    }}
+                    onChange={(hex) => setBaseColor(hex)}
+                    showLabel={false}
+                    size="lg"
                   />
                   <input
                     type="text"
@@ -709,7 +678,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                       background: 'var(--bg-surface-2)',
                       border: '1px solid var(--border-medium)',
                       borderRadius: 'var(--radius-xs)',
-                      padding: '0 12px',
+                      padding: '8px 12px',
                       fontFamily: 'var(--font-mono)',
                       fontSize: '0.88rem',
                       color: 'var(--text-primary)',

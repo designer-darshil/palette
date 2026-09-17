@@ -24,6 +24,7 @@ import {
   Layers,
 } from 'lucide-react';
 import { ColorPickerModal } from '../ColorPickerModal';
+import { ColorSwatchPicker } from '../common/ColorSwatchPicker';
 
 interface RampsGeneratorControlsProps {
   config: RampsConfig;
@@ -196,12 +197,11 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
           </label>
           <div className="flex items-center gap-2.5">
             {/* Color Swatch Picker */}
-            <button
-              type="button"
-              onClick={() => setPickerTarget('brand')}
-              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-              style={{ backgroundColor: `#${config.brand}` }}
-              title="Click to open Color Picker Modal"
+            <ColorSwatchPicker
+              value={`#${config.brand}`}
+              onChange={(hex) => handleBrandChange(hex)}
+              showLabel={false}
+              size="lg"
             />
 
             {/* Hex Input */}
@@ -247,12 +247,11 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             )}
           </label>
           <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => setPickerTarget('accent')}
-              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-              style={{ backgroundColor: config.accent ? `#${config.accent}` : '#F4D59B' }}
-              title="Click to open Color Picker Modal"
+            <ColorSwatchPicker
+              value={config.accent ? `#${config.accent}` : '#F4D59B'}
+              onChange={(hex) => handleAccentChange(hex)}
+              showLabel={false}
+              size="lg"
             />
 
             <div className="relative flex-1 min-w-0">
@@ -313,12 +312,11 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             )}
           </label>
           <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => setPickerTarget('accent2')}
-              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-              style={{ backgroundColor: config.accent2 ? `#${config.accent2}` : '#0099C5' }}
-              title="Click to open Color Picker Modal"
+            <ColorSwatchPicker
+              value={config.accent2 ? `#${config.accent2}` : '#0099C5'}
+              onChange={(hex) => handleAccent2Change(hex)}
+              showLabel={false}
+              size="lg"
             />
 
             <div className="relative flex-1 min-w-0">

@@ -41,6 +41,7 @@ import {
   ContrastSuggestion,
 } from '../utils/contrastSuggestions';
 import { ColorPickerModal } from '../components/ColorPickerModal';
+import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -360,12 +361,11 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
               {/* Main Input Row */}
               <div className="flex items-center gap-2.5 min-w-0">
-                <button
-                  type="button"
-                  onClick={() => setPickerTarget('fg')}
-                  className="w-10 h-10 sm:w-11 sm:h-10 border border-[var(--border-medium)] hover:scale-105 rounded-xs p-0 flex-shrink-0 shadow-inner cursor-pointer transition-transform"
-                  style={{ backgroundColor: fgHex }}
-                  title="Open Color Selector for Foreground"
+                <ColorSwatchPicker
+                  value={fgHex}
+                  onChange={(val) => setFgHex(val)}
+                  showLabel={false}
+                  size="lg"
                 />
                 <input
                   type="text"
@@ -425,12 +425,11 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
               {/* Main Input Row */}
               <div className="flex items-center gap-2.5 min-w-0">
-                <button
-                  type="button"
-                  onClick={() => setPickerTarget('bg')}
-                  className="w-10 h-10 sm:w-11 sm:h-10 border border-[var(--border-medium)] hover:scale-105 rounded-xs p-0 flex-shrink-0 shadow-inner cursor-pointer transition-transform"
-                  style={{ backgroundColor: bgHex }}
-                  title="Open Color Selector for Background"
+                <ColorSwatchPicker
+                  value={bgHex}
+                  onChange={(val) => setBgHex(val)}
+                  showLabel={false}
+                  size="lg"
                 />
                 <input
                   type="text"

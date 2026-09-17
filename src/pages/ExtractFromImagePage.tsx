@@ -39,6 +39,7 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
+import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { Analytics } from '../utils/analytics';
 
 interface ExtractFromImagePageProps {
@@ -608,15 +609,12 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                   >
                     {/* Color Swatch & Live Picker */}
                     <div className="flex items-center gap-3">
-                      <div className="relative">
-                        <input
-                          type="color"
-                          value={swatch.hex}
-                          onChange={(e) => handleColorChange(swatch.id, e.target.value)}
-                          className="w-11 h-11 border border-[var(--border-medium)] rounded-xs cursor-pointer p-0 bg-transparent"
-                          title="Pick Color"
-                        />
-                      </div>
+                      <ColorSwatchPicker
+                        value={swatch.hex}
+                        onChange={(hex) => handleColorChange(swatch.id, hex)}
+                        showLabel={false}
+                        size="lg"
+                      />
 
                       <div>
                         <div className="flex items-center gap-2">

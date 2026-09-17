@@ -50,6 +50,7 @@ import {
   SemanticAuditRoleResult,
 } from '../utils/brandKitStorage';
 import { ColorPickerModal } from '../components/ColorPickerModal';
+import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -422,12 +423,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   className="p-2.5 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs flex items-center justify-between gap-2 min-w-0"
                 >
                   <div className="flex items-center gap-2 min-w-0 flex-1">
-                    <button
-                      type="button"
-                      onClick={() => setPickerTarget({ key, label, color: hex })}
-                      className="w-7 h-7 border border-[var(--border-medium)] hover:scale-105 rounded-xs p-0 flex-shrink-0 shadow-sm transition-transform cursor-pointer"
-                      style={{ backgroundColor: hex }}
-                      title={`Open Color Selector for ${label}`}
+                    <ColorSwatchPicker
+                      value={hex}
+                      onChange={(newHex) => handleRoleColorChange(key, newHex)}
+                      showLabel={false}
+                      size="md"
                     />
                     <div className="min-w-0 flex-1">
                       <div className="text-[11px] font-bold text-[var(--text-primary)] truncate">

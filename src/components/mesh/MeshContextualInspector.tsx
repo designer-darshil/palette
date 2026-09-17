@@ -7,6 +7,7 @@ import {
   StudioSliderInput,
   StudioSegmented,
 } from '../studio/StudioInspector';
+import { ColorSwatchPicker } from '../common/ColorSwatchPicker';
 import {
   Sparkles,
   Trash2,
@@ -70,17 +71,12 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
             {/* Color Swatch & Hex */}
             <StudioControlRow label="Node Color Specimen" sublabel={selectedPoint.color}>
               <div className="flex items-center gap-2">
-                <div
-                  className="w-8 h-8 rounded-xs border border-white/20 flex-shrink-0 relative overflow-hidden cursor-pointer shadow-sm"
-                  style={{ backgroundColor: selectedPoint.color }}
-                >
-                  <input
-                    type="color"
-                    value={selectedPoint.color}
-                    onChange={(e) => onUpdatePoint(selectedPoint.id, { color: e.target.value })}
-                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                  />
-                </div>
+                <ColorSwatchPicker
+                  value={selectedPoint.color}
+                  onChange={(color) => onUpdatePoint(selectedPoint.id, { color })}
+                  showLabel={false}
+                  size="md"
+                />
 
                 <input
                   type="text"
@@ -254,11 +250,11 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
           {config.background === 'solid' && (
             <StudioControlRow label="Solid Background Color" sublabel={config.solidColor || '#090A0C'}>
               <div className="flex items-center gap-2">
-                <input
-                  type="color"
+                <ColorSwatchPicker
                   value={config.solidColor || '#090A0C'}
-                  onChange={(e) => onChangeConfig({ solidColor: e.target.value })}
-                  className="w-7 h-7 rounded-xs border border-white/20 cursor-pointer"
+                  onChange={(solidColor) => onChangeConfig({ solidColor })}
+                  showLabel={false}
+                  size="md"
                 />
                 <input
                   type="text"

@@ -39,6 +39,7 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
+import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { Analytics } from '../utils/analytics';
 
 interface ColorNameFinderPageProps {
@@ -311,12 +312,11 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
               </span>
 
               <div className="flex items-center gap-3">
-                <input
-                  type="color"
+                <ColorSwatchPicker
                   value={currentHex}
-                  onChange={(e) => handleSelectColor(e.target.value)}
-                  className="w-12 h-11 border border-[var(--border-medium)] rounded-xs bg-transparent cursor-pointer p-0"
-                  title="Pick Any Color"
+                  onChange={(color) => handleSelectColor(color)}
+                  showLabel={false}
+                  size="lg"
                 />
                 <input
                   type="text"

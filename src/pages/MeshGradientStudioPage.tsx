@@ -13,8 +13,7 @@ import {
   hslToHex,
 } from '../utils/meshEngine';
 import { MeshCanvas } from '../components/mesh/MeshCanvas';
-import { MeshPointInspector } from '../components/mesh/MeshPointInspector';
-import { MeshControls } from '../components/mesh/MeshControls';
+import { MeshInspector } from '../components/mesh/MeshInspector';
 import { MeshPresetRail } from '../components/mesh/MeshPresetRail';
 import { MeshToolbar } from '../components/mesh/MeshToolbar';
 import { MeshCodeExport } from '../components/mesh/MeshCodeExport';
@@ -72,7 +71,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     setConfig(newConfig);
     setHistory((prev) => {
       const trimmed = prev.slice(0, historyIndex + 1);
-      return [...trimmed, newConfig].slice(-30); // keep last 30 states
+      return [...trimmed, newConfig].slice(-30);
     });
     setHistoryIndex((prev) => Math.min(prev + 1, 29));
   }, [historyIndex]);
@@ -265,12 +264,12 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
         onNavigate={onNavigate}
       />
 
-      {/* Studio Header & Intro */}
+      {/* Studio Header & Top Action Toolbar */}
       <StudioIntro
         category="Studio Creative"
         badge="Multi-Point Mesh Generator"
         title="Mesh Gradient Studio"
-        description="A visual playground for multi-point mesh gradients. Directly drag nodes on the canvas, fine-tune individual colors and influence, and export clean CSS, SVG vectors, and DTCG design tokens."
+        description="A visual editor for multi-point mesh gradients. Directly drag nodes on canvas, fine-tune individual colors and falloff dynamics, and export clean CSS, SVG vectors, and DTCG design tokens."
         onRandomize={handleRandomize}
         onReset={handleReset}
         onCopyPrompt={handleCopyPrompt}
@@ -295,55 +294,56 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
         hasCopiedPrompt={hasCopiedPrompt}
       />
 
-      {/* 1. Dominant Hero Mesh Canvas */}
-      <section id="mesh-canvas-section" className="w-full flex flex-col gap-6">
-        <MeshCanvas
-          config={config}
-          selectedPointId={selectedPointId}
-          onSelectPoint={setSelectedPointId}
-          onUpdatePoint={handleUpdatePoint}
-          onAddPoint={handleAddPoint}
-          onDeletePoint={handleDeletePoint}
-          viewMode={viewMode}
-          showGridLines={showGridLines}
-          onToggleGridLines={() => setShowGridLines(!showGridLines)}
-          onToggleViewMode={() => setViewMode(viewMode === 'edit' ? 'preview' : 'edit')}
-        />
+      {/* PRIMARY STUDIO WORKSPACE (Split Canvas & Inspector) */}
+      <section id="mesh-studio-workspace" className="w-full flex flex-col lg:grid lg:grid-cols-12 gap-6 items-start">
+        {/* Left Column: Hero Canvas & Preset Rail (8 Cols on Desktop) */}
+        <div className="w-full lg:col-span-8 flex flex-col gap-4">
+          <MeshCanvas
+            config={config}
+            selectedPointId={selectedPointId}
+            onSelectPoint={setSelectedPointId}
+            onUpdatePoint={handleUpdatePoint}
+            onAddPoint={handleAddPoint}
+            onDeletePoint={handleDeletePoint}
+            onRandomize={handleRandomize}
+            viewMode={viewMode}
+            showGridLines={showGridLines}
+            onToggleGridLines={() => setShowGridLines(!showGridLines)}
+            onToggleViewMode={() => setViewMode(viewMode === 'edit' ? 'preview' : 'edit')}
+          />
 
-        {/* 2. Curated Presets Rail */}
-        <MeshPresetRail
-          activePreset={config.preset}
-          onSelectPreset={handleSelectPreset}
-        />
+          {/* Curated Presets Horizontal Rail */}
+          <MeshPresetRail
+            activePreset={config.preset}
+            onSelectPreset={handleSelectPreset}
+          />
+        </div>
 
-        {/* 3. Selected Point Inspector & Mesh Node Palette */}
-        <MeshPointInspector
-          config={config}
-          selectedPoint={selectedPoint}
-          selectedPointIndex={selectedPointIndex}
-          onSelectPoint={setSelectedPointId}
-          onUpdatePoint={handleUpdatePoint}
-          onDuplicatePoint={handleDuplicatePoint}
-          onDeletePoint={handleDeletePoint}
-          onRandomizePointColor={handleRandomizePointColor}
-        />
-
-        {/* 4. Mesh Structure & Appearance Controls */}
-        <MeshControls
-          config={config}
-          onChange={handleConfigChange}
-          onGenerateGrid={handleGenerateGrid}
-          onAddFreeformPoint={() => handleAddPoint(50, 50)}
-        />
+        {/* Right Column: Unified Inspector Sidebar (4 Cols on Desktop) */}
+        <div className="w-full lg:col-span-4 flex flex-col gap-4">
+          <MeshInspector
+            config={config}
+            selectedPoint={selectedPoint}
+            selectedPointIndex={selectedPointIndex}
+            onSelectPoint={setSelectedPointId}
+            onUpdatePoint={handleUpdatePoint}
+            onDuplicatePoint={handleDuplicatePoint}
+            onDeletePoint={handleDeletePoint}
+            onRandomizePointColor={handleRandomizePointColor}
+            onChangeConfig={handleConfigChange}
+            onGenerateGrid={handleGenerateGrid}
+            onAddPoint={handleAddPoint}
+          />
+        </div>
       </section>
 
-      {/* 5. Code, Vector & Image Export */}
+      {/* Code, Vector & Image Export Panel */}
       <MeshCodeExport config={config} sourceUrl={sourceUrl} />
 
-      {/* 6. Developer REST API Documentation */}
+      {/* Developer REST API Documentation */}
       <MeshApiDocs config={config} />
 
-      {/* 7. Studio Tools Ecosystem Sibling Hub */}
+      {/* Studio Tools Ecosystem Sibling Hub */}
       <RampsStudioFamily onNavigate={onNavigate} currentTool="mesh" />
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { MeshGradientConfig, MeshPoint, hexToRgb } from '../../utils/meshEngine';
-import { Eye, Edit3, Grid, Plus, Trash2, Maximize2 } from 'lucide-react';
+import { Eye, Edit3, Grid, Sparkles, Trash2 } from 'lucide-react';
 
 interface MeshCanvasProps {
   config: MeshGradientConfig;
@@ -9,6 +9,7 @@ interface MeshCanvasProps {
   onUpdatePoint: (id: string, patch: Partial<MeshPoint>) => void;
   onAddPoint: (x: number, y: number) => void;
   onDeletePoint: (id: string) => void;
+  onRandomize?: () => void;
   viewMode: 'edit' | 'preview';
   showGridLines: boolean;
   onToggleGridLines: () => void;
@@ -22,6 +23,7 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
   onUpdatePoint,
   onAddPoint,
   onDeletePoint,
+  onRandomize,
   viewMode,
   showGridLines,
   onToggleGridLines,
@@ -56,7 +58,6 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
     // 2. Multi-Pass Radial Mesh Blending
     ctx.save();
 
-    // Apply global transformations if specified
     if (config.rotation !== 0 || config.scale !== 1.0) {
       ctx.translate(width / 2, height / 2);
       ctx.rotate((config.rotation * Math.PI) / 180);
@@ -139,7 +140,6 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
     return () => observer.disconnect();
   }, [renderCanvas]);
 
-  // Rerender when config changes
   useEffect(() => {
     renderCanvas();
   }, [renderCanvas]);
@@ -219,17 +219,17 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
 
   return (
     <div
-      className="w-full flex flex-col bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md overflow-hidden shadow-sm"
+      className="w-full flex flex-col bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md overflow-hidden shadow-sm h-full"
       style={{ borderRadius: 'var(--radius-md)' }}
     >
-      {/* Interactive Mesh Stage Viewport */}
+      {/* Interactive Mesh Stage Viewport (Hero Visual Canvas) */}
       <div
         ref={containerRef}
         onPointerMove={handlePointerMoveCanvas}
         onPointerUp={handlePointerUpCanvas}
         onPointerCancel={handlePointerUpCanvas}
         onDoubleClick={handleDoubleClickCanvas}
-        className={`relative w-full h-[380px] sm:h-[480px] md:h-[540px] select-none touch-none overflow-hidden ${
+        className={`relative w-full h-[420px] sm:h-[520px] md:h-[580px] lg:h-[620px] select-none touch-none overflow-hidden ${
           config.background === 'transparent'
             ? 'bg-[repeating-conic-gradient(#1c1e24_0%_25%,#121316_0%_50%)] [background-size:24px_24px]'
             : 'bg-[var(--bg-canvas)]'
@@ -248,7 +248,6 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
         {viewMode === 'edit' && showGridLines && config.points.length > 1 && (
           <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
             {config.points.map((p1, idx) => {
-              // Connect each point to nearest neighbors
               return config.points.slice(idx + 1).map((p2) => {
                 const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
                 if (dist < 55) {
@@ -260,9 +259,9 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
                       x2={`${p2.x}%`}
                       y2={`${p2.y}%`}
                       stroke="var(--color-primary)"
-                      strokeWidth="1"
-                      strokeDasharray="3 3"
-                      strokeOpacity="0.35"
+                      strokeWidth="1.5"
+                      strokeDasharray="4 4"
+                      strokeOpacity="0.4"
                     />
                   );
                 }
@@ -288,25 +287,25 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
                 style={{
                   left: `${pt.x}%`,
                   top: `${pt.y}%`,
-                  transform: `translate(-50%, -50%) ${isSelected ? 'scale(1.2)' : isHovered ? 'scale(1.1)' : 'scale(1)'}`,
+                  transform: `translate(-50%, -50%) ${isSelected ? 'scale(1.25)' : isHovered ? 'scale(1.12)' : 'scale(1)'}`,
                   zIndex: isSelected ? 30 : 20,
                 }}
               >
-                {/* Outer Selection Highlight Ring */}
+                {/* Outer Selection Ring */}
                 {isSelected && (
                   <div
-                    className="absolute -inset-2.5 rounded-full border-2 animate-pulse pointer-events-none"
+                    className="absolute -inset-3 rounded-full border-2 animate-pulse pointer-events-none"
                     style={{ borderColor: 'var(--color-primary)' }}
                   />
                 )}
 
-                {/* Point Color Sphere & Grab Target */}
+                {/* Point Color Sphere */}
                 <div
                   className="w-7 h-7 rounded-full shadow-lg border-2 border-white flex items-center justify-center relative"
                   style={{
                     backgroundColor: pt.color,
                     boxShadow: isSelected
-                      ? '0 0 0 3px var(--color-primary), 0 4px 12px rgba(0,0,0,0.5)'
+                      ? '0 0 0 3px var(--color-primary), 0 4px 14px rgba(0,0,0,0.6)'
                       : '0 2px 8px rgba(0,0,0,0.4)',
                   }}
                 >
@@ -315,10 +314,10 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
                   </span>
                 </div>
 
-                {/* Coordinate Badge Tooltip (On Select or Hover) */}
+                {/* Coordinate Badge Tooltip */}
                 {(isSelected || isHovered) && (
                   <div
-                    className="absolute top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-xs bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-primary)] shadow-md whitespace-nowrap pointer-events-none flex items-center gap-1.5"
+                    className="absolute top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-xs bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-primary)] shadow-md whitespace-nowrap pointer-events-none flex items-center gap-1.5 backdrop-blur-sm"
                     style={{ borderColor: isSelected ? 'var(--color-primary)' : undefined }}
                   >
                     <span
@@ -332,7 +331,7 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
             );
           })}
 
-        {/* Floating Canvas Action Pills */}
+        {/* Floating Top-Left Status Pill */}
         <div className="absolute top-3 left-3 flex items-center gap-2 pointer-events-none">
           <div className="px-2.5 py-1 rounded-full bg-[var(--bg-surface-1)]/90 border border-[var(--border-subtle)] text-[11px] font-mono backdrop-blur-md flex items-center gap-2 shadow-xs">
             <span
@@ -352,13 +351,13 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
         {/* Double-Click Hint */}
         {viewMode === 'edit' && (
           <div className="absolute top-3 right-3 pointer-events-none text-[10px] font-mono text-[var(--text-tertiary)] bg-[var(--bg-surface-1)]/80 px-2.5 py-1 rounded-full border border-[var(--border-subtle)] backdrop-blur-md hidden sm:block">
-            Double-click canvas to add point
+            Double-click to add point · Drag to reposition
           </div>
         )}
       </div>
 
       {/* Integrated Viewport Controls Bottom Bar */}
-      <div className="w-full flex items-center justify-between gap-3 p-3 bg-[var(--bg-surface-1)] border-t border-[var(--border-subtle)]">
+      <div className="w-full flex items-center justify-between gap-3 p-3 bg-[var(--bg-surface-1)] border-t border-[var(--border-subtle)] flex-wrap">
         {/* View Mode & Grid Toggles */}
         <div className="flex items-center gap-2">
           <button
@@ -395,30 +394,30 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
           )}
         </div>
 
-        {/* Selected Point Fast Actions (If Any Point Selected) */}
+        {/* Right Action: Quick Randomize or Delete */}
         <div className="flex items-center gap-2 text-xs font-mono">
-          {selectedPointId ? (
-            <div className="flex items-center gap-2">
-              <span className="text-[var(--text-tertiary)] hidden xs:inline">
-                Selected: Point {config.points.findIndex((p) => p.id === selectedPointId) + 1}
-              </span>
-              {config.points.length > 2 && (
-                <button
-                  type="button"
-                  onClick={() => onDeletePoint(selectedPointId)}
-                  className="px-2 py-1 rounded-xs bg-[var(--bg-surface-2)] text-rose-400 hover:bg-rose-950/40 border border-[var(--border-subtle)] flex items-center gap-1 transition-colors cursor-pointer"
-                  title="Delete selected point"
-                >
-                  <Trash2 size={12} />
-                  <span>Delete</span>
-                </button>
-              )}
-            </div>
-          ) : (
-            <span className="text-[11px] text-[var(--text-tertiary)]">
-              Click any point to inspect
-            </span>
-          )}
+          {selectedPointId && config.points.length > 2 && viewMode === 'edit' ? (
+            <button
+              type="button"
+              onClick={() => onDeletePoint(selectedPointId)}
+              className="px-2.5 py-1.5 rounded-xs bg-[var(--bg-surface-2)] text-rose-400 hover:bg-rose-950/40 border border-[var(--border-subtle)] flex items-center gap-1.5 transition-colors cursor-pointer"
+              title="Delete selected point"
+            >
+              <Trash2 size={12} />
+              <span>Delete Point</span>
+            </button>
+          ) : onRandomize ? (
+            <button
+              type="button"
+              onClick={onRandomize}
+              className="btn-secondary"
+              style={{ padding: '5px 12px', fontSize: '0.75rem' }}
+              title="Randomize gradient"
+            >
+              <Sparkles size={12} style={{ color: 'var(--color-primary-text)' }} />
+              <span>Randomize</span>
+            </button>
+          ) : null}
         </div>
       </div>
     </div>

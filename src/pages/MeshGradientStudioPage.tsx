@@ -10,18 +10,19 @@ import {
   generateRandomMesh,
   generateGridMesh,
   generateMeshAgentPrompt,
+  generateMeshCss,
+  generateMeshSvg,
+  generateMeshTokensJson,
   hslToHex,
 } from '../utils/meshEngine';
-import { MeshCanvas } from '../components/mesh/MeshCanvas';
-import { MeshInspector } from '../components/mesh/MeshInspector';
-import { MeshPresetRail } from '../components/mesh/MeshPresetRail';
-import { MeshToolbar } from '../components/mesh/MeshToolbar';
-import { MeshCodeExport } from '../components/mesh/MeshCodeExport';
-import { MeshApiDocs } from '../components/mesh/MeshApiDocs';
-import { RampsStudioFamily } from '../components/ramps/RampsStudioFamily';
-import { StudioIntro } from '../components/studio/StudioIntro';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { StudioWorkspace } from '../components/studio/StudioWorkspace';
+import { StudioTopBar, StudioExportOption } from '../components/studio/StudioTopBar';
+import { StudioPresetRail, StudioPresetItem } from '../components/studio/StudioPresetRail';
+import { MeshHeroCanvas } from '../components/mesh/MeshHeroCanvas';
+import { MeshContextualInspector } from '../components/mesh/MeshContextualInspector';
+import { MeshBottomDock } from '../components/mesh/MeshBottomDock';
 import { SEOHead } from '../components/seo/SEOHead';
+import { Code, FileJson, Sparkles, Image, Palette } from 'lucide-react';
 
 interface MeshGradientStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -49,9 +50,9 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
   // Canvas View Mode & Grid Guidelines
   const [viewMode, setViewMode] = useState<'edit' | 'preview'>('edit');
   const [showGridLines, setShowGridLines] = useState(true);
+  const [isInspectorOpen, setIsInspectorOpen] = useState(true);
 
-  // Share & Prompt Copy Feedback
-  const [hasCopiedPrompt, setHasCopiedPrompt] = useState(false);
+  // Feedback states
   const [hasCopiedShare, setHasCopiedShare] = useState(false);
 
   // Synchronize state changes to URL query parameters
@@ -191,18 +192,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     }
   }, [config, pushState]);
 
-  const handleSeedChange = useCallback((seed: number) => {
-    const count = config.points.length >= 3 ? config.points.length : 6;
-    const newPoints = generateRandomMesh(seed, count);
-    const updated: MeshGradientConfig = {
-      ...config,
-      seed,
-      points: newPoints,
-      preset: null,
-    };
-    pushState(updated);
-  }, [config, pushState]);
-
   // Grid Generation
   const handleGenerateGrid = useCallback((rows: number, cols: number) => {
     const newPoints = generateGridMesh(rows, cols, config.seed);
@@ -224,13 +213,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     setSelectedPointId(DEFAULT_MESH_CONFIG.points[0].id);
   }, [pushState]);
 
-  const handleCopyPrompt = useCallback(() => {
-    const prompt = generateMeshAgentPrompt(config, sourceUrl);
-    navigator.clipboard.writeText(prompt);
-    setHasCopiedPrompt(true);
-    setTimeout(() => setHasCopiedPrompt(false), 2000);
-  }, [config, sourceUrl]);
-
   const handleShareUrl = useCallback(() => {
     navigator.clipboard.writeText(window.location.href);
     setHasCopiedShare(true);
@@ -246,105 +228,141 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     return config.points.findIndex((p) => p.id === selectedPointId);
   }, [config.points, selectedPointId]);
 
+  // Visual Preset Rail Thumbnails
+  const presetItems: StudioPresetItem[] = useMemo(() => {
+    return MESH_PRESETS.map((p) => {
+      const colors = p.colors || ['#3D7DFF', '#BFA3F0', '#00F0FF'];
+      return {
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        previewNode: (
+          <div
+            className="w-full h-full rounded-xs flex"
+            style={{
+              background: `linear-gradient(135deg, ${colors.join(', ')})`,
+            }}
+          />
+        ),
+      };
+    });
+  }, []);
+
+  // Export options for top bar dropdown
+  const exportOptions: StudioExportOption[] = useMemo(() => [
+    {
+      id: 'css',
+      label: 'CSS Radial Gradients',
+      sublabel: 'background-image',
+      icon: <Code size={13} />,
+      onExport: () => {
+        const css = generateMeshCss(config);
+        navigator.clipboard.writeText(css);
+      },
+    },
+    {
+      id: 'svg',
+      label: 'SVG Vector Specimen',
+      sublabel: '<svg> radial',
+      icon: <Code size={13} />,
+      onExport: () => {
+        const svg = generateMeshSvg(config, 1200, 800);
+        navigator.clipboard.writeText(svg);
+      },
+    },
+    {
+      id: 'dtcg',
+      label: 'DTCG Design Tokens',
+      sublabel: 'W3C JSON',
+      icon: <FileJson size={13} />,
+      onExport: () => {
+        const dtcg = generateMeshTokensJson(config, sourceUrl);
+        navigator.clipboard.writeText(dtcg);
+      },
+    },
+    {
+      id: 'agent',
+      label: 'Coding Agent Prompt',
+      sublabel: 'LLM Context',
+      icon: <Sparkles size={13} />,
+      onExport: () => {
+        const prompt = generateMeshAgentPrompt(config, sourceUrl);
+        navigator.clipboard.writeText(prompt);
+      },
+    },
+  ], [config, sourceUrl]);
+
   return (
-    <div className="flex flex-col gap-8">
+    <div className="w-full flex flex-col">
       <SEOHead
         title="Mesh Gradient Studio — Interactive Gradient Editor"
         description="Create, edit, and experiment with multi-point radial mesh gradients. Directly manipulate color nodes on canvas, adjust softness, and export to CSS, SVG, PNG, and design tokens."
         canonicalPath="/mesh"
       />
 
-      {/* Breadcrumbs */}
-      <Breadcrumbs
-        items={[
-          { label: 'Library Home', to: { path: 'home' } },
-          { label: 'Studio Tools' },
-          { label: 'Mesh Gradient Studio', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-      />
-
-      {/* Studio Header & Top Action Toolbar */}
-      <StudioIntro
-        category="Studio Creative"
-        badge="Multi-Point Mesh Generator"
-        title="Mesh Gradient Studio"
-        description="A visual editor for multi-point mesh gradients. Directly drag nodes on canvas, fine-tune individual colors and falloff dynamics, and export clean CSS, SVG vectors, and DTCG design tokens."
-        onRandomize={handleRandomize}
-        onReset={handleReset}
-        onCopyPrompt={handleCopyPrompt}
-        hasCopiedPrompt={hasCopiedPrompt}
-        onShareUrl={handleShareUrl}
-        hasCopiedShare={hasCopiedShare}
-      />
-
-      {/* Studio Secondary Toolbar (Undo, Redo, Seed, Reset, Share) */}
-      <MeshToolbar
-        canUndo={historyIndex > 0}
-        canRedo={historyIndex < history.length - 1}
-        onUndo={handleUndo}
-        onRedo={handleRedo}
-        seed={config.seed}
-        onSeedChange={handleSeedChange}
-        onRandomize={handleRandomize}
-        onReset={handleReset}
-        onShareUrl={handleShareUrl}
-        hasCopiedShare={hasCopiedShare}
-        onCopyPrompt={handleCopyPrompt}
-        hasCopiedPrompt={hasCopiedPrompt}
-      />
-
-      {/* PRIMARY STUDIO WORKSPACE (Split Canvas & Inspector) */}
-      <section id="mesh-studio-workspace" className="w-full flex flex-col lg:grid lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column: Hero Canvas & Preset Rail (8 Cols on Desktop) */}
-        <div className="w-full lg:col-span-8 flex flex-col gap-4">
-          <MeshCanvas
+      <StudioWorkspace
+        topBar={
+          <StudioTopBar
+            studioName="Mesh Gradient Studio"
+            documentTitle={config.preset ? config.preset.toUpperCase() : `SEED #${config.seed}`}
+            badge="Mesh Editor"
+            onRandomize={handleRandomize}
+            onReset={handleReset}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            canUndo={historyIndex > 0}
+            canRedo={historyIndex < history.length - 1}
+            onShareUrl={handleShareUrl}
+            hasCopiedShare={hasCopiedShare}
+            exportOptions={exportOptions}
+            toggleInspector={() => setIsInspectorOpen(!isInspectorOpen)}
+            isInspectorOpen={isInspectorOpen}
+          />
+        }
+        leftRail={
+          <StudioPresetRail
+            title="MESH PRESETS"
+            presets={presetItems}
+            selectedPresetId={config.preset || undefined}
+            onSelectPreset={handleSelectPreset}
+          />
+        }
+        canvas={
+          <MeshHeroCanvas
             config={config}
             selectedPointId={selectedPointId}
             onSelectPoint={setSelectedPointId}
             onUpdatePoint={handleUpdatePoint}
             onAddPoint={handleAddPoint}
             onDeletePoint={handleDeletePoint}
-            onRandomize={handleRandomize}
+            onRandomizePointColor={handleRandomizePointColor}
             viewMode={viewMode}
+            onToggleViewMode={() => setViewMode(viewMode === 'edit' ? 'preview' : 'edit')}
             showGridLines={showGridLines}
             onToggleGridLines={() => setShowGridLines(!showGridLines)}
-            onToggleViewMode={() => setViewMode(viewMode === 'edit' ? 'preview' : 'edit')}
           />
-
-          {/* Curated Presets Horizontal Rail */}
-          <MeshPresetRail
-            activePreset={config.preset}
-            onSelectPreset={handleSelectPreset}
-          />
-        </div>
-
-        {/* Right Column: Unified Inspector Sidebar (4 Cols on Desktop) */}
-        <div className="w-full lg:col-span-4 flex flex-col gap-4">
-          <MeshInspector
-            config={config}
-            selectedPoint={selectedPoint}
-            selectedPointIndex={selectedPointIndex}
-            onSelectPoint={setSelectedPointId}
-            onUpdatePoint={handleUpdatePoint}
-            onDuplicatePoint={handleDuplicatePoint}
-            onDeletePoint={handleDeletePoint}
-            onRandomizePointColor={handleRandomizePointColor}
-            onChangeConfig={handleConfigChange}
-            onGenerateGrid={handleGenerateGrid}
-            onAddPoint={handleAddPoint}
-          />
-        </div>
-      </section>
-
-      {/* Code, Vector & Image Export Panel */}
-      <MeshCodeExport config={config} sourceUrl={sourceUrl} />
-
-      {/* Developer REST API Documentation */}
-      <MeshApiDocs config={config} />
-
-      {/* Studio Tools Ecosystem Sibling Hub */}
-      <RampsStudioFamily onNavigate={onNavigate} currentTool="mesh" />
+        }
+        inspector={
+          isInspectorOpen ? (
+            <MeshContextualInspector
+              config={config}
+              selectedPoint={selectedPoint}
+              selectedPointIndex={selectedPointIndex}
+              onSelectPoint={setSelectedPointId}
+              onUpdatePoint={handleUpdatePoint}
+              onDuplicatePoint={handleDuplicatePoint}
+              onDeletePoint={handleDeletePoint}
+              onRandomizePointColor={handleRandomizePointColor}
+              onChangeConfig={handleConfigChange}
+              onGenerateGrid={handleGenerateGrid}
+              onAddPoint={handleAddPoint}
+            />
+          ) : undefined
+        }
+        bottomBar={
+          <MeshBottomDock config={config} sourceUrl={sourceUrl} />
+        }
+      />
     </div>
   );
 };

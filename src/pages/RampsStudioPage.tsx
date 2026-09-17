@@ -12,17 +12,13 @@ import {
   isValidHex,
   exportToAgentPrompt,
 } from '../utils/rampsEngine';
-import { RampsGeneratorControls } from '../components/ramps/RampsGeneratorControls';
-import { RampsPaletteGrid } from '../components/ramps/RampsPaletteGrid';
-import { RampsSemanticTokensTable } from '../components/ramps/RampsSemanticTokensTable';
-import { RampsLiveUiPreview } from '../components/ramps/RampsLiveUiPreview';
-import { RampsCodeExport } from '../components/ramps/RampsCodeExport';
-import { RampsApiDocs } from '../components/ramps/RampsApiDocs';
-import { RampsStudioFamily } from '../components/ramps/RampsStudioFamily';
-import { StudioIntro } from '../components/studio/StudioIntro';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { StudioWorkspace } from '../components/studio/StudioWorkspace';
+import { StudioTopBar, StudioExportOption } from '../components/studio/StudioTopBar';
+import { RampsInstrumentCanvas } from '../components/ramps/RampsInstrumentCanvas';
+import { RampsInspector } from '../components/ramps/RampsInspector';
+import { RampsBottomDock } from '../components/ramps/RampsBottomDock';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Info } from 'lucide-react';
+import { Code, FileJson, Sparkles, Copy } from 'lucide-react';
 
 interface RampsStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -70,10 +66,16 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
     };
   });
 
-  const [hasCopiedPrompt, setHasCopiedPrompt] = useState(false);
+  const [selectedRampKey, setSelectedRampKey] = useState<string>('brand');
+  const [selectedStep, setSelectedStep] = useState<number | null>(null);
+  const [isInspectorOpen, setIsInspectorOpen] = useState(true);
   const [hasCopiedShare, setHasCopiedShare] = useState(false);
 
-  // Synchronize state with URL parameters using replaceState (preserves history stack)
+  // History stack for Undo / Redo
+  const [history, setHistory] = useState<RampsConfig[]>([config]);
+  const [historyIndex, setHistoryIndex] = useState<number>(0);
+
+  // Synchronize state with URL parameters
   useEffect(() => {
     const params = new URLSearchParams();
     params.set('b', config.brand);
@@ -109,8 +111,27 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
   }, [paletteResult]);
 
   const handleConfigChange = useCallback((patch: Partial<RampsConfig>) => {
-    setConfig((prev) => ({ ...prev, ...patch }));
-  }, []);
+    setConfig((prev) => {
+      const next = { ...prev, ...patch };
+      setHistory((h) => [...h.slice(0, historyIndex + 1), next]);
+      setHistoryIndex((idx) => idx + 1);
+      return next;
+    });
+  }, [historyIndex]);
+
+  const handleUndo = useCallback(() => {
+    if (historyIndex > 0) {
+      setHistoryIndex((prev) => prev - 1);
+      setConfig(history[historyIndex - 1]);
+    }
+  }, [history, historyIndex]);
+
+  const handleRedo = useCallback(() => {
+    if (historyIndex < history.length - 1) {
+      setHistoryIndex((prev) => prev + 1);
+      setConfig(history[historyIndex + 1]);
+    }
+  }, [history, historyIndex]);
 
   const handleRandomize = useCallback(() => {
     const randomHexes = [
@@ -119,16 +140,15 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
       '7209b7', 'f72585', '00b4d8', '38b000', 'ffb703',
     ];
     const pick = randomHexes[Math.floor(Math.random() * randomHexes.length)];
-    setConfig((prev) => ({
-      ...prev,
+    handleConfigChange({
       brand: pick,
       accent: null,
       accent2: null,
-    }));
-  }, []);
+    });
+  }, [handleConfigChange]);
 
   const handleReset = useCallback(() => {
-    setConfig({
+    handleConfigChange({
       brand: '3d7dff',
       accent: null,
       accent2: null,
@@ -140,14 +160,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
       excludedRamps: [],
       excludedTokens: [],
     });
-  }, []);
-
-  const handleCopyPrompt = useCallback(() => {
-    const prompt = exportToAgentPrompt(paletteResult);
-    navigator.clipboard.writeText(prompt);
-    setHasCopiedPrompt(true);
-    setTimeout(() => setHasCopiedPrompt(false), 2000);
-  }, [paletteResult]);
+  }, [handleConfigChange]);
 
   const handleShareUrl = useCallback(() => {
     navigator.clipboard.writeText(window.location.href);
@@ -155,118 +168,111 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
     setTimeout(() => setHasCopiedShare(false), 2000);
   }, []);
 
-  const toggleExcludeRamp = (rampName: string) => {
-    setConfig((prev) => {
-      const exists = prev.excludedRamps.includes(rampName);
-      return {
-        ...prev,
-        excludedRamps: exists
-          ? prev.excludedRamps.filter((r) => r !== rampName)
-          : [...prev.excludedRamps, rampName],
-      };
+  const toggleExcludeToken = (tokenName: string) => {
+    handleConfigChange({
+      excludedTokens: config.excludedTokens.includes(tokenName)
+        ? config.excludedTokens.filter((t) => t !== tokenName)
+        : [...config.excludedTokens, tokenName],
     });
   };
 
-  const toggleExcludeToken = (tokenName: string) => {
-    setConfig((prev) => {
-      const exists = prev.excludedTokens.includes(tokenName);
-      return {
-        ...prev,
-        excludedTokens: exists
-          ? prev.excludedTokens.filter((t) => t !== tokenName)
-          : [...prev.excludedTokens, tokenName],
-      };
-    });
-  };
+  // Export options for top bar dropdown
+  const exportOptions: StudioExportOption[] = useMemo(() => [
+    {
+      id: 'css',
+      label: 'CSS Custom Properties',
+      sublabel: ':root {}',
+      icon: <Code size={13} />,
+      onExport: () => {
+        let css = ':root {\n';
+        Object.values(paletteResult.ramps).forEach((r) => {
+          Object.entries(r.steps).forEach(([stepKey, c]) => {
+            css += `  --color-${r.name.toLowerCase()}-${stepKey}: ${c.oklch};\n`;
+          });
+        });
+        css += '}';
+        navigator.clipboard.writeText(css);
+      },
+    },
+    {
+      id: 'dtcg',
+      label: 'DTCG Token Format',
+      sublabel: 'W3C JSON',
+      icon: <FileJson size={13} />,
+      onExport: () => {
+        navigator.clipboard.writeText(JSON.stringify(paletteResult.rawJson, null, 2));
+      },
+    },
+    {
+      id: 'agent',
+      label: 'Coding Agent Prompt',
+      sublabel: 'LLM Context',
+      icon: <Sparkles size={13} />,
+      onExport: () => {
+        const prompt = exportToAgentPrompt(paletteResult);
+        navigator.clipboard.writeText(prompt);
+      },
+    },
+  ], [paletteResult]);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="w-full flex flex-col">
       <SEOHead
         title="Ramps Studio — OKLCH Color Scales & Semantic Design Tokens"
         description="Perceptually-even OKLCH color ramp generator and usage-first semantic tokens with enforced WCAG AA/AAA contrast. Export to CSS, Tailwind v4, DTCG JSON, and coding agent prompts."
         canonicalPath="/ramps"
       />
 
-      {/* Breadcrumb Hierarchy */}
-      <Breadcrumbs
-        items={[
-          { label: 'Library Home', to: { path: 'home' } },
-          { label: 'Studio Tools' },
-          { label: 'Ramps Studio', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
+      <StudioWorkspace
+        topBar={
+          <StudioTopBar
+            studioName="Ramps Studio"
+            documentTitle={`#${config.brand.toUpperCase()} · ${config.scheme.toUpperCase()}`}
+            badge="OKLCH Engine"
+            onRandomize={handleRandomize}
+            onReset={handleReset}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            canUndo={historyIndex > 0}
+            canRedo={historyIndex < history.length - 1}
+            onShareUrl={handleShareUrl}
+            hasCopiedShare={hasCopiedShare}
+            exportOptions={exportOptions}
+            toggleInspector={() => setIsInspectorOpen(!isInspectorOpen)}
+            isInspectorOpen={isInspectorOpen}
+          />
+        }
+        canvas={
+          <RampsInstrumentCanvas
+            paletteResult={paletteResult}
+            notation={config.notation}
+            selectedRampKey={selectedRampKey}
+            onSelectRampKey={setSelectedRampKey}
+            selectedStep={selectedStep}
+            onSelectStep={setSelectedStep}
+            onBrandColorSelect={(brand) => handleConfigChange({ brand })}
+          />
+        }
+        inspector={
+          isInspectorOpen ? (
+            <RampsInspector
+              config={config}
+              onChange={handleConfigChange}
+              paletteResult={paletteResult}
+              selectedRampKey={selectedRampKey}
+              selectedStep={selectedStep}
+            />
+          ) : undefined
+        }
+        bottomBar={
+          <RampsBottomDock
+            paletteResult={paletteResult}
+            wcagLevel={config.wcag}
+            onToggleExcludeToken={toggleExcludeToken}
+            excludedTokens={config.excludedTokens}
+          />
+        }
       />
-
-      {/* Compact Studio Header & Intro */}
-      <StudioIntro
-        category="Studio Utility"
-        badge="Deterministic OKLCH Generator"
-        title="Ramps Studio"
-        description="Build balanced, perceptually-even color scales (50–950), scheme-derived accents, and role-mapped semantic tokens from a single color anchor."
-        onRandomize={handleRandomize}
-        onReset={handleReset}
-        onCopyPrompt={handleCopyPrompt}
-        hasCopiedPrompt={hasCopiedPrompt}
-        onShareUrl={handleShareUrl}
-        hasCopiedShare={hasCopiedShare}
-      />
-
-      {/* 1. Generator Controls */}
-      <RampsGeneratorControls
-        config={config}
-        onChange={handleConfigChange}
-        onRandomize={handleRandomize}
-        onReset={handleReset}
-        onShareUrl={handleShareUrl}
-        hasCopiedShare={hasCopiedShare}
-      />
-
-      {/* 2. Main Color Ramps Display */}
-      <RampsPaletteGrid
-        ramps={paletteResult.ramps}
-        notation={config.notation}
-        onToggleExcludeRamp={toggleExcludeRamp}
-        excludedRamps={config.excludedRamps}
-      />
-
-      {/* 3. Semantic Tokens Table */}
-      <RampsSemanticTokensTable
-        tokens={paletteResult.tokens}
-        wcagLevel={config.wcag}
-        onToggleExcludeToken={toggleExcludeToken}
-        excludedTokens={config.excludedTokens}
-      />
-
-      {/* 4. Live UI Interface Simulation */}
-      <RampsLiveUiPreview paletteResult={paletteResult} />
-
-      {/* 5. Developer Code & Token Export Hub */}
-      <RampsCodeExport paletteResult={paletteResult} />
-
-      {/* 6. Machine Contract & API Documentation */}
-      <RampsApiDocs paletteResult={paletteResult} />
-
-      {/* 7. Engineering Notes & Architectural Principles */}
-      <section
-        className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-5 flex flex-col gap-3 shadow-xs"
-        style={{ borderRadius: 'var(--radius-md)' }}
-      >
-        <h3 className="text-xs sm:text-sm font-bold font-mono text-[var(--text-primary)] flex items-center gap-2">
-          <Info size={16} className="text-[var(--accent-blue)]" />
-          <span>Architectural Guarantees &amp; Mathematical Notes</span>
-        </h3>
-
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs text-[var(--text-secondary)] leading-relaxed list-disc list-inside">
-          {paletteResult.notes.map((note, idx) => (
-            <li key={idx} className="marker:text-[var(--text-tertiary)]">
-              {note}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* 8. Studio Tools Sibling Ecosystem */}
-      <RampsStudioFamily onNavigate={onNavigate} currentTool="ramps" />
     </div>
   );
 };

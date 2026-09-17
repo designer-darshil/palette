@@ -4,20 +4,21 @@ import {
   AntigravityConfig,
   DEFAULT_ANTIGRAVITY_CONFIG,
   ANTIGRAVITY_PRESETS,
-  SimulationState,
   serializeAntigravityConfig,
   deserializeAntigravityConfig,
   generateAgentPrompt,
+  generateCssExport,
+  generateJsExport,
+  generateMotionTokens,
 } from '../utils/antigravityEngine';
-import { PhysicsStage } from '../components/antigravity/PhysicsStage';
-import { PhysicsControls } from '../components/antigravity/PhysicsControls';
-import { PresetSelector } from '../components/antigravity/PresetSelector';
-import { AntigravityCodeExport } from '../components/antigravity/AntigravityCodeExport';
-import { AntigravityApiDocs } from '../components/antigravity/AntigravityApiDocs';
-import { RampsStudioFamily } from '../components/ramps/RampsStudioFamily';
-import { StudioIntro } from '../components/studio/StudioIntro';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { StudioWorkspace } from '../components/studio/StudioWorkspace';
+import { StudioTopBar, StudioExportOption } from '../components/studio/StudioTopBar';
+import { StudioPresetRail, StudioPresetItem } from '../components/studio/StudioPresetRail';
+import { AntigravityHeroCanvas } from '../components/antigravity/AntigravityHeroCanvas';
+import { AntigravityInspector } from '../components/antigravity/AntigravityInspector';
+import { AntigravityBottomDock } from '../components/antigravity/AntigravityBottomDock';
 import { SEOHead } from '../components/seo/SEOHead';
+import { Code, FileJson, Sparkles, Compass, Play, ArrowDown, Feather } from 'lucide-react';
 
 interface AntigravityStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -27,14 +28,18 @@ interface AntigravityStudioPageProps {
 export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
   onNavigate,
 }) => {
-  // Parse state from URL search params or fallback props
+  // Parse state from URL search params or fallback
   const [config, setConfig] = useState<AntigravityConfig>(() => {
     const searchParams = new URLSearchParams(window.location.search);
     return deserializeAntigravityConfig(searchParams);
   });
 
-  const [hasCopiedPrompt, setHasCopiedPrompt] = useState(false);
+  const [isInspectorOpen, setIsInspectorOpen] = useState(true);
   const [hasCopiedShare, setHasCopiedShare] = useState(false);
+
+  // History stack for Undo / Redo
+  const [history, setHistory] = useState<AntigravityConfig[]>([config]);
+  const [historyIndex, setHistoryIndex] = useState<number>(0);
 
   // URL state synchronization via replaceState
   useEffect(() => {
@@ -49,19 +54,37 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
   }, [config]);
 
   const handleConfigChange = useCallback((patch: Partial<AntigravityConfig>) => {
-    setConfig((prev) => ({ ...prev, ...patch }));
-  }, []);
+    setConfig((prev) => {
+      const next = { ...prev, ...patch };
+      setHistory((h) => [...h.slice(0, historyIndex + 1), next]);
+      setHistoryIndex((idx) => idx + 1);
+      return next;
+    });
+  }, [historyIndex]);
+
+  const handleUndo = useCallback(() => {
+    if (historyIndex > 0) {
+      setHistoryIndex((prev) => prev - 1);
+      setConfig(history[historyIndex - 1]);
+    }
+  }, [history, historyIndex]);
+
+  const handleRedo = useCallback(() => {
+    if (historyIndex < history.length - 1) {
+      setHistoryIndex((prev) => prev + 1);
+      setConfig(history[historyIndex + 1]);
+    }
+  }, [history, historyIndex]);
 
   const handleSelectPreset = useCallback((presetId: string) => {
     const preset = ANTIGRAVITY_PRESETS.find((p) => p.id === presetId);
     if (preset) {
-      setConfig((prev) => ({
-        ...prev,
+      handleConfigChange({
         ...preset.config,
         preset: presetId,
-      }));
+      });
     }
-  }, []);
+  }, [handleConfigChange]);
 
   const handleRandomize = useCallback(() => {
     const randomPresets = ANTIGRAVITY_PRESETS.map((p) => p.id);
@@ -70,15 +93,8 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
   }, [handleSelectPreset]);
 
   const handleResetSettings = useCallback(() => {
-    setConfig({ ...DEFAULT_ANTIGRAVITY_CONFIG });
-  }, []);
-
-  const handleCopyPrompt = useCallback(() => {
-    const prompt = generateAgentPrompt(config, sourceUrl);
-    navigator.clipboard.writeText(prompt);
-    setHasCopiedPrompt(true);
-    setTimeout(() => setHasCopiedPrompt(false), 2000);
-  }, [config, sourceUrl]);
+    handleConfigChange({ ...DEFAULT_ANTIGRAVITY_CONFIG });
+  }, [handleConfigChange]);
 
   const handleShareUrl = useCallback(() => {
     navigator.clipboard.writeText(window.location.href);
@@ -86,81 +102,127 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
     setTimeout(() => setHasCopiedShare(false), 2000);
   }, []);
 
-  // Inject agent-readable JSON script tag for headless crawlers
-  useEffect(() => {
-    let scriptTag = document.getElementById('antigravity-studio-motion') as HTMLScriptElement | null;
-    if (!scriptTag) {
-      scriptTag = document.createElement('script');
-      scriptTag.id = 'antigravity-studio-motion';
-      scriptTag.type = 'application/json';
-      document.body.appendChild(scriptTag);
-    }
-    scriptTag.textContent = JSON.stringify(
-      {
-        version: '1.0',
-        tool: 'antigravity',
-        source: sourceUrl,
-        config,
+  // Presets mapped to StudioPresetRail format with visual icons
+  const presetItems: StudioPresetItem[] = useMemo(() => {
+    return ANTIGRAVITY_PRESETS.map((p) => {
+      let icon = <Compass size={18} className="text-[var(--color-primary)]" />;
+      if (p.id.includes('float') || p.id.includes('weightless')) icon = <Feather size={18} className="text-cyan-400" />;
+      if (p.id.includes('drop') || p.id.includes('heavy')) icon = <ArrowDown size={18} className="text-amber-400" />;
+      if (p.id.includes('bounce') || p.id.includes('hyper')) icon = <Sparkles size={18} className="text-pink-400" />;
+
+      return {
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        previewNode: (
+          <div className="flex flex-col items-center justify-center gap-1">
+            {icon}
+            <span className="font-mono text-[9px] text-[var(--text-tertiary)]">
+              G:{p.config.gravityY ?? 0} · M:{p.config.mass ?? 1}
+            </span>
+          </div>
+        ),
+      };
+    });
+  }, []);
+
+  // Export options for top bar dropdown
+  const exportOptions: StudioExportOption[] = useMemo(() => [
+    {
+      id: 'keyframes',
+      label: 'CSS @keyframes Motion',
+      sublabel: 'Pure CSS',
+      icon: <Code size={13} />,
+      onExport: () => {
+        const css = generateCssExport(config, sourceUrl);
+        navigator.clipboard.writeText(css);
       },
-      null,
-      2
-    );
-  }, [config, sourceUrl]);
+    },
+    {
+      id: 'js',
+      label: 'JavaScript Physics Engine',
+      sublabel: 'requestAnimationFrame',
+      icon: <Code size={13} />,
+      onExport: () => {
+        const js = generateJsExport(config, sourceUrl);
+        navigator.clipboard.writeText(js);
+      },
+    },
+    {
+      id: 'dtcg',
+      label: 'DTCG Motion Tokens',
+      sublabel: 'W3C JSON',
+      icon: <FileJson size={13} />,
+      onExport: () => {
+        const dtcg = JSON.stringify(generateMotionTokens(config), null, 2);
+        navigator.clipboard.writeText(dtcg);
+      },
+    },
+    {
+      id: 'agent',
+      label: 'Coding Agent Prompt',
+      sublabel: 'LLM Context',
+      icon: <Sparkles size={13} />,
+      onExport: () => {
+        const prompt = generateAgentPrompt(config, sourceUrl);
+        navigator.clipboard.writeText(prompt);
+      },
+    },
+  ], [config, sourceUrl]);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="w-full flex flex-col">
       <SEOHead
         title="Antigravity — Physics Motion & Token Generator"
         description="Create and tune physics-driven UI motion for the web. Experiment with gravity, velocity, bounce, damping, and inertia, then export as CSS, JavaScript, Framer Motion, and design tokens."
         canonicalPath="/antigravity"
       />
 
-      {/* Breadcrumbs */}
-      <Breadcrumbs
-        items={[
-          { label: 'Library Home', to: { path: 'home' } },
-          { label: 'Studio Tools' },
-          { label: 'Antigravity Studio', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
+      <StudioWorkspace
+        topBar={
+          <StudioTopBar
+            studioName="Antigravity Studio"
+            documentTitle={config.preset ? config.preset.toUpperCase() : 'CUSTOM KINEMATICS'}
+            badge="Physics Engine"
+            onRandomize={handleRandomize}
+            onReset={handleResetSettings}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            canUndo={historyIndex > 0}
+            canRedo={historyIndex < history.length - 1}
+            onShareUrl={handleShareUrl}
+            hasCopiedShare={hasCopiedShare}
+            exportOptions={exportOptions}
+            toggleInspector={() => setIsInspectorOpen(!isInspectorOpen)}
+            isInspectorOpen={isInspectorOpen}
+          />
+        }
+        leftRail={
+          <StudioPresetRail
+            title="PHYSICS PRESETS"
+            presets={presetItems}
+            selectedPresetId={config.preset || undefined}
+            onSelectPreset={handleSelectPreset}
+          />
+        }
+        canvas={
+          <AntigravityHeroCanvas
+            config={config}
+            onConfigChange={handleConfigChange}
+          />
+        }
+        inspector={
+          isInspectorOpen ? (
+            <AntigravityInspector
+              config={config}
+              onChange={handleConfigChange}
+            />
+          ) : undefined
+        }
+        bottomBar={
+          <AntigravityBottomDock config={config} />
+        }
       />
-
-      {/* Studio Header & Top Action Toolbar */}
-      <StudioIntro
-        category="Studio Utility"
-        badge="Kinematics & Motion Engine"
-        title="Antigravity Studio"
-        description="A physics and motion playground for frontend architects. Experiment with gravity, inertia, damping, and bounce, then export directly to CSS keyframes, JavaScript, and DTCG design tokens."
-        onRandomize={handleRandomize}
-        onReset={handleResetSettings}
-        onCopyPrompt={handleCopyPrompt}
-        hasCopiedPrompt={hasCopiedPrompt}
-        onShareUrl={handleShareUrl}
-        hasCopiedShare={hasCopiedShare}
-      />
-
-      {/* 1. Dominant Hero Playground with Integrated Controls & Telemetry */}
-      <section id="antigravity-playground" className="w-full flex flex-col gap-6">
-        <PhysicsStage config={config} />
-
-        {/* 2. Sleek Horizontal Presets Rail */}
-        <PresetSelector activePreset={config.preset} onSelectPreset={handleSelectPreset} />
-
-        {/* 3. Streamlined Parameter Inspector */}
-        <PhysicsControls
-          config={config}
-          onChange={handleConfigChange}
-        />
-      </section>
-
-      {/* 4. Developer Code & Design Token Export */}
-      <AntigravityCodeExport config={config} sourceUrl={sourceUrl} />
-
-      {/* 5. Machine Contract & API Documentation */}
-      <AntigravityApiDocs config={config} />
-
-      {/* 6. Studio Tools Ecosystem Sibling Hub */}
-      <RampsStudioFamily onNavigate={onNavigate} currentTool="antigravity" />
     </div>
   );
 };

@@ -11,7 +11,6 @@ import {
   Radio,
   Sun,
   Moon,
-  Monitor,
   ShieldCheck,
   ChevronDown,
   Image as ImageIcon,
@@ -85,9 +84,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
   };
 
   const cycleTheme = () => {
-    if (theme === 'dark') setTheme('light');
-    else if (theme === 'light') setTheme('system');
-    else setTheme('dark');
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   const toolsList = [
@@ -298,12 +295,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             <button
               onClick={cycleTheme}
               className="theme-toggle-btn hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5"
-              title={`Active Theme: ${theme.toUpperCase()} (Click to toggle Light / Dark / System)`}
-              aria-label={`Current Theme: ${theme}. Click to switch theme.`}
+              title={`Active Theme: ${theme.toUpperCase()} (Click to toggle ${theme === 'dark' ? 'Light' : 'Dark'})`}
+              aria-label={`Current Theme: ${theme}. Click to switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode.`}
             >
-              {theme === 'system' ? (
-                <Monitor size={14} />
-              ) : resolvedTheme === 'dark' ? (
+              {theme === 'dark' ? (
                 <Moon size={14} />
               ) : (
                 <Sun size={14} color="#E9C46A" />
@@ -460,53 +455,39 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             <div className="px-3.5 py-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] mt-1 flex flex-col gap-2.5">
               <div className="flex items-center justify-between text-xs font-mono text-[var(--text-secondary)] font-semibold uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
-                  {resolvedTheme === 'dark' ? <Moon size={14} /> : <Sun size={14} color="#E9C46A" />}
+                  {theme === 'dark' ? <Moon size={14} /> : <Sun size={14} color="#E9C46A" />}
                   <span>Appearance</span>
                 </span>
                 <span className="text-[var(--accent-gold)] capitalize font-bold">{theme}</span>
               </div>
 
-              <div className="grid grid-cols-3 gap-1.5">
+              <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setTheme('light')}
-                  className={`py-1.5 px-2 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all ${
+                  className={`py-2 px-3 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-all ${
                     theme === 'light'
                       ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-sm'
                       : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
                   }`}
                   aria-label="Set Light Theme"
                 >
-                  <Sun size={13} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />
-                  <span>Light</span>
+                  <Sun size={14} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />
+                  <span>☀ Light</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setTheme('dark')}
-                  className={`py-1.5 px-2 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all ${
+                  className={`py-2 px-3 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-all ${
                     theme === 'dark'
                       ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-sm'
                       : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
                   }`}
                   aria-label="Set Dark Theme"
                 >
-                  <Moon size={13} />
-                  <span>Dark</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setTheme('system')}
-                  className={`py-1.5 px-2 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all ${
-                    theme === 'system'
-                      ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-sm'
-                      : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
-                  }`}
-                  aria-label="Set System Theme"
-                >
-                  <Monitor size={13} />
-                  <span>System</span>
+                  <Moon size={14} />
+                  <span>☾ Dark</span>
                 </button>
               </div>
             </div>

@@ -410,11 +410,11 @@ export const MeshCanvas: React.FC<MeshCanvasProps> = ({
             <button
               type="button"
               onClick={onRandomize}
-              className="btn-secondary"
+              className="btn-studio-primary"
               style={{ padding: '5px 12px', fontSize: '0.75rem' }}
               title="Randomize gradient"
             >
-              <Sparkles size={12} style={{ color: 'var(--color-primary-text)' }} />
+              <Sparkles size={12} />
               <span>Randomize</span>
             </button>
           ) : null}

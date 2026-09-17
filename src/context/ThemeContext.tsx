@@ -1,56 +1,48 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeMode = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: ThemeMode;
   resolvedTheme: 'light' | 'dark';
   setTheme: (theme: ThemeMode) => void;
+  toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<ThemeMode>(() => {
-    const saved = localStorage.getItem('kroma-theme') as ThemeMode;
-    return saved === 'light' || saved === 'dark' || saved === 'system' ? saved : 'system';
+    try {
+      const saved = localStorage.getItem('kroma-theme');
+      if (saved === 'light' || saved === 'dark') {
+        return saved;
+      }
+    } catch {}
+    return 'dark';
   });
 
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('dark');
-
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const updateResolvedTheme = () => {
-      let active: 'light' | 'dark';
-      if (theme === 'system') {
-        active = mediaQuery.matches ? 'dark' : 'light';
-      } else {
-        active = theme;
-      }
-      setResolvedTheme(active);
-      document.documentElement.setAttribute('data-theme', active);
-    };
-
-    updateResolvedTheme();
-
-    const handleChange = () => {
-      if (theme === 'system') {
-        updateResolvedTheme();
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('kroma-theme', theme);
+    } catch {}
   }, [theme]);
 
   const setTheme = (newTheme: ThemeMode) => {
     setThemeState(newTheme);
-    localStorage.setItem('kroma-theme', newTheme);
+    try {
+      localStorage.setItem('kroma-theme', newTheme);
+    } catch {}
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, resolvedTheme: theme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -14,7 +14,6 @@ import {
   ArrowLeft,
   Sun,
   Moon,
-  Monitor,
   Menu,
   X,
 } from 'lucide-react';
@@ -231,7 +230,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         {/* Footer Actions */}
         <div style={{ paddingTop: '16px', borderTop: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '20px' }}>
           {/* Theme Quick Switcher */}
-          <div style={{ display: 'flex', background: 'var(--bg-surface-2)', borderRadius: 'var(--radius-xs)', padding: '2px' }}>
+          <div style={{ display: 'flex', background: 'var(--bg-surface-2)', borderRadius: 'var(--radius-xs)', padding: '2px', gap: '2px' }}>
             <button
               onClick={() => setTheme('light')}
               style={{
@@ -239,16 +238,21 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                 border: 'none',
                 background: theme === 'light' ? 'var(--bg-surface-3)' : 'transparent',
                 color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                padding: '4px',
+                padding: '5px',
                 borderRadius: '2px',
                 cursor: 'pointer',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                gap: '4px',
+                fontSize: '0.72rem',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 600,
               }}
               title="Light Theme"
             >
-              <Sun size={12} />
+              <Sun size={12} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />
+              <span>Light</span>
             </button>
             <button
               onClick={() => setTheme('dark')}
@@ -257,34 +261,21 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                 border: 'none',
                 background: theme === 'dark' ? 'var(--bg-surface-3)' : 'transparent',
                 color: theme === 'dark' ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                padding: '4px',
+                padding: '5px',
                 borderRadius: '2px',
                 cursor: 'pointer',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                gap: '4px',
+                fontSize: '0.72rem',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 600,
               }}
               title="Dark Theme"
             >
               <Moon size={12} />
-            </button>
-            <button
-              onClick={() => setTheme('system')}
-              style={{
-                flex: 1,
-                border: 'none',
-                background: theme === 'system' ? 'var(--bg-surface-3)' : 'transparent',
-                color: theme === 'system' ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                padding: '4px',
-                borderRadius: '2px',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              title="System Theme"
-            >
-              <Monitor size={12} />
+              <span>Dark</span>
             </button>
           </div>
 

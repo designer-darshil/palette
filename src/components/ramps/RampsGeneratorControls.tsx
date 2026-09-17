@@ -140,11 +140,11 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={onRandomize}
-              className="btn-secondary"
-              style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+              className="btn-studio-primary"
+              style={{ padding: '6px 14px', fontSize: '0.78rem' }}
               title="Generate random harmonious brand color"
             >
-              <Sparkles size={13} style={{ color: 'var(--color-primary-text)' }} />
+              <Sparkles size={13} />
               <span>Randomize</span>
             </button>
           )}

@@ -64,7 +64,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 to={{ path: 'ramps' }}
                 onNavigate={onNavigate}
                 className="btn-primary inline-flex items-center gap-2"
-                style={{ backgroundColor: '#2563EB', borderColor: '#3B82F6' }}
               >
                 <Sparkles size={16} />
                 <span>Ramps Studio (OKLCH)</span>
@@ -153,8 +152,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section style={{ marginBottom: '32px' }}>
         <div
           style={{
-            background: 'linear-gradient(135deg, #0e1320 0%, #111827 100%)',
-            border: '1px solid rgba(59, 130, 246, 0.3)',
+            background: 'var(--bg-surface-1)',
+            border: '1px solid var(--border-medium)',
             borderRadius: 'var(--radius-md)',
             padding: '24px 28px',
             display: 'flex',
@@ -162,13 +161,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '20px',
-            boxShadow: '0 8px 30px rgba(37, 99, 235, 0.12)',
+            boxShadow: 'var(--shadow-specimen)',
           }}
         >
           <div style={{ maxWidth: '580px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#3B82F6', display: 'inline-block' }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', textTransform: 'uppercase', color: '#60A5FA', letterSpacing: '0.1em', fontWeight: 700 }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: 'var(--color-primary)', display: 'inline-block' }} />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--color-primary-text)', letterSpacing: '0.1em', fontWeight: 700 }}>
                 RAMPS STUDIO · NEW DESIGN UTILITY
               </span>
             </div>
@@ -184,7 +183,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             to={{ path: 'ramps' }}
             onNavigate={onNavigate}
             className="btn-primary inline-flex items-center gap-1.5"
-            style={{ padding: '10px 18px', fontSize: '0.82rem', backgroundColor: '#2563EB' }}
+            style={{ padding: '10px 18px', fontSize: '0.82rem' }}
           >
             <span>Launch Ramps Studio</span>
             <ArrowRight size={14} />
@@ -196,7 +195,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section style={{ marginBottom: '48px' }}>
         <div
           style={{
-            background: 'linear-gradient(135deg, #111216 0%, #181A20 100%)',
+            background: 'var(--bg-surface-1)',
             border: '1px solid var(--border-medium)',
             borderRadius: 'var(--radius-md)',
             padding: '24px 28px',

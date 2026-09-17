@@ -56,11 +56,11 @@ export const StudioIntro: React.FC<StudioIntroProps> = ({
             <button
               type="button"
               onClick={onRandomize}
-              className="btn-secondary"
-              style={{ padding: '8px 14px', fontSize: '0.78rem' }}
+              className="btn-studio-primary"
+              style={{ padding: '8px 16px', fontSize: '0.78rem' }}
               title="Generate random configuration"
             >
-              <Sparkles size={13} style={{ color: 'var(--color-primary-text)' }} />
+              <Sparkles size={13} />
               <span>Randomize</span>
             </button>
           )}

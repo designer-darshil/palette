@@ -26,40 +26,41 @@ export const RampsPaletteGrid: React.FC<RampsPaletteGridProps> = ({
   const rampEntries = Object.entries(ramps);
 
   return (
-    <section id="color-ramps" className="w-full flex flex-col gap-6">
+    <section id="color-ramps" className="w-full flex flex-col gap-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h2 className="text-base sm:text-lg font-bold text-[var(--text-primary)] flex items-center gap-2 tracking-tight">
             <Layers size={18} className="text-[var(--text-secondary)]" />
-            <span>OKLCH Color Ramps (50—950)</span>
+            <span>Perceptual OKLCH Scales (50—950)</span>
           </h2>
           <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
-            11 perceptually uniform lightness steps per scale with continuous chroma compensation. Click any swatch to copy value.
+            11 lightness steps per scale with continuous chroma compensation. Click any swatch to copy value.
           </p>
         </div>
 
         <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-tertiary)]">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
-          <span>Active Notation: <strong className="text-[var(--text-primary)] uppercase">{notation}</strong></span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />
+          <span>Notation: <strong className="text-[var(--text-primary)] uppercase">{notation}</strong></span>
         </div>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         {rampEntries.map(([rampKey, ramp]) => {
           const isExcluded = excludedRamps.includes(rampKey);
 
           return (
             <div
               key={rampKey}
-              className={`bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-xl p-4 sm:p-5 transition-all ${
-                isExcluded ? 'opacity-40 grayscale' : 'hover:border-[var(--border-medium)]'
+              className={`bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 transition-all ${
+                isExcluded ? 'opacity-35 grayscale' : 'hover:border-[var(--border-medium)]'
               }`}
+              style={{ borderRadius: 'var(--radius-md)' }}
             >
               {/* Ramp Header */}
-              <div className="flex items-center justify-between gap-3 mb-3">
+              <div className="flex items-center justify-between gap-3 mb-2.5">
                 <div className="flex items-center gap-2.5">
                   <div
-                    className="w-3 h-3 rounded-full border border-black/10"
+                    className="w-3.5 h-3.5 rounded-xs border border-black/15 shadow-2xs"
                     style={{ backgroundColor: ramp.steps['500'].hex }}
                   />
                   <div>
@@ -74,27 +75,27 @@ export const RampsPaletteGrid: React.FC<RampsPaletteGridProps> = ({
 
                 <div className="flex items-center gap-3 text-xs font-mono text-[var(--text-tertiary)]">
                   <span className="hidden sm:inline text-[11px]">
-                    Hue: {ramp.baseHue.toFixed(0)}° · C: {ramp.baseChroma.toFixed(2)}
+                    H: {ramp.baseHue.toFixed(0)}° · C: {ramp.baseChroma.toFixed(2)}
                   </span>
                   {onToggleExcludeRamp && (
                     <button
                       type="button"
                       onClick={() => onToggleExcludeRamp(rampKey)}
-                      className="text-[11px] p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
+                      className="text-[11px] p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
                       title={isExcluded ? 'Include ramp in export' : 'Exclude ramp from export'}
                     >
-                      <EyeOff size={13} className={isExcluded ? 'text-amber-400' : ''} />
+                      <EyeOff size={13} className={isExcluded ? 'text-[var(--accent-gold)]' : ''} />
                     </button>
                   )}
                 </div>
               </div>
 
-              {/* Seamless Ramp Bar Preview */}
-              <div className="w-full h-3.5 rounded-md overflow-hidden flex shadow-inner mb-3 border border-black/10">
+              {/* Continuous Gradient Preview */}
+              <div className="w-full h-3 rounded-xs overflow-hidden flex shadow-inner mb-3 border border-black/10">
                 {STEP_KEYS.map((step) => (
                   <div
                     key={step}
-                    className="flex-1 h-full transition-transform hover:scale-y-125 origin-bottom"
+                    className="flex-1 h-full"
                     style={{ backgroundColor: ramp.steps[step].hex }}
                     title={`${rampKey}-${step}: ${ramp.steps[step].hex}`}
                   />
@@ -118,56 +119,45 @@ export const RampsPaletteGrid: React.FC<RampsPaletteGridProps> = ({
                       key={step}
                       type="button"
                       onClick={() => handleCopy(copyKey, displayValue)}
-                      className="group relative flex flex-col rounded-lg overflow-hidden border border-[var(--border-subtle)] text-left hover:border-[var(--border-strong)] hover:shadow-md transition-all active:scale-[0.98]"
+                      className="group relative flex flex-col rounded-xs overflow-hidden border border-[var(--border-subtle)] text-left hover:border-[var(--border-strong)] transition-all cursor-pointer"
+                      style={{ borderRadius: 'var(--radius-xs)' }}
                       title={`Click to copy: ${displayValue}`}
                     >
                       {/* Swatch Area */}
                       <div
-                        className="h-14 sm:h-16 w-full p-2 flex flex-col justify-between transition-colors relative"
+                        className="h-12 sm:h-14 w-full p-1.5 flex flex-col justify-between transition-colors relative"
                         style={{ backgroundColor: stepData.hex }}
                       >
                         {/* Step Label */}
                         <span
-                          className="font-mono text-[10px] font-bold tracking-tight"
+                          className="font-mono text-[9px] font-bold tracking-tight"
                           style={{ color: stepData.textContrast }}
                         >
                           {step}
                         </span>
 
-                        {/* Hover Copy Indicator */}
+                        {/* Hover / Copied Indicator */}
                         <div
-                          className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-[1px]"
+                          className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity backdrop-blur-[1px] ${
+                            isCopied ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                          }`}
                           style={{ color: '#FFFFFF' }}
                         >
                           {isCopied ? (
-                            <div className="flex items-center gap-1 bg-black/80 px-1.5 py-0.5 rounded text-[9px] font-mono text-emerald-400">
-                              <Check size={11} />
-                              <span>Copied</span>
-                            </div>
+                            <Check size={13} className="text-emerald-400 font-bold" />
                           ) : (
-                            <div className="flex items-center gap-1 bg-black/70 px-1.5 py-0.5 rounded text-[9px] font-mono text-white">
-                              <Copy size={11} />
-                              <span>Copy</span>
-                            </div>
+                            <Copy size={11} />
                           )}
                         </div>
-
-                        {/* Contrast Indicator */}
-                        <span
-                          className="text-[9px] font-mono opacity-80"
-                          style={{ color: stepData.textContrast }}
-                        >
-                          {stepData.textContrast === '#FFFFFF' ? 'Dark' : 'Light'}
-                        </span>
                       </div>
 
-                      {/* Step Code Metadata */}
-                      <div className="p-1.5 bg-[var(--bg-surface-2)] flex flex-col gap-0.5">
-                        <span className="font-mono text-[10px] font-bold text-[var(--text-primary)] truncate">
+                      {/* Info Footer */}
+                      <div className="px-1.5 py-1 bg-[var(--bg-surface-2)] flex flex-col gap-0.5 border-t border-[var(--border-subtle)]">
+                        <span className="font-mono text-[9px] font-bold text-[var(--text-primary)] truncate uppercase">
                           {stepData.hex}
                         </span>
-                        <span className="font-mono text-[9px] text-[var(--text-tertiary)] truncate">
-                          L: {stepData.lightness.toFixed(2)}
+                        <span className="font-mono text-[8px] text-[var(--text-tertiary)] truncate">
+                          L {(stepData.lightness * 100).toFixed(0)}%
                         </span>
                       </div>
                     </button>

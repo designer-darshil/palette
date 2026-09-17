@@ -1,6 +1,6 @@
 import React from 'react';
 import { AntigravityConfig, ANTIGRAVITY_PRESETS } from '../../utils/antigravityEngine';
-import { Sparkles, Check, Play } from 'lucide-react';
+import { Sparkles, Check } from 'lucide-react';
 
 interface PresetSelectorProps {
   activePreset: string | null;
@@ -12,11 +12,11 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
     <section id="presets-gallery" className="w-full flex flex-col gap-4">
       <div>
         <h2 className="text-base sm:text-lg font-bold text-[var(--text-primary)] flex items-center gap-2 tracking-tight">
-          <Sparkles size={18} className="text-amber-400" />
+          <Sparkles size={18} className="text-[var(--accent-gold)]" />
           <span>Curated Motion Presets</span>
         </h2>
         <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
-          Select a deterministic baseline physics profile. Parameters remain fully editable after selection.
+          Select a deterministic baseline physics profile. Parameters remain fully adjustable after selection.
         </p>
       </div>
 
@@ -29,11 +29,12 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
               key={preset.id}
               type="button"
               onClick={() => onSelectPreset(preset.id)}
-              className={`p-3.5 rounded-xl border text-left flex flex-col justify-between gap-2.5 transition-all active:scale-[0.99] ${
+              className={`p-3.5 rounded-md border text-left flex flex-col justify-between gap-2.5 transition-all cursor-pointer ${
                 isSelected
-                  ? 'bg-[var(--bg-surface-2)] border-blue-500 shadow-md ring-1 ring-blue-500/50'
+                  ? 'bg-[var(--bg-surface-2)] border-[var(--border-strong)] shadow-xs ring-1 ring-[var(--border-active)]'
                   : 'bg-[var(--bg-surface-1)] border-[var(--border-subtle)] hover:border-[var(--border-medium)] hover:bg-[var(--bg-surface-2)]/60'
               }`}
+              style={{ borderRadius: 'var(--radius-md)' }}
             >
               <div className="flex flex-col gap-1">
                 <div className="flex items-center justify-between">
@@ -41,7 +42,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
                     {preset.name}
                   </span>
                   {isSelected ? (
-                    <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center gap-1 font-bold">
+                    <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-xs bg-[var(--text-primary)] text-[var(--text-inverse)] flex items-center gap-1 font-bold">
                       <Check size={10} /> Active
                     </span>
                   ) : (

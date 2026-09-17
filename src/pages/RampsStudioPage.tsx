@@ -12,7 +12,6 @@ import {
   isValidHex,
   exportToAgentPrompt,
 } from '../utils/rampsEngine';
-import { RampsHeader } from '../components/ramps/RampsHeader';
 import { RampsGeneratorControls } from '../components/ramps/RampsGeneratorControls';
 import { RampsPaletteGrid } from '../components/ramps/RampsPaletteGrid';
 import { RampsSemanticTokensTable } from '../components/ramps/RampsSemanticTokensTable';
@@ -20,19 +19,10 @@ import { RampsLiveUiPreview } from '../components/ramps/RampsLiveUiPreview';
 import { RampsCodeExport } from '../components/ramps/RampsCodeExport';
 import { RampsApiDocs } from '../components/ramps/RampsApiDocs';
 import { RampsStudioFamily } from '../components/ramps/RampsStudioFamily';
+import { StudioIntro } from '../components/studio/StudioIntro';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { SEOHead } from '../components/seo/SEOHead';
-import {
-  Sparkles,
-  ShieldCheck,
-  Code2,
-  Terminal,
-  Layers,
-  ArrowRight,
-  Info,
-  Check,
-  Share2,
-  BookOpen,
-} from 'lucide-react';
+import { Info } from 'lucide-react';
 
 interface RampsStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -106,7 +96,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
     return generateFullRampsSystem(config);
   }, [config]);
 
-  // Inject agent-readable JSON script tag into head/body for headless crawlers
+  // Inject agent-readable JSON script tag for headless crawlers
   useEffect(() => {
     let scriptTag = document.getElementById('ramps-studio-palette') as HTMLScriptElement | null;
     if (!scriptTag) {
@@ -165,13 +155,6 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
     setTimeout(() => setHasCopiedShare(false), 2000);
   }, []);
 
-  const handleScrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   const toggleExcludeRamp = (rampName: string) => {
     setConfig((prev) => {
       const exists = prev.excludedRamps.includes(rampName);
@@ -197,121 +180,93 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-canvas)] text-[var(--text-primary)] flex flex-col antialiased selection:bg-[var(--text-primary)] selection:text-[var(--text-inverse)]">
+    <div className="flex flex-col gap-8">
       <SEOHead
         title="Ramps Studio — OKLCH Color Scales & Semantic Design Tokens"
         description="Perceptually-even OKLCH color ramp generator and usage-first semantic tokens with enforced WCAG AA/AAA contrast. Export to CSS, Tailwind v4, DTCG JSON, and coding agent prompts."
         canonicalPath="/ramps"
       />
 
-      {/* Compact Studio Header */}
-      <RampsHeader
+      {/* Breadcrumb Hierarchy */}
+      <Breadcrumbs
+        items={[
+          { label: 'Library Home', to: { path: 'home' } },
+          { label: 'Studio Tools' },
+          { label: 'Ramps Studio', isCurrent: true },
+        ]}
         onNavigate={onNavigate}
-        onCopyPrompt={handleCopyPrompt}
-        hasCopiedPrompt={hasCopiedPrompt}
-        onScrollToSection={handleScrollToSection}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col gap-10">
-        {/* Intro / Hero Statement */}
-        <section className="flex flex-col gap-3">
-          <div className="flex items-center gap-2 font-mono text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse" />
-            <span>Deterministic OKLCH Generator</span>
-            <span>·</span>
-            <span>Agent &amp; LLM Readable</span>
-          </div>
+      {/* Compact Studio Header & Intro */}
+      <StudioIntro
+        category="Studio Utility"
+        badge="Deterministic OKLCH Generator"
+        title="Ramps Studio"
+        description="Build balanced, perceptually-even color scales (50–950), scheme-derived accents, and role-mapped semantic tokens from a single color anchor."
+        onRandomize={handleRandomize}
+        onReset={handleReset}
+        onCopyPrompt={handleCopyPrompt}
+        hasCopiedPrompt={hasCopiedPrompt}
+        onShareUrl={handleShareUrl}
+        hasCopiedShare={hasCopiedShare}
+      />
 
-          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] max-w-3xl leading-[1.15]">
-            Color ramps and semantic tokens your agent can read.
-          </h1>
+      {/* 1. Generator Controls */}
+      <RampsGeneratorControls
+        config={config}
+        onChange={handleConfigChange}
+        onRandomize={handleRandomize}
+        onReset={handleReset}
+        onShareUrl={handleShareUrl}
+        hasCopiedShare={hasCopiedShare}
+      />
 
-          <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-3xl leading-relaxed">
-            Generate an entire accessible color system from one brand color anchor: perceptually-even OKLCH scales (50–950), scheme-derived accents, a chroma-matched neutral, collision-avoided status tones, and usage-first semantic tokens with enforced WCAG {config.wcag}.
-          </p>
-        </section>
+      {/* 2. Main Color Ramps Display */}
+      <RampsPaletteGrid
+        ramps={paletteResult.ramps}
+        notation={config.notation}
+        onToggleExcludeRamp={toggleExcludeRamp}
+        excludedRamps={config.excludedRamps}
+      />
 
-        {/* 1. Generator Controls */}
-        <RampsGeneratorControls
-          config={config}
-          onChange={handleConfigChange}
-          onRandomize={handleRandomize}
-          onReset={handleReset}
-          onShareUrl={handleShareUrl}
-          hasCopiedShare={hasCopiedShare}
-        />
+      {/* 3. Semantic Tokens Table */}
+      <RampsSemanticTokensTable
+        tokens={paletteResult.tokens}
+        wcagLevel={config.wcag}
+        onToggleExcludeToken={toggleExcludeToken}
+        excludedTokens={config.excludedTokens}
+      />
 
-        {/* 2. Main Color Ramps Display */}
-        <RampsPaletteGrid
-          ramps={paletteResult.ramps}
-          notation={config.notation}
-          onToggleExcludeRamp={toggleExcludeRamp}
-          excludedRamps={config.excludedRamps}
-        />
+      {/* 4. Live UI Interface Simulation */}
+      <RampsLiveUiPreview paletteResult={paletteResult} />
 
-        {/* 3. Semantic Tokens Table */}
-        <RampsSemanticTokensTable
-          tokens={paletteResult.tokens}
-          wcagLevel={config.wcag}
-          onToggleExcludeToken={toggleExcludeToken}
-          excludedTokens={config.excludedTokens}
-        />
+      {/* 5. Developer Code & Token Export Hub */}
+      <RampsCodeExport paletteResult={paletteResult} />
 
-        {/* 4. Live UI Interface Simulation */}
-        <RampsLiveUiPreview paletteResult={paletteResult} />
+      {/* 6. Machine Contract & API Documentation */}
+      <RampsApiDocs paletteResult={paletteResult} />
 
-        {/* 5. Developer Code & Token Export Hub */}
-        <RampsCodeExport paletteResult={paletteResult} />
+      {/* 7. Engineering Notes & Architectural Principles */}
+      <section
+        className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-5 flex flex-col gap-3 shadow-xs"
+        style={{ borderRadius: 'var(--radius-md)' }}
+      >
+        <h3 className="text-xs sm:text-sm font-bold font-mono text-[var(--text-primary)] flex items-center gap-2">
+          <Info size={16} className="text-[var(--accent-blue)]" />
+          <span>Architectural Guarantees &amp; Mathematical Notes</span>
+        </h3>
 
-        {/* 6. Machine Contract & API Documentation */}
-        <RampsApiDocs paletteResult={paletteResult} />
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs text-[var(--text-secondary)] leading-relaxed list-disc list-inside">
+          {paletteResult.notes.map((note, idx) => (
+            <li key={idx} className="marker:text-[var(--text-tertiary)]">
+              {note}
+            </li>
+          ))}
+        </ul>
+      </section>
 
-        {/* 7. Engineering Notes & Architectural Principles */}
-        <section className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-xl p-5 sm:p-6 flex flex-col gap-4">
-          <h3 className="text-xs sm:text-sm font-bold font-mono text-[var(--text-primary)] flex items-center gap-2">
-            <Info size={16} className="text-blue-400" />
-            <span>Architectural Guarantees &amp; Implementation Notes</span>
-          </h3>
-
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-[var(--text-secondary)] leading-relaxed list-disc list-inside">
-            {paletteResult.notes.map((note, idx) => (
-              <li key={idx} className="marker:text-[var(--text-tertiary)]">
-                {note}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* 8. Studio Tools Family Ecosystem */}
-        <RampsStudioFamily onNavigate={onNavigate} />
-      </main>
-
-      {/* Footer */}
-      <footer className="w-full border-t border-[var(--border-subtle)] bg-[var(--bg-surface-1)] py-8 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[var(--text-tertiary)]">
-          <div className="flex items-center gap-3">
-            <span className="font-bold text-[var(--text-primary)]">Ramps Studio</span>
-            <span>·</span>
-            <span>Part of the KROMA Design System</span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <a href="/llms.txt" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--text-primary)] underline">
-              /llms.txt
-            </a>
-            <button onClick={() => onNavigate({ path: 'home' })} className="hover:text-[var(--text-primary)]">
-              Library Home
-            </button>
-            <button onClick={() => onNavigate({ path: 'colors' })} className="hover:text-[var(--text-primary)]">
-              Specimens
-            </button>
-            <button onClick={() => onNavigate({ path: 'contrast-checker' })} className="hover:text-[var(--text-primary)]">
-              Contrast Checker
-            </button>
-          </div>
-        </div>
-      </footer>
+      {/* 8. Studio Tools Sibling Ecosystem */}
+      <RampsStudioFamily onNavigate={onNavigate} currentTool="ramps" />
     </div>
   );
 };

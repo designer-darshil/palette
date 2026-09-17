@@ -23,14 +23,15 @@ import {
   Eye,
   Layers,
 } from 'lucide-react';
+import { ColorPickerModal } from '../ColorPickerModal';
 
 interface RampsGeneratorControlsProps {
   config: RampsConfig;
   onChange: (newConfig: Partial<RampsConfig>) => void;
-  onRandomize: () => void;
-  onReset: () => void;
-  onShareUrl: () => void;
-  hasCopiedShare: boolean;
+  onRandomize?: () => void;
+  onReset?: () => void;
+  onShareUrl?: () => void;
+  hasCopiedShare?: boolean;
 }
 
 export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
@@ -39,11 +40,14 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
   onRandomize,
   onReset,
   onShareUrl,
-  hasCopiedShare,
+  hasCopiedShare = false,
 }) => {
   const [brandInput, setBrandInput] = useState(config.brand);
   const [accentInput, setAccentInput] = useState(config.accent || '');
   const [accent2Input, setAccent2Input] = useState(config.accent2 || '');
+
+  // Picker modal state
+  const [pickerTarget, setPickerTarget] = useState<'brand' | 'accent' | 'accent2' | null>(null);
 
   // Keep local input in sync if config changes externally (e.g. randomize/URL)
   React.useEffect(() => {
@@ -94,147 +98,167 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
     { id: 'monochromatic', label: 'Monochromatic', desc: 'Single hue, modulated chroma' },
   ];
 
+  const getActivePickerColor = () => {
+    if (pickerTarget === 'brand') return `#${config.brand}`;
+    if (pickerTarget === 'accent') return config.accent ? `#${config.accent}` : '#F4D59B';
+    if (pickerTarget === 'accent2') return config.accent2 ? `#${config.accent2}` : '#0099C5';
+    return '#3D7DFF';
+  };
+
+  const handleApplyColor = (hex: string) => {
+    const clean = normalizeHex(hex);
+    if (pickerTarget === 'brand') {
+      handleBrandChange(clean);
+    } else if (pickerTarget === 'accent') {
+      handleAccentChange(clean);
+    } else if (pickerTarget === 'accent2') {
+      handleAccent2Change(clean);
+    }
+    setPickerTarget(null);
+  };
+
   return (
-    <section id="ramps-generator" className="w-full bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xl p-4 sm:p-6 shadow-sm">
+    <section
+      id="ramps-generator"
+      className="w-full bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-6 shadow-sm"
+      style={{ borderRadius: 'var(--radius-md)' }}
+    >
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-[var(--border-subtle)]">
         <div>
           <h2 className="text-base sm:text-lg font-bold text-[var(--text-primary)] flex items-center gap-2 tracking-tight">
             <Sliders size={18} className="text-[var(--text-secondary)]" />
-            <span>Interactive Color &amp; Token Generator</span>
+            <span>Interactive Color &amp; Token Parameters</span>
           </h2>
           <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
-            Configure your brand inputs. Changes update the OKLCH mathematical scales, semantic tokens, and URL instantly.
+            Configure brand anchors and generation modes. Scales, tokens, and shareable permalinks update instantly.
           </p>
         </div>
 
         {/* Global Toolbar Actions */}
         <div className="flex items-center gap-2 flex-wrap">
-          <button
-            type="button"
-            onClick={onRandomize}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-all"
-            title="Generate random harmonious brand color"
-          >
-            <Sparkles size={13} className="text-amber-400" />
-            <span>Randomize</span>
-          </button>
+          {onRandomize && (
+            <button
+              type="button"
+              onClick={onRandomize}
+              className="btn-secondary"
+              style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+              title="Generate random harmonious brand color"
+            >
+              <Sparkles size={13} className="text-[var(--accent-gold)]" />
+              <span>Randomize</span>
+            </button>
+          )}
 
-          <button
-            type="button"
-            onClick={onReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-all"
-            title="Reset to default brand parameters (#3d7dff)"
-          >
-            <RotateCcw size={13} />
-            <span>Reset</span>
-          </button>
+          {onReset && (
+            <button
+              type="button"
+              onClick={onReset}
+              className="btn-secondary"
+              style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+              title="Reset to default brand parameters (#3d7dff)"
+            >
+              <RotateCcw size={13} />
+              <span>Reset</span>
+            </button>
+          )}
 
-          <button
-            type="button"
-            onClick={onShareUrl}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[var(--text-primary)] text-[var(--text-inverse)] text-xs font-mono font-medium hover:opacity-90 transition-all shadow-xs"
-            title="Copy shareable permalink with current configuration"
-          >
-            {hasCopiedShare ? (
-              <>
-                <Check size={13} />
-                <span>Link Copied!</span>
-              </>
-            ) : (
-              <>
-                <Share2 size={13} />
-                <span>Share URL</span>
-              </>
-            )}
-          </button>
+          {onShareUrl && (
+            <button
+              type="button"
+              onClick={onShareUrl}
+              className="btn-primary"
+              style={{ padding: '6px 14px', fontSize: '0.78rem' }}
+              title="Copy shareable permalink with current configuration"
+            >
+              {hasCopiedShare ? (
+                <>
+                  <Check size={13} />
+                  <span>Link Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Share2 size={13} />
+                  <span>Share URL</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
 
       {/* Primary Input Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-5">
         {/* Brand Color Input */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 p-3 sm:p-4 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs">
           <label className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center justify-between">
-            <span>1. Brand Color (b)</span>
-            <span className="text-[10px] font-normal text-[var(--text-tertiary)]">Required 6-hex</span>
+            <span>1. Brand Color Anchor</span>
+            <span className="text-[10px] font-normal text-[var(--text-tertiary)] font-mono">#{config.brand.toUpperCase()}</span>
           </label>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             {/* Color Swatch Picker */}
-            <label className="relative cursor-pointer flex-shrink-0">
-              <input
-                type="color"
-                value={`#${config.brand}`}
-                onChange={(e) => handleBrandChange(e.target.value)}
-                className="sr-only"
-              />
-              <div
-                className="w-10 h-10 rounded-md border border-[var(--border-strong)] shadow-inner transition-transform active:scale-95"
-                style={{ backgroundColor: `#${config.brand}` }}
-                title="Click to open system color picker"
-              />
-            </label>
+            <button
+              type="button"
+              onClick={() => setPickerTarget('brand')}
+              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer"
+              style={{ backgroundColor: `#${config.brand}` }}
+              title="Click to open Color Picker Modal"
+            />
 
             {/* Hex Input */}
-            <div className="relative flex-1">
+            <div className="relative flex-1 min-w-0">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[var(--text-tertiary)] font-bold">
                 #
               </span>
               <input
                 type="text"
                 maxLength={7}
-                value={brandInput}
+                value={brandInput.toUpperCase()}
                 onChange={(e) => handleBrandChange(e.target.value)}
-                placeholder="3d7dff"
-                className="w-full pl-7 pr-3 py-2 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-md font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--ring-focus)] focus:ring-1 focus:ring-[var(--ring-focus)]"
+                placeholder="3D7DFF"
+                className="w-full pl-7 pr-3 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
               />
             </div>
           </div>
-          <div className="text-[11px] text-[var(--text-tertiary)] flex items-center justify-between">
-            <span>Anchor for primary OKLCH ramp</span>
-            <span className="font-mono text-[10px] uppercase font-semibold">#{config.brand}</span>
+          <div className="text-[10px] font-mono text-[var(--text-tertiary)] flex items-center justify-between pt-1 border-t border-[var(--border-subtle)]">
+            <span>OKLCH scale root anchor</span>
+            <span className="text-[var(--accent-gold)]">Required</span>
           </div>
         </div>
 
         {/* Secondary Accent Control (Auto / Pinned) */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 p-3 sm:p-4 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs">
           <label className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center justify-between">
-            <span>2. Secondary Accent (a)</span>
+            <span>2. Secondary Accent</span>
             {config.accent ? (
-              <span className="font-mono text-[10px] text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+              <span className="font-mono text-[10px] text-[var(--accent-gold)] bg-[var(--bg-surface-3)] px-1.5 py-0.5 rounded-xs flex items-center gap-1">
                 <Pin size={10} /> Pinned
               </span>
             ) : (
-              <span className="font-mono text-[10px] text-[var(--text-tertiary)] bg-[var(--bg-surface-2)] px-1.5 py-0.5 rounded">
-                Auto-Derived
+              <span className="font-mono text-[10px] text-[var(--text-tertiary)] bg-[var(--bg-surface-3)] px-1.5 py-0.5 rounded-xs">
+                Auto-Harmonized
               </span>
             )}
           </label>
-          <div className="flex items-center gap-2">
-            <label className="relative cursor-pointer flex-shrink-0">
-              <input
-                type="color"
-                value={config.accent ? `#${config.accent}` : '#f4d59b'}
-                onChange={(e) => handleAccentChange(e.target.value)}
-                className="sr-only"
-              />
-              <div
-                className="w-10 h-10 rounded-md border border-[var(--border-strong)] shadow-inner transition-transform active:scale-95"
-                style={{ backgroundColor: config.accent ? `#${config.accent}` : 'var(--accent, #f4d59b)' }}
-                title="Pick pinned secondary accent"
-              />
-            </label>
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setPickerTarget('accent')}
+              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer"
+              style={{ backgroundColor: config.accent ? `#${config.accent}` : '#F4D59B' }}
+              title="Click to open Color Picker Modal"
+            />
 
-            <div className="relative flex-1">
+            <div className="relative flex-1 min-w-0">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[var(--text-tertiary)] font-bold">
                 #
               </span>
               <input
                 type="text"
                 maxLength={7}
-                value={accentInput}
+                value={accentInput.toUpperCase()}
                 onChange={(e) => handleAccentChange(e.target.value)}
-                placeholder="Auto (e.g. b28200)"
-                className="w-full pl-7 pr-8 py-2 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-md font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--ring-focus)] focus:ring-1 focus:ring-[var(--ring-focus)]"
+                placeholder="Auto (Harmonized)"
+                className="w-full pl-7 pr-8 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
               />
               {config.accent && (
                 <button
@@ -248,12 +272,12 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
               )}
             </div>
           </div>
-          <div className="text-[11px] text-[var(--text-tertiary)] flex items-center justify-between">
-            <span>Derived via {config.scheme} scheme</span>
+          <div className="text-[10px] font-mono text-[var(--text-tertiary)] flex items-center justify-between pt-1 border-t border-[var(--border-subtle)]">
+            <span>Derived from {config.scheme}</span>
             <button
               type="button"
-              onClick={() => handleAccentChange(config.accent ? '' : 'b28200')}
-              className="text-[10px] font-mono underline hover:text-[var(--text-primary)]"
+              onClick={() => handleAccentChange(config.accent ? '' : 'B28200')}
+              className="underline hover:text-[var(--text-primary)] cursor-pointer"
             >
               {config.accent ? 'Reset to Auto' : 'Pin Custom'}
             </button>
@@ -261,45 +285,39 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
         </div>
 
         {/* Tertiary Accent Control (Auto / Pinned) */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 p-3 sm:p-4 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs">
           <label className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center justify-between">
-            <span>3. Tertiary Accent (a2)</span>
+            <span>3. Tertiary Accent</span>
             {config.accent2 ? (
-              <span className="font-mono text-[10px] text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+              <span className="font-mono text-[10px] text-[var(--accent-gold)] bg-[var(--bg-surface-3)] px-1.5 py-0.5 rounded-xs flex items-center gap-1">
                 <Pin size={10} /> Pinned
               </span>
             ) : (
-              <span className="font-mono text-[10px] text-[var(--text-tertiary)] bg-[var(--bg-surface-2)] px-1.5 py-0.5 rounded">
-                Auto-Derived
+              <span className="font-mono text-[10px] text-[var(--text-tertiary)] bg-[var(--bg-surface-3)] px-1.5 py-0.5 rounded-xs">
+                Auto-Harmonized
               </span>
             )}
           </label>
-          <div className="flex items-center gap-2">
-            <label className="relative cursor-pointer flex-shrink-0">
-              <input
-                type="color"
-                value={config.accent2 ? `#${config.accent2}` : '#0099c5'}
-                onChange={(e) => handleAccent2Change(e.target.value)}
-                className="sr-only"
-              />
-              <div
-                className="w-10 h-10 rounded-md border border-[var(--border-strong)] shadow-inner transition-transform active:scale-95"
-                style={{ backgroundColor: config.accent2 ? `#${config.accent2}` : 'var(--accent-2, #0099c5)' }}
-                title="Pick pinned tertiary accent"
-              />
-            </label>
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setPickerTarget('accent2')}
+              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer"
+              style={{ backgroundColor: config.accent2 ? `#${config.accent2}` : '#0099C5' }}
+              title="Click to open Color Picker Modal"
+            />
 
-            <div className="relative flex-1">
+            <div className="relative flex-1 min-w-0">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[var(--text-tertiary)] font-bold">
                 #
               </span>
               <input
                 type="text"
                 maxLength={7}
-                value={accent2Input}
+                value={accent2Input.toUpperCase()}
                 onChange={(e) => handleAccent2Change(e.target.value)}
-                placeholder="Auto (e.g. 0099c5)"
-                className="w-full pl-7 pr-8 py-2 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-md font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--ring-focus)] focus:ring-1 focus:ring-[var(--ring-focus)]"
+                placeholder="Auto (Harmonized)"
+                className="w-full pl-7 pr-8 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
               />
               {config.accent2 && (
                 <button
@@ -313,12 +331,12 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
               )}
             </div>
           </div>
-          <div className="text-[11px] text-[var(--text-tertiary)] flex items-center justify-between">
-            <span>Secondary harmony offset</span>
+          <div className="text-[10px] font-mono text-[var(--text-tertiary)] flex items-center justify-between pt-1 border-t border-[var(--border-subtle)]">
+            <span>Secondary harmony anchor</span>
             <button
               type="button"
-              onClick={() => handleAccent2Change(config.accent2 ? '' : '0099c5')}
-              className="text-[10px] font-mono underline hover:text-[var(--text-primary)]"
+              onClick={() => handleAccent2Change(config.accent2 ? '' : '0099C5')}
+              className="underline hover:text-[var(--text-primary)] cursor-pointer"
             >
               {config.accent2 ? 'Reset to Auto' : 'Pin Custom'}
             </button>
@@ -332,12 +350,12 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-mono text-[var(--text-secondary)] font-semibold flex items-center gap-1">
             <Palette size={13} className="text-[var(--text-tertiary)]" />
-            <span>Scheme (s)</span>
+            <span>Harmonic Scheme</span>
           </label>
           <select
             value={config.scheme}
             onChange={(e) => onChange({ scheme: e.target.value as RampsScheme })}
-            className="w-full px-2.5 py-1.5 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--ring-focus)] cursor-pointer"
+            className="w-full px-2.5 py-1.5 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-xs font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)] cursor-pointer"
           >
             {schemes.map((s) => (
               <option key={s.id} value={s.id}>
@@ -354,15 +372,15 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-mono text-[var(--text-secondary)] font-semibold flex items-center gap-1">
             <Layers size={13} className="text-[var(--text-tertiary)]" />
-            <span>Scope (m)</span>
+            <span>Palette Scope</span>
           </label>
-          <div className="grid grid-cols-2 gap-1 bg-[var(--bg-surface-2)] p-0.5 rounded border border-[var(--border-subtle)]">
+          <div className="grid grid-cols-2 gap-1 bg-[var(--bg-surface-2)] p-0.5 rounded-xs border border-[var(--border-subtle)]">
             <button
               type="button"
               onClick={() => onChange({ scope: 'full' })}
-              className={`py-1 rounded text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
                 config.scope === 'full'
-                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-xs'
+                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -371,9 +389,9 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ scope: 'basic' })}
-              className={`py-1 rounded text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
                 config.scope === 'basic'
-                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-xs'
+                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -389,15 +407,15 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-mono text-[var(--text-secondary)] font-semibold flex items-center gap-1">
             <ShieldCheck size={13} className="text-[var(--text-tertiary)]" />
-            <span>WCAG Target (c)</span>
+            <span>WCAG Target</span>
           </label>
-          <div className="grid grid-cols-2 gap-1 bg-[var(--bg-surface-2)] p-0.5 rounded border border-[var(--border-subtle)]">
+          <div className="grid grid-cols-2 gap-1 bg-[var(--bg-surface-2)] p-0.5 rounded-xs border border-[var(--border-subtle)]">
             <button
               type="button"
               onClick={() => onChange({ wcag: 'AA' })}
-              className={`py-1 rounded text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
                 config.wcag === 'AA'
-                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-xs'
+                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -406,9 +424,9 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ wcag: 'AAA' })}
-              className={`py-1 rounded text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
                 config.wcag === 'AAA'
-                  ? 'bg-emerald-600 text-white shadow-xs'
+                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -424,12 +442,12 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-mono text-[var(--text-secondary)] font-semibold flex items-center gap-1">
             <Code2 size={13} className="text-[var(--text-tertiary)]" />
-            <span>Notation (f)</span>
+            <span>Output Notation</span>
           </label>
           <select
             value={config.notation}
             onChange={(e) => onChange({ notation: e.target.value as RampsNotation })}
-            className="w-full px-2.5 py-1.5 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--ring-focus)] cursor-pointer"
+            className="w-full px-2.5 py-1.5 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-xs font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)] cursor-pointer"
           >
             <option value="oklch">OKLCH (Perceptual)</option>
             <option value="hex">HEX (Hexadecimal)</option>
@@ -437,7 +455,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <option value="hsl">HSL (Hue, Sat, Light)</option>
           </select>
           <span className="text-[10px] text-[var(--text-tertiary)]">
-            Color representation in tables &amp; JSON
+            Format used across tables and exports
           </span>
         </div>
 
@@ -445,15 +463,15 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-mono text-[var(--text-secondary)] font-semibold flex items-center gap-1">
             <Eye size={13} className="text-[var(--text-tertiary)]" />
-            <span>Vividness (v)</span>
+            <span>Chroma Vividness</span>
           </label>
-          <div className="grid grid-cols-2 gap-1 bg-[var(--bg-surface-2)] p-0.5 rounded border border-[var(--border-subtle)]">
+          <div className="grid grid-cols-2 gap-1 bg-[var(--bg-surface-2)] p-0.5 rounded-xs border border-[var(--border-subtle)]">
             <button
               type="button"
               onClick={() => onChange({ vividness: 'natural' })}
-              className={`py-1 rounded text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
                 config.vividness === 'natural'
-                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-xs'
+                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -462,9 +480,9 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ vividness: 'bold' })}
-              className={`py-1 rounded text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
                 config.vividness === 'bold'
-                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-xs'
+                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -476,6 +494,15 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
           </span>
         </div>
       </div>
+
+      {/* Color Picker Modal */}
+      <ColorPickerModal
+        isOpen={pickerTarget !== null}
+        initialColor={getActivePickerColor()}
+        title={`SELECT ${pickerTarget?.toUpperCase()} COLOR`}
+        onApply={handleApplyColor}
+        onClose={() => setPickerTarget(null)}
+      />
     </section>
   );
 };

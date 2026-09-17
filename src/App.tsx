@@ -469,15 +469,7 @@ export const App: React.FC = () => {
     );
   }
 
-  // Antigravity Studio renders its dedicated layout
-  if (currentRoute.path === 'antigravity') {
-    return <AntigravityStudioPage onNavigate={handleNavigate} initialParams={currentRoute as any} />;
-  }
 
-  // Ramps Studio renders its dedicated high-density layout
-  if (currentRoute.path === 'ramps') {
-    return <RampsStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
-  }
 
   // Admin route renders its own standalone layout
   if (currentRoute.path === 'admin') {
@@ -506,6 +498,10 @@ export const App: React.FC = () => {
         return <GradientDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
       case 'live':
         return <LiveColorsPage onNavigate={handleNavigate} />;
+      case 'ramps':
+        return <RampsStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
+      case 'antigravity':
+        return <AntigravityStudioPage onNavigate={handleNavigate} initialParams={currentRoute as any} />;
       case 'palette-generator':
         return (
           <MobilePaletteGeneratorPage

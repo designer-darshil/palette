@@ -50,6 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
   const isToolActive =
     currentRoute.path === 'ramps' ||
     currentRoute.path === 'antigravity' ||
+    currentRoute.path === 'mesh' ||
     currentRoute.path === 'palette-generator' ||
     currentRoute.path === 'contrast-checker' ||
     currentRoute.path === 'color-name-finder' ||
@@ -61,6 +62,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
     if (path === 'home' && currentRoute.path === 'home') return true;
     if (path === 'ramps' && currentRoute.path === 'ramps') return true;
     if (path === 'antigravity' && currentRoute.path === 'antigravity') return true;
+    if (path === 'mesh' && currentRoute.path === 'mesh') return true;
     if (path === 'colors' && (currentRoute.path === 'colors' || currentRoute.path === 'color-detail')) return true;
     if (path === 'palettes' && (currentRoute.path === 'palettes' || currentRoute.path === 'palette-detail')) return true;
     if (path === 'combos' && (currentRoute.path === 'combos' || currentRoute.path === 'combo-detail')) return true;
@@ -102,6 +104,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
       description: 'Physics & motion generator with deterministic exports',
       icon: <Compass size={16} className="text-cyan-400" />,
       path: { path: 'antigravity' } as RouteType,
+    },
+    {
+      id: 'mesh',
+      title: 'Mesh Gradient Studio',
+      description: 'Multi-point radial mesh canvas & design token exports',
+      icon: <Wand2 size={16} style={{ color: 'var(--color-primary-text)' }} />,
+      path: { path: 'mesh' } as RouteType,
     },
     {
       id: 'palette-generator',

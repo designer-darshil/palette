@@ -21,10 +21,12 @@ import { ExtractFromImagePage } from './pages/ExtractFromImagePage';
 import { BrandKitPage } from './pages/BrandKitPage';
 import { RampsStudioPage } from './pages/RampsStudioPage';
 import { AntigravityStudioPage } from './pages/AntigravityStudioPage';
+import { MeshGradientStudioPage } from './pages/MeshGradientStudioPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminHubPage } from './pages/admin/AdminHubPage';
 import { generateFullRampsSystem, normalizeHex, isValidHex, RampsScope, RampsScheme, RampsWcag, RampsNotation, RampsVividness } from './utils/rampsEngine';
 import { deserializeAntigravityConfig, serializeAntigravityConfig, generateMotionTokens, generateCssExport, generateJsExport, generateFramerMotionExport, describeMotion } from './utils/antigravityEngine';
+import { deserializeMeshConfig, serializeMeshConfig, generateMeshCss, generateMeshSvg, generateMeshTokensJson } from './utils/meshEngine';
 import { CURATED_COLORS } from './data/colors';
 import { CURATED_PALETTES } from './data/palettes';
 import { CURATED_COMBOS } from './data/combos';
@@ -93,6 +95,48 @@ function parseUrlToRoute(): RouteType {
       av: searchParams.get('av') || undefined,
       ts: searchParams.get('ts') || undefined,
       format: searchParams.get('format') || 'json',
+    };
+  }
+
+  // API Endpoint Route Handler (GET /api/mesh)
+  if (path === 'api/mesh' || (s0 === 'api' && s1 === 'mesh')) {
+    return {
+      path: 'api-mesh',
+      p: searchParams.get('p') || undefined,
+      s: searchParams.get('s') || undefined,
+      sf: searchParams.get('sf') || undefined,
+      in: searchParams.get('in') || undefined,
+      bl: searchParams.get('bl') || undefined,
+      gr: searchParams.get('gr') || undefined,
+      rot: searchParams.get('rot') || undefined,
+      sc: searchParams.get('sc') || undefined,
+      bg: searchParams.get('bg') || undefined,
+      scol: searchParams.get('scol') || undefined,
+      pts: searchParams.get('pts') || undefined,
+      format: searchParams.get('format') || 'json',
+    };
+  }
+
+  // Mesh Gradient Studio Dedicated Routes
+  if (
+    s0 === 'mesh' ||
+    s0 === 'mesh-gradient' ||
+    s0 === 'mesh-studio' ||
+    s0 === 'gradient-mesh'
+  ) {
+    return {
+      path: 'mesh',
+      p: searchParams.get('p') || undefined,
+      s: searchParams.get('s') || undefined,
+      sf: searchParams.get('sf') || undefined,
+      in: searchParams.get('in') || undefined,
+      bl: searchParams.get('bl') || undefined,
+      gr: searchParams.get('gr') || undefined,
+      rot: searchParams.get('rot') || undefined,
+      sc: searchParams.get('sc') || undefined,
+      bg: searchParams.get('bg') || undefined,
+      scol: searchParams.get('scol') || undefined,
+      pts: searchParams.get('pts') || undefined,
     };
   }
 
@@ -321,6 +365,32 @@ function routeToUrl(route: RouteType): string {
         const qs = params.toString();
         return qs ? `/api/antigravity?${qs}` : '/api/antigravity';
       }
+    case 'mesh':
+      {
+        const params = new URLSearchParams();
+        if (route.p) params.set('p', route.p);
+        if (route.s) params.set('s', route.s);
+        if (route.sf) params.set('sf', route.sf);
+        if (route.in) params.set('in', route.in);
+        if (route.bl) params.set('bl', route.bl);
+        if (route.gr) params.set('gr', route.gr);
+        if (route.rot) params.set('rot', route.rot);
+        if (route.sc) params.set('sc', route.sc);
+        if (route.bg) params.set('bg', route.bg);
+        if (route.scol) params.set('scol', route.scol);
+        if (route.pts) params.set('pts', route.pts);
+        const qs = params.toString();
+        return qs ? `/mesh?${qs}` : '/mesh';
+      }
+    case 'api-mesh':
+      {
+        const params = new URLSearchParams();
+        if (route.p) params.set('p', route.p);
+        if (route.s) params.set('s', route.s);
+        if (route.format) params.set('format', route.format);
+        const qs = params.toString();
+        return qs ? `/api/mesh?${qs}` : '/api/mesh';
+      }
     case 'palette-generator':
       return route.colors ? `/palette-generator?colors=${route.colors}` : '/palette-generator';
     case 'contrast-checker':
@@ -471,6 +541,32 @@ export const App: React.FC = () => {
 
 
 
+  // API Route for Mesh Gradient tokens & CSS
+  if (currentRoute.path === 'api-mesh') {
+    const config = deserializeMeshConfig(new URLSearchParams(currentRoute as any));
+    const qs = serializeMeshConfig(config);
+    const sourceUrl = `https://kroma.design/mesh?${qs}`;
+
+    const isCss = currentRoute.format === 'css';
+    const isSvg = currentRoute.format === 'svg';
+    let outputString = '';
+    if (isCss) {
+      outputString = generateMeshCss(config);
+    } else if (isSvg) {
+      outputString = generateMeshSvg(config);
+    } else {
+      outputString = generateMeshTokensJson(config, sourceUrl);
+    }
+
+    return (
+      <div style={{ backgroundColor: '#0e0f12', color: '#e5e7eb', minHeight: '100vh', padding: '24px', fontFamily: 'monospace', fontSize: '13px' }}>
+        <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+          {outputString}
+        </pre>
+      </div>
+    );
+  }
+
   // Admin route renders its own standalone layout
   if (currentRoute.path === 'admin') {
     return <AdminHubPage onNavigatePublic={handleNavigate} />;
@@ -502,6 +598,8 @@ export const App: React.FC = () => {
         return <RampsStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'antigravity':
         return <AntigravityStudioPage onNavigate={handleNavigate} initialParams={currentRoute as any} />;
+      case 'mesh':
+        return <MeshGradientStudioPage onNavigate={handleNavigate} initialParams={currentRoute as any} />;
       case 'palette-generator':
         return (
           <MobilePaletteGeneratorPage

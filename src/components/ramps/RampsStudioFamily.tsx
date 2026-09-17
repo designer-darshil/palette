@@ -4,7 +4,7 @@ import { Sparkles, Activity, Volume2, Box, Type, Compass, ArrowUpRight } from 'l
 
 interface RampsStudioFamilyProps {
   onNavigate: (route: RouteType) => void;
-  currentTool?: 'ramps' | 'antigravity';
+  currentTool?: 'ramps' | 'antigravity' | 'mesh';
 }
 
 interface StudioTool {
@@ -39,6 +39,16 @@ export const RampsStudioFamily: React.FC<RampsStudioFamilyProps> = ({ onNavigate
       active: currentTool === 'antigravity',
       internalRoute: currentTool !== 'antigravity' ? ({ path: 'antigravity' } as RouteType) : undefined,
       status: currentTool === 'antigravity' ? 'Active' : 'Live Tool',
+    },
+    {
+      id: 'mesh',
+      name: 'Mesh Gradient Studio',
+      tagline: 'Multi-Point Radial Mesh Generator',
+      desc: 'Interactive visual mesh editor to drag color nodes on canvas and export CSS, SVG vectors, and tokens.',
+      icon: <Box size={16} style={{ color: 'var(--color-primary-text)' }} />,
+      active: currentTool === 'mesh',
+      internalRoute: currentTool !== 'mesh' ? ({ path: 'mesh' } as RouteType) : undefined,
+      status: currentTool === 'mesh' ? 'Active' : 'Live Tool',
     },
     {
       id: 'springs',

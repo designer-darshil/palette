@@ -85,6 +85,8 @@ export type RouteType =
   | { path: 'api-palette'; b?: string; a?: string; a2?: string; m?: string; s?: string; c?: string; f?: string; v?: string; xr?: string; xt?: string; format?: string }
   | { path: 'antigravity'; p?: string; o?: string; gx?: string; gy?: string; vx?: string; vy?: string; m?: string; r?: string; f?: string; d?: string; av?: string; ts?: string; tr?: string; vv?: string; grid?: string; sr?: string }
   | { path: 'api-antigravity'; p?: string; o?: string; gx?: string; gy?: string; vx?: string; vy?: string; m?: string; r?: string; f?: string; d?: string; av?: string; ts?: string; format?: string }
+  | { path: 'mesh'; p?: string; s?: string; sf?: string; in?: string; bl?: string; gr?: string; rot?: string; sc?: string; bg?: string; scol?: string; pts?: string }
+  | { path: 'api-mesh'; p?: string; s?: string; sf?: string; in?: string; bl?: string; gr?: string; rot?: string; sc?: string; bg?: string; scol?: string; pts?: string; format?: string }
   | { path: 'palette-generator'; colors?: string }
   | { path: 'contrast-checker'; fg?: string; bg?: string }
   | { path: 'color-name-finder'; hex?: string }

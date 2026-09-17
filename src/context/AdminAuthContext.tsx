@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { validateAdminPassword } from '../utils/passwordPolicy';
 
 export type UserRole = 'user' | 'admin' | 'super_admin';
 export type UserStatus = 'active' | 'suspended';
@@ -206,16 +207,11 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       return { success: false, error: 'Current password verification failed.' };
     }
 
-    const minLength = newPass.length >= 12;
-    const hasUpper = /[A-Z]/.test(newPass);
-    const hasLower = /[a-z]/.test(newPass);
-    const hasNumber = /[0-9]/.test(newPass);
-    const hasSpecial = /[^A-Za-z0-9]/.test(newPass);
-
-    if (!minLength || !hasUpper || !hasLower || !hasNumber || !hasSpecial) {
+    const validation = validateAdminPassword(newPass);
+    if (!validation.isValid) {
       return {
         success: false,
-        error: 'Password does not meet policy requirements (min 12 characters, uppercase, lowercase, number, and special character required).',
+        error: validation.firstError || 'Password does not meet policy requirements (min 12 characters, uppercase, lowercase, number, and special character required).',
       };
     }
 

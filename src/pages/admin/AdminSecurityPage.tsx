@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Lock, Check, AlertCircle, KeyRound, Eye, EyeOff } from 'lucide-react';
+import { ShieldCheck, Lock, Check, AlertCircle, KeyRound, Eye, EyeOff, CheckCircle2, XCircle } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { validateAdminPassword, PASSWORD_POLICY } from '../../utils/passwordPolicy';
 
 export const AdminSecurityPage: React.FC = () => {
   const { currentUser, changePassword, isSuperAdmin } = useAdminAuth();
@@ -10,22 +11,48 @@ export const AdminSecurityPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPasswords, setShowPasswords] = useState(false);
 
+  const [touchedNew, setTouchedNew] = useState(false);
+  const [touchedConfirm, setTouchedConfirm] = useState(false);
+
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Real-time policy checking
-  const policyChecks = {
-    length: newPassword.length >= 12,
-    uppercase: /[A-Z]/.test(newPassword),
-    lowercase: /[a-z]/.test(newPassword),
-    number: /[0-9]/.test(newPassword),
-    special: /[^A-Za-z0-9]/.test(newPassword),
-    match: newPassword.length > 0 && newPassword === confirmPassword,
+  // Live validation checks against centralized policy
+  const validation = validateAdminPassword(newPassword);
+  const { checks } = validation;
+  const passwordsMatch = newPassword.length > 0 && newPassword === confirmPassword;
+
+  // Derive contextual field-level error
+  const getFieldErrorMessage = (): string | null => {
+    if (touchedNew && newPassword.length > 0 && !validation.isValid) {
+      return validation.firstError;
+    }
+    if (touchedConfirm && confirmPassword.length > 0 && !passwordsMatch) {
+      return 'New password and confirmation do not match.';
+    }
+    return null;
   };
+
+  const fieldError = getFieldErrorMessage();
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatusMessage(null);
+    setTouchedNew(true);
+    setTouchedConfirm(true);
+
+    if (!currentPassword) {
+      setStatusMessage({ type: 'error', text: 'Current password is required.' });
+      return;
+    }
+
+    if (!validation.isValid) {
+      setStatusMessage({
+        type: 'error',
+        text: validation.firstError || `Password must contain at least ${PASSWORD_POLICY.minLength} characters and meet complexity rules.`,
+      });
+      return;
+    }
 
     if (newPassword !== confirmPassword) {
       setStatusMessage({ type: 'error', text: 'New password and confirmation do not match.' });
@@ -44,6 +71,8 @@ export const AdminSecurityPage: React.FC = () => {
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
+      setTouchedNew(false);
+      setTouchedConfirm(false);
     } else {
       setStatusMessage({
         type: 'error',
@@ -139,6 +168,7 @@ export const AdminSecurityPage: React.FC = () => {
               gap: '4px',
               fontSize: '0.75rem',
             }}
+            aria-label={showPasswords ? 'Hide password characters' : 'Show password characters'}
           >
             {showPasswords ? <EyeOff size={13} /> : <Eye size={13} />}
             <span>{showPasswords ? 'Hide' : 'Show'}</span>
@@ -189,19 +219,27 @@ export const AdminSecurityPage: React.FC = () => {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px', textTransform: 'uppercase' }}>
-              New Password
-            </label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+              <label style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+                New Password (Min 12 Chars)
+              </label>
+              {newPassword.length > 0 && (
+                <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: checks.hasMinLength ? '#22C55E' : '#F59E0B' }}>
+                  {newPassword.length} / {PASSWORD_POLICY.minLength} characters
+                </span>
+              )}
+            </div>
             <input
               type={showPasswords ? 'text' : 'password'}
               required
-              placeholder="Enter new master password"
+              placeholder="Enter new 12+ character master password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              onBlur={() => setTouchedNew(true)}
               style={{
                 width: '100%',
                 background: 'var(--bg-surface-2)',
-                border: '1px solid var(--border-medium)',
+                border: `1px solid ${touchedNew && !validation.isValid && newPassword.length > 0 ? '#EF4444' : 'var(--border-medium)'}`,
                 borderRadius: 'var(--radius-xs)',
                 padding: '9px 12px',
                 color: 'var(--text-primary)',
@@ -220,10 +258,11 @@ export const AdminSecurityPage: React.FC = () => {
               placeholder="Repeat new master password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              onBlur={() => setTouchedConfirm(true)}
               style={{
                 width: '100%',
                 background: 'var(--bg-surface-2)',
-                border: '1px solid var(--border-medium)',
+                border: `1px solid ${touchedConfirm && !passwordsMatch && confirmPassword.length > 0 ? '#EF4444' : 'var(--border-medium)'}`,
                 borderRadius: 'var(--radius-xs)',
                 padding: '9px 12px',
                 color: 'var(--text-primary)',
@@ -232,45 +271,150 @@ export const AdminSecurityPage: React.FC = () => {
             />
           </div>
 
-          {/* Policy Checklist */}
+          {/* Contextual Warning / Hint */}
+          {fieldError && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#F87171', fontSize: '0.76rem', marginTop: '-4px' }}>
+              <AlertCircle size={13} style={{ flexShrink: 0 }} />
+              <span>{fieldError}</span>
+            </div>
+          )}
+
+          {/* Live Requirements Checklist */}
           <div
             style={{
               background: 'var(--bg-surface-2)',
               border: '1px solid var(--border-subtle)',
               borderRadius: 'var(--radius-xs)',
-              padding: '12px 14px',
+              padding: '14px',
               fontSize: '0.75rem',
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '6px',
             }}
           >
-            <div style={{ color: policyChecks.length ? '#22C55E' : 'var(--text-tertiary)' }}>
-              {policyChecks.length ? '✓' : '•'} At least 12 characters
+            <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textTransform: 'uppercase', marginBottom: '8px', fontWeight: 700 }}>
+              Password Requirements
             </div>
-            <div style={{ color: policyChecks.uppercase ? '#22C55E' : 'var(--text-tertiary)' }}>
-              {policyChecks.uppercase ? '✓' : '•'} Uppercase letter (A-Z)
-            </div>
-            <div style={{ color: policyChecks.lowercase ? '#22C55E' : 'var(--text-tertiary)' }}>
-              {policyChecks.lowercase ? '✓' : '•'} Lowercase letter (a-z)
-            </div>
-            <div style={{ color: policyChecks.number ? '#22C55E' : 'var(--text-tertiary)' }}>
-              {policyChecks.number ? '✓' : '•'} Number (0-9)
-            </div>
-            <div style={{ color: policyChecks.special ? '#22C55E' : 'var(--text-tertiary)' }}>
-              {policyChecks.special ? '✓' : '•'} Special character (!@#$)
-            </div>
-            <div style={{ color: policyChecks.match ? '#22C55E' : 'var(--text-tertiary)' }}>
-              {policyChecks.match ? '✓' : '•'} Passwords match
+
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '8px',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: checks.hasMinLength ? '#22C55E' : 'var(--text-secondary)',
+                  fontWeight: checks.hasMinLength ? 600 : 400,
+                }}
+              >
+                {checks.hasMinLength ? (
+                  <CheckCircle2 size={14} color="#22C55E" style={{ flexShrink: 0 }} />
+                ) : (
+                  <span style={{ width: 14, textAlign: 'center', color: 'var(--text-tertiary)' }}>•</span>
+                )}
+                <span>12+ characters</span>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: checks.hasUppercase ? '#22C55E' : 'var(--text-secondary)',
+                  fontWeight: checks.hasUppercase ? 600 : 400,
+                }}
+              >
+                {checks.hasUppercase ? (
+                  <CheckCircle2 size={14} color="#22C55E" style={{ flexShrink: 0 }} />
+                ) : (
+                  <span style={{ width: 14, textAlign: 'center', color: 'var(--text-tertiary)' }}>•</span>
+                )}
+                <span>Uppercase letter (A-Z)</span>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: checks.hasLowercase ? '#22C55E' : 'var(--text-secondary)',
+                  fontWeight: checks.hasLowercase ? 600 : 400,
+                }}
+              >
+                {checks.hasLowercase ? (
+                  <CheckCircle2 size={14} color="#22C55E" style={{ flexShrink: 0 }} />
+                ) : (
+                  <span style={{ width: 14, textAlign: 'center', color: 'var(--text-tertiary)' }}>•</span>
+                )}
+                <span>Lowercase letter (a-z)</span>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: checks.hasNumber ? '#22C55E' : 'var(--text-secondary)',
+                  fontWeight: checks.hasNumber ? 600 : 400,
+                }}
+              >
+                {checks.hasNumber ? (
+                  <CheckCircle2 size={14} color="#22C55E" style={{ flexShrink: 0 }} />
+                ) : (
+                  <span style={{ width: 14, textAlign: 'center', color: 'var(--text-tertiary)' }}>•</span>
+                )}
+                <span>Number (0-9)</span>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: checks.hasSpecial ? '#22C55E' : 'var(--text-secondary)',
+                  fontWeight: checks.hasSpecial ? 600 : 400,
+                }}
+              >
+                {checks.hasSpecial ? (
+                  <CheckCircle2 size={14} color="#22C55E" style={{ flexShrink: 0 }} />
+                ) : (
+                  <span style={{ width: 14, textAlign: 'center', color: 'var(--text-tertiary)' }}>•</span>
+                )}
+                <span>Special character (!@#$%^&*)</span>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: passwordsMatch ? '#22C55E' : 'var(--text-secondary)',
+                  fontWeight: passwordsMatch ? 600 : 400,
+                }}
+              >
+                {passwordsMatch ? (
+                  <CheckCircle2 size={14} color="#22C55E" style={{ flexShrink: 0 }} />
+                ) : (
+                  <span style={{ width: 14, textAlign: 'center', color: 'var(--text-tertiary)' }}>•</span>
+                )}
+                <span>Passwords match</span>
+              </div>
             </div>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !validation.isValid || !passwordsMatch || !currentPassword}
               className="btn-primary"
-              style={{ padding: '10px 22px', fontSize: '0.85rem' }}
+              style={{
+                padding: '10px 22px',
+                fontSize: '0.85rem',
+                opacity: loading || !validation.isValid || !passwordsMatch || !currentPassword ? 0.6 : 1,
+                cursor: loading || !validation.isValid || !passwordsMatch || !currentPassword ? 'not-allowed' : 'pointer',
+              }}
             >
               <Lock size={14} />
               <span>{loading ? 'Validating & Updating...' : 'Update Master Password'}</span>

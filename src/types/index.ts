@@ -81,6 +81,10 @@ export type RouteType =
   | { path: 'gradients' }
   | { path: 'gradient-detail'; slug: string }
   | { path: 'live' }
+  | { path: 'ramps'; b?: string; a?: string; a2?: string; m?: string; s?: string; c?: string; f?: string; v?: string; xr?: string; xt?: string }
+  | { path: 'api-palette'; b?: string; a?: string; a2?: string; m?: string; s?: string; c?: string; f?: string; v?: string; xr?: string; xt?: string; format?: string }
+  | { path: 'antigravity'; p?: string; o?: string; gx?: string; gy?: string; vx?: string; vy?: string; m?: string; r?: string; f?: string; d?: string; av?: string; ts?: string; tr?: string; vv?: string; grid?: string; sr?: string }
+  | { path: 'api-antigravity'; p?: string; o?: string; gx?: string; gy?: string; vx?: string; vy?: string; m?: string; r?: string; f?: string; d?: string; av?: string; ts?: string; format?: string }
   | { path: 'palette-generator'; colors?: string }
   | { path: 'contrast-checker'; fg?: string; bg?: string }
   | { path: 'color-name-finder'; hex?: string }

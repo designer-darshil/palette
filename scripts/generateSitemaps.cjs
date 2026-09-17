@@ -65,6 +65,8 @@ function main() {
   // 1. Static Core & Tools URLs
   const mainUrls = [
     generateUrlXml(`${SITE_URL}/`, 'daily', '1.0'),
+    generateUrlXml(`${SITE_URL}/ramps`, 'daily', '0.95'),
+    generateUrlXml(`${SITE_URL}/antigravity`, 'daily', '0.95'),
     generateUrlXml(`${SITE_URL}/colors`, 'daily', '0.9'),
     generateUrlXml(`${SITE_URL}/palettes`, 'daily', '0.9'),
     generateUrlXml(`${SITE_URL}/combos`, 'daily', '0.9'),

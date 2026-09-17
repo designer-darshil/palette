@@ -48,6 +48,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
   }, []);
 
   const isToolActive =
+    currentRoute.path === 'ramps' ||
+    currentRoute.path === 'antigravity' ||
     currentRoute.path === 'palette-generator' ||
     currentRoute.path === 'contrast-checker' ||
     currentRoute.path === 'color-name-finder' ||
@@ -57,6 +59,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
 
   const isActive = (path: string) => {
     if (path === 'home' && currentRoute.path === 'home') return true;
+    if (path === 'ramps' && currentRoute.path === 'ramps') return true;
+    if (path === 'antigravity' && currentRoute.path === 'antigravity') return true;
     if (path === 'colors' && (currentRoute.path === 'colors' || currentRoute.path === 'color-detail')) return true;
     if (path === 'palettes' && (currentRoute.path === 'palettes' || currentRoute.path === 'palette-detail')) return true;
     if (path === 'combos' && (currentRoute.path === 'combos' || currentRoute.path === 'combo-detail')) return true;
@@ -85,6 +89,20 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
   };
 
   const toolsList = [
+    {
+      id: 'ramps',
+      title: 'Ramps Studio',
+      description: 'Perceptual OKLCH ramps & WCAG semantic tokens',
+      icon: <Layers size={16} className="text-emerald-400" />,
+      path: { path: 'ramps' } as RouteType,
+    },
+    {
+      id: 'antigravity',
+      title: 'Antigravity Studio',
+      description: 'Physics & motion generator with deterministic exports',
+      icon: <Compass size={16} className="text-cyan-400" />,
+      path: { path: 'antigravity' } as RouteType,
+    },
     {
       id: 'palette-generator',
       title: 'Palette Generator',
@@ -345,6 +363,22 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             <div className="px-4 pt-4 pb-2 font-mono text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-semibold border-t border-[var(--border-subtle)] mt-2">
               STUDIO &amp; TOOLS
             </div>
+            <Link
+              to={{ path: 'ramps' }}
+              onNavigate={handleNav}
+              className={`mobile-nav-link ${isActive('ramps') ? 'active' : ''}`}
+            >
+              <span>Ramps Studio (OKLCH)</span>
+              <Layers size={16} className="text-emerald-400" />
+            </Link>
+            <Link
+              to={{ path: 'antigravity' }}
+              onNavigate={handleNav}
+              className={`mobile-nav-link ${isActive('antigravity') ? 'active' : ''}`}
+            >
+              <span>Antigravity Studio (Physics)</span>
+              <Compass size={16} className="text-cyan-400" />
+            </Link>
             <Link
               to={{ path: 'palette-generator' }}
               onNavigate={handleNav}

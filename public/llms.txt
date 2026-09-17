@@ -1,0 +1,243 @@
+# KROMA Ramps Studio — Machine-Readable Contract & API Documentation
+# https://kroma.design/ramps
+# Canonical reference for LLMs, AI coding agents, and automated design token pipelines.
+
+## 1. OVERVIEW
+KROMA Ramps Studio is a deterministic brand-color-to-design-token generator built on the OKLCH perceptual color space.
+Given a single brand color (or custom pinned accents), it produces:
+- 11-step perceptually uniform OKLCH color ramps (50 lightest to 950 darkest)
+- Scheme-derived secondary and tertiary accents (complementary, analogous, triadic, split, monochromatic)
+- Chroma-matched neutral scale tinted with the brand hue angle
+- Status color scales (success, warning, error, info) with automated hue collision avoidance
+- Light and dark theme semantic design tokens with enforced WCAG AA (4.5:1) or AAA (7.0:1) contrast ratios
+- Machine-readable outputs in JSON (W3C DTCG standard), CSS Custom Properties, and Tailwind v4 themes.
+
+## 2. API ENDPOINTS
+
+### Endpoint: GET /api/palette
+Calculates and returns the complete palette and semantic tokens deterministically.
+
+#### Query Parameters:
+- `b` (string, required): Brand color as a 6-digit hex string without the `#` symbol. Example: `b=3d7dff`. Default: `3d7dff`.
+- `a` (string, optional): Pinned secondary accent hex without `#`. If omitted, derived from the color scheme.
+- `a2` (string, optional): Pinned tertiary accent hex without `#`. If omitted, derived from the color scheme.
+- `m` (string, optional): Scope mode. Values: `full` (8 ramps: primary, accent, accent-2, neutral, success, warning, error, info) | `basic` (2 ramps: primary, neutral). Default: `full`.
+- `s` (string, optional): Color harmony scheme for accent derivation. Values: `complementary` | `analogous` | `triadic` | `split` | `monochromatic`. Default: `complementary`.
+- `c` (string, optional): Accessibility target. Values: `AA` (4.5:1 minimum) | `AAA` (7.0:1 minimum). Default: `AA`.
+- `f` (string, optional): Color notation format. Values: `oklch` | `hex` | `rgb` | `hsl`. Default: `oklch`.
+- `v` (string, optional): Derived accent saturation vividness. Values: `natural` | `bold`. Default: `natural`.
+- `xr` (string, optional): Dot-separated list of ramp names to omit. Example: `xr=accent-2.info`.
+- `xt` (string, optional): Dot-separated list of token names to omit. Example: `xt=bg-info.text-info`.
+- `format` (string, optional): Output payload format. Values: `json` | `text`. Default: `json`.
+
+#### Example Request:
+```
+curl -s "https://kroma.design/api/palette?b=3d7dff&m=full&s=complementary&c=AA&format=json"
+```
+
+## 3. RESPONSE SCHEMA (JSON)
+```json
+{
+  "$schema": "https://kroma.design/llms.txt",
+  "generator": "KROMA Ramps Studio — https://kroma.design/ramps",
+  "source": "https://kroma.design/ramps?b=3d7dff&m=full&s=complementary&c=AA",
+  "input": {
+    "brand": "#3d7dff",
+    "accent": null,
+    "accent2": null,
+    "scope": "full",
+    "scheme": "complementary",
+    "wcag": "AA",
+    "vividness": "natural",
+    "excludedRamps": [],
+    "excludedTokens": []
+  },
+  "ramps": {
+    "primary": {
+      "50": "oklch(0.970 0.038 259.8)",
+      "100": "oklch(0.930 0.076 259.8)",
+      "200": "oklch(0.860 0.140 259.8)",
+      "300": "oklch(0.770 0.198 259.8)",
+      "400": "oklch(0.670 0.234 259.8)",
+      "500": "oklch(0.560 0.254 259.8)",
+      "600": "oklch(0.460 0.244 259.8)",
+      "700": "oklch(0.360 0.224 259.8)",
+      "800": "oklch(0.270 0.190 259.8)",
+      "900": "oklch(0.180 0.140 259.8)",
+      "950": "oklch(0.110 0.089 259.8)"
+    },
+    "neutral": { ... },
+    "accent": { ... },
+    "accent-2": { ... },
+    "success": { ... },
+    "warning": { ... },
+    "error": { ... },
+    "info": { ... }
+  },
+  "tokens": {
+    "bg-canvas": {
+      "light": "#e9ebf0",
+      "dark": "#1c1e22",
+      "role": "Page background & viewport surface",
+      "step": { "light": "neutral-100", "dark": "neutral-950" }
+    },
+    "bg-surface": {
+      "light": "#f4f6fa",
+      "dark": "#313338",
+      "role": "Card surfaces, sidebars & elevated panels",
+      "step": { "light": "neutral-50", "dark": "neutral-900" }
+    },
+    "bg-brand": {
+      "light": "#1a51c4",
+      "dark": "#4784ff",
+      "role": "Primary call-to-action button",
+      "step": { "light": "primary-700", "dark": "primary-500" }
+    },
+    "text-primary": {
+      "light": "#313338",
+      "dark": "#e9ebf0",
+      "role": "High-contrast body copy",
+      "step": { "light": "neutral-900", "dark": "neutral-100" },
+      "contrast": { "against": "bg-canvas", "light": 10.6, "dark": 13.99 }
+    },
+    "text-on-brand": {
+      "light": "#f1f6ff",
+      "dark": "#001652",
+      "role": "Text label on a primary brand button",
+      "step": { "light": "primary-50", "dark": "primary-950" },
+      "contrast": { "against": "bg-brand", "light": 6.42, "dark": 4.86 }
+    }
+  },
+  "notes": [
+    "Every paired foreground meets WCAG AA (4.5:1) against its background.",
+    "Ramps are OKLCH-derived and perceptually uniform across 11 lightness steps.",
+    "The brand input color anchors primary-500."
+  ]
+}
+```
+
+## 4. SEMANTIC TOKEN SPECIFICATIONS
+Tokens are categorized by UI intent:
+
+### Background Tokens (`bg-*`):
+- `bg-canvas`: Page backdrop and root surface (`neutral-100` light / `neutral-950` dark).
+- `bg-surface`: Card container, sidebar, and elevated panel (`neutral-50` light / `neutral-900` dark).
+- `bg-surface-raised`: Floating dialog, popover, and dropdown menu (`neutral-50` light / `neutral-800` dark).
+- `bg-muted`: Table row hover, secondary controls, and chips (`neutral-200` light / `neutral-700` dark).
+- `bg-brand`: Primary button & high-priority actions (`primary-700` light / `primary-500` dark).
+- `bg-brand-hover` / `bg-brand-active`: Interactive hover and pressed states.
+- `bg-accent` / `bg-tertiary`: Secondary and tertiary action containers.
+- `bg-success` / `bg-warning` / `bg-error` / `bg-info`: Solid status indicator badges.
+- `bg-success-subtle` / `bg-warning-subtle` / `bg-error-subtle` / `bg-info-subtle`: Subtle alert banners.
+- `bg-inverse`: High-contrast tooltip surface.
+
+### Typography / Text Tokens (`text-*`):
+- `text-primary`: Body text & headings (>= 10.0:1 contrast vs `bg-canvas`).
+- `text-secondary`: Secondary descriptions & form labels (>= 7.0:1 contrast vs `bg-canvas`).
+- `text-tertiary`: Captions & timestamps (>= 4.5:1 contrast vs `bg-canvas`).
+- `text-disabled`: Greyed-out controls (WCAG exempt).
+- `text-link`: Interactive hyperlinked text.
+- `text-on-brand`: Contrast-verified foreground on `bg-brand` (>= 4.5:1 AA / 7.0:1 AAA).
+- `text-on-accent` / `text-on-tertiary` / `text-on-success` / `text-on-warning` / `text-on-error` / `text-on-info`: Verified text on corresponding solid backgrounds.
+- `text-success` / `text-warning` / `text-error` / `text-info`: Status text on `bg-canvas`.
+- `text-inverse`: Contrast-verified label on `bg-inverse`.
+
+### Border & Focus Tokens:
+- `border-subtle`: Row divider & subtle card separator.
+- `border-default`: Standard input field outline.
+- `border-strong`: Highlighted container boundary.
+- `border-active`: Selected tab or active state indicator.
+- `border-error`: Form field validation error outline.
+- `ring-focus`: Keyboard accessibility focus outline ring.
+
+## 5. REPRODUCIBILITY & PERMALINKS
+Every palette configuration is fully shareable via URL query parameters:
+`https://kroma.design/ramps?b=3d7dff&m=full&s=complementary&c=AA`
+
+## 6. ANTIGRAVITY STUDIO — PHYSICS & MOTION GENERATOR
+# https://kroma.design/antigravity
+Deterministic physics-driven UI motion generator. Translates continuous Newtonian simulation parameters (gravity, velocity, mass, restitution bounce, surface friction, air damping, and angular velocity) into deployable web animations, design system motion tokens, and framework code.
+
+### Endpoint: GET /api/antigravity
+Calculates and returns the complete physics configuration, motion tokens, semantic description, CSS animation approximation, and runnable JavaScript simulation engine deterministically.
+
+#### Query Parameters:
+- `p` (string, optional): Preset identifier. Options: `gentle-float`, `weightless`, `soft-bounce`, `heavy-drop`, `moon-gravity`, `upward-drift`, `magnetic-hover`, `elastic`, `slow-orbit`, `button-float`, `card-lift`, `notification-drift`.
+- `o` (string, optional): Preview object archetype. Options: `circle`, `square`, `rounded-rect`, `blob`, `button`, `card`, `notification`, `badge`, `icon`, `floating-panel`. Default: `circle`.
+- `gx` (number, optional): Gravity X acceleration in m/s². Range: `-20` to `20`. Default: `0`.
+- `gy` (number, optional): Gravity Y acceleration in m/s² (negative = upward antigravity, 0 = zero-g, positive = downward). Range: `-20` to `20`. Default: `-2.0`.
+- `vx` (number, optional): Initial horizontal velocity in px/s. Range: `-1000` to `1000`. Default: `25`.
+- `vy` (number, optional): Initial vertical velocity in px/s. Range: `-1000` to `1000`. Default: `0`.
+- `m` (number, optional): Inertial mass multiplier. Range: `0.1` to `10.0`. Default: `1.0`.
+- `r` (number, optional): Collision restitution elasticity. Range: `0.0` (dead stop) to `1.0` (perfect elastic bounce). Default: `0.60`.
+- `f` (number, optional): Surface friction energy loss. Range: `0.0` to `1.0`. Default: `0.10`.
+- `d` (number, optional): Air damping velocity decay over time. Range: `0.0` to `1.0`. Default: `0.02`.
+- `av` (number, optional): Angular velocity in rad/s. Range: `-20` to `20`. Default: `0`.
+- `ts` (number, optional): Time-scale simulation multiplier. Range: `0.1` to `3.0`. Default: `1.0`.
+- `tr` (boolean, optional): Show predicted trajectory dots. Default: `false`.
+- `vv` (boolean, optional): Show velocity vector. Default: `false`.
+- `format` (string, optional): Payload format. Values: `json` | `text`. Default: `json`.
+
+#### Example Request:
+```bash
+curl -s "https://kroma.design/api/antigravity?p=gentle-float&gy=-2&d=0.02&r=0.6&format=json"
+```
+
+### Response Schema (JSON):
+```json
+{
+  "$schema": "https://kroma.design/llms.txt",
+  "version": "1.0",
+  "tool": "antigravity",
+  "generator": "KROMA Antigravity Studio — https://kroma.design/antigravity",
+  "source": "https://kroma.design/antigravity?p=gentle-float&o=circle&gx=0&gy=-2&vx=25&vy=0&m=1&r=0.6&f=0.1&d=0.02",
+  "description": "Gentle upward drift with low damping, soft elasticity, and subtle lateral motion.",
+  "config": {
+    "preset": "gentle-float",
+    "object": "circle",
+    "gravityX": 0,
+    "gravityY": -2,
+    "velocityX": 25,
+    "velocityY": 0,
+    "mass": 1,
+    "restitution": 0.6,
+    "friction": 0.1,
+    "damping": 0.02,
+    "rotation": false,
+    "angularVelocity": 0,
+    "timeScale": 1,
+    "showTrajectory": false,
+    "showVelocity": false
+  },
+  "tokens": {
+    "$schema": "https://design-tokens.github.io/community-group/format/",
+    "motion": {
+      "physics": {
+        "gravity-x": { "$value": 0, "$type": "number", "$unit": "m/s^2" },
+        "gravity-y": { "$value": -2, "$type": "number", "$unit": "m/s^2" },
+        "velocity-x": { "$value": 25, "$type": "number", "$unit": "px/s" },
+        "velocity-y": { "$value": 0, "$type": "number", "$unit": "px/s" },
+        "mass": { "$value": 1, "$type": "number" },
+        "restitution": { "$value": 0.6, "$type": "number", "description": "Collision bounce elasticity" },
+        "friction": { "$value": 0.1, "$type": "number" },
+        "damping": { "$value": 0.02, "$type": "number", "description": "Air resistance decay rate" }
+      },
+      "animation": {
+        "duration": { "$value": "2600ms", "$type": "duration" },
+        "easing": { "$value": "cubic-bezier(0.25, 0.1, 0.25, 1.0)", "$type": "cubicBezier" }
+      }
+    }
+  },
+  "css": "...",
+  "javascript": "..."
+}
+```
+
+## 7. STUDIO ECOSYSTEM ARCHITECTURE
+KROMA Studio tools share identical deterministic design philosophies, URL-based state sharing, machine-readable contracts, and zero-dependency exports:
+- Ramps: Perceptual OKLCH scales & WCAG design tokens (`/ramps`, `/api/palette`)
+- Antigravity: Deterministic physics motion generator & kinetic tokens (`/antigravity`, `/api/antigravity`)
+- Springs: Cubic easings & spring tension curves (In Development)
+- Depths: Atmospheric multi-layer shadow ramps (In Development)
+- Beeps: Synthesized Web Audio UI cues (In Development)
+

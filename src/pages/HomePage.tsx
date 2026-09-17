@@ -61,9 +61,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
             <div className="hero-actions">
               <Link
-                to={{ path: 'colors' }}
+                to={{ path: 'ramps' }}
                 onNavigate={onNavigate}
                 className="btn-primary inline-flex items-center gap-2"
+                style={{ backgroundColor: '#2563EB', borderColor: '#3B82F6' }}
+              >
+                <Sparkles size={16} />
+                <span>Ramps Studio (OKLCH)</span>
+              </Link>
+
+              <Link
+                to={{ path: 'colors' }}
+                onNavigate={onNavigate}
+                className="btn-secondary inline-flex items-center gap-2"
               >
                 <span>Explore Colors</span>
                 <ArrowRight size={16} />
@@ -136,6 +146,49 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <span style={{ fontFamily: 'var(--font-mono)' }}>sRGB • OKLCH • WCAG</span>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Ramps Studio Flagship Doorway */}
+      <section style={{ marginBottom: '32px' }}>
+        <div
+          style={{
+            background: 'linear-gradient(135deg, #0e1320 0%, #111827 100%)',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            borderRadius: 'var(--radius-md)',
+            padding: '24px 28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '20px',
+            boxShadow: '0 8px 30px rgba(37, 99, 235, 0.12)',
+          }}
+        >
+          <div style={{ maxWidth: '580px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#3B82F6', display: 'inline-block' }} />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', textTransform: 'uppercase', color: '#60A5FA', letterSpacing: '0.1em', fontWeight: 700 }}>
+                RAMPS STUDIO · NEW DESIGN UTILITY
+              </span>
+            </div>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '4px' }}>
+              Color ramps and semantic tokens your agent can read.
+            </h2>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+              Generate complete accessible design token systems from one brand color: perceptually-even OKLCH scales (50–950), scheme-derived accents, chroma-matched neutrals, and enforced WCAG AAA/AA contrast.
+            </p>
+          </div>
+
+          <Link
+            to={{ path: 'ramps' }}
+            onNavigate={onNavigate}
+            className="btn-primary inline-flex items-center gap-1.5"
+            style={{ padding: '10px 18px', fontSize: '0.82rem', backgroundColor: '#2563EB' }}
+          >
+            <span>Launch Ramps Studio</span>
+            <ArrowRight size={14} />
+          </Link>
         </div>
       </section>
 

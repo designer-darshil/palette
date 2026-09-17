@@ -3,6 +3,7 @@ import {
   AntigravityConfig,
   PhysicsSimulation,
   SimulationState,
+  describeMotion,
 } from '../../utils/antigravityEngine';
 import {
   Play,
@@ -38,15 +39,25 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
   const [trajectoryPoints, setTrajectoryPoints] = useState<Array<{ x: number; y: number }>>([]);
   const [collisionRipple, setCollisionRipple] = useState<{ x: number; y: number; id: number } | null>(null);
 
+  // Live telemetry metrics for integrated HUD strip
+  const [hudMetrics, setHudMetrics] = useState({
+    x: 300,
+    y: 200,
+    vx: 0,
+    vy: 0,
+    speed: 0,
+    energy: 0,
+  });
+
   // Initialize and update simulation when dimensions or config change
   useEffect(() => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
 
     if (!simRef.current) {
-      simRef.current = new PhysicsSimulation(config, rect.width || 600, rect.height || 420);
+      simRef.current = new PhysicsSimulation(config, rect.width || 800, rect.height || 480);
     } else {
-      simRef.current.updateDimensions(rect.width || 600, rect.height || 420);
+      simRef.current.updateDimensions(rect.width || 800, rect.height || 480);
       simRef.current.updateConfig(config);
     }
 
@@ -108,7 +119,17 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
           const vx = simRef.current.vx;
           const vy = simRef.current.vy;
           const speed = Math.sqrt(vx * vx + vy * vy);
+          const energy = Math.round(0.5 * config.mass * (speed ** 2) / 100);
           setSimState(simRef.current.state);
+
+          setHudMetrics({
+            x: Math.round(simRef.current.x),
+            y: Math.round(simRef.current.y),
+            vx: Math.round(vx),
+            vy: Math.round(vy),
+            speed: Math.round(speed),
+            energy,
+          });
 
           if (onStateUpdate) {
             onStateUpdate({
@@ -132,7 +153,7 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
 
     animationFrameId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPlaying, onStateUpdate, config.showTrajectory]);
+  }, [isPlaying, onStateUpdate, config.showTrajectory, config.mass]);
 
   // Pointer Interaction Handlers (Click / Touch Drag & Throw)
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -317,12 +338,11 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
   };
 
   return (
-    <div className="w-full flex flex-col gap-3">
-      {/* Simulation Stage Viewport */}
+    <div className="w-full flex flex-col bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md overflow-hidden shadow-sm" style={{ borderRadius: 'var(--radius-md)' }}>
+      {/* Simulation Stage Viewport (Hero Canvas) */}
       <div
         ref={containerRef}
-        className="relative w-full h-[360px] sm:h-[440px] rounded-md bg-[var(--bg-canvas)] border border-[var(--border-medium)] overflow-hidden shadow-inner select-none touch-none"
-        style={{ borderRadius: 'var(--radius-md)' }}
+        className="relative w-full h-[380px] sm:h-[480px] md:h-[520px] bg-[var(--bg-canvas)] overflow-hidden select-none touch-none cursor-crosshair"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -413,35 +433,33 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
           />
         )}
 
-        {/* Stage Floating HUD Information */}
+        {/* Stage Floating Minimal Status Pill */}
         <div className="absolute top-3 left-3 flex items-center gap-2 pointer-events-none">
-          <div className="px-2 py-1 rounded-xs bg-[var(--bg-surface-1)]/85 border border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-secondary)] backdrop-blur-md flex items-center gap-1.5 shadow-xs">
+          <div className="px-2.5 py-1 rounded-full bg-[var(--bg-surface-1)]/90 border border-[var(--border-subtle)] text-[11px] font-mono backdrop-blur-md flex items-center gap-2 shadow-xs">
             <span
-              className="w-1.5 h-1.5 rounded-full inline-block animate-pulse"
+              className="w-2 h-2 rounded-full inline-block animate-pulse"
               style={{ backgroundColor: 'var(--color-primary)' }}
             />
-            <span className="font-bold text-[var(--text-primary)] uppercase">{simState}</span>
-          </div>
-
-          <div className="px-2 py-1 rounded-xs bg-[var(--bg-surface-1)]/85 border border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-tertiary)] backdrop-blur-md hidden sm:flex items-center gap-1 shadow-xs">
-            <span>Gravity:</span>
-            <strong className="text-[var(--text-primary)]">{config.gravityY} m/s²</strong>
+            <span className="font-semibold text-[var(--text-primary)] uppercase tracking-wider text-[10px]">
+              {simState}
+            </span>
+            <span className="text-[var(--text-tertiary)]">|</span>
+            <span className="text-[var(--text-secondary)] text-[10px]">
+              gy: <strong className="text-[var(--text-primary)]">{config.gravityY > 0 ? `+${config.gravityY}` : config.gravityY}</strong> m/s²
+            </span>
           </div>
         </div>
 
         {/* Drag Hint on Bottom Right */}
-        <div className="absolute bottom-3 right-3 pointer-events-none text-[10px] font-mono text-[var(--text-tertiary)] bg-[var(--bg-surface-1)]/80 px-2 py-0.5 rounded-xs border border-[var(--border-subtle)]">
-          Click / Touch &amp; Drag to Throw
+        <div className="absolute top-3 right-3 pointer-events-none text-[10px] font-mono text-[var(--text-tertiary)] bg-[var(--bg-surface-1)]/80 px-2.5 py-1 rounded-full border border-[var(--border-subtle)] backdrop-blur-md">
+          Drag &amp; throw object
         </div>
       </div>
 
-      {/* Primary Simulator Control Bar */}
-      <div
-        className="w-full flex items-center justify-between gap-2 p-2 rounded-md bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] shadow-xs"
-        style={{ borderRadius: 'var(--radius-md)' }}
-      >
-        {/* Play / Pause & Reset Actions */}
-        <div className="flex items-center gap-1.5">
+      {/* Integrated Playback & Telemetry Bottom Bar */}
+      <div className="w-full flex flex-col md:flex-row md:items-center justify-between gap-3 p-3 bg-[var(--bg-surface-1)] border-t border-[var(--border-subtle)]">
+        {/* Play / Pause, Reset, and Impulses */}
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
@@ -463,45 +481,93 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
             <RotateCcw size={13} />
             <span>Reset</span>
           </button>
+
+          {/* Impulse Nudge Buttons */}
+          <div className="flex items-center gap-1 pl-2 border-l border-[var(--border-subtle)]">
+            <span className="text-[10px] font-mono text-[var(--text-tertiary)] hidden sm:inline mr-1">
+              Impulse:
+            </span>
+            <button
+              type="button"
+              onClick={() => handleImpulse(0, -200)}
+              className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+              title="Nudge Up"
+              aria-label="Impulse Up"
+            >
+              <ArrowUp size={12} />
+            </button>
+            <button
+              type="button"
+              onClick={() => handleImpulse(0, 200)}
+              className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+              title="Nudge Down"
+              aria-label="Impulse Down"
+            >
+              <ArrowDown size={12} />
+            </button>
+            <button
+              type="button"
+              onClick={() => handleImpulse(-200, 0)}
+              className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+              title="Nudge Left"
+              aria-label="Impulse Left"
+            >
+              <ArrowLeft size={12} />
+            </button>
+            <button
+              type="button"
+              onClick={() => handleImpulse(200, 0)}
+              className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+              title="Nudge Right"
+              aria-label="Impulse Right"
+            >
+              <ArrowRight size={12} />
+            </button>
+          </div>
         </div>
 
-        {/* Kinetic Nudge / Impulse Buttons */}
-        <div className="flex items-center gap-1">
-          <span className="text-[10px] font-mono text-[var(--text-tertiary)] hidden sm:inline mr-1">
-            Impulse:
+        {/* Compact Live Telemetry Strip */}
+        <div className="flex items-center gap-3 sm:gap-4 text-[11px] font-mono text-[var(--text-secondary)] overflow-x-auto whitespace-nowrap py-1">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[var(--text-tertiary)]">POS</span>
+            <span className="text-[var(--text-primary)] font-medium">{hudMetrics.x}, {hudMetrics.y}px</span>
+          </div>
+
+          <span className="text-[var(--border-medium)]">·</span>
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-[var(--text-tertiary)]">VEL</span>
+            <span className="font-medium" style={{ color: 'var(--color-primary-text)' }}>
+              {hudMetrics.vx}/{hudMetrics.vy} px/s
+            </span>
+          </div>
+
+          <span className="text-[var(--border-medium)]">·</span>
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-[var(--text-tertiary)]">ENERGY</span>
+            <span className="text-[var(--text-primary)] font-medium">{hudMetrics.energy} J</span>
+          </div>
+
+          <span className="text-[var(--border-medium)]">·</span>
+
+          <span
+            className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold"
+            style={{
+              backgroundColor: 'var(--color-primary-subtle)',
+              color: 'var(--color-primary-text)',
+            }}
+          >
+            60 FPS
           </span>
-          <button
-            type="button"
-            onClick={() => handleImpulse(0, -200)}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-            title="Nudge Up"
-          >
-            <ArrowUp size={13} />
-          </button>
-          <button
-            type="button"
-            onClick={() => handleImpulse(0, 200)}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-            title="Nudge Down"
-          >
-            <ArrowDown size={13} />
-          </button>
-          <button
-            type="button"
-            onClick={() => handleImpulse(-200, 0)}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-            title="Nudge Left"
-          >
-            <ArrowLeft size={13} />
-          </button>
-          <button
-            type="button"
-            onClick={() => handleImpulse(200, 0)}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-            title="Nudge Right"
-          >
-            <ArrowRight size={13} />
-          </button>
+        </div>
+      </div>
+
+      {/* Subtle Motion Profile Description Bar */}
+      <div className="px-3.5 py-2 bg-[var(--bg-surface-2)] border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-[var(--text-tertiary)]">
+        <div className="flex items-center gap-2 truncate">
+          <span className="font-semibold text-[var(--text-secondary)] font-mono text-[11px]">PROFILE:</span>
+          <span className="truncate">{describeMotion(config)}</span>
         </div>
       </div>
     </div>

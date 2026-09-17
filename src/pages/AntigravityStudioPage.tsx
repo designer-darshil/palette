@@ -12,7 +12,6 @@ import {
 import { PhysicsStage } from '../components/antigravity/PhysicsStage';
 import { PhysicsControls } from '../components/antigravity/PhysicsControls';
 import { PresetSelector } from '../components/antigravity/PresetSelector';
-import { SimulationInspector } from '../components/antigravity/SimulationInspector';
 import { AntigravityCodeExport } from '../components/antigravity/AntigravityCodeExport';
 import { AntigravityApiDocs } from '../components/antigravity/AntigravityApiDocs';
 import { RampsStudioFamily } from '../components/ramps/RampsStudioFamily';
@@ -27,7 +26,6 @@ interface AntigravityStudioPageProps {
 
 export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
   onNavigate,
-  initialParams,
 }) => {
   // Parse state from URL search params or fallback props
   const [config, setConfig] = useState<AntigravityConfig>(() => {
@@ -37,23 +35,6 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
 
   const [hasCopiedPrompt, setHasCopiedPrompt] = useState(false);
   const [hasCopiedShare, setHasCopiedShare] = useState(false);
-
-  // Telemetry HUD data from PhysicsStage
-  const [telemetry, setTelemetry] = useState<{
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-    speed: number;
-    state: SimulationState;
-  }>({
-    x: 300,
-    y: 200,
-    vx: 25,
-    vy: 0,
-    speed: 25,
-    state: 'playing',
-  });
 
   // URL state synchronization via replaceState
   useEffect(() => {
@@ -144,7 +125,7 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
         onNavigate={onNavigate}
       />
 
-      {/* Studio Header & Intro */}
+      {/* Studio Header & Top Action Toolbar */}
       <StudioIntro
         category="Studio Utility"
         badge="Kinematics & Motion Engine"
@@ -158,37 +139,27 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
         hasCopiedShare={hasCopiedShare}
       />
 
-      {/* Primary Interactive Playground & Controls Grid */}
-      <section id="antigravity-playground" className="w-full flex flex-col lg:grid lg:grid-cols-12 gap-6 items-start">
-        {/* Stage & Live Telemetry Inspector */}
-        <div className="order-1 lg:order-2 lg:col-span-7 w-full flex flex-col gap-4">
-          <PhysicsStage config={config} onStateUpdate={setTelemetry} />
-          <SimulationInspector config={config} telemetry={telemetry} />
-        </div>
+      {/* 1. Dominant Hero Playground with Integrated Controls & Telemetry */}
+      <section id="antigravity-playground" className="w-full flex flex-col gap-6">
+        <PhysicsStage config={config} />
 
-        {/* Physics Sliders & Shape Controls */}
-        <div className="order-2 lg:order-1 lg:col-span-5 w-full flex flex-col gap-4">
-          <PhysicsControls
-            config={config}
-            onChange={handleConfigChange}
-            onRandomize={handleRandomize}
-            onResetSettings={handleResetSettings}
-            onShareUrl={handleShareUrl}
-            hasCopiedShare={hasCopiedShare}
-          />
-        </div>
+        {/* 2. Sleek Horizontal Presets Rail */}
+        <PresetSelector activePreset={config.preset} onSelectPreset={handleSelectPreset} />
+
+        {/* 3. Streamlined Parameter Inspector */}
+        <PhysicsControls
+          config={config}
+          onChange={handleConfigChange}
+        />
       </section>
 
-      {/* 2. Curated Presets Gallery */}
-      <PresetSelector activePreset={config.preset} onSelectPreset={handleSelectPreset} />
-
-      {/* 3. Developer Code & Design Token Export */}
+      {/* 4. Developer Code & Design Token Export */}
       <AntigravityCodeExport config={config} sourceUrl={sourceUrl} />
 
-      {/* 4. Machine Contract & API Documentation */}
+      {/* 5. Machine Contract & API Documentation */}
       <AntigravityApiDocs config={config} />
 
-      {/* 5. Studio Tools Ecosystem Sibling Hub */}
+      {/* 6. Studio Tools Ecosystem Sibling Hub */}
       <RampsStudioFamily onNavigate={onNavigate} currentTool="antigravity" />
     </div>
   );

@@ -64,7 +64,7 @@ export const RampsApiDocs: React.FC<RampsApiDocsProps> = ({ paletteResult }) => 
           className="btn-secondary"
           style={{ padding: '6px 12px', fontSize: '0.78rem' }}
         >
-          <BookOpen size={13} className="text-[var(--accent-blue)]" />
+          <BookOpen size={13} style={{ color: 'var(--color-primary-text)' }} />
           <span>View /llms.txt Contract</span>
           <ExternalLink size={11} className="text-[var(--text-tertiary)]" />
         </a>
@@ -98,16 +98,16 @@ export const RampsApiDocs: React.FC<RampsApiDocsProps> = ({ paletteResult }) => 
               <tbody className="divide-y divide-[var(--border-subtle)] text-xs font-mono">
                 {params.map((p) => (
                   <tr key={p.param} className="hover:bg-[var(--bg-surface-2)]/40 transition-colors">
-                    <td className="py-2 pr-3 font-bold text-[var(--text-primary)]">
+                    <td className="py-2.5 pr-3 font-bold text-[var(--text-primary)]">
                       {p.param} {p.required && <span className="text-red-400 text-[10px]">*</span>}
                     </td>
-                    <td className="py-2 px-3 text-[11px] text-[var(--text-tertiary)]">
+                    <td className="py-2.5 px-3 text-[11px] text-[var(--text-tertiary)]">
                       {p.type}
                     </td>
-                    <td className="py-2 px-3 text-[11px] text-[var(--text-secondary)]">
+                    <td className="py-2.5 px-3 text-[11px] text-[var(--text-secondary)]">
                       {p.default}
                     </td>
-                    <td className="py-2 pl-3 text-[11px] font-sans text-[var(--text-secondary)]">
+                    <td className="py-2.5 pl-3 text-[11px] font-sans text-[var(--text-secondary)]">
                       {p.desc}
                     </td>
                   </tr>
@@ -150,7 +150,7 @@ export const RampsApiDocs: React.FC<RampsApiDocsProps> = ({ paletteResult }) => 
             <button
               type="button"
               onClick={handleCopyCurl}
-              className="absolute top-2 right-2 p-1.5 rounded-xs bg-[var(--bg-surface-3)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+              className="absolute top-2 right-2 p-1.5 rounded-xs bg-[var(--bg-surface-3)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               title="Copy curl command"
             >
               {copiedCurl ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}

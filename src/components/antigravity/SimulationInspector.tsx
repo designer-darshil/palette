@@ -24,10 +24,17 @@ export const SimulationInspector: React.FC<SimulationInspectorProps> = ({ config
     >
       <div className="flex items-center justify-between">
         <h3 className="text-xs sm:text-sm font-bold font-mono text-[var(--text-primary)] flex items-center gap-2">
-          <Activity size={16} className="text-[var(--accent-blue)]" />
+          <Activity size={16} style={{ color: 'var(--color-primary-text)' }} />
           <span>Motion Telemetry &amp; Kinematics</span>
         </h3>
-        <span className="font-mono text-[10px] px-2 py-0.5 rounded-xs bg-[var(--bg-surface-2)] text-[var(--text-secondary)] border border-[var(--border-subtle)] font-bold uppercase">
+        <span
+          className="font-mono text-[10px] px-2 py-0.5 rounded-xs border font-bold uppercase"
+          style={{
+            backgroundColor: 'var(--color-primary-subtle)',
+            color: 'var(--color-primary-text)',
+            borderColor: 'var(--color-primary-border)',
+          }}
+        >
           Live 60 FPS
         </span>
       </div>
@@ -43,14 +50,14 @@ export const SimulationInspector: React.FC<SimulationInspectorProps> = ({ config
 
         <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex flex-col gap-0.5">
           <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">Velocity Vector</span>
-          <span className="text-xs font-mono font-bold text-[var(--accent-blue)]">
+          <span className="text-xs font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
             {telemetry.vx} / {telemetry.vy} px/s
           </span>
         </div>
 
         <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex flex-col gap-0.5">
           <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">Kinetic Energy</span>
-          <span className="text-xs font-mono font-bold text-[var(--accent-gold)]">
+          <span className="text-xs font-mono font-bold text-amber-400">
             {kineticEnergy} J
           </span>
         </div>
@@ -65,7 +72,7 @@ export const SimulationInspector: React.FC<SimulationInspectorProps> = ({ config
 
       {/* Semantic Rule-Based Motion Description */}
       <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex items-start gap-2.5 text-xs text-[var(--text-secondary)]">
-        <Info size={15} className="text-[var(--accent-blue)] flex-shrink-0 mt-0.5" />
+        <Info size={15} style={{ color: 'var(--color-primary-text)' }} className="flex-shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0 font-sans">
           <span className="font-bold text-[var(--text-primary)]">Semantic Behavior: </span>
           <span>{describeMotion(config)}</span>

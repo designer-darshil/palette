@@ -25,7 +25,7 @@ export const RampsStudioFamily: React.FC<RampsStudioFamilyProps> = ({ onNavigate
       name: 'Ramps Studio',
       tagline: 'Perceptual OKLCH Scales & Semantic Tokens',
       desc: 'Build perceptually-even color ramps (50–950), scheme-derived harmonies, and WCAG AA/AAA tokens.',
-      icon: <Sparkles size={16} className="text-[var(--accent-gold)]" />,
+      icon: <Sparkles size={16} style={{ color: 'var(--color-primary-text)' }} />,
       active: currentTool === 'ramps',
       internalRoute: currentTool !== 'ramps' ? ({ path: 'ramps' } as RouteType) : undefined,
       status: currentTool === 'ramps' ? 'Active' : 'Live Tool',
@@ -35,7 +35,7 @@ export const RampsStudioFamily: React.FC<RampsStudioFamilyProps> = ({ onNavigate
       name: 'Antigravity Studio',
       tagline: 'Physics Simulation & Motion Generator',
       desc: 'Experiment with gravity, velocity, bounce, and damping with real-time exports to CSS and JavaScript.',
-      icon: <Compass size={16} className="text-[var(--accent-blue)]" />,
+      icon: <Compass size={16} style={{ color: 'var(--color-primary-text)' }} />,
       active: currentTool === 'antigravity',
       internalRoute: currentTool !== 'antigravity' ? ({ path: 'antigravity' } as RouteType) : undefined,
       status: currentTool === 'antigravity' ? 'Active' : 'Live Tool',
@@ -114,7 +114,7 @@ export const RampsStudioFamily: React.FC<RampsStudioFamilyProps> = ({ onNavigate
                 <span
                   className={`text-[9px] font-mono px-2 py-0.5 rounded-xs border font-bold uppercase ${
                     t.active
-                      ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                      ? 'bg-[var(--color-primary-subtle)] text-[var(--color-primary-text)] border-[var(--color-primary-border)]'
                       : 'bg-[var(--bg-surface-3)] text-[var(--text-tertiary)] border-[var(--border-subtle)]'
                   }`}
                 >
@@ -138,14 +138,21 @@ export const RampsStudioFamily: React.FC<RampsStudioFamilyProps> = ({ onNavigate
                   onNavigate(t.internalRoute!);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-blue)] hover:underline pt-2 border-t border-[var(--border-subtle)] cursor-pointer text-left"
+                className="inline-flex items-center gap-1 text-[11px] font-mono hover:underline pt-2 border-t border-[var(--border-subtle)] cursor-pointer text-left focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-xs"
+                style={{ color: 'var(--color-primary-text)' }}
               >
                 <span>Launch {t.name}</span>
                 <ArrowUpRight size={12} />
               </button>
             ) : t.active ? (
-              <div className="text-[11px] font-mono text-emerald-400 pt-2 border-t border-[var(--border-subtle)] flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+              <div
+                className="text-[11px] font-mono pt-2 border-t border-[var(--border-subtle)] flex items-center gap-1 font-semibold"
+                style={{ color: 'var(--color-primary-text)' }}
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full inline-block"
+                  style={{ backgroundColor: 'var(--color-primary)' }}
+                />
                 <span>Currently Active</span>
               </div>
             ) : (

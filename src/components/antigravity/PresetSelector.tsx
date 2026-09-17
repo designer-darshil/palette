@@ -12,7 +12,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
     <section id="presets-gallery" className="w-full flex flex-col gap-4">
       <div>
         <h2 className="text-base sm:text-lg font-bold text-[var(--text-primary)] flex items-center gap-2 tracking-tight">
-          <Sparkles size={18} className="text-[var(--accent-gold)]" />
+          <Sparkles size={18} style={{ color: 'var(--color-primary-text)' }} />
           <span>Curated Motion Presets</span>
         </h2>
         <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
@@ -29,12 +29,16 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
               key={preset.id}
               type="button"
               onClick={() => onSelectPreset(preset.id)}
-              className={`p-3.5 rounded-md border text-left flex flex-col justify-between gap-2.5 transition-all cursor-pointer ${
+              className={`p-3.5 rounded-md border text-left flex flex-col justify-between gap-2.5 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] ${
                 isSelected
-                  ? 'bg-[var(--bg-surface-2)] border-[var(--border-strong)] shadow-xs ring-1 ring-[var(--border-active)]'
+                  ? 'bg-[var(--bg-surface-2)] shadow-xs ring-1'
                   : 'bg-[var(--bg-surface-1)] border-[var(--border-subtle)] hover:border-[var(--border-medium)] hover:bg-[var(--bg-surface-2)]/60'
               }`}
-              style={{ borderRadius: 'var(--radius-md)' }}
+              style={{
+                borderRadius: 'var(--radius-md)',
+                borderColor: isSelected ? 'var(--color-primary)' : undefined,
+                boxShadow: isSelected ? '0 0 0 1px var(--color-primary)' : undefined,
+              }}
             >
               <div className="flex flex-col gap-1">
                 <div className="flex items-center justify-between">
@@ -42,7 +46,13 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
                     {preset.name}
                   </span>
                   {isSelected ? (
-                    <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-xs bg-[var(--text-primary)] text-[var(--text-inverse)] flex items-center gap-1 font-bold">
+                    <span
+                      className="font-mono text-[9px] px-1.5 py-0.5 rounded-xs flex items-center gap-1 font-bold"
+                      style={{
+                        backgroundColor: 'var(--color-primary)',
+                        color: 'var(--color-primary-contrast)',
+                      }}
+                    >
                       <Check size={10} /> Active
                     </span>
                   ) : (
@@ -52,7 +62,10 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
                   )}
                 </div>
 
-                <div className="text-[11px] font-mono text-[var(--text-secondary)]">
+                <div
+                  className="text-[11px] font-mono font-medium"
+                  style={{ color: isSelected ? 'var(--color-primary-text)' : 'var(--text-secondary)' }}
+                >
                   {preset.tagline}
                 </div>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, RotateCcw, Share2, Check, Terminal, Copy } from 'lucide-react';
+import { Sparkles, RotateCcw, Share2, Check, Terminal } from 'lucide-react';
 
 interface StudioIntroProps {
   category: string;
@@ -35,7 +35,10 @@ export const StudioIntro: React.FC<StudioIntroProps> = ({
               {category}
             </span>
             <span className="text-[var(--text-tertiary)]">•</span>
-            <span className="text-[11px] font-mono text-[var(--accent-gold)] uppercase font-semibold">
+            <span
+              className="text-[11px] font-mono uppercase font-semibold"
+              style={{ color: 'var(--color-primary-text)' }}
+            >
               {badge}
             </span>
           </div>
@@ -57,7 +60,7 @@ export const StudioIntro: React.FC<StudioIntroProps> = ({
               style={{ padding: '8px 14px', fontSize: '0.78rem' }}
               title="Generate random configuration"
             >
-              <Sparkles size={13} className="text-[var(--accent-gold)]" />
+              <Sparkles size={13} style={{ color: 'var(--color-primary-text)' }} />
               <span>Randomize</span>
             </button>
           )}
@@ -86,11 +89,11 @@ export const StudioIntro: React.FC<StudioIntroProps> = ({
               {hasCopiedPrompt ? (
                 <>
                   <Check size={13} className="text-emerald-400" />
-                  <span className="text-emerald-400">Prompt Copied!</span>
+                  <span className="text-emerald-400 font-bold">Prompt Copied!</span>
                 </>
               ) : (
                 <>
-                  <Terminal size={13} className="text-[var(--accent-blue)]" />
+                  <Terminal size={13} style={{ color: 'var(--color-primary-text)' }} />
                   <span>Agent Prompt</span>
                 </>
               )}
@@ -101,7 +104,7 @@ export const StudioIntro: React.FC<StudioIntroProps> = ({
             <button
               type="button"
               onClick={onShareUrl}
-              className="btn-primary"
+              className="btn-studio-primary"
               style={{ padding: '8px 16px', fontSize: '0.78rem' }}
               title="Copy shareable permalink"
             >

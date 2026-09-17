@@ -88,7 +88,7 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
           className="btn-secondary"
           style={{ padding: '6px 12px', fontSize: '0.78rem' }}
         >
-          <BookOpen size={13} className="text-[var(--accent-blue)]" />
+          <BookOpen size={13} style={{ color: 'var(--color-primary-text)' }} />
           <span>View /llms.txt Contract</span>
           <ExternalLink size={11} className="text-[var(--text-tertiary)]" />
         </a>
@@ -174,7 +174,7 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
             <button
               type="button"
               onClick={handleCopyCurl}
-              className="absolute top-2 right-2 p-1.5 rounded-xs bg-[var(--bg-surface-3)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+              className="absolute top-2 right-2 p-1.5 rounded-xs bg-[var(--bg-surface-3)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               title="Copy curl command"
             >
               {copiedCurl ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}

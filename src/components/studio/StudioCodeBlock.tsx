@@ -80,7 +80,7 @@ export const StudioCodeBlock = <T extends string>({
           <button
             type="button"
             onClick={handleCopy}
-            className="btn-primary"
+            className="btn-studio-primary"
             style={{ padding: '6px 14px', fontSize: '0.78rem' }}
             title="Copy code to clipboard"
           >
@@ -112,11 +112,19 @@ export const StudioCodeBlock = <T extends string>({
                 key={tab.id}
                 type="button"
                 onClick={() => onTabChange(tab.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xs text-xs font-mono font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xs text-xs font-mono font-medium transition-all cursor-pointer ${
                   activeTab === tab.id
                     ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold border border-[var(--border-medium)] shadow-2xs'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)]'
                 }`}
+                style={
+                  activeTab === tab.id
+                    ? {
+                        borderColor: 'var(--color-primary-border)',
+                        color: 'var(--text-primary)',
+                      }
+                    : {}
+                }
               >
                 {tab.icon}
                 <span>{tab.label}</span>
@@ -134,7 +142,7 @@ export const StudioCodeBlock = <T extends string>({
         {/* Code Content Viewport */}
         <div className="relative p-4 overflow-x-auto max-h-[460px] bg-[var(--bg-surface-1)]">
           <pre
-            className="font-mono text-xs leading-relaxed text-[var(--text-primary)] whitespace-pre selection:bg-[var(--text-primary)] selection:text-[var(--text-inverse)]"
+            className="font-mono text-xs leading-relaxed text-[var(--text-primary)] whitespace-pre selection:bg-[var(--color-primary)] selection:text-[var(--color-primary-contrast)]"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
             <code>{code}</code>

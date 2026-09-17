@@ -1,8 +1,7 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   AntigravityConfig,
   PhysicsSimulation,
-  ObjectShape,
   SimulationState,
 } from '../../utils/antigravityEngine';
 import {
@@ -184,38 +183,64 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
     }
   };
 
-  // Render Object based on chosen Shape / UI Element
+  // Render Object based on chosen Shape / UI Element using #BFA3F0 accents
   const renderObjectContent = () => {
     switch (config.object) {
       case 'circle':
         return (
-          <div className="w-14 h-14 rounded-full bg-[var(--accent-blue)] border-2 border-blue-300/60 shadow-lg flex items-center justify-center relative cursor-grab active:cursor-grabbing">
+          <div
+            className="w-14 h-14 rounded-full border-2 shadow-lg flex items-center justify-center relative cursor-grab active:cursor-grabbing"
+            style={{
+              backgroundColor: 'var(--color-primary)',
+              borderColor: 'var(--color-primary-hover)',
+              color: 'var(--color-primary-contrast)',
+            }}
+          >
             <div className="w-2.5 h-2.5 rounded-full bg-white shadow-xs" />
-            <div className="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full bg-white/60" />
+            <div className="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full bg-white/70" />
           </div>
         );
 
       case 'square':
         return (
-          <div className="w-14 h-14 rounded-xs bg-purple-600 border-2 border-purple-400/60 shadow-lg flex items-center justify-center cursor-grab active:cursor-grabbing">
-            <Box size={20} className="text-white" />
+          <div
+            className="w-14 h-14 rounded-xs border-2 shadow-lg flex items-center justify-center cursor-grab active:cursor-grabbing"
+            style={{
+              backgroundColor: 'var(--color-primary)',
+              borderColor: 'var(--color-primary-hover)',
+              color: 'var(--color-primary-contrast)',
+            }}
+          >
+            <Box size={20} />
           </div>
         );
 
       case 'rounded':
         return (
-          <div className="w-16 h-12 rounded-sm bg-emerald-600 border-2 border-emerald-400/60 shadow-lg flex items-center justify-center cursor-grab active:cursor-grabbing">
-            <div className="w-4 h-1 rounded-full bg-white/70" />
+          <div
+            className="w-16 h-12 rounded-sm border-2 shadow-lg flex items-center justify-center cursor-grab active:cursor-grabbing"
+            style={{
+              backgroundColor: 'var(--color-primary)',
+              borderColor: 'var(--color-primary-hover)',
+              color: 'var(--color-primary-contrast)',
+            }}
+          >
+            <div className="w-4 h-1 rounded-full bg-black/40" />
           </div>
         );
 
       case 'blob':
         return (
           <div
-            className="w-16 h-16 bg-[var(--accent-gold)] border-2 border-amber-300/70 shadow-lg flex items-center justify-center cursor-grab active:cursor-grabbing transition-transform"
-            style={{ borderRadius: '60% 40% 50% 70% / 60% 50% 70% 40%' }}
+            className="w-16 h-16 border-2 shadow-lg flex items-center justify-center cursor-grab active:cursor-grabbing transition-transform"
+            style={{
+              backgroundColor: 'var(--color-primary)',
+              borderColor: 'var(--color-primary-hover)',
+              color: 'var(--color-primary-contrast)',
+              borderRadius: '60% 40% 50% 70% / 60% 50% 70% 40%',
+            }}
           >
-            <Sparkles size={18} className="text-[var(--text-inverse)]" />
+            <Sparkles size={18} />
           </div>
         );
 
@@ -223,7 +248,7 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
         return (
           <button
             type="button"
-            className="btn-primary whitespace-nowrap select-none cursor-grab active:cursor-grabbing shadow-lg"
+            className="btn-studio-primary whitespace-nowrap select-none cursor-grab active:cursor-grabbing shadow-lg"
             style={{ padding: '8px 14px', fontSize: '0.78rem' }}
           >
             <span>SUBMIT ACTION</span>
@@ -234,8 +259,10 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
         return (
           <div className="w-36 p-2.5 rounded-xs bg-[var(--bg-surface-1)] border border-[var(--border-strong)] text-[var(--text-primary)] shadow-xl flex flex-col gap-1 select-none cursor-grab active:cursor-grabbing">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono font-bold text-[var(--accent-blue)]">#SURFACE-01</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span className="text-[10px] font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
+                #SURFACE-01
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />
             </div>
             <div className="text-xs font-bold leading-tight">Motion Specimen</div>
             <div className="text-[9px] text-[var(--text-tertiary)] font-mono">PaletteParadise</div>
@@ -244,15 +271,25 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
 
       case 'notification':
         return (
-          <div className="px-3 py-2 rounded-xs bg-[var(--bg-surface-1)] border border-emerald-500/40 text-[var(--text-primary)] shadow-xl flex items-center gap-2 select-none cursor-grab active:cursor-grabbing whitespace-nowrap">
-            <CheckCircle2 size={14} className="text-emerald-400 flex-shrink-0" />
+          <div
+            className="px-3 py-2 rounded-xs bg-[var(--bg-surface-1)] text-[var(--text-primary)] shadow-xl flex items-center gap-2 select-none cursor-grab active:cursor-grabbing whitespace-nowrap border"
+            style={{ borderColor: 'var(--color-primary-border)' }}
+          >
+            <CheckCircle2 size={14} style={{ color: 'var(--color-primary-text)' }} className="flex-shrink-0" />
             <span className="text-xs font-medium">Kinematics Active</span>
           </div>
         );
 
       case 'badge':
         return (
-          <div className="px-3 py-1 rounded-xs bg-[var(--bg-surface-3)] border border-[var(--border-medium)] text-[var(--text-primary)] font-mono text-xs font-bold shadow-md select-none cursor-grab active:cursor-grabbing">
+          <div
+            className="px-3 py-1 rounded-xs border font-mono text-xs font-bold shadow-md select-none cursor-grab active:cursor-grabbing"
+            style={{
+              backgroundColor: 'var(--color-primary-subtle)',
+              color: 'var(--color-primary-text)',
+              borderColor: 'var(--color-primary-border)',
+            }}
+          >
             PHYSICS 60FPS
           </div>
         );
@@ -260,15 +297,20 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
       case 'icon':
         return (
           <div className="w-12 h-12 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-strong)] shadow-lg flex items-center justify-center text-[var(--text-primary)] cursor-grab active:cursor-grabbing">
-            <Sparkles size={20} className="text-[var(--accent-gold)]" />
+            <Sparkles size={20} style={{ color: 'var(--color-primary-text)' }} />
           </div>
         );
 
       case 'panel':
         return (
-          <div className="w-40 p-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-strong)] shadow-xl text-[var(--text-primary)] flex flex-col gap-1 select-none cursor-grab active:cursor-grabbing">
+          <div
+            className="w-40 p-3 rounded-xs bg-[var(--bg-surface-2)] border shadow-xl text-[var(--text-primary)] flex flex-col gap-1 select-none cursor-grab active:cursor-grabbing"
+            style={{ borderColor: 'var(--color-primary-border)' }}
+          >
             <div className="text-[10px] font-mono text-[var(--text-secondary)]">TELEMETRY STREAM</div>
-            <div className="text-xs font-mono font-bold text-[var(--accent-blue)]">V = {Math.round(Math.abs(config.velocityY))} px/s</div>
+            <div className="text-xs font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
+              V = {Math.round(Math.abs(config.velocityY))} px/s
+            </div>
           </div>
         );
     }
@@ -312,18 +354,18 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
             <polyline
               points={trajectoryPoints.map((p) => `${p.x},${p.y}`).join(' ')}
               fill="none"
-              stroke="var(--accent-gold, #3B82F6)"
+              stroke="var(--color-primary)"
               strokeWidth="2"
               strokeDasharray="4 4"
-              strokeOpacity="0.4"
+              strokeOpacity="0.6"
             />
             {trajectoryPoints[trajectoryPoints.length - 1] && (
               <circle
                 cx={trajectoryPoints[trajectoryPoints.length - 1].x}
                 cy={trajectoryPoints[trajectoryPoints.length - 1].y}
                 r="3"
-                fill="var(--accent-gold, #3B82F6)"
-                fillOpacity="0.5"
+                fill="var(--color-primary)"
+                fillOpacity="0.8"
               />
             )}
           </svg>
@@ -345,12 +387,15 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
               style={{
                 width: `${Math.min(80, Math.sqrt(simRef.current.vx ** 2 + simRef.current.vy ** 2) * 0.2)}px`,
                 height: '2px',
-                backgroundColor: 'var(--accent-blue)',
+                backgroundColor: 'var(--color-primary)',
                 transformOrigin: 'left center',
                 transform: `rotate(${Math.atan2(simRef.current.vy, simRef.current.vx)}rad)`,
               }}
             >
-              <div className="absolute right-0 -top-1 w-2 h-2 border-t-2 border-r-2 border-[var(--accent-blue)] rotate-45" />
+              <div
+                className="absolute right-0 -top-1 w-2 h-2 border-t-2 border-r-2 rotate-45"
+                style={{ borderColor: 'var(--color-primary)' }}
+              />
             </div>
           )}
         </div>
@@ -359,10 +404,11 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
         {collisionRipple && (
           <div
             key={collisionRipple.id}
-            className="absolute pointer-events-none w-10 h-10 -ml-5 -mt-5 rounded-full border-2 border-[var(--accent-blue)]/80 animate-ping"
+            className="absolute pointer-events-none w-10 h-10 -ml-5 -mt-5 rounded-full border-2 animate-ping"
             style={{
               left: `${collisionRipple.x}px`,
               top: `${collisionRipple.y}px`,
+              borderColor: 'var(--color-primary)',
             }}
           />
         )}
@@ -370,7 +416,10 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
         {/* Stage Floating HUD Information */}
         <div className="absolute top-3 left-3 flex items-center gap-2 pointer-events-none">
           <div className="px-2 py-1 rounded-xs bg-[var(--bg-surface-1)]/85 border border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-secondary)] backdrop-blur-md flex items-center gap-1.5 shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span
+              className="w-1.5 h-1.5 rounded-full inline-block animate-pulse"
+              style={{ backgroundColor: 'var(--color-primary)' }}
+            />
             <span className="font-bold text-[var(--text-primary)] uppercase">{simState}</span>
           </div>
 
@@ -396,7 +445,7 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="btn-primary"
+            className="btn-studio-primary"
             style={{ padding: '6px 14px', fontSize: '0.78rem' }}
             title={isPlaying ? 'Pause simulation' : 'Play simulation'}
           >
@@ -424,7 +473,7 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
           <button
             type="button"
             onClick={() => handleImpulse(0, -200)}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer"
+            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
             title="Nudge Up"
           >
             <ArrowUp size={13} />
@@ -432,7 +481,7 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
           <button
             type="button"
             onClick={() => handleImpulse(0, 200)}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer"
+            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
             title="Nudge Down"
           >
             <ArrowDown size={13} />
@@ -440,7 +489,7 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
           <button
             type="button"
             onClick={() => handleImpulse(-200, 0)}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer"
+            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
             title="Nudge Left"
           >
             <ArrowLeft size={13} />
@@ -448,7 +497,7 @@ export const PhysicsStage: React.FC<PhysicsStageProps> = ({ config, onStateUpdat
           <button
             type="button"
             onClick={() => handleImpulse(200, 0)}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer"
+            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
             title="Nudge Right"
           >
             <ArrowRight size={13} />

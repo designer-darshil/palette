@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ColorRamp, STEP_KEYS, StepKey, RampsNotation } from '../../utils/rampsEngine';
-import { Copy, Check, EyeOff, Layers, Info } from 'lucide-react';
+import { Copy, Check, EyeOff, Layers } from 'lucide-react';
 
 interface RampsPaletteGridProps {
   ramps: Record<string, ColorRamp>;
@@ -39,8 +39,13 @@ export const RampsPaletteGrid: React.FC<RampsPaletteGridProps> = ({
         </div>
 
         <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-tertiary)]">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />
-          <span>Notation: <strong className="text-[var(--text-primary)] uppercase">{notation}</strong></span>
+          <span
+            className="w-2 h-2 rounded-full inline-block"
+            style={{ backgroundColor: 'var(--color-primary)' }}
+          />
+          <span>
+            Notation: <strong className="uppercase" style={{ color: 'var(--color-primary-text)' }}>{notation}</strong>
+          </span>
         </div>
       </div>
 
@@ -84,7 +89,10 @@ export const RampsPaletteGrid: React.FC<RampsPaletteGridProps> = ({
                       className="text-[11px] p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
                       title={isExcluded ? 'Include ramp in export' : 'Exclude ramp from export'}
                     >
-                      <EyeOff size={13} className={isExcluded ? 'text-[var(--accent-gold)]' : ''} />
+                      <EyeOff
+                        size={13}
+                        style={isExcluded ? { color: 'var(--color-primary-text)' } : {}}
+                      />
                     </button>
                   )}
                 </div>
@@ -119,7 +127,7 @@ export const RampsPaletteGrid: React.FC<RampsPaletteGridProps> = ({
                       key={step}
                       type="button"
                       onClick={() => handleCopy(copyKey, displayValue)}
-                      className="group relative flex flex-col rounded-xs overflow-hidden border border-[var(--border-subtle)] text-left hover:border-[var(--border-strong)] transition-all cursor-pointer"
+                      className="group relative flex flex-col rounded-xs overflow-hidden border border-[var(--border-subtle)] text-left hover:border-[var(--border-strong)] transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
                       style={{ borderRadius: 'var(--radius-xs)' }}
                       title={`Click to copy: ${displayValue}`}
                     >

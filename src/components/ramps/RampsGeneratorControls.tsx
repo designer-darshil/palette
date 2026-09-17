@@ -144,7 +144,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
               style={{ padding: '6px 12px', fontSize: '0.78rem' }}
               title="Generate random harmonious brand color"
             >
-              <Sparkles size={13} className="text-[var(--accent-gold)]" />
+              <Sparkles size={13} style={{ color: 'var(--color-primary-text)' }} />
               <span>Randomize</span>
             </button>
           )}
@@ -166,7 +166,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={onShareUrl}
-              className="btn-primary"
+              className="btn-studio-primary"
               style={{ padding: '6px 14px', fontSize: '0.78rem' }}
               title="Copy shareable permalink with current configuration"
             >
@@ -199,7 +199,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => setPickerTarget('brand')}
-              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer"
+              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               style={{ backgroundColor: `#${config.brand}` }}
               title="Click to open Color Picker Modal"
             />
@@ -215,13 +215,13 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
                 value={brandInput.toUpperCase()}
                 onChange={(e) => handleBrandChange(e.target.value)}
                 placeholder="3D7DFF"
-                className="w-full pl-7 pr-3 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
+                className="w-full pl-7 pr-3 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)]"
               />
             </div>
           </div>
           <div className="text-[10px] font-mono text-[var(--text-tertiary)] flex items-center justify-between pt-1 border-t border-[var(--border-subtle)]">
             <span>OKLCH scale root anchor</span>
-            <span className="text-[var(--accent-gold)]">Required</span>
+            <span style={{ color: 'var(--color-primary-text)' }} className="font-semibold">Required</span>
           </div>
         </div>
 
@@ -230,7 +230,14 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
           <label className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center justify-between">
             <span>2. Secondary Accent</span>
             {config.accent ? (
-              <span className="font-mono text-[10px] text-[var(--accent-gold)] bg-[var(--bg-surface-3)] px-1.5 py-0.5 rounded-xs flex items-center gap-1">
+              <span
+                className="font-mono text-[10px] px-1.5 py-0.5 rounded-xs flex items-center gap-1 font-semibold"
+                style={{
+                  backgroundColor: 'var(--color-primary-subtle)',
+                  color: 'var(--color-primary-text)',
+                  border: '1px solid var(--color-primary-border)',
+                }}
+              >
                 <Pin size={10} /> Pinned
               </span>
             ) : (
@@ -243,7 +250,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => setPickerTarget('accent')}
-              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer"
+              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               style={{ backgroundColor: config.accent ? `#${config.accent}` : '#F4D59B' }}
               title="Click to open Color Picker Modal"
             />
@@ -258,13 +265,13 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
                 value={accentInput.toUpperCase()}
                 onChange={(e) => handleAccentChange(e.target.value)}
                 placeholder="Auto (Harmonized)"
-                className="w-full pl-7 pr-8 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
+                className="w-full pl-7 pr-8 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)]"
               />
               {config.accent && (
                 <button
                   type="button"
                   onClick={() => handleAccentChange('')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] cursor-pointer"
                   title="Unpin and return to auto-derivation"
                 >
                   <PinOff size={13} />
@@ -289,7 +296,14 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
           <label className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center justify-between">
             <span>3. Tertiary Accent</span>
             {config.accent2 ? (
-              <span className="font-mono text-[10px] text-[var(--accent-gold)] bg-[var(--bg-surface-3)] px-1.5 py-0.5 rounded-xs flex items-center gap-1">
+              <span
+                className="font-mono text-[10px] px-1.5 py-0.5 rounded-xs flex items-center gap-1 font-semibold"
+                style={{
+                  backgroundColor: 'var(--color-primary-subtle)',
+                  color: 'var(--color-primary-text)',
+                  border: '1px solid var(--color-primary-border)',
+                }}
+              >
                 <Pin size={10} /> Pinned
               </span>
             ) : (
@@ -302,7 +316,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => setPickerTarget('accent2')}
-              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer"
+              className="w-10 h-10 rounded-xs border border-[var(--border-medium)] shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               style={{ backgroundColor: config.accent2 ? `#${config.accent2}` : '#0099C5' }}
               title="Click to open Color Picker Modal"
             />
@@ -317,13 +331,13 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
                 value={accent2Input.toUpperCase()}
                 onChange={(e) => handleAccent2Change(e.target.value)}
                 placeholder="Auto (Harmonized)"
-                className="w-full pl-7 pr-8 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
+                className="w-full pl-7 pr-8 py-2 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs font-mono text-xs font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)]"
               />
               {config.accent2 && (
                 <button
                   type="button"
                   onClick={() => handleAccent2Change('')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] cursor-pointer"
                   title="Unpin and return to auto-derivation"
                 >
                   <PinOff size={13} />
@@ -355,7 +369,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
           <select
             value={config.scheme}
             onChange={(e) => onChange({ scheme: e.target.value as RampsScheme })}
-            className="w-full px-2.5 py-1.5 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-xs font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)] cursor-pointer"
+            className="w-full px-2.5 py-1.5 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-xs font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] cursor-pointer"
           >
             {schemes.map((s) => (
               <option key={s.id} value={s.id}>
@@ -378,7 +392,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ scope: 'full' })}
-              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all cursor-pointer ${
                 config.scope === 'full'
                   ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -389,7 +403,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ scope: 'basic' })}
-              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all cursor-pointer ${
                 config.scope === 'basic'
                   ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -413,7 +427,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ wcag: 'AA' })}
-              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all cursor-pointer ${
                 config.wcag === 'AA'
                   ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -424,9 +438,9 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ wcag: 'AAA' })}
-              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all cursor-pointer ${
                 config.wcag === 'AAA'
-                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
+                  ? 'bg-emerald-600 text-white font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -447,7 +461,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
           <select
             value={config.notation}
             onChange={(e) => onChange({ notation: e.target.value as RampsNotation })}
-            className="w-full px-2.5 py-1.5 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-xs font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)] cursor-pointer"
+            className="w-full px-2.5 py-1.5 bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-xs font-mono text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] cursor-pointer"
           >
             <option value="oklch">OKLCH (Perceptual)</option>
             <option value="hex">HEX (Hexadecimal)</option>
@@ -469,7 +483,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ vividness: 'natural' })}
-              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all cursor-pointer ${
                 config.vividness === 'natural'
                   ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -480,7 +494,7 @@ export const RampsGeneratorControls: React.FC<RampsGeneratorControlsProps> = ({
             <button
               type="button"
               onClick={() => onChange({ vividness: 'bold' })}
-              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all ${
+              className={`py-1 rounded-xs text-xs font-mono font-medium transition-all cursor-pointer ${
                 config.vividness === 'bold'
                   ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'

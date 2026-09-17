@@ -29,6 +29,15 @@
   --accent-gold: #E9C46A;
   --accent-blue: #3B82F6;
 
+  /* Studio Primary Accent (#BFA3F0) */
+  --color-primary: #BFA3F0;
+  --color-primary-hover: #D1BFF5;
+  --color-primary-active: #AB8AEB;
+  --color-primary-subtle: rgba(191, 163, 240, 0.12);
+  --color-primary-border: rgba(191, 163, 240, 0.35);
+  --color-primary-text: #BFA3F0;
+  --color-primary-contrast: #090A0C;
+
   --bg-navbar: rgba(9, 10, 12, 0.88);
   --bg-navbar-solid: #090A0C;
 
@@ -60,6 +69,15 @@
   --text-secondary: #586072;
   --text-tertiary: #8C95A6;
   --text-inverse: #FFFFFF;
+
+  /* Studio Primary Accent (#BFA3F0) in Light Mode */
+  --color-primary: #BFA3F0;
+  --color-primary-hover: #AB8AEB;
+  --color-primary-active: #966EE3;
+  --color-primary-subtle: rgba(191, 163, 240, 0.18);
+  --color-primary-border: rgba(191, 163, 240, 0.5);
+  --color-primary-text: #5A3596;
+  --color-primary-contrast: #090A0C;
 
   --border-subtle: rgba(0, 0, 0, 0.07);
   --border-medium: rgba(0, 0, 0, 0.13);
@@ -1082,6 +1100,43 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .btn-secondary:hover {
   background: var(--bg-surface-3);
   border-color: var(--border-strong);
+}
+
+.btn-studio-primary {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  padding: 10px 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-quick);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-studio-primary:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-studio-primary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.studio-slider {
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.studio-slider:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* Hero Specimen Composition */

@@ -75,7 +75,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
               style={{ padding: '6px 12px', fontSize: '0.78rem' }}
               title="Randomize within safe physical boundaries"
             >
-              <Sparkles size={13} className="text-[var(--accent-gold)]" />
+              <Sparkles size={13} style={{ color: 'var(--color-primary-text)' }} />
               <span>Randomize</span>
             </button>
           )}
@@ -97,7 +97,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <button
               type="button"
               onClick={onShareUrl}
-              className="btn-primary"
+              className="btn-studio-primary"
               style={{ padding: '6px 14px', fontSize: '0.78rem' }}
               title="Copy shareable permalink"
             >
@@ -129,7 +129,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
               key={obj.id}
               type="button"
               onClick={() => onChange({ object: obj.id, preset: null })}
-              className={`py-1.5 px-2 rounded-xs text-xs font-mono font-medium transition-all text-center truncate cursor-pointer ${
+              className={`py-1.5 px-2 rounded-xs text-xs font-mono font-medium transition-all text-center truncate cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] ${
                 config.object === obj.id
                   ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)]'
@@ -147,7 +147,9 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
         <div className="flex flex-col gap-1.5 p-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)]">
           <div className="flex items-center justify-between text-xs font-mono">
             <span className="font-bold text-[var(--text-primary)]">Vertical Gravity (gy)</span>
-            <span className="font-bold text-[var(--accent-blue)]">{config.gravityY > 0 ? `+${config.gravityY}` : config.gravityY} m/s²</span>
+            <span className="font-bold" style={{ color: 'var(--color-primary-text)' }}>
+              {config.gravityY > 0 ? `+${config.gravityY}` : config.gravityY} m/s²
+            </span>
           </div>
           <input
             type="range"
@@ -156,7 +158,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             step={0.2}
             value={config.gravityY}
             onChange={(e) => onChange({ gravityY: parseFloat(e.target.value), preset: null })}
-            className="w-full cursor-pointer accent-[var(--accent-blue)]"
+            className="w-full studio-slider"
           />
           <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
             <span>-20 (Buoyant Lift)</span>
@@ -169,7 +171,9 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
         <div className="flex flex-col gap-1.5 p-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)]">
           <div className="flex items-center justify-between text-xs font-mono">
             <span className="font-bold text-[var(--text-primary)]">Horizontal Gravity (gx)</span>
-            <span className="font-bold text-[var(--accent-blue)]">{config.gravityX > 0 ? `+${config.gravityX}` : config.gravityX} m/s²</span>
+            <span className="font-bold" style={{ color: 'var(--color-primary-text)' }}>
+              {config.gravityX > 0 ? `+${config.gravityX}` : config.gravityX} m/s²
+            </span>
           </div>
           <input
             type="range"
@@ -178,7 +182,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             step={0.2}
             value={config.gravityX}
             onChange={(e) => onChange({ gravityX: parseFloat(e.target.value), preset: null })}
-            className="w-full cursor-pointer accent-[var(--accent-blue)]"
+            className="w-full studio-slider"
           />
           <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
             <span>-20 (West)</span>
@@ -191,7 +195,9 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
         <div className="flex flex-col gap-1.5 p-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)]">
           <div className="flex items-center justify-between text-xs font-mono">
             <span className="font-bold text-[var(--text-primary)]">Bounce Elasticity (r)</span>
-            <span className="font-bold text-emerald-400">{(config.restitution * 100).toFixed(0)}%</span>
+            <span className="font-bold" style={{ color: 'var(--color-primary-text)' }}>
+              {(config.restitution * 100).toFixed(0)}%
+            </span>
           </div>
           <input
             type="range"
@@ -200,7 +206,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             step={0.02}
             value={config.restitution}
             onChange={(e) => onChange({ restitution: parseFloat(e.target.value), preset: null })}
-            className="w-full cursor-pointer accent-emerald-500"
+            className="w-full studio-slider"
           />
           <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
             <span>0% (Dead Impact)</span>
@@ -213,7 +219,9 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
         <div className="flex flex-col gap-1.5 p-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)]">
           <div className="flex items-center justify-between text-xs font-mono">
             <span className="font-bold text-[var(--text-primary)]">Air Damping (d)</span>
-            <span className="font-bold text-[var(--accent-gold)]">{(config.damping * 100).toFixed(1)}%</span>
+            <span className="font-bold" style={{ color: 'var(--color-primary-text)' }}>
+              {(config.damping * 100).toFixed(1)}%
+            </span>
           </div>
           <input
             type="range"
@@ -222,7 +230,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             step={0.002}
             value={config.damping}
             onChange={(e) => onChange({ damping: parseFloat(e.target.value), preset: null })}
-            className="w-full cursor-pointer accent-[var(--accent-gold)]"
+            className="w-full studio-slider"
           />
           <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
             <span>0% (Vacuum)</span>
@@ -235,7 +243,9 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
         <div className="flex flex-col gap-1.5 p-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)]">
           <div className="flex items-center justify-between text-xs font-mono">
             <span className="font-bold text-[var(--text-primary)]">Surface Friction (f)</span>
-            <span className="font-bold text-purple-400">{(config.friction * 100).toFixed(0)}%</span>
+            <span className="font-bold" style={{ color: 'var(--color-primary-text)' }}>
+              {(config.friction * 100).toFixed(0)}%
+            </span>
           </div>
           <input
             type="range"
@@ -244,7 +254,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             step={0.02}
             value={config.friction}
             onChange={(e) => onChange({ friction: parseFloat(e.target.value), preset: null })}
-            className="w-full cursor-pointer accent-purple-500"
+            className="w-full studio-slider"
           />
           <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
             <span>0% (Ice)</span>
@@ -257,7 +267,9 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
         <div className="flex flex-col gap-1.5 p-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)]">
           <div className="flex items-center justify-between text-xs font-mono">
             <span className="font-bold text-[var(--text-primary)]">Inertial Mass (m)</span>
-            <span className="font-bold text-rose-400">{config.mass.toFixed(1)} kg</span>
+            <span className="font-bold" style={{ color: 'var(--color-primary-text)' }}>
+              {config.mass.toFixed(1)} kg
+            </span>
           </div>
           <input
             type="range"
@@ -266,7 +278,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             step={0.1}
             value={config.mass}
             onChange={(e) => onChange({ mass: parseFloat(e.target.value), preset: null })}
-            className="w-full cursor-pointer accent-rose-500"
+            className="w-full studio-slider"
           />
           <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
             <span>0.1 (Lightweight)</span>
@@ -280,40 +292,40 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-[var(--border-subtle)]">
         <label className="flex items-center justify-between p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] cursor-pointer hover:border-[var(--border-medium)] transition-colors">
           <span className="text-xs font-mono text-[var(--text-primary)] flex items-center gap-1.5">
-            <Activity size={14} className="text-[var(--accent-blue)]" />
+            <Activity size={14} style={{ color: 'var(--color-primary-text)' }} />
             <span>Predicted Trajectory</span>
           </span>
           <input
             type="checkbox"
             checked={config.showTrajectory}
             onChange={(e) => onChange({ showTrajectory: e.target.checked })}
-            className="rounded-xs accent-[var(--accent-blue)] cursor-pointer"
+            className="rounded-xs studio-slider cursor-pointer"
           />
         </label>
 
         <label className="flex items-center justify-between p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] cursor-pointer hover:border-[var(--border-medium)] transition-colors">
           <span className="text-xs font-mono text-[var(--text-primary)] flex items-center gap-1.5">
-            <Compass size={14} className="text-emerald-400" />
+            <Compass size={14} style={{ color: 'var(--color-primary-text)' }} />
             <span>Velocity Vector</span>
           </span>
           <input
             type="checkbox"
             checked={config.showVelocity}
             onChange={(e) => onChange({ showVelocity: e.target.checked })}
-            className="rounded-xs accent-emerald-500 cursor-pointer"
+            className="rounded-xs studio-slider cursor-pointer"
           />
         </label>
 
         <label className="flex items-center justify-between p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] cursor-pointer hover:border-[var(--border-medium)] transition-colors">
           <span className="text-xs font-mono text-[var(--text-primary)] flex items-center gap-1.5">
-            <Layers size={14} className="text-[var(--accent-gold)]" />
+            <Layers size={14} style={{ color: 'var(--color-primary-text)' }} />
             <span>Coordinate Grid</span>
           </span>
           <input
             type="checkbox"
             checked={config.showGrid}
             onChange={(e) => onChange({ showGrid: e.target.checked })}
-            className="rounded-xs accent-[var(--accent-gold)] cursor-pointer"
+            className="rounded-xs studio-slider cursor-pointer"
           />
         </label>
       </div>
@@ -323,7 +335,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
         <button
           type="button"
           onClick={() => setAdvancedOpen(!advancedOpen)}
-          className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+          className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-xs"
         >
           <ChevronDown
             size={14}
@@ -344,7 +356,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                 step={10}
                 value={config.velocityX}
                 onChange={(e) => onChange({ velocityX: parseFloat(e.target.value), preset: null })}
-                className="accent-[var(--accent-blue)] cursor-pointer"
+                className="studio-slider"
               />
             </div>
 
@@ -358,7 +370,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                 step={10}
                 value={config.velocityY}
                 onChange={(e) => onChange({ velocityY: parseFloat(e.target.value), preset: null })}
-                className="accent-[var(--accent-blue)] cursor-pointer"
+                className="studio-slider"
               />
             </div>
 
@@ -372,7 +384,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                 step={0.1}
                 value={config.timeScale}
                 onChange={(e) => onChange({ timeScale: parseFloat(e.target.value) })}
-                className="accent-purple-500 cursor-pointer"
+                className="studio-slider"
               />
             </div>
 
@@ -386,7 +398,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                 step={5}
                 value={config.angularVelocity}
                 onChange={(e) => onChange({ angularVelocity: parseFloat(e.target.value), rotation: true, preset: null })}
-                className="accent-[var(--accent-gold)] cursor-pointer"
+                className="studio-slider"
               />
             </div>
 
@@ -400,7 +412,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                 step={4}
                 value={config.boundaryPadding}
                 onChange={(e) => onChange({ boundaryPadding: parseInt(e.target.value, 10) })}
-                className="accent-emerald-500 cursor-pointer"
+                className="studio-slider"
               />
             </div>
           </div>

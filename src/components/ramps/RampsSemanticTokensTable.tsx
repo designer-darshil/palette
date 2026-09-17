@@ -50,7 +50,7 @@ export const RampsSemanticTokensTable: React.FC<RampsSemanticTokensTableProps> =
               key={cat}
               type="button"
               onClick={() => setActiveCategory(cat)}
-              className={`px-2.5 py-1 rounded-xs text-xs font-mono font-medium capitalize transition-all whitespace-nowrap cursor-pointer ${
+              className={`px-2.5 py-1 rounded-xs text-xs font-mono font-medium capitalize transition-all whitespace-nowrap cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] ${
                 activeCategory === cat
                   ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -94,7 +94,7 @@ export const RampsSemanticTokensTable: React.FC<RampsSemanticTokensTableProps> =
                     <button
                       type="button"
                       onClick={() => handleCopy(token.name)}
-                      className="group flex items-center gap-1.5 text-left font-bold text-[var(--text-primary)] hover:text-[var(--accent-blue)] transition-colors cursor-pointer"
+                      className="group flex items-center gap-1.5 text-left font-bold text-[var(--text-primary)] hover:text-[var(--color-primary-text)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-xs"
                       title="Click to copy CSS variable syntax"
                     >
                       <span>--{token.name}</span>

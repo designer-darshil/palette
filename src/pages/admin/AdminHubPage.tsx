@@ -14,6 +14,7 @@ import { AdminImportPage } from './AdminImportPage';
 import { AdminValidationPage } from './AdminValidationPage';
 import { AdminSecurityPage } from './AdminSecurityPage';
 import { AdminUsersPage } from './AdminUsersPage';
+import { AdminMaintenancePage } from './AdminMaintenancePage';
 import { SEOHead } from '../../components/seo/SEOHead';
 
 interface AdminHubPageProps {
@@ -57,6 +58,8 @@ export const AdminHubPage: React.FC<AdminHubPageProps> = ({ onNavigatePublic }) 
         return <AdminUsersPage />;
       case 'security':
         return <AdminSecurityPage />;
+      case 'maintenance':
+        return <AdminMaintenancePage />;
       default:
         return <AdminDashboardPage onNavigateTab={setCurrentTab} />;
     }

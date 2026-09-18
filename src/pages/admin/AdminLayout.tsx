@@ -16,9 +16,11 @@ import {
   Moon,
   Menu,
   X,
+  Power,
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useMaintenance } from '../../context/MaintenanceContext';
 import { RouteType } from '../../types';
 
 interface AdminLayoutProps {
@@ -36,6 +38,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 }) => {
   const { currentUser, logout, isSuperAdmin } = useAdminAuth();
   const { theme, setTheme } = useTheme();
+  const { isActive: isMaintenanceActive, status: maintenanceStatus } = useMaintenance();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const navItems = [
@@ -66,6 +69,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     {
       section: 'SYSTEM & SECURITY',
       items: [
+        {
+          id: 'maintenance',
+          label: 'Maintenance Mode',
+          icon: Power,
+          badge: isMaintenanceActive ? 'ACTIVE' : undefined,
+          statusDot: isMaintenanceActive ? '#EF4444' : maintenanceStatus === 'scheduled' ? '#F59E0B' : '#10B981',
+        },
         ...(isSuperAdmin ? [{ id: 'users', label: 'User & Role Access', icon: ShieldCheck }] : []),
         { id: 'security', label: 'Security & Password', icon: ShieldCheck },
       ],

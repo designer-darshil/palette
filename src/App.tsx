@@ -1,29 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { RouteType } from './types';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
-import { HomePage } from './pages/HomePage';
-import { ColorsPage } from './pages/ColorsPage';
-import { ColorDetailPage } from './pages/ColorDetailPage';
-import { PalettesPage } from './pages/PalettesPage';
-import { PaletteDetailPage } from './pages/PaletteDetailPage';
-import { CombosPage } from './pages/CombosPage';
-import { ComboDetailPage } from './pages/ComboDetailPage';
-import { GradientsPage } from './pages/GradientsPage';
-import { GradientDetailPage } from './pages/GradientDetailPage';
-import { LiveColorsPage } from './pages/LiveColorsPage';
-import { SavedPage } from './pages/SavedPage';
-import { MobilePaletteGeneratorPage } from './pages/MobilePaletteGeneratorPage';
-import { ContrastCheckerPage } from './pages/ContrastCheckerPage';
-import { ColorNameFinderPage } from './pages/ColorNameFinderPage';
-import { ExtractFromImagePage } from './pages/ExtractFromImagePage';
-import { BrandKitPage } from './pages/BrandKitPage';
-import { RampsStudioPage } from './pages/RampsStudioPage';
-import { AntigravityStudioPage } from './pages/AntigravityStudioPage';
-import { MeshGradientStudioPage } from './pages/MeshGradientStudioPage';
-import { NotFoundPage } from './pages/NotFoundPage';
-import { AdminHubPage } from './pages/admin/AdminHubPage';
 import { generateFullRampsSystem, normalizeHex, isValidHex, RampsScope, RampsScheme, RampsWcag, RampsNotation, RampsVividness } from './utils/rampsEngine';
 import { deserializeAntigravityConfig, serializeAntigravityConfig, generateMotionTokens, generateCssExport, generateJsExport, generateFramerMotionExport, describeMotion } from './utils/antigravityEngine';
 import { deserializeMeshConfig, serializeMeshConfig, generateMeshCss, generateMeshSvg, generateMeshTokensJson } from './utils/meshEngine';
@@ -31,6 +10,31 @@ import { CURATED_COLORS } from './data/colors';
 import { CURATED_PALETTES } from './data/palettes';
 import { CURATED_COMBOS } from './data/combos';
 import { CURATED_GRADIENTS } from './data/gradients';
+
+// Lazy-loaded route components for optimal initial bundle size and Core Web Vitals
+const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
+const ColorsPage = lazy(() => import('./pages/ColorsPage').then(m => ({ default: m.ColorsPage })));
+const ColorDetailPage = lazy(() => import('./pages/ColorDetailPage').then(m => ({ default: m.ColorDetailPage })));
+const PalettesPage = lazy(() => import('./pages/PalettesPage').then(m => ({ default: m.PalettesPage })));
+const PaletteDetailPage = lazy(() => import('./pages/PaletteDetailPage').then(m => ({ default: m.PaletteDetailPage })));
+const CombosPage = lazy(() => import('./pages/CombosPage').then(m => ({ default: m.CombosPage })));
+const ComboDetailPage = lazy(() => import('./pages/ComboDetailPage').then(m => ({ default: m.ComboDetailPage })));
+const GradientsPage = lazy(() => import('./pages/GradientsPage').then(m => ({ default: m.GradientsPage })));
+const GradientDetailPage = lazy(() => import('./pages/GradientDetailPage').then(m => ({ default: m.GradientDetailPage })));
+const LiveColorsPage = lazy(() => import('./pages/LiveColorsPage').then(m => ({ default: m.LiveColorsPage })));
+const SavedPage = lazy(() => import('./pages/SavedPage').then(m => ({ default: m.SavedPage })));
+const MobilePaletteGeneratorPage = lazy(() => import('./pages/MobilePaletteGeneratorPage').then(m => ({ default: m.MobilePaletteGeneratorPage })));
+const ContrastCheckerPage = lazy(() => import('./pages/ContrastCheckerPage').then(m => ({ default: m.ContrastCheckerPage })));
+const ColorNameFinderPage = lazy(() => import('./pages/ColorNameFinderPage').then(m => ({ default: m.ColorNameFinderPage })));
+const ExtractFromImagePage = lazy(() => import('./pages/ExtractFromImagePage').then(m => ({ default: m.ExtractFromImagePage })));
+const BrandKitPage = lazy(() => import('./pages/BrandKitPage').then(m => ({ default: m.BrandKitPage })));
+const RampsStudioPage = lazy(() => import('./pages/RampsStudioPage').then(m => ({ default: m.RampsStudioPage })));
+const AntigravityStudioPage = lazy(() => import('./pages/AntigravityStudioPage').then(m => ({ default: m.AntigravityStudioPage })));
+const MeshGradientStudioPage = lazy(() => import('./pages/MeshGradientStudioPage').then(m => ({ default: m.MeshGradientStudioPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+const AdminHubPage = lazy(() => import('./pages/admin/AdminHubPage').then(m => ({ default: m.AdminHubPage })));
+const MaintenancePage = lazy(() => import('./pages/MaintenancePage').then(m => ({ default: m.MaintenancePage })));
+import { useMaintenance } from './context/MaintenanceContext';
 
 function parseUrlToRoute(): RouteType {
   const rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '');
@@ -425,6 +429,7 @@ function routeToUrl(route: RouteType): string {
 export const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<RouteType>(parseUrlToRoute);
   const [searchOpen, setSearchOpen] = useState(false);
+  const { isActive, previewMode } = useMaintenance();
 
   // Configure manual browser scroll restoration to prevent stuck scroll positions
   useEffect(() => {
@@ -496,7 +501,7 @@ export const App: React.FC = () => {
 
   // API Route for Antigravity motion tokens & code exports
   if (currentRoute.path === 'api-antigravity') {
-    const config = deserializeAntigravityConfig(currentRoute as any);
+    const config = deserializeAntigravityConfig(currentRoute);
     const qs = serializeAntigravityConfig(config);
     const sourceUrl = `https://kroma.design/antigravity?${qs}`;
     const tokens = generateMotionTokens(config);
@@ -539,11 +544,9 @@ export const App: React.FC = () => {
     );
   }
 
-
-
   // API Route for Mesh Gradient tokens & CSS
   if (currentRoute.path === 'api-mesh') {
-    const config = deserializeMeshConfig(new URLSearchParams(currentRoute as any));
+    const config = deserializeMeshConfig(currentRoute);
     const qs = serializeMeshConfig(config);
     const sourceUrl = `https://kroma.design/mesh?${qs}`;
 
@@ -567,9 +570,23 @@ export const App: React.FC = () => {
     );
   }
 
-  // Admin route renders its own standalone layout
+  // Admin route renders its own standalone layout (Always accessible, never locked out)
   if (currentRoute.path === 'admin') {
-    return <AdminHubPage onNavigatePublic={handleNavigate} />;
+    return (
+      <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" /></div>}>
+        <AdminHubPage onNavigatePublic={handleNavigate} />
+      </Suspense>
+    );
+  }
+
+  // Centralized Public Maintenance Guard
+  // When active and not in preview mode, renders the standalone MaintenancePage
+  if (isActive && !previewMode) {
+    return (
+      <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" /></div>}>
+        <MaintenancePage onNavigateAdmin={() => handleNavigate({ path: 'admin' })} />
+      </Suspense>
+    );
   }
 
   const renderCurrentPage = () => {
@@ -597,9 +614,9 @@ export const App: React.FC = () => {
       case 'ramps':
         return <RampsStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'antigravity':
-        return <AntigravityStudioPage onNavigate={handleNavigate} initialParams={currentRoute as any} />;
+        return <AntigravityStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'mesh':
-        return <MeshGradientStudioPage onNavigate={handleNavigate} initialParams={currentRoute as any} />;
+        return <MeshGradientStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'palette-generator':
         return (
           <MobilePaletteGeneratorPage
@@ -655,7 +672,13 @@ export const App: React.FC = () => {
       />
 
       <main className="main-content">
-        {renderCurrentPage()}
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          </div>
+        }>
+          {renderCurrentPage()}
+        </Suspense>
       </main>
 
       <Footer onNavigate={handleNavigate} />

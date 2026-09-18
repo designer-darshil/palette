@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Palette,
   Layers,
@@ -11,9 +10,11 @@ import {
   ArrowUpRight,
   Shield,
   Clock,
+  Wrench,
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
+import { useMaintenance } from '../../context/MaintenanceContext';
 
 interface AdminDashboardPageProps {
   onNavigateTab: (tab: string) => void;
@@ -22,6 +23,8 @@ interface AdminDashboardPageProps {
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNavigateTab }) => {
   const { currentUser, activityLogs } = useAdminAuth();
   const { colors, palettes, combos, gradients } = useLibraryData();
+  const { state, status, isActive } = useMaintenance();
+  const isScheduled = status === 'scheduled';
 
   const metrics = [
     {
@@ -128,8 +131,66 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
         })}
       </div>
 
-      {/* Real-Time Live Status & Health Grid */}
+      {/* Maintenance Mode & Live Status Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
+        {/* Maintenance State Card */}
+        <div
+          style={{
+            background: isActive
+              ? 'linear-gradient(135deg, rgba(230, 57, 70, 0.08) 0%, var(--bg-surface-1) 100%)'
+              : isScheduled
+              ? 'linear-gradient(135deg, rgba(234, 179, 8, 0.08) 0%, var(--bg-surface-1) 100%)'
+              : 'var(--bg-surface-1)',
+            border: `1px solid ${isActive ? 'rgba(230, 57, 70, 0.35)' : isScheduled ? 'rgba(234, 179, 8, 0.35)' : 'var(--border-subtle)'}`,
+            borderRadius: 'var(--radius-sm)',
+            padding: '24px',
+            position: 'relative',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Wrench size={16} color={isActive ? '#E63946' : isScheduled ? '#EAB308' : '#22C55E'} />
+              <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>System Maintenance Mode</h2>
+            </div>
+            <span
+              style={{
+                background: isActive ? 'rgba(230, 57, 70, 0.15)' : isScheduled ? 'rgba(234, 179, 8, 0.15)' : 'rgba(34, 197, 94, 0.15)',
+                color: isActive ? '#E63946' : isScheduled ? '#EAB308' : '#22C55E',
+                fontSize: '0.68rem',
+                fontFamily: 'var(--font-mono)',
+                padding: '3px 8px',
+                borderRadius: '4px',
+                fontWeight: 700,
+                letterSpacing: '0.04em',
+              }}
+            >
+              {isActive ? '● LOCKDOWN ACTIVE' : isScheduled ? '● SCHEDULED' : '● ALL SYSTEMS ONLINE'}
+            </span>
+          </div>
+
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '16px' }}>
+            {isActive
+              ? `Public website is currently restricted with custom notification: "${state.title}".`
+              : isScheduled
+              ? `Upcoming maintenance window scheduled for ${state.scheduledStart ? new Date(state.scheduledStart).toLocaleTimeString() : 'specified time'}.`
+              : 'Public platform is fully accessible. All generators, studios, and specimen libraries are live.'}
+          </p>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)' }}>
+            <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>
+              Updated by: {state.updatedBy || 'admin'}
+            </span>
+            <button
+              onClick={() => onNavigateTab('maintenance')}
+              className="btn-secondary"
+              style={{ padding: '4px 10px', fontSize: '0.72rem' }}
+            >
+              <span>Manage System Controls</span>
+              <ArrowUpRight size={12} />
+            </button>
+          </div>
+        </div>
+
         {/* Live Broadcast Module */}
         <div
           style={{

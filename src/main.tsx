@@ -6,6 +6,7 @@ import { SavedProvider } from './context/SavedContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { LibraryDataProvider } from './context/LibraryDataContext';
+import { MaintenanceProvider } from './context/MaintenanceContext';
 import { initAnalytics } from './utils/analytics';
 import './index.css';
 
@@ -21,8 +22,8 @@ initAnalytics();
 const Root: React.FC = () => {
   useEffect(() => {
     // Notify boot loader that React tree has mounted
-    if (typeof window !== 'undefined' && (window as any).__KROMA_LOADER_COMPLETE__) {
-      (window as any).__KROMA_LOADER_COMPLETE__();
+    if (typeof window !== 'undefined' && window.__KROMA_LOADER_COMPLETE__) {
+      window.__KROMA_LOADER_COMPLETE__();
     }
   }, []);
 
@@ -30,11 +31,13 @@ const Root: React.FC = () => {
     <ThemeProvider>
       <AdminAuthProvider>
         <LibraryDataProvider>
-          <SavedProvider>
-            <ToastProvider>
-              <App />
-            </ToastProvider>
-          </SavedProvider>
+          <MaintenanceProvider>
+            <SavedProvider>
+              <ToastProvider>
+                <App />
+              </ToastProvider>
+            </SavedProvider>
+          </MaintenanceProvider>
         </LibraryDataProvider>
       </AdminAuthProvider>
     </ThemeProvider>

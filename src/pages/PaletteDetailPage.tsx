@@ -1,5 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowLeft, Copy, Bookmark, Share2, Code, ArrowRight, Layers, ExternalLink, ShieldCheck, Sparkles, Wand2 } from 'lucide-react';
+import {
+  ArrowLeft,
+  Copy,
+  Bookmark,
+  Heart,
+  Share2,
+  Code,
+  ArrowRight,
+  Layers,
+  ExternalLink,
+  Sparkles,
+  Wand2,
+  Sliders,
+  FolderPlus,
+} from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard, getColorAccessibility, getTextColorForBackground } from '../utils/colorUtils';
@@ -8,6 +22,11 @@ import { useSaved } from '../context/SavedContext';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
+import { PalettePreviewModes } from '../components/PalettePreviewModes';
+import { AccessibilityMatrix } from '../components/AccessibilityMatrix';
+import { AddToCollectionModal } from '../components/AddToCollectionModal';
+import { TokenExportModal } from '../components/TokenExportModal';
+import { findSimilarPalettes } from '../utils/similarityEngine';
 import { decodePaletteFromSlugOrId } from '../utils/canonicalResourceUtils';
 import { findClosestColorName } from '../utils/paletteGenerator';
 import { NotFoundPage } from './NotFoundPage';
@@ -24,8 +43,10 @@ interface PaletteDetailPageProps {
 
 export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem, savedItems } = useSaved();
+  const { isSaved, saveItem, savedItems, isLiked, toggleLike } = useSaved();
   const { palettes, colors: libraryColors, combos: libraryCombos, gradients: libraryGradients } = useLibraryData();
+  const [collectionModalOpen, setCollectionModalOpen] = useState(false);
+  const [tokenModalOpen, setTokenModalOpen] = useState(false);
   const [exportMode, setExportMode] = useState<'hex' | 'css' | 'tailwind' | 'json'>('css');
 
   // Resolve palette comprehensively
@@ -76,6 +97,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
     return <NotFoundPage requestedUrl={`/palettes/${slug}`} onNavigate={onNavigate} />;
   }
   const saved = isSaved(palette.id);
+  const liked = isLiked(palette.id);
 
   const paletteSchema = useMemo(() => {
     return generatePaletteSchema(palette);
@@ -112,6 +134,11 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       saved ? 'Removed palette from saved' : 'Saved palette to collection',
       palette.title
     );
+  };
+
+  const handleToggleLike = () => {
+    const nowLiked = toggleLike(palette.id);
+    showToast(nowLiked ? 'Added to Liked' : 'Removed from Liked', palette.title);
   };
 
   const getCleanHexList = () => {
@@ -171,10 +198,10 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
     return match ? match.slug : null;
   };
 
-  // Cross resource discovery
-  const relatedPalettes = palettes.filter(
-    (p) => p.id !== palette.id && (p.category === palette.category || (p.tags && palette.tags && p.tags.some((t) => palette.tags.includes(t))))
-  ).slice(0, 2);
+  // Measurable Similarity Engine lookup
+  const similarPalettes = useMemo(() => {
+    return findSimilarPalettes(palette, palettes, 4);
+  }, [palette, palettes]);
 
   const relatedCombos = libraryCombos.filter(
     (cb) => (cb.tags && palette.tags && cb.tags.some((t) => palette.tags.includes(t))) || cb.colors.some((c) => palette.colors.some((pc) => pc.hex.toLowerCase() === c.hex.toLowerCase()))
@@ -219,23 +246,38 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
 
         <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
           <Link
-            to={{ path: 'brand-kit', paletteSlug: palette.slug }}
+            to={{ path: 'palette-remix', slug: palette.slug }}
             onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            title="Open Palette in Brand Kit Studio"
+            className="btn-primary text-xs px-3.5 py-2 flex items-center gap-1.5"
+            title="Remix this palette"
           >
-            <Layers size={13} className="text-pink-400" />
-            <span>Brand Kit Studio</span>
+            <Wand2 size={13} />
+            <span>Remix</span>
           </Link>
-          <Link
-            to={{ path: 'palette-generator', colors: paletteHexParam }}
-            onNavigate={onNavigate}
+          <button
             className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            title="Customize in Generator"
+            onClick={() => setCollectionModalOpen(true)}
+            title="Add to Collection"
           >
-            <Sparkles size={13} className="text-amber-400" />
-            <span>Customize</span>
-          </Link>
+            <FolderPlus size={13} />
+            <span>Add to Collection</span>
+          </button>
+          <button
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
+            onClick={() => setTokenModalOpen(true)}
+            title="Export tokens in CSS / SCSS / Tailwind / DTCG JSON"
+          >
+            <Code size={13} />
+            <span>Export Tokens</span>
+          </button>
+          <button
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
+            onClick={handleToggleLike}
+            title={liked ? 'Unlike' : 'Like'}
+          >
+            <Heart size={13} fill={liked ? '#F87171' : 'none'} color={liked ? '#F87171' : 'currentColor'} />
+            <span>{liked ? 'Liked' : 'Like'}</span>
+          </button>
           <button
             className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
             onClick={handleShare}
@@ -309,6 +351,12 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
             {palette.description}
           </p>
+
+          {palette.remixedFrom && (
+            <div className="mt-2 text-xs font-mono text-[var(--text-secondary)]">
+              Remixed from <strong>{palette.remixedFrom.title}</strong> by {palette.remixedFrom.creatorName || 'Creator'}
+            </div>
+          )}
         </div>
 
         <div className="flex gap-2.5 flex-shrink-0">
@@ -322,14 +370,14 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         </div>
       </div>
 
-      {/* Swatch Breakdown Cards with Direct Navigation to Color Specimen */}
+      {/* Swatch Breakdown Cards with Direct Navigation to Color Specimen & Relationships */}
       <section className="flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
           <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
             Swatches &amp; Architectural Roles
           </h2>
           <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase">
-            CLICK COLOR TO EXPLORE OR COPY
+            CLICK COLOR TO EXPLORE RELATIONSHIPS
           </span>
         </div>
 
@@ -382,16 +430,14 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
                     <span>{access.bestTextColor === '#000000' ? 'Black text' : 'White text'}</span>
                     <span className="font-bold">{access.bestContrast}:1</span>
                   </div>
-                  {slug && (
-                    <Link
-                      to={{ path: 'color-detail', slug }}
-                      onNavigate={onNavigate}
-                      className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-gold)] hover:underline"
-                    >
-                      <span>View Color Specimen</span>
-                      <ExternalLink size={10} />
-                    </Link>
-                  )}
+                  <Link
+                    to={{ path: 'color-relationships', slug: slug || c.hex.replace('#', '') }}
+                    onNavigate={onNavigate}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-gold)] hover:underline"
+                  >
+                    <span>Theory &amp; Relationships</span>
+                    <ExternalLink size={10} />
+                  </Link>
                 </div>
               </div>
             );
@@ -399,100 +445,11 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         </div>
       </section>
 
-      {/* Live Specimen UI Proof */}
-      <section className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div>
-            <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
-              Live Specimen UI Proof
-            </h2>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
-              Demonstrating surface hierarchy, typographic contrast, and deliberate accent placement.
-            </p>
-          </div>
-          <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold self-start sm:self-auto">
-            SYSTEM APPLICATION
-          </span>
-        </div>
+      {/* Multi-Preview Proofs (SaaS, Editorial, Mobile, Branding) */}
+      <PalettePreviewModes palette={palette} />
 
-        {/* Mock UI Card using the palette's actual colors with calculated accessible foregrounds */}
-        {(() => {
-          const cardBg = palette.colors[0]?.hex || '#111215';
-          const primaryAccent = palette.colors[1]?.hex || '#E63946';
-          const subAccent = palette.colors[2]?.hex || '#8D99AE';
-          const lightAccent = palette.colors[3]?.hex || '#FFFFFF';
-
-          const cardTextColor = getTextColorForBackground(cardBg);
-          const primaryBtnTextColor = getTextColorForBackground(primaryAccent);
-          const badgeTextColor = getTextColorForBackground(primaryAccent);
-
-          return (
-            <div
-              className="rounded-md p-5 sm:p-8 border flex flex-col gap-4 sm:gap-5 shadow-lg"
-              style={{
-                backgroundColor: cardBg,
-                color: cardTextColor,
-                borderColor: 'var(--border-strong)',
-              }}
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span
-                  className="font-mono text-[10px] font-bold px-2.5 py-1 rounded-xs uppercase tracking-wider shadow-sm"
-                  style={{
-                    backgroundColor: primaryAccent,
-                    color: badgeTextColor,
-                  }}
-                >
-                  ACTIVE GAMUT
-                </span>
-                <span
-                  className="font-mono text-[11px] font-bold opacity-80 truncate"
-                  style={{ color: cardTextColor }}
-                >
-                  {palette.title.toUpperCase()}
-                </span>
-              </div>
-
-              <div>
-                <h3
-                  className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight mb-2"
-                  style={{ color: lightAccent }}
-                >
-                  Architectural Clarity &amp; Chromatic Balance
-                </h3>
-                <p
-                  className="text-xs sm:text-sm leading-relaxed max-w-xl"
-                  style={{ color: subAccent }}
-                >
-                  Every tone serves an ergonomic purpose. Surfaces support scanning; accents command focus without friction.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mt-1">
-                <button
-                  className="px-5 py-2.5 rounded-xs font-bold text-xs uppercase tracking-wider shadow-md w-full sm:w-auto text-center whitespace-nowrap cursor-default"
-                  style={{
-                    backgroundColor: primaryAccent,
-                    color: primaryBtnTextColor,
-                  }}
-                >
-                  Primary Action
-                </button>
-                <button
-                  className="px-5 py-2.5 rounded-xs font-semibold text-xs border w-full sm:w-auto text-center whitespace-nowrap cursor-default"
-                  style={{
-                    backgroundColor: 'transparent',
-                    color: lightAccent,
-                    borderColor: subAccent,
-                  }}
-                >
-                  Secondary Outline
-                </button>
-              </div>
-            </div>
-          );
-        })()}
-      </section>
+      {/* WCAG 2.1 Accessibility Matrix */}
+      <AccessibilityMatrix colors={palette.colors} />
 
       {/* Code Export Tokens */}
       <section className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
@@ -502,7 +459,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
               Export Tokens for Design &amp; Code
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
-              Formatted for instant drop-in into CSS, Tailwind, or design tokens.
+              Formatted for instant drop-in into CSS, Tailwind, SCSS, or DTCG design tokens.
             </p>
           </div>
 
@@ -567,11 +524,36 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         </div>
       </section>
 
+      {/* Similar Palettes via Measurable Similarity Engine */}
+      {similarPalettes.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <span className="page-category-label">Multidimensional Match</span>
+              <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
+                Similar Palette Systems
+              </h2>
+            </div>
+          </div>
+          <div className="specimen-grid-palettes">
+            {similarPalettes.map(({ palette: sp, score, metrics }) => (
+              <div key={sp.id} className="flex flex-col gap-1.5">
+                <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)] px-1">
+                  <span>Match Similarity: <strong>{Math.round(score * 100)}%</strong></span>
+                  <span>Hue: {Math.round(metrics.hueMatch * 100)}% • Lum: {Math.round(metrics.luminanceMatch * 100)}%</span>
+                </div>
+                <PaletteCard palette={sp} onNavigate={onNavigate} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Connected Network: Harmonies & Gradients */}
       {relatedCombos.length > 0 && (
         <section>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+          <div className="flex justify-between items-baseline mb-4">
+            <h2 className="text-lg font-bold text-[var(--text-primary)]">
               Color Harmonies in this Aesthetic
             </h2>
           </div>
@@ -583,36 +565,25 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         </section>
       )}
 
-      {relatedGradients.length > 0 && (
-        <section>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-              Continuous Gradients in this Aesthetic
-            </h2>
-          </div>
-          <div className="specimen-grid-gradients">
-            {relatedGradients.map((g) => (
-              <GradientCard key={g.id} gradient={g} onNavigate={onNavigate} />
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Modals */}
+      <AddToCollectionModal
+        isOpen={collectionModalOpen}
+        onClose={() => setCollectionModalOpen(false)}
+        item={{
+          type: 'palette',
+          refId: palette.id,
+          slug: palette.slug,
+          title: palette.title,
+          preview: palette.colors.map((c) => c.hex).join(','),
+          metadata: `${palette.category} • ${palette.colors.length} swatches`,
+        }}
+      />
 
-      {/* Related Palettes */}
-      {relatedPalettes.length > 0 && (
-        <section>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-              More Palette Systems in {palette.category.toUpperCase()}
-            </h2>
-          </div>
-          <div className="specimen-grid-palettes">
-            {relatedPalettes.map((p) => (
-              <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
-            ))}
-          </div>
-        </section>
-      )}
+      <TokenExportModal
+        isOpen={tokenModalOpen}
+        onClose={() => setTokenModalOpen(false)}
+        palette={palette}
+      />
     </div>
   );
 };

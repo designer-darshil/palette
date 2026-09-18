@@ -41,6 +41,11 @@ import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { Analytics } from '../utils/analytics';
+import {
+  applyRemixAdjustments,
+  applyRemixPreset,
+  DEFAULT_REMIX_ADJUSTMENTS,
+} from '../utils/remixEngine';
 
 interface ExtractFromImagePageProps {
   imagePreset?: string;
@@ -506,6 +511,61 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Multi-Direction Spectrum Modes */}
+          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-5 shadow-lg flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
+                CHROMATIC EXTRACTION DIRECTIONS
+              </span>
+            </div>
+            <p className="text-xs text-[var(--text-secondary)]">
+              Generate alternate atmospheric interpretations from the same photograph:
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+              {(
+                [
+                  { label: 'Original', key: 'original' },
+                  { label: 'Vibrant', key: 'vibrant' },
+                  { label: 'Muted Matte', key: 'muted' },
+                  { label: 'Warm Sun', key: 'warmer' },
+                  { label: 'Cool Dusk', key: 'cooler' },
+                  { label: 'Dark Mode', key: 'darker' },
+                  { label: 'Light Airy', key: 'lighter' },
+                  { label: 'High Contrast', key: 'high-contrast' },
+                ] as const
+              ).map((mode) => (
+                <button
+                  key={mode.key}
+                  onClick={() => {
+                    if (mode.key === 'original') {
+                      runExtraction(selectedImage!, colorCount, []);
+                    } else {
+                      const remixed = applyRemixAdjustments(
+                        swatches.map((s) => ({ name: s.name, hex: s.hex, role: s.role })),
+                        applyRemixPreset(DEFAULT_REMIX_ADJUSTMENTS, mode.key as any)
+                      );
+                      setSwatches(
+                        remixed.map((r, i) => ({
+                          id: `swatch-dir-${i}-${Date.now()}`,
+                          hex: r.hex,
+                          name: r.name,
+                          role: r.role || 'Surface Accent',
+                          locked: false,
+                          frequency: 10,
+                          luminance: 50,
+                        }))
+                      );
+                      showToast(`Generated ${mode.label} Direction`);
+                    }
+                  }}
+                  className="btn-secondary text-xs px-2.5 py-1.5 text-center"
+                >
+                  {mode.label}
+                </button>
+              ))}
             </div>
           </div>
 

@@ -34,6 +34,29 @@ const MeshGradientStudioPage = lazy(() => import('./pages/MeshGradientStudioPage
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 const AdminHubPage = lazy(() => import('./pages/admin/AdminHubPage').then(m => ({ default: m.AdminHubPage })));
 const MaintenancePage = lazy(() => import('./pages/MaintenancePage').then(m => ({ default: m.MaintenancePage })));
+
+// Expanded discovery, curation, studio, utility & play routes
+const ExplorePage = lazy(() => import('./pages/ExplorePage').then(m => ({ default: m.ExplorePage })));
+const TrendingPage = lazy(() => import('./pages/TrendingPage').then(m => ({ default: m.TrendingPage })));
+const NewPage = lazy(() => import('./pages/NewPage').then(m => ({ default: m.NewPage })));
+const RandomDiscoveryPage = lazy(() => import('./pages/RandomDiscoveryPage').then(m => ({ default: m.RandomDiscoveryPage })));
+const CollectionsPage = lazy(() => import('./pages/CollectionsPage').then(m => ({ default: m.CollectionsPage })));
+const CollectionDetailPage = lazy(() => import('./pages/CollectionDetailPage').then(m => ({ default: m.CollectionDetailPage })));
+const CreatorsPage = lazy(() => import('./pages/CreatorsPage').then(m => ({ default: m.CreatorsPage })));
+const CreatorDetailPage = lazy(() => import('./pages/CreatorDetailPage').then(m => ({ default: m.CreatorDetailPage })));
+const PatternsPage = lazy(() => import('./pages/PatternsPage').then(m => ({ default: m.PatternsPage })));
+const PatternDetailPage = lazy(() => import('./pages/PatternDetailPage').then(m => ({ default: m.PatternDetailPage })));
+const PatternStudioPage = lazy(() => import('./pages/PatternStudioPage').then(m => ({ default: m.PatternStudioPage })));
+const ColorRelationshipsPage = lazy(() => import('./pages/ColorRelationshipsPage').then(m => ({ default: m.ColorRelationshipsPage })));
+const ColorOfTheDayPage = lazy(() => import('./pages/ColorOfTheDayPage').then(m => ({ default: m.ColorOfTheDayPage })));
+const PaletteOfTheDayPage = lazy(() => import('./pages/PaletteOfTheDayPage').then(m => ({ default: m.PaletteOfTheDayPage })));
+const PaletteRemixPage = lazy(() => import('./pages/PaletteRemixPage').then(m => ({ default: m.PaletteRemixPage })));
+const PlayHubPage = lazy(() => import('./pages/PlayHubPage').then(m => ({ default: m.PlayHubPage })));
+const HexleGamePage = lazy(() => import('./pages/HexleGamePage').then(m => ({ default: m.HexleGamePage })));
+const OddOneOutGamePage = lazy(() => import('./pages/OddOneOutGamePage').then(m => ({ default: m.OddOneOutGamePage })));
+const PaletteMatchGamePage = lazy(() => import('./pages/PaletteMatchGamePage').then(m => ({ default: m.PaletteMatchGamePage })));
+const ProfilePage = lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
+const ApiDocsPage = lazy(() => import('./pages/ApiDocsPage').then(m => ({ default: m.ApiDocsPage })));
 import { useMaintenance } from './context/MaintenanceContext';
 
 function parseUrlToRoute(): RouteType {
@@ -63,6 +86,7 @@ function parseUrlToRoute(): RouteType {
   const segments = path.split('/');
   const s0 = segments[0];
   const s1 = segments[1];
+  const s2 = segments[2];
 
   // API Endpoint Route Handler (GET /api/palette)
   if (path === 'api/palette' || path === 'api/palettes' || (s0 === 'api' && s1 === 'palette')) {
@@ -119,6 +143,11 @@ function parseUrlToRoute(): RouteType {
       pts: searchParams.get('pts') || undefined,
       format: searchParams.get('format') || 'json',
     };
+  }
+
+  // API Documentation page (/api or /api-docs or /docs/api)
+  if (path === 'api' || path === 'api-docs' || (s0 === 'docs' && s1 === 'api')) {
+    return { path: 'api-docs' };
   }
 
   // Mesh Gradient Studio Dedicated Routes
@@ -195,7 +224,93 @@ function parseUrlToRoute(): RouteType {
     };
   }
 
-  // 1. Dedicated Live Atmosphere Routes (Prioritized before dynamic palette slugs)
+  // 1. Discovery Routes
+  if (s0 === 'explore') {
+    return {
+      path: 'explore',
+      mood: searchParams.get('mood') || undefined,
+      useCase: searchParams.get('useCase') || searchParams.get('usecase') || undefined,
+      character: searchParams.get('character') || undefined,
+      season: searchParams.get('season') || undefined,
+    };
+  }
+
+  if (s0 === 'trending') {
+    const tabParam = searchParams.get('tab') as any;
+    return { path: 'trending', tab: tabParam || 'palettes' };
+  }
+
+  if (s0 === 'new') {
+    const tabParam = searchParams.get('tab') as any;
+    return { path: 'new', tab: tabParam || 'palettes' };
+  }
+
+  if (s0 === 'random') {
+    return { path: 'random', seed: searchParams.get('seed') || undefined };
+  }
+
+  // 2. Dailies
+  if (s0 === 'color-of-the-day' || path === 'colors/daily' || path === 'color/daily') {
+    return { path: 'color-of-the-day' };
+  }
+
+  if (s0 === 'palette-of-the-day' || path === 'palettes/daily' || path === 'palette/daily') {
+    return { path: 'palette-of-the-day' };
+  }
+
+  // 3. Collections
+  if (s0 === 'collections' || s0 === 'collection') {
+    if (s1) {
+      return { path: 'collection-detail', slug: decodeURIComponent(segments[1]) };
+    }
+    return { path: 'collections' };
+  }
+
+  // 4. Creators
+  if (s0 === 'creators' || s0 === 'creator') {
+    if (s1) {
+      return { path: 'creator-detail', username: decodeURIComponent(segments[1]) };
+    }
+    return { path: 'creators' };
+  }
+
+  // 5. Patterns & Pattern Studio
+  if (s0 === 'pattern-studio' || (s0 === 'create' && s1 === 'pattern') || (s0 === 'patterns' && s1 === 'create')) {
+    return {
+      path: 'pattern-studio',
+      palette: searchParams.get('palette') || undefined,
+      type: searchParams.get('type') || undefined,
+      scale: searchParams.get('scale') || undefined,
+      density: searchParams.get('density') || undefined,
+      rotation: searchParams.get('rotation') || undefined,
+    };
+  }
+
+  if (s0 === 'patterns' || s0 === 'pattern') {
+    if (s1) {
+      return { path: 'pattern-detail', slug: decodeURIComponent(segments[1]) };
+    }
+    return { path: 'patterns' };
+  }
+
+  // 6. Play & Games
+  if (s0 === 'play') {
+    if (s1 === 'hexle') return { path: 'play-hexle' };
+    if (s1 === 'odd-one-out' || s1 === 'odd') return { path: 'play-odd-one-out' };
+    if (s1 === 'palette-match' || s1 === 'match') return { path: 'play-palette-match' };
+    return { path: 'play', game: s1 || undefined };
+  }
+  if (s0 === 'hexle') return { path: 'play-hexle' };
+  if (s0 === 'odd-one-out') return { path: 'play-odd-one-out' };
+  if (s0 === 'palette-match') return { path: 'play-palette-match' };
+
+  // 7. Profile
+  if (s0 === 'profile') {
+    const tab = searchParams.get('tab') as any;
+    return { path: 'profile', tab: tab || 'saved' };
+  }
+
+  // 8. Dedicated Live Atmosphere Routes
   if (
     path === 'palettes/live' ||
     path === 'palette/live' ||
@@ -207,68 +322,74 @@ function parseUrlToRoute(): RouteType {
     return { path: 'live' };
   }
 
-  // 2. Tools & Generators
+  // 9. Tools & Generators
   if (s0 === 'palette-generator' || s0 === 'generator') {
-    const params = new URLSearchParams(window.location.search);
-    const colors = params.get('colors') || undefined;
+    const colors = searchParams.get('colors') || undefined;
     return { path: 'palette-generator', colors };
   }
   if (s0 === 'contrast-checker' || s0 === 'contrast') {
-    const params = new URLSearchParams(window.location.search);
-    const fg = params.get('fg') || params.get('foreground') || undefined;
-    const bg = params.get('bg') || params.get('background') || undefined;
+    const fg = searchParams.get('fg') || searchParams.get('foreground') || undefined;
+    const bg = searchParams.get('bg') || searchParams.get('background') || undefined;
     return { path: 'contrast-checker', fg, bg };
   }
   if (s0 === 'color-name-finder' || s0 === 'name-finder' || s0 === 'name') {
-    const params = new URLSearchParams(window.location.search);
-    const hex = params.get('hex') || params.get('color') || undefined;
+    const hex = searchParams.get('hex') || searchParams.get('color') || undefined;
     return { path: 'color-name-finder', hex };
   }
   if (s0 === 'extract-from-image' || s0 === 'extract' || s0 === 'image') {
-    const params = new URLSearchParams(window.location.search);
-    const imagePreset = params.get('preset') || undefined;
+    const imagePreset = searchParams.get('preset') || undefined;
     return { path: 'extract-from-image', imagePreset };
   }
   if (s0 === 'brand-kit' || s0 === 'brand') {
     const id = segments[1] || undefined;
-    const params = new URLSearchParams(window.location.search);
-    const paletteSlug = params.get('palette') || undefined;
+    const paletteSlug = searchParams.get('palette') || undefined;
     return { path: 'brand-kit', id, paletteSlug };
   }
 
-  // 3. Catalogs & Detail Routes
+  // 10. Catalogs & Detail Routes
   if (s0 === 'colors' || s0 === 'color') {
     if (s1) {
+      if (s2 === 'relationships' || s2 === 'relations' || s2 === 'harmonies') {
+        return { path: 'color-relationships', slug: decodeURIComponent(segments[1]) };
+      }
       return { path: 'color-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'colors' };
   }
+
   if (s0 === 'palettes' || s0 === 'palette') {
     if (s1) {
+      if (s2 === 'remix' || s2 === 'edit') {
+        return { path: 'palette-remix', slug: decodeURIComponent(segments[1]) };
+      }
       return { path: 'palette-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'palettes' };
   }
+
   if (s0 === 'combos' || s0 === 'combo') {
     if (s1) {
       return { path: 'combo-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'combos' };
   }
+
   if (s0 === 'gradients' || s0 === 'gradient') {
     if (s1) {
       return { path: 'gradient-detail', slug: decodeURIComponent(segments[1]) };
     }
     return { path: 'gradients' };
   }
+
   if (s0 === 'admin') {
     return { path: 'admin', tab: segments[1] || 'dashboard' };
   }
+
   if (s0 === 'saved') {
     return { path: 'saved' };
   }
 
-  // 4. Direct slug support (e.g. /terracotta-cyan-split or /celestial-cobalt)
+  // 11. Direct slug fallback support
   if (segments.length === 1) {
     const singleSlug = decodeURIComponent(segments[0]);
     const colorMatch = CURATED_COLORS.find((c) => c.slug.toLowerCase() === singleSlug);
@@ -291,14 +412,61 @@ function routeToUrl(route: RouteType): string {
   switch (route.path) {
     case 'home':
       return '/';
+    case 'explore':
+      {
+        const params = new URLSearchParams();
+        if (route.mood) params.set('mood', route.mood);
+        if (route.useCase) params.set('useCase', route.useCase);
+        if (route.character) params.set('character', route.character);
+        if (route.season) params.set('season', route.season);
+        const qs = params.toString();
+        return qs ? `/explore?${qs}` : '/explore';
+      }
+    case 'trending':
+      return route.tab && route.tab !== 'palettes' ? `/trending?tab=${route.tab}` : '/trending';
+    case 'new':
+      return route.tab && route.tab !== 'palettes' ? `/new?tab=${route.tab}` : '/new';
+    case 'random':
+      return route.seed ? `/random?seed=${route.seed}` : '/random';
+    case 'collections':
+      return '/collections';
+    case 'collection-detail':
+      return `/collections/${route.slug}`;
+    case 'creators':
+      return '/creators';
+    case 'creator-detail':
+      return `/creators/${route.username}`;
+    case 'patterns':
+      return '/patterns';
+    case 'pattern-detail':
+      return `/patterns/${route.slug}`;
+    case 'pattern-studio':
+      {
+        const params = new URLSearchParams();
+        if (route.palette) params.set('palette', route.palette);
+        if (route.type) params.set('type', route.type);
+        if (route.scale) params.set('scale', route.scale);
+        if (route.density) params.set('density', route.density);
+        if (route.rotation) params.set('rotation', route.rotation);
+        const qs = params.toString();
+        return qs ? `/pattern-studio?${qs}` : '/pattern-studio';
+      }
     case 'colors':
       return '/colors';
     case 'color-detail':
       return `/colors/${route.slug}`;
+    case 'color-relationships':
+      return `/colors/${route.slug}/relationships`;
+    case 'color-of-the-day':
+      return '/color-of-the-day';
     case 'palettes':
       return '/palettes';
     case 'palette-detail':
       return `/palettes/${route.slug}`;
+    case 'palette-remix':
+      return `/palettes/${route.slug}/remix`;
+    case 'palette-of-the-day':
+      return '/palette-of-the-day';
     case 'combos':
       return '/combos';
     case 'combo-detail':
@@ -307,6 +475,18 @@ function routeToUrl(route: RouteType): string {
       return '/gradients';
     case 'gradient-detail':
       return `/gradients/${route.slug}`;
+    case 'play':
+      return route.game ? `/play/${route.game}` : '/play';
+    case 'play-hexle':
+      return '/play/hexle';
+    case 'play-odd-one-out':
+      return '/play/odd-one-out';
+    case 'play-palette-match':
+      return '/play/palette-match';
+    case 'profile':
+      return route.tab ? `/profile?tab=${route.tab}` : '/profile';
+    case 'api-docs':
+      return '/api';
     case 'live':
       return '/palettes/live';
     case 'ramps':
@@ -593,14 +773,61 @@ export const App: React.FC = () => {
     switch (currentRoute.path) {
       case 'home':
         return <HomePage onNavigate={handleNavigate} />;
+      case 'explore':
+        return (
+          <ExplorePage
+            onNavigate={handleNavigate}
+            initialMood={currentRoute.mood}
+            initialUseCase={currentRoute.useCase}
+            initialCharacter={currentRoute.character}
+            initialSeason={currentRoute.season}
+          />
+        );
+      case 'trending':
+        return <TrendingPage onNavigate={handleNavigate} initialTab={currentRoute.tab} />;
+      case 'new':
+        return <NewPage onNavigate={handleNavigate} initialTab={currentRoute.tab} />;
+      case 'random':
+        return <RandomDiscoveryPage onNavigate={handleNavigate} />;
+      case 'collections':
+        return <CollectionsPage onNavigate={handleNavigate} />;
+      case 'collection-detail':
+        return <CollectionDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
+      case 'creators':
+        return <CreatorsPage onNavigate={handleNavigate} />;
+      case 'creator-detail':
+        return <CreatorDetailPage username={currentRoute.username} onNavigate={handleNavigate} />;
+      case 'patterns':
+        return <PatternsPage onNavigate={handleNavigate} />;
+      case 'pattern-detail':
+        return <PatternDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
+      case 'pattern-studio':
+        return (
+          <PatternStudioPage
+            onNavigate={handleNavigate}
+            initialPaletteQuery={currentRoute.palette}
+            initialType={currentRoute.type}
+            initialScale={currentRoute.scale}
+            initialDensity={currentRoute.density}
+            initialRotation={currentRoute.rotation}
+          />
+        );
       case 'colors':
         return <ColorsPage onNavigate={handleNavigate} />;
       case 'color-detail':
         return <ColorDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
+      case 'color-relationships':
+        return <ColorRelationshipsPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
+      case 'color-of-the-day':
+        return <ColorOfTheDayPage onNavigate={handleNavigate} />;
       case 'palettes':
         return <PalettesPage onNavigate={handleNavigate} />;
       case 'palette-detail':
         return <PaletteDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
+      case 'palette-remix':
+        return <PaletteRemixPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
+      case 'palette-of-the-day':
+        return <PaletteOfTheDayPage onNavigate={handleNavigate} />;
       case 'combos':
         return <CombosPage onNavigate={handleNavigate} />;
       case 'combo-detail':
@@ -609,6 +836,18 @@ export const App: React.FC = () => {
         return <GradientsPage onNavigate={handleNavigate} />;
       case 'gradient-detail':
         return <GradientDetailPage slug={currentRoute.slug} onNavigate={handleNavigate} />;
+      case 'play':
+        return <PlayHubPage onNavigate={handleNavigate} />;
+      case 'play-hexle':
+        return <HexleGamePage onNavigate={handleNavigate} />;
+      case 'play-odd-one-out':
+        return <OddOneOutGamePage onNavigate={handleNavigate} />;
+      case 'play-palette-match':
+        return <PaletteMatchGamePage onNavigate={handleNavigate} />;
+      case 'profile':
+        return <ProfilePage onNavigate={handleNavigate} initialTab={currentRoute.tab} />;
+      case 'api-docs':
+        return <ApiDocsPage onNavigate={handleNavigate} />;
       case 'live':
         return <LiveColorsPage onNavigate={handleNavigate} />;
       case 'ramps':
@@ -655,13 +894,15 @@ export const App: React.FC = () => {
           />
         );
       case 'saved':
-        return <SavedPage onNavigate={handleNavigate} />;
+        return <ProfilePage onNavigate={handleNavigate} initialTab="saved" />;
       case 'not-found':
         return <NotFoundPage requestedUrl={currentRoute.requestedUrl} onNavigate={handleNavigate} />;
       default:
         return <HomePage onNavigate={handleNavigate} />;
     }
   };
+
+  const isStudioView = ['ramps', 'antigravity', 'mesh', 'pattern-studio'].includes(currentRoute.path);
 
   return (
     <div className="app-container">
@@ -671,7 +912,7 @@ export const App: React.FC = () => {
         onOpenSearch={() => setSearchOpen(true)}
       />
 
-      <main className={`main-content ${['ramps', 'antigravity', 'mesh'].includes(currentRoute.path) ? 'main-content-studio' : ''}`}>
+      <main className={`main-content ${isStudioView ? 'main-content-studio' : ''}`}>
         <Suspense fallback={
           <div className="flex items-center justify-center min-h-[50vh]">
             <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
@@ -681,7 +922,7 @@ export const App: React.FC = () => {
         </Suspense>
       </main>
 
-      {!['ramps', 'antigravity', 'mesh'].includes(currentRoute.path) && (
+      {!isStudioView && (
         <Footer onNavigate={handleNavigate} />
       )}
 

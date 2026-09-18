@@ -166,6 +166,15 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
 
         <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
           <Link
+            to={{ path: 'color-relationships', slug: color.slug }}
+            onNavigate={onNavigate}
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
+            title={`View Harmonic Relationships for ${color.name}`}
+          >
+            <Sparkles size={13} className="text-pink-400" />
+            <span>Relationship Map</span>
+          </Link>
+          <Link
             to={{ path: 'contrast-checker', fg: color.hex.replace('#', ''), bg: 'FFFFFF' }}
             onNavigate={onNavigate}
             className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
@@ -180,7 +189,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
             className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
             title={`Generate Palette from ${color.name}`}
           >
-            <Sparkles size={13} className="text-amber-400" />
+            <Wand2 size={13} className="text-amber-400" />
             <span>Gen Palette</span>
           </Link>
           <button

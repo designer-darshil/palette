@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, Palette, Layers, Wand2, Sparkles, ArrowRight } from 'lucide-react';
+import { Search, X, Palette, Layers, Wand2, Sparkles, ArrowRight, Grid, Users } from 'lucide-react';
 import { CURATED_COLORS } from '../data/colors';
 import { CURATED_PALETTES } from '../data/palettes';
 import { CURATED_COMBOS } from '../data/combos';
 import { CURATED_GRADIENTS } from '../data/gradients';
+import { CURATED_PATTERNS } from '../data/patterns';
+import { CURATED_CREATORS } from '../data/creators';
+import { CURATED_COLLECTIONS } from '../data/collections';
 import { RouteType } from '../types';
 
 interface SearchModalProps {
@@ -31,55 +34,100 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
   const rawQ = query.trim().toLowerCase();
   const hexQ = rawQ.startsWith('#') ? rawQ : `#${rawQ}`;
 
-  const matchedColors = CURATED_COLORS.filter(
-    (c) =>
-      c.name.toLowerCase().includes(rawQ) ||
-      c.hex.toLowerCase().includes(rawQ) ||
-      c.hex.toLowerCase() === hexQ ||
-      c.family.toLowerCase().includes(rawQ) ||
-      c.hueGroup.toLowerCase().includes(rawQ) ||
-      c.tags.some((t) => t.toLowerCase().includes(rawQ))
-  ).slice(0, 4);
+  const matchedColors = rawQ
+    ? CURATED_COLORS.filter(
+        (c) =>
+          c.name.toLowerCase().includes(rawQ) ||
+          c.hex.toLowerCase().includes(rawQ) ||
+          c.hex.toLowerCase() === hexQ ||
+          c.family.toLowerCase().includes(rawQ) ||
+          c.hueGroup.toLowerCase().includes(rawQ) ||
+          c.tags.some((t) => t.toLowerCase().includes(rawQ))
+      ).slice(0, 4)
+    : [];
 
-  const matchedPalettes = CURATED_PALETTES.filter(
-    (p) =>
-      p.title.toLowerCase().includes(rawQ) ||
-      p.category.toLowerCase().includes(rawQ) ||
-      p.tags.some((t) => t.toLowerCase().includes(rawQ)) ||
-      p.colors.some((c) => c.hex.toLowerCase().includes(rawQ) || c.hex.toLowerCase() === hexQ || c.name.toLowerCase().includes(rawQ))
-  ).slice(0, 3);
+  const matchedPalettes = rawQ
+    ? CURATED_PALETTES.filter(
+        (p) =>
+          p.title.toLowerCase().includes(rawQ) ||
+          p.category.toLowerCase().includes(rawQ) ||
+          p.tags.some((t) => t.toLowerCase().includes(rawQ)) ||
+          p.colors.some(
+            (c) =>
+              c.hex.toLowerCase().includes(rawQ) ||
+              c.hex.toLowerCase() === hexQ ||
+              c.name.toLowerCase().includes(rawQ)
+          )
+      ).slice(0, 3)
+    : [];
 
-  const matchedCombos = CURATED_COMBOS.filter(
-    (cb) =>
-      cb.title.toLowerCase().includes(rawQ) ||
-      cb.harmonyType.toLowerCase().includes(rawQ) ||
-      cb.tags.some((t) => t.toLowerCase().includes(rawQ)) ||
-      cb.colors.some((c) => c.hex.toLowerCase().includes(rawQ) || c.hex.toLowerCase() === hexQ)
-  ).slice(0, 3);
+  const matchedCollections = rawQ
+    ? CURATED_COLLECTIONS.filter(
+        (col) =>
+          col.title.toLowerCase().includes(rawQ) ||
+          col.description.toLowerCase().includes(rawQ) ||
+          col.tags.some((t) => t.toLowerCase().includes(rawQ))
+      ).slice(0, 2)
+    : [];
 
-  const matchedGradients = CURATED_GRADIENTS.filter(
-    (g) =>
-      g.title.toLowerCase().includes(rawQ) ||
-      g.category.toLowerCase().includes(rawQ) ||
-      g.type.toLowerCase().includes(rawQ) ||
-      g.tags.some((t) => t.toLowerCase().includes(rawQ)) ||
-      g.stops.some((s) => s.color.toLowerCase().includes(rawQ) || s.color.toLowerCase() === hexQ)
-  ).slice(0, 3);
+  const matchedPatterns = rawQ
+    ? CURATED_PATTERNS.filter(
+        (pat) =>
+          pat.title.toLowerCase().includes(rawQ) ||
+          pat.type.toLowerCase().includes(rawQ) ||
+          pat.tags.some((t) => t.toLowerCase().includes(rawQ))
+      ).slice(0, 2)
+    : [];
 
-  const isLiveMatch =
-    rawQ.includes('live') ||
-    rawQ.includes('atmo') ||
-    rawQ.includes('real') ||
-    rawQ.includes('sun') ||
-    rawQ.includes('weather') ||
-    rawQ.includes('time');
+  const matchedCreators = rawQ
+    ? CURATED_CREATORS.filter(
+        (cr) =>
+          cr.name.toLowerCase().includes(rawQ) ||
+          cr.username.toLowerCase().includes(rawQ) ||
+          cr.specialties.some((s) => s.toLowerCase().includes(rawQ))
+      ).slice(0, 2)
+    : [];
 
-  const allResults: { type: 'color' | 'palette' | 'combo' | 'gradient' | 'live'; route: RouteType }[] = [
-    ...(isLiveMatch ? [{ type: 'live' as const, route: { path: 'live' as const } }] : []),
-    ...matchedColors.map((c) => ({ type: 'color' as const, route: { path: 'color-detail' as const, slug: c.slug } })),
-    ...matchedPalettes.map((p) => ({ type: 'palette' as const, route: { path: 'palette-detail' as const, slug: p.slug } })),
-    ...matchedCombos.map((cb) => ({ type: 'combo' as const, route: { path: 'combo-detail' as const, slug: cb.slug } })),
-    ...matchedGradients.map((g) => ({ type: 'gradient' as const, route: { path: 'gradient-detail' as const, slug: g.slug } })),
+  const matchedGradients = rawQ
+    ? CURATED_GRADIENTS.filter(
+        (g) =>
+          g.title.toLowerCase().includes(rawQ) ||
+          g.category.toLowerCase().includes(rawQ) ||
+          g.tags.some((t) => t.toLowerCase().includes(rawQ))
+      ).slice(0, 2)
+    : [];
+
+  const allResults: { type: string; label: string; route: RouteType }[] = [
+    ...matchedColors.map((c) => ({
+      type: 'color',
+      label: `${c.name} (${c.hex})`,
+      route: { path: 'color-detail' as const, slug: c.slug },
+    })),
+    ...matchedPalettes.map((p) => ({
+      type: 'palette',
+      label: p.title,
+      route: { path: 'palette-detail' as const, slug: p.slug },
+    })),
+    ...matchedCollections.map((col) => ({
+      type: 'collection',
+      label: col.title,
+      route: { path: 'collection-detail' as const, slug: col.slug },
+    })),
+    ...matchedPatterns.map((pat) => ({
+      type: 'pattern',
+      label: pat.title,
+      route: { path: 'pattern-detail' as const, slug: pat.slug },
+    })),
+    ...matchedCreators.map((cr) => ({
+      type: 'creator',
+      label: `${cr.name} (@${cr.username})`,
+      route: { path: 'creator-detail' as const, username: cr.username },
+    })),
+    ...matchedGradients.map((g) => ({
+      type: 'gradient',
+      label: g.title,
+      route: { path: 'gradient-detail' as const, slug: g.slug },
+    })),
   ];
 
   const handleSelect = (route: RouteType) => {
@@ -105,8 +153,6 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
     }
   };
 
-  let currentIndex = 0;
-
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
@@ -123,7 +169,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
             ref={inputRef}
             type="text"
             className="search-dialog-input"
-            placeholder="Search colors, hex (#1D4ED8), palettes, harmonies, gradients..."
+            placeholder="Search colors, hex (#BFA3F0), palettes, patterns, collections, creators..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -142,138 +188,138 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
             </div>
           )}
 
+          {/* Quick Suggestions when empty */}
+          {!rawQ && (
+            <div className="p-4 flex flex-col gap-2">
+              <span className="text-[10px] font-mono uppercase text-[var(--text-tertiary)] font-bold">
+                POPULAR SEARCHES &amp; COORDINATES
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {['#1D4ED8', '#E63946', 'Swiss Editorial', 'Luxury', 'Earthen', 'Dots Pattern', 'Elena Voss'].map((term) => (
+                  <button
+                    key={term}
+                    onClick={() => setQuery(term)}
+                    className="filter-pill text-xs px-2.5 py-1"
+                  >
+                    {term}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Colors */}
           {matchedColors.length > 0 && (
             <div>
-              <div style={{ padding: '6px 10px', fontSize: '0.7rem', color: '#606675', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
-                Colors ({matchedColors.length})
+              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+                Colors
               </div>
-              {matchedColors.map((color) => {
-                const isSelected = selectedIndex === currentIndex++;
-                return (
-                  <div
-                    key={color.id}
-                    className={`search-result-row ${isSelected ? 'focused' : ''}`}
-                    onClick={() => handleSelect({ path: 'color-detail', slug: color.slug })}
-                  >
-                    <div className="search-result-left">
-                      <span className="search-result-thumb" style={{ backgroundColor: color.hex }} />
-                      <div>
-                        <div className="search-result-title">{color.name}</div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#9DA3AF' }}>
-                          {color.hex} • {color.family} • {color.hueGroup}
-                        </div>
-                      </div>
-                    </div>
-                    <span className="search-result-type-tag">Color</span>
+              {matchedColors.map((c) => (
+                <div
+                  key={c.id}
+                  onClick={() => handleSelect({ path: 'color-detail', slug: c.slug })}
+                  className="search-result-item"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-4 h-4 rounded-xs border border-black/20" style={{ backgroundColor: c.hex }} />
+                    <span className="font-bold text-xs text-[var(--text-primary)]">{c.name}</span>
+                    <span className="font-mono text-[11px] text-[var(--text-secondary)]">{c.hex}</span>
                   </div>
-                );
-              })}
+                  <span className="text-[10px] font-mono text-[var(--text-tertiary)]">{c.family}</span>
+                </div>
+              ))}
             </div>
           )}
 
           {/* Palettes */}
           {matchedPalettes.length > 0 && (
             <div>
-              <div style={{ padding: '8px 10px 4px 10px', fontSize: '0.7rem', color: '#606675', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
-                Palettes ({matchedPalettes.length})
+              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+                Palettes
               </div>
-              {matchedPalettes.map((palette) => {
-                const isSelected = selectedIndex === currentIndex++;
-                return (
-                  <div
-                    key={palette.id}
-                    className={`search-result-row ${isSelected ? 'focused' : ''}`}
-                    onClick={() => handleSelect({ path: 'palette-detail', slug: palette.slug })}
-                  >
-                    <div className="search-result-left">
-                      <div style={{ display: 'flex', width: 28, height: 24, borderRadius: 3, overflow: 'hidden' }}>
-                        {palette.colors.slice(0, 4).map((c, i) => (
-                          <div key={i} style={{ flex: 1, backgroundColor: c.hex }} />
-                        ))}
-                      </div>
-                      <div>
-                        <div className="search-result-title">{palette.title}</div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#9DA3AF' }}>
-                          {palette.colors.length} swatches • {palette.category}
-                        </div>
-                      </div>
+              {matchedPalettes.map((p) => (
+                <div
+                  key={p.id}
+                  onClick={() => handleSelect({ path: 'palette-detail', slug: p.slug })}
+                  className="search-result-item"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-12 h-3.5 rounded-xs overflow-hidden flex">
+                      {p.colors.map((col, i) => (
+                        <div key={i} className="flex-1 h-full" style={{ backgroundColor: col.hex }} />
+                      ))}
                     </div>
-                    <span className="search-result-type-tag">Palette</span>
+                    <span className="font-bold text-xs text-[var(--text-primary)]">{p.title}</span>
                   </div>
-                );
-              })}
+                  <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">{p.category}</span>
+                </div>
+              ))}
             </div>
           )}
 
-          {/* Combos */}
-          {matchedCombos.length > 0 && (
+          {/* Collections */}
+          {matchedCollections.length > 0 && (
             <div>
-              <div style={{ padding: '8px 10px 4px 10px', fontSize: '0.7rem', color: '#606675', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
-                Harmonies ({matchedCombos.length})
+              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+                Collections
               </div>
-              {matchedCombos.map((combo) => {
-                const isSelected = selectedIndex === currentIndex++;
-                return (
-                  <div
-                    key={combo.id}
-                    className={`search-result-row ${isSelected ? 'focused' : ''}`}
-                    onClick={() => handleSelect({ path: 'combo-detail', slug: combo.slug })}
-                  >
-                    <div className="search-result-left">
-                      <div style={{ display: 'flex', width: 28, height: 24, borderRadius: 3, overflow: 'hidden' }}>
-                        {combo.colors.map((c, i) => (
-                          <div key={i} style={{ flex: 1, backgroundColor: c.hex }} />
-                        ))}
-                      </div>
-                      <div>
-                        <div className="search-result-title">{combo.title}</div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#9DA3AF' }}>
-                          {combo.harmonyType} • {combo.contrastScore}
-                        </div>
-                      </div>
-                    </div>
-                    <span className="search-result-type-tag">Combo</span>
+              {matchedCollections.map((col) => (
+                <div
+                  key={col.id}
+                  onClick={() => handleSelect({ path: 'collection-detail', slug: col.slug })}
+                  className="search-result-item"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Layers size={14} className="text-[var(--color-primary)]" />
+                    <span className="font-bold text-xs text-[var(--text-primary)]">{col.title}</span>
                   </div>
-                );
-              })}
+                  <span className="text-[10px] font-mono text-[var(--text-tertiary)]">{col.items.length} items</span>
+                </div>
+              ))}
             </div>
           )}
 
-          {/* Gradients */}
-          {matchedGradients.length > 0 && (
+          {/* Patterns */}
+          {matchedPatterns.length > 0 && (
             <div>
-              <div style={{ padding: '8px 10px 4px 10px', fontSize: '0.7rem', color: '#606675', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
-                Gradients ({matchedGradients.length})
+              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+                Patterns
               </div>
-              {matchedGradients.map((gradient) => {
-                const isSelected = selectedIndex === currentIndex++;
-                return (
-                  <div
-                    key={gradient.id}
-                    className={`search-result-row ${isSelected ? 'focused' : ''}`}
-                    onClick={() => handleSelect({ path: 'gradient-detail', slug: gradient.slug })}
-                  >
-                    <div className="search-result-left">
-                      <div
-                        style={{
-                          width: 28,
-                          height: 24,
-                          borderRadius: 3,
-                          background: gradient.css,
-                        }}
-                      />
-                      <div>
-                        <div className="search-result-title">{gradient.title}</div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#9DA3AF' }}>
-                          {gradient.type} gradient • {gradient.category}
-                        </div>
-                      </div>
-                    </div>
-                    <span className="search-result-type-tag">Gradient</span>
+              {matchedPatterns.map((pat) => (
+                <div
+                  key={pat.id}
+                  onClick={() => handleSelect({ path: 'pattern-detail', slug: pat.slug })}
+                  className="search-result-item"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Grid size={14} className="text-[var(--accent-gold)]" />
+                    <span className="font-bold text-xs text-[var(--text-primary)]">{pat.title}</span>
                   </div>
-                );
-              })}
+                  <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">{pat.type}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Creators */}
+          {matchedCreators.length > 0 && (
+            <div>
+              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+                Creators
+              </div>
+              {matchedCreators.map((cr) => (
+                <div
+                  key={cr.id}
+                  onClick={() => handleSelect({ path: 'creator-detail', username: cr.username })}
+                  className="search-result-item"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Users size={14} className="text-emerald-400" />
+                    <span className="font-bold text-xs text-[var(--text-primary)]">{cr.name}</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-[var(--text-tertiary)]">@{cr.username}</span>
+                </div>
+              ))}
             </div>
           )}
         </div>

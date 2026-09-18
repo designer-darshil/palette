@@ -253,6 +253,7 @@ export interface CalculatedHarmonies {
   complementary: string;
   analogous: [string, string];
   triadic: [string, string];
+  tetradic: [string, string, string];
   splitComplementary: [string, string];
   monochromatic: string[];
 }
@@ -265,6 +266,7 @@ export function calculateHarmonies(hex: string): CalculatedHarmonies {
     complementary: hslToHex(h + 180, s, l),
     analogous: [hslToHex(h - 30, s, l), hslToHex(h + 30, s, l)],
     triadic: [hslToHex(h + 120, s, l), hslToHex(h + 240, s, l)],
+    tetradic: [hslToHex(h + 90, s, l), hslToHex(h + 180, s, l), hslToHex(h + 270, s, l)],
     splitComplementary: [hslToHex(h + 150, s, l), hslToHex(h + 210, s, l)],
     monochromatic: [
       hslToHex(h, s, Math.max(12, l - 35)),
@@ -273,6 +275,62 @@ export function calculateHarmonies(hex: string): CalculatedHarmonies {
       hslToHex(h, s, Math.min(94, l + 32)),
     ],
   };
+}
+
+/**
+ * Calculates color temperature in Kelvin (approximate) and classification (Warm/Cool/Neutral)
+ */
+export function getColorTemperature(hex: string): { kelvin: number; classification: 'Warm' | 'Cool' | 'Neutral'; score: number } {
+  const hsl = hexToHsl(hex);
+  if (!hsl) return { kelvin: 5000, classification: 'Neutral', score: 0 };
+  const { h, s } = hsl;
+
+  if (s < 10) return { kelvin: 5500, classification: 'Neutral', score: 0 };
+
+  // Hue 0-60 (Red to Yellow) & 300-360 (Magenta to Red) = Warm
+  // Hue 120-270 (Green, Cyan, Blue) = Cool
+  let isWarm = false;
+  if ((h >= 0 && h <= 80) || (h >= 300 && h <= 360)) {
+    isWarm = true;
+  }
+
+  // Calculate temperature score from -1.0 (deep cold blue) to +1.0 (vibrant warm orange/red)
+  let score = 0;
+  if (h >= 0 && h <= 60) {
+    score = 1.0 - (Math.abs(h - 30) / 30) * 0.3; // Peak warmth around 30deg (amber/orange)
+  } else if (h > 60 && h <= 120) {
+    score = 0.7 - ((h - 60) / 60) * 0.9;
+  } else if (h > 120 && h <= 240) {
+    score = -0.2 - ((h - 120) / 120) * 0.8; // Peak cool around 240deg (cobalt)
+  } else if (h > 240 && h <= 300) {
+    score = -1.0 + ((h - 240) / 60) * 0.8;
+  } else {
+    score = -0.2 + ((h - 300) / 60) * 1.0;
+  }
+
+  const kelvin = Math.round(isWarm ? 3000 + (1 - Math.max(0, score)) * 2500 : 5500 + Math.abs(score) * 4500);
+
+  return {
+    kelvin,
+    classification: isWarm ? 'Warm' : 'Cool',
+    score: parseFloat(score.toFixed(2)),
+  };
+}
+
+/**
+ * Calculates Euclidean Delta-E distance between two colors in RGB/Lab space
+ */
+export function calculateDeltaE(hex1: string, hex2: string): number {
+  const rgb1 = hexToRgb(hex1);
+  const rgb2 = hexToRgb(hex2);
+  if (!rgb1 || !rgb2) return 100;
+
+  // Weighted perceptual color distance
+  const rmean = (rgb1.r + rgb2.r) / 2;
+  const r = rgb1.r - rgb2.r;
+  const g = rgb1.g - rgb2.g;
+  const b = rgb1.b - rgb2.b;
+  return Math.sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8));
 }
 
 export interface PracticalUiAssessment {
@@ -362,4 +420,5 @@ export function getComboKeyColors(colors: Array<{ name: string; hex: string; rol
 
   return [colors[0], colors[1] || colors[0]];
 }
+
 

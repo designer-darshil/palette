@@ -6,6 +6,8 @@ import { SavedProvider } from './context/SavedContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { LibraryDataProvider } from './context/LibraryDataContext';
+import { CollectionProvider } from './context/CollectionContext';
+import { CreatorProvider } from './context/CreatorContext';
 import { MaintenanceProvider } from './context/MaintenanceContext';
 import { initAnalytics } from './utils/analytics';
 import './index.css';
@@ -33,9 +35,13 @@ const Root: React.FC = () => {
         <LibraryDataProvider>
           <MaintenanceProvider>
             <SavedProvider>
-              <ToastProvider>
-                <App />
-              </ToastProvider>
+              <CollectionProvider>
+                <CreatorProvider>
+                  <ToastProvider>
+                    <App />
+                  </ToastProvider>
+                </CreatorProvider>
+              </CollectionProvider>
             </SavedProvider>
           </MaintenanceProvider>
         </LibraryDataProvider>

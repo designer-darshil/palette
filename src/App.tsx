@@ -671,7 +671,7 @@ export const App: React.FC = () => {
         onOpenSearch={() => setSearchOpen(true)}
       />
 
-      <main className="main-content">
+      <main className={`main-content ${['ramps', 'antigravity', 'mesh'].includes(currentRoute.path) ? 'main-content-studio' : ''}`}>
         <Suspense fallback={
           <div className="flex items-center justify-center min-h-[50vh]">
             <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
@@ -681,7 +681,9 @@ export const App: React.FC = () => {
         </Suspense>
       </main>
 
-      <Footer onNavigate={handleNavigate} />
+      {!['ramps', 'antigravity', 'mesh'].includes(currentRoute.path) && (
+        <Footer onNavigate={handleNavigate} />
+      )}
 
       <SearchModal
         isOpen={searchOpen}

@@ -184,9 +184,28 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   padding: 32px 24px 80px 24px;
 }
 
+.main-content-studio,
+.main-content:has(.studio-workspace) {
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: calc(100vh - 60px);
+  height: calc(100dvh - 60px);
+  overflow: hidden;
+}
+
 @media (max-width: 768px) {
   .main-content {
     padding: 20px 16px 60px 16px;
+  }
+  .main-content-studio,
+  .main-content:has(.studio-workspace) {
+    padding: 0 !important;
+    height: auto;
+    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
   }
 }
 

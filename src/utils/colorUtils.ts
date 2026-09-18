@@ -216,10 +216,37 @@ export function getContrastRating(ratio: number): {
   };
 }
 
-export function getTextColorForBackground(hex: string): '#FFFFFF' | '#111111' {
+export interface ColorAccessibilityAssessment {
+  contrastWithWhite: number;
+  contrastWithBlack: number;
+  bestTextColor: '#FFFFFF' | '#000000';
+  bestContrast: number;
+  passAANormal: boolean;
+  passAAA: boolean;
+  passAALarge: boolean;
+}
+
+export function getColorAccessibility(hex: string): ColorAccessibilityAssessment {
   const whiteRatio = getContrastRatio(hex, '#FFFFFF');
-  const blackRatio = getContrastRatio(hex, '#111111');
-  return whiteRatio >= blackRatio ? '#FFFFFF' : '#111111';
+  const blackRatio = getContrastRatio(hex, '#000000');
+  const bestTextColor: '#FFFFFF' | '#000000' = blackRatio >= whiteRatio ? '#000000' : '#FFFFFF';
+  const bestContrast = Math.max(blackRatio, whiteRatio);
+
+  return {
+    contrastWithWhite: whiteRatio,
+    contrastWithBlack: blackRatio,
+    bestTextColor,
+    bestContrast,
+    passAANormal: bestContrast >= 4.5,
+    passAAA: bestContrast >= 7,
+    passAALarge: bestContrast >= 3,
+  };
+}
+
+export function getTextColorForBackground(hex: string): '#FFFFFF' | '#000000' {
+  const whiteRatio = getContrastRatio(hex, '#FFFFFF');
+  const blackRatio = getContrastRatio(hex, '#000000');
+  return blackRatio >= whiteRatio ? '#000000' : '#FFFFFF';
 }
 
 export interface CalculatedHarmonies {
@@ -264,7 +291,7 @@ export interface PracticalUiAssessment {
 
 export function assessPracticalUi(hex: string): PracticalUiAssessment {
   const onWhiteRatio = getContrastRatio(hex, '#FFFFFF');
-  const onBlackRatio = getContrastRatio(hex, '#111215');
+  const onBlackRatio = getContrastRatio(hex, '#000000');
   const hsl = hexToHsl(hex) || { h: 0, s: 50, l: 50 };
 
   return {

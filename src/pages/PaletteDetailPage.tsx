@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { ArrowLeft, Copy, Bookmark, Share2, Code, ArrowRight, Layers, ExternalLink, ShieldCheck, Sparkles, Wand2 } from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
-import { copyToClipboard } from '../utils/colorUtils';
+import { copyToClipboard, getColorAccessibility, getTextColorForBackground } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { PaletteCard } from '../components/PaletteCard';
@@ -257,28 +257,43 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       {/* Palette Hero Swatch Banner */}
       <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
         <div className="h-44 sm:h-60 flex w-full">
-          {palette.colors.map((c, idx) => (
-            <div
-              key={idx}
-              style={{ backgroundColor: c.hex }}
-              className="flex-1 flex flex-col justify-between p-2.5 sm:p-4 cursor-pointer transition-all duration-200 min-w-0"
-              onClick={() => handleCopySingleHex(c.hex, c.name)}
-              title={`Click to copy ${c.name} (${c.hex})`}
-            >
-              <span className="font-mono text-[9px] sm:text-[11px] font-semibold text-white bg-black/45 px-1.5 py-0.5 rounded-xs w-fit shadow-sm">
-                0{idx + 1}
-              </span>
+          {palette.colors.map((c, idx) => {
+            const textColor = getTextColorForBackground(c.hex);
+            return (
+              <div
+                key={idx}
+                style={{ backgroundColor: c.hex }}
+                className="flex-1 flex flex-col justify-between p-2.5 sm:p-4 cursor-pointer transition-all duration-200 min-w-0"
+                onClick={() => handleCopySingleHex(c.hex, c.name)}
+                title={`Click to copy ${c.name} (${c.hex})`}
+              >
+                <span
+                  className="font-mono text-[9px] sm:text-[11px] font-semibold px-1.5 py-0.5 rounded-xs w-fit shadow-sm"
+                  style={{
+                    backgroundColor: textColor === '#000000' ? 'rgba(0,0,0,0.18)' : 'rgba(0,0,0,0.45)',
+                    color: textColor === '#000000' ? '#000000' : '#FFFFFF',
+                  }}
+                >
+                  0{idx + 1}
+                </span>
 
-              <div className="min-w-0 overflow-hidden">
-                <div className="font-mono text-[11px] sm:text-sm font-bold text-white drop-shadow-md truncate">
-                  {c.hex}
-                </div>
-                <div className="text-[10px] sm:text-xs text-white drop-shadow-md opacity-95 truncate hidden xs:block">
-                  {c.name}
+                <div className="min-w-0 overflow-hidden">
+                  <div
+                    className="font-mono text-[11px] sm:text-sm font-bold truncate"
+                    style={{ color: textColor }}
+                  >
+                    {c.hex}
+                  </div>
+                  <div
+                    className="text-[10px] sm:text-xs opacity-90 truncate hidden xs:block font-medium"
+                    style={{ color: textColor }}
+                  >
+                    {c.name}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -321,35 +336,53 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
           {palette.colors.map((c, idx) => {
             const slug = findMatchingColorSlug(c.hex);
+            const access = getColorAccessibility(c.hex);
             return (
               <div
                 key={idx}
-                className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm transition-all"
+                className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm transition-all flex flex-col justify-between"
               >
-                <div
-                  className="h-20 rounded-xs border border-[var(--border-subtle)] mb-2.5 cursor-pointer shadow-inner"
-                  style={{ backgroundColor: c.hex }}
-                  onClick={() => handleCopySingleHex(c.hex, c.name)}
-                  title="Click to copy HEX"
-                />
-                <div className="flex items-baseline justify-between gap-2">
-                  <span className="font-bold text-xs sm:text-sm text-[var(--text-primary)] truncate">
-                    {c.name}
-                  </span>
-                  <button
+                <div>
+                  <div
+                    className="h-20 rounded-xs border border-[var(--border-subtle)] mb-2.5 cursor-pointer shadow-inner relative flex items-end p-1.5"
+                    style={{ backgroundColor: c.hex }}
                     onClick={() => handleCopySingleHex(c.hex, c.name)}
-                    className="font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold flex-shrink-0"
+                    title="Click to copy HEX"
                   >
-                    {c.hex}
-                  </button>
-                </div>
-                {c.role && (
-                  <div className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase mt-0.5 truncate">
-                    ROLE: {c.role}
+                    <span
+                      className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-xs shadow-xs"
+                      style={{
+                        backgroundColor: access.bestTextColor === '#000000' ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
+                        color: access.bestTextColor === '#000000' ? '#000000' : '#FFFFFF',
+                      }}
+                    >
+                      {access.passAAA ? 'AAA' : 'AA'} {access.bestContrast}:1
+                    </span>
                   </div>
-                )}
-                {slug && (
-                  <div className="mt-2 pt-2 border-t border-[var(--border-subtle)]">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="font-bold text-xs sm:text-sm text-[var(--text-primary)] truncate">
+                      {c.name}
+                    </span>
+                    <button
+                      onClick={() => handleCopySingleHex(c.hex, c.name)}
+                      className="font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold flex-shrink-0"
+                    >
+                      {c.hex}
+                    </button>
+                  </div>
+                  {c.role && (
+                    <div className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase mt-0.5 truncate">
+                      ROLE: {c.role}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-2.5 pt-2 border-t border-[var(--border-subtle)] flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+                    <span>{access.bestTextColor === '#000000' ? 'Black text' : 'White text'}</span>
+                    <span className="font-bold">{access.bestContrast}:1</span>
+                  </div>
+                  {slug && (
                     <Link
                       to={{ path: 'color-detail', slug }}
                       onNavigate={onNavigate}
@@ -358,8 +391,8 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
                       <span>View Color Specimen</span>
                       <ExternalLink size={10} />
                     </Link>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             );
           })}
@@ -382,67 +415,83 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           </span>
         </div>
 
-        {/* Mock UI Card using the palette's actual colors */}
-        <div
-          className="rounded-md p-5 sm:p-8 border flex flex-col gap-4 sm:gap-5 shadow-lg"
-          style={{
-            backgroundColor: palette.colors[0]?.hex || '#111215',
-            color: '#FFFFFF',
-            borderColor: 'var(--border-strong)',
-          }}
-        >
-          <div className="flex items-center justify-between gap-2">
-            <span
-              className="font-mono text-[10px] font-bold px-2.5 py-1 rounded-xs uppercase tracking-wider shadow-sm"
-              style={{
-                backgroundColor: palette.colors[1]?.hex || '#E63946',
-                color: '#FFFFFF',
-              }}
-            >
-              ACTIVE GAMUT
-            </span>
-            <span className="font-mono text-[11px] font-bold opacity-80 truncate">
-              {palette.title.toUpperCase()}
-            </span>
-          </div>
+        {/* Mock UI Card using the palette's actual colors with calculated accessible foregrounds */}
+        {(() => {
+          const cardBg = palette.colors[0]?.hex || '#111215';
+          const primaryAccent = palette.colors[1]?.hex || '#E63946';
+          const subAccent = palette.colors[2]?.hex || '#8D99AE';
+          const lightAccent = palette.colors[3]?.hex || '#FFFFFF';
 
-          <div>
-            <h3
-              className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight mb-2"
-              style={{ color: palette.colors[3]?.hex || '#FFFFFF' }}
-            >
-              Architectural Clarity &amp; Chromatic Balance
-            </h3>
-            <p
-              className="text-xs sm:text-sm leading-relaxed max-w-xl"
-              style={{ color: palette.colors[2]?.hex || '#8D99AE' }}
-            >
-              Every tone serves an ergonomic purpose. Surfaces support scanning; accents command focus without friction.
-            </p>
-          </div>
+          const cardTextColor = getTextColorForBackground(cardBg);
+          const primaryBtnTextColor = getTextColorForBackground(primaryAccent);
+          const badgeTextColor = getTextColorForBackground(primaryAccent);
 
-          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mt-1">
-            <button
-              className="px-5 py-2.5 rounded-xs font-bold text-xs uppercase tracking-wider shadow-md w-full sm:w-auto text-center whitespace-nowrap"
+          return (
+            <div
+              className="rounded-md p-5 sm:p-8 border flex flex-col gap-4 sm:gap-5 shadow-lg"
               style={{
-                backgroundColor: palette.colors[1]?.hex || '#E63946',
-                color: '#FFFFFF',
+                backgroundColor: cardBg,
+                color: cardTextColor,
+                borderColor: 'var(--border-strong)',
               }}
             >
-              Primary Action
-            </button>
-            <button
-              className="px-5 py-2.5 rounded-xs font-semibold text-xs border w-full sm:w-auto text-center whitespace-nowrap"
-              style={{
-                backgroundColor: 'transparent',
-                color: palette.colors[3]?.hex || '#FFFFFF',
-                borderColor: palette.colors[2]?.hex || 'rgba(255,255,255,0.2)',
-              }}
-            >
-              Secondary Outline
-            </button>
-          </div>
-        </div>
+              <div className="flex items-center justify-between gap-2">
+                <span
+                  className="font-mono text-[10px] font-bold px-2.5 py-1 rounded-xs uppercase tracking-wider shadow-sm"
+                  style={{
+                    backgroundColor: primaryAccent,
+                    color: badgeTextColor,
+                  }}
+                >
+                  ACTIVE GAMUT
+                </span>
+                <span
+                  className="font-mono text-[11px] font-bold opacity-80 truncate"
+                  style={{ color: cardTextColor }}
+                >
+                  {palette.title.toUpperCase()}
+                </span>
+              </div>
+
+              <div>
+                <h3
+                  className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight mb-2"
+                  style={{ color: lightAccent }}
+                >
+                  Architectural Clarity &amp; Chromatic Balance
+                </h3>
+                <p
+                  className="text-xs sm:text-sm leading-relaxed max-w-xl"
+                  style={{ color: subAccent }}
+                >
+                  Every tone serves an ergonomic purpose. Surfaces support scanning; accents command focus without friction.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mt-1">
+                <button
+                  className="px-5 py-2.5 rounded-xs font-bold text-xs uppercase tracking-wider shadow-md w-full sm:w-auto text-center whitespace-nowrap cursor-default"
+                  style={{
+                    backgroundColor: primaryAccent,
+                    color: primaryBtnTextColor,
+                  }}
+                >
+                  Primary Action
+                </button>
+                <button
+                  className="px-5 py-2.5 rounded-xs font-semibold text-xs border w-full sm:w-auto text-center whitespace-nowrap cursor-default"
+                  style={{
+                    backgroundColor: 'transparent',
+                    color: lightAccent,
+                    borderColor: subAccent,
+                  }}
+                >
+                  Secondary Outline
+                </button>
+              </div>
+            </div>
+          );
+        })()}
       </section>
 
       {/* Code Export Tokens */}

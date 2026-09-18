@@ -350,9 +350,9 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       <main className="generator-canvas">
         {colors.map((color, index) => {
           const textColor = getTextColorForBackground(color.hex);
-          const isDarkText = textColor === '#111111';
+          const isDarkText = textColor === '#000000';
           const contrastWhite = getContrastRatio(color.hex, '#FFFFFF');
-          const contrastBlack = getContrastRatio(color.hex, '#111111');
+          const contrastBlack = getContrastRatio(color.hex, '#000000');
           const isCopied = copiedHex === color.hex;
 
           return (

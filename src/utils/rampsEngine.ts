@@ -72,7 +72,7 @@ export interface ColorRamp {
     lightness: number;
     chroma: number;
     hue: number;
-    textContrast: '#FFFFFF' | '#111111';
+    textContrast: '#FFFFFF' | '#000000';
     contrastWithWhite: number;
     contrastWithBlack: number;
   }>;
@@ -339,8 +339,8 @@ export function generateSingleRamp(
     const hsl = rgbToHslString(fitted.r, fitted.g, fitted.b);
 
     const whiteRatio = calculateWcagContrast(hex, '#FFFFFF');
-    const blackRatio = calculateWcagContrast(hex, '#111111');
-    const textContrast = whiteRatio >= blackRatio ? '#FFFFFF' : '#111111';
+    const blackRatio = calculateWcagContrast(hex, '#000000');
+    const textContrast = blackRatio >= whiteRatio ? '#000000' : '#FFFFFF';
 
     steps[step] = {
       hex,

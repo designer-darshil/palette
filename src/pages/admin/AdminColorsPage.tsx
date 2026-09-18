@@ -21,6 +21,7 @@ import {
   hexToHsl,
   hslToHex,
   getContrastRatio,
+  getTextColorForBackground,
   hexToOklch,
 } from '../../utils/colorUtils';
 
@@ -70,7 +71,7 @@ export const AdminColorsPage: React.FC = () => {
   // Derived calculations for form
   const contrastWhite = getContrastRatio(formHex, '#FFFFFF');
   const contrastBlack = getContrastRatio(formHex, '#000000');
-  const bestTextColor = contrastWhite >= 4.5 ? '#FFFFFF' : '#111111';
+  const bestTextColor = getTextColorForBackground(formHex);
   const calculatedRgb = hexToRgb(formHex);
   const rgbString = calculatedRgb ? `rgb(${calculatedRgb.r}, ${calculatedRgb.g}, ${calculatedRgb.b})` : 'rgb(0, 0, 0)';
   const calculatedHsl = hexToHsl(formHex);

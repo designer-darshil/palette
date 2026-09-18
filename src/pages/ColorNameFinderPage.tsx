@@ -203,7 +203,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
   }, [selectedPalette, libraryColors]);
 
   const textColor = getTextColorForBackground(currentHex);
-  const isDarkText = textColor === '#111111';
+  const isDarkText = textColor === '#000000';
 
   const finderSchema = useMemo(() => {
     return generateWebApplicationSchema({

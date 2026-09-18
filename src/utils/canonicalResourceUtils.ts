@@ -97,7 +97,7 @@ export function createColorItemFromHex(hex: string, name?: string): ColorItem {
   const hsl = `hsl(${hslObj.h}, ${hslObj.s}%, ${hslObj.l}%)`;
   const oklch = hexToOklch(cleanHex);
   const contrastWhite = getContrastRatio(cleanHex, '#FFFFFF');
-  const contrastBlack = getContrastRatio(cleanHex, '#111111');
+  const contrastBlack = getContrastRatio(cleanHex, '#000000');
   const bestTextColor = getTextColorForBackground(cleanHex);
   const slug = slugify(resolvedName);
   const harmonies = calculateHarmonies(cleanHex);

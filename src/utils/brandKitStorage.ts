@@ -110,7 +110,7 @@ export function findOptimalContrastColor(
   }
 
   const whiteRatio = getContrastRatio('#FFFFFF', bgHex);
-  const blackRatio = getContrastRatio('#111111', bgHex);
+  const blackRatio = getContrastRatio('#000000', bgHex);
   const preferLight = whiteRatio >= blackRatio;
 
   const candidates: { color: string; ratio: number; diff: number }[] = [];
@@ -122,7 +122,7 @@ export function findOptimalContrastColor(
       : ['#FFFFFF', '#F8FAFC', '#F1F5F9']
     : isMuted
     ? ['#64748B', '#475569', '#334155']
-    : ['#0F172A', '#111111', '#1E293B'];
+    : ['#0F172A', '#000000', '#1E293B'];
 
   for (const n of neutrals) {
     const r = getContrastRatio(n, bgHex);
@@ -136,7 +136,7 @@ export function findOptimalContrastColor(
     return { color: candidates[0].color, ratio: candidates[0].ratio };
   }
 
-  const fallback = preferLight ? '#FFFFFF' : '#111111';
+  const fallback = preferLight ? '#FFFFFF' : '#000000';
   return { color: fallback, ratio: getContrastRatio(fallback, bgHex) };
 }
 

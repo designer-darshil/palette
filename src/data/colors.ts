@@ -21,8 +21,8 @@ export const CURATED_COLORS: ColorItem[] = [
       "ultramarine",
       "sharp"
     ],
-    "contrastWithWhite": 7.2,
-    "contrastWithBlack": 2.9,
+    "contrastWithWhite": 6.7,
+    "contrastWithBlack": 3.13,
     "bestTextColor": "#FFFFFF",
     "complementaryHex": "#D88A1D",
     "analogousHexes": [
@@ -80,9 +80,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "bauhaus",
       "warm"
     ],
-    "contrastWithWhite": 4.6,
-    "contrastWithBlack": 4.5,
-    "bestTextColor": "#FFFFFF",
+    "contrastWithWhite": 4.17,
+    "contrastWithBlack": 5.04,
+    "bestTextColor": "#000000",
     "complementaryHex": "#39E6D9",
     "analogousHexes": [
       "#E63998",
@@ -139,8 +139,8 @@ export const CURATED_COLORS: ColorItem[] = [
       "dark-mode",
       "typography"
     ],
-    "contrastWithWhite": 18.9,
-    "contrastWithBlack": 1.1,
+    "contrastWithWhite": 18.73,
+    "contrastWithBlack": 1.12,
     "bestTextColor": "#FFFFFF",
     "complementaryHex": "#EAE9E6",
     "analogousHexes": [
@@ -199,8 +199,8 @@ export const CURATED_COLORS: ColorItem[] = [
       "warm-white"
     ],
     "contrastWithWhite": 1.08,
-    "contrastWithBlack": 19.4,
-    "bestTextColor": "#111111",
+    "contrastWithBlack": 19.42,
+    "bestTextColor": "#000000",
     "complementaryHex": "#121317",
     "analogousHexes": [
       "#F7F3F2",
@@ -257,9 +257,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "muted",
       "organic"
     ],
-    "contrastWithWhite": 4.8,
-    "contrastWithBlack": 4.3,
-    "bestTextColor": "#FFFFFF",
+    "contrastWithWhite": 4.48,
+    "contrastWithBlack": 4.69,
+    "bestTextColor": "#000000",
     "complementaryHex": "#815781",
     "analogousHexes": [
       "#57816B",
@@ -316,9 +316,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "terracotta",
       "highlight"
     ],
-    "contrastWithWhite": 1.5,
-    "contrastWithBlack": 13.9,
-    "bestTextColor": "#111111",
+    "contrastWithWhite": 1.67,
+    "contrastWithBlack": 12.57,
+    "bestTextColor": "#000000",
     "complementaryHex": "#6A8FE9",
     "analogousHexes": [
       "#E99E6A",
@@ -375,9 +375,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "warm",
       "ceramic"
     ],
-    "contrastWithWhite": 4.6,
-    "contrastWithBlack": 4.5,
-    "bestTextColor": "#FFFFFF",
+    "contrastWithWhite": 4.23,
+    "contrastWithBlack": 4.96,
+    "bestTextColor": "#000000",
     "complementaryHex": "#32A0C8",
     "analogousHexes": [
       "#C83250",
@@ -434,8 +434,8 @@ export const CURATED_COLORS: ColorItem[] = [
       "serene",
       "traditional"
     ],
-    "contrastWithWhite": 6.9,
-    "contrastWithBlack": 3,
+    "contrastWithWhite": 6.39,
+    "contrastWithBlack": 3.29,
     "bestTextColor": "#FFFFFF",
     "complementaryHex": "#6A2D48",
     "analogousHexes": [
@@ -493,8 +493,8 @@ export const CURATED_COLORS: ColorItem[] = [
       "modern",
       "digital"
     ],
-    "contrastWithWhite": 6.4,
-    "contrastWithBlack": 3.3,
+    "contrastWithWhite": 7.11,
+    "contrastWithBlack": 2.95,
     "bestTextColor": "#FFFFFF",
     "complementaryHex": "#70BF2C",
     "analogousHexes": [
@@ -552,9 +552,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "cyan",
       "high-clarity"
     ],
-    "contrastWithWhite": 2.3,
-    "contrastWithBlack": 9.1,
-    "bestTextColor": "#111111",
+    "contrastWithWhite": 2.46,
+    "contrastWithBlack": 8.52,
+    "bestTextColor": "#000000",
     "complementaryHex": "#D82400",
     "analogousHexes": [
       "#0086D8",
@@ -611,9 +611,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "powder",
       "editorial"
     ],
-    "contrastWithWhite": 1.8,
-    "contrastWithBlack": 11.5,
-    "bestTextColor": "#111111",
+    "contrastWithWhite": 1.94,
+    "contrastWithBlack": 10.81,
+    "bestTextColor": "#000000",
     "complementaryHex": "#A0D1E0",
     "analogousHexes": [
       "#E0A0BC",
@@ -670,9 +670,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "visibility",
       "warm"
     ],
-    "contrastWithWhite": 2.6,
-    "contrastWithBlack": 7.9,
-    "bestTextColor": "#111111",
+    "contrastWithWhite": 2.63,
+    "contrastWithBlack": 7.99,
+    "bestTextColor": "#000000",
     "complementaryHex": "#0078F7",
     "analogousHexes": [
       "#F73600",
@@ -729,8 +729,8 @@ export const CURATED_COLORS: ColorItem[] = [
       "slate",
       "neutral"
     ],
-    "contrastWithWhite": 10.8,
-    "contrastWithBlack": 1.9,
+    "contrastWithWhite": 13.49,
+    "contrastWithBlack": 1.56,
     "bestTextColor": "#FFFFFF",
     "complementaryHex": "#42402B",
     "analogousHexes": [
@@ -788,9 +788,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "kinetic",
       "tension"
     ],
-    "contrastWithWhite": 1.3,
-    "contrastWithBlack": 15.9,
-    "bestTextColor": "#111111",
+    "contrastWithWhite": 1.27,
+    "contrastWithBlack": 16.48,
+    "bestTextColor": "#000000",
     "complementaryHex": "#A692ED",
     "analogousHexes": [
       "#B5E48C",
@@ -847,8 +847,8 @@ export const CURATED_COLORS: ColorItem[] = [
       "dark-canvas",
       "deep"
     ],
-    "contrastWithWhite": 17.5,
-    "contrastWithBlack": 1.2,
+    "contrastWithWhite": 18.69,
+    "contrastWithBlack": 1.12,
     "bestTextColor": "#FFFFFF",
     "complementaryHex": "#28210A",
     "analogousHexes": [
@@ -906,9 +906,9 @@ export const CURATED_COLORS: ColorItem[] = [
       "divider",
       "metadata"
     ],
-    "contrastWithWhite": 2.8,
-    "contrastWithBlack": 7.4,
-    "bestTextColor": "#111111",
+    "contrastWithWhite": 2.88,
+    "contrastWithBlack": 7.3,
+    "bestTextColor": "#000000",
     "complementaryHex": "#AEA68D",
     "analogousHexes": [
       "#998DAE",
@@ -967,7 +967,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D1F0F0",
     "analogousHexes": [
       "#F0E0D1",
@@ -1046,7 +1046,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.58,
     "contrastWithBlack": 5.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#51ECEC",
     "analogousHexes": [
       "#EC9E51",
@@ -1283,7 +1283,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3F3",
     "analogousHexes": [
       "#F3EBE2",
@@ -1362,7 +1362,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1F1",
     "analogousHexes": [
       "#F1D6BC",
@@ -1441,7 +1441,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.43,
     "contrastWithBlack": 8.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2F2",
     "analogousHexes": [
       "#F2BD88",
@@ -1520,7 +1520,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.4,
     "contrastWithBlack": 6.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4F4",
     "analogousHexes": [
       "#F4A352",
@@ -1599,7 +1599,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.38,
     "contrastWithBlack": 4.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDED",
     "analogousHexes": [
       "#ED851D",
@@ -2152,7 +2152,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.86,
     "contrastWithBlack": 7.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1C1",
     "analogousHexes": [
       "#C1A68B",
@@ -2310,7 +2310,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4D4",
     "analogousHexes": [
       "#D4CCC4",
@@ -2389,7 +2389,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F2F3",
     "analogousHexes": [
       "#F3EBE2",
@@ -2468,7 +2468,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCEFF1",
     "analogousHexes": [
       "#F1D8BC",
@@ -2547,7 +2547,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.38,
     "contrastWithBlack": 8.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88EEF2",
     "analogousHexes": [
       "#F2C088",
@@ -2626,7 +2626,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.3,
     "contrastWithBlack": 6.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52EFF4",
     "analogousHexes": [
       "#F4A952",
@@ -2705,7 +2705,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.32,
     "contrastWithBlack": 4.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DE6ED",
     "analogousHexes": [
       "#ED8C1D",
@@ -3258,7 +3258,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BBFC1",
     "analogousHexes": [
       "#C1A88B",
@@ -3416,7 +3416,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D3D4",
     "analogousHexes": [
       "#D4CDC4",
@@ -3495,7 +3495,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F2F3",
     "analogousHexes": [
       "#F3ECE2",
@@ -3574,7 +3574,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCEDF1",
     "analogousHexes": [
       "#F1DABC",
@@ -3653,7 +3653,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.32,
     "contrastWithBlack": 9.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88EBF2",
     "analogousHexes": [
       "#F2C488",
@@ -3732,7 +3732,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.21,
     "contrastWithBlack": 6.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52E9F4",
     "analogousHexes": [
       "#F4AE52",
@@ -3811,7 +3811,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.24,
     "contrastWithBlack": 4.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DDFED",
     "analogousHexes": [
       "#ED921D",
@@ -4285,7 +4285,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.77,
     "contrastWithBlack": 7.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BBDC1",
     "analogousHexes": [
       "#C1A98B",
@@ -4443,7 +4443,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.09,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCEBF1",
     "analogousHexes": [
       "#F1DCBC",
@@ -4522,7 +4522,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.27,
     "contrastWithBlack": 9.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88E7F2",
     "analogousHexes": [
       "#F2C788",
@@ -4601,7 +4601,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.11,
     "contrastWithBlack": 6.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52E4F4",
     "analogousHexes": [
       "#F4B352",
@@ -4680,7 +4680,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.15,
     "contrastWithBlack": 5.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DD8ED",
     "analogousHexes": [
       "#ED991D",
@@ -5233,7 +5233,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.75,
     "contrastWithBlack": 7.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BBBC1",
     "analogousHexes": [
       "#C1AB8B",
@@ -5391,7 +5391,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D2D4",
     "analogousHexes": [
       "#D4CEC4",
@@ -5470,7 +5470,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F1F3",
     "analogousHexes": [
       "#F3EDE2",
@@ -5549,7 +5549,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCEAF1",
     "analogousHexes": [
       "#F1DDBC",
@@ -5628,7 +5628,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.21,
     "contrastWithBlack": 9.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88E4F2",
     "analogousHexes": [
       "#F2CB88",
@@ -5707,7 +5707,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.02,
     "contrastWithBlack": 6.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52DEF4",
     "analogousHexes": [
       "#F4B952",
@@ -5786,7 +5786,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.05,
     "contrastWithBlack": 5.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DD1ED",
     "analogousHexes": [
       "#EDA01D",
@@ -6260,7 +6260,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.71,
     "contrastWithBlack": 7.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BB9C1",
     "analogousHexes": [
       "#C1AD8B",
@@ -6418,7 +6418,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.56,
     "contrastWithBlack": 13.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCE8F1",
     "analogousHexes": [
       "#F1DFBC",
@@ -6497,7 +6497,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.17,
     "contrastWithBlack": 9.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88E0F2",
     "analogousHexes": [
       "#F2CE88",
@@ -6576,7 +6576,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.93,
     "contrastWithBlack": 7.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52D9F4",
     "analogousHexes": [
       "#F4BE52",
@@ -6655,7 +6655,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.94,
     "contrastWithBlack": 5.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DCAED",
     "analogousHexes": [
       "#EDA71D",
@@ -7129,7 +7129,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.54,
     "contrastWithBlack": 4.63,
-    "bestTextColor": "#FFFFFF",
+    "bestTextColor": "#000000",
     "complementaryHex": "#539DAC",
     "analogousHexes": [
       "#AC8E53",
@@ -7208,7 +7208,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.67,
     "contrastWithBlack": 7.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BB8C1",
     "analogousHexes": [
       "#C1AF8B",
@@ -7366,7 +7366,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.77,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D1D4",
     "analogousHexes": [
       "#D4CFC4",
@@ -7445,7 +7445,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.22,
     "contrastWithBlack": 17.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2EFF3",
     "analogousHexes": [
       "#F3EEE2",
@@ -7524,7 +7524,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCE6F1",
     "analogousHexes": [
       "#F1E1BC",
@@ -7603,7 +7603,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.11,
     "contrastWithBlack": 9.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88DDF2",
     "analogousHexes": [
       "#F2D288",
@@ -7682,7 +7682,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.83,
     "contrastWithBlack": 7.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52D4F4",
     "analogousHexes": [
       "#F4C452",
@@ -7761,7 +7761,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.82,
     "contrastWithBlack": 5.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DC3ED",
     "analogousHexes": [
       "#EDAE1D",
@@ -8156,7 +8156,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.43,
     "contrastWithBlack": 4.74,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#539AAC",
     "analogousHexes": [
       "#AC9153",
@@ -8235,7 +8235,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.62,
     "contrastWithBlack": 8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BB6C1",
     "analogousHexes": [
       "#C1B08B",
@@ -8393,7 +8393,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCE4F1",
     "analogousHexes": [
       "#F1E3BC",
@@ -8472,7 +8472,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88D9F2",
     "analogousHexes": [
       "#F2D588",
@@ -8551,7 +8551,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.74,
     "contrastWithBlack": 7.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52CEF4",
     "analogousHexes": [
       "#F4C952",
@@ -8630,7 +8630,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.7,
     "contrastWithBlack": 5.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DBCED",
     "analogousHexes": [
       "#EDB51D",
@@ -9104,7 +9104,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.32,
     "contrastWithBlack": 4.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5397AC",
     "analogousHexes": [
       "#AC9453",
@@ -9183,7 +9183,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.6,
     "contrastWithBlack": 8.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BB4C1",
     "analogousHexes": [
       "#C1B28B",
@@ -9341,7 +9341,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D0D4",
     "analogousHexes": [
       "#D4D0C4",
@@ -9420,7 +9420,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2EEF3",
     "analogousHexes": [
       "#F3EFE2",
@@ -9499,7 +9499,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.51,
     "contrastWithBlack": 13.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCE3F1",
     "analogousHexes": [
       "#F1E4BC",
@@ -9578,7 +9578,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.01,
     "contrastWithBlack": 10.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88D5F2",
     "analogousHexes": [
       "#F2D988",
@@ -9657,7 +9657,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.64,
     "contrastWithBlack": 7.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52C9F4",
     "analogousHexes": [
       "#F4CE52",
@@ -9736,7 +9736,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.57,
     "contrastWithBlack": 5.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DB5ED",
     "analogousHexes": [
       "#EDBC1D",
@@ -10131,7 +10131,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.22,
     "contrastWithBlack": 4.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5394AC",
     "analogousHexes": [
       "#AC9753",
@@ -10210,7 +10210,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.56,
     "contrastWithBlack": 8.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BB2C1",
     "analogousHexes": [
       "#C1B48B",
@@ -10368,7 +10368,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.49,
     "contrastWithBlack": 14.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCE1F1",
     "analogousHexes": [
       "#F1E6BC",
@@ -10447,7 +10447,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.97,
     "contrastWithBlack": 10.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88D2F2",
     "analogousHexes": [
       "#F2DD88",
@@ -10526,7 +10526,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.56,
     "contrastWithBlack": 8.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52C4F4",
     "analogousHexes": [
       "#F4D452",
@@ -10605,7 +10605,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.43,
     "contrastWithBlack": 6.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DAEED",
     "analogousHexes": [
       "#EDC31D",
@@ -11079,7 +11079,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.11,
     "contrastWithBlack": 5.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5391AC",
     "analogousHexes": [
       "#AC9A53",
@@ -11158,7 +11158,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.52,
     "contrastWithBlack": 8.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BB0C1",
     "analogousHexes": [
       "#C1B68B",
@@ -11316,7 +11316,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 12.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4CFD4",
     "analogousHexes": [
       "#D4D1C4",
@@ -11395,7 +11395,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.2,
     "contrastWithBlack": 17.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2EDF3",
     "analogousHexes": [
       "#F3F0E2",
@@ -11474,7 +11474,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.48,
     "contrastWithBlack": 14.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCDFF1",
     "analogousHexes": [
       "#F1E8BC",
@@ -11553,7 +11553,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.92,
     "contrastWithBlack": 10.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88CEF2",
     "analogousHexes": [
       "#F2E088",
@@ -11632,7 +11632,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.47,
     "contrastWithBlack": 8.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52BEF4",
     "analogousHexes": [
       "#F4D952",
@@ -11711,7 +11711,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.3,
     "contrastWithBlack": 6.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DA7ED",
     "analogousHexes": [
       "#EDCA1D",
@@ -11790,7 +11790,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.46,
     "contrastWithBlack": 4.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#198DC8",
     "analogousHexes": [
       "#C8AB19",
@@ -12106,7 +12106,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.01,
     "contrastWithBlack": 5.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#538EAC",
     "analogousHexes": [
       "#AC9D53",
@@ -12185,7 +12185,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.48,
     "contrastWithBlack": 8.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BAFC1",
     "analogousHexes": [
       "#C1B88B",
@@ -12343,7 +12343,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.46,
     "contrastWithBlack": 14.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCDDF1",
     "analogousHexes": [
       "#F1EABC",
@@ -12422,7 +12422,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.86,
     "contrastWithBlack": 11.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88CBF2",
     "analogousHexes": [
       "#F2E488",
@@ -12501,7 +12501,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.38,
     "contrastWithBlack": 8.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52B9F4",
     "analogousHexes": [
       "#F4DE52",
@@ -12580,7 +12580,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.16,
     "contrastWithBlack": 6.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DA0ED",
     "analogousHexes": [
       "#EDD11D",
@@ -12659,7 +12659,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.29,
     "contrastWithBlack": 4.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1988C8",
     "analogousHexes": [
       "#C8B019",
@@ -12975,7 +12975,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.91,
     "contrastWithBlack": 5.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#538BAC",
     "analogousHexes": [
       "#ACA053",
@@ -13054,7 +13054,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.44,
     "contrastWithBlack": 8.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BADC1",
     "analogousHexes": [
       "#C1B98B",
@@ -13212,7 +13212,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.04,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4CED4",
     "analogousHexes": [
       "#D4D2C4",
@@ -13291,7 +13291,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.2,
     "contrastWithBlack": 17.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2ECF3",
     "analogousHexes": [
       "#F3F1E2",
@@ -13370,7 +13370,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.44,
     "contrastWithBlack": 14.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCDCF1",
     "analogousHexes": [
       "#F1EBBC",
@@ -13449,7 +13449,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.83,
     "contrastWithBlack": 11.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88C7F2",
     "analogousHexes": [
       "#F2E788",
@@ -13528,7 +13528,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.3,
     "contrastWithBlack": 9.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52B3F4",
     "analogousHexes": [
       "#F4E452",
@@ -13607,7 +13607,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.03,
     "contrastWithBlack": 6.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D99ED",
     "analogousHexes": [
       "#EDD81D",
@@ -13686,7 +13686,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.11,
     "contrastWithBlack": 5.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1982C8",
     "analogousHexes": [
       "#C8B619",
@@ -14081,7 +14081,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.81,
     "contrastWithBlack": 5.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5388AC",
     "analogousHexes": [
       "#ACA353",
@@ -14160,7 +14160,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.42,
     "contrastWithBlack": 8.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BABC1",
     "analogousHexes": [
       "#C1BB8B",
@@ -14318,7 +14318,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.19,
     "contrastWithBlack": 17.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2ECF3",
     "analogousHexes": [
       "#F3F2E2",
@@ -14397,7 +14397,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCDAF1",
     "analogousHexes": [
       "#F1EDBC",
@@ -14476,7 +14476,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.78,
     "contrastWithBlack": 11.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88C4F2",
     "analogousHexes": [
       "#F2EB88",
@@ -14555,7 +14555,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52AEF4",
     "analogousHexes": [
       "#F4E952",
@@ -14634,7 +14634,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.89,
     "contrastWithBlack": 7.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D92ED",
     "analogousHexes": [
       "#EDDF1D",
@@ -14713,7 +14713,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.94,
     "contrastWithBlack": 5.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#197CC8",
     "analogousHexes": [
       "#C8BC19",
@@ -15029,7 +15029,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.71,
     "contrastWithBlack": 5.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5385AC",
     "analogousHexes": [
       "#ACA653",
@@ -15108,7 +15108,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.38,
     "contrastWithBlack": 8.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BA9C1",
     "analogousHexes": [
       "#C1BD8B",
@@ -15266,7 +15266,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4CDD4",
     "analogousHexes": [
       "#D4D3C4",
@@ -15345,7 +15345,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.41,
     "contrastWithBlack": 14.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCD8F1",
     "analogousHexes": [
       "#F1EFBC",
@@ -15424,7 +15424,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.74,
     "contrastWithBlack": 12.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88C0F2",
     "analogousHexes": [
       "#F2EE88",
@@ -15503,7 +15503,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.13,
     "contrastWithBlack": 9.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52A9F4",
     "analogousHexes": [
       "#F4EF52",
@@ -15582,7 +15582,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.76,
     "contrastWithBlack": 7.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D8CED",
     "analogousHexes": [
       "#EDE61D",
@@ -15661,7 +15661,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.8,
     "contrastWithBlack": 5.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1976C8",
     "analogousHexes": [
       "#C8C219",
@@ -16056,7 +16056,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.61,
     "contrastWithBlack": 5.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5382AC",
     "analogousHexes": [
       "#ACA953",
@@ -16135,7 +16135,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.35,
     "contrastWithBlack": 8.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BA8C1",
     "analogousHexes": [
       "#C1BF8B",
@@ -16293,7 +16293,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.18,
     "contrastWithBlack": 17.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2EBF3",
     "analogousHexes": [
       "#F3F3E2",
@@ -16372,7 +16372,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCD6F1",
     "analogousHexes": [
       "#F1F1BC",
@@ -16451,7 +16451,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.69,
     "contrastWithBlack": 12.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88BDF2",
     "analogousHexes": [
       "#F2F288",
@@ -16530,7 +16530,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.06,
     "contrastWithBlack": 10.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52A3F4",
     "analogousHexes": [
       "#F4F452",
@@ -16609,7 +16609,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.63,
     "contrastWithBlack": 7.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D85ED",
     "analogousHexes": [
       "#EDED1D",
@@ -16688,7 +16688,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.63,
     "contrastWithBlack": 5.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1970C8",
     "analogousHexes": [
       "#C8C819",
@@ -17004,7 +17004,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.52,
     "contrastWithBlack": 5.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5380AC",
     "analogousHexes": [
       "#ACAC53",
@@ -17083,7 +17083,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.31,
     "contrastWithBlack": 9.09,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BA6C1",
     "analogousHexes": [
       "#C1C18B",
@@ -17241,7 +17241,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4CCD4",
     "analogousHexes": [
       "#D4D4C4",
@@ -17320,7 +17320,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCD4F1",
     "analogousHexes": [
       "#EFF1BC",
@@ -17399,7 +17399,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88B9F2",
     "analogousHexes": [
       "#EEF288",
@@ -17478,7 +17478,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.97,
     "contrastWithBlack": 10.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#529EF4",
     "analogousHexes": [
       "#EFF452",
@@ -17557,7 +17557,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.51,
     "contrastWithBlack": 8.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D7EED",
     "analogousHexes": [
       "#E6ED1D",
@@ -17636,7 +17636,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.46,
     "contrastWithBlack": 6.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#196AC8",
     "analogousHexes": [
       "#C2C819",
@@ -18031,7 +18031,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.46,
     "contrastWithBlack": 6.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#537DAC",
     "analogousHexes": [
       "#A9AC53",
@@ -18110,7 +18110,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.27,
     "contrastWithBlack": 9.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BA4C1",
     "analogousHexes": [
       "#BFC18B",
@@ -18268,7 +18268,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4CBD4",
     "analogousHexes": [
       "#D3D4C4",
@@ -18347,7 +18347,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.17,
     "contrastWithBlack": 17.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2EAF3",
     "analogousHexes": [
       "#F2F3E2",
@@ -18426,7 +18426,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCD3F1",
     "analogousHexes": [
       "#EDF1BC",
@@ -18505,7 +18505,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88B6F2",
     "analogousHexes": [
       "#EBF288",
@@ -18584,7 +18584,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.91,
     "contrastWithBlack": 11.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5298F4",
     "analogousHexes": [
       "#E9F452",
@@ -18663,7 +18663,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.41,
     "contrastWithBlack": 8.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D77ED",
     "analogousHexes": [
       "#DFED1D",
@@ -18742,7 +18742,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.31,
     "contrastWithBlack": 6.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1965C8",
     "analogousHexes": [
       "#BCC819",
@@ -19058,7 +19058,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.37,
     "contrastWithBlack": 6.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#537AAC",
     "analogousHexes": [
       "#A6AC53",
@@ -19137,7 +19137,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BA2C1",
     "analogousHexes": [
       "#BDC18B",
@@ -19295,7 +19295,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCD1F1",
     "analogousHexes": [
       "#EBF1BC",
@@ -19374,7 +19374,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88B2F2",
     "analogousHexes": [
       "#E7F288",
@@ -19453,7 +19453,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.84,
     "contrastWithBlack": 11.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5293F4",
     "analogousHexes": [
       "#E4F452",
@@ -19532,7 +19532,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.29,
     "contrastWithBlack": 9.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D70ED",
     "analogousHexes": [
       "#D8ED1D",
@@ -19611,7 +19611,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.15,
     "contrastWithBlack": 6.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#195FC8",
     "analogousHexes": [
       "#B6C819",
@@ -20006,7 +20006,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.28,
     "contrastWithBlack": 6.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5377AC",
     "analogousHexes": [
       "#A3AC53",
@@ -20085,7 +20085,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BA0C1",
     "analogousHexes": [
       "#BBC18B",
@@ -20243,7 +20243,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.56,
     "contrastWithBlack": 13.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4CAD4",
     "analogousHexes": [
       "#D2D4C4",
@@ -20322,7 +20322,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.17,
     "contrastWithBlack": 18.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2E8F3",
     "analogousHexes": [
       "#F1F3E2",
@@ -20401,7 +20401,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.33,
     "contrastWithBlack": 15.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCCFF1",
     "analogousHexes": [
       "#EAF1BC",
@@ -20480,7 +20480,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88AFF2",
     "analogousHexes": [
       "#E4F288",
@@ -20559,7 +20559,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.76,
     "contrastWithBlack": 11.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#528EF4",
     "analogousHexes": [
       "#DEF452",
@@ -20638,7 +20638,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.18,
     "contrastWithBlack": 9.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D69ED",
     "analogousHexes": [
       "#D1ED1D",
@@ -20717,7 +20717,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3,
     "contrastWithBlack": 6.99,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1959C8",
     "analogousHexes": [
       "#B0C819",
@@ -21033,7 +21033,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.2,
     "contrastWithBlack": 6.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5374AC",
     "analogousHexes": [
       "#A0AC53",
@@ -21112,7 +21112,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.18,
     "contrastWithBlack": 9.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B9FC1",
     "analogousHexes": [
       "#B9C18B",
@@ -21270,7 +21270,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.31,
     "contrastWithBlack": 16.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCCDF1",
     "analogousHexes": [
       "#E8F1BC",
@@ -21349,7 +21349,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 13.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88ABF2",
     "analogousHexes": [
       "#E0F288",
@@ -21428,7 +21428,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.7,
     "contrastWithBlack": 12.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5288F4",
     "analogousHexes": [
       "#D9F452",
@@ -21507,7 +21507,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D62ED",
     "analogousHexes": [
       "#CAED1D",
@@ -21586,7 +21586,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.88,
     "contrastWithBlack": 7.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1953C8",
     "analogousHexes": [
       "#ABC819",
@@ -21981,7 +21981,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.11,
     "contrastWithBlack": 6.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5371AC",
     "analogousHexes": [
       "#9DAC53",
@@ -22060,7 +22060,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.15,
     "contrastWithBlack": 9.77,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B9DC1",
     "analogousHexes": [
       "#B8C18B",
@@ -22218,7 +22218,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4C9D4",
     "analogousHexes": [
       "#D1D4C4",
@@ -22297,7 +22297,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.16,
     "contrastWithBlack": 18.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2E7F3",
     "analogousHexes": [
       "#EFF3E2",
@@ -22376,7 +22376,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.29,
     "contrastWithBlack": 16.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCCCF1",
     "analogousHexes": [
       "#E6F1BC",
@@ -22455,7 +22455,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.46,
     "contrastWithBlack": 14.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88A7F2",
     "analogousHexes": [
       "#DDF288",
@@ -22534,7 +22534,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5283F4",
     "analogousHexes": [
       "#D4F452",
@@ -22613,7 +22613,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.97,
     "contrastWithBlack": 10.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D5BED",
     "analogousHexes": [
       "#C3ED1D",
@@ -22692,7 +22692,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.75,
     "contrastWithBlack": 7.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#194DC8",
     "analogousHexes": [
       "#A5C819",
@@ -23008,7 +23008,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.03,
     "contrastWithBlack": 6.93,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#536EAC",
     "analogousHexes": [
       "#9AAC53",
@@ -23087,7 +23087,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.13,
     "contrastWithBlack": 9.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B9BC1",
     "analogousHexes": [
       "#B6C18B",
@@ -23245,7 +23245,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.28,
     "contrastWithBlack": 16.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCCAF1",
     "analogousHexes": [
       "#E4F1BC",
@@ -23324,7 +23324,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.43,
     "contrastWithBlack": 14.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88A4F2",
     "analogousHexes": [
       "#D9F288",
@@ -23403,7 +23403,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#527EF4",
     "analogousHexes": [
       "#CEF452",
@@ -23482,7 +23482,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.87,
     "contrastWithBlack": 11.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D54ED",
     "analogousHexes": [
       "#BCED1D",
@@ -23561,7 +23561,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.62,
     "contrastWithBlack": 8.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1947C8",
     "analogousHexes": [
       "#9FC819",
@@ -23640,7 +23640,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.46,
     "contrastWithBlack": 4.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A3A93",
     "analogousHexes": [
       "#77931A",
@@ -23956,7 +23956,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.95,
     "contrastWithBlack": 7.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#536BAC",
     "analogousHexes": [
       "#97AC53",
@@ -24035,7 +24035,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.1,
     "contrastWithBlack": 10.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B99C1",
     "analogousHexes": [
       "#B4C18B",
@@ -24193,7 +24193,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4C8D4",
     "analogousHexes": [
       "#D0D4C4",
@@ -24272,7 +24272,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2E6F3",
     "analogousHexes": [
       "#EEF3E2",
@@ -24351,7 +24351,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCC8F1",
     "analogousHexes": [
       "#E3F1BC",
@@ -24430,7 +24430,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88A0F2",
     "analogousHexes": [
       "#D5F288",
@@ -24509,7 +24509,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5278F4",
     "analogousHexes": [
       "#C9F452",
@@ -24588,7 +24588,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.78,
     "contrastWithBlack": 11.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D4DED",
     "analogousHexes": [
       "#B5ED1D",
@@ -24667,7 +24667,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.49,
     "contrastWithBlack": 8.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1942C8",
     "analogousHexes": [
       "#99C819",
@@ -24746,7 +24746,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.29,
     "contrastWithBlack": 4.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A3693",
     "analogousHexes": [
       "#73931A",
@@ -24983,7 +24983,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.87,
     "contrastWithBlack": 7.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5368AC",
     "analogousHexes": [
       "#94AC53",
@@ -25062,7 +25062,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B97C1",
     "analogousHexes": [
       "#B2C18B",
@@ -25220,7 +25220,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCC6F1",
     "analogousHexes": [
       "#E1F1BC",
@@ -25299,7 +25299,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#889DF2",
     "analogousHexes": [
       "#D2F288",
@@ -25378,7 +25378,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.46,
     "contrastWithBlack": 14.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5273F4",
     "analogousHexes": [
       "#C4F452",
@@ -25457,7 +25457,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.69,
     "contrastWithBlack": 12.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D46ED",
     "analogousHexes": [
       "#AEED1D",
@@ -25536,7 +25536,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.37,
     "contrastWithBlack": 8.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#193CC8",
     "analogousHexes": [
       "#93C819",
@@ -25615,7 +25615,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.13,
     "contrastWithBlack": 5.09,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A3293",
     "analogousHexes": [
       "#6F931A",
@@ -25931,7 +25931,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.8,
     "contrastWithBlack": 7.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5365AC",
     "analogousHexes": [
       "#91AC53",
@@ -26010,7 +26010,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.03,
     "contrastWithBlack": 10.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B96C1",
     "analogousHexes": [
       "#B0C18B",
@@ -26168,7 +26168,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4C7D4",
     "analogousHexes": [
       "#CFD4C4",
@@ -26247,7 +26247,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.14,
     "contrastWithBlack": 18.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2E5F3",
     "analogousHexes": [
       "#EDF3E2",
@@ -26326,7 +26326,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCC5F1",
     "analogousHexes": [
       "#DFF1BC",
@@ -26405,7 +26405,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.33,
     "contrastWithBlack": 15.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8899F2",
     "analogousHexes": [
       "#CEF288",
@@ -26484,7 +26484,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.41,
     "contrastWithBlack": 14.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#526DF4",
     "analogousHexes": [
       "#BEF452",
@@ -26563,7 +26563,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D3FED",
     "analogousHexes": [
       "#A7ED1D",
@@ -26642,7 +26642,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.26,
     "contrastWithBlack": 9.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1936C8",
     "analogousHexes": [
       "#8DC819",
@@ -26721,7 +26721,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.97,
     "contrastWithBlack": 5.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A2E93",
     "analogousHexes": [
       "#6B931A",
@@ -26958,7 +26958,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5362AC",
     "analogousHexes": [
       "#8EAC53",
@@ -27037,7 +27037,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2,
     "contrastWithBlack": 10.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B94C1",
     "analogousHexes": [
       "#AFC18B",
@@ -27195,7 +27195,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.14,
     "contrastWithBlack": 18.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2E5F3",
     "analogousHexes": [
       "#EDF3E2",
@@ -27274,7 +27274,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.22,
     "contrastWithBlack": 17.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCC3F1",
     "analogousHexes": [
       "#DDF1BC",
@@ -27353,7 +27353,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.29,
     "contrastWithBlack": 16.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8896F2",
     "analogousHexes": [
       "#CBF288",
@@ -27432,7 +27432,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5268F4",
     "analogousHexes": [
       "#B9F452",
@@ -27511,7 +27511,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.74,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D38ED",
     "analogousHexes": [
       "#A0ED1D",
@@ -27590,7 +27590,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.17,
     "contrastWithBlack": 9.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1930C8",
     "analogousHexes": [
       "#88C819",
@@ -27669,7 +27669,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.82,
     "contrastWithBlack": 5.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A2A93",
     "analogousHexes": [
       "#67931A",
@@ -27985,7 +27985,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.66,
     "contrastWithBlack": 7.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#535FAC",
     "analogousHexes": [
       "#8BAC53",
@@ -28064,7 +28064,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.98,
     "contrastWithBlack": 10.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B92C1",
     "analogousHexes": [
       "#ADC18B",
@@ -28222,7 +28222,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4C6D4",
     "analogousHexes": [
       "#CED4C4",
@@ -28301,7 +28301,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCC1F1",
     "analogousHexes": [
       "#DCF1BC",
@@ -28380,7 +28380,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8892F2",
     "analogousHexes": [
       "#C7F288",
@@ -28459,7 +28459,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.31,
     "contrastWithBlack": 16.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5263F4",
     "analogousHexes": [
       "#B3F452",
@@ -28538,7 +28538,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D31ED",
     "analogousHexes": [
       "#99ED1D",
@@ -28617,7 +28617,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#192AC8",
     "analogousHexes": [
       "#82C819",
@@ -28696,7 +28696,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.67,
     "contrastWithBlack": 5.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A2693",
     "analogousHexes": [
       "#63931A",
@@ -28933,7 +28933,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.59,
     "contrastWithBlack": 8.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#535CAC",
     "analogousHexes": [
       "#88AC53",
@@ -29012,7 +29012,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.95,
     "contrastWithBlack": 10.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B90C1",
     "analogousHexes": [
       "#ABC18B",
@@ -29170,7 +29170,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.13,
     "contrastWithBlack": 18.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2E4F3",
     "analogousHexes": [
       "#ECF3E2",
@@ -29249,7 +29249,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.19,
     "contrastWithBlack": 17.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCBFF1",
     "analogousHexes": [
       "#DAF1BC",
@@ -29328,7 +29328,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#888FF2",
     "analogousHexes": [
       "#C4F288",
@@ -29407,7 +29407,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#525DF4",
     "analogousHexes": [
       "#AEF452",
@@ -29486,7 +29486,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D2AED",
     "analogousHexes": [
       "#92ED1D",
@@ -29565,7 +29565,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.97,
     "contrastWithBlack": 10.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1924C8",
     "analogousHexes": [
       "#7CC819",
@@ -29644,7 +29644,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.53,
     "contrastWithBlack": 5.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A2293",
     "analogousHexes": [
       "#5F931A",
@@ -29960,7 +29960,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.52,
     "contrastWithBlack": 8.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5359AC",
     "analogousHexes": [
       "#85AC53",
@@ -30039,7 +30039,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.92,
     "contrastWithBlack": 10.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B8FC1",
     "analogousHexes": [
       "#A9C18B",
@@ -30197,7 +30197,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.51,
     "contrastWithBlack": 13.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4C5D4",
     "analogousHexes": [
       "#CDD4C4",
@@ -30276,7 +30276,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.18,
     "contrastWithBlack": 17.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCBDF1",
     "analogousHexes": [
       "#D8F1BC",
@@ -30355,7 +30355,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#888BF2",
     "analogousHexes": [
       "#C0F288",
@@ -30434,7 +30434,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5258F4",
     "analogousHexes": [
       "#A9F452",
@@ -30513,7 +30513,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.32,
     "contrastWithBlack": 15.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D23ED",
     "analogousHexes": [
       "#8CED1D",
@@ -30592,7 +30592,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.88,
     "contrastWithBlack": 11.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#191FC8",
     "analogousHexes": [
       "#76C819",
@@ -30671,7 +30671,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.4,
     "contrastWithBlack": 6.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A1E93",
     "analogousHexes": [
       "#5B931A",
@@ -30908,7 +30908,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.45,
     "contrastWithBlack": 8.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5356AC",
     "analogousHexes": [
       "#82AC53",
@@ -30987,7 +30987,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.89,
     "contrastWithBlack": 11.09,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B8DC1",
     "analogousHexes": [
       "#A8C18B",
@@ -31145,7 +31145,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.12,
     "contrastWithBlack": 18.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2E2F3",
     "analogousHexes": [
       "#EBF3E2",
@@ -31224,7 +31224,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.16,
     "contrastWithBlack": 18.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCBCF1",
     "analogousHexes": [
       "#D6F1BC",
@@ -31303,7 +31303,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.18,
     "contrastWithBlack": 17.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8888F2",
     "analogousHexes": [
       "#BDF288",
@@ -31382,7 +31382,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.17,
     "contrastWithBlack": 17.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5252F4",
     "analogousHexes": [
       "#A3F452",
@@ -31461,7 +31461,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1D1DED",
     "analogousHexes": [
       "#85ED1D",
@@ -31540,7 +31540,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.79,
     "contrastWithBlack": 11.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1919C8",
     "analogousHexes": [
       "#70C819",
@@ -31619,7 +31619,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.27,
     "contrastWithBlack": 6.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1A1A93",
     "analogousHexes": [
       "#57931A",
@@ -31935,7 +31935,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.39,
     "contrastWithBlack": 8.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5353AC",
     "analogousHexes": [
       "#80AC53",
@@ -32014,7 +32014,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.86,
     "contrastWithBlack": 11.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B8BC1",
     "analogousHexes": [
       "#A6C18B",
@@ -32172,7 +32172,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 14.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4C4D4",
     "analogousHexes": [
       "#CCD4C4",
@@ -32251,7 +32251,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.12,
     "contrastWithBlack": 18.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E3E2F3",
     "analogousHexes": [
       "#EAF3E2",
@@ -32330,7 +32330,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.17,
     "contrastWithBlack": 17.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BDBCF1",
     "analogousHexes": [
       "#D4F1BC",
@@ -32409,7 +32409,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.19,
     "contrastWithBlack": 17.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B88F2",
     "analogousHexes": [
       "#B9F288",
@@ -32488,7 +32488,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.18,
     "contrastWithBlack": 17.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5852F4",
     "analogousHexes": [
       "#9EF452",
@@ -32567,7 +32567,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#231DED",
     "analogousHexes": [
       "#7EED1D",
@@ -32646,7 +32646,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.82,
     "contrastWithBlack": 11.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1F19C8",
     "analogousHexes": [
       "#6AC819",
@@ -32725,7 +32725,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.3,
     "contrastWithBlack": 6.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1E1A93",
     "analogousHexes": [
       "#53931A",
@@ -33041,7 +33041,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.41,
     "contrastWithBlack": 8.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5653AC",
     "analogousHexes": [
       "#7DAC53",
@@ -33120,7 +33120,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.87,
     "contrastWithBlack": 11.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8D8BC1",
     "analogousHexes": [
       "#A4C18B",
@@ -33278,7 +33278,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 13.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C5C4D4",
     "analogousHexes": [
       "#CBD4C4",
@@ -33357,7 +33357,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.17,
     "contrastWithBlack": 17.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BFBCF1",
     "analogousHexes": [
       "#D3F1BC",
@@ -33436,7 +33436,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.19,
     "contrastWithBlack": 17.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8F88F2",
     "analogousHexes": [
       "#B6F288",
@@ -33515,7 +33515,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.2,
     "contrastWithBlack": 17.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5D52F4",
     "analogousHexes": [
       "#98F452",
@@ -33594,7 +33594,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.29,
     "contrastWithBlack": 16.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#2A1DED",
     "analogousHexes": [
       "#77ED1D",
@@ -33673,7 +33673,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.84,
     "contrastWithBlack": 11.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#2419C8",
     "analogousHexes": [
       "#65C819",
@@ -33752,7 +33752,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.34,
     "contrastWithBlack": 6.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#221A93",
     "analogousHexes": [
       "#4F931A",
@@ -33989,7 +33989,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.43,
     "contrastWithBlack": 8.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5953AC",
     "analogousHexes": [
       "#7AAC53",
@@ -34068,7 +34068,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.88,
     "contrastWithBlack": 11.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8F8BC1",
     "analogousHexes": [
       "#A2C18B",
@@ -34226,7 +34226,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.13,
     "contrastWithBlack": 18.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E4E2F3",
     "analogousHexes": [
       "#E9F3E2",
@@ -34305,7 +34305,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.18,
     "contrastWithBlack": 17.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1BCF1",
     "analogousHexes": [
       "#D1F1BC",
@@ -34384,7 +34384,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.2,
     "contrastWithBlack": 17.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9288F2",
     "analogousHexes": [
       "#B2F288",
@@ -34463,7 +34463,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6352F4",
     "analogousHexes": [
       "#93F452",
@@ -34542,7 +34542,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.31,
     "contrastWithBlack": 16.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#311DED",
     "analogousHexes": [
       "#70ED1D",
@@ -34621,7 +34621,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.86,
     "contrastWithBlack": 11.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#2A19C8",
     "analogousHexes": [
       "#5FC819",
@@ -34700,7 +34700,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.38,
     "contrastWithBlack": 6.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#261A93",
     "analogousHexes": [
       "#4B931A",
@@ -35016,7 +35016,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.45,
     "contrastWithBlack": 8.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5C53AC",
     "analogousHexes": [
       "#77AC53",
@@ -35095,7 +35095,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.89,
     "contrastWithBlack": 11.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#908BC1",
     "analogousHexes": [
       "#A0C18B",
@@ -35253,7 +35253,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 13.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C6C4D4",
     "analogousHexes": [
       "#CAD4C4",
@@ -35332,7 +35332,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.18,
     "contrastWithBlack": 17.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C3BCF1",
     "analogousHexes": [
       "#CFF1BC",
@@ -35411,7 +35411,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9688F2",
     "analogousHexes": [
       "#AFF288",
@@ -35490,7 +35490,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.22,
     "contrastWithBlack": 17.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6852F4",
     "analogousHexes": [
       "#8EF452",
@@ -35569,7 +35569,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.33,
     "contrastWithBlack": 15.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#381DED",
     "analogousHexes": [
       "#69ED1D",
@@ -35648,7 +35648,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.89,
     "contrastWithBlack": 11.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#3019C8",
     "analogousHexes": [
       "#59C819",
@@ -35727,7 +35727,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.41,
     "contrastWithBlack": 6.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#2A1A93",
     "analogousHexes": [
       "#47931A",
@@ -35964,7 +35964,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.46,
     "contrastWithBlack": 8.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5F53AC",
     "analogousHexes": [
       "#74AC53",
@@ -36043,7 +36043,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.9,
     "contrastWithBlack": 11.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#928BC1",
     "analogousHexes": [
       "#9FC18B",
@@ -36201,7 +36201,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.13,
     "contrastWithBlack": 18.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E5E2F3",
     "analogousHexes": [
       "#E8F3E2",
@@ -36280,7 +36280,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.18,
     "contrastWithBlack": 17.74,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C5BCF1",
     "analogousHexes": [
       "#CDF1BC",
@@ -36359,7 +36359,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.22,
     "contrastWithBlack": 17.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9988F2",
     "analogousHexes": [
       "#ABF288",
@@ -36438,7 +36438,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6D52F4",
     "analogousHexes": [
       "#88F452",
@@ -36517,7 +36517,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#3F1DED",
     "analogousHexes": [
       "#62ED1D",
@@ -36596,7 +36596,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.91,
     "contrastWithBlack": 11.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#3619C8",
     "analogousHexes": [
       "#53C819",
@@ -36675,7 +36675,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.45,
     "contrastWithBlack": 6.09,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#2E1A93",
     "analogousHexes": [
       "#42931A",
@@ -36991,7 +36991,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.48,
     "contrastWithBlack": 8.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6253AC",
     "analogousHexes": [
       "#71AC53",
@@ -37070,7 +37070,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.9,
     "contrastWithBlack": 11.04,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#948BC1",
     "analogousHexes": [
       "#9DC18B",
@@ -37228,7 +37228,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.51,
     "contrastWithBlack": 13.93,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C7C4D4",
     "analogousHexes": [
       "#C9D4C4",
@@ -37307,7 +37307,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.13,
     "contrastWithBlack": 18.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E6E2F3",
     "analogousHexes": [
       "#E7F3E2",
@@ -37386,7 +37386,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.19,
     "contrastWithBlack": 17.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C6BCF1",
     "analogousHexes": [
       "#CCF1BC",
@@ -37465,7 +37465,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9D88F2",
     "analogousHexes": [
       "#A7F288",
@@ -37544,7 +37544,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7352F4",
     "analogousHexes": [
       "#83F452",
@@ -37623,7 +37623,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#461DED",
     "analogousHexes": [
       "#5BED1D",
@@ -37702,7 +37702,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.93,
     "contrastWithBlack": 10.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#3C19C8",
     "analogousHexes": [
       "#4DC819",
@@ -37781,7 +37781,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.48,
     "contrastWithBlack": 6.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#321A93",
     "analogousHexes": [
       "#3E931A",
@@ -38018,7 +38018,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.5,
     "contrastWithBlack": 8.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6553AC",
     "analogousHexes": [
       "#6EAC53",
@@ -38097,7 +38097,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.91,
     "contrastWithBlack": 10.99,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#968BC1",
     "analogousHexes": [
       "#9BC18B",
@@ -38255,7 +38255,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.19,
     "contrastWithBlack": 17.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8BCF1",
     "analogousHexes": [
       "#CAF1BC",
@@ -38334,7 +38334,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A088F2",
     "analogousHexes": [
       "#A4F288",
@@ -38413,7 +38413,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7852F4",
     "analogousHexes": [
       "#7EF452",
@@ -38492,7 +38492,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#4D1DED",
     "analogousHexes": [
       "#54ED1D",
@@ -38571,7 +38571,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.95,
     "contrastWithBlack": 10.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#4219C8",
     "analogousHexes": [
       "#47C819",
@@ -38650,7 +38650,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.52,
     "contrastWithBlack": 5.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#361A93",
     "analogousHexes": [
       "#3A931A",
@@ -38966,7 +38966,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.52,
     "contrastWithBlack": 8.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6853AC",
     "analogousHexes": [
       "#6BAC53",
@@ -39045,7 +39045,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.92,
     "contrastWithBlack": 10.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#978BC1",
     "analogousHexes": [
       "#99C18B",
@@ -39203,7 +39203,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.51,
     "contrastWithBlack": 13.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8C4D4",
     "analogousHexes": [
       "#C8D4C4",
@@ -39282,7 +39282,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.13,
     "contrastWithBlack": 18.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E7E2F3",
     "analogousHexes": [
       "#E6F3E2",
@@ -39361,7 +39361,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.19,
     "contrastWithBlack": 17.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CABCF1",
     "analogousHexes": [
       "#C8F1BC",
@@ -39440,7 +39440,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A488F2",
     "analogousHexes": [
       "#A0F288",
@@ -39519,7 +39519,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7E52F4",
     "analogousHexes": [
       "#78F452",
@@ -39598,7 +39598,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#541DED",
     "analogousHexes": [
       "#4DED1D",
@@ -39677,7 +39677,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.98,
     "contrastWithBlack": 10.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#4719C8",
     "analogousHexes": [
       "#42C819",
@@ -39756,7 +39756,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.55,
     "contrastWithBlack": 5.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#3A1A93",
     "analogousHexes": [
       "#36931A",
@@ -39993,7 +39993,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.53,
     "contrastWithBlack": 8.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6B53AC",
     "analogousHexes": [
       "#68AC53",
@@ -40072,7 +40072,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.93,
     "contrastWithBlack": 10.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#998BC1",
     "analogousHexes": [
       "#97C18B",
@@ -40230,7 +40230,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.2,
     "contrastWithBlack": 17.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CCBCF1",
     "analogousHexes": [
       "#C6F1BC",
@@ -40309,7 +40309,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A788F2",
     "analogousHexes": [
       "#9DF288",
@@ -40388,7 +40388,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.28,
     "contrastWithBlack": 16.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8352F4",
     "analogousHexes": [
       "#73F452",
@@ -40467,7 +40467,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.41,
     "contrastWithBlack": 14.93,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5B1DED",
     "analogousHexes": [
       "#46ED1D",
@@ -40546,7 +40546,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2,
     "contrastWithBlack": 10.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#4D19C8",
     "analogousHexes": [
       "#3CC819",
@@ -40625,7 +40625,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.58,
     "contrastWithBlack": 5.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#3E1A93",
     "analogousHexes": [
       "#32931A",
@@ -40941,7 +40941,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.55,
     "contrastWithBlack": 8.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6E53AC",
     "analogousHexes": [
       "#65AC53",
@@ -41020,7 +41020,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.94,
     "contrastWithBlack": 10.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9B8BC1",
     "analogousHexes": [
       "#96C18B",
@@ -41178,7 +41178,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.51,
     "contrastWithBlack": 13.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C9C4D4",
     "analogousHexes": [
       "#C7D4C4",
@@ -41257,7 +41257,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.13,
     "contrastWithBlack": 18.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E8E2F3",
     "analogousHexes": [
       "#E5F3E2",
@@ -41336,7 +41336,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.2,
     "contrastWithBlack": 17.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CDBCF1",
     "analogousHexes": [
       "#C5F1BC",
@@ -41415,7 +41415,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AB88F2",
     "analogousHexes": [
       "#99F288",
@@ -41494,7 +41494,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.29,
     "contrastWithBlack": 16.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8852F4",
     "analogousHexes": [
       "#6DF452",
@@ -41573,7 +41573,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.77,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#621DED",
     "analogousHexes": [
       "#3FED1D",
@@ -41652,7 +41652,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.02,
     "contrastWithBlack": 10.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5319C8",
     "analogousHexes": [
       "#36C819",
@@ -41731,7 +41731,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.61,
     "contrastWithBlack": 5.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#421A93",
     "analogousHexes": [
       "#2E931A",
@@ -41968,7 +41968,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.57,
     "contrastWithBlack": 8.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7153AC",
     "analogousHexes": [
       "#62AC53",
@@ -42047,7 +42047,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.94,
     "contrastWithBlack": 10.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9D8BC1",
     "analogousHexes": [
       "#94C18B",
@@ -42205,7 +42205,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CFBCF1",
     "analogousHexes": [
       "#C3F1BC",
@@ -42284,7 +42284,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AF88F2",
     "analogousHexes": [
       "#96F288",
@@ -42363,7 +42363,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.3,
     "contrastWithBlack": 16.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8E52F4",
     "analogousHexes": [
       "#68F452",
@@ -42442,7 +42442,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.44,
     "contrastWithBlack": 14.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#691DED",
     "analogousHexes": [
       "#38ED1D",
@@ -42521,7 +42521,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.03,
     "contrastWithBlack": 10.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5919C8",
     "analogousHexes": [
       "#30C819",
@@ -42600,7 +42600,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.64,
     "contrastWithBlack": 5.77,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#471A93",
     "analogousHexes": [
       "#2A931A",
@@ -42916,7 +42916,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.59,
     "contrastWithBlack": 8.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7453AC",
     "analogousHexes": [
       "#5FAC53",
@@ -42995,7 +42995,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.95,
     "contrastWithBlack": 10.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9F8BC1",
     "analogousHexes": [
       "#92C18B",
@@ -43153,7 +43153,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CAC4D4",
     "analogousHexes": [
       "#C6D4C4",
@@ -43232,7 +43232,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.14,
     "contrastWithBlack": 18.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E9E2F3",
     "analogousHexes": [
       "#E4F3E2",
@@ -43311,7 +43311,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D1BCF1",
     "analogousHexes": [
       "#C1F1BC",
@@ -43390,7 +43390,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B288F2",
     "analogousHexes": [
       "#92F288",
@@ -43469,7 +43469,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.31,
     "contrastWithBlack": 15.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9352F4",
     "analogousHexes": [
       "#63F452",
@@ -43548,7 +43548,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#701DED",
     "analogousHexes": [
       "#31ED1D",
@@ -43627,7 +43627,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.05,
     "contrastWithBlack": 10.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5F19C8",
     "analogousHexes": [
       "#2AC819",
@@ -43706,7 +43706,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.67,
     "contrastWithBlack": 5.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#4B1A93",
     "analogousHexes": [
       "#26931A",
@@ -43943,7 +43943,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.6,
     "contrastWithBlack": 8.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7753AC",
     "analogousHexes": [
       "#5CAC53",
@@ -44022,7 +44022,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.96,
     "contrastWithBlack": 10.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A08BC1",
     "analogousHexes": [
       "#90C18B",
@@ -44180,7 +44180,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D3BCF1",
     "analogousHexes": [
       "#BFF1BC",
@@ -44259,7 +44259,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.28,
     "contrastWithBlack": 16.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B688F2",
     "analogousHexes": [
       "#8FF288",
@@ -44338,7 +44338,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.32,
     "contrastWithBlack": 15.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9852F4",
     "analogousHexes": [
       "#5DF452",
@@ -44417,7 +44417,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.46,
     "contrastWithBlack": 14.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#771DED",
     "analogousHexes": [
       "#2AED1D",
@@ -44496,7 +44496,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6519C8",
     "analogousHexes": [
       "#24C819",
@@ -44575,7 +44575,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.7,
     "contrastWithBlack": 5.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#4F1A93",
     "analogousHexes": [
       "#22931A",
@@ -44891,7 +44891,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.62,
     "contrastWithBlack": 8.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7A53AC",
     "analogousHexes": [
       "#59AC53",
@@ -44970,7 +44970,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.96,
     "contrastWithBlack": 10.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A28BC1",
     "analogousHexes": [
       "#8FC18B",
@@ -45128,7 +45128,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CBC4D4",
     "analogousHexes": [
       "#C5D4C4",
@@ -45207,7 +45207,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.14,
     "contrastWithBlack": 18.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EAE2F3",
     "analogousHexes": [
       "#E3F3E2",
@@ -45286,7 +45286,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.22,
     "contrastWithBlack": 17.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4BCF1",
     "analogousHexes": [
       "#BDF1BC",
@@ -45365,7 +45365,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.29,
     "contrastWithBlack": 16.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B988F2",
     "analogousHexes": [
       "#8BF288",
@@ -45444,7 +45444,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.33,
     "contrastWithBlack": 15.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9E52F4",
     "analogousHexes": [
       "#58F452",
@@ -45523,7 +45523,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.47,
     "contrastWithBlack": 14.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7E1DED",
     "analogousHexes": [
       "#23ED1D",
@@ -45602,7 +45602,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.09,
     "contrastWithBlack": 10.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6A19C8",
     "analogousHexes": [
       "#1FC819",
@@ -45681,7 +45681,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.73,
     "contrastWithBlack": 5.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#531A93",
     "analogousHexes": [
       "#1E931A",
@@ -45918,7 +45918,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.63,
     "contrastWithBlack": 7.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7D53AC",
     "analogousHexes": [
       "#56AC53",
@@ -45997,7 +45997,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.97,
     "contrastWithBlack": 10.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A48BC1",
     "analogousHexes": [
       "#8DC18B",
@@ -46155,7 +46155,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.22,
     "contrastWithBlack": 17.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D6BCF1",
     "analogousHexes": [
       "#BCF1BC",
@@ -46234,7 +46234,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.29,
     "contrastWithBlack": 16.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BD88F2",
     "analogousHexes": [
       "#88F288",
@@ -46313,7 +46313,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A352F4",
     "analogousHexes": [
       "#52F452",
@@ -46392,7 +46392,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.49,
     "contrastWithBlack": 14.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#851DED",
     "analogousHexes": [
       "#1DED1D",
@@ -46471,7 +46471,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.11,
     "contrastWithBlack": 9.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7019C8",
     "analogousHexes": [
       "#19C819",
@@ -46550,7 +46550,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.75,
     "contrastWithBlack": 5.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#571A93",
     "analogousHexes": [
       "#1A931A",
@@ -46866,7 +46866,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.64,
     "contrastWithBlack": 7.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8053AC",
     "analogousHexes": [
       "#53AC53",
@@ -46945,7 +46945,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.98,
     "contrastWithBlack": 10.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A68BC1",
     "analogousHexes": [
       "#8BC18B",
@@ -47103,7 +47103,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CCC4D4",
     "analogousHexes": [
       "#C4D4C4",
@@ -47182,7 +47182,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.14,
     "contrastWithBlack": 18.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EBE2F3",
     "analogousHexes": [
       "#E2F3E3",
@@ -47261,7 +47261,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D8BCF1",
     "analogousHexes": [
       "#BCF1BD",
@@ -47340,7 +47340,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.3,
     "contrastWithBlack": 16.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C088F2",
     "analogousHexes": [
       "#88F28B",
@@ -47419,7 +47419,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A952F4",
     "analogousHexes": [
       "#52F458",
@@ -47498,7 +47498,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 14.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8C1DED",
     "analogousHexes": [
       "#1DED23",
@@ -47577,7 +47577,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.12,
     "contrastWithBlack": 9.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7619C8",
     "analogousHexes": [
       "#19C81F",
@@ -47656,7 +47656,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.78,
     "contrastWithBlack": 5.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5B1A93",
     "analogousHexes": [
       "#1A931E",
@@ -47893,7 +47893,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.66,
     "contrastWithBlack": 7.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8253AC",
     "analogousHexes": [
       "#53AC56",
@@ -47972,7 +47972,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.99,
     "contrastWithBlack": 10.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A88BC1",
     "analogousHexes": [
       "#8BC18D",
@@ -48130,7 +48130,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CDC4D4",
     "analogousHexes": [
       "#C4D4C5",
@@ -48209,7 +48209,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DABCF1",
     "analogousHexes": [
       "#BCF1BF",
@@ -48288,7 +48288,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.31,
     "contrastWithBlack": 16.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C488F2",
     "analogousHexes": [
       "#88F28F",
@@ -48367,7 +48367,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AE52F4",
     "analogousHexes": [
       "#52F45D",
@@ -48446,7 +48446,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.51,
     "contrastWithBlack": 13.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#921DED",
     "analogousHexes": [
       "#1DED2A",
@@ -48525,7 +48525,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.14,
     "contrastWithBlack": 9.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7C19C8",
     "analogousHexes": [
       "#19C824",
@@ -48604,7 +48604,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.8,
     "contrastWithBlack": 5.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5F1A93",
     "analogousHexes": [
       "#1A9322",
@@ -48920,7 +48920,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.67,
     "contrastWithBlack": 7.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8553AC",
     "analogousHexes": [
       "#53AC59",
@@ -48999,7 +48999,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.99,
     "contrastWithBlack": 10.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A98BC1",
     "analogousHexes": [
       "#8BC18F",
@@ -49157,7 +49157,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.14,
     "contrastWithBlack": 18.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ECE2F3",
     "analogousHexes": [
       "#E2F3E4",
@@ -49236,7 +49236,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DCBCF1",
     "analogousHexes": [
       "#BCF1C1",
@@ -49315,7 +49315,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.32,
     "contrastWithBlack": 15.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C788F2",
     "analogousHexes": [
       "#88F292",
@@ -49394,7 +49394,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B352F4",
     "analogousHexes": [
       "#52F463",
@@ -49473,7 +49473,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#991DED",
     "analogousHexes": [
       "#1DED31",
@@ -49552,7 +49552,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.15,
     "contrastWithBlack": 9.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8219C8",
     "analogousHexes": [
       "#19C82A",
@@ -49631,7 +49631,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.83,
     "contrastWithBlack": 5.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#631A93",
     "analogousHexes": [
       "#1A9326",
@@ -49868,7 +49868,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.69,
     "contrastWithBlack": 7.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8853AC",
     "analogousHexes": [
       "#53AC5C",
@@ -49947,7 +49947,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2,
     "contrastWithBlack": 10.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AB8BC1",
     "analogousHexes": [
       "#8BC190",
@@ -50105,7 +50105,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CEC4D4",
     "analogousHexes": [
       "#C4D4C6",
@@ -50184,7 +50184,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.14,
     "contrastWithBlack": 18.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EDE2F3",
     "analogousHexes": [
       "#E2F3E5",
@@ -50263,7 +50263,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DDBCF1",
     "analogousHexes": [
       "#BCF1C3",
@@ -50342,7 +50342,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.32,
     "contrastWithBlack": 15.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CB88F2",
     "analogousHexes": [
       "#88F296",
@@ -50421,7 +50421,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B952F4",
     "analogousHexes": [
       "#52F468",
@@ -50500,7 +50500,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A01DED",
     "analogousHexes": [
       "#1DED38",
@@ -50579,7 +50579,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.16,
     "contrastWithBlack": 9.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8819C8",
     "analogousHexes": [
       "#19C830",
@@ -50658,7 +50658,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.85,
     "contrastWithBlack": 5.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#671A93",
     "analogousHexes": [
       "#1A932A",
@@ -50974,7 +50974,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.7,
     "contrastWithBlack": 7.77,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B53AC",
     "analogousHexes": [
       "#53AC5F",
@@ -51053,7 +51053,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2,
     "contrastWithBlack": 10.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AD8BC1",
     "analogousHexes": [
       "#8BC192",
@@ -51211,7 +51211,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DFBCF1",
     "analogousHexes": [
       "#BCF1C5",
@@ -51290,7 +51290,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.33,
     "contrastWithBlack": 15.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CE88F2",
     "analogousHexes": [
       "#88F299",
@@ -51369,7 +51369,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BE52F4",
     "analogousHexes": [
       "#52F46D",
@@ -51448,7 +51448,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A71DED",
     "analogousHexes": [
       "#1DED3F",
@@ -51527,7 +51527,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.18,
     "contrastWithBlack": 9.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8D19C8",
     "analogousHexes": [
       "#19C836",
@@ -51606,7 +51606,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.87,
     "contrastWithBlack": 5.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6B1A93",
     "analogousHexes": [
       "#1A932E",
@@ -51843,7 +51843,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.72,
     "contrastWithBlack": 7.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8E53AC",
     "analogousHexes": [
       "#53AC62",
@@ -51922,7 +51922,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.01,
     "contrastWithBlack": 10.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AF8BC1",
     "analogousHexes": [
       "#8BC194",
@@ -52080,7 +52080,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CFC4D4",
     "analogousHexes": [
       "#C4D4C7",
@@ -52159,7 +52159,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EEE2F3",
     "analogousHexes": [
       "#E2F3E6",
@@ -52238,7 +52238,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E1BCF1",
     "analogousHexes": [
       "#BCF1C6",
@@ -52317,7 +52317,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D288F2",
     "analogousHexes": [
       "#88F29D",
@@ -52396,7 +52396,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.4,
     "contrastWithBlack": 15.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C452F4",
     "analogousHexes": [
       "#52F473",
@@ -52475,7 +52475,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AE1DED",
     "analogousHexes": [
       "#1DED46",
@@ -52554,7 +52554,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.19,
     "contrastWithBlack": 9.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9319C8",
     "analogousHexes": [
       "#19C83C",
@@ -52633,7 +52633,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.89,
     "contrastWithBlack": 5.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6F1A93",
     "analogousHexes": [
       "#1A9332",
@@ -52870,7 +52870,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9153AC",
     "analogousHexes": [
       "#53AC65",
@@ -52949,7 +52949,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.02,
     "contrastWithBlack": 10.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B08BC1",
     "analogousHexes": [
       "#8BC196",
@@ -53107,7 +53107,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E3BCF1",
     "analogousHexes": [
       "#BCF1C8",
@@ -53186,7 +53186,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D588F2",
     "analogousHexes": [
       "#88F2A0",
@@ -53265,7 +53265,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.4,
     "contrastWithBlack": 14.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C952F4",
     "analogousHexes": [
       "#52F478",
@@ -53344,7 +53344,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B51DED",
     "analogousHexes": [
       "#1DED4D",
@@ -53423,7 +53423,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.2,
     "contrastWithBlack": 9.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9919C8",
     "analogousHexes": [
       "#19C842",
@@ -53502,7 +53502,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.91,
     "contrastWithBlack": 5.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#731A93",
     "analogousHexes": [
       "#1A9336",
@@ -53818,7 +53818,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.74,
     "contrastWithBlack": 7.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9453AC",
     "analogousHexes": [
       "#53AC68",
@@ -53897,7 +53897,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.03,
     "contrastWithBlack": 10.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B28BC1",
     "analogousHexes": [
       "#8BC197",
@@ -54055,7 +54055,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D0C4D4",
     "analogousHexes": [
       "#C4D4C8",
@@ -54134,7 +54134,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EFE2F3",
     "analogousHexes": [
       "#E2F3E7",
@@ -54213,7 +54213,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E4BCF1",
     "analogousHexes": [
       "#BCF1CA",
@@ -54292,7 +54292,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D988F2",
     "analogousHexes": [
       "#88F2A4",
@@ -54371,7 +54371,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.41,
     "contrastWithBlack": 14.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CE52F4",
     "analogousHexes": [
       "#52F47E",
@@ -54450,7 +54450,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.56,
     "contrastWithBlack": 13.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BC1DED",
     "analogousHexes": [
       "#1DED54",
@@ -54529,7 +54529,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.21,
     "contrastWithBlack": 9.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9F19C8",
     "analogousHexes": [
       "#19C847",
@@ -54608,7 +54608,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.93,
     "contrastWithBlack": 5.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#771A93",
     "analogousHexes": [
       "#1A933A",
@@ -54845,7 +54845,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.76,
     "contrastWithBlack": 7.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9753AC",
     "analogousHexes": [
       "#53AC6B",
@@ -54924,7 +54924,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.04,
     "contrastWithBlack": 10.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B48BC1",
     "analogousHexes": [
       "#8BC199",
@@ -55082,7 +55082,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E6BCF1",
     "analogousHexes": [
       "#BCF1CC",
@@ -55161,7 +55161,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DD88F2",
     "analogousHexes": [
       "#88F2A7",
@@ -55240,7 +55240,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D452F4",
     "analogousHexes": [
       "#52F483",
@@ -55319,7 +55319,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.57,
     "contrastWithBlack": 13.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C31DED",
     "analogousHexes": [
       "#1DED5B",
@@ -55398,7 +55398,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A519C8",
     "analogousHexes": [
       "#19C84D",
@@ -55477,7 +55477,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.94,
     "contrastWithBlack": 5.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7B1A93",
     "analogousHexes": [
       "#1A933E",
@@ -55793,7 +55793,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.77,
     "contrastWithBlack": 7.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9A53AC",
     "analogousHexes": [
       "#53AC6E",
@@ -55872,7 +55872,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.04,
     "contrastWithBlack": 10.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B68BC1",
     "analogousHexes": [
       "#8BC19B",
@@ -56030,7 +56030,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D1C4D4",
     "analogousHexes": [
       "#C4D4C9",
@@ -56109,7 +56109,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F0E2F3",
     "analogousHexes": [
       "#E2F3E8",
@@ -56188,7 +56188,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E8BCF1",
     "analogousHexes": [
       "#BCF1CD",
@@ -56267,7 +56267,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E088F2",
     "analogousHexes": [
       "#88F2AB",
@@ -56346,7 +56346,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.43,
     "contrastWithBlack": 14.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D952F4",
     "analogousHexes": [
       "#52F488",
@@ -56425,7 +56425,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.57,
     "contrastWithBlack": 13.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CA1DED",
     "analogousHexes": [
       "#1DED62",
@@ -56504,7 +56504,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.23,
     "contrastWithBlack": 9.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AB19C8",
     "analogousHexes": [
       "#19C853",
@@ -56583,7 +56583,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.96,
     "contrastWithBlack": 5.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7F1A93",
     "analogousHexes": [
       "#1A9342",
@@ -56820,7 +56820,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.78,
     "contrastWithBlack": 7.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9D53AC",
     "analogousHexes": [
       "#53AC71",
@@ -56899,7 +56899,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.05,
     "contrastWithBlack": 10.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B88BC1",
     "analogousHexes": [
       "#8BC19D",
@@ -57057,7 +57057,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EABCF1",
     "analogousHexes": [
       "#BCF1CF",
@@ -57136,7 +57136,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E488F2",
     "analogousHexes": [
       "#88F2AF",
@@ -57215,7 +57215,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.43,
     "contrastWithBlack": 14.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DE52F4",
     "analogousHexes": [
       "#52F48E",
@@ -57294,7 +57294,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D11DED",
     "analogousHexes": [
       "#1DED69",
@@ -57373,7 +57373,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.23,
     "contrastWithBlack": 9.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B019C8",
     "analogousHexes": [
       "#19C859",
@@ -57452,7 +57452,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.97,
     "contrastWithBlack": 5.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#831A93",
     "analogousHexes": [
       "#1A9347",
@@ -57768,7 +57768,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.8,
     "contrastWithBlack": 7.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A053AC",
     "analogousHexes": [
       "#53AC74",
@@ -57847,7 +57847,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.05,
     "contrastWithBlack": 10.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B98BC1",
     "analogousHexes": [
       "#8BC19F",
@@ -58005,7 +58005,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D2C4D4",
     "analogousHexes": [
       "#C4D4CA",
@@ -58084,7 +58084,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1E2F3",
     "analogousHexes": [
       "#E2F3E9",
@@ -58163,7 +58163,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EBBCF1",
     "analogousHexes": [
       "#BCF1D1",
@@ -58242,7 +58242,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E788F2",
     "analogousHexes": [
       "#88F2B2",
@@ -58321,7 +58321,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.44,
     "contrastWithBlack": 14.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E452F4",
     "analogousHexes": [
       "#52F493",
@@ -58400,7 +58400,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D81DED",
     "analogousHexes": [
       "#1DED70",
@@ -58479,7 +58479,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.24,
     "contrastWithBlack": 9.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B619C8",
     "analogousHexes": [
       "#19C85F",
@@ -58558,7 +58558,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.98,
     "contrastWithBlack": 5.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#871A93",
     "analogousHexes": [
       "#1A934B",
@@ -58795,7 +58795,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.81,
     "contrastWithBlack": 7.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A353AC",
     "analogousHexes": [
       "#53AC77",
@@ -58874,7 +58874,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.06,
     "contrastWithBlack": 10.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BB8BC1",
     "analogousHexes": [
       "#8BC1A0",
@@ -59032,7 +59032,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EDBCF1",
     "analogousHexes": [
       "#BCF1D3",
@@ -59111,7 +59111,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EB88F2",
     "analogousHexes": [
       "#88F2B6",
@@ -59190,7 +59190,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E952F4",
     "analogousHexes": [
       "#52F498",
@@ -59269,7 +59269,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DF1DED",
     "analogousHexes": [
       "#1DED77",
@@ -59348,7 +59348,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BC19C8",
     "analogousHexes": [
       "#19C865",
@@ -59427,7 +59427,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4,
     "contrastWithBlack": 5.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8B1A93",
     "analogousHexes": [
       "#1A934F",
@@ -59743,7 +59743,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A653AC",
     "analogousHexes": [
       "#53AC7A",
@@ -59822,7 +59822,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BD8BC1",
     "analogousHexes": [
       "#8BC1A2",
@@ -59980,7 +59980,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D3C4D4",
     "analogousHexes": [
       "#C4D4CB",
@@ -60059,7 +60059,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2E2F3",
     "analogousHexes": [
       "#E2F3EA",
@@ -60138,7 +60138,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EFBCF1",
     "analogousHexes": [
       "#BCF1D4",
@@ -60217,7 +60217,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EE88F2",
     "analogousHexes": [
       "#88F2B9",
@@ -60296,7 +60296,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EF52F4",
     "analogousHexes": [
       "#52F49E",
@@ -60375,7 +60375,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E61DED",
     "analogousHexes": [
       "#1DED7E",
@@ -60454,7 +60454,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C219C8",
     "analogousHexes": [
       "#19C86A",
@@ -60533,7 +60533,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4,
     "contrastWithBlack": 5.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8F1A93",
     "analogousHexes": [
       "#1A9353",
@@ -60770,7 +60770,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.83,
     "contrastWithBlack": 7.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A953AC",
     "analogousHexes": [
       "#53AC7D",
@@ -60849,7 +60849,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BF8BC1",
     "analogousHexes": [
       "#8BC1A4",
@@ -61007,7 +61007,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.16,
     "contrastWithBlack": 18.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2F3",
     "analogousHexes": [
       "#E2F3EB",
@@ -61086,7 +61086,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.28,
     "contrastWithBlack": 16.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCF1",
     "analogousHexes": [
       "#BCF1D6",
@@ -61165,7 +61165,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288F2",
     "analogousHexes": [
       "#88F2BD",
@@ -61244,7 +61244,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.46,
     "contrastWithBlack": 14.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452F4",
     "analogousHexes": [
       "#52F4A3",
@@ -61323,7 +61323,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DED",
     "analogousHexes": [
       "#1DED85",
@@ -61402,7 +61402,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C819C8",
     "analogousHexes": [
       "#19C870",
@@ -61481,7 +61481,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.01,
     "contrastWithBlack": 5.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A93",
     "analogousHexes": [
       "#1A9357",
@@ -61797,7 +61797,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.84,
     "contrastWithBlack": 7.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC53AC",
     "analogousHexes": [
       "#53AC80",
@@ -61876,7 +61876,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.08,
     "contrastWithBlack": 10.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BC1",
     "analogousHexes": [
       "#8BC1A6",
@@ -62034,7 +62034,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4D4",
     "analogousHexes": [
       "#C4D4CC",
@@ -62113,7 +62113,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.16,
     "contrastWithBlack": 18.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2F2",
     "analogousHexes": [
       "#E2F3EB",
@@ -62192,7 +62192,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.28,
     "contrastWithBlack": 16.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCEF",
     "analogousHexes": [
       "#BCF1D8",
@@ -62271,7 +62271,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288EE",
     "analogousHexes": [
       "#88F2C0",
@@ -62350,7 +62350,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452EF",
     "analogousHexes": [
       "#52F4A9",
@@ -62429,7 +62429,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DE6",
     "analogousHexes": [
       "#1DED8C",
@@ -62508,7 +62508,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C819C2",
     "analogousHexes": [
       "#19C876",
@@ -62587,7 +62587,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.01,
     "contrastWithBlack": 5.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A8F",
     "analogousHexes": [
       "#1A935B",
@@ -62903,7 +62903,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.84,
     "contrastWithBlack": 7.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC53A9",
     "analogousHexes": [
       "#53AC82",
@@ -62982,7 +62982,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.08,
     "contrastWithBlack": 10.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BBF",
     "analogousHexes": [
       "#8BC1A8",
@@ -63140,7 +63140,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4D3",
     "analogousHexes": [
       "#C4D4CD",
@@ -63219,7 +63219,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.16,
     "contrastWithBlack": 18.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2F2",
     "analogousHexes": [
       "#E2F3EC",
@@ -63298,7 +63298,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCED",
     "analogousHexes": [
       "#BCF1DA",
@@ -63377,7 +63377,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288EB",
     "analogousHexes": [
       "#88F2C4",
@@ -63456,7 +63456,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452E9",
     "analogousHexes": [
       "#52F4AE",
@@ -63535,7 +63535,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DDF",
     "analogousHexes": [
       "#1DED92",
@@ -63614,7 +63614,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C819BC",
     "analogousHexes": [
       "#19C87C",
@@ -63693,7 +63693,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.01,
     "contrastWithBlack": 5.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A8B",
     "analogousHexes": [
       "#1A935F",
@@ -63930,7 +63930,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.83,
     "contrastWithBlack": 7.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC53A6",
     "analogousHexes": [
       "#53AC85",
@@ -64009,7 +64009,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BBD",
     "analogousHexes": [
       "#8BC1A9",
@@ -64167,7 +64167,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCEB",
     "analogousHexes": [
       "#BCF1DC",
@@ -64246,7 +64246,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288E7",
     "analogousHexes": [
       "#88F2C7",
@@ -64325,7 +64325,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452E4",
     "analogousHexes": [
       "#52F4B3",
@@ -64404,7 +64404,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DD8",
     "analogousHexes": [
       "#1DED99",
@@ -64483,7 +64483,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C819B6",
     "analogousHexes": [
       "#19C882",
@@ -64562,7 +64562,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4,
     "contrastWithBlack": 5.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A87",
     "analogousHexes": [
       "#1A9363",
@@ -64878,7 +64878,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.83,
     "contrastWithBlack": 7.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC53A3",
     "analogousHexes": [
       "#53AC88",
@@ -64957,7 +64957,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BBB",
     "analogousHexes": [
       "#8BC1AB",
@@ -65115,7 +65115,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4D2",
     "analogousHexes": [
       "#C4D4CE",
@@ -65194,7 +65194,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2F1",
     "analogousHexes": [
       "#E2F3ED",
@@ -65273,7 +65273,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCEA",
     "analogousHexes": [
       "#BCF1DD",
@@ -65352,7 +65352,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288E4",
     "analogousHexes": [
       "#88F2CB",
@@ -65431,7 +65431,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452DE",
     "analogousHexes": [
       "#52F4B9",
@@ -65510,7 +65510,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DD1",
     "analogousHexes": [
       "#1DEDA0",
@@ -65589,7 +65589,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C819B0",
     "analogousHexes": [
       "#19C888",
@@ -65668,7 +65668,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4,
     "contrastWithBlack": 5.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A83",
     "analogousHexes": [
       "#1A9367",
@@ -65905,7 +65905,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC53A0",
     "analogousHexes": [
       "#53AC8B",
@@ -65984,7 +65984,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BB9",
     "analogousHexes": [
       "#8BC1AD",
@@ -66142,7 +66142,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCE8",
     "analogousHexes": [
       "#BCF1DF",
@@ -66221,7 +66221,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288E0",
     "analogousHexes": [
       "#88F2CE",
@@ -66300,7 +66300,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452D9",
     "analogousHexes": [
       "#52F4BE",
@@ -66379,7 +66379,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DCA",
     "analogousHexes": [
       "#1DEDA7",
@@ -66458,7 +66458,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.24,
     "contrastWithBlack": 9.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C819AB",
     "analogousHexes": [
       "#19C88D",
@@ -66537,7 +66537,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.99,
     "contrastWithBlack": 5.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A7F",
     "analogousHexes": [
       "#1A936B",
@@ -66853,7 +66853,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC539D",
     "analogousHexes": [
       "#53AC8E",
@@ -66932,7 +66932,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BB8",
     "analogousHexes": [
       "#8BC1AF",
@@ -67090,7 +67090,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4D1",
     "analogousHexes": [
       "#C4D4CF",
@@ -67169,7 +67169,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2EF",
     "analogousHexes": [
       "#E2F3EE",
@@ -67248,7 +67248,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCE6",
     "analogousHexes": [
       "#BCF1E1",
@@ -67327,7 +67327,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288DD",
     "analogousHexes": [
       "#88F2D2",
@@ -67406,7 +67406,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.44,
     "contrastWithBlack": 14.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452D4",
     "analogousHexes": [
       "#52F4C4",
@@ -67485,7 +67485,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DC3",
     "analogousHexes": [
       "#1DEDAE",
@@ -67564,7 +67564,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.24,
     "contrastWithBlack": 9.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C819A5",
     "analogousHexes": [
       "#19C893",
@@ -67643,7 +67643,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.99,
     "contrastWithBlack": 5.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A7B",
     "analogousHexes": [
       "#1A936F",
@@ -67880,7 +67880,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC539A",
     "analogousHexes": [
       "#53AC91",
@@ -67959,7 +67959,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BB6",
     "analogousHexes": [
       "#8BC1B0",
@@ -68117,7 +68117,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCE4",
     "analogousHexes": [
       "#BCF1E3",
@@ -68196,7 +68196,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288D9",
     "analogousHexes": [
       "#88F2D5",
@@ -68275,7 +68275,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.44,
     "contrastWithBlack": 14.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452CE",
     "analogousHexes": [
       "#52F4C9",
@@ -68354,7 +68354,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DBC",
     "analogousHexes": [
       "#1DEDB5",
@@ -68433,7 +68433,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.24,
     "contrastWithBlack": 9.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8199F",
     "analogousHexes": [
       "#19C899",
@@ -68512,7 +68512,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.98,
     "contrastWithBlack": 5.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A77",
     "analogousHexes": [
       "#1A9373",
@@ -68828,7 +68828,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.81,
     "contrastWithBlack": 7.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5397",
     "analogousHexes": [
       "#53AC94",
@@ -68907,7 +68907,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.06,
     "contrastWithBlack": 10.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BB4",
     "analogousHexes": [
       "#8BC1B2",
@@ -69065,7 +69065,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4D0",
     "analogousHexes": [
       "#C4D4D0",
@@ -69144,7 +69144,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2EE",
     "analogousHexes": [
       "#E2F3EF",
@@ -69223,7 +69223,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCE3",
     "analogousHexes": [
       "#BCF1E4",
@@ -69302,7 +69302,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288D5",
     "analogousHexes": [
       "#88F2D9",
@@ -69381,7 +69381,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.44,
     "contrastWithBlack": 14.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452C9",
     "analogousHexes": [
       "#52F4CE",
@@ -69460,7 +69460,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DB5",
     "analogousHexes": [
       "#1DEDBC",
@@ -69539,7 +69539,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.24,
     "contrastWithBlack": 9.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81999",
     "analogousHexes": [
       "#19C89F",
@@ -69618,7 +69618,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.98,
     "contrastWithBlack": 5.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A73",
     "analogousHexes": [
       "#1A9377",
@@ -69855,7 +69855,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.81,
     "contrastWithBlack": 7.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5394",
     "analogousHexes": [
       "#53AC97",
@@ -69934,7 +69934,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.06,
     "contrastWithBlack": 10.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BB2",
     "analogousHexes": [
       "#8BC1B4",
@@ -70092,7 +70092,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCE1",
     "analogousHexes": [
       "#BCF1E6",
@@ -70171,7 +70171,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288D2",
     "analogousHexes": [
       "#88F2DD",
@@ -70250,7 +70250,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.44,
     "contrastWithBlack": 14.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452C4",
     "analogousHexes": [
       "#52F4D4",
@@ -70329,7 +70329,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DAE",
     "analogousHexes": [
       "#1DEDC3",
@@ -70408,7 +70408,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.23,
     "contrastWithBlack": 9.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81993",
     "analogousHexes": [
       "#19C8A5",
@@ -70487,7 +70487,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.97,
     "contrastWithBlack": 5.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A6F",
     "analogousHexes": [
       "#1A937B",
@@ -70803,7 +70803,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.8,
     "contrastWithBlack": 7.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5391",
     "analogousHexes": [
       "#53AC9A",
@@ -70882,7 +70882,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.06,
     "contrastWithBlack": 10.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BB0",
     "analogousHexes": [
       "#8BC1B6",
@@ -71040,7 +71040,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4CF",
     "analogousHexes": [
       "#C4D4D1",
@@ -71119,7 +71119,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2ED",
     "analogousHexes": [
       "#E2F3F0",
@@ -71198,7 +71198,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCDF",
     "analogousHexes": [
       "#BCF1E8",
@@ -71277,7 +71277,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288CE",
     "analogousHexes": [
       "#88F2E0",
@@ -71356,7 +71356,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.43,
     "contrastWithBlack": 14.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452BE",
     "analogousHexes": [
       "#52F4D9",
@@ -71435,7 +71435,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.57,
     "contrastWithBlack": 13.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DA7",
     "analogousHexes": [
       "#1DEDCA",
@@ -71514,7 +71514,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.23,
     "contrastWithBlack": 9.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8198D",
     "analogousHexes": [
       "#19C8AB",
@@ -71593,7 +71593,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.97,
     "contrastWithBlack": 5.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A6B",
     "analogousHexes": [
       "#1A937F",
@@ -71830,7 +71830,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.8,
     "contrastWithBlack": 7.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC538E",
     "analogousHexes": [
       "#53AC9D",
@@ -71909,7 +71909,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.06,
     "contrastWithBlack": 10.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BAF",
     "analogousHexes": [
       "#8BC1B8",
@@ -72067,7 +72067,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCDD",
     "analogousHexes": [
       "#BCF1EA",
@@ -72146,7 +72146,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288CB",
     "analogousHexes": [
       "#88F2E4",
@@ -72225,7 +72225,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.43,
     "contrastWithBlack": 14.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452B9",
     "analogousHexes": [
       "#52F4DE",
@@ -72304,7 +72304,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.57,
     "contrastWithBlack": 13.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1DA0",
     "analogousHexes": [
       "#1DEDD1",
@@ -72383,7 +72383,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81988",
     "analogousHexes": [
       "#19C8B0",
@@ -72462,7 +72462,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.96,
     "contrastWithBlack": 5.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A67",
     "analogousHexes": [
       "#1A9383",
@@ -72699,7 +72699,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.79,
     "contrastWithBlack": 7.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC538B",
     "analogousHexes": [
       "#53ACA0",
@@ -72778,7 +72778,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.05,
     "contrastWithBlack": 10.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BAD",
     "analogousHexes": [
       "#8BC1B9",
@@ -72936,7 +72936,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4CE",
     "analogousHexes": [
       "#C4D4D2",
@@ -73015,7 +73015,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2EC",
     "analogousHexes": [
       "#E2F3F1",
@@ -73094,7 +73094,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCDC",
     "analogousHexes": [
       "#BCF1EB",
@@ -73173,7 +73173,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288C7",
     "analogousHexes": [
       "#88F2E7",
@@ -73252,7 +73252,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.43,
     "contrastWithBlack": 14.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452B3",
     "analogousHexes": [
       "#52F4E4",
@@ -73331,7 +73331,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.57,
     "contrastWithBlack": 13.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D99",
     "analogousHexes": [
       "#1DEDD8",
@@ -73410,7 +73410,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81982",
     "analogousHexes": [
       "#19C8B6",
@@ -73489,7 +73489,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.95,
     "contrastWithBlack": 5.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A63",
     "analogousHexes": [
       "#1A9387",
@@ -73805,7 +73805,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.79,
     "contrastWithBlack": 7.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5388",
     "analogousHexes": [
       "#53ACA3",
@@ -73884,7 +73884,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.05,
     "contrastWithBlack": 10.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BAB",
     "analogousHexes": [
       "#8BC1BB",
@@ -74042,7 +74042,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2EC",
     "analogousHexes": [
       "#E2F3F2",
@@ -74121,7 +74121,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCDA",
     "analogousHexes": [
       "#BCF1ED",
@@ -74200,7 +74200,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288C4",
     "analogousHexes": [
       "#88F2EB",
@@ -74279,7 +74279,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452AE",
     "analogousHexes": [
       "#52F4E9",
@@ -74358,7 +74358,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.56,
     "contrastWithBlack": 13.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D92",
     "analogousHexes": [
       "#1DEDDF",
@@ -74437,7 +74437,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.21,
     "contrastWithBlack": 9.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8197C",
     "analogousHexes": [
       "#19C8BC",
@@ -74516,7 +74516,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.94,
     "contrastWithBlack": 5.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A5F",
     "analogousHexes": [
       "#1A938B",
@@ -74753,7 +74753,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.78,
     "contrastWithBlack": 7.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5385",
     "analogousHexes": [
       "#53ACA6",
@@ -74832,7 +74832,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.05,
     "contrastWithBlack": 10.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BA9",
     "analogousHexes": [
       "#8BC1BD",
@@ -74990,7 +74990,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4CD",
     "analogousHexes": [
       "#C4D4D3",
@@ -75069,7 +75069,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCD8",
     "analogousHexes": [
       "#BCF1EF",
@@ -75148,7 +75148,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288C0",
     "analogousHexes": [
       "#88F2EE",
@@ -75227,7 +75227,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452A9",
     "analogousHexes": [
       "#52F4EF",
@@ -75306,7 +75306,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.56,
     "contrastWithBlack": 13.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D8C",
     "analogousHexes": [
       "#1DEDE6",
@@ -75385,7 +75385,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.21,
     "contrastWithBlack": 9.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81976",
     "analogousHexes": [
       "#19C8C2",
@@ -75464,7 +75464,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.93,
     "contrastWithBlack": 5.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A5B",
     "analogousHexes": [
       "#1A938F",
@@ -75780,7 +75780,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.78,
     "contrastWithBlack": 7.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5382",
     "analogousHexes": [
       "#53ACA9",
@@ -75859,7 +75859,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.05,
     "contrastWithBlack": 10.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BA8",
     "analogousHexes": [
       "#8BC1BF",
@@ -76017,7 +76017,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2EB",
     "analogousHexes": [
       "#E2F3F3",
@@ -76096,7 +76096,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCD6",
     "analogousHexes": [
       "#BCF1F1",
@@ -76175,7 +76175,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288BD",
     "analogousHexes": [
       "#88F2F2",
@@ -76254,7 +76254,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F452A3",
     "analogousHexes": [
       "#52F4F4",
@@ -76333,7 +76333,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.56,
     "contrastWithBlack": 13.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D85",
     "analogousHexes": [
       "#1DEDED",
@@ -76412,7 +76412,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.2,
     "contrastWithBlack": 9.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81970",
     "analogousHexes": [
       "#19C8C8",
@@ -76491,7 +76491,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.92,
     "contrastWithBlack": 5.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A57",
     "analogousHexes": [
       "#1A9393",
@@ -76728,7 +76728,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.77,
     "contrastWithBlack": 7.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5380",
     "analogousHexes": [
       "#53ACAC",
@@ -76807,7 +76807,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.04,
     "contrastWithBlack": 10.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BA6",
     "analogousHexes": [
       "#8BC1C1",
@@ -76965,7 +76965,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4CC",
     "analogousHexes": [
       "#C4D4D4",
@@ -77044,7 +77044,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCD4",
     "analogousHexes": [
       "#BCEFF1",
@@ -77123,7 +77123,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288B9",
     "analogousHexes": [
       "#88EEF2",
@@ -77202,7 +77202,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.41,
     "contrastWithBlack": 14.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4529E",
     "analogousHexes": [
       "#52EFF4",
@@ -77281,7 +77281,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D7E",
     "analogousHexes": [
       "#1DE6ED",
@@ -77360,7 +77360,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.2,
     "contrastWithBlack": 9.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8196A",
     "analogousHexes": [
       "#19C2C8",
@@ -77439,7 +77439,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.91,
     "contrastWithBlack": 5.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A53",
     "analogousHexes": [
       "#1A8F93",
@@ -77755,7 +77755,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.77,
     "contrastWithBlack": 7.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC537D",
     "analogousHexes": [
       "#53A9AC",
@@ -77834,7 +77834,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.04,
     "contrastWithBlack": 10.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BA4",
     "analogousHexes": [
       "#8BBFC1",
@@ -77992,7 +77992,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4CB",
     "analogousHexes": [
       "#C4D3D4",
@@ -78071,7 +78071,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2EA",
     "analogousHexes": [
       "#E2F2F3",
@@ -78150,7 +78150,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCD3",
     "analogousHexes": [
       "#BCEDF1",
@@ -78229,7 +78229,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288B6",
     "analogousHexes": [
       "#88EBF2",
@@ -78308,7 +78308,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.41,
     "contrastWithBlack": 14.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45298",
     "analogousHexes": [
       "#52E9F4",
@@ -78387,7 +78387,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D77",
     "analogousHexes": [
       "#1DDFED",
@@ -78466,7 +78466,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.19,
     "contrastWithBlack": 9.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81965",
     "analogousHexes": [
       "#19BCC8",
@@ -78545,7 +78545,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.9,
     "contrastWithBlack": 5.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A4F",
     "analogousHexes": [
       "#1A8B93",
@@ -78782,7 +78782,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.76,
     "contrastWithBlack": 7.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC537A",
     "analogousHexes": [
       "#53A6AC",
@@ -78861,7 +78861,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.04,
     "contrastWithBlack": 10.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BA2",
     "analogousHexes": [
       "#8BBDC1",
@@ -79019,7 +79019,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCD1",
     "analogousHexes": [
       "#BCEBF1",
@@ -79098,7 +79098,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288B2",
     "analogousHexes": [
       "#88E7F2",
@@ -79177,7 +79177,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.4,
     "contrastWithBlack": 14.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45293",
     "analogousHexes": [
       "#52E4F4",
@@ -79256,7 +79256,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D70",
     "analogousHexes": [
       "#1DD8ED",
@@ -79335,7 +79335,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.18,
     "contrastWithBlack": 9.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8195F",
     "analogousHexes": [
       "#19B6C8",
@@ -79414,7 +79414,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.89,
     "contrastWithBlack": 5.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A4B",
     "analogousHexes": [
       "#1A8793",
@@ -79730,7 +79730,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.75,
     "contrastWithBlack": 7.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5377",
     "analogousHexes": [
       "#53A3AC",
@@ -79809,7 +79809,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.04,
     "contrastWithBlack": 10.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18BA0",
     "analogousHexes": [
       "#8BBBC1",
@@ -79967,7 +79967,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4CA",
     "analogousHexes": [
       "#C4D2D4",
@@ -80046,7 +80046,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2E8",
     "analogousHexes": [
       "#E2F1F3",
@@ -80125,7 +80125,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCCF",
     "analogousHexes": [
       "#BCEAF1",
@@ -80204,7 +80204,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288AF",
     "analogousHexes": [
       "#88E4F2",
@@ -80283,7 +80283,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.4,
     "contrastWithBlack": 15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4528E",
     "analogousHexes": [
       "#52DEF4",
@@ -80362,7 +80362,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D69",
     "analogousHexes": [
       "#1DD1ED",
@@ -80441,7 +80441,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.17,
     "contrastWithBlack": 9.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81959",
     "analogousHexes": [
       "#19B0C8",
@@ -80520,7 +80520,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.88,
     "contrastWithBlack": 5.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A47",
     "analogousHexes": [
       "#1A8393",
@@ -80757,7 +80757,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.75,
     "contrastWithBlack": 7.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5374",
     "analogousHexes": [
       "#53A0AC",
@@ -80836,7 +80836,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.03,
     "contrastWithBlack": 10.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B9F",
     "analogousHexes": [
       "#8BB9C1",
@@ -80994,7 +80994,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCCD",
     "analogousHexes": [
       "#BCE8F1",
@@ -81073,7 +81073,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288AB",
     "analogousHexes": [
       "#88E0F2",
@@ -81152,7 +81152,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.4,
     "contrastWithBlack": 15.04,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45288",
     "analogousHexes": [
       "#52D9F4",
@@ -81231,7 +81231,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D62",
     "analogousHexes": [
       "#1DCAED",
@@ -81310,7 +81310,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.17,
     "contrastWithBlack": 9.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81953",
     "analogousHexes": [
       "#19ABC8",
@@ -81389,7 +81389,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.87,
     "contrastWithBlack": 5.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A42",
     "analogousHexes": [
       "#1A7F93",
@@ -81705,7 +81705,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.74,
     "contrastWithBlack": 7.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5371",
     "analogousHexes": [
       "#539DAC",
@@ -81784,7 +81784,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.03,
     "contrastWithBlack": 10.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B9D",
     "analogousHexes": [
       "#8BB8C1",
@@ -81942,7 +81942,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4C9",
     "analogousHexes": [
       "#C4D1D4",
@@ -82021,7 +82021,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2E7",
     "analogousHexes": [
       "#E2EFF3",
@@ -82100,7 +82100,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCCC",
     "analogousHexes": [
       "#BCE6F1",
@@ -82179,7 +82179,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288A7",
     "analogousHexes": [
       "#88DDF2",
@@ -82258,7 +82258,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45283",
     "analogousHexes": [
       "#52D4F4",
@@ -82337,7 +82337,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D5B",
     "analogousHexes": [
       "#1DC3ED",
@@ -82416,7 +82416,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.16,
     "contrastWithBlack": 9.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8194D",
     "analogousHexes": [
       "#19A5C8",
@@ -82495,7 +82495,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.86,
     "contrastWithBlack": 5.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A3E",
     "analogousHexes": [
       "#1A7B93",
@@ -82732,7 +82732,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.74,
     "contrastWithBlack": 7.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC536E",
     "analogousHexes": [
       "#539AAC",
@@ -82811,7 +82811,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.03,
     "contrastWithBlack": 10.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B9B",
     "analogousHexes": [
       "#8BB6C1",
@@ -82969,7 +82969,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCCA",
     "analogousHexes": [
       "#BCE4F1",
@@ -83048,7 +83048,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288A4",
     "analogousHexes": [
       "#88D9F2",
@@ -83127,7 +83127,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.39,
     "contrastWithBlack": 15.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4527E",
     "analogousHexes": [
       "#52CEF4",
@@ -83206,7 +83206,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D54",
     "analogousHexes": [
       "#1DBCED",
@@ -83285,7 +83285,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.15,
     "contrastWithBlack": 9.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81947",
     "analogousHexes": [
       "#199FC8",
@@ -83364,7 +83364,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.84,
     "contrastWithBlack": 5.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A3A",
     "analogousHexes": [
       "#1A7793",
@@ -83680,7 +83680,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC536B",
     "analogousHexes": [
       "#5397AC",
@@ -83759,7 +83759,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.03,
     "contrastWithBlack": 10.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B99",
     "analogousHexes": [
       "#8BB4C1",
@@ -83917,7 +83917,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4C8",
     "analogousHexes": [
       "#C4D0D4",
@@ -83996,7 +83996,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2E6",
     "analogousHexes": [
       "#E2EEF3",
@@ -84075,7 +84075,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCC8",
     "analogousHexes": [
       "#BCE3F1",
@@ -84154,7 +84154,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.33,
     "contrastWithBlack": 15.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F288A0",
     "analogousHexes": [
       "#88D5F2",
@@ -84233,7 +84233,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45278",
     "analogousHexes": [
       "#52C9F4",
@@ -84312,7 +84312,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.51,
     "contrastWithBlack": 13.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D4D",
     "analogousHexes": [
       "#1DB5ED",
@@ -84391,7 +84391,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.14,
     "contrastWithBlack": 9.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81942",
     "analogousHexes": [
       "#1999C8",
@@ -84470,7 +84470,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.83,
     "contrastWithBlack": 5.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A36",
     "analogousHexes": [
       "#1A7393",
@@ -84707,7 +84707,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.72,
     "contrastWithBlack": 7.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5368",
     "analogousHexes": [
       "#5394AC",
@@ -84786,7 +84786,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.02,
     "contrastWithBlack": 10.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B97",
     "analogousHexes": [
       "#8BB2C1",
@@ -84944,7 +84944,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCC6",
     "analogousHexes": [
       "#BCE1F1",
@@ -85023,7 +85023,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.33,
     "contrastWithBlack": 15.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2889D",
     "analogousHexes": [
       "#88D2F2",
@@ -85102,7 +85102,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45273",
     "analogousHexes": [
       "#52C4F4",
@@ -85181,7 +85181,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 13.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D46",
     "analogousHexes": [
       "#1DAEED",
@@ -85260,7 +85260,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.13,
     "contrastWithBlack": 9.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8193C",
     "analogousHexes": [
       "#1993C8",
@@ -85339,7 +85339,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.82,
     "contrastWithBlack": 5.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A32",
     "analogousHexes": [
       "#1A6F93",
@@ -85655,7 +85655,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.71,
     "contrastWithBlack": 7.74,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5365",
     "analogousHexes": [
       "#5391AC",
@@ -85734,7 +85734,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.02,
     "contrastWithBlack": 10.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B96",
     "analogousHexes": [
       "#8BB0C1",
@@ -85892,7 +85892,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4C7",
     "analogousHexes": [
       "#C4CFD4",
@@ -85971,7 +85971,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2E5",
     "analogousHexes": [
       "#E2EDF3",
@@ -86050,7 +86050,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCC5",
     "analogousHexes": [
       "#BCDFF1",
@@ -86129,7 +86129,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.33,
     "contrastWithBlack": 15.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F28899",
     "analogousHexes": [
       "#88CEF2",
@@ -86208,7 +86208,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4526D",
     "analogousHexes": [
       "#52BEF4",
@@ -86287,7 +86287,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 14.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D3F",
     "analogousHexes": [
       "#1DA7ED",
@@ -86366,7 +86366,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.12,
     "contrastWithBlack": 9.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81936",
     "analogousHexes": [
       "#198DC8",
@@ -86445,7 +86445,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.8,
     "contrastWithBlack": 5.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A2E",
     "analogousHexes": [
       "#1A6B93",
@@ -86682,7 +86682,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.71,
     "contrastWithBlack": 7.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5362",
     "analogousHexes": [
       "#538EAC",
@@ -86761,7 +86761,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.02,
     "contrastWithBlack": 10.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B94",
     "analogousHexes": [
       "#8BAFC1",
@@ -86919,7 +86919,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2E5",
     "analogousHexes": [
       "#E2EDF3",
@@ -86998,7 +86998,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCC3",
     "analogousHexes": [
       "#BCDDF1",
@@ -87077,7 +87077,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.32,
     "contrastWithBlack": 15.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F28896",
     "analogousHexes": [
       "#88CBF2",
@@ -87156,7 +87156,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.37,
     "contrastWithBlack": 15.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45268",
     "analogousHexes": [
       "#52B9F4",
@@ -87235,7 +87235,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.49,
     "contrastWithBlack": 14.09,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D38",
     "analogousHexes": [
       "#1DA0ED",
@@ -87314,7 +87314,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.11,
     "contrastWithBlack": 9.93,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81930",
     "analogousHexes": [
       "#1988C8",
@@ -87393,7 +87393,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.79,
     "contrastWithBlack": 5.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A2A",
     "analogousHexes": [
       "#1A6793",
@@ -87709,7 +87709,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.7,
     "contrastWithBlack": 7.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC535F",
     "analogousHexes": [
       "#538BAC",
@@ -87788,7 +87788,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.01,
     "contrastWithBlack": 10.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B92",
     "analogousHexes": [
       "#8BADC1",
@@ -87946,7 +87946,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4C6",
     "analogousHexes": [
       "#C4CED4",
@@ -88025,7 +88025,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCC1",
     "analogousHexes": [
       "#BCDCF1",
@@ -88104,7 +88104,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.32,
     "contrastWithBlack": 15.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F28892",
     "analogousHexes": [
       "#88C7F2",
@@ -88183,7 +88183,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45263",
     "analogousHexes": [
       "#52B3F4",
@@ -88262,7 +88262,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.48,
     "contrastWithBlack": 14.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D31",
     "analogousHexes": [
       "#1D99ED",
@@ -88341,7 +88341,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.1,
     "contrastWithBlack": 9.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8192A",
     "analogousHexes": [
       "#1982C8",
@@ -88420,7 +88420,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.77,
     "contrastWithBlack": 5.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A26",
     "analogousHexes": [
       "#1A6393",
@@ -88657,7 +88657,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.69,
     "contrastWithBlack": 7.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC535C",
     "analogousHexes": [
       "#5388AC",
@@ -88736,7 +88736,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.01,
     "contrastWithBlack": 10.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B90",
     "analogousHexes": [
       "#8BABC1",
@@ -88894,7 +88894,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2E4",
     "analogousHexes": [
       "#E2ECF3",
@@ -88973,7 +88973,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCBF",
     "analogousHexes": [
       "#BCDAF1",
@@ -89052,7 +89052,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.32,
     "contrastWithBlack": 15.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2888F",
     "analogousHexes": [
       "#88C4F2",
@@ -89131,7 +89131,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4525D",
     "analogousHexes": [
       "#52AEF4",
@@ -89210,7 +89210,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.48,
     "contrastWithBlack": 14.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D2A",
     "analogousHexes": [
       "#1D92ED",
@@ -89289,7 +89289,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.09,
     "contrastWithBlack": 10.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81924",
     "analogousHexes": [
       "#197CC8",
@@ -89368,7 +89368,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.76,
     "contrastWithBlack": 5.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A22",
     "analogousHexes": [
       "#1A5F93",
@@ -89684,7 +89684,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.69,
     "contrastWithBlack": 7.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5359",
     "analogousHexes": [
       "#5385AC",
@@ -89763,7 +89763,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.01,
     "contrastWithBlack": 10.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B8F",
     "analogousHexes": [
       "#8BA9C1",
@@ -89921,7 +89921,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4C5",
     "analogousHexes": [
       "#C4CDD4",
@@ -90000,7 +90000,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCBD",
     "analogousHexes": [
       "#BCD8F1",
@@ -90079,7 +90079,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.31,
     "contrastWithBlack": 15.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2888B",
     "analogousHexes": [
       "#88C0F2",
@@ -90158,7 +90158,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45258",
     "analogousHexes": [
       "#52A9F4",
@@ -90237,7 +90237,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.47,
     "contrastWithBlack": 14.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D23",
     "analogousHexes": [
       "#1D8CED",
@@ -90316,7 +90316,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.08,
     "contrastWithBlack": 10.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8191F",
     "analogousHexes": [
       "#1976C8",
@@ -90395,7 +90395,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.74,
     "contrastWithBlack": 5.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A1E",
     "analogousHexes": [
       "#1A5B93",
@@ -90632,7 +90632,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.68,
     "contrastWithBlack": 7.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5356",
     "analogousHexes": [
       "#5382AC",
@@ -90711,7 +90711,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2,
     "contrastWithBlack": 10.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B8D",
     "analogousHexes": [
       "#8BA8C1",
@@ -90869,7 +90869,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.14,
     "contrastWithBlack": 18.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E2E2",
     "analogousHexes": [
       "#E2EBF3",
@@ -90948,7 +90948,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.99,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BCBC",
     "analogousHexes": [
       "#BCD6F1",
@@ -91027,7 +91027,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.31,
     "contrastWithBlack": 16.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F28888",
     "analogousHexes": [
       "#88BDF2",
@@ -91106,7 +91106,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45252",
     "analogousHexes": [
       "#52A3F4",
@@ -91185,7 +91185,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.46,
     "contrastWithBlack": 14.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED1D1D",
     "analogousHexes": [
       "#1D85ED",
@@ -91264,7 +91264,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81919",
     "analogousHexes": [
       "#1970C8",
@@ -91343,7 +91343,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.72,
     "contrastWithBlack": 5.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931A1A",
     "analogousHexes": [
       "#1A5793",
@@ -91659,7 +91659,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.67,
     "contrastWithBlack": 7.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5353",
     "analogousHexes": [
       "#5380AC",
@@ -91738,7 +91738,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2,
     "contrastWithBlack": 10.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18B8B",
     "analogousHexes": [
       "#8BA6C1",
@@ -91896,7 +91896,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C4C4",
     "analogousHexes": [
       "#C4CCD4",
@@ -91975,7 +91975,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.15,
     "contrastWithBlack": 18.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E3E2",
     "analogousHexes": [
       "#E2EAF3",
@@ -92054,7 +92054,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BDBC",
     "analogousHexes": [
       "#BCD4F1",
@@ -92133,7 +92133,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F28B88",
     "analogousHexes": [
       "#88B9F2",
@@ -92212,7 +92212,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.4,
     "contrastWithBlack": 15.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45852",
     "analogousHexes": [
       "#529EF4",
@@ -92291,7 +92291,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED231D",
     "analogousHexes": [
       "#1D7EED",
@@ -92370,7 +92370,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.19,
     "contrastWithBlack": 9.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C81F19",
     "analogousHexes": [
       "#196AC8",
@@ -92449,7 +92449,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.89,
     "contrastWithBlack": 5.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#931E1A",
     "analogousHexes": [
       "#1A5393",
@@ -92765,7 +92765,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.75,
     "contrastWithBlack": 7.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5653",
     "analogousHexes": [
       "#537DAC",
@@ -92844,7 +92844,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.03,
     "contrastWithBlack": 10.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18D8B",
     "analogousHexes": [
       "#8BA4C1",
@@ -93002,7 +93002,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C5C4",
     "analogousHexes": [
       "#C4CBD4",
@@ -93081,7 +93081,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1BFBC",
     "analogousHexes": [
       "#BCD3F1",
@@ -93160,7 +93160,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F28F88",
     "analogousHexes": [
       "#88B6F2",
@@ -93239,7 +93239,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.47,
     "contrastWithBlack": 14.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F45D52",
     "analogousHexes": [
       "#5298F4",
@@ -93318,7 +93318,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.64,
     "contrastWithBlack": 12.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED2A1D",
     "analogousHexes": [
       "#1D77ED",
@@ -93397,7 +93397,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.32,
     "contrastWithBlack": 9.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C82419",
     "analogousHexes": [
       "#1965C8",
@@ -93476,7 +93476,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.07,
     "contrastWithBlack": 5.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#93221A",
     "analogousHexes": [
       "#1A4F93",
@@ -93713,7 +93713,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.83,
     "contrastWithBlack": 7.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5953",
     "analogousHexes": [
       "#537AAC",
@@ -93792,7 +93792,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.07,
     "contrastWithBlack": 10.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C18F8B",
     "analogousHexes": [
       "#8BA2C1",
@@ -93950,7 +93950,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.16,
     "contrastWithBlack": 18.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E4E2",
     "analogousHexes": [
       "#E2E9F3",
@@ -94029,7 +94029,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.29,
     "contrastWithBlack": 16.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1C1BC",
     "analogousHexes": [
       "#BCD1F1",
@@ -94108,7 +94108,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F29288",
     "analogousHexes": [
       "#88B2F2",
@@ -94187,7 +94187,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F46352",
     "analogousHexes": [
       "#5293F4",
@@ -94266,7 +94266,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.74,
     "contrastWithBlack": 12.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED311D",
     "analogousHexes": [
       "#1D70ED",
@@ -94345,7 +94345,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.45,
     "contrastWithBlack": 8.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C82A19",
     "analogousHexes": [
       "#195FC8",
@@ -94424,7 +94424,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.26,
     "contrastWithBlack": 4.93,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#93261A",
     "analogousHexes": [
       "#1A4B93",
@@ -94740,7 +94740,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.92,
     "contrastWithBlack": 7.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5C53",
     "analogousHexes": [
       "#5377AC",
@@ -94819,7 +94819,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.11,
     "contrastWithBlack": 9.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1908B",
     "analogousHexes": [
       "#8BA0C1",
@@ -94977,7 +94977,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C6C4",
     "analogousHexes": [
       "#C4CAD4",
@@ -95056,7 +95056,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.3,
     "contrastWithBlack": 16.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1C3BC",
     "analogousHexes": [
       "#BCCFF1",
@@ -95135,7 +95135,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.46,
     "contrastWithBlack": 14.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F29688",
     "analogousHexes": [
       "#88AFF2",
@@ -95214,7 +95214,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F46852",
     "analogousHexes": [
       "#528EF4",
@@ -95293,7 +95293,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.84,
     "contrastWithBlack": 11.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED381D",
     "analogousHexes": [
       "#1D69ED",
@@ -95372,7 +95372,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.6,
     "contrastWithBlack": 8.09,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C83019",
     "analogousHexes": [
       "#1959C8",
@@ -95451,7 +95451,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.46,
     "contrastWithBlack": 4.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#932A1A",
     "analogousHexes": [
       "#1A4793",
@@ -95688,7 +95688,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3,
     "contrastWithBlack": 6.99,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC5F53",
     "analogousHexes": [
       "#5374AC",
@@ -95767,7 +95767,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.14,
     "contrastWithBlack": 9.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1928B",
     "analogousHexes": [
       "#8B9FC1",
@@ -95925,7 +95925,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.17,
     "contrastWithBlack": 17.99,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E5E2",
     "analogousHexes": [
       "#E2E8F3",
@@ -96004,7 +96004,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.32,
     "contrastWithBlack": 15.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1C5BC",
     "analogousHexes": [
       "#BCCDF1",
@@ -96083,7 +96083,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 13.99,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F29988",
     "analogousHexes": [
       "#88ABF2",
@@ -96162,7 +96162,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F46D52",
     "analogousHexes": [
       "#5288F4",
@@ -96241,7 +96241,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.96,
     "contrastWithBlack": 10.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED3F1D",
     "analogousHexes": [
       "#1D62ED",
@@ -96320,7 +96320,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C83619",
     "analogousHexes": [
       "#1953C8",
@@ -96715,7 +96715,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.09,
     "contrastWithBlack": 6.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC6253",
     "analogousHexes": [
       "#5371AC",
@@ -96794,7 +96794,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.16,
     "contrastWithBlack": 9.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1948B",
     "analogousHexes": [
       "#8B9DC1",
@@ -96952,7 +96952,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.57,
     "contrastWithBlack": 13.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C7C4",
     "analogousHexes": [
       "#C4C9D4",
@@ -97031,7 +97031,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.17,
     "contrastWithBlack": 17.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E6E2",
     "analogousHexes": [
       "#E2E7F3",
@@ -97110,7 +97110,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.34,
     "contrastWithBlack": 15.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1C6BC",
     "analogousHexes": [
       "#BCCCF1",
@@ -97189,7 +97189,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.54,
     "contrastWithBlack": 13.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F29D88",
     "analogousHexes": [
       "#88A7F2",
@@ -97268,7 +97268,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.74,
     "contrastWithBlack": 12.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F47352",
     "analogousHexes": [
       "#5283F4",
@@ -97347,7 +97347,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.08,
     "contrastWithBlack": 10.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED461D",
     "analogousHexes": [
       "#1D5BED",
@@ -97426,7 +97426,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.89,
     "contrastWithBlack": 7.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C83C19",
     "analogousHexes": [
       "#194DC8",
@@ -97742,7 +97742,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.19,
     "contrastWithBlack": 6.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC6553",
     "analogousHexes": [
       "#536EAC",
@@ -97821,7 +97821,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.2,
     "contrastWithBlack": 9.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1968B",
     "analogousHexes": [
       "#8B9BC1",
@@ -97979,7 +97979,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.35,
     "contrastWithBlack": 15.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1C8BC",
     "analogousHexes": [
       "#BCCAF1",
@@ -98058,7 +98058,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2A088",
     "analogousHexes": [
       "#88A4F2",
@@ -98137,7 +98137,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.83,
     "contrastWithBlack": 11.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F47852",
     "analogousHexes": [
       "#527EF4",
@@ -98216,7 +98216,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED4D1D",
     "analogousHexes": [
       "#1D54ED",
@@ -98295,7 +98295,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.07,
     "contrastWithBlack": 6.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C84219",
     "analogousHexes": [
       "#1947C8",
@@ -98690,7 +98690,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.29,
     "contrastWithBlack": 6.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC6853",
     "analogousHexes": [
       "#536BAC",
@@ -98769,7 +98769,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.23,
     "contrastWithBlack": 9.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1978B",
     "analogousHexes": [
       "#8B99C1",
@@ -98927,7 +98927,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.58,
     "contrastWithBlack": 13.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C8C4",
     "analogousHexes": [
       "#C4C8D4",
@@ -99006,7 +99006,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.18,
     "contrastWithBlack": 17.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E7E2",
     "analogousHexes": [
       "#E2E6F3",
@@ -99085,7 +99085,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.36,
     "contrastWithBlack": 15.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1CABC",
     "analogousHexes": [
       "#BCC8F1",
@@ -99164,7 +99164,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2A488",
     "analogousHexes": [
       "#88A0F2",
@@ -99243,7 +99243,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.91,
     "contrastWithBlack": 11.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F47E52",
     "analogousHexes": [
       "#5278F4",
@@ -99322,7 +99322,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.36,
     "contrastWithBlack": 8.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED541D",
     "analogousHexes": [
       "#1D4DED",
@@ -99401,7 +99401,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.26,
     "contrastWithBlack": 6.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C84719",
     "analogousHexes": [
       "#1942C8",
@@ -99717,7 +99717,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.39,
     "contrastWithBlack": 6.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC6B53",
     "analogousHexes": [
       "#5368AC",
@@ -99796,7 +99796,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.27,
     "contrastWithBlack": 9.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1998B",
     "analogousHexes": [
       "#8B97C1",
@@ -99954,7 +99954,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.38,
     "contrastWithBlack": 15.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1CCBC",
     "analogousHexes": [
       "#BCC6F1",
@@ -100033,7 +100033,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2A788",
     "analogousHexes": [
       "#889DF2",
@@ -100112,7 +100112,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.99,
     "contrastWithBlack": 10.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F48352",
     "analogousHexes": [
       "#5273F4",
@@ -100191,7 +100191,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.52,
     "contrastWithBlack": 8.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED5B1D",
     "analogousHexes": [
       "#1D46ED",
@@ -100270,7 +100270,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.47,
     "contrastWithBlack": 6.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C84D19",
     "analogousHexes": [
       "#193CC8",
@@ -100665,7 +100665,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.49,
     "contrastWithBlack": 6.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC6E53",
     "analogousHexes": [
       "#5365AC",
@@ -100744,7 +100744,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.31,
     "contrastWithBlack": 9.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C19B8B",
     "analogousHexes": [
       "#8B96C1",
@@ -100902,7 +100902,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4C9C4",
     "analogousHexes": [
       "#C4C7D4",
@@ -100981,7 +100981,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.19,
     "contrastWithBlack": 17.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E8E2",
     "analogousHexes": [
       "#E2E5F3",
@@ -101060,7 +101060,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.4,
     "contrastWithBlack": 14.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1CDBC",
     "analogousHexes": [
       "#BCC5F1",
@@ -101139,7 +101139,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.73,
     "contrastWithBlack": 12.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2AB88",
     "analogousHexes": [
       "#8899F2",
@@ -101218,7 +101218,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.09,
     "contrastWithBlack": 10.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F48852",
     "analogousHexes": [
       "#526DF4",
@@ -101297,7 +101297,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.69,
     "contrastWithBlack": 7.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED621D",
     "analogousHexes": [
       "#1D3FED",
@@ -101376,7 +101376,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.69,
     "contrastWithBlack": 5.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C85319",
     "analogousHexes": [
       "#1936C8",
@@ -101692,7 +101692,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.6,
     "contrastWithBlack": 5.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC7153",
     "analogousHexes": [
       "#5362AC",
@@ -101771,7 +101771,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.33,
     "contrastWithBlack": 9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C19D8B",
     "analogousHexes": [
       "#8B94C1",
@@ -101929,7 +101929,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.42,
     "contrastWithBlack": 14.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1CFBC",
     "analogousHexes": [
       "#BCC3F1",
@@ -102008,7 +102008,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.77,
     "contrastWithBlack": 11.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2AF88",
     "analogousHexes": [
       "#8896F2",
@@ -102087,7 +102087,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.19,
     "contrastWithBlack": 9.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F48E52",
     "analogousHexes": [
       "#5268F4",
@@ -102166,7 +102166,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.88,
     "contrastWithBlack": 7.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED691D",
     "analogousHexes": [
       "#1D38ED",
@@ -102245,7 +102245,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.89,
     "contrastWithBlack": 5.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C85919",
     "analogousHexes": [
       "#1930C8",
@@ -102640,7 +102640,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.71,
     "contrastWithBlack": 5.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC7453",
     "analogousHexes": [
       "#535FAC",
@@ -102719,7 +102719,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.37,
     "contrastWithBlack": 8.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C19F8B",
     "analogousHexes": [
       "#8B92C1",
@@ -102877,7 +102877,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4CAC4",
     "analogousHexes": [
       "#C4C6D4",
@@ -102956,7 +102956,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.2,
     "contrastWithBlack": 17.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3E9E2",
     "analogousHexes": [
       "#E2E4F3",
@@ -103035,7 +103035,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.43,
     "contrastWithBlack": 14.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1D1BC",
     "analogousHexes": [
       "#BCC1F1",
@@ -103114,7 +103114,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.83,
     "contrastWithBlack": 11.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2B288",
     "analogousHexes": [
       "#8892F2",
@@ -103193,7 +103193,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.3,
     "contrastWithBlack": 9.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F49352",
     "analogousHexes": [
       "#5263F4",
@@ -103272,7 +103272,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.07,
     "contrastWithBlack": 6.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED701D",
     "analogousHexes": [
       "#1D31ED",
@@ -103351,7 +103351,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.14,
     "contrastWithBlack": 5.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C85F19",
     "analogousHexes": [
       "#192AC8",
@@ -103667,7 +103667,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.83,
     "contrastWithBlack": 5.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC7753",
     "analogousHexes": [
       "#535CAC",
@@ -103746,7 +103746,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.42,
     "contrastWithBlack": 8.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1A08B",
     "analogousHexes": [
       "#8B90C1",
@@ -103904,7 +103904,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.45,
     "contrastWithBlack": 14.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1D3BC",
     "analogousHexes": [
       "#BCBFF1",
@@ -103983,7 +103983,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.87,
     "contrastWithBlack": 11.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2B688",
     "analogousHexes": [
       "#888FF2",
@@ -104062,7 +104062,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.41,
     "contrastWithBlack": 8.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F49852",
     "analogousHexes": [
       "#525DF4",
@@ -104141,7 +104141,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.29,
     "contrastWithBlack": 6.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED771D",
     "analogousHexes": [
       "#1D2AED",
@@ -104220,7 +104220,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.41,
     "contrastWithBlack": 4.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C86519",
     "analogousHexes": [
       "#1924C8",
@@ -104615,7 +104615,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.95,
     "contrastWithBlack": 5.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC7A53",
     "analogousHexes": [
       "#5359AC",
@@ -104694,7 +104694,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.46,
     "contrastWithBlack": 8.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1A28B",
     "analogousHexes": [
       "#8B8FC1",
@@ -104852,7 +104852,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4CBC4",
     "analogousHexes": [
       "#C4C5D4",
@@ -104931,7 +104931,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3EAE2",
     "analogousHexes": [
       "#E2E3F3",
@@ -105010,7 +105010,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.48,
     "contrastWithBlack": 14.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1D4BC",
     "analogousHexes": [
       "#BCBDF1",
@@ -105089,7 +105089,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.93,
     "contrastWithBlack": 10.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2B988",
     "analogousHexes": [
       "#888BF2",
@@ -105168,7 +105168,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.52,
     "contrastWithBlack": 8.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F49E52",
     "analogousHexes": [
       "#5258F4",
@@ -105247,7 +105247,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.48,
     "contrastWithBlack": 6.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED7E1D",
     "analogousHexes": [
       "#1D23ED",
@@ -105642,7 +105642,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.07,
     "contrastWithBlack": 5.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC7D53",
     "analogousHexes": [
       "#5356AC",
@@ -105721,7 +105721,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.48,
     "contrastWithBlack": 8.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1A48B",
     "analogousHexes": [
       "#8B8DC1",
@@ -105879,7 +105879,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.5,
     "contrastWithBlack": 14.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1D6BC",
     "analogousHexes": [
       "#BCBCF1",
@@ -105958,7 +105958,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.98,
     "contrastWithBlack": 10.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2BD88",
     "analogousHexes": [
       "#8888F2",
@@ -106037,7 +106037,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.66,
     "contrastWithBlack": 7.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4A352",
     "analogousHexes": [
       "#5252F4",
@@ -106116,7 +106116,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.73,
     "contrastWithBlack": 5.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED851D",
     "analogousHexes": [
       "#1D1DED",
@@ -106590,7 +106590,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.16,
     "contrastWithBlack": 5.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC8053",
     "analogousHexes": [
       "#5353AC",
@@ -106669,7 +106669,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.52,
     "contrastWithBlack": 8.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1A68B",
     "analogousHexes": [
       "#8B8BC1",
@@ -106827,7 +106827,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 12.93,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4CCC4",
     "analogousHexes": [
       "#C4C4D4",
@@ -106906,7 +106906,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.21,
     "contrastWithBlack": 17.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3EBE2",
     "analogousHexes": [
       "#E3E2F3",
@@ -106985,7 +106985,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.52,
     "contrastWithBlack": 13.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1D8BC",
     "analogousHexes": [
       "#BDBCF1",
@@ -107064,7 +107064,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.05,
     "contrastWithBlack": 10.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2C088",
     "analogousHexes": [
       "#8B88F2",
@@ -107143,7 +107143,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.78,
     "contrastWithBlack": 7.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4A952",
     "analogousHexes": [
       "#5852F4",
@@ -107222,7 +107222,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.99,
     "contrastWithBlack": 5.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED8C1D",
     "analogousHexes": [
       "#231DED",
@@ -107617,7 +107617,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.29,
     "contrastWithBlack": 4.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC8253",
     "analogousHexes": [
       "#5653AC",
@@ -107696,7 +107696,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.57,
     "contrastWithBlack": 8.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1A88B",
     "analogousHexes": [
       "#8D8BC1",
@@ -107854,7 +107854,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.64,
     "contrastWithBlack": 12.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4CDC4",
     "analogousHexes": [
       "#C5C4D4",
@@ -107933,7 +107933,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.53,
     "contrastWithBlack": 13.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1DABC",
     "analogousHexes": [
       "#BFBCF1",
@@ -108012,7 +108012,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.1,
     "contrastWithBlack": 10.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2C488",
     "analogousHexes": [
       "#8F88F2",
@@ -108091,7 +108091,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.93,
     "contrastWithBlack": 7.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4AE52",
     "analogousHexes": [
       "#5D52F4",
@@ -108170,7 +108170,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.27,
     "contrastWithBlack": 4.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED921D",
     "analogousHexes": [
       "#2A1DED",
@@ -108644,7 +108644,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.42,
     "contrastWithBlack": 4.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC8553",
     "analogousHexes": [
       "#5953AC",
@@ -108723,7 +108723,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.61,
     "contrastWithBlack": 8.04,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1A98B",
     "analogousHexes": [
       "#8F8BC1",
@@ -108881,7 +108881,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.22,
     "contrastWithBlack": 17.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3ECE2",
     "analogousHexes": [
       "#E4E2F3",
@@ -108960,7 +108960,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.55,
     "contrastWithBlack": 13.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1DCBC",
     "analogousHexes": [
       "#C1BCF1",
@@ -109039,7 +109039,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.17,
     "contrastWithBlack": 9.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2C788",
     "analogousHexes": [
       "#9288F2",
@@ -109118,7 +109118,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.07,
     "contrastWithBlack": 6.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4B352",
     "analogousHexes": [
       "#6352F4",
@@ -109197,7 +109197,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.57,
     "contrastWithBlack": 4.59,
-    "bestTextColor": "#FFFFFF",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ED991D",
     "analogousHexes": [
       "#311DED",
@@ -109592,7 +109592,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.56,
     "contrastWithBlack": 4.6,
-    "bestTextColor": "#FFFFFF",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AC8853",
     "analogousHexes": [
       "#5C53AC",
@@ -109671,7 +109671,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.66,
     "contrastWithBlack": 7.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1AB8B",
     "analogousHexes": [
       "#908BC1",
@@ -109829,7 +109829,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4CEC4",
     "analogousHexes": [
       "#C6C4D4",
@@ -109908,7 +109908,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.23,
     "contrastWithBlack": 17.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3EDE2",
     "analogousHexes": [
       "#E5E2F3",
@@ -109987,7 +109987,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.57,
     "contrastWithBlack": 13.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1DDBC",
     "analogousHexes": [
       "#C3BCF1",
@@ -110066,7 +110066,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2CB88",
     "analogousHexes": [
       "#9688F2",
@@ -110145,7 +110145,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.21,
     "contrastWithBlack": 6.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4B952",
     "analogousHexes": [
       "#6852F4",
@@ -110777,7 +110777,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.68,
     "contrastWithBlack": 7.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1AD8B",
     "analogousHexes": [
       "#928BC1",
@@ -110935,7 +110935,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1DFBC",
     "analogousHexes": [
       "#C5BCF1",
@@ -111014,7 +111014,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.29,
     "contrastWithBlack": 9.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2CE88",
     "analogousHexes": [
       "#9988F2",
@@ -111093,7 +111093,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.39,
     "contrastWithBlack": 6.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4BE52",
     "analogousHexes": [
       "#6D52F4",
@@ -111646,7 +111646,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1AF8B",
     "analogousHexes": [
       "#948BC1",
@@ -111804,7 +111804,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4CFC4",
     "analogousHexes": [
       "#C7C4D4",
@@ -111883,7 +111883,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3EEE2",
     "analogousHexes": [
       "#E6E2F3",
@@ -111962,7 +111962,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1E1BC",
     "analogousHexes": [
       "#C6BCF1",
@@ -112041,7 +112041,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.37,
     "contrastWithBlack": 8.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2D288",
     "analogousHexes": [
       "#9D88F2",
@@ -112120,7 +112120,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.55,
     "contrastWithBlack": 5.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4C452",
     "analogousHexes": [
       "#7352F4",
@@ -112673,7 +112673,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.78,
     "contrastWithBlack": 7.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1B08B",
     "analogousHexes": [
       "#968BC1",
@@ -112831,7 +112831,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1E3BC",
     "analogousHexes": [
       "#C8BCF1",
@@ -112910,7 +112910,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.43,
     "contrastWithBlack": 8.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2D588",
     "analogousHexes": [
       "#A088F2",
@@ -112989,7 +112989,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.72,
     "contrastWithBlack": 5.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4C952",
     "analogousHexes": [
       "#7852F4",
@@ -113621,7 +113621,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.83,
     "contrastWithBlack": 7.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1B28B",
     "analogousHexes": [
       "#978BC1",
@@ -113779,7 +113779,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4D0C4",
     "analogousHexes": [
       "#C8C4D4",
@@ -113858,7 +113858,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3EFE2",
     "analogousHexes": [
       "#E7E2F3",
@@ -113937,7 +113937,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1E4BC",
     "analogousHexes": [
       "#CABCF1",
@@ -114016,7 +114016,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.51,
     "contrastWithBlack": 8.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2D988",
     "analogousHexes": [
       "#A488F2",
@@ -114095,7 +114095,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.92,
     "contrastWithBlack": 5.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4CE52",
     "analogousHexes": [
       "#7E52F4",
@@ -114648,7 +114648,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.88,
     "contrastWithBlack": 7.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1B48B",
     "analogousHexes": [
       "#998BC1",
@@ -114806,7 +114806,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.49,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1E6BC",
     "analogousHexes": [
       "#CCBCF1",
@@ -114885,7 +114885,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.58,
     "contrastWithBlack": 8.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2DD88",
     "analogousHexes": [
       "#A788F2",
@@ -114964,7 +114964,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.1,
     "contrastWithBlack": 5.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4D452",
     "analogousHexes": [
       "#8352F4",
@@ -115596,7 +115596,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.9,
     "contrastWithBlack": 7.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1B68B",
     "analogousHexes": [
       "#9B8BC1",
@@ -115754,7 +115754,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4D1C4",
     "analogousHexes": [
       "#C9C4D4",
@@ -115833,7 +115833,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.74,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3F0E2",
     "analogousHexes": [
       "#E8E2F3",
@@ -115912,7 +115912,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.69,
     "contrastWithBlack": 12.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1E8BC",
     "analogousHexes": [
       "#CDBCF1",
@@ -115991,7 +115991,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.66,
     "contrastWithBlack": 7.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2E088",
     "analogousHexes": [
       "#AB88F2",
@@ -116070,7 +116070,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.33,
     "contrastWithBlack": 4.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4D952",
     "analogousHexes": [
       "#8852F4",
@@ -116623,7 +116623,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.96,
     "contrastWithBlack": 7.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1B88B",
     "analogousHexes": [
       "#9D8BC1",
@@ -116781,7 +116781,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.72,
     "contrastWithBlack": 12.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1EABC",
     "analogousHexes": [
       "#CFBCF1",
@@ -116860,7 +116860,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2E488",
     "analogousHexes": [
       "#AF88F2",
@@ -116939,7 +116939,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.52,
     "contrastWithBlack": 4.65,
-    "bestTextColor": "#FFFFFF",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F4DE52",
     "analogousHexes": [
       "#8E52F4",
@@ -117571,7 +117571,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.01,
     "contrastWithBlack": 6.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1B98B",
     "analogousHexes": [
       "#9F8BC1",
@@ -117729,7 +117729,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.7,
     "contrastWithBlack": 12.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4D2C4",
     "analogousHexes": [
       "#CAC4D4",
@@ -117808,7 +117808,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3F1E2",
     "analogousHexes": [
       "#E9E2F3",
@@ -117887,7 +117887,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.74,
     "contrastWithBlack": 12.04,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1EBBC",
     "analogousHexes": [
       "#D1BCF1",
@@ -117966,7 +117966,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2E788",
     "analogousHexes": [
       "#B288F2",
@@ -118598,7 +118598,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.06,
     "contrastWithBlack": 6.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1BB8B",
     "analogousHexes": [
       "#A08BC1",
@@ -118756,7 +118756,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.77,
     "contrastWithBlack": 11.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1EDBC",
     "analogousHexes": [
       "#D3BCF1",
@@ -118835,7 +118835,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.89,
     "contrastWithBlack": 7.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2EB88",
     "analogousHexes": [
       "#B688F2",
@@ -119546,7 +119546,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.09,
     "contrastWithBlack": 6.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1BD8B",
     "analogousHexes": [
       "#A28BC1",
@@ -119704,7 +119704,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.71,
     "contrastWithBlack": 12.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4D3C4",
     "analogousHexes": [
       "#CBC4D4",
@@ -119783,7 +119783,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3F2E2",
     "analogousHexes": [
       "#EAE2F3",
@@ -119862,7 +119862,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.8,
     "contrastWithBlack": 11.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1EFBC",
     "analogousHexes": [
       "#D4BCF1",
@@ -119941,7 +119941,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.99,
     "contrastWithBlack": 7.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2EE88",
     "analogousHexes": [
       "#B988F2",
@@ -120573,7 +120573,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.14,
     "contrastWithBlack": 6.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1BF8B",
     "analogousHexes": [
       "#A48BC1",
@@ -120731,7 +120731,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.28,
     "contrastWithBlack": 16.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F3F3E2",
     "analogousHexes": [
       "#EBE2F3",
@@ -120810,7 +120810,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.81,
     "contrastWithBlack": 11.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1F1BC",
     "analogousHexes": [
       "#D6BCF1",
@@ -120889,7 +120889,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.07,
     "contrastWithBlack": 6.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2F288",
     "analogousHexes": [
       "#BD88F2",
@@ -121600,7 +121600,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.2,
     "contrastWithBlack": 6.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1C18B",
     "analogousHexes": [
       "#A68BC1",
@@ -121758,7 +121758,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.72,
     "contrastWithBlack": 12.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4D4C4",
     "analogousHexes": [
       "#CCC4D4",
@@ -121837,7 +121837,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.28,
     "contrastWithBlack": 16.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2F3E2",
     "analogousHexes": [
       "#EBE2F3",
@@ -121916,7 +121916,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.81,
     "contrastWithBlack": 11.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EFF1BC",
     "analogousHexes": [
       "#D8BCF1",
@@ -121995,7 +121995,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.04,
     "contrastWithBlack": 6.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EEF288",
     "analogousHexes": [
       "#C088F2",
@@ -122706,7 +122706,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.18,
     "contrastWithBlack": 6.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BFC18B",
     "analogousHexes": [
       "#A88BC1",
@@ -122864,7 +122864,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.72,
     "contrastWithBlack": 12.22,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D3D4C4",
     "analogousHexes": [
       "#CDC4D4",
@@ -122943,7 +122943,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F2F3E2",
     "analogousHexes": [
       "#ECE2F3",
@@ -123022,7 +123022,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.8,
     "contrastWithBlack": 11.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EDF1BC",
     "analogousHexes": [
       "#DABCF1",
@@ -123101,7 +123101,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.01,
     "contrastWithBlack": 6.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EBF288",
     "analogousHexes": [
       "#C488F2",
@@ -123733,7 +123733,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.17,
     "contrastWithBlack": 6.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BDC18B",
     "analogousHexes": [
       "#A98BC1",
@@ -123891,7 +123891,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.79,
     "contrastWithBlack": 11.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EBF1BC",
     "analogousHexes": [
       "#DCBCF1",
@@ -123970,7 +123970,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.99,
     "contrastWithBlack": 7.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E7F288",
     "analogousHexes": [
       "#C788F2",
@@ -124681,7 +124681,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.16,
     "contrastWithBlack": 6.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BBC18B",
     "analogousHexes": [
       "#AB8BC1",
@@ -124839,7 +124839,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.71,
     "contrastWithBlack": 12.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D2D4C4",
     "analogousHexes": [
       "#CEC4D4",
@@ -124918,7 +124918,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#F1F3E2",
     "analogousHexes": [
       "#EDE2F3",
@@ -124997,7 +124997,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.78,
     "contrastWithBlack": 11.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EAF1BC",
     "analogousHexes": [
       "#DDBCF1",
@@ -125076,7 +125076,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.96,
     "contrastWithBlack": 7.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E4F288",
     "analogousHexes": [
       "#CB88F2",
@@ -125708,7 +125708,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.14,
     "contrastWithBlack": 6.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B9C18B",
     "analogousHexes": [
       "#AD8BC1",
@@ -125866,7 +125866,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.77,
     "contrastWithBlack": 11.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E8F1BC",
     "analogousHexes": [
       "#DFBCF1",
@@ -125945,7 +125945,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.93,
     "contrastWithBlack": 7.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E0F288",
     "analogousHexes": [
       "#CE88F2",
@@ -126656,7 +126656,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.12,
     "contrastWithBlack": 6.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B8C18B",
     "analogousHexes": [
       "#AF8BC1",
@@ -126814,7 +126814,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.71,
     "contrastWithBlack": 12.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D1D4C4",
     "analogousHexes": [
       "#CFC4D4",
@@ -126893,7 +126893,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EFF3E2",
     "analogousHexes": [
       "#EEE2F3",
@@ -126972,7 +126972,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.77,
     "contrastWithBlack": 11.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E6F1BC",
     "analogousHexes": [
       "#E1BCF1",
@@ -127051,7 +127051,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.9,
     "contrastWithBlack": 7.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DDF288",
     "analogousHexes": [
       "#D288F2",
@@ -127683,7 +127683,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.11,
     "contrastWithBlack": 6.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B6C18B",
     "analogousHexes": [
       "#B08BC1",
@@ -127841,7 +127841,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.76,
     "contrastWithBlack": 11.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E4F1BC",
     "analogousHexes": [
       "#E3BCF1",
@@ -127920,7 +127920,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.88,
     "contrastWithBlack": 7.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D9F288",
     "analogousHexes": [
       "#D588F2",
@@ -128631,7 +128631,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.1,
     "contrastWithBlack": 6.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B4C18B",
     "analogousHexes": [
       "#B28BC1",
@@ -128789,7 +128789,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.71,
     "contrastWithBlack": 12.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D0D4C4",
     "analogousHexes": [
       "#D0C4D4",
@@ -128868,7 +128868,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.27,
     "contrastWithBlack": 16.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EEF3E2",
     "analogousHexes": [
       "#EFE2F3",
@@ -128947,7 +128947,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.75,
     "contrastWithBlack": 11.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E3F1BC",
     "analogousHexes": [
       "#E4BCF1",
@@ -129026,7 +129026,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.84,
     "contrastWithBlack": 7.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D5F288",
     "analogousHexes": [
       "#D988F2",
@@ -129658,7 +129658,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.08,
     "contrastWithBlack": 6.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B2C18B",
     "analogousHexes": [
       "#B48BC1",
@@ -129816,7 +129816,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.75,
     "contrastWithBlack": 12.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E1F1BC",
     "analogousHexes": [
       "#E6BCF1",
@@ -129895,7 +129895,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D2F288",
     "analogousHexes": [
       "#DD88F2",
@@ -130606,7 +130606,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.06,
     "contrastWithBlack": 6.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B0C18B",
     "analogousHexes": [
       "#B68BC1",
@@ -130764,7 +130764,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.7,
     "contrastWithBlack": 12.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CFD4C4",
     "analogousHexes": [
       "#D1C4D4",
@@ -130843,7 +130843,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EDF3E2",
     "analogousHexes": [
       "#F0E2F3",
@@ -130922,7 +130922,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.74,
     "contrastWithBlack": 12.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DFF1BC",
     "analogousHexes": [
       "#E8BCF1",
@@ -131001,7 +131001,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.79,
     "contrastWithBlack": 7.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CEF288",
     "analogousHexes": [
       "#E088F2",
@@ -131633,7 +131633,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.04,
     "contrastWithBlack": 6.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AFC18B",
     "analogousHexes": [
       "#B88BC1",
@@ -131791,7 +131791,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.73,
     "contrastWithBlack": 12.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DDF1BC",
     "analogousHexes": [
       "#EABCF1",
@@ -131870,7 +131870,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.75,
     "contrastWithBlack": 7.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CBF288",
     "analogousHexes": [
       "#E488F2",
@@ -131949,7 +131949,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.5,
     "contrastWithBlack": 4.66,
-    "bestTextColor": "#FFFFFF",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B9F452",
     "analogousHexes": [
       "#DE52F4",
@@ -132502,7 +132502,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.03,
     "contrastWithBlack": 6.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ADC18B",
     "analogousHexes": [
       "#B98BC1",
@@ -132660,7 +132660,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.7,
     "contrastWithBlack": 12.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CED4C4",
     "analogousHexes": [
       "#D2C4D4",
@@ -132739,7 +132739,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ECF3E2",
     "analogousHexes": [
       "#F1E2F3",
@@ -132818,7 +132818,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.72,
     "contrastWithBlack": 12.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DCF1BC",
     "analogousHexes": [
       "#EBBCF1",
@@ -132897,7 +132897,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C7F288",
     "analogousHexes": [
       "#E788F2",
@@ -132976,7 +132976,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.42,
     "contrastWithBlack": 4.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B3F452",
     "analogousHexes": [
       "#E452F4",
@@ -133608,7 +133608,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.02,
     "contrastWithBlack": 6.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ABC18B",
     "analogousHexes": [
       "#BB8BC1",
@@ -133766,7 +133766,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ECF3E2",
     "analogousHexes": [
       "#F2E2F3",
@@ -133845,7 +133845,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.72,
     "contrastWithBlack": 12.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#DAF1BC",
     "analogousHexes": [
       "#EDBCF1",
@@ -133924,7 +133924,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.69,
     "contrastWithBlack": 7.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4F288",
     "analogousHexes": [
       "#EB88F2",
@@ -134003,7 +134003,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.33,
     "contrastWithBlack": 4.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AEF452",
     "analogousHexes": [
       "#E952F4",
@@ -134556,7 +134556,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3,
     "contrastWithBlack": 7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A9C18B",
     "analogousHexes": [
       "#BD8BC1",
@@ -134714,7 +134714,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.7,
     "contrastWithBlack": 12.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CDD4C4",
     "analogousHexes": [
       "#D3C4D4",
@@ -134793,7 +134793,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.71,
     "contrastWithBlack": 12.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D8F1BC",
     "analogousHexes": [
       "#EFBCF1",
@@ -134872,7 +134872,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.67,
     "contrastWithBlack": 7.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C0F288",
     "analogousHexes": [
       "#EE88F2",
@@ -134951,7 +134951,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.23,
     "contrastWithBlack": 4.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A9F452",
     "analogousHexes": [
       "#EF52F4",
@@ -135583,7 +135583,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.98,
     "contrastWithBlack": 7.04,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A8C18B",
     "analogousHexes": [
       "#BF8BC1",
@@ -135741,7 +135741,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.26,
     "contrastWithBlack": 16.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EBF3E2",
     "analogousHexes": [
       "#F3E2F3",
@@ -135820,7 +135820,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.7,
     "contrastWithBlack": 12.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D6F1BC",
     "analogousHexes": [
       "#F1BCF1",
@@ -135899,7 +135899,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.64,
     "contrastWithBlack": 7.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BDF288",
     "analogousHexes": [
       "#F288F2",
@@ -135978,7 +135978,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.14,
     "contrastWithBlack": 5.07,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A3F452",
     "analogousHexes": [
       "#F452F4",
@@ -136531,7 +136531,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.96,
     "contrastWithBlack": 7.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A6C18B",
     "analogousHexes": [
       "#C18BC1",
@@ -136689,7 +136689,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.69,
     "contrastWithBlack": 12.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CCD4C4",
     "analogousHexes": [
       "#D4C4D4",
@@ -136768,7 +136768,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.7,
     "contrastWithBlack": 12.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D4F1BC",
     "analogousHexes": [
       "#F1BCEF",
@@ -136847,7 +136847,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.61,
     "contrastWithBlack": 8.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B9F288",
     "analogousHexes": [
       "#F288EE",
@@ -136926,7 +136926,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.04,
     "contrastWithBlack": 5.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9EF452",
     "analogousHexes": [
       "#F452EF",
@@ -137558,7 +137558,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.95,
     "contrastWithBlack": 7.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A4C18B",
     "analogousHexes": [
       "#C18BBF",
@@ -137716,7 +137716,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.69,
     "contrastWithBlack": 12.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CBD4C4",
     "analogousHexes": [
       "#D4C4D3",
@@ -137795,7 +137795,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.74,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#EAF3E2",
     "analogousHexes": [
       "#F3E2F2",
@@ -137874,7 +137874,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.69,
     "contrastWithBlack": 12.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D3F1BC",
     "analogousHexes": [
       "#F1BCED",
@@ -137953,7 +137953,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.58,
     "contrastWithBlack": 8.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B6F288",
     "analogousHexes": [
       "#F288EB",
@@ -138032,7 +138032,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.95,
     "contrastWithBlack": 5.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#98F452",
     "analogousHexes": [
       "#F452E9",
@@ -138585,7 +138585,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.94,
     "contrastWithBlack": 7.15,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A2C18B",
     "analogousHexes": [
       "#C18BBD",
@@ -138743,7 +138743,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#D1F1BC",
     "analogousHexes": [
       "#F1BCEB",
@@ -138822,7 +138822,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.55,
     "contrastWithBlack": 8.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#B2F288",
     "analogousHexes": [
       "#F288E7",
@@ -138901,7 +138901,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.87,
     "contrastWithBlack": 5.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#93F452",
     "analogousHexes": [
       "#F452E4",
@@ -139533,7 +139533,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.92,
     "contrastWithBlack": 7.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A0C18B",
     "analogousHexes": [
       "#C18BBB",
@@ -139691,7 +139691,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CAD4C4",
     "analogousHexes": [
       "#D4C4D2",
@@ -139770,7 +139770,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.77,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E8F3E2",
     "analogousHexes": [
       "#F3E2F1",
@@ -139849,7 +139849,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CFF1BC",
     "analogousHexes": [
       "#F1BCEA",
@@ -139928,7 +139928,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.52,
     "contrastWithBlack": 8.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#AFF288",
     "analogousHexes": [
       "#F288E4",
@@ -140007,7 +140007,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.77,
     "contrastWithBlack": 5.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8EF452",
     "analogousHexes": [
       "#F452DE",
@@ -140560,7 +140560,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.9,
     "contrastWithBlack": 7.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9FC18B",
     "analogousHexes": [
       "#C18BB9",
@@ -140718,7 +140718,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CDF1BC",
     "analogousHexes": [
       "#F1BCE8",
@@ -140797,7 +140797,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.49,
     "contrastWithBlack": 8.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#ABF288",
     "analogousHexes": [
       "#F288E0",
@@ -140876,7 +140876,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.68,
     "contrastWithBlack": 5.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F452",
     "analogousHexes": [
       "#F452D9",
@@ -141508,7 +141508,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.88,
     "contrastWithBlack": 7.29,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9DC18B",
     "analogousHexes": [
       "#C18BB8",
@@ -141666,7 +141666,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C9D4C4",
     "analogousHexes": [
       "#D4C4D1",
@@ -141745,7 +141745,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E7F3E2",
     "analogousHexes": [
       "#F3E2EF",
@@ -141824,7 +141824,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CCF1BC",
     "analogousHexes": [
       "#F1BCE6",
@@ -141903,7 +141903,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.46,
     "contrastWithBlack": 8.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A7F288",
     "analogousHexes": [
       "#F288DD",
@@ -141982,7 +141982,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.58,
     "contrastWithBlack": 5.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#83F452",
     "analogousHexes": [
       "#F452D4",
@@ -142535,7 +142535,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.87,
     "contrastWithBlack": 7.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9BC18B",
     "analogousHexes": [
       "#C18BB6",
@@ -142693,7 +142693,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#CAF1BC",
     "analogousHexes": [
       "#F1BCE4",
@@ -142772,7 +142772,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.43,
     "contrastWithBlack": 8.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A4F288",
     "analogousHexes": [
       "#F288D9",
@@ -142851,7 +142851,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.5,
     "contrastWithBlack": 6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#7EF452",
     "analogousHexes": [
       "#F452CE",
@@ -143483,7 +143483,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.85,
     "contrastWithBlack": 7.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#99C18B",
     "analogousHexes": [
       "#C18BB4",
@@ -143641,7 +143641,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8D4C4",
     "analogousHexes": [
       "#D4C4D0",
@@ -143720,7 +143720,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E6F3E2",
     "analogousHexes": [
       "#F3E2EE",
@@ -143799,7 +143799,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C8F1BC",
     "analogousHexes": [
       "#F1BCE3",
@@ -143878,7 +143878,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.4,
     "contrastWithBlack": 8.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#A0F288",
     "analogousHexes": [
       "#F288D5",
@@ -143957,7 +143957,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.42,
     "contrastWithBlack": 6.14,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#78F452",
     "analogousHexes": [
       "#F452C9",
@@ -144510,7 +144510,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.84,
     "contrastWithBlack": 7.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#97C18B",
     "analogousHexes": [
       "#C18BB2",
@@ -144668,7 +144668,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.64,
     "contrastWithBlack": 12.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C6F1BC",
     "analogousHexes": [
       "#F1BCE1",
@@ -144747,7 +144747,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.37,
     "contrastWithBlack": 8.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#9DF288",
     "analogousHexes": [
       "#F288D2",
@@ -144826,7 +144826,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.33,
     "contrastWithBlack": 6.31,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#73F452",
     "analogousHexes": [
       "#F452C4",
@@ -144905,7 +144905,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.45,
     "contrastWithBlack": 4.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#46ED1D",
     "analogousHexes": [
       "#ED1DAE",
@@ -145458,7 +145458,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#96C18B",
     "analogousHexes": [
       "#C18BB0",
@@ -145616,7 +145616,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C7D4C4",
     "analogousHexes": [
       "#D4C4CF",
@@ -145695,7 +145695,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E5F3E2",
     "analogousHexes": [
       "#F3E2ED",
@@ -145774,7 +145774,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C5F1BC",
     "analogousHexes": [
       "#F1BCDF",
@@ -145853,7 +145853,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.34,
     "contrastWithBlack": 8.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#99F288",
     "analogousHexes": [
       "#F288CE",
@@ -145932,7 +145932,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.25,
     "contrastWithBlack": 6.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#6DF452",
     "analogousHexes": [
       "#F452BE",
@@ -146011,7 +146011,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.28,
     "contrastWithBlack": 4.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#3FED1D",
     "analogousHexes": [
       "#ED1DA7",
@@ -146485,7 +146485,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.8,
     "contrastWithBlack": 7.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#94C18B",
     "analogousHexes": [
       "#C18BAF",
@@ -146643,7 +146643,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E5F3E2",
     "analogousHexes": [
       "#F3E2ED",
@@ -146722,7 +146722,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 12.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C3F1BC",
     "analogousHexes": [
       "#F1BCDD",
@@ -146801,7 +146801,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.31,
     "contrastWithBlack": 9.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#96F288",
     "analogousHexes": [
       "#F288CB",
@@ -146880,7 +146880,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.17,
     "contrastWithBlack": 6.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#68F452",
     "analogousHexes": [
       "#F452B9",
@@ -146959,7 +146959,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.11,
     "contrastWithBlack": 5.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#38ED1D",
     "analogousHexes": [
       "#ED1DA0",
@@ -147512,7 +147512,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.79,
     "contrastWithBlack": 7.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#92C18B",
     "analogousHexes": [
       "#C18BAD",
@@ -147670,7 +147670,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C6D4C4",
     "analogousHexes": [
       "#D4C4CE",
@@ -147749,7 +147749,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C1F1BC",
     "analogousHexes": [
       "#F1BCDC",
@@ -147828,7 +147828,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.28,
     "contrastWithBlack": 9.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#92F288",
     "analogousHexes": [
       "#F288C7",
@@ -147907,7 +147907,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.08,
     "contrastWithBlack": 6.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#63F452",
     "analogousHexes": [
       "#F452B3",
@@ -147986,7 +147986,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.95,
     "contrastWithBlack": 5.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#31ED1D",
     "analogousHexes": [
       "#ED1D99",
@@ -148460,7 +148460,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.77,
     "contrastWithBlack": 7.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#90C18B",
     "analogousHexes": [
       "#C18BAB",
@@ -148618,7 +148618,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E4F3E2",
     "analogousHexes": [
       "#F3E2EC",
@@ -148697,7 +148697,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BFF1BC",
     "analogousHexes": [
       "#F1BCDA",
@@ -148776,7 +148776,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8FF288",
     "analogousHexes": [
       "#F288C4",
@@ -148855,7 +148855,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.01,
     "contrastWithBlack": 6.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#5DF452",
     "analogousHexes": [
       "#F452AE",
@@ -148934,7 +148934,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.79,
     "contrastWithBlack": 5.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#2AED1D",
     "analogousHexes": [
       "#ED1D92",
@@ -149487,7 +149487,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.75,
     "contrastWithBlack": 7.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8FC18B",
     "analogousHexes": [
       "#C18BA9",
@@ -149645,7 +149645,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C5D4C4",
     "analogousHexes": [
       "#D4C4CD",
@@ -149724,7 +149724,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BDF1BC",
     "analogousHexes": [
       "#F1BCD8",
@@ -149803,7 +149803,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BF288",
     "analogousHexes": [
       "#F288C0",
@@ -149882,7 +149882,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.92,
     "contrastWithBlack": 7.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#58F452",
     "analogousHexes": [
       "#F452A9",
@@ -149961,7 +149961,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.64,
     "contrastWithBlack": 5.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#23ED1D",
     "analogousHexes": [
       "#ED1D8C",
@@ -150435,7 +150435,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8DC18B",
     "analogousHexes": [
       "#C18BA8",
@@ -150593,7 +150593,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3E2",
     "analogousHexes": [
       "#F3E2EB",
@@ -150672,7 +150672,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.2,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1BC",
     "analogousHexes": [
       "#F1BCD6",
@@ -150751,7 +150751,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.19,
     "contrastWithBlack": 9.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F288",
     "analogousHexes": [
       "#F288BD",
@@ -150830,7 +150830,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.85,
     "contrastWithBlack": 7.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F452",
     "analogousHexes": [
       "#F452A3",
@@ -150909,7 +150909,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.5,
     "contrastWithBlack": 6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED1D",
     "analogousHexes": [
       "#ED1D85",
@@ -151383,7 +151383,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.58,
     "contrastWithBlack": 4.59,
-    "bestTextColor": "#FFFFFF",
+    "bestTextColor": "#000000",
     "complementaryHex": "#53AC53",
     "analogousHexes": [
       "#AC5380",
@@ -151462,7 +151462,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.72,
     "contrastWithBlack": 7.73,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC18B",
     "analogousHexes": [
       "#C18BA6",
@@ -151620,7 +151620,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4C4",
     "analogousHexes": [
       "#D4C4CC",
@@ -151699,7 +151699,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3E3",
     "analogousHexes": [
       "#F3E2EA",
@@ -151778,7 +151778,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.59,
     "contrastWithBlack": 13.18,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1BD",
     "analogousHexes": [
       "#F1BCD4",
@@ -151857,7 +151857,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.2,
     "contrastWithBlack": 9.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F28B",
     "analogousHexes": [
       "#F288B9",
@@ -151936,7 +151936,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.88,
     "contrastWithBlack": 7.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F458",
     "analogousHexes": [
       "#F4529E",
@@ -152015,7 +152015,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.55,
     "contrastWithBlack": 5.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED23",
     "analogousHexes": [
       "#ED1D7E",
@@ -152568,7 +152568,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.72,
     "contrastWithBlack": 7.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC18D",
     "analogousHexes": [
       "#C18BA4",
@@ -152726,7 +152726,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4C5",
     "analogousHexes": [
       "#D4C4CB",
@@ -152805,7 +152805,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1BF",
     "analogousHexes": [
       "#F1BCD3",
@@ -152884,7 +152884,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.21,
     "contrastWithBlack": 9.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F28F",
     "analogousHexes": [
       "#F288B6",
@@ -152963,7 +152963,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.9,
     "contrastWithBlack": 7.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F45D",
     "analogousHexes": [
       "#F45298",
@@ -153042,7 +153042,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.59,
     "contrastWithBlack": 5.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED2A",
     "analogousHexes": [
       "#ED1D77",
@@ -153516,7 +153516,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.73,
     "contrastWithBlack": 7.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC18F",
     "analogousHexes": [
       "#C18BA2",
@@ -153674,7 +153674,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.96,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3E4",
     "analogousHexes": [
       "#F3E2E9",
@@ -153753,7 +153753,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1C1",
     "analogousHexes": [
       "#F1BCD1",
@@ -153832,7 +153832,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.22,
     "contrastWithBlack": 9.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F292",
     "analogousHexes": [
       "#F288B2",
@@ -153911,7 +153911,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.93,
     "contrastWithBlack": 7.17,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F463",
     "analogousHexes": [
       "#F45293",
@@ -153990,7 +153990,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.64,
     "contrastWithBlack": 5.77,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED31",
     "analogousHexes": [
       "#ED1D70",
@@ -154543,7 +154543,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.74,
     "contrastWithBlack": 7.68,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC190",
     "analogousHexes": [
       "#C18BA0",
@@ -154701,7 +154701,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4C6",
     "analogousHexes": [
       "#D4C4CA",
@@ -154780,7 +154780,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1C3",
     "analogousHexes": [
       "#F1BCCF",
@@ -154859,7 +154859,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.23,
     "contrastWithBlack": 9.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F296",
     "analogousHexes": [
       "#F288AF",
@@ -154938,7 +154938,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.95,
     "contrastWithBlack": 7.11,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F468",
     "analogousHexes": [
       "#F4528E",
@@ -155017,7 +155017,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.69,
     "contrastWithBlack": 5.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED38",
     "analogousHexes": [
       "#ED1D69",
@@ -155491,7 +155491,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.74,
     "contrastWithBlack": 7.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC192",
     "analogousHexes": [
       "#C18B9F",
@@ -155649,7 +155649,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3E5",
     "analogousHexes": [
       "#F3E2E8",
@@ -155728,7 +155728,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.6,
     "contrastWithBlack": 13.1,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1C5",
     "analogousHexes": [
       "#F1BCCD",
@@ -155807,7 +155807,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.24,
     "contrastWithBlack": 9.37,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F299",
     "analogousHexes": [
       "#F288AB",
@@ -155886,7 +155886,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.98,
     "contrastWithBlack": 7.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F46D",
     "analogousHexes": [
       "#F45288",
@@ -155965,7 +155965,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.73,
     "contrastWithBlack": 5.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED3F",
     "analogousHexes": [
       "#ED1D62",
@@ -156518,7 +156518,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.74,
     "contrastWithBlack": 7.65,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC194",
     "analogousHexes": [
       "#C18B9D",
@@ -156676,7 +156676,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4C7",
     "analogousHexes": [
       "#D4C4C9",
@@ -156755,7 +156755,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3E6",
     "analogousHexes": [
       "#F3E2E7",
@@ -156834,7 +156834,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1C6",
     "analogousHexes": [
       "#F1BCCC",
@@ -156913,7 +156913,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.25,
     "contrastWithBlack": 9.34,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F29D",
     "analogousHexes": [
       "#F288A7",
@@ -156992,7 +156992,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3,
     "contrastWithBlack": 7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F473",
     "analogousHexes": [
       "#F45283",
@@ -157071,7 +157071,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.77,
     "contrastWithBlack": 5.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED46",
     "analogousHexes": [
       "#ED1D5B",
@@ -157545,7 +157545,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.75,
     "contrastWithBlack": 7.64,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC196",
     "analogousHexes": [
       "#C18B9B",
@@ -157703,7 +157703,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.05,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1C8",
     "analogousHexes": [
       "#F1BCCA",
@@ -157782,7 +157782,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.26,
     "contrastWithBlack": 9.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2A0",
     "analogousHexes": [
       "#F288A4",
@@ -157861,7 +157861,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.02,
     "contrastWithBlack": 6.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F478",
     "analogousHexes": [
       "#F4527E",
@@ -157940,7 +157940,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.82,
     "contrastWithBlack": 5.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED4D",
     "analogousHexes": [
       "#ED1D54",
@@ -158493,7 +158493,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.76,
     "contrastWithBlack": 7.62,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC197",
     "analogousHexes": [
       "#C18B99",
@@ -158651,7 +158651,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.61,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4C8",
     "analogousHexes": [
       "#D4C4C8",
@@ -158730,7 +158730,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3E7",
     "analogousHexes": [
       "#F3E2E6",
@@ -158809,7 +158809,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.04,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1CA",
     "analogousHexes": [
       "#F1BCC8",
@@ -158888,7 +158888,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.27,
     "contrastWithBlack": 9.26,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2A4",
     "analogousHexes": [
       "#F288A0",
@@ -158967,7 +158967,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.04,
     "contrastWithBlack": 6.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F47E",
     "analogousHexes": [
       "#F45278",
@@ -159046,7 +159046,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.86,
     "contrastWithBlack": 5.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED54",
     "analogousHexes": [
       "#ED1D4D",
@@ -159520,7 +159520,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.76,
     "contrastWithBlack": 7.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC199",
     "analogousHexes": [
       "#C18B97",
@@ -159678,7 +159678,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.61,
     "contrastWithBlack": 13.02,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1CC",
     "analogousHexes": [
       "#F1BCC6",
@@ -159757,7 +159757,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.28,
     "contrastWithBlack": 9.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2A7",
     "analogousHexes": [
       "#F2889D",
@@ -159836,7 +159836,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.07,
     "contrastWithBlack": 6.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F483",
     "analogousHexes": [
       "#F45273",
@@ -159915,7 +159915,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.9,
     "contrastWithBlack": 5.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED5B",
     "analogousHexes": [
       "#ED1D46",
@@ -160468,7 +160468,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.77,
     "contrastWithBlack": 7.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC19B",
     "analogousHexes": [
       "#C18B96",
@@ -160626,7 +160626,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.6,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4C9",
     "analogousHexes": [
       "#D4C4C7",
@@ -160705,7 +160705,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.91,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3E8",
     "analogousHexes": [
       "#F3E2E5",
@@ -160784,7 +160784,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 13,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1CD",
     "analogousHexes": [
       "#F1BCC5",
@@ -160863,7 +160863,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.29,
     "contrastWithBlack": 9.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2AB",
     "analogousHexes": [
       "#F28899",
@@ -160942,7 +160942,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.09,
     "contrastWithBlack": 6.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F488",
     "analogousHexes": [
       "#F4526D",
@@ -161021,7 +161021,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.94,
     "contrastWithBlack": 5.33,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED62",
     "analogousHexes": [
       "#ED1D3F",
@@ -161495,7 +161495,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.77,
     "contrastWithBlack": 7.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC19D",
     "analogousHexes": [
       "#C18B94",
@@ -161653,7 +161653,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 12.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1CF",
     "analogousHexes": [
       "#F1BCC3",
@@ -161732,7 +161732,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.29,
     "contrastWithBlack": 9.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2AF",
     "analogousHexes": [
       "#F28896",
@@ -161811,7 +161811,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.11,
     "contrastWithBlack": 6.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F48E",
     "analogousHexes": [
       "#F45268",
@@ -161890,7 +161890,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.97,
     "contrastWithBlack": 5.28,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED69",
     "analogousHexes": [
       "#ED1D38",
@@ -162443,7 +162443,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.78,
     "contrastWithBlack": 7.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC19F",
     "analogousHexes": [
       "#C18B92",
@@ -162601,7 +162601,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.59,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4CA",
     "analogousHexes": [
       "#D4C4C6",
@@ -162680,7 +162680,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3E9",
     "analogousHexes": [
       "#F3E2E4",
@@ -162759,7 +162759,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 12.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1D1",
     "analogousHexes": [
       "#F1BCC1",
@@ -162838,7 +162838,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.3,
     "contrastWithBlack": 9.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2B2",
     "analogousHexes": [
       "#F28892",
@@ -162917,7 +162917,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.13,
     "contrastWithBlack": 6.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F493",
     "analogousHexes": [
       "#F45263",
@@ -162996,7 +162996,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.01,
     "contrastWithBlack": 5.24,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED70",
     "analogousHexes": [
       "#ED1D31",
@@ -163470,7 +163470,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.78,
     "contrastWithBlack": 7.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1A0",
     "analogousHexes": [
       "#C18B90",
@@ -163628,7 +163628,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 12.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1D3",
     "analogousHexes": [
       "#F1BCBF",
@@ -163707,7 +163707,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.31,
     "contrastWithBlack": 9.09,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2B6",
     "analogousHexes": [
       "#F2888F",
@@ -163786,7 +163786,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.15,
     "contrastWithBlack": 6.66,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F498",
     "analogousHexes": [
       "#F4525D",
@@ -163865,7 +163865,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.04,
     "contrastWithBlack": 5.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED77",
     "analogousHexes": [
       "#ED1D2A",
@@ -164418,7 +164418,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.79,
     "contrastWithBlack": 7.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1A2",
     "analogousHexes": [
       "#C18B8F",
@@ -164576,7 +164576,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4CB",
     "analogousHexes": [
       "#D4C4C5",
@@ -164655,7 +164655,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3EA",
     "analogousHexes": [
       "#F3E2E3",
@@ -164734,7 +164734,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.62,
     "contrastWithBlack": 12.93,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1D4",
     "analogousHexes": [
       "#F1BCBD",
@@ -164813,7 +164813,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.32,
     "contrastWithBlack": 9.06,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2B9",
     "analogousHexes": [
       "#F2888B",
@@ -164892,7 +164892,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.17,
     "contrastWithBlack": 6.63,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F49E",
     "analogousHexes": [
       "#F45258",
@@ -164971,7 +164971,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.07,
     "contrastWithBlack": 5.16,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED7E",
     "analogousHexes": [
       "#ED1D23",
@@ -165445,7 +165445,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.79,
     "contrastWithBlack": 7.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1A4",
     "analogousHexes": [
       "#C18B8D",
@@ -165603,7 +165603,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1D6",
     "analogousHexes": [
       "#F1BCBC",
@@ -165682,7 +165682,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.33,
     "contrastWithBlack": 9.03,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2BD",
     "analogousHexes": [
       "#F28888",
@@ -165761,7 +165761,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.19,
     "contrastWithBlack": 6.58,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4A3",
     "analogousHexes": [
       "#F45252",
@@ -165840,7 +165840,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.11,
     "contrastWithBlack": 5.12,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED85",
     "analogousHexes": [
       "#ED1D1D",
@@ -166393,7 +166393,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.8,
     "contrastWithBlack": 7.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1A6",
     "analogousHexes": [
       "#C18B8B",
@@ -166551,7 +166551,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.57,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4CC",
     "analogousHexes": [
       "#D4C4C4",
@@ -166630,7 +166630,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.24,
     "contrastWithBlack": 16.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3EB",
     "analogousHexes": [
       "#F3E3E2",
@@ -166709,7 +166709,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1D8",
     "analogousHexes": [
       "#F1BDBC",
@@ -166788,7 +166788,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.33,
     "contrastWithBlack": 9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2C0",
     "analogousHexes": [
       "#F28B88",
@@ -166867,7 +166867,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.21,
     "contrastWithBlack": 6.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4A9",
     "analogousHexes": [
       "#F45852",
@@ -166946,7 +166946,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.14,
     "contrastWithBlack": 5.08,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED8C",
     "analogousHexes": [
       "#ED231D",
@@ -167420,7 +167420,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.8,
     "contrastWithBlack": 7.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1A8",
     "analogousHexes": [
       "#C18D8B",
@@ -167578,7 +167578,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.56,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4CD",
     "analogousHexes": [
       "#D4C5C4",
@@ -167657,7 +167657,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1DA",
     "analogousHexes": [
       "#F1BFBC",
@@ -167736,7 +167736,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.34,
     "contrastWithBlack": 8.97,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2C4",
     "analogousHexes": [
       "#F28F88",
@@ -167815,7 +167815,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.23,
     "contrastWithBlack": 6.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4AE",
     "analogousHexes": [
       "#F45D52",
@@ -167894,7 +167894,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.16,
     "contrastWithBlack": 5.04,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED92",
     "analogousHexes": [
       "#ED2A1D",
@@ -168447,7 +168447,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.81,
     "contrastWithBlack": 7.48,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1A9",
     "analogousHexes": [
       "#C18F8B",
@@ -168605,7 +168605,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3EC",
     "analogousHexes": [
       "#F3E4E2",
@@ -168684,7 +168684,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.63,
     "contrastWithBlack": 12.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1DC",
     "analogousHexes": [
       "#F1C1BC",
@@ -168763,7 +168763,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.35,
     "contrastWithBlack": 8.94,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2C7",
     "analogousHexes": [
       "#F29288",
@@ -168842,7 +168842,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.24,
     "contrastWithBlack": 6.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4B3",
     "analogousHexes": [
       "#F46352",
@@ -168921,7 +168921,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.19,
     "contrastWithBlack": 5.01,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DED99",
     "analogousHexes": [
       "#ED311D",
@@ -169395,7 +169395,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.81,
     "contrastWithBlack": 7.47,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1AB",
     "analogousHexes": [
       "#C1908B",
@@ -169553,7 +169553,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.55,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4CE",
     "analogousHexes": [
       "#D4C6C4",
@@ -169632,7 +169632,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3ED",
     "analogousHexes": [
       "#F3E5E2",
@@ -169711,7 +169711,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.64,
     "contrastWithBlack": 12.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1DD",
     "analogousHexes": [
       "#F1C3BC",
@@ -169790,7 +169790,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.36,
     "contrastWithBlack": 8.92,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2CB",
     "analogousHexes": [
       "#F29688",
@@ -169869,7 +169869,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.26,
     "contrastWithBlack": 6.44,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4B9",
     "analogousHexes": [
       "#F46852",
@@ -169948,7 +169948,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.22,
     "contrastWithBlack": 4.98,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDA0",
     "analogousHexes": [
       "#ED381D",
@@ -170501,7 +170501,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.81,
     "contrastWithBlack": 7.46,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1AD",
     "analogousHexes": [
       "#C1928B",
@@ -170659,7 +170659,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.64,
     "contrastWithBlack": 12.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1DF",
     "analogousHexes": [
       "#F1C5BC",
@@ -170738,7 +170738,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.36,
     "contrastWithBlack": 8.89,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2CE",
     "analogousHexes": [
       "#F29988",
@@ -170817,7 +170817,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.28,
     "contrastWithBlack": 6.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4BE",
     "analogousHexes": [
       "#F46D52",
@@ -170896,7 +170896,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.24,
     "contrastWithBlack": 4.95,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDA7",
     "analogousHexes": [
       "#ED3F1D",
@@ -171370,7 +171370,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.45,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1AF",
     "analogousHexes": [
       "#C1948B",
@@ -171528,7 +171528,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.67,
     "contrastWithBlack": 12.54,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4CF",
     "analogousHexes": [
       "#D4C7C4",
@@ -171607,7 +171607,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.84,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3EE",
     "analogousHexes": [
       "#F3E6E2",
@@ -171686,7 +171686,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.64,
     "contrastWithBlack": 12.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1E1",
     "analogousHexes": [
       "#F1C6BC",
@@ -171765,7 +171765,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.37,
     "contrastWithBlack": 8.86,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2D2",
     "analogousHexes": [
       "#F29D88",
@@ -171844,7 +171844,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.29,
     "contrastWithBlack": 6.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4C4",
     "analogousHexes": [
       "#F47352",
@@ -171923,7 +171923,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.26,
     "contrastWithBlack": 4.93,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDAE",
     "analogousHexes": [
       "#ED461D",
@@ -172397,7 +172397,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.82,
     "contrastWithBlack": 7.43,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1B0",
     "analogousHexes": [
       "#C1968B",
@@ -172555,7 +172555,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.64,
     "contrastWithBlack": 12.79,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1E3",
     "analogousHexes": [
       "#F1C8BC",
@@ -172634,7 +172634,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.38,
     "contrastWithBlack": 8.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2D5",
     "analogousHexes": [
       "#F2A088",
@@ -172713,7 +172713,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.3,
     "contrastWithBlack": 6.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4C9",
     "analogousHexes": [
       "#F47852",
@@ -172792,7 +172792,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.28,
     "contrastWithBlack": 4.9,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDB5",
     "analogousHexes": [
       "#ED4D1D",
@@ -173345,7 +173345,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.83,
     "contrastWithBlack": 7.42,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1B2",
     "analogousHexes": [
       "#C1978B",
@@ -173503,7 +173503,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.53,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4D0",
     "analogousHexes": [
       "#D4C8C4",
@@ -173582,7 +173582,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3EF",
     "analogousHexes": [
       "#F3E7E2",
@@ -173661,7 +173661,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.64,
     "contrastWithBlack": 12.77,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1E4",
     "analogousHexes": [
       "#F1CABC",
@@ -173740,7 +173740,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.39,
     "contrastWithBlack": 8.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2D9",
     "analogousHexes": [
       "#F2A488",
@@ -173819,7 +173819,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.32,
     "contrastWithBlack": 6.32,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4CE",
     "analogousHexes": [
       "#F47E52",
@@ -173898,7 +173898,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.3,
     "contrastWithBlack": 4.88,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDBC",
     "analogousHexes": [
       "#ED541D",
@@ -174372,7 +174372,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.83,
     "contrastWithBlack": 7.41,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1B4",
     "analogousHexes": [
       "#C1998B",
@@ -174530,7 +174530,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.75,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1E6",
     "analogousHexes": [
       "#F1CCBC",
@@ -174609,7 +174609,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.39,
     "contrastWithBlack": 8.78,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2DD",
     "analogousHexes": [
       "#F2A788",
@@ -174688,7 +174688,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.33,
     "contrastWithBlack": 6.3,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4D4",
     "analogousHexes": [
       "#F48352",
@@ -174767,7 +174767,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.32,
     "contrastWithBlack": 4.87,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDC3",
     "analogousHexes": [
       "#ED5B1D",
@@ -175320,7 +175320,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.84,
     "contrastWithBlack": 7.4,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1B6",
     "analogousHexes": [
       "#C19B8B",
@@ -175478,7 +175478,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.52,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4D1",
     "analogousHexes": [
       "#D4C9C4",
@@ -175557,7 +175557,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3F0",
     "analogousHexes": [
       "#F3E8E2",
@@ -175636,7 +175636,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.74,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1E8",
     "analogousHexes": [
       "#F1CDBC",
@@ -175715,7 +175715,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.4,
     "contrastWithBlack": 8.76,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2E0",
     "analogousHexes": [
       "#F2AB88",
@@ -175794,7 +175794,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.35,
     "contrastWithBlack": 6.27,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4D9",
     "analogousHexes": [
       "#F48852",
@@ -175873,7 +175873,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.33,
     "contrastWithBlack": 4.85,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDCA",
     "analogousHexes": [
       "#ED621D",
@@ -176347,7 +176347,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.84,
     "contrastWithBlack": 7.39,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1B8",
     "analogousHexes": [
       "#C19D8B",
@@ -176505,7 +176505,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.72,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1EA",
     "analogousHexes": [
       "#F1CFBC",
@@ -176584,7 +176584,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.4,
     "contrastWithBlack": 8.74,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2E4",
     "analogousHexes": [
       "#F2AF88",
@@ -176663,7 +176663,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.36,
     "contrastWithBlack": 6.25,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4DE",
     "analogousHexes": [
       "#F48E52",
@@ -176742,7 +176742,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.34,
     "contrastWithBlack": 4.83,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDD1",
     "analogousHexes": [
       "#ED691D",
@@ -177295,7 +177295,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.85,
     "contrastWithBlack": 7.38,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1B9",
     "analogousHexes": [
       "#C19F8B",
@@ -177453,7 +177453,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.51,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4D2",
     "analogousHexes": [
       "#D4CAC4",
@@ -177532,7 +177532,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3F1",
     "analogousHexes": [
       "#F3E9E2",
@@ -177611,7 +177611,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.65,
     "contrastWithBlack": 12.7,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1EB",
     "analogousHexes": [
       "#F1D1BC",
@@ -177690,7 +177690,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.41,
     "contrastWithBlack": 8.71,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2E7",
     "analogousHexes": [
       "#F2B288",
@@ -177769,7 +177769,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.37,
     "contrastWithBlack": 6.23,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4E4",
     "analogousHexes": [
       "#F49352",
@@ -177848,7 +177848,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.36,
     "contrastWithBlack": 4.82,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDD8",
     "analogousHexes": [
       "#ED701D",
@@ -178322,7 +178322,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.85,
     "contrastWithBlack": 7.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1BB",
     "analogousHexes": [
       "#C1A08B",
@@ -178480,7 +178480,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1ED",
     "analogousHexes": [
       "#F1D3BC",
@@ -178559,7 +178559,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.42,
     "contrastWithBlack": 8.69,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2EB",
     "analogousHexes": [
       "#F2B688",
@@ -178638,7 +178638,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.38,
     "contrastWithBlack": 6.21,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4E9",
     "analogousHexes": [
       "#F49852",
@@ -178717,7 +178717,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.37,
     "contrastWithBlack": 4.81,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDDF",
     "analogousHexes": [
       "#ED771D",
@@ -179270,7 +179270,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.85,
     "contrastWithBlack": 7.36,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1BD",
     "analogousHexes": [
       "#C1A28B",
@@ -179428,7 +179428,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.68,
     "contrastWithBlack": 12.5,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#C4D4D3",
     "analogousHexes": [
       "#D4CBC4",
@@ -179507,7 +179507,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.25,
     "contrastWithBlack": 16.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#E2F3F2",
     "analogousHexes": [
       "#F3EAE2",
@@ -179586,7 +179586,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 1.66,
     "contrastWithBlack": 12.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#BCF1EF",
     "analogousHexes": [
       "#F1D4BC",
@@ -179665,7 +179665,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.42,
     "contrastWithBlack": 8.67,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#88F2EE",
     "analogousHexes": [
       "#F2B988",
@@ -179744,7 +179744,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 3.39,
     "contrastWithBlack": 6.19,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#52F4EF",
     "analogousHexes": [
       "#F49E52",
@@ -179823,7 +179823,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 4.37,
     "contrastWithBlack": 4.8,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#1DEDE6",
     "analogousHexes": [
       "#ED7E1D",
@@ -180297,7 +180297,7 @@ export const CURATED_COLORS: ColorItem[] = [
     ],
     "contrastWithWhite": 2.86,
     "contrastWithBlack": 7.35,
-    "bestTextColor": "#111111",
+    "bestTextColor": "#000000",
     "complementaryHex": "#8BC1BF",
     "analogousHexes": [
       "#C1A48B",

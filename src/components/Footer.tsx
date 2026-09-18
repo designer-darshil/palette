@@ -1,108 +1,78 @@
 import React from 'react';
 import { RouteType } from '../types';
 import { Link } from './common/Link';
+import { Instagram, Twitter } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (route: RouteType) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const handleNav = (route: RouteType) => {
-    onNavigate(route);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <footer className="footer" role="contentinfo">
-      <div className="footer-inner">
-        <div className="footer-brand">
-          <div className="footer-brand-title">
-            <span className="brand-glyph" />
-            <span>PaletteParadise</span>
+    <footer className="w-full bg-[#11110F] text-[#F5F2EB] py-10 md:py-12 border-t border-white/10">
+      <div className="max-w-[1360px] mx-auto px-4 md:px-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-white/10">
+          
+          {/* Left: KROMA Brand & Description */}
+          <div>
+            <h2 className="font-sans font-medium text-2xl md:text-3xl text-white tracking-[0.14em] uppercase mb-2">
+              KROMA
+            </h2>
+            <p className="font-sans text-xs md:text-[13px] text-white/60 max-w-sm leading-relaxed">
+              A curated digital color archive and creative tool for designers.
+            </p>
           </div>
-          <p className="footer-brand-desc">
-            A comprehensive digital color discovery, creation, curation, and utility platform calibrated for designers, engineers, and digital architects.
-          </p>
+
+          {/* Right: Clean Horizontal Links & Socials */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
+            <nav className="flex items-center gap-6 font-sans text-xs text-white/80">
+              <Link to={{ path: 'explore' }} onNavigate={onNavigate} className="hover:text-white transition-colors">
+                Explore
+              </Link>
+              <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="hover:text-white transition-colors">
+                Generate
+              </Link>
+              <Link to={{ path: 'collections' }} onNavigate={onNavigate} className="hover:text-white transition-colors">
+                Collections
+              </Link>
+              <Link to={{ path: 'create' }} onNavigate={onNavigate} className="hover:text-white transition-colors">
+                Create
+              </Link>
+            </nav>
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-3.5 text-white/60">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-white transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram size={15} />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-white transition-colors"
+                aria-label="X / Twitter"
+              >
+                <Twitter size={15} />
+              </a>
+              <span className="font-mono text-[10px] text-white/40 cursor-default">
+                ℗
+              </span>
+            </div>
+          </div>
+
         </div>
 
-        <div className="footer-links-group">
-          <div>
-            <div className="footer-col-title">Discovery &amp; Library</div>
-            <ul className="footer-links-list">
-              <li>
-                <Link to={{ path: 'explore' }} onNavigate={handleNav}>Explore Hub</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'colors' }} onNavigate={handleNav}>Curated Colors</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'palettes' }} onNavigate={handleNav}>Palette Systems</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'patterns' }} onNavigate={handleNav}>Vector Patterns</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'color-of-the-day' }} onNavigate={handleNav}>Color of the Day</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'palette-of-the-day' }} onNavigate={handleNav}>Palette of the Day</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div className="footer-col-title">Community &amp; Play</div>
-            <ul className="footer-links-list">
-              <li>
-                <Link to={{ path: 'collections' }} onNavigate={handleNav}>Curated Collections</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'creators' }} onNavigate={handleNav}>Designers &amp; Colorists</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'trending' }} onNavigate={handleNav}>Trending Systems</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'new' }} onNavigate={handleNav}>New Releases</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'play' }} onNavigate={handleNav}>Color Play &amp; Hexle</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'profile' }} onNavigate={handleNav}>Curator Workspace</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div className="footer-col-title">Creative Studios &amp; Dev</div>
-            <ul className="footer-links-list">
-              <li>
-                <Link to={{ path: 'ramps' }} onNavigate={handleNav}>Ramps Studio</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'pattern-studio' }} onNavigate={handleNav}>Pattern Studio</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'mesh' }} onNavigate={handleNav}>Mesh Gradient Studio</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'antigravity' }} onNavigate={handleNav}>Antigravity Physics</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'extract-from-image' }} onNavigate={handleNav}>Image → Palette</Link>
-              </li>
-              <li>
-                <Link to={{ path: 'api-docs' }} onNavigate={handleNav}>Developer API &amp; Tokens</Link>
-              </li>
-            </ul>
-          </div>
+        {/* Bottom copyright hairline */}
+        <div className="pt-5 flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-[9px] uppercase tracking-widest text-white/40">
+          <div>© {new Date().getFullYear()} KROMA ARCHIVE. ALL RIGHTS RESERVED.</div>
+          <div>SWISS GRID SYSTEM · WCAG AAA CALIBRATED</div>
         </div>
-      </div>
-
-      <div className="footer-bottom">
-        <div>&copy; {new Date().getFullYear()} PALETTEPARADISE. ALL SPECIMENS CURATED &amp; CALIBRATED.</div>
-        <div>PERCEPTUAL OKLCH • WCAG AAA HARMONIES • DTCG TOKENS</div>
       </div>
     </footer>
   );

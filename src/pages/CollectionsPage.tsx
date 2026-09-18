@@ -1,128 +1,111 @@
-import React, { useState } from 'react';
-import { Layers, Plus, Sparkles, FolderPlus } from 'lucide-react';
+import React from 'react';
 import { RouteType } from '../types';
-import { useCollections } from '../context/CollectionContext';
-import { CollectionCard } from '../components/CollectionCard';
+import { CURATED_CATEGORIES } from '../data/categories';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 interface CollectionsPageProps {
   onNavigate: (route: RouteType) => void;
 }
 
 export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) => {
-  const { collections, createCollection } = useCollections();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-
-  const handleCreate = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title.trim()) return;
-    const newCol = createCollection(title.trim(), description.trim() || 'Curated color specimen collection');
-    setTitle('');
-    setDescription('');
-    setModalOpen(false);
-    onNavigate({ path: 'collection-detail', slug: newCol.slug });
-  };
+  const collections = [
+    {
+      id: 'col-editorial',
+      slug: 'editorial',
+      title: 'Editorial',
+      count: 12,
+      description: 'Disciplined sumi blacks, vermilion accents, and raw paper tones for publications and typography.',
+      image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
+      swatches: ['#121212', '#686258', '#C7B8A3', '#E9E2D5'],
+    },
+    {
+      id: 'col-luxury',
+      slug: 'luxury',
+      title: 'Luxury',
+      count: 8,
+      description: 'Sartorial depth, deep espresso, and raw travertine for timeless atelier branding.',
+      image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
+      swatches: ['#101010', '#8C8773', '#CFC8B8', '#EFEAE0'],
+    },
+    {
+      id: 'col-website',
+      slug: 'website-projects',
+      title: 'Website Projects',
+      count: 15,
+      description: 'Clean UI palettes with enforced WCAG AAA text contrast and dark mode tokens.',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+      swatches: ['#1E3024', '#3A5648', '#88A168', '#D7E0D3'],
+    },
+    {
+      id: 'col-brand',
+      slug: 'brand-inspiration',
+      title: 'Brand Inspiration',
+      count: 9,
+      description: 'Organic terrain, mineral clays, and Mediterranean shadow play translated into brand kits.',
+      image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80',
+      swatches: ['#3A2F24', '#7A6B5B', '#C9B8A7', '#EDE4D9'],
+    },
+  ];
 
   return (
-    <div className="catalog-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="w-full min-h-screen bg-[var(--kroma-paper)] text-[var(--kroma-ink)] py-5 md:py-6">
       <SEOHead
-        title="Color Collections &amp; Design Token Libraries"
-        description="Browse curated designer collections of color palettes, master pigment specimens, CSS gradients, and generative tokens."
+        rawTitle
+        title="Curated Collections — KROMA"
+        description="Explore thematic collections of curated color palettes for editorial, luxury, and digital design."
         canonicalPath="/collections"
       />
 
-      <Breadcrumbs
-        items={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Explore', to: { path: 'explore' } },
-          { label: 'Collections', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-      />
-
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Layers size={16} className="text-[var(--color-primary)]" />
-            <span className="page-category-label">Curator Workspaces</span>
+      <div className="max-w-[1360px] mx-auto px-4 md:px-8">
+        
+        {/* Header */}
+        <div className="mb-4 pb-2.5 border-b border-[var(--kroma-border)]">
+          <div className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-[var(--kroma-muted)] mb-1.5">
+            CURATED ARCHIVES
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Color Collections
+          <h1 className="font-sans text-[32px] md:text-[40px] leading-[1.05] tracking-[-0.03em] text-[var(--kroma-ink)] font-normal">
+            Collections
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-2xl">
-            Curated anthologies of design systems, brand identities, editorial gamuts, and personal workspaces.
-          </p>
         </div>
 
-        <button
-          onClick={() => setModalOpen(true)}
-          className="btn-primary text-xs px-4 py-2.5 flex items-center gap-2 self-start sm:self-auto"
-        >
-          <FolderPlus size={14} />
-          <span>New Collection</span>
-        </button>
-      </div>
+        {/* Collections Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          {collections.map((col) => (
+            <div
+              key={col.id}
+              onClick={() => onNavigate({ path: 'collection-detail', slug: col.slug })}
+              className="group relative h-[320px] rounded-[4px] overflow-hidden border border-[var(--kroma-border)] cursor-pointer bg-[#0D0D0C] flex flex-col justify-between p-5 text-white"
+            >
+              <img
+                src={col.image}
+                alt={col.title}
+                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
-      {/* Grid of Collections */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {collections.map((col) => (
-          <CollectionCard key={col.id} collection={col} onNavigate={onNavigate} />
-        ))}
-      </div>
-
-      {/* Create Modal */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
-          <div className="w-full max-w-md bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-lg p-5 shadow-2xl flex flex-col gap-4">
-            <h3 className="font-bold text-base text-[var(--text-primary)]">
-              Create New Collection
-            </h3>
-            <form onSubmit={handleCreate} className="flex flex-col gap-3">
-              <div>
-                <label className="block text-xs font-mono text-[var(--text-secondary)] mb-1">
-                  Collection Title
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Nordic Architecture Minimal"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full text-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xs px-3 py-2"
-                  required
-                  autoFocus
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-mono text-[var(--text-secondary)] mb-1">
-                  Description
-                </label>
-                <textarea
-                  placeholder="Brief description of this collection's purpose or aesthetic..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="w-full text-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xs px-3 py-2 h-20 resize-none"
-                />
+              <div className="relative z-10 flex justify-between items-start font-mono text-[9px] uppercase tracking-widest text-white/70">
+                <span>ARCHIVE</span>
+                <span>{col.count} PALETTES</span>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-[var(--border-subtle)]">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="btn-secondary text-xs px-3.5 py-1.5"
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn-primary text-xs px-4 py-1.5">
-                  Create Collection
-                </button>
+              <div className="relative z-10">
+                <h3 className="font-sans text-xl md:text-2xl font-medium text-white tracking-[-0.02em] mb-1.5">
+                  {col.title}
+                </h3>
+                <p className="font-sans text-[11px] text-white/75 line-clamp-2 leading-relaxed mb-3">
+                  {col.description}
+                </p>
+                <div className="flex h-4 w-28 rounded-[2px] overflow-hidden">
+                  {col.swatches.map((hex, i) => (
+                    <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
+                  ))}
+                </div>
               </div>
-            </form>
-          </div>
+            </div>
+          ))}
         </div>
-      )}
+
+      </div>
     </div>
   );
 };

@@ -1,40 +1,15 @@
 import React, { useState, useMemo } from 'react';
-import {
-  ArrowLeft,
-  Copy,
-  Bookmark,
-  Heart,
-  Share2,
-  Code,
-  ArrowRight,
-  Layers,
-  ExternalLink,
-  Sparkles,
-  Wand2,
-  Sliders,
-  FolderPlus,
-} from 'lucide-react';
+import { ArrowLeft, Heart, Copy, Bookmark, Share2, Check, ArrowRight, Download } from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
-import { useLibraryData } from '../context/LibraryDataContext';
-import { copyToClipboard, getColorAccessibility, getTextColorForBackground } from '../utils/colorUtils';
+import { CURATED_PALETTES } from '../data/palettes';
+import { copyToClipboard, hexToRgb, hexToHsl, getContrastRatio } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
-import { PaletteCard } from '../components/PaletteCard';
-import { ComboCard } from '../components/ComboCard';
-import { GradientCard } from '../components/GradientCard';
-import { PalettePreviewModes } from '../components/PalettePreviewModes';
-import { AccessibilityMatrix } from '../components/AccessibilityMatrix';
-import { AddToCollectionModal } from '../components/AddToCollectionModal';
-import { TokenExportModal } from '../components/TokenExportModal';
-import { findSimilarPalettes } from '../utils/similarityEngine';
-import { decodePaletteFromSlugOrId } from '../utils/canonicalResourceUtils';
-import { findClosestColorName } from '../utils/paletteGenerator';
-import { NotFoundPage } from './NotFoundPage';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generatePaletteSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
-import { Link } from '../components/common/Link';
 import { Analytics } from '../utils/analytics';
+import { NotFoundPage } from './NotFoundPage';
+import { Link } from '../components/common/Link';
 
 interface PaletteDetailPageProps {
   slug: string;
@@ -43,67 +18,83 @@ interface PaletteDetailPageProps {
 
 export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem, savedItems, isLiked, toggleLike } = useSaved();
-  const { palettes, colors: libraryColors, combos: libraryCombos, gradients: libraryGradients } = useLibraryData();
-  const [collectionModalOpen, setCollectionModalOpen] = useState(false);
-  const [tokenModalOpen, setTokenModalOpen] = useState(false);
-  const [exportMode, setExportMode] = useState<'hex' | 'css' | 'tailwind' | 'json'>('css');
+  const { isSaved, saveItem, removeItem, savedItems } = useSaved();
 
-  // Resolve palette comprehensively
-  const palette: PaletteItem | null = useMemo(() => {
-    if (!slug) return null;
-    const cleanSlug = slug.toLowerCase();
-
-    // 1. Check Library Data (Curated + Custom + Admin)
-    const matchLib = palettes.find(
+  const palette: PaletteItem = useMemo(() => {
+    const cleanSlug = (slug || '').trim().toLowerCase();
+    // 1. Check curated palettes by slug or id
+    const foundCurated = CURATED_PALETTES.find(
       (p) => p.slug.toLowerCase() === cleanSlug || p.id.toLowerCase() === cleanSlug
     );
-    if (matchLib) return matchLib;
+    if (foundCurated) return foundCurated;
 
-    // 2. Check Saved Items
-    const matchSaved = savedItems.find(
-      (s) => s.type === 'palette' && (s.slug.toLowerCase() === cleanSlug || s.id.toLowerCase() === cleanSlug)
+    // 2. Check saved items in context
+    const foundSaved = savedItems.find(
+      (s) => s.slug?.toLowerCase() === cleanSlug || s.id.toLowerCase() === cleanSlug
     );
-    if (matchSaved && matchSaved.preview) {
-      const hexList = matchSaved.preview.split(',').filter((h) => h.startsWith('#') || /^[0-9A-Fa-f]{6}$/.test(h));
-      if (hexList.length > 0) {
-        return {
-          id: matchSaved.id,
-          slug: matchSaved.slug,
-          title: matchSaved.title,
-          category: 'Curator Workspace',
-          description: matchSaved.metadata || `Saved palette system with ${hexList.length} tonal swatches.`,
-          colors: hexList.map((hex, i) => {
-            const cleanHex = hex.startsWith('#') ? hex.toUpperCase() : `#${hex.toUpperCase()}`;
-            return {
-              name: findClosestColorName(cleanHex),
-              hex: cleanHex,
-              role: i === 0 ? 'Background Anchor' : i === 1 ? 'Primary Dominant' : i === 2 ? 'Accent Focus' : 'Surface / Highlight',
-            };
-          }),
-          tags: ['saved', 'workspace', 'custom'],
-        };
-      }
+    if (foundSaved && foundSaved.preview) {
+      const hexList = foundSaved.preview.split(',').map((h) => h.trim());
+      return {
+        id: foundSaved.id,
+        title: foundSaved.title,
+        slug: foundSaved.slug || cleanSlug,
+        category: 'Saved Specimen',
+        tags: ['Saved', 'Custom'],
+        mood: ['Custom', 'Harmonious'],
+        industry: ['Creative', 'Design'],
+        description: foundSaved.metadata || 'Custom saved color palette specimen.',
+        colors: hexList.map((hex, i) => ({
+          hex,
+          name: `Tone ${i + 1}`,
+          role: i === 0 ? 'Dominant' : 'Accent',
+        })),
+        likes: 1,
+        saved: true,
+        createdAt: 'Recently saved',
+      };
     }
 
-    // 3. Check dynamic decoder from slug
-    const decoded = decodePaletteFromSlugOrId(slug);
-    if (decoded) return decoded;
+    // 3. Fallback to first curated palette
+    return CURATED_PALETTES[0];
+  }, [slug, savedItems]);
 
-    return null;
-  }, [slug, palettes, savedItems]);
+  const [testFg, setTestFg] = useState(() => palette.colors[0]?.hex || '#121212');
+  const [testBg, setTestBg] = useState(() => palette.colors[palette.colors.length - 1]?.hex || '#E9E2D5');
+  const [copiedAll, setCopiedAll] = useState(false);
+
+  // Update contrast swatches when palette changes
+  React.useEffect(() => {
+    if (palette.colors.length >= 2) {
+      setTestFg(palette.colors[0].hex);
+      setTestBg(palette.colors[palette.colors.length - 1].hex);
+    }
+  }, [palette]);
 
   if (!palette) {
     return <NotFoundPage requestedUrl={`/palettes/${slug}`} onNavigate={onNavigate} />;
   }
+
   const saved = isSaved(palette.id);
-  const liked = isLiked(palette.id);
+  const colors = palette.colors;
 
-  const paletteSchema = useMemo(() => {
-    return generatePaletteSchema(palette);
-  }, [palette]);
+  const handleToggleSave = () => {
+    if (saved) {
+      removeItem(palette.id);
+      showToast('Removed from saved', palette.title);
+    } else {
+      saveItem({
+        id: palette.id,
+        type: 'palette',
+        title: palette.title,
+        slug: palette.slug,
+        preview: palette.colors.map((c) => c.hex).join(','),
+        metadata: `${palette.category} • ${palette.colors.length} tones`,
+      });
+      showToast('Saved to collection', palette.title);
+    }
+  };
 
-  const handleCopySingleHex = async (hex: string, name: string) => {
+  const handleCopySwatch = async (hex: string, name: string) => {
     const success = await copyToClipboard(hex);
     if (success) {
       Analytics.trackColorCopy(hex, 'HEX', name);
@@ -111,479 +102,285 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
     }
   };
 
-  const handleShare = async () => {
-    const success = await copyToClipboard(window.location.href);
+  const handleCopyAll = async () => {
+    const payload = colors.map((c) => c.hex).join(', ');
+    const success = await copyToClipboard(payload);
     if (success) {
-      showToast('Palette link copied to clipboard', palette.title);
+      setCopiedAll(true);
+      showToast('Copied all colors to clipboard', palette.title);
+      setTimeout(() => setCopiedAll(false), 1600);
     }
   };
 
-  const handleToggleSave = () => {
-    saveItem({
-      id: palette.id,
-      type: 'palette',
-      title: palette.title,
-      slug: palette.slug,
-      preview: palette.colors.map((c) => c.hex).join(','),
-      metadata: `${palette.category} • ${palette.colors.length} swatches`,
-    });
-    if (!saved) {
-      Analytics.trackSpecimenSave('palette', palette.id, palette.title);
-    }
-    showToast(
-      saved ? 'Removed palette from saved' : 'Saved palette to collection',
-      palette.title
-    );
-  };
+  // Contrast calculation
+  const contrastRatio = useMemo(() => {
+    return getContrastRatio(testFg, testBg);
+  }, [testFg, testBg]);
 
-  const handleToggleLike = () => {
-    const nowLiked = toggleLike(palette.id);
-    showToast(nowLiked ? 'Added to Liked' : 'Removed from Liked', palette.title);
-  };
+  const passesAA = contrastRatio >= 4.5;
+  const passesAAA = contrastRatio >= 7.0;
 
-  const getCleanHexList = () => {
-    return palette.colors.map((c) => `${c.hex}  /* ${c.name} */`).join('\n');
-  };
-
-  const getCssVariables = () => {
-    const lines = palette.colors.map(
-      (c) => `  --color-${c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}: ${c.hex};`
-    );
-    return `:root {\n${lines.join('\n')}\n}`;
-  };
-
-  const getTailwindConfig = () => {
-    const obj: Record<string, string> = {};
-    palette.colors.forEach((c) => {
-      obj[c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')] = c.hex;
-    });
-    return JSON.stringify({ colors: obj }, null, 2);
-  };
-
-  const getJsonExport = () => {
-    return JSON.stringify(
-      {
-        palette: palette.title,
-        category: palette.category,
-        swatches: palette.colors,
-      },
-      null,
-      2
-    );
-  };
-
-  const currentExportCode =
-    exportMode === 'hex'
-      ? getCleanHexList()
-      : exportMode === 'css'
-      ? getCssVariables()
-      : exportMode === 'tailwind'
-      ? getTailwindConfig()
-      : getJsonExport();
-
-  const handleCopyExportCode = async () => {
-    const success = await copyToClipboard(currentExportCode);
-    if (success) {
-      Analytics.trackPaletteCopy(
-        palette.title,
-        palette.colors.map((c) => c.hex)
-      );
-      showToast(`Copied ${exportMode.toUpperCase()} tokens`, palette.title);
-    }
-  };
-
-  // Find color item in library if exists
-  const findMatchingColorSlug = (hex: string) => {
-    const match = libraryColors.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
-    return match ? match.slug : null;
-  };
-
-  // Measurable Similarity Engine lookup
+  // 4 Similar palettes from dataset
   const similarPalettes = useMemo(() => {
-    return findSimilarPalettes(palette, palettes, 4);
-  }, [palette, palettes]);
-
-  const relatedCombos = libraryCombos.filter(
-    (cb) => (cb.tags && palette.tags && cb.tags.some((t) => palette.tags.includes(t))) || cb.colors.some((c) => palette.colors.some((pc) => pc.hex.toLowerCase() === c.hex.toLowerCase()))
-  ).slice(0, 2);
-
-  const relatedGradients = libraryGradients.filter(
-    (g) => (g.tags && palette.tags && g.tags.some((t) => palette.tags.includes(t))) || g.category === palette.category
-  ).slice(0, 2);
-
-  const paletteHexParam = palette.colors.map((c) => c.hex.replace('#', '')).join('-');
+    return CURATED_PALETTES.filter((p) => p.id !== palette.id && p.slug !== palette.slug).slice(0, 4);
+  }, [palette]);
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="w-full min-h-screen bg-[#FAF8F5] text-[#151513] py-6 md:py-8">
       <SEOHead
-        title={`${palette.title} — ${palette.category.toUpperCase()} Color Palette System`}
-        description={`${palette.description} Formulated with ${palette.colors.length} chromatic balance points: ${palette.colors.map((c) => `${c.name} (${c.hex})`).join(', ')}.`}
+        rawTitle
+        title={`${palette.title} — KROMA Color Palette`}
+        description={palette.description}
         canonicalPath={`/palettes/${palette.slug}`}
-        jsonLd={paletteSchema}
-        keywords={[palette.title, palette.category, ...palette.tags, ...palette.colors.map((c) => c.name)]}
+        jsonLd={generatePaletteSchema(palette)}
       />
 
-      <Breadcrumbs
-        items={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Palettes', to: { path: 'palettes' } },
-          { label: palette.category.toUpperCase(), to: `/palettes?category=${palette.category}` },
-          { label: palette.title, isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-      />
-
-      {/* Navigation Breadcrumb & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <Link
-          to={{ path: 'palettes' }}
-          onNavigate={onNavigate}
-          className="detail-back-btn w-fit inline-flex items-center gap-2"
-        >
-          <ArrowLeft size={16} />
-          <span>Back to Palettes Catalog</span>
-        </Link>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-          <Link
-            to={{ path: 'palette-remix', slug: palette.slug }}
-            onNavigate={onNavigate}
-            className="btn-primary text-xs px-3.5 py-2 flex items-center gap-1.5"
-            title="Remix this palette"
-          >
-            <Wand2 size={13} />
-            <span>Remix</span>
-          </Link>
+      <div className="max-w-[1360px] mx-auto px-4 md:px-8">
+        
+        {/* Back Link */}
+        <div className="mb-4">
           <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={() => setCollectionModalOpen(true)}
-            title="Add to Collection"
+            onClick={() => onNavigate({ path: 'explore' })}
+            className="font-sans text-xs text-[#8E8A81] hover:text-[#151513] transition-colors flex items-center gap-1.5"
           >
-            <FolderPlus size={13} />
-            <span>Add to Collection</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={() => setTokenModalOpen(true)}
-            title="Export tokens in CSS / SCSS / Tailwind / DTCG JSON"
-          >
-            <Code size={13} />
-            <span>Export Tokens</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={handleToggleLike}
-            title={liked ? 'Unlike' : 'Like'}
-          >
-            <Heart size={13} fill={liked ? '#F87171' : 'none'} color={liked ? '#F87171' : 'currentColor'} />
-            <span>{liked ? 'Liked' : 'Like'}</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={handleShare}
-            title="Share Palette URL"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={handleToggleSave}
-          >
-            <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save'}</span>
+            <ArrowLeft size={13} />
+            <span>Back to explore</span>
           </button>
         </div>
-      </div>
 
-      {/* Palette Hero Swatch Banner */}
-      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
-        <div className="h-44 sm:h-60 flex w-full">
-          {palette.colors.map((c, idx) => {
-            const textColor = getTextColorForBackground(c.hex);
-            return (
-              <div
-                key={idx}
-                style={{ backgroundColor: c.hex }}
-                className="flex-1 flex flex-col justify-between p-2.5 sm:p-4 cursor-pointer transition-all duration-200 min-w-0"
-                onClick={() => handleCopySingleHex(c.hex, c.name)}
-                title={`Click to copy ${c.name} (${c.hex})`}
-              >
-                <span
-                  className="font-mono text-[9px] sm:text-[11px] font-semibold px-1.5 py-0.5 rounded-xs w-fit shadow-sm"
-                  style={{
-                    backgroundColor: textColor === '#000000' ? 'rgba(0,0,0,0.18)' : 'rgba(0,0,0,0.45)',
-                    color: textColor === '#000000' ? '#000000' : '#FFFFFF',
-                  }}
-                >
-                  0{idx + 1}
-                </span>
-
-                <div className="min-w-0 overflow-hidden">
-                  <div
-                    className="font-mono text-[11px] sm:text-sm font-bold truncate"
-                    style={{ color: textColor }}
-                  >
-                    {c.hex}
-                  </div>
-                  <div
-                    className="text-[10px] sm:text-xs opacity-90 truncate hidden xs:block font-medium"
-                    style={{ color: textColor }}
-                  >
-                    {c.name}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Palette Header & Meta */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-        <div>
-          <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-            {palette.category.toUpperCase()} SYSTEM • {palette.colors.length} TONAL SPECIMENS
-          </span>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
+        {/* Palette Title & Tags */}
+        <div className="mb-5">
+          <h1 className="font-serif text-[36px] md:text-[46px] tracking-[-0.025em] text-[#151513] leading-[1.05] mb-2 font-normal">
             {palette.title}
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-            {palette.description}
-          </p>
-
-          {palette.remixedFrom && (
-            <div className="mt-2 text-xs font-mono text-[var(--text-secondary)]">
-              Remixed from <strong>{palette.remixedFrom.title}</strong> by {palette.remixedFrom.creatorName || 'Creator'}
-            </div>
-          )}
-        </div>
-
-        <div className="flex gap-2.5 flex-shrink-0">
-          <button
-            className="btn-primary w-full sm:w-auto text-xs px-4 py-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap"
-            onClick={handleCopyExportCode}
-          >
-            <Copy size={14} />
-            <span>Copy Palette Tokens</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Swatch Breakdown Cards with Direct Navigation to Color Specimen & Relationships */}
-      <section className="flex flex-col gap-3.5">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
-          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
-            Swatches &amp; Architectural Roles
-          </h2>
-          <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase">
-            CLICK COLOR TO EXPLORE RELATIONSHIPS
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
-          {palette.colors.map((c, idx) => {
-            const slug = findMatchingColorSlug(c.hex);
-            const access = getColorAccessibility(c.hex);
-            return (
-              <div
-                key={idx}
-                className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm transition-all flex flex-col justify-between"
+          <div className="flex flex-wrap items-center gap-1.5">
+            {(palette.tags && palette.tags.length > 0 ? palette.tags : ['Editorial', 'Warm', 'Minimal']).map((tag) => (
+              <span
+                key={tag}
+                className="px-2.5 py-0.5 rounded-[12px] bg-transparent border border-[rgba(21,21,19,0.14)] text-[#69665F] font-sans text-[10px]"
               >
-                <div>
-                  <div
-                    className="h-20 rounded-xs border border-[var(--border-subtle)] mb-2.5 cursor-pointer shadow-inner relative flex items-end p-1.5"
-                    style={{ backgroundColor: c.hex }}
-                    onClick={() => handleCopySingleHex(c.hex, c.name)}
-                    title="Click to copy HEX"
-                  >
-                    <span
-                      className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-xs shadow-xs"
-                      style={{
-                        backgroundColor: access.bestTextColor === '#000000' ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
-                        color: access.bestTextColor === '#000000' ? '#000000' : '#FFFFFF',
-                      }}
-                    >
-                      {access.passAAA ? 'AAA' : 'AA'} {access.bestContrast}:1
-                    </span>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="font-bold text-xs sm:text-sm text-[var(--text-primary)] truncate">
-                      {c.name}
-                    </span>
-                    <button
-                      onClick={() => handleCopySingleHex(c.hex, c.name)}
-                      className="font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold flex-shrink-0"
-                    >
-                      {c.hex}
-                    </button>
-                  </div>
-                  {c.role && (
-                    <div className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase mt-0.5 truncate">
-                      ROLE: {c.role}
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-2.5 pt-2 border-t border-[var(--border-subtle)] flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
-                    <span>{access.bestTextColor === '#000000' ? 'Black text' : 'White text'}</span>
-                    <span className="font-bold">{access.bestContrast}:1</span>
-                  </div>
-                  <Link
-                    to={{ path: 'color-relationships', slug: slug || c.hex.replace('#', '') }}
-                    onNavigate={onNavigate}
-                    className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-gold)] hover:underline"
-                  >
-                    <span>Theory &amp; Relationships</span>
-                    <ExternalLink size={10} />
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Multi-Preview Proofs (SaaS, Editorial, Mobile, Branding) */}
-      <PalettePreviewModes palette={palette} />
-
-      {/* WCAG 2.1 Accessibility Matrix */}
-      <AccessibilityMatrix colors={palette.colors} />
-
-      {/* Code Export Tokens */}
-      <section className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
-              Export Tokens for Design &amp; Code
-            </h2>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
-              Formatted for instant drop-in into CSS, Tailwind, SCSS, or DTCG design tokens.
-            </p>
-          </div>
-
-          <div className="filter-pills flex flex-wrap gap-1.5 self-start sm:self-auto">
-            <button
-              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'css' ? 'active' : ''}`}
-              onClick={() => setExportMode('css')}
-            >
-              CSS Variables
-            </button>
-            <button
-              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'hex' ? 'active' : ''}`}
-              onClick={() => setExportMode('hex')}
-            >
-              HEX List
-            </button>
-            <button
-              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'tailwind' ? 'active' : ''}`}
-              onClick={() => setExportMode('tailwind')}
-            >
-              Tailwind
-            </button>
-            <button
-              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'json' ? 'active' : ''}`}
-              onClick={() => setExportMode('json')}
-            >
-              JSON
-            </button>
+                {tag}
+              </span>
+            ))}
+            <span className="px-2.5 py-0.5 rounded-[12px] bg-transparent border border-[rgba(21,21,19,0.14)] text-[#69665F] font-sans text-[10px]">
+              {colors.length} colors
+            </span>
           </div>
         </div>
 
-        <div style={{ position: 'relative' }}>
-          <pre
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-sm)',
-              padding: '16px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.82rem',
-              color: 'var(--text-primary)',
-              overflowX: 'auto',
-            }}
+        {/* 1. PALETTE HERO (Large Color Rectangles) */}
+        <div className="mb-4">
+          <div className="flex h-[130px] sm:h-[160px] md:h-[180px] rounded-[4px] overflow-hidden border border-[rgba(21,21,19,0.12)]">
+            {colors.map((col, idx) => (
+              <div
+                key={`${col.hex}-${idx}`}
+                onClick={() => handleCopySwatch(col.hex, col.name)}
+                className="flex-1 h-full cursor-pointer relative group transition-opacity hover:opacity-95"
+                style={{ backgroundColor: col.hex }}
+                title={`Click to copy ${col.hex}`}
+              />
+            ))}
+          </div>
+
+          {/* Color Technical Data Underneath (Dot + HEX, RGB, HSL) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-3">
+            {colors.map((col, idx) => {
+              const rgb = hexToRgb(col.hex);
+              const hsl = hexToHsl(col.hex);
+              return (
+                <div
+                  key={`${col.hex}-data-${idx}`}
+                  onClick={() => handleCopySwatch(col.hex, col.name)}
+                  className="flex flex-col gap-0.5 font-mono text-[9.5px] text-[#69665F] cursor-pointer hover:text-[#151513] transition-colors"
+                >
+                  <div className="flex items-center gap-1.5 font-bold text-[#151513]">
+                    <span className="w-2 h-2 rounded-full border border-black/10" style={{ backgroundColor: col.hex }} />
+                    <span>{col.hex.toUpperCase()}</span>
+                  </div>
+                  <div className="text-[#8E8A81]">
+                    RGB {rgb ? `${rgb.r} ${rgb.g} ${rgb.b}` : ''}
+                  </div>
+                  <div className="text-[#8E8A81]">
+                    HSL {hsl ? `${Math.round(hsl.h)}° ${Math.round(hsl.s)}% ${Math.round(hsl.l)}%` : ''}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Action Row: Copy Palette, Save, Export */}
+        <div className="flex flex-wrap items-center gap-2.5 py-4 border-b border-[rgba(21,21,19,0.1)] mb-6">
+          <button
+            onClick={handleCopyAll}
+            className="h-[36px] px-4 rounded-[4px] bg-[#11110F] text-[#FAF8F5] font-sans text-xs font-medium flex items-center gap-2 hover:opacity-90 transition-opacity"
           >
-            <code>{currentExportCode}</code>
-          </pre>
+            {copiedAll ? <Check size={14} /> : <Copy size={14} />}
+            <span>Copy palette</span>
+          </button>
 
           <button
-            className="btn-secondary"
-            onClick={handleCopyExportCode}
-            style={{
-              position: 'absolute',
-              top: '12px',
-              right: '12px',
-              padding: '6px 10px',
-              fontSize: '0.75rem',
-            }}
+            onClick={handleToggleSave}
+            className="h-[36px] px-4 rounded-[4px] bg-transparent border border-[rgba(21,21,19,0.18)] hover:border-[#11110F] text-[#151513] font-sans text-xs font-medium flex items-center gap-2 transition-colors"
           >
-            <Copy size={12} />
-            <span>Copy</span>
+            <Bookmark size={14} className={saved ? 'fill-current' : ''} />
+            <span>{saved ? 'Saved' : 'Save'}</span>
+          </button>
+
+          <button
+            onClick={() => onNavigate({ path: 'studio', palette: palette.slug || palette.id })}
+            className="h-[36px] px-4 rounded-[4px] bg-transparent border border-[rgba(21,21,19,0.18)] hover:border-[#11110F] text-[#151513] font-sans text-xs font-medium flex items-center gap-2 transition-colors"
+          >
+            <Share2 size={14} />
+            <span>Export</span>
           </button>
         </div>
-      </section>
 
-      {/* Similar Palettes via Measurable Similarity Engine */}
-      {similarPalettes.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-4">
+        {/* 2-Column Info & Contrast Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-10 pb-8 border-b border-[rgba(21,21,19,0.1)]">
+          
+          {/* Left Column: Mood, Works well for, Contrast test dropdowns */}
+          <div className="md:col-span-6 flex flex-col gap-5">
             <div>
-              <span className="page-category-label">Multidimensional Match</span>
-              <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
-                Similar Palette Systems
-              </h2>
+              <div className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#8E8A81] mb-1 font-bold">
+                Mood
+              </div>
+              <div className="font-sans text-xs text-[#151513]">
+                {palette.mood?.join(' · ') || 'Moody · Sophisticated · Warm · Minimal'}
+              </div>
+            </div>
+
+            <div>
+              <div className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#8E8A81] mb-1 font-bold">
+                Works well for
+              </div>
+              <div className="font-sans text-xs text-[#151513]">
+                {palette.industry?.join(' · ') || 'Fashion · Editorial · Luxury · Architecture'}
+              </div>
+            </div>
+
+            {/* Contrast Test Dropdowns */}
+            <div className="pt-2">
+              <div className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#8E8A81] mb-2 font-bold">
+                Contrast test
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Text color */}
+                <div>
+                  <label className="block font-sans text-[10px] text-[#8E8A81] mb-1">Text color</label>
+                  <select
+                    value={testFg}
+                    onChange={(e) => setTestFg(e.target.value)}
+                    className="w-full h-[36px] px-2.5 rounded-[4px] border border-[rgba(21,21,19,0.18)] bg-white font-mono text-xs text-[#151513] outline-none"
+                  >
+                    {colors.map((c) => (
+                      <option key={c.hex} value={c.hex}>
+                        {c.hex} ({c.name})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Background color */}
+                <div>
+                  <label className="block font-sans text-[10px] text-[#8E8A81] mb-1">Background color</label>
+                  <select
+                    value={testBg}
+                    onChange={(e) => setTestBg(e.target.value)}
+                    className="w-full h-[36px] px-2.5 rounded-[4px] border border-[rgba(21,21,19,0.18)] bg-white font-mono text-xs text-[#151513] outline-none"
+                  >
+                    {colors.map((c) => (
+                      <option key={c.hex} value={c.hex}>
+                        {c.hex} ({c.name})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="specimen-grid-palettes">
-            {similarPalettes.map(({ palette: sp, score, metrics }) => (
-              <div key={sp.id} className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)] px-1">
-                  <span>Match Similarity: <strong>{Math.round(score * 100)}%</strong></span>
-                  <span>Hue: {Math.round(metrics.hueMatch * 100)}% • Lum: {Math.round(metrics.luminanceMatch * 100)}%</span>
+
+          {/* Right Column: Accessibility badges & Live Aa Specimen */}
+          <div className="md:col-span-6 flex flex-col gap-4">
+            <div>
+              <div className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#8E8A81] mb-1.5 font-bold">
+                Accessibility
+              </div>
+              <div className="flex items-center gap-3 font-mono text-xs">
+                <span className={`flex items-center gap-1 ${passesAA ? 'text-emerald-700 font-bold' : 'text-[#8E8A81]'}`}>
+                  AA {passesAA ? '✓' : '✗'}
+                </span>
+                <span className={`flex items-center gap-1 ${passesAAA ? 'text-emerald-700 font-bold' : 'text-[#8E8A81]'}`}>
+                  AAA {passesAAA ? '✓' : '✗'}
+                </span>
+                <span className="flex items-center gap-1 text-emerald-700 font-bold">
+                  Large text ✓
+                </span>
+              </div>
+            </div>
+
+            {/* Test Contrast Specimen Card */}
+            <div>
+              <div className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#8E8A81] mb-1.5 font-bold">
+                Test contrast
+              </div>
+              <div
+                className="p-4 rounded-[4px] border border-[rgba(21,21,19,0.1)] transition-colors"
+                style={{ backgroundColor: testBg, color: testFg }}
+              >
+                <div className="font-serif text-3xl font-bold mb-1">Aa</div>
+                <p className="font-sans text-xs leading-relaxed mb-2">
+                  The quick brown fox jumps over the lazy dog.
+                </p>
+                <div className="font-mono text-[10px] opacity-75">
+                  Contrast ratio: {contrastRatio.toFixed(1)}:1
                 </div>
-                <PaletteCard palette={sp} onNavigate={onNavigate} />
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Similar Palettes Section */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-sans text-[18px] md:text-[20px] font-medium text-[#151513]">
+              Similar palettes
+            </h2>
+            <Link
+              to={{ path: 'explore' }}
+              onNavigate={onNavigate}
+              className="text-[11px] font-sans font-medium text-[#8E8A81] hover:text-[#151513] transition-colors flex items-center gap-1"
+            >
+              <span>View all</span>
+              <ArrowRight size={12} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {similarPalettes.map((p) => (
+              <div
+                key={p.id}
+                onClick={() => onNavigate({ path: 'palette-detail', slug: p.slug || p.id })}
+                className="group border border-[rgba(21,21,19,0.12)] hover:border-[rgba(21,21,19,0.28)] rounded-[4px] bg-[#FAF9F5] p-2.5 flex flex-col transition-all cursor-pointer"
+              >
+                <div className="h-[60px] rounded-[3px] overflow-hidden flex border border-[rgba(21,21,19,0.08)] mb-2">
+                  {p.colors.map((c, i) => (
+                    <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
+                  ))}
+                </div>
+                <h3 className="font-sans text-[12px] font-medium text-[#151513] leading-snug group-hover:underline">
+                  {p.title}
+                </h3>
+                <span className="font-mono text-[9px] text-[#8E8A81] mt-0.5">
+                  {p.colors.length} colors
+                </span>
               </div>
             ))}
           </div>
-        </section>
-      )}
+        </div>
 
-      {/* Connected Network: Harmonies & Gradients */}
-      {relatedCombos.length > 0 && (
-        <section>
-          <div className="flex justify-between items-baseline mb-4">
-            <h2 className="text-lg font-bold text-[var(--text-primary)]">
-              Color Harmonies in this Aesthetic
-            </h2>
-          </div>
-          <div className="specimen-grid-combos">
-            {relatedCombos.map((cb) => (
-              <ComboCard key={cb.id} combo={cb} onNavigate={onNavigate} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Modals */}
-      <AddToCollectionModal
-        isOpen={collectionModalOpen}
-        onClose={() => setCollectionModalOpen(false)}
-        item={{
-          type: 'palette',
-          refId: palette.id,
-          slug: palette.slug,
-          title: palette.title,
-          preview: palette.colors.map((c) => c.hex).join(','),
-          metadata: `${palette.category} • ${palette.colors.length} swatches`,
-        }}
-      />
-
-      <TokenExportModal
-        isOpen={tokenModalOpen}
-        onClose={() => setTokenModalOpen(false)}
-        palette={palette}
-      />
+      </div>
     </div>
   );
 };

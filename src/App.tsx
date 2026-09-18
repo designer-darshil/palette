@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { RouteType } from './types';
-import { Navbar } from './components/Navbar';
+import { KromaHeader } from './components/KromaHeader';
 import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
 import { generateFullRampsSystem, normalizeHex, isValidHex, RampsScope, RampsScheme, RampsWcag, RampsNotation, RampsVividness } from './utils/rampsEngine';
@@ -55,6 +55,11 @@ const PlayHubPage = lazy(() => import('./pages/PlayHubPage').then(m => ({ defaul
 const HexleGamePage = lazy(() => import('./pages/HexleGamePage').then(m => ({ default: m.HexleGamePage })));
 const OddOneOutGamePage = lazy(() => import('./pages/OddOneOutGamePage').then(m => ({ default: m.OddOneOutGamePage })));
 const PaletteMatchGamePage = lazy(() => import('./pages/PaletteMatchGamePage').then(m => ({ default: m.PaletteMatchGamePage })));
+const SearchPage = lazy(() => import('./pages/SearchPage').then(m => ({ default: m.SearchPage })));
+const CategoryPage = lazy(() => import('./pages/CategoryPage').then(m => ({ default: m.CategoryPage })));
+const CreatePalettePage = lazy(() => import('./pages/CreatePalettePage').then(m => ({ default: m.CreatePalettePage })));
+const KromaStudioPage = lazy(() => import('./pages/KromaStudioPage').then(m => ({ default: m.KromaStudioPage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
 const ApiDocsPage = lazy(() => import('./pages/ApiDocsPage').then(m => ({ default: m.ApiDocsPage })));
 import { useMaintenance } from './context/MaintenanceContext';
@@ -228,7 +233,12 @@ function parseUrlToRoute(): RouteType {
   if (s0 === 'explore') {
     return {
       path: 'explore',
+      q: searchParams.get('q') || undefined,
+      color: searchParams.get('color') || undefined,
       mood: searchParams.get('mood') || undefined,
+      style: searchParams.get('style') || undefined,
+      industry: searchParams.get('industry') || undefined,
+      sort: searchParams.get('sort') || undefined,
       useCase: searchParams.get('useCase') || searchParams.get('usecase') || undefined,
       character: searchParams.get('character') || undefined,
       season: searchParams.get('season') || undefined,
@@ -323,9 +333,39 @@ function parseUrlToRoute(): RouteType {
   }
 
   // 9. Tools & Generators
-  if (s0 === 'palette-generator' || s0 === 'generator') {
+  if (s0 === 'search') {
+    return {
+      path: 'search',
+      q: searchParams.get('q') || undefined,
+      color: searchParams.get('color') || undefined,
+      mood: searchParams.get('mood') || undefined,
+      style: searchParams.get('style') || undefined,
+      industry: searchParams.get('industry') || undefined,
+    };
+  }
+  if (s0 === 'category' || s0 === 'categories') {
+    return { path: 'category', slug: decodeURIComponent(segments[1] || 'editorial') };
+  }
+  if (s0 === 'create') {
+    return { path: 'create', colors: searchParams.get('colors') || undefined };
+  }
+  if (s0 === 'studio') {
+    return {
+      path: 'studio',
+      palette: searchParams.get('palette') || segments[1] || undefined,
+      colors: searchParams.get('colors') || undefined,
+    };
+  }
+  if (s0 === 'generate' || s0 === 'palette-generator' || s0 === 'generator') {
     const colors = searchParams.get('colors') || undefined;
-    return { path: 'palette-generator', colors };
+    return { path: 'generate', colors };
+  }
+  if (s0 === 'image-to-palette' || s0 === 'extract-from-image' || s0 === 'extract' || s0 === 'image') {
+    const imagePreset = searchParams.get('preset') || undefined;
+    return { path: 'image-to-palette', imagePreset };
+  }
+  if (s0 === 'about') {
+    return { path: 'about' };
   }
   if (s0 === 'contrast-checker' || s0 === 'contrast') {
     const fg = searchParams.get('fg') || searchParams.get('foreground') || undefined;
@@ -335,10 +375,6 @@ function parseUrlToRoute(): RouteType {
   if (s0 === 'color-name-finder' || s0 === 'name-finder' || s0 === 'name') {
     const hex = searchParams.get('hex') || searchParams.get('color') || undefined;
     return { path: 'color-name-finder', hex };
-  }
-  if (s0 === 'extract-from-image' || s0 === 'extract' || s0 === 'image') {
-    const imagePreset = searchParams.get('preset') || undefined;
-    return { path: 'extract-from-image', imagePreset };
   }
   if (s0 === 'brand-kit' || s0 === 'brand') {
     const id = segments[1] || undefined;
@@ -415,7 +451,12 @@ function routeToUrl(route: RouteType): string {
     case 'explore':
       {
         const params = new URLSearchParams();
+        if (route.q) params.set('q', route.q);
+        if (route.color) params.set('color', route.color);
         if (route.mood) params.set('mood', route.mood);
+        if (route.style) params.set('style', route.style);
+        if (route.industry) params.set('industry', route.industry);
+        if (route.sort) params.set('sort', route.sort);
         if (route.useCase) params.set('useCase', route.useCase);
         if (route.character) params.set('character', route.character);
         if (route.season) params.set('season', route.season);
@@ -575,6 +616,35 @@ function routeToUrl(route: RouteType): string {
         const qs = params.toString();
         return qs ? `/api/mesh?${qs}` : '/api/mesh';
       }
+    case 'search':
+      {
+        const params = new URLSearchParams();
+        if (route.q) params.set('q', route.q);
+        if (route.color) params.set('color', route.color);
+        if (route.mood) params.set('mood', route.mood);
+        if (route.style) params.set('style', route.style);
+        if (route.industry) params.set('industry', route.industry);
+        const qs = params.toString();
+        return qs ? `/search?${qs}` : '/search';
+      }
+    case 'category':
+      return `/category/${route.slug || route.id || 'editorial'}`;
+    case 'create':
+      return route.colors ? `/create?colors=${encodeURIComponent(route.colors)}` : '/create';
+    case 'studio':
+      {
+        const params = new URLSearchParams();
+        if (route.palette) params.set('palette', route.palette);
+        if (route.colors) params.set('colors', route.colors);
+        const qs = params.toString();
+        return qs ? `/studio?${qs}` : '/studio';
+      }
+    case 'generate':
+      return route.colors ? `/generate?colors=${route.colors}` : '/generate';
+    case 'image-to-palette':
+      return route.imagePreset ? `/image-to-palette?preset=${route.imagePreset}` : '/image-to-palette';
+    case 'about':
+      return '/about';
     case 'palette-generator':
       return route.colors ? `/palette-generator?colors=${route.colors}` : '/palette-generator';
     case 'contrast-checker':
@@ -778,9 +848,6 @@ export const App: React.FC = () => {
           <ExplorePage
             onNavigate={handleNavigate}
             initialMood={currentRoute.mood}
-            initialUseCase={currentRoute.useCase}
-            initialCharacter={currentRoute.character}
-            initialSeason={currentRoute.season}
           />
         );
       case 'trending':
@@ -856,13 +923,40 @@ export const App: React.FC = () => {
         return <AntigravityStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'mesh':
         return <MeshGradientStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
-      case 'palette-generator':
+      case 'search':
         return (
-          <MobilePaletteGeneratorPage
-            initialColorsQuery={currentRoute.colors}
+          <SearchPage
+            initialQuery={currentRoute.q}
+            initialColor={currentRoute.color}
+            initialMood={currentRoute.mood}
+            initialStyle={currentRoute.style}
+            initialIndustry={currentRoute.industry}
             onNavigate={handleNavigate}
           />
         );
+      case 'category':
+        return <CategoryPage slug={currentRoute.slug || currentRoute.id || 'editorial'} onNavigate={handleNavigate} />;
+      case 'create':
+        return <CreatePalettePage initialColors={currentRoute.colors} onNavigate={handleNavigate} />;
+      case 'studio':
+        return <KromaStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
+      case 'generate':
+      case 'palette-generator':
+        return (
+          <MobilePaletteGeneratorPage
+            initialColors={currentRoute.colors}
+            onNavigate={handleNavigate}
+          />
+        );
+      case 'image-to-palette':
+      case 'extract-from-image':
+        return (
+          <ExtractFromImagePage
+            onNavigate={handleNavigate}
+          />
+        );
+      case 'about':
+        return <AboutPage onNavigate={handleNavigate} />;
       case 'contrast-checker':
         return (
           <ContrastCheckerPage
@@ -878,13 +972,6 @@ export const App: React.FC = () => {
             onNavigate={handleNavigate}
           />
         );
-      case 'extract-from-image':
-        return (
-          <ExtractFromImagePage
-            imagePreset={currentRoute.imagePreset}
-            onNavigate={handleNavigate}
-          />
-        );
       case 'brand-kit':
         return (
           <BrandKitPage
@@ -894,7 +981,7 @@ export const App: React.FC = () => {
           />
         );
       case 'saved':
-        return <ProfilePage onNavigate={handleNavigate} initialTab="saved" />;
+        return <SavedPage onNavigate={handleNavigate} />;
       case 'not-found':
         return <NotFoundPage requestedUrl={currentRoute.requestedUrl} onNavigate={handleNavigate} />;
       default:
@@ -906,7 +993,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      <Navbar
+      <KromaHeader
         currentRoute={currentRoute}
         onNavigate={handleNavigate}
         onOpenSearch={() => setSearchOpen(true)}

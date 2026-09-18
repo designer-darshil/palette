@@ -1,0 +1,884 @@
+{
+  "testCases": [
+    {
+      "id": "TC-001",
+      "title": "First Page Load & Bootstrap Performance",
+      "category": "Performance / Functional",
+      "preconditions": "Clean network session, no prior cache",
+      "testData": "https://paletteparadise.vercel.app",
+      "steps": [
+        "1. Request root URL over HTTPS.",
+        "2. Inspect HTTP status and response headers.",
+        "3. Verify Frame 0 zero-flicker boot loader structure.",
+        "4. Measure network round-trip time."
+      ],
+      "expected": "HTTP 200, zero-flicker boot loader present, root mount element present, load time < 1500ms.",
+      "actual": "HTTP 200, response time 128ms, boot loader: Present, root mount: Present.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Elapsed: 128ms, Content-Type: text/html; charset=utf-8",
+      "notes": "Frame 0 bootloader guarantees instant paint before JS engine hydration."
+    },
+    {
+      "id": "TC-ROUTE--explore",
+      "title": "Deep-Link Navigation & SPA Fallback: /explore",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/explore",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/explore directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--generate",
+      "title": "Deep-Link Navigation & SPA Fallback: /generate",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/generate",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/generate directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--search-q-warm",
+      "title": "Deep-Link Navigation & SPA Fallback: /search?q=warm",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/search?q=warm",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/search?q=warm directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--palettes-after-hours",
+      "title": "Deep-Link Navigation & SPA Fallback: /palettes/after-hours",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/palettes/after-hours",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/palettes/after-hours directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--collections",
+      "title": "Deep-Link Navigation & SPA Fallback: /collections",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/collections",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/collections directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--colors",
+      "title": "Deep-Link Navigation & SPA Fallback: /colors",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/colors",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/colors directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--play",
+      "title": "Deep-Link Navigation & SPA Fallback: /play",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/play",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/play directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--api-docs",
+      "title": "Deep-Link Navigation & SPA Fallback: /api-docs",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/api-docs",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/api-docs directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--about",
+      "title": "Deep-Link Navigation & SPA Fallback: /about",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/about",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/about directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-ROUTE--non-existent-route-404",
+      "title": "Deep-Link Navigation & SPA Fallback: /non-existent-route-404",
+      "category": "Navigation & Routing",
+      "preconditions": "SPA rewriting enabled in hosting configuration",
+      "testData": "https://paletteparadise.vercel.app/non-existent-route-404",
+      "steps": [
+        "1. Request deep-link https://paletteparadise.vercel.app/non-existent-route-404 directly without client-side navigation.",
+        "2. Verify 200 response code and valid HTML shell."
+      ],
+      "expected": "HTTP 200 with HTML root shell returned for client-side router resolution.",
+      "actual": "HTTP 200, response contains root container.",
+      "status": "PASS",
+      "severity": "P1",
+      "evidence": "HTTP Status: 200, Body length: 9571 bytes"
+    },
+    {
+      "id": "TC-020",
+      "title": "Curated Palette Hex Formatting & Data Integrity",
+      "category": "Color Library & Data",
+      "preconditions": "Curated dataset loaded",
+      "testData": "50 palettes with 242 swatches",
+      "steps": [
+        "1. Iterate across curated palette sample.",
+        "2. Verify strict #RRGGBB hex formatting.",
+        "3. Verify color mathematical space transforms (RGB, HSL)."
+      ],
+      "expected": "Zero malformed hex strings, all color mathematical conversions valid.",
+      "actual": "Malformed hex strings: 0, Conversion failures: 0",
+      "status": "PASS",
+      "severity": "P1"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-EMPTY",
+      "title": "Search Input Resilience with Query: \"\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "",
+      "steps": [
+        "1. Pass query \"\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 1219 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-a",
+      "title": "Search Input Resilience with Query: \"a\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "a",
+      "steps": [
+        "1. Pass query \"a\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 1218 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-warm",
+      "title": "Search Input Resilience with Query: \"warm\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "warm",
+      "steps": [
+        "1. Pass query \"warm\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 3 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-WARM",
+      "title": "Search Input Resilience with Query: \"WARM\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "WARM",
+      "steps": [
+        "1. Pass query \"WARM\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 3 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-editorial",
+      "title": "Search Input Resilience with Query: \"editorial\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "editorial",
+      "steps": [
+        "1. Pass query \"editorial\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 1205 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-_E63946",
+      "title": "Search Input Resilience with Query: \"#E63946\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "#E63946",
+      "steps": [
+        "1. Pass query \"#E63946\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 0 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-nonexisten",
+      "title": "Search Input Resilience with Query: \"nonexistent_query_xyz_123\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "nonexistent_query_xyz_123",
+      "steps": [
+        "1. Pass query \"nonexistent_query_xyz_123\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 0 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-_script_al",
+      "title": "Search Input Resilience with Query: \"<script>alert(1)</script>\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "<script>alert(1)</script>",
+      "steps": [
+        "1. Pass query \"<script>alert(1)</script>\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 0 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-___img_src",
+      "title": "Search Input Resilience with Query: \"\"><img src=x onerror=alert(1)>\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "\"><img src=x onerror=alert(1)>",
+      "steps": [
+        "1. Pass query \"\"><img src=x onerror=alert(1)>\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 0 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-12345",
+      "title": "Search Input Resilience with Query: \"12345\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "12345",
+      "steps": [
+        "1. Pass query \"12345\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 0 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-___",
+      "title": "Search Input Resilience with Query: \"🔥✨\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "🔥✨",
+      "steps": [
+        "1. Pass query \"🔥✨\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 0 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-SEARCH-FUZZ-__SELECT__",
+      "title": "Search Input Resilience with Query: \"--SELECT * FROM palettes;\"",
+      "category": "Search & Security",
+      "preconditions": "Search input active",
+      "testData": "--SELECT * FROM palettes;",
+      "steps": [
+        "1. Pass query \"--SELECT * FROM palettes;\" into palette discovery filter engine.",
+        "2. Verify safe handling, no unhandled exceptions, no reflected XSS payload execution."
+      ],
+      "expected": "Safe execution, sanitized handling, intentional result count.",
+      "actual": "Execution stable, returned 0 matching palettes without crash.",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#000000-complementary",
+      "title": "Color Harmony Boundary: Base #000000 with complementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #000000, Mode: complementary",
+      "steps": [
+        "1. Set base color to boundary value #000000.",
+        "2. Request generation with harmony algorithm \"complementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #5B2A25, #08DDCA, #E93520, #1F8089, #E9D8DA",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#000000-analogous",
+      "title": "Color Harmony Boundary: Base #000000 with analogous",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #000000, Mode: analogous",
+      "steps": [
+        "1. Set base color to boundary value #000000.",
+        "2. Request generation with harmony algorithm \"analogous\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #3B212D, #CE2231, #FEB362, #655E1B, #E1E5DC",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#000000-monochromatic",
+      "title": "Color Harmony Boundary: Base #000000 with monochromatic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #000000, Mode: monochromatic",
+      "steps": [
+        "1. Set base color to boundary value #000000.",
+        "2. Request generation with harmony algorithm \"monochromatic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #300D0D, #8B1818, #D33131, #E68484, #ECDFDF",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#000000-triadic",
+      "title": "Color Harmony Boundary: Base #000000 with triadic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #000000, Mode: triadic",
+      "steps": [
+        "1. Set base color to boundary value #000000.",
+        "2. Request generation with harmony algorithm \"triadic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #571E21, #25C127, #3444F4, #E05048, #E4EEE3",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#000000-splitComplementary",
+      "title": "Color Harmony Boundary: Base #000000 with splitComplementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #000000, Mode: splitComplementary",
+      "steps": [
+        "1. Set base color to boundary value #000000.",
+        "2. Request generation with harmony algorithm \"splitComplementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #3D1A1D, #E4645E, #5FECAE, #1273C4, #E8EBED",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FFFFFF-complementary",
+      "title": "Color Harmony Boundary: Base #FFFFFF with complementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FFFFFF, Mode: complementary",
+      "steps": [
+        "1. Set base color to boundary value #FFFFFF.",
+        "2. Request generation with harmony algorithm \"complementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #431E22, #2FCFEE, #F0898F, #41CEDC, #F4F1F1",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FFFFFF-analogous",
+      "title": "Color Harmony Boundary: Base #FFFFFF with analogous",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FFFFFF, Mode: analogous",
+      "steps": [
+        "1. Set base color to boundary value #FFFFFF.",
+        "2. Request generation with harmony algorithm \"analogous\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #371522, #F34335, #EC9D4B, #F6F388, #F3F5EF",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FFFFFF-monochromatic",
+      "title": "Color Harmony Boundary: Base #FFFFFF with monochromatic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FFFFFF, Mode: monochromatic",
+      "steps": [
+        "1. Set base color to boundary value #FFFFFF.",
+        "2. Request generation with harmony algorithm \"monochromatic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #261717, #841F1F, #EC1818, #D09A9A, #ECDFDF",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FFFFFF-triadic",
+      "title": "Color Harmony Boundary: Base #FFFFFF with triadic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FFFFFF, Mode: triadic",
+      "steps": [
+        "1. Set base color to boundary value #FFFFFF.",
+        "2. Request generation with harmony algorithm \"triadic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #4B1B16, #0CDF1D, #7978F2, #D2838D, #E4ECE4",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FFFFFF-splitComplementary",
+      "title": "Color Harmony Boundary: Base #FFFFFF with splitComplementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FFFFFF, Mode: splitComplementary",
+      "steps": [
+        "1. Set base color to boundary value #FFFFFF.",
+        "2. Request generation with harmony algorithm \"splitComplementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #493431, #F81B28, #34EA86, #0F73BD, #E7EAEF",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#7861FF-complementary",
+      "title": "Color Harmony Boundary: Base #7861FF with complementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #7861FF, Mode: complementary",
+      "steps": [
+        "1. Set base color to boundary value #7861FF.",
+        "2. Request generation with harmony algorithm \"complementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #1B163C, #CCEC41, #7365EC, #485813, #EBEBF0",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#7861FF-analogous",
+      "title": "Color Harmony Boundary: Base #7861FF with analogous",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #7861FF, Mode: analogous",
+      "steps": [
+        "1. Set base color to boundary value #7861FF.",
+        "2. Request generation with harmony algorithm \"analogous\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #263959, #472BF7, #B350F1, #DB94D4, #F3EDEF",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#7861FF-monochromatic",
+      "title": "Color Harmony Boundary: Base #7861FF with monochromatic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #7861FF, Mode: monochromatic",
+      "steps": [
+        "1. Set base color to boundary value #7861FF.",
+        "2. Request generation with harmony algorithm \"monochromatic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #16122B, #312380, #4E37CD, #988CDE, #E1DFEC",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#7861FF-triadic",
+      "title": "Color Harmony Boundary: Base #7861FF with triadic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #7861FF, Mode: triadic",
+      "steps": [
+        "1. Set base color to boundary value #7861FF.",
+        "2. Request generation with harmony algorithm \"triadic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #161320, #DD6655, #33DB36, #180C5A, #EBE2E0",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#7861FF-splitComplementary",
+      "title": "Color Harmony Boundary: Base #7861FF with splitComplementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #7861FF, Mode: splitComplementary",
+      "steps": [
+        "1. Set base color to boundary value #7861FF.",
+        "2. Request generation with harmony algorithm \"splitComplementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #130E25, #3B18C3, #EBD084, #73C62F, #ECF0EB",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FF0000-complementary",
+      "title": "Color Harmony Boundary: Base #FF0000 with complementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FF0000, Mode: complementary",
+      "steps": [
+        "1. Set base color to boundary value #FF0000.",
+        "2. Request generation with harmony algorithm \"complementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #462021, #0FD5D7, #F06A7E, #80E5E1, #F0EBEA",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FF0000-analogous",
+      "title": "Color Harmony Boundary: Base #FF0000 with analogous",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FF0000, Mode: analogous",
+      "steps": [
+        "1. Set base color to boundary value #FF0000.",
+        "2. Request generation with harmony algorithm \"analogous\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #501B35, #EA4C43, #F4A43E, #7B6E19, #ECF0E5",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FF0000-monochromatic",
+      "title": "Color Harmony Boundary: Base #FF0000 with monochromatic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FF0000, Mode: monochromatic",
+      "steps": [
+        "1. Set base color to boundary value #FF0000.",
+        "2. Request generation with harmony algorithm \"monochromatic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #261717, #871D1D, #D72D2D, #E48686, #ECDFDF",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FF0000-triadic",
+      "title": "Color Harmony Boundary: Base #FF0000 with triadic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FF0000, Mode: triadic",
+      "steps": [
+        "1. Set base color to boundary value #FF0000.",
+        "2. Request generation with harmony algorithm \"triadic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #391414, #36C723, #7367F4, #DD9C9C, #ECF4EC",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#FF0000-splitComplementary",
+      "title": "Color Harmony Boundary: Base #FF0000 with splitComplementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #FF0000, Mode: splitComplementary",
+      "steps": [
+        "1. Set base color to boundary value #FF0000.",
+        "2. Request generation with harmony algorithm \"splitComplementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #301314, #E92F35, #83ECAD, #A0C8EE, #DEE5ED",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#00FF00-complementary",
+      "title": "Color Harmony Boundary: Base #00FF00 with complementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #00FF00, Mode: complementary",
+      "steps": [
+        "1. Set base color to boundary value #00FF00.",
+        "2. Request generation with harmony algorithm \"complementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #163E13, #C02AA9, #85FD7C, #E076D0, #E4EEE2",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#00FF00-analogous",
+      "title": "Color Harmony Boundary: Base #00FF00 with analogous",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #00FF00, Mode: analogous",
+      "steps": [
+        "1. Set base color to boundary value #00FF00.",
+        "2. Request generation with harmony algorithm \"analogous\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #2E411B, #56EF4E, #78FCC1, #289A97, #DAE4EC",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#00FF00-monochromatic",
+      "title": "Color Harmony Boundary: Base #00FF00 with monochromatic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #00FF00, Mode: monochromatic",
+      "steps": [
+        "1. Set base color to boundary value #00FF00.",
+        "2. Request generation with harmony algorithm \"monochromatic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #0F2F0F, #178C17, #24E024, #92D892, #DFECDF",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#00FF00-triadic",
+      "title": "Color Harmony Boundary: Base #00FF00 with triadic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #00FF00, Mode: triadic",
+      "steps": [
+        "1. Set base color to boundary value #00FF00.",
+        "2. Request generation with harmony algorithm \"triadic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #1A421A, #635DE5, #E86D68, #0F6614, #DDDDEE",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#00FF00-splitComplementary",
+      "title": "Color Harmony Boundary: Base #00FF00 with splitComplementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #00FF00, Mode: splitComplementary",
+      "steps": [
+        "1. Set base color to boundary value #00FF00.",
+        "2. Request generation with harmony algorithm \"splitComplementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #224922, #1CDD08, #AD4DF5, #BC1068, #EBE6E7",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#0000FF-complementary",
+      "title": "Color Harmony Boundary: Base #0000FF with complementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #0000FF, Mode: complementary",
+      "steps": [
+        "1. Set base color to boundary value #0000FF.",
+        "2. Request generation with harmony algorithm \"complementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #2F2E52, #C8B10E, #828CED, #DFCD26, #E1E1EA",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#0000FF-analogous",
+      "title": "Color Harmony Boundary: Base #0000FF with analogous",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #0000FF, Mode: analogous",
+      "steps": [
+        "1. Set base color to boundary value #0000FF.",
+        "2. Request generation with harmony algorithm \"analogous\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #22394E, #3737CD, #A948F9, #C67ACD, #F0E0E8",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#0000FF-monochromatic",
+      "title": "Color Harmony Boundary: Base #0000FF with monochromatic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #0000FF, Mode: monochromatic",
+      "steps": [
+        "1. Set base color to boundary value #0000FF.",
+        "2. Request generation with harmony algorithm \"monochromatic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #0D0D30, #0B0B99, #3333D1, #8484E6, #DFDFEC",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#0000FF-triadic",
+      "title": "Color Harmony Boundary: Base #0000FF with triadic",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #0000FF, Mode: triadic",
+      "steps": [
+        "1. Set base color to boundary value #0000FF.",
+        "2. Request generation with harmony algorithm \"triadic\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #16132F, #C2191E, #5CFA5F, #AEADF5, #F1EAE9",
+      "status": "PASS",
+      "severity": "P2"
+    },
+    {
+      "id": "TC-HARMONY-#0000FF-splitComplementary",
+      "title": "Color Harmony Boundary: Base #0000FF with splitComplementary",
+      "category": "Color Algorithms",
+      "preconditions": "Palette generator initialized",
+      "testData": "Base: #0000FF, Mode: splitComplementary",
+      "steps": [
+        "1. Set base color to boundary value #0000FF.",
+        "2. Request generation with harmony algorithm \"splitComplementary\".",
+        "3. Inspect hex codes and color integrity."
+      ],
+      "expected": "Generated swatches all valid #RRGGBB hex values within [0, 255] RGB gamut.",
+      "actual": "Generated 5 swatches: #1A174F, #5558EC, #E78727, #DBEFBD, #E9F1E4",
+      "status": "PASS",
+      "severity": "P2"
+    }
+  ],
+  "defects": [
+    {
+      "id": "BUG-SEC-001",
+      "title": "Missing Content-Security-Policy Header on Vercel deployment",
+      "severity": "P3",
+      "environment": "Production Deployed (Vercel Edge)",
+      "viewport": "All Viewports",
+      "browser": "All Browsers",
+      "url": "https://paletteparadise.vercel.app",
+      "preconditions": "Direct HTTP response from deployment",
+      "steps": [
+        "1. Send curl/fetch request to root URL.",
+        "2. Inspect response headers for Content-Security-Policy."
+      ],
+      "expected": "Content-Security-Policy header defined to prevent inline injection risks.",
+      "actual": "Header Content-Security-Policy is not sent in production HTTP headers.",
+      "frequency": "Always",
+      "evidence": "Headers returned: access-control-allow-origin, age, cache-control, content-disposition, content-encoding, content-type, date, etag, last-modified, server, strict-transport-security, transfer-encoding, x-vercel-cache, x-vercel-id",
+      "suspectedArea": "vercel.json / HTTP Headers Configuration",
+      "regressionRisk": "Low; non-functional security hygiene enhancement."
+    }
+  ],
+  "passCount": 54,
+  "failCount": 0,
+  "blockedCount": 0
+}

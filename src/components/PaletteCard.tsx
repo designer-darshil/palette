@@ -1,159 +1,130 @@
-import React from 'react';
-import { Copy, Bookmark, Share2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Heart } from 'lucide-react';
 import { PaletteItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
-import { Link } from './common/Link';
 import { Analytics } from '../utils/analytics';
 
 interface PaletteCardProps {
   palette: PaletteItem;
   onNavigate: (route: RouteType) => void;
+  variant?: 'standard' | 'editorial' | 'large';
 }
 
 export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem } = useSaved();
-  const saved = isSaved(palette.id);
+  const { isSaved, saveItem, removeItem } = useSaved();
+  const [copiedHex, setCopiedHex] = useState<string | null>(null);
 
-  const handleCopySingleHex = async (e: React.MouseEvent | React.KeyboardEvent | undefined, hex: string, name: string) => {
-    e?.stopPropagation();
+  const saved = isSaved(palette.id);
+  const colors = palette.colors.slice(0, 4);
+
+  const handleToggleHeart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (saved) {
+      removeItem(palette.id);
+      showToast('Removed from saved', palette.title);
+    } else {
+      saveItem({
+        id: palette.id,
+        type: 'palette',
+        title: palette.title,
+        slug: palette.slug,
+        preview: palette.colors.map((c) => c.hex).join(','),
+        metadata: `${palette.category} • ${palette.colors.length} tones`,
+      });
+      showToast('Saved to collection', palette.title);
+    }
+  };
+
+  const handleCopyHex = async (e: React.MouseEvent, hex: string, name: string) => {
+    e.stopPropagation();
     const success = await copyToClipboard(hex);
     if (success) {
+      setCopiedHex(hex);
       Analytics.trackColorCopy(hex, 'HEX', name);
       showToast(`Copied ${hex}`, name, hex);
+      setTimeout(() => setCopiedHex(null), 1400);
     }
   };
 
-  const handleCopyAllHexes = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const allHexes = palette.colors.map((c) => c.hex).join(', ');
-    const success = await copyToClipboard(allHexes);
-    if (success) {
-      Analytics.trackPaletteCopy(
-        palette.title,
-        palette.colors.map((c) => c.hex)
-      );
-      showToast(`Copied all ${palette.colors.length} hex values`, palette.title);
+  const formatTags = () => {
+    if (palette.tags && palette.tags.length > 0) {
+      return palette.tags.slice(0, 3).join(' · ');
     }
+    return `${palette.category} · Curated`;
   };
 
-  const handleShare = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const url = `${window.location.origin}/palettes/${palette.slug}`;
-    const success = await copyToClipboard(url);
-    if (success) {
-      showToast('Copied palette link', palette.title);
-    }
-  };
-
-  const handleToggleSave = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    saveItem({
-      id: palette.id,
-      type: 'palette',
-      title: palette.title,
-      slug: palette.slug,
-      preview: palette.colors.map((c) => c.hex).join(','),
-      metadata: `${palette.category} • ${palette.colors.length} swatches`,
-    });
-    if (!saved) {
-      Analytics.trackSpecimenSave('palette', palette.id, palette.title);
-    }
-    showToast(
-      saved ? 'Removed palette from saved' : 'Saved palette to collection',
-      palette.title
-    );
-  };
+  // Fallback image if not specified
+  const cardImage = palette.image || 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80';
 
   return (
-    <article className="palette-card" aria-label={`Palette: ${palette.title}`}>
-      <div className="palette-swatches-strip" role="group" aria-label="Color swatches">
-        {palette.colors.map((c, idx) => (
+    <div
+      onClick={() => onNavigate({ path: 'palette-detail', slug: palette.slug })}
+      className="group relative border border-[var(--kroma-border)] rounded-[4px] bg-transparent p-2.5 flex flex-col justify-between transition-all duration-200 hover:border-[var(--kroma-border-strong)] cursor-pointer"
+      style={{ boxShadow: 'none' }}
+    >
+      {/* 1. Header Image (2.3–2.5:1 Aspect Ratio, ~65px height) */}
+      <div className="w-full h-[65px] rounded-[2px] overflow-hidden relative bg-[var(--kroma-paper-light)] mb-2.5">
+        <img
+          src={cardImage}
+          alt={palette.title}
+          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+
+      {/* 2. Title & Heart Icon */}
+      <div className="flex items-center justify-between gap-2 mb-0.5">
+        <h3 className="font-sans text-[12px] font-medium text-[var(--kroma-ink)] tracking-tight truncate">
+          {palette.title}
+        </h3>
+        <button
+          onClick={handleToggleHeart}
+          className="p-1 text-[var(--kroma-muted)] hover:text-[var(--kroma-ink)] transition-colors"
+          aria-label={saved ? 'Remove from saved' : 'Save palette'}
+          title={saved ? 'Saved' : 'Save'}
+        >
+          <Heart
+            size={13}
+            strokeWidth={1.5}
+            className={saved ? 'fill-[var(--kroma-ink)] text-[var(--kroma-ink)]' : 'text-inherit'}
+          />
+        </button>
+      </div>
+
+      {/* 3. Small Tags Row */}
+      <div className="text-[9.5px] text-[var(--kroma-muted)] tracking-wide font-normal truncate mb-2">
+        {formatTags()}
+      </div>
+
+      {/* 4. Color Swatch Strip (4 colors, height ~20px, tiny gaps) */}
+      <div className="flex h-[20px] gap-[2px] w-full rounded-[2px] overflow-hidden">
+        {colors.map((color, idx) => (
           <div
-            key={idx}
-            className="palette-swatch-item"
-            style={{ backgroundColor: c.hex }}
-            onClick={(e) => handleCopySingleHex(e, c.hex, c.name)}
-            role="button"
-            tabIndex={0}
-            aria-label={`Copy ${c.name} (${c.hex})`}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleCopySingleHex(e, c.hex, c.name);
-              }
-            }}
-          >
-            <span className="palette-swatch-pop">{c.hex}</span>
-          </div>
+            key={`${color.hex}-${idx}`}
+            onClick={(e) => handleCopyHex(e, color.hex, color.name)}
+            className="flex-1 h-full relative group/swatch transition-transform duration-150 hover:opacity-90"
+            style={{ backgroundColor: color.hex }}
+            title={`Click to copy ${color.hex}`}
+          />
         ))}
       </div>
 
-      <div className="palette-card-body">
-        <div className="palette-card-meta">
-          <span>{palette.category}</span>
-          <span>•</span>
-          <span>{palette.colors.length} tones</span>
-        </div>
-
-        <h3 className="palette-card-title">
-          <Link
-            to={{ path: 'palette-detail', slug: palette.slug }}
-            onNavigate={onNavigate}
-            style={{ textAlign: 'left', display: 'inline-block', color: 'inherit', textDecoration: 'none' }}
-            className="hover:underline"
+      {/* 5. Monospace HEX Codes Row */}
+      <div className="flex justify-between items-center mt-1.5 font-mono text-[8.5px] text-[var(--kroma-muted)] tracking-tight">
+        {colors.map((color, idx) => (
+          <span
+            key={`${color.hex}-hex-${idx}`}
+            onClick={(e) => handleCopyHex(e, color.hex, color.name)}
+            className="hover:text-[var(--kroma-ink)] transition-colors cursor-pointer"
+            title={`Copy ${color.hex}`}
           >
-            {palette.title}
-          </Link>
-        </h3>
-
-        <p className="color-card-desc">{palette.description}</p>
-
-        <div className="palette-color-hex-list">
-          {palette.colors.map((c, idx) => (
-            <button
-              key={idx}
-              className="palette-mini-hex-pill"
-              onClick={(e) => handleCopySingleHex(e, c.hex, c.name)}
-              title={`Click to copy ${c.name}`}
-            >
-              <span className="palette-mini-dot" style={{ backgroundColor: c.hex }} />
-              <span>{c.hex}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="color-card-footer" style={{ marginTop: '12px' }}>
-          <button
-            className="color-card-hex-btn"
-            onClick={handleCopyAllHexes}
-            aria-label="Copy entire palette"
-          >
-            <Copy size={11} />
-            <span>Copy All</span>
-          </button>
-
-          <div className="card-action-icons">
-            <button
-              className="card-icon-btn"
-              onClick={handleShare}
-              aria-label="Share palette link"
-              title="Share palette link"
-            >
-              <Share2 size={14} />
-            </button>
-            <button
-              className={`card-icon-btn ${saved ? 'saved' : ''}`}
-              onClick={handleToggleSave}
-              aria-label={saved ? 'Remove from saved' : 'Save palette'}
-            >
-              <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
-            </button>
-          </div>
-        </div>
+            {copiedHex === color.hex ? '✓' : color.hex}
+          </span>
+        ))}
       </div>
-    </article>
+    </div>
   );
 };

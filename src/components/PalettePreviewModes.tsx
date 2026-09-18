@@ -144,7 +144,7 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
           </div>
 
           <div className="p-4 border-l-4" style={{ borderColor: c1, backgroundColor: `${c2}15` }}>
-            <p className="text-xs italic" style={{ color: c3 }}>
+            <p className="text-xs not-italic" style={{ color: c3 }}>
               "Perceptually uniform spaces unlock mathematical precision in digital design systems."
             </p>
           </div>

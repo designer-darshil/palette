@@ -1,312 +1,321 @@
 import React, { useState, useMemo } from 'react';
-import { Compass, Sparkles, TrendingUp, Clock, Shuffle, Layers, ArrowRight, Palette, Grid, Heart, Gamepad2 } from 'lucide-react';
+import { Search, X, SlidersHorizontal } from 'lucide-react';
 import { RouteType } from '../types';
-import { useLibraryData } from '../context/LibraryDataContext';
-import { useCollections } from '../context/CollectionContext';
-import { useCreators } from '../context/CreatorContext';
-import { CURATED_PATTERNS } from '../data/patterns';
+import { CURATED_PALETTES } from '../data/palettes';
 import { PaletteCard } from '../components/PaletteCard';
-import { ColorCard } from '../components/ColorCard';
-import { CollectionCard } from '../components/CollectionCard';
-import { CreatorCard } from '../components/CreatorCard';
-import { PatternCard } from '../components/PatternCard';
-import { FilterBar, FilterState } from '../components/FilterBar';
-import { getColorOfTheDay, getPaletteOfTheDay } from '../utils/dailyEngine';
-import { sortTrendingPalettes, sortNewestPalettes } from '../utils/rankingEngine';
-import { USE_CASES, MOODS, VISUAL_CHARACTERS, SEASONS } from '../utils/taxonomy';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Link } from '../components/common/Link';
+import { generateWebSiteSchema } from '../utils/schemaGenerator';
 
 interface ExplorePageProps {
   onNavigate: (route: RouteType) => void;
   initialMood?: string;
-  initialUseCase?: string;
-  initialCharacter?: string;
-  initialSeason?: string;
+  initialColor?: string;
+  initialStyle?: string;
+  initialIndustry?: string;
+  initialQuery?: string;
+  initialSort?: 'trending' | 'newest' | 'name';
 }
+
+const POPULAR_SEARCHES = [
+  'blue',
+  'minimal',
+  'warm',
+  'nature',
+  'fashion',
+  'retro',
+  'editorial',
+];
+
+const COLOR_OPTIONS = ['all', 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Neutral'];
+const MOOD_OPTIONS = ['all', 'Calm', 'Energetic', 'Elegant', 'Dark', 'Playful', 'Minimal', 'Warm', 'Sophisticated'];
+const STYLE_OPTIONS = ['all', 'Editorial', 'Retro', 'Modern', 'Luxury', 'Organic', 'Futuristic'];
+const INDUSTRY_OPTIONS = ['all', 'Fashion', 'Branding', 'UI/UX', 'Architecture', 'Food', 'Beauty', 'Technology'];
 
 export const ExplorePage: React.FC<ExplorePageProps> = ({
   onNavigate,
-  initialMood,
-  initialUseCase,
-  initialCharacter,
-  initialSeason,
+  initialMood = 'all',
+  initialColor = 'all',
+  initialStyle = 'all',
+  initialIndustry = 'all',
+  initialQuery = '',
+  initialSort = 'trending',
 }) => {
-  const { palettes, colors } = useLibraryData();
-  const { collections } = useCollections();
-  const { creators } = useCreators();
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [selectedSort, setSelectedSort] = useState<'trending' | 'newest' | 'name'>(initialSort);
+  const [selectedColor, setSelectedColor] = useState<string>(initialColor);
+  const [selectedMood, setSelectedMood] = useState<string>(initialMood);
+  const [selectedStyle, setSelectedStyle] = useState<string>(initialStyle);
+  const [selectedIndustry, setSelectedIndustry] = useState<string>(initialIndustry);
 
-  const [filters, setFilters] = useState<FilterState>({
-    category: initialUseCase,
-    mood: initialMood,
-    character: initialCharacter,
-    season: initialSeason,
-    sortBy: 'trending',
-  });
+  React.useEffect(() => {
+    setSearchQuery(initialQuery);
+    setSelectedColor(initialColor);
+    setSelectedMood(initialMood);
+    setSelectedStyle(initialStyle);
+    setSelectedIndustry(initialIndustry);
+    if (initialSort) setSelectedSort(initialSort);
+  }, [initialQuery, initialColor, initialMood, initialStyle, initialIndustry, initialSort]);
 
-  const dailyColor = useMemo(() => getColorOfTheDay(new Date(), colors), [colors]);
-  const dailyPalette = useMemo(() => getPaletteOfTheDay(new Date(), palettes), [palettes]);
-
-  const allCategories = useMemo(() => {
-    return Array.from(new Set(palettes.map((p) => p.category))).sort();
-  }, [palettes]);
-
-  // Filtered palettes
   const filteredPalettes = useMemo(() => {
-    let list = [...palettes];
+    let list = [...CURATED_PALETTES];
 
-    if (filters.category) {
-      list = list.filter((p) => p.category.toLowerCase() === filters.category!.toLowerCase());
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      const hexQ = q.startsWith('#') ? q : `#${q}`;
+      list = list.filter(
+        (p) =>
+          p.title.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          (p.tags || []).some((t) => t.toLowerCase().includes(q)) ||
+          ((p.mood as string[] | undefined) || []).some((m) => m.toLowerCase().includes(q)) ||
+          ((p.style as string[] | undefined) || []).some((s) => s.toLowerCase().includes(q)) ||
+          p.colors.some(
+            (c) =>
+              c.name.toLowerCase().includes(q) ||
+              c.hex.toLowerCase() === hexQ ||
+              c.hex.toLowerCase().includes(q)
+          )
+      );
     }
 
-    if (filters.mood) {
-      const moodTag = filters.mood.toLowerCase();
-      list = list.filter((p) => (p.tags || []).some((t) => t.toLowerCase().includes(moodTag)));
+    if (selectedColor !== 'all') {
+      const colQ = selectedColor.toLowerCase();
+      list = list.filter((p) =>
+        (p.tags || []).some((t) => t.toLowerCase().includes(colQ)) ||
+        p.category.toLowerCase().includes(colQ)
+      );
     }
 
-    if (filters.character) {
-      const charTag = filters.character.toLowerCase();
-      list = list.filter((p) => (p.tags || []).some((t) => t.toLowerCase().includes(charTag)));
+    if (selectedMood !== 'all') {
+      const moodQ = selectedMood.toLowerCase();
+      list = list.filter((p) =>
+        (p.tags || []).some((t) => t.toLowerCase().includes(moodQ)) ||
+        ((p.mood as string[] | undefined) || []).some((m) => m.toLowerCase().includes(moodQ))
+      );
     }
 
-    if (filters.season) {
-      const seasonTag = filters.season.toLowerCase();
-      list = list.filter((p) => (p.tags || []).some((t) => t.toLowerCase().includes(seasonTag)));
+    if (selectedStyle !== 'all') {
+      const styleQ = selectedStyle.toLowerCase();
+      list = list.filter((p) =>
+        (p.tags || []).some((t) => t.toLowerCase().includes(styleQ)) ||
+        ((p.style as string[] | undefined) || []).some((s) => s.toLowerCase().includes(styleQ)) ||
+        p.category.toLowerCase().includes(styleQ)
+      );
     }
 
-    if (filters.sortBy === 'newest') {
-      return sortNewestPalettes(list);
+    if (selectedIndustry !== 'all') {
+      const indQ = selectedIndustry.toLowerCase();
+      list = list.filter((p) =>
+        (p.tags || []).some((t) => t.toLowerCase().includes(indQ)) ||
+        ((p.industry as string[] | undefined) || []).some((i) => i.toLowerCase().includes(indQ))
+      );
     }
-    return sortTrendingPalettes(list);
-  }, [palettes, filters]);
 
-  const trendingPalettes = useMemo(() => sortTrendingPalettes(palettes).slice(0, 4), [palettes]);
-  const newPalettes = useMemo(() => sortNewestPalettes(palettes).slice(0, 4), [palettes]);
+    if (selectedSort === 'name') {
+      list.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    return list;
+  }, [searchQuery, selectedColor, selectedMood, selectedStyle, selectedIndustry, selectedSort]);
+
+  const hasActiveFilters =
+    searchQuery !== '' ||
+    selectedColor !== 'all' ||
+    selectedMood !== 'all' ||
+    selectedStyle !== 'all' ||
+    selectedIndustry !== 'all';
+
+  const handleResetFilters = () => {
+    setSearchQuery('');
+    setSelectedColor('all');
+    setSelectedMood('all');
+    setSelectedStyle('all');
+    setSelectedIndustry('all');
+  };
 
   return (
-    <div className="catalog-container w-full max-w-7xl mx-auto flex flex-col gap-10">
+    <div className="w-full min-h-screen bg-[var(--kroma-paper)] text-[var(--kroma-ink)] py-5 md:py-6">
       <SEOHead
-        title="Explore Color Systems, Palettes &amp; Harmonies"
-        description="Discover curated digital color palettes, trending chromatic systems, daily color specimens, patterns, and design collections."
+        rawTitle
+        title="Explore Color Palettes — KROMA"
+        description="Browse the complete KROMA digital archive of curated color palettes, editorial systems, and architectural tones."
         canonicalPath="/explore"
+        jsonLd={generateWebSiteSchema()}
       />
 
-      {/* Hero Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Compass size={16} className="text-[var(--color-primary)]" />
-            <span className="page-category-label">Curated Spectrum Hub</span>
+      <div className="max-w-[1360px] mx-auto px-4 md:px-8">
+        
+        {/* Page Header */}
+        <div className="mb-3.5">
+          <div className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-[var(--kroma-muted)] mb-1.5">
+            EXPLORE
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Explore &amp; Discover Color
+          <h1 className="font-serif text-[34px] md:text-[44px] leading-[1.05] tracking-[-0.025em] text-[var(--kroma-ink)] font-normal">
+            Find your palette.
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-            Discover calibrated palettes, color theories, daily specimens, and generative design tokens across curated taxonomies.
-          </p>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
-          <Link
-            to={{ path: 'random' }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5"
-            title="Surprise me with a random specimen"
-          >
-            <Shuffle size={13} className="text-pink-400" />
-            <span>Random Specimen</span>
-          </Link>
-          <Link
-            to={{ path: 'trending' }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5"
-          >
-            <TrendingUp size={13} className="text-amber-400" />
-            <span>Trending</span>
-          </Link>
-          <Link
-            to={{ path: 'new' }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5"
-          >
-            <Clock size={13} className="text-emerald-400" />
-            <span>New Releases</span>
-          </Link>
-        </div>
-      </div>
-
-      {/* Daily Specimen Highlights Banner */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Color of the Day Card */}
-        <div className="p-4 sm:p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between gap-4">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase font-bold text-[var(--accent-gold)] tracking-wider">
-              COLOR OF THE DAY • {dailyColor.dateString}
-            </span>
-            <Link
-              to={{ path: 'color-of-the-day' }}
-              onNavigate={onNavigate}
-              className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-mono"
-            >
-              <span>Inspect Specimen</span>
-              <ArrowRight size={12} />
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div
-              className="w-16 h-16 rounded-sm border border-[var(--border-subtle)] shadow-inner flex-shrink-0"
-              style={{ backgroundColor: dailyColor.color.hex }}
+        {/* Search Bar */}
+        <div className="max-w-xl mb-2.5">
+          <div className="h-[40px] bg-[#F8F6EF] border border-[var(--kroma-border)] rounded-[20px] px-3.5 flex items-center gap-2.5">
+            <Search size={14} className="text-[var(--kroma-muted)] shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search palettes, colors, moods or styles..."
+              className="w-full bg-transparent border-none outline-none font-sans text-[11px] text-[var(--kroma-ink)] placeholder:text-[var(--kroma-muted)]"
             />
-            <div className="min-w-0">
-              <h3 className="text-lg font-bold text-[var(--text-primary)] truncate">
-                {dailyColor.color.name}
-              </h3>
-              <div className="font-mono text-xs text-[var(--text-secondary)] font-bold">
-                {dailyColor.color.hex} • {dailyColor.color.oklch}
-              </div>
-              <p className="text-xs text-[var(--text-secondary)] line-clamp-1 mt-1">
-                {dailyColor.color.description}
-              </p>
-            </div>
+            {searchQuery && (
+              <button onClick={() => setSearchQuery('')} className="text-[var(--kroma-muted)] hover:text-[var(--kroma-ink)]">
+                <X size={13} />
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Palette of the Day Card */}
-        <div className="p-4 sm:p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between gap-4">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase font-bold text-[var(--accent-gold)] tracking-wider">
-              PALETTE OF THE DAY • {dailyPalette.dateString}
-            </span>
-            <Link
-              to={{ path: 'palette-of-the-day' }}
-              onNavigate={onNavigate}
-              className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-mono"
+        {/* Popular Searches */}
+        <div className="flex flex-wrap items-center gap-1.5 mb-4">
+          <span className="font-mono text-[9px] uppercase tracking-widest text-[var(--kroma-muted)] mr-1">
+            TRENDING SEARCHES:
+          </span>
+          {POPULAR_SEARCHES.map((term) => (
+            <button
+              key={term}
+              onClick={() => setSearchQuery(term)}
+              className={`kroma-tag ${searchQuery.toLowerCase() === term ? 'bg-[var(--kroma-ink)] text-[var(--kroma-paper)]' : ''}`}
             >
-              <span>Full System</span>
-              <ArrowRight size={12} />
-            </Link>
-          </div>
-
-          <div>
-            <div className="h-10 rounded-sm overflow-hidden flex mb-2.5 border border-[var(--border-subtle)]">
-              {dailyPalette.palette.colors.map((c, i) => (
-                <div key={i} className="flex-1" style={{ backgroundColor: c.hex }} title={c.name} />
-              ))}
-            </div>
-            <div className="flex items-baseline justify-between gap-2">
-              <h3 className="text-sm font-bold text-[var(--text-primary)] truncate">
-                {dailyPalette.palette.title}
-              </h3>
-              <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">
-                {dailyPalette.palette.category}
-              </span>
-            </div>
-          </div>
+              {term}
+            </button>
+          ))}
         </div>
-      </section>
 
-      {/* Filter and Explore Results Section */}
-      <section className="flex flex-col gap-4">
-        <FilterBar
-          filters={filters}
-          onChange={setFilters}
-          categoriesList={allCategories}
-          totalResults={filteredPalettes.length}
-        />
+        {/* Filter Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-2.5 py-2.5 border-y border-[var(--kroma-border)] mb-4 text-xs">
+          
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Sort */}
+            <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase text-[var(--kroma-muted)]">
+              <span>SORT:</span>
+              <select
+                value={selectedSort}
+                onChange={(e) => setSelectedSort(e.target.value as any)}
+                className="bg-transparent text-[var(--kroma-ink)] font-sans text-xs outline-none cursor-pointer"
+              >
+                <option value="trending">Trending</option>
+                <option value="newest">Curated</option>
+                <option value="name">Alphabetical</option>
+              </select>
+            </div>
 
-        <div className="specimen-grid-palettes">
-          {filteredPalettes.slice(0, 8).map((palette) => (
-            <PaletteCard key={palette.id} palette={palette} onNavigate={onNavigate} />
+            {/* Color Filter */}
+            <div className="flex items-center gap-1 font-mono text-[10px] uppercase text-[var(--kroma-muted)]">
+              <span>COLOR:</span>
+              <select
+                value={selectedColor}
+                onChange={(e) => setSelectedColor(e.target.value)}
+                className="bg-transparent text-[var(--kroma-ink)] font-sans text-xs outline-none cursor-pointer"
+              >
+                {COLOR_OPTIONS.map((c) => (
+                  <option key={c} value={c}>
+                    {c === 'all' ? 'All Colors' : c}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Mood Filter */}
+            <div className="flex items-center gap-1 font-mono text-[10px] uppercase text-[var(--kroma-muted)]">
+              <span>MOOD:</span>
+              <select
+                value={selectedMood}
+                onChange={(e) => setSelectedMood(e.target.value)}
+                className="bg-transparent text-[var(--kroma-ink)] font-sans text-xs outline-none cursor-pointer"
+              >
+                {MOOD_OPTIONS.map((m) => (
+                  <option key={m} value={m}>
+                    {m === 'all' ? 'All Moods' : m}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Style Filter */}
+            <div className="flex items-center gap-1 font-mono text-[10px] uppercase text-[var(--kroma-muted)]">
+              <span>STYLE:</span>
+              <select
+                value={selectedStyle}
+                onChange={(e) => setSelectedStyle(e.target.value)}
+                className="bg-transparent text-[var(--kroma-ink)] font-sans text-xs outline-none cursor-pointer"
+              >
+                {STYLE_OPTIONS.map((s) => (
+                  <option key={s} value={s}>
+                    {s === 'all' ? 'All Styles' : s}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Industry Filter */}
+            <div className="flex items-center gap-1 font-mono text-[10px] uppercase text-[var(--kroma-muted)]">
+              <span>INDUSTRY:</span>
+              <select
+                value={selectedIndustry}
+                onChange={(e) => setSelectedIndustry(e.target.value)}
+                className="bg-transparent text-[var(--kroma-ink)] font-sans text-xs outline-none cursor-pointer"
+              >
+                {INDUSTRY_OPTIONS.map((i) => (
+                  <option key={i} value={i}>
+                    {i === 'all' ? 'All Industries' : i}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 font-mono text-[10px] uppercase text-[var(--kroma-muted)]">
+            <span>{filteredPalettes.length} SPECIMENS</span>
+            {hasActiveFilters && (
+              <button
+                onClick={handleResetFilters}
+                className="underline hover:text-[var(--kroma-ink)] transition-colors"
+              >
+                Reset
+              </button>
+            )}
+          </div>
+
+        </div>
+
+        {/* 4-Column Palette Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          {filteredPalettes.map((palette) => (
+            <PaletteCard
+              key={palette.id}
+              palette={palette}
+              onNavigate={onNavigate}
+            />
           ))}
         </div>
 
         {filteredPalettes.length === 0 && (
-          <div className="p-12 text-center bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">
-            <p className="text-sm text-[var(--text-secondary)]">
-              No palette systems match the active filter criteria.
+          <div className="text-center py-24 border border-[var(--kroma-border)] rounded-[4px] bg-[var(--kroma-card)] my-6">
+            <h3 className="font-sans text-xl md:text-2xl font-medium text-[var(--kroma-ink)] mb-2">
+              No matching palettes found
+            </h3>
+            <p className="font-sans text-xs text-[var(--kroma-muted)] mb-6">
+              Try adjusting your search criteria or reset filters.
             </p>
+            <button
+              onClick={handleResetFilters}
+              className="kroma-btn-primary"
+            >
+              Reset all filters
+            </button>
           </div>
         )}
-      </section>
 
-      {/* Curated Collections Section */}
-      <section className="flex flex-col gap-4 pt-4 border-t border-[var(--border-subtle)]">
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="page-category-label">Curator Workspaces</span>
-            <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
-              Curated Collections
-            </h2>
-          </div>
-          <Link
-            to={{ path: 'collections' }}
-            onNavigate={onNavigate}
-            className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-mono"
-          >
-            <span>All Collections ({collections.length})</span>
-            <ArrowRight size={12} />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {collections.slice(0, 4).map((col) => (
-            <CollectionCard key={col.id} collection={col} onNavigate={onNavigate} />
-          ))}
-        </div>
-      </section>
-
-      {/* Generative Pattern Section Doorway */}
-      <section className="flex flex-col gap-4 pt-4 border-t border-[var(--border-subtle)]">
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="page-category-label">Vector Surface Studio</span>
-            <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
-              Palette Patterns &amp; Textures
-            </h2>
-          </div>
-          <Link
-            to={{ path: 'patterns' }}
-            onNavigate={onNavigate}
-            className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-mono"
-          >
-            <span>Pattern Gallery ({CURATED_PATTERNS.length})</span>
-            <ArrowRight size={12} />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {CURATED_PATTERNS.slice(0, 3).map((pat) => (
-            <PatternCard key={pat.id} pattern={pat} onNavigate={onNavigate} />
-          ))}
-        </div>
-      </section>
-
-      {/* Featured Creators Section */}
-      <section className="flex flex-col gap-4 pt-4 border-t border-[var(--border-subtle)]">
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="page-category-label">Community &amp; Portfolios</span>
-            <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
-              Design Systems Architects &amp; Colorists
-            </h2>
-          </div>
-          <Link
-            to={{ path: 'creators' }}
-            onNavigate={onNavigate}
-            className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-mono"
-          >
-            <span>All Creators ({creators.length})</span>
-            <ArrowRight size={12} />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {creators.slice(0, 4).map((cr) => (
-            <CreatorCard key={cr.id} creator={cr} onNavigate={onNavigate} />
-          ))}
-        </div>
-      </section>
+      </div>
     </div>
   );
 };

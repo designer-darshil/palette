@@ -57,11 +57,11 @@ export interface SemanticAuditReport {
 }
 
 export const FONT_OPTIONS: { name: string; value: string; category: string }[] = [
+  { name: 'Inter', value: "'Inter', sans-serif", category: 'Swiss Neutral' },
+  { name: 'Helvetica Neue', value: "'Helvetica Neue', Arial, sans-serif", category: 'Modernist Sans' },
   { name: 'Plus Jakarta Sans', value: "'Plus Jakarta Sans', sans-serif", category: 'Geometric' },
-  { name: 'Inter', value: "'Inter', sans-serif", category: 'Neutral' },
   { name: 'Outfit', value: "'Outfit', sans-serif", category: 'Modern' },
   { name: 'Space Grotesk', value: "'Space Grotesk', sans-serif", category: 'Neo-Grotesk' },
-  { name: 'Playfair Display', value: "'Playfair Display', serif", category: 'Editorial Serif' },
   { name: 'JetBrains Mono', value: "'JetBrains Mono', monospace", category: 'Monospace' },
 ];
 
@@ -87,8 +87,8 @@ export const DEFAULT_BRAND_KIT: BrandKitItem = {
     error: '#EF4444',
   },
   typography: {
-    headingFont: "'Plus Jakarta Sans', sans-serif",
-    bodyFont: "'Inter', sans-serif",
+    headingFont: "'Inter', 'Helvetica Neue', Arial, sans-serif",
+    bodyFont: "'Inter', 'Helvetica Neue', Arial, sans-serif",
   },
   logoText: 'NEXUS',
   createdAt: new Date().toISOString(),

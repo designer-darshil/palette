@@ -329,7 +329,7 @@ export const AdminMaintenancePage: React.FC = () => {
               )}
             </div>
           ) : (
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)', fontStyle: 'italic' }}>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)' }}>
               Super Admin role required to toggle maintenance
             </div>
           )}
@@ -693,7 +693,7 @@ export const AdminMaintenancePage: React.FC = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '280px', overflowY: 'auto' }}>
               {maintenanceLogs.length === 0 ? (
-                <div style={{ fontSize: '0.74rem', color: 'var(--text-tertiary)', fontStyle: 'italic', padding: '8px 0' }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--text-tertiary)', padding: '8px 0' }}>
                   No recent maintenance changes logged.
                 </div>
               ) : (

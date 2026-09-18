@@ -7,7 +7,7 @@
     "dev": "vite",
     "generate:sitemap": "node scripts/generateSitemaps.cjs",
     "test:palettes": "npx tsx scripts/test-palette-wcag.ts",
-    "test": "npx tsx scripts/test-palette-wcag.ts && npx tsx scripts/test-mesh.ts && npx tsx scripts/test-physics.ts && npx tsx scripts/test-password-policy.ts",
+    "test": "npx tsx scripts/test-palette-wcag.ts && npx tsx scripts/test-mesh.ts && npx tsx scripts/test-physics.ts && npx tsx scripts/test-password-policy.ts && npx tsx scripts/audit-site-integrity.ts",
     "build": "node scripts/generateSitemaps.cjs && tsc && vite build",
     "preview": "vite preview"
   },

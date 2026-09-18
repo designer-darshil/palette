@@ -1,5 +1,5 @@
 import { ColorItem } from '../types';
-import compactColorsRaw from './colorsCompact.json?raw';
+import compactColors from './colorsCompact.json';
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
   const clean = hex.replace('#', '').trim();
@@ -210,6 +210,9 @@ function hydrateColor(tuple: [string, string, string], index: number): ColorItem
 }
 
 // Hydrate 44,000 colors from compact tuples
-const parsedTuples: [string, string, string][] = JSON.parse(compactColorsRaw);
+const parsedTuples: [string, string, string][] = 
+  typeof compactColors === 'string' 
+    ? JSON.parse(compactColors) 
+    : (compactColors as [string, string, string][]);
 
 export const CURATED_COLORS: ColorItem[] = parsedTuples.map((t, idx) => hydrateColor(t, idx));

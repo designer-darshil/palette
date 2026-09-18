@@ -36,6 +36,13 @@ export interface PaletteItem {
     role?: string;
   }[];
   tags: string[];
+  image?: string;
+  quote?: string;
+  quoteAuthor?: string;
+  mood?: string[];
+  style?: string[];
+  industry?: string[];
+  proportions?: { hex: string; name: string; percentage: number }[];
   likes?: number;
   saves?: number;
   views?: number;
@@ -170,7 +177,9 @@ export interface GameScore {
 
 export type RouteType = 
   | { path: 'home' }
-  | { path: 'explore'; mood?: string; useCase?: string; character?: string; season?: string }
+  | { path: 'explore'; mood?: string; useCase?: string; character?: string; season?: string; color?: string; style?: string; industry?: string; sort?: string; q?: string; query?: { q?: string; color?: string; mood?: string; style?: string; industry?: string } }
+  | { path: 'search'; q?: string; color?: string; mood?: string; style?: string; industry?: string; query?: { q?: string; color?: string; mood?: string; style?: string; industry?: string } }
+  | { path: 'category'; id?: string; slug?: string }
   | { path: 'trending'; tab?: 'palettes' | 'colors' | 'gradients' | 'collections' | 'creators' }
   | { path: 'new'; tab?: 'palettes' | 'colors' | 'gradients' | 'collections' | 'creators' }
   | { path: 'random'; seed?: string }
@@ -186,7 +195,7 @@ export type RouteType =
   | { path: 'color-relationships'; slug: string }
   | { path: 'color-of-the-day' }
   | { path: 'palettes' }
-  | { path: 'palette-detail'; slug: string }
+  | { path: 'palette-detail'; slug: string; id?: string }
   | { path: 'palette-remix'; slug: string }
   | { path: 'palette-of-the-day' }
   | { path: 'combos' }
@@ -201,9 +210,14 @@ export type RouteType =
   | { path: 'mesh'; p?: string; s?: string; sf?: string; in?: string; bl?: string; gr?: string; rot?: string; sc?: string; bg?: string; scol?: string; pts?: string }
   | { path: 'api-mesh'; p?: string; s?: string; sf?: string; in?: string; bl?: string; gr?: string; rot?: string; sc?: string; bg?: string; scol?: string; pts?: string; format?: string }
   | { path: 'palette-generator'; colors?: string }
+  | { path: 'generate'; colors?: string }
   | { path: 'contrast-checker'; fg?: string; bg?: string }
   | { path: 'color-name-finder'; hex?: string }
   | { path: 'extract-from-image'; imagePreset?: string }
+  | { path: 'image-to-palette'; imagePreset?: string }
+  | { path: 'create'; colors?: string }
+  | { path: 'studio'; palette?: string; colors?: string }
+  | { path: 'about' }
   | { path: 'brand-kit'; id?: string; paletteSlug?: string }
   | { path: 'play'; game?: string }
   | { path: 'play-hexle' }

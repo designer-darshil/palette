@@ -2,6 +2,160 @@ import { PaletteItem } from '../types';
 
 export const CURATED_PALETTES: PaletteItem[] = [
   {
+    id: "palette-after-hours",
+    slug: "after-hours",
+    title: "After Hours",
+    category: "editorial",
+    description: "Disciplined midnight obsidian, weathered taupe, and raw linen for editorial spaces and print layouts.",
+    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+    quote: "Great design is a careful balance of color, form and feeling.",
+    quoteAuthor: "KROMA Archive",
+    mood: ["Moody", "Sophisticated", "Warm", "Minimal"],
+    style: ["Editorial", "Minimal", "Warm"],
+    industry: ["Fashion", "Editorial", "Luxury", "Architecture"],
+    colors: [
+      { name: "Midnight Obsidian", hex: "#121212", role: "Primary Deep" },
+      { name: "Raw Taupe", hex: "#686258", role: "Muted Earth" },
+      { name: "Warm Parchment", hex: "#C7B8A3", role: "Light Plaster" },
+      { name: "Bleached Linen", hex: "#E9E2D5", role: "Paper Tone" }
+    ],
+    tags: ["Editorial", "Minimal", "Warm"],
+    featured: true
+  },
+  {
+    id: "palette-ocean-breeze",
+    slug: "ocean-breeze",
+    title: "Ocean Breeze",
+    category: "nature",
+    description: "Deep maritime blues, seafoam tones, and coastal mist inspired by open waters and aerial seascapes.",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    mood: ["Calm", "Serene", "Organic"],
+    style: ["Nature", "Calm"],
+    industry: ["Travel", "Branding", "UI/UX"],
+    colors: [
+      { name: "Deep Navy", hex: "#0A3D62", role: "Deep Sea" },
+      { name: "Ocean Blue", hex: "#2E7DA7", role: "Wave Mid" },
+      { name: "Seafoam", hex: "#6AABB8", role: "Shallow Light" },
+      { name: "Coastal Mist", hex: "#EAF4F7", role: "Foam White" }
+    ],
+    tags: ["Nature", "Calm"],
+    featured: true
+  },
+  {
+    id: "palette-retro-summer",
+    slug: "retro-summer",
+    title: "Retro Summer",
+    category: "retro",
+    description: "Sun-drenched terracotta, warm peach, and retro olive accents evoking 1970s modernist architecture.",
+    image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80",
+    mood: ["Playful", "Energetic", "Warm"],
+    style: ["Retro", "Playful"],
+    industry: ["Branding", "Fashion", "Editorial"],
+    colors: [
+      { name: "Burnt Coral", hex: "#EF7651", role: "Primary Accent" },
+      { name: "Warm Peach", hex: "#F4A261", role: "Midtone" },
+      { name: "Sunlight Ochre", hex: "#F7D794", role: "Highlight" },
+      { name: "Retro Sage", hex: "#A8C857", role: "Botanical Accent" }
+    ],
+    tags: ["Retro", "Playful"],
+    featured: true
+  },
+  {
+    id: "palette-modern-luxe",
+    slug: "modern-luxe",
+    title: "Modern Luxe",
+    category: "luxury",
+    description: "Deep carbon black, aged brass, raw travertine, and warm ivory for sartorial atelier branding.",
+    image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80",
+    mood: ["Sophisticated", "Elegant", "Minimal"],
+    style: ["Luxury", "Minimal"],
+    industry: ["Luxury", "Fashion", "Architecture"],
+    colors: [
+      { name: "Carbon Noir", hex: "#101010", role: "Deep Foundation" },
+      { name: "Burnished Brass", hex: "#8C8773", role: "Warm Metallic" },
+      { name: "Travertine", hex: "#CFC8B8", role: "Stone Neutral" },
+      { name: "Warm Alabaster", hex: "#EFEAE0", role: "Paper Highlight" }
+    ],
+    tags: ["Luxury", "Minimal"],
+    featured: true
+  },
+  {
+    id: "palette-forest-walk",
+    slug: "forest-walk",
+    title: "Forest Walk",
+    category: "nature",
+    description: "Dense pine canopy, lichen bark, moss green, and alpine air distilled into an organic system.",
+    image: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80",
+    mood: ["Organic", "Calm", "Earthy"],
+    style: ["Nature", "Organic"],
+    industry: ["Sustainability", "Branding", "Interiors"],
+    colors: [
+      { name: "Deep Spruce", hex: "#1E3024", role: "Canopy Depth" },
+      { name: "Forest Shadow", hex: "#3A5648", role: "Foliage Mid" },
+      { name: "Lichen Moss", hex: "#88A168", role: "Bright Moss" },
+      { name: "Morning Mist", hex: "#D7E0D3", role: "Atmosphere" }
+    ],
+    tags: ["Nature", "Organic"],
+    featured: true
+  },
+  {
+    id: "palette-neon-lights",
+    slug: "neon-lights",
+    title: "Neon Lights",
+    category: "technology",
+    description: "Electric violet, hot magenta, solar red, and cyber cyan engineered for high-contrast digital interfaces.",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+    mood: ["Futuristic", "Energetic", "Dark"],
+    style: ["Tech", "Futuristic"],
+    industry: ["Technology", "UI/UX", "Music"],
+    colors: [
+      { name: "Deep Violet", hex: "#482E83", role: "Void Background" },
+      { name: "Electric Magenta", hex: "#E244AE", role: "Primary Glow" },
+      { name: "Solar Neon", hex: "#F66C67", role: "Secondary Signal" },
+      { name: "Cyber Cyan", hex: "#00D4FF", role: "High Accent" }
+    ],
+    tags: ["Tech", "Futuristic"],
+    featured: true
+  },
+  {
+    id: "palette-blush-mood",
+    slug: "blush-mood",
+    title: "Blush Mood",
+    category: "fashion",
+    description: "Subtle rose quartz, dusty mauve, whisper pink, and silk cream for tactile editorial fashion.",
+    image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80",
+    mood: ["Soft", "Elegant", "Minimal"],
+    style: ["Fashion", "Soft"],
+    industry: ["Fashion", "Beauty", "Editorial"],
+    colors: [
+      { name: "Rose Quartz", hex: "#F1C0C7", role: "Primary Blush" },
+      { name: "Dusty Mauve", hex: "#E9A8B3", role: "Soft Mid" },
+      { name: "Whisper Rose", hex: "#F0D0D1", role: "Tonal Wash" },
+      { name: "Silk Cream", hex: "#FFF2F4", role: "Highlight Tint" }
+    ],
+    tags: ["Fashion", "Soft"],
+    featured: true
+  },
+  {
+    id: "palette-stone-sand",
+    slug: "stone-sand",
+    title: "Stone & Sand",
+    category: "minimal",
+    description: "Deep espresso shadow, weathered shale, dune sand, and raw plaster for quiet architectural spaces.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+    mood: ["Earthy", "Minimal", "Calm"],
+    style: ["Minimal", "Earthy"],
+    industry: ["Architecture", "Interiors", "Craft"],
+    colors: [
+      { name: "Deep Shale", hex: "#3A2F24", role: "Dark Ground" },
+      { name: "Weathered Stone", hex: "#7A6B5B", role: "Tonal Earth" },
+      { name: "Dune Sand", hex: "#C9B8A7", role: "Warm Sand" },
+      { name: "Raw Limestone", hex: "#EDE4D9", role: "Pale Plaster" }
+    ],
+    tags: ["Minimal", "Earthy"],
+    featured: true
+  },
+  {
     "id": "p_terracotta_raw_plaster",
     "slug": "terracotta-raw-plaster",
     "title": "Terracotta & Raw Plaster",

@@ -1,11 +1,10 @@
-import React from 'react';
-import { Trash2, Copy, Bookmark, Download, ExternalLink, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bookmark, Plus, Trash2, ArrowRight } from 'lucide-react';
 import { RouteType } from '../types';
-import { useSaved, SavedItem } from '../context/SavedContext';
-import { useToast } from '../context/ToastContext';
-import { copyToClipboard } from '../utils/colorUtils';
+import { useSaved } from '../context/SavedContext';
+import { CURATED_PALETTES } from '../data/palettes';
+import { PaletteCard } from '../components/PaletteCard';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 interface SavedPageProps {
   onNavigate: (route: RouteType) => void;
@@ -13,212 +12,205 @@ interface SavedPageProps {
 
 export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
   const { savedItems, removeItem, clearAll } = useSaved();
-  const { showToast } = useToast();
+  const [activeTab, setActiveTab] = useState<'palettes' | 'collections'>('palettes');
 
-  const handleCopyPreview = async (item: SavedItem) => {
-    let textToCopy = item.preview;
-    if (item.type === 'gradient') {
-      textToCopy = `background: ${item.preview};`;
-    }
-    const success = await copyToClipboard(textToCopy);
-    if (success) {
-      showToast('Copied to clipboard', item.title);
-    }
-  };
+  // Hardcoded reference collections for design showcase
+  const defaultCollections = [
+    {
+      id: 'col-editorial',
+      slug: 'editorial',
+      title: 'Editorial',
+      count: 12,
+      image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
+      swatches: ['#121212', '#686258', '#C7B8A3', '#E9E2D5'],
+    },
+    {
+      id: 'col-luxury',
+      slug: 'luxury',
+      title: 'Luxury',
+      count: 8,
+      image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
+      swatches: ['#101010', '#8C8773', '#CFC8B8', '#EFEAE0'],
+    },
+    {
+      id: 'col-website',
+      slug: 'website-projects',
+      title: 'Website Projects',
+      count: 15,
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+      swatches: ['#1E3024', '#3A5648', '#88A168', '#D7E0D3'],
+    },
+    {
+      id: 'col-brand',
+      slug: 'brand-inspiration',
+      title: 'Brand Inspiration',
+      count: 9,
+      image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80',
+      swatches: ['#3A2F24', '#7A6B5B', '#C9B8A7', '#EDE4D9'],
+    },
+  ];
 
-  const handleExportJson = async () => {
-    const dataStr = JSON.stringify(savedItems, null, 2);
-    const success = await copyToClipboard(dataStr);
-    if (success) {
-      showToast('Exported saved workspace to clipboard', `${savedItems.length} items`);
-    }
-  };
-
-  const handleOpenItem = (item: SavedItem) => {
-    if (item.type === 'color') {
-      onNavigate({ path: 'color-detail', slug: item.slug });
-    } else if (item.type === 'palette') {
-      onNavigate({ path: 'palette-detail', slug: item.slug });
-    } else if (item.type === 'combo') {
-      onNavigate({ path: 'combo-detail', slug: item.slug });
-    } else if (item.type === 'gradient') {
-      onNavigate({ path: 'gradient-detail', slug: item.slug });
-    }
-  };
+  // Map saved items to full PaletteItem objects where possible
+  const savedPalettes = savedItems
+    .map((item) => {
+      const match = CURATED_PALETTES.find((p) => p.id === item.id || p.slug === item.slug);
+      if (match) return match;
+      if (item.preview) {
+        return {
+          id: item.id,
+          slug: item.slug || item.id,
+          title: item.title,
+          category: 'custom',
+          description: item.metadata || 'Custom user palette',
+          colors: item.preview.split(',').map((hex, i) => ({
+            name: `Tone ${i + 1}`,
+            hex: hex.trim(),
+          })),
+          tags: ['Custom', 'Saved'],
+        };
+      }
+      return null;
+    })
+    .filter(Boolean) as any[];
 
   return (
-    <div className="saved-page w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="w-full min-h-screen bg-[var(--kroma-paper)] text-[var(--kroma-ink)] py-5 md:py-6">
       <SEOHead
-        title="Saved Color Specimens | Curator Workspace"
-        description="Your personal library of bookmarked colors, palette systems, harmonies, and gradient tokens."
+        rawTitle
+        title="Saved Palettes & Collections — KROMA"
+        description="Your curated archive of saved color palettes and custom project collections."
         canonicalPath="/saved"
-        noindex={true}
-        nofollow={true}
       />
 
-      <Breadcrumbs
-        items={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Saved Library', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-      />
-
-      <header className="page-header">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      <div className="max-w-[1360px] mx-auto px-4 md:px-8">
+        
+        {/* Header with Title & Action */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-3.5 pb-2.5 border-b border-[var(--kroma-border)]">
           <div>
-            <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-              Curator Workspace
-            </span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-              Saved Color Specimens ({savedItems.length})
+            <h1 className="font-mono text-sm md:text-base uppercase tracking-[0.2em] font-semibold text-[var(--kroma-ink)]">
+              SAVED
             </h1>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-              Your personal library of bookmarked colors, palette systems, harmonies, and gradient tokens.
-            </p>
           </div>
 
-          {savedItems.length > 0 && (
-            <div className="flex items-center gap-2.5 self-start sm:self-auto flex-wrap">
+          <div className="flex items-center gap-2.5">
+            {savedPalettes.length > 0 && activeTab === 'palettes' && (
               <button
-                className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center gap-1.5 whitespace-nowrap"
-                onClick={handleExportJson}
+                onClick={clearAll}
+                className="kroma-btn-secondary text-xs h-[30px] text-red-700"
               >
-                <Download size={14} />
-                <span>Export JSON</span>
+                Clear all
               </button>
-              <button
-                className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center gap-1.5 whitespace-nowrap"
-                onClick={() => {
-                  if (window.confirm('Clear all saved items?')) {
-                    clearAll();
-                    showToast('Cleared saved workspace');
-                  }
-                }}
-                style={{ borderColor: 'rgba(230, 57, 70, 0.4)', color: '#E63946' }}
-              >
-                <Trash2 size={14} />
-                <span>Clear All</span>
-              </button>
-            </div>
-          )}
-        </div>
-      </header>
-
-      {savedItems.length === 0 ? (
-        <div className="p-8 sm:p-14 text-center bg-[var(--bg-surface-1)] rounded-md border border-[var(--border-subtle)] max-w-xl mx-auto my-6 flex flex-col items-center">
-          <Bookmark size={40} className="text-[var(--text-tertiary)] mb-4" />
-          <h2 className="text-lg sm:text-xl font-bold mb-2 text-[var(--text-primary)]">
-            No Saved Specimens Yet
-          </h2>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mb-6 leading-relaxed max-w-md">
-            Click the bookmark icon on any color card, palette system, harmony combo, or gradient to save it here for fast reference and export.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center">
+            )}
             <button
-              className="btn-primary text-xs px-5 py-2.5 inline-flex items-center justify-center gap-2 w-full sm:w-auto whitespace-nowrap"
-              onClick={() => onNavigate({ path: 'colors' })}
+              onClick={() => onNavigate({ path: 'studio' })}
+              className="kroma-btn-secondary text-xs h-[30px]"
             >
-              <span>Explore Colors</span>
-              <ArrowRight size={14} />
+              <span>Studio</span>
             </button>
             <button
-              className="btn-secondary text-xs px-5 py-2.5 inline-flex items-center justify-center w-full sm:w-auto whitespace-nowrap"
-              onClick={() => onNavigate({ path: 'palettes' })}
+              onClick={() => onNavigate({ path: 'create' })}
+              className="kroma-btn-secondary text-xs h-[30px]"
             >
-              <span>Explore Palettes</span>
+              <Plus size={13} />
+              <span>New collection</span>
             </button>
           </div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {savedItems.map((item) => (
-            <div
-              key={item.id}
-              className="color-card"
-              style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}
-            >
-              {/* Preview banner */}
-              <div
-                style={{
-                  height: '100px',
-                  borderRadius: '4px',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  border: '1px solid var(--border-subtle)',
-                  background:
-                    item.type === 'gradient'
-                      ? item.preview
-                      : item.preview.includes(',')
-                      ? undefined
-                      : item.preview,
-                  display: item.preview.includes(',') ? 'flex' : 'block',
-                }}
-                onClick={() => handleOpenItem(item)}
-              >
-                {item.preview.includes(',') &&
-                  item.preview.split(',').map((hex, i) => (
-                    <div key={i} style={{ flex: 1, backgroundColor: hex }} />
-                  ))}
+
+        {/* Tab Controls (Palettes vs Collections) */}
+        <div className="flex items-center gap-4 mb-4">
+          <button
+            onClick={() => setActiveTab('palettes')}
+            className={`font-mono text-[11px] uppercase tracking-wider pb-1 border-b-2 transition-all ${
+              activeTab === 'palettes'
+                ? 'border-[var(--kroma-ink)] text-[var(--kroma-ink)] font-bold'
+                : 'border-transparent text-[var(--kroma-muted)] hover:text-[var(--kroma-ink)]'
+            }`}
+          >
+            Palettes ({savedPalettes.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('collections')}
+            className={`font-mono text-[11px] uppercase tracking-wider pb-1 border-b-2 transition-all ${
+              activeTab === 'collections'
+                ? 'border-[var(--kroma-ink)] text-[var(--kroma-ink)] font-bold'
+                : 'border-transparent text-[var(--kroma-muted)] hover:text-[var(--kroma-ink)]'
+            }`}
+          >
+            Collections ({defaultCollections.length})
+          </button>
+        </div>
+
+        {/* Tab 1: Saved Palettes */}
+        {activeTab === 'palettes' && (
+          <div>
+            {savedPalettes.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                {savedPalettes.map((palette) => (
+                  <PaletteCard
+                    key={palette.id}
+                    palette={palette}
+                    onNavigate={onNavigate}
+                  />
+                ))}
               </div>
+            ) : (
+              <div className="text-center py-24 border border-[var(--kroma-border)] rounded-[4px] bg-[var(--kroma-card)]">
+                <Bookmark size={24} strokeWidth={1.5} className="mx-auto text-[var(--kroma-muted)] mb-3" />
+                <h3 className="font-sans text-xl md:text-2xl font-medium text-[var(--kroma-ink)] mb-2">
+                  No saved palettes yet
+                </h3>
+                <p className="font-sans text-xs text-[var(--kroma-muted)] max-w-sm mx-auto mb-6">
+                  Click the heart icon on any palette card to bookmark colors to your workspace.
+                </p>
+                <button
+                  onClick={() => onNavigate({ path: 'explore' })}
+                  className="kroma-btn-primary"
+                >
+                  Explore color archive
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>
-                    {item.type}
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: '1rem',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      marginTop: '2px',
-                    }}
-                    onClick={() => handleOpenItem(item)}
-                  >
-                    {item.title}
-                  </h3>
-                  {item.metadata && (
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                      {item.metadata}
-                    </div>
-                  )}
+        {/* Tab 2: Collections Grid */}
+        {activeTab === 'collections' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {defaultCollections.map((col) => (
+              <div
+                key={col.id}
+                onClick={() => onNavigate({ path: 'collection-detail', slug: col.slug })}
+                className="group relative h-[260px] rounded-[4px] overflow-hidden border border-[var(--kroma-border)] cursor-pointer bg-[#0D0D0C] flex flex-col justify-between p-4 text-white"
+              >
+                <img
+                  src={col.image}
+                  alt={col.title}
+                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                <div className="relative z-10 flex justify-between items-start font-mono text-[9px] uppercase tracking-widest text-white/70">
+                  <span>COLLECTION</span>
+                  <span>{col.count} PALETTES</span>
                 </div>
 
-                <button
-                  onClick={() => {
-                    removeItem(item.id);
-                    showToast('Removed item', item.title);
-                  }}
-                  aria-label="Remove item"
-                  style={{ color: 'var(--text-tertiary)', padding: '4px' }}
-                >
-                  <Trash2 size={15} />
-                </button>
+                <div className="relative z-10">
+                  <h3 className="font-sans text-xl md:text-2xl font-medium text-white tracking-[-0.02em] mb-2">
+                    {col.title}
+                  </h3>
+                  <div className="flex h-4 w-28 rounded-[2px] overflow-hidden">
+                    {col.swatches.map((hex, i) => (
+                      <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
+                    ))}
+                  </div>
+                </div>
               </div>
+            ))}
+          </div>
+        )}
 
-              <div className="color-card-footer" style={{ marginTop: 'auto', paddingTop: '10px' }}>
-                <button
-                  className="color-card-hex-btn"
-                  onClick={() => handleCopyPreview(item)}
-                  aria-label="Copy values"
-                >
-                  <Copy size={11} />
-                  <span>Copy Values</span>
-                </button>
-
-                <button
-                  className="card-icon-btn"
-                  onClick={() => handleOpenItem(item)}
-                  title="View Detail"
-                >
-                  <ExternalLink size={14} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      </div>
     </div>
   );
 };

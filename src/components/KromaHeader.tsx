@@ -91,10 +91,8 @@ export const KromaHeader: React.FC<KromaHeaderProps> = ({
   return (
     <>
       <header
-        className={`w-full transition-colors duration-200 z-50 ${
-          isHome && !scrolled
-            ? 'absolute top-0 left-0 text-white bg-gradient-to-b from-black/50 to-transparent'
-            : 'sticky top-0 bg-[#F5F2EB]/95 backdrop-blur-[6px] text-[#151513] border-b border-[rgba(21,21,19,0.08)]'
+        className={`w-full transition-colors duration-200 z-50 sticky top-0 bg-[#FAF8F5]/95 backdrop-blur-[6px] text-[#151513] border-b border-[rgba(21,21,19,0.08)] dark:bg-[#11110F]/95 dark:text-[#FAF8F5] dark:border-[rgba(255,255,255,0.08)] ${
+          scrolled ? 'shadow-[0_1px_3px_rgba(0,0,0,0.05)]' : ''
         }`}
       >
         {/* Container with exact height (desktop 66px, mobile 58px) and horizontal padding (desktop 32px, mobile 16px) */}
@@ -244,6 +242,20 @@ export const KromaHeader: React.FC<KromaHeaderProps> = ({
               )}
             </Link>
 
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-1 hover:opacity-75 transition-opacity flex items-center text-inherit"
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun size={15} strokeWidth={1.5} className="text-[#FAF8F5]" />
+              ) : (
+                <Moon size={15} strokeWidth={1.5} />
+              )}
+            </button>
+
             {/* Menu Drawer Button (Accessible across Desktop & Mobile) */}
             <button
               onClick={() => setDrawerOpen(true)}
@@ -282,8 +294,8 @@ export const KromaHeader: React.FC<KromaHeaderProps> = ({
                 className="flex items-center gap-2 cursor-pointer select-none"
               >
                 <span className="w-3.5 h-3.5 rounded-[2px] bg-gradient-to-tr from-[#3B82F6] via-[#EC4899] to-[#E9C46A] shrink-0 inline-block shadow-sm" />
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-white">
-                  PALETTEPARADISE
+                <span className="font-sans text-xs font-bold uppercase tracking-wider text-white">
+                  KROMA
                 </span>
               </div>
 

@@ -69,8 +69,15 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
   // Palette Colors State
   const [colors, setColors] = useState<GeneratorColor[]>(() => {
     if (initialColorsQuery) {
-      const hexList = initialColorsQuery.split(',').map((h) => (h.startsWith('#') ? h : `#${h}`));
-      if (hexList.length >= 3 && hexList.length <= 8) {
+      // Support both comma-delimited (from generator URL sync) and dash-delimited (from palette detail page)
+      const delimiter = initialColorsQuery.includes(',') ? ',' : '-';
+      const hexList = initialColorsQuery
+        .split(delimiter)
+        .map((h) => h.trim())
+        .filter((h) => h.length >= 3 && h.length <= 7)
+        .map((h) => (h.startsWith('#') ? h : `#${h}`));
+
+      if (hexList.length >= 2 && hexList.length <= 12) {
         return hexList.map((hex, i) => ({
           id: `init-${i}-${Date.now()}`,
           hex: hex.toUpperCase(),
@@ -82,6 +89,15 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
     // Default initial generation
     return generatePalette(5, [], 'curated');
   });
+
+  // Sync colorCount with initial parsed colors (URL-provided colors take priority)
+  useEffect(() => {
+    if (initialColorsQuery && colors.length !== colorCount) {
+      setColorCount(colors.length);
+    }
+    // Only run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // History for Undo / Redo
   const [history, setHistory] = useState<GeneratorColor[][]>([colors]);

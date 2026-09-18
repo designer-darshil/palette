@@ -17,12 +17,10 @@ import {
 } from '../utils/meshEngine';
 import { StudioWorkspace } from '../components/studio/StudioWorkspace';
 import { StudioTopBar, StudioExportOption } from '../components/studio/StudioTopBar';
-import { StudioPresetRail, StudioPresetItem } from '../components/studio/StudioPresetRail';
 import { MeshHeroCanvas } from '../components/mesh/MeshHeroCanvas';
 import { MeshContextualInspector } from '../components/mesh/MeshContextualInspector';
-import { MeshBottomDock } from '../components/mesh/MeshBottomDock';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Code, FileJson, Sparkles, Image, Palette } from 'lucide-react';
+import { Code, FileJson, Sparkles, Palette } from 'lucide-react';
 
 interface MeshGradientStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -32,30 +30,22 @@ interface MeshGradientStudioPageProps {
 export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
   onNavigate,
 }) => {
-  // Parse state from URL search params
   const [config, setConfig] = useState<MeshGradientConfig>(() => {
     const searchParams = new URLSearchParams(window.location.search);
     return deserializeMeshConfig(searchParams);
   });
 
-  // Undo / Redo History Stack
   const [history, setHistory] = useState<MeshGradientConfig[]>([config]);
   const [historyIndex, setHistoryIndex] = useState(0);
-
-  // Selected Point ID
   const [selectedPointId, setSelectedPointId] = useState<string | null>(() => {
     return config.points[0]?.id || null;
   });
 
-  // Canvas View Mode & Grid Guidelines
   const [viewMode, setViewMode] = useState<'edit' | 'preview'>('edit');
   const [showGridLines, setShowGridLines] = useState(true);
   const [isInspectorOpen, setIsInspectorOpen] = useState(true);
-
-  // Feedback states
   const [hasCopiedShare, setHasCopiedShare] = useState(false);
 
-  // Synchronize state changes to URL query parameters
   useEffect(() => {
     const qs = serializeMeshConfig(config);
     const newUrl = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
@@ -67,7 +57,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     return `https://kroma.design/mesh${qs ? `?${qs}` : ''}`;
   }, [config]);
 
-  // Push new state to undo/redo history
   const pushState = useCallback((newConfig: MeshGradientConfig) => {
     setConfig(newConfig);
     setHistory((prev) => {
@@ -93,17 +82,15 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     }
   }, [historyIndex, history]);
 
-  // Patch Config
   const handleConfigChange = useCallback((patch: Partial<MeshGradientConfig>) => {
     const updated = { ...config, ...patch };
     pushState(updated);
   }, [config, pushState]);
 
-  // Point Manipulation Handlers
   const handleUpdatePoint = useCallback((id: string, patch: Partial<MeshPoint>) => {
     const updatedPoints = config.points.map((p) => (p.id === id ? { ...p, ...patch } : p));
     const updated = { ...config, points: updatedPoints, preset: null };
-    setConfig(updated); // direct update for smooth dragging
+    setConfig(updated);
   }, [config]);
 
   const handleAddPoint = useCallback((x: number, y: number) => {
@@ -159,7 +146,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     handleUpdatePoint(id, { color: randomHex });
   }, [handleUpdatePoint]);
 
-  // Preset Selection
   const handleSelectPreset = useCallback((presetId: string) => {
     const preset = MESH_PRESETS.find((p) => p.id === presetId);
     if (preset) {
@@ -175,7 +161,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     }
   }, [config, pushState]);
 
-  // Seed & Randomize
   const handleRandomize = useCallback(() => {
     const newSeed = Math.floor(Math.random() * 90000) + 10000;
     const count = config.points.length >= 3 ? config.points.length : 6;
@@ -192,7 +177,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     }
   }, [config, pushState]);
 
-  // Grid Generation
   const handleGenerateGrid = useCallback((rows: number, cols: number) => {
     const newPoints = generateGridMesh(rows, cols, config.seed);
     const updated: MeshGradientConfig = {
@@ -219,7 +203,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     setTimeout(() => setHasCopiedShare(false), 2000);
   }, []);
 
-  // Selected Point Object & Index
   const selectedPoint = useMemo(() => {
     return config.points.find((p) => p.id === selectedPointId) || null;
   }, [config.points, selectedPointId]);
@@ -228,27 +211,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
     return config.points.findIndex((p) => p.id === selectedPointId);
   }, [config.points, selectedPointId]);
 
-  // Visual Preset Rail Thumbnails
-  const presetItems: StudioPresetItem[] = useMemo(() => {
-    return MESH_PRESETS.map((p) => {
-      const colors = p.colors || ['#3D7DFF', '#BFA3F0', '#00F0FF'];
-      return {
-        id: p.id,
-        name: p.name,
-        description: p.description,
-        previewNode: (
-          <div
-            className="w-full h-full rounded-xs flex"
-            style={{
-              background: `linear-gradient(135deg, ${colors.join(', ')})`,
-            }}
-          />
-        ),
-      };
-    });
-  }, []);
-
-  // Export options for top bar dropdown
   const exportOptions: StudioExportOption[] = useMemo(() => [
     {
       id: 'css',
@@ -303,9 +265,8 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
       <StudioWorkspace
         topBar={
           <StudioTopBar
-            studioName="Mesh Gradient Studio"
-            documentTitle={config.preset ? config.preset.toUpperCase() : `SEED #${config.seed}`}
-            badge="Mesh Editor"
+            studioName="Mesh Gradient"
+            documentTitle={config.preset ? config.preset : `Seed #${config.seed}`}
             onRandomize={handleRandomize}
             onReset={handleReset}
             onUndo={handleUndo}
@@ -317,14 +278,6 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
             exportOptions={exportOptions}
             toggleInspector={() => setIsInspectorOpen(!isInspectorOpen)}
             isInspectorOpen={isInspectorOpen}
-          />
-        }
-        leftRail={
-          <StudioPresetRail
-            title="MESH PRESETS"
-            presets={presetItems}
-            selectedPresetId={config.preset || undefined}
-            onSelectPreset={handleSelectPreset}
           />
         }
         canvas={
@@ -356,11 +309,16 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               onChangeConfig={handleConfigChange}
               onGenerateGrid={handleGenerateGrid}
               onAddPoint={handleAddPoint}
+              onSelectPreset={handleSelectPreset}
+              sourceUrl={sourceUrl}
             />
           ) : undefined
         }
-        bottomBar={
-          <MeshBottomDock config={config} sourceUrl={sourceUrl} />
+        statusBar={
+          <div className="flex items-center gap-2 w-full">
+            <Palette size={11} className="text-[var(--color-primary)]" />
+            <span>{config.points.length} nodes · Seed #{config.seed} · {viewMode === 'edit' ? 'Editing' : 'Preview'}</span>
+          </div>
         }
       />
     </div>

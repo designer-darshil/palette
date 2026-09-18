@@ -66,19 +66,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
 
           <div>
-            <div className="footer-col-title">Design Principles</div>
+            <div className="footer-col-title">Creative Studios</div>
             <ul className="footer-links-list">
               <li>
-                <span style={{ color: '#9DA3AF' }}>Swiss Modernism</span>
+                <Link to={{ path: 'ramps' }} onNavigate={handleNav}>Ramps Studio</Link>
               </li>
               <li>
-                <span style={{ color: '#9DA3AF' }}>Bauhaus Form</span>
+                <Link to={{ path: 'antigravity' }} onNavigate={handleNav}>Antigravity Studio</Link>
               </li>
               <li>
-                <span style={{ color: '#9DA3AF' }}>Nordic Equilibrium</span>
+                <Link to={{ path: 'mesh' }} onNavigate={handleNav}>Mesh Gradient Studio</Link>
               </li>
               <li>
-                <span style={{ color: '#9DA3AF' }}>Zero Clutter</span>
+                <Link to={{ path: 'palette-generator' }} onNavigate={handleNav}>Palette Generator</Link>
+              </li>
+              <li>
+                <Link to={{ path: 'contrast-checker' }} onNavigate={handleNav}>Contrast Matrix</Link>
               </li>
             </ul>
           </div>

@@ -25,8 +25,8 @@ export interface AnalyticsEvent {
 export function initAnalytics(): void {
   if (typeof window === 'undefined') return;
 
-  const gtmId = (import.meta as any).env?.VITE_GTM_ID;
-  const gaId = (import.meta as any).env?.VITE_GA_ID;
+  const gtmId = import.meta.env?.VITE_GTM_ID;
+  const gaId = import.meta.env?.VITE_GA_ID;
 
   // Initialize dataLayer safely
   window.dataLayer = window.dataLayer || [];

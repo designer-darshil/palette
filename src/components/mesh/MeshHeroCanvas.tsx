@@ -1,14 +1,11 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { MeshGradientConfig, MeshPoint } from '../../utils/meshEngine';
+import { MeshGradientConfig, MeshPoint, isValidHex } from '../../utils/meshEngine';
 import {
-  Sparkles,
   Plus,
   Trash2,
-  Copy,
   Eye,
   Edit3,
   Grid,
-  Maximize2,
   RefreshCw,
 } from 'lucide-react';
 
@@ -24,6 +21,34 @@ interface MeshHeroCanvasProps {
   onToggleViewMode: () => void;
   showGridLines: boolean;
   onToggleGridLines: () => void;
+}
+
+/**
+ * Normalizes any hex color format (e.g. 'fff', '#fff', '#ffffff') to a strict 6-digit uppercase #RRGGBB.
+ */
+function normalizeHexColor(hex: string | undefined | null, fallback = '#BFA3F0'): string {
+  if (!hex || typeof hex !== 'string') return fallback;
+  let clean = hex.trim();
+  if (!clean.startsWith('#')) clean = `#${clean}`;
+  if (clean.length === 4) {
+    clean = `#${clean[1]}${clean[1]}${clean[2]}${clean[2]}${clean[3]}${clean[3]}`;
+  }
+  if (/^#[0-9A-Fa-f]{6}$/.test(clean)) {
+    return clean.toUpperCase();
+  }
+  return fallback;
+}
+
+/**
+ * Converts a hex string and alpha (0 to 1) into an rgba(r, g, b, a) CSS color string.
+ */
+function hexToRgba(hex: string, alpha: number): string {
+  const norm = normalizeHexColor(hex);
+  const r = parseInt(norm.slice(1, 3), 16);
+  const g = parseInt(norm.slice(3, 5), 16);
+  const b = parseInt(norm.slice(5, 7), 16);
+  const clampedAlpha = Math.max(0, Math.min(1, alpha));
+  return `rgba(${r}, ${g}, ${b}, ${clampedAlpha})`;
 }
 
 export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
@@ -42,50 +67,99 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [draggingPointId, setDraggingPointId] = useState<string | null>(null);
+  const [canvasSize, setCanvasSize] = useState({ width: 840, height: 540 });
 
-  // Render Canvas using high-performance 2D context engine
   const renderCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const width = canvas.width;
-    const height = canvas.height;
+    const width = canvasSize.width;
+    const height = canvasSize.height;
+    if (width <= 0 || height <= 0) return;
 
-    // Clear
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+    const physWidth = Math.round(width * dpr);
+    const physHeight = Math.round(height * dpr);
+
+    if (canvas.width !== physWidth || canvas.height !== physHeight) {
+      canvas.width = physWidth;
+      canvas.height = physHeight;
+    }
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
+
+    // Clear entire viewport
     ctx.clearRect(0, 0, width, height);
 
-    // Background fill
+    // Render Base Background Layer
     if (config.background === 'solid') {
-      ctx.fillStyle = config.solidColor || '#090A0C';
+      ctx.fillStyle = normalizeHexColor(config.solidColor, '#090A0C');
       ctx.fillRect(0, 0, width, height);
     } else if (config.background === 'canvas') {
       ctx.fillStyle = '#090A0C';
       ctx.fillRect(0, 0, width, height);
     }
 
-    // Render radial point layers
+    // Apply rotation and scale around the center if configured
+    const hasTransform = (config.rotation && config.rotation !== 0) || (config.scale && config.scale !== 1);
+    if (hasTransform) {
+      ctx.translate(width / 2, height / 2);
+      if (config.rotation) ctx.rotate((config.rotation * Math.PI) / 180);
+      if (config.scale) ctx.scale(config.scale, config.scale);
+      ctx.translate(-width / 2, -height / 2);
+    }
+
+    const maxDim = Math.max(width, height);
+    const softness = typeof config.softness === 'number' ? Math.max(0.2, config.softness) : 1.2;
+    const intensity = typeof config.intensity === 'number' ? Math.max(0.2, config.intensity) : 1.1;
+
+    // Render each mesh point's radial gradient field directly using config.points[].color
     config.points.forEach((pt) => {
       const px = (pt.x / 100) * width;
       const py = (pt.y / 100) * height;
-      const maxDim = Math.max(width, height);
-      const radius = (maxDim * (pt.influence || 1.0) * (config.softness / 50)) / 1.5;
+      const influence = typeof pt.influence === 'number' ? Math.max(0.2, pt.influence) : 1.0;
+      const radius = Math.max(40, maxDim * 0.65 * influence * softness);
+      const normColor = normalizeHexColor(pt.color);
 
-      const radGrad = ctx.createRadialGradient(px, py, 0, px, py, Math.max(1, radius));
-      radGrad.addColorStop(0, pt.color);
-      radGrad.addColorStop(1, 'transparent');
+      const radGrad = ctx.createRadialGradient(px, py, 0, px, py, radius);
+      radGrad.addColorStop(0, hexToRgba(normColor, Math.min(1.0, 0.98 * intensity)));
+      radGrad.addColorStop(0.25, hexToRgba(normColor, Math.min(1.0, 0.85 * intensity)));
+      radGrad.addColorStop(0.55, hexToRgba(normColor, Math.min(1.0, 0.45 * intensity)));
+      radGrad.addColorStop(0.85, hexToRgba(normColor, Math.min(1.0, 0.12 * intensity)));
+      radGrad.addColorStop(1, hexToRgba(normColor, 0));
 
       ctx.fillStyle = radGrad;
       ctx.fillRect(0, 0, width, height);
     });
-  }, [config]);
+
+    ctx.restore();
+  }, [config, canvasSize]);
 
   useEffect(() => {
     renderCanvas();
   }, [renderCanvas]);
 
-  // Pointer drag interactions
+  // Resize canvas observer
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width > 50 && height > 50) {
+          setCanvasSize({ width: Math.round(width), height: Math.round(height) });
+        }
+      }
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const handlePointerDownPoint = (e: React.PointerEvent, id: string) => {
     e.stopPropagation();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
@@ -119,38 +193,38 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
     const rect = containerRef.current.getBoundingClientRect();
     const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
     const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
-
-    // If click was directly on background, add a point at clicked location
     onAddPoint(x, y);
   };
 
   const selectedPoint = config.points.find((p) => p.id === selectedPointId);
 
   return (
-    <div className="w-full h-full min-h-[480px] lg:min-h-[560px] flex flex-col relative rounded-xs overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-surface-1)]">
-      {/* Canvas Viewport Stage */}
+    <div className="w-full h-full flex flex-col relative">
+      {/* Canvas Container */}
       <div
         ref={containerRef}
         onClick={handleCanvasClick}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        className="relative w-full flex-1 overflow-hidden flex items-center justify-center p-3 select-none cursor-crosshair"
+        className="relative w-full flex-1 overflow-hidden select-none cursor-crosshair bg-[#090A0C]"
       >
-        {/* Rendered 2D Canvas Target */}
+        {/* Full-bleed Canvas with Blur & Grain */}
         <div
-          className="relative w-full h-full max-w-[840px] max-h-[540px] rounded-xs overflow-hidden shadow-2xl border border-[var(--border-medium)]"
+          className="absolute inset-0 pointer-events-none"
           style={{
-            filter: `blur(${config.blur}px)`,
+            filter: config.blur > 0 ? `blur(${config.blur}px)` : undefined,
           }}
         >
           <canvas
             ref={canvasRef}
-            width={840}
-            height={540}
-            className="w-full h-full object-cover"
+            style={{
+              width: `${canvasSize.width}px`,
+              height: `${canvasSize.height}px`,
+            }}
+            className="w-full h-full block"
           />
 
-          {/* Grain / Noise Filter Overlay */}
+          {/* Grain overlay */}
           {config.grain > 0 && (
             <div
               className="absolute inset-0 pointer-events-none mix-blend-overlay"
@@ -162,116 +236,102 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
           )}
         </div>
 
-        {/* Interactive Point Nodes Overlay (Active in Edit Mode) */}
+        {/* Point Handles & Editing Overlay */}
         {viewMode === 'edit' && (
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center p-3">
-            <div className="relative w-full h-full max-w-[840px] max-h-[540px]">
-              {/* Optional Grid Guidelines */}
-              {showGridLines && (
-                <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25">
-                  <line x1="33.3%" y1="0" x2="33.3%" y2="100%" stroke="var(--text-tertiary)" strokeDasharray="3,3" />
-                  <line x1="66.6%" y1="0" x2="66.6%" y2="100%" stroke="var(--text-tertiary)" strokeDasharray="3,3" />
-                  <line x1="0" y1="33.3%" x2="100%" y2="33.3%" stroke="var(--text-tertiary)" strokeDasharray="3,3" />
-                  <line x1="0" y1="66.6%" x2="100%" y2="66.6%" stroke="var(--text-tertiary)" strokeDasharray="3,3" />
-                </svg>
-              )}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Grid Guidelines */}
+            {showGridLines && (
+              <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20">
+                <line x1="33.3%" y1="0" x2="33.3%" y2="100%" stroke="var(--text-tertiary)" strokeDasharray="3,3" />
+                <line x1="66.6%" y1="0" x2="66.6%" y2="100%" stroke="var(--text-tertiary)" strokeDasharray="3,3" />
+                <line x1="0" y1="33.3%" x2="100%" y2="33.3%" stroke="var(--text-tertiary)" strokeDasharray="3,3" />
+                <line x1="0" y1="66.6%" x2="100%" y2="66.6%" stroke="var(--text-tertiary)" strokeDasharray="3,3" />
+              </svg>
+            )}
 
-              {/* Direct Point Control Nodes */}
-              {config.points.map((pt, idx) => {
-                const isSelected = pt.id === selectedPointId;
-                return (
-                  <div
-                    key={pt.id}
-                    onPointerDown={(e) => handlePointerDownPoint(e, pt.id)}
-                    className="absolute pointer-events-auto cursor-grab active:cursor-grabbing transform -translate-x-1/2 -translate-y-1/2 z-20 group"
-                    style={{
-                      left: `${pt.x}%`,
-                      top: `${pt.y}%`,
-                    }}
-                  >
-                    {/* Influence Radius Circle Guide */}
-                    {isSelected && (
-                      <div
-                        className="absolute rounded-full border border-[var(--color-primary)] opacity-40 pointer-events-none -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2"
-                        style={{
-                          width: `${Math.max(40, (pt.influence || 1) * 90)}px`,
-                          height: `${Math.max(40, (pt.influence || 1) * 90)}px`,
-                        }}
-                      />
-                    )}
-
-                    {/* Point Swatch Handle */}
+            {/* Draggable Point Handles */}
+            {config.points.map((pt, idx) => {
+              const isSelected = pt.id === selectedPointId;
+              const normColor = normalizeHexColor(pt.color);
+              return (
+                <div
+                  key={pt.id}
+                  onPointerDown={(e) => handlePointerDownPoint(e, pt.id)}
+                  className="absolute pointer-events-auto cursor-grab active:cursor-grabbing transform -translate-x-1/2 -translate-y-1/2 z-20 group"
+                  style={{
+                    left: `${pt.x}%`,
+                    top: `${pt.y}%`,
+                  }}
+                >
+                  {isSelected && (
                     <div
-                      className={`w-6 h-6 rounded-full border-2 shadow-xl flex items-center justify-center transition-transform ${
-                        isSelected
-                          ? 'border-white ring-2 ring-[var(--color-primary)] scale-125 z-30'
-                          : 'border-white/80 hover:scale-115'
-                      }`}
-                      style={{ backgroundColor: pt.color }}
-                    >
-                      <span className="font-mono text-[9px] font-bold text-white drop-shadow-md">
-                        {idx + 1}
-                      </span>
-                    </div>
+                      className="absolute rounded-full border border-[var(--color-primary)] opacity-40 pointer-events-none -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 animate-pulse"
+                      style={{
+                        width: `${Math.max(48, (pt.influence || 1) * 80)}px`,
+                        height: `${Math.max(48, (pt.influence || 1) * 80)}px`,
+                      }}
+                    />
+                  )}
 
-                    {/* Tooltip on Hover */}
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-full mt-1 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-xs bg-black/85 text-white font-mono text-[9px] whitespace-nowrap pointer-events-none shadow-md z-40">
-                      {pt.color} ({pt.x}%, {pt.y}%)
-                    </div>
+                  <div
+                    className={`w-6 h-6 rounded-full border-2 shadow-lg flex items-center justify-center transition-transform ${
+                      isSelected
+                        ? 'border-white ring-2 ring-[var(--color-primary)] scale-125 z-30'
+                        : 'border-white/80 hover:scale-110'
+                    }`}
+                    style={{ backgroundColor: normColor }}
+                  >
+                    <span className="font-mono text-[9px] font-bold text-white drop-shadow-md">
+                      {idx + 1}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
+
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-full mt-1.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-xs bg-black/85 text-white font-mono text-[9px] whitespace-nowrap pointer-events-none z-40 border border-white/10 shadow-lg">
+                    {normColor} ({pt.x}%, {pt.y}%)
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
 
-        {/* Floating Viewport Tool HUD */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-[var(--bg-surface-1)]/90 backdrop-blur-xl border border-[var(--border-strong)] px-3 py-1.5 rounded-full shadow-2xl">
-          {/* View / Edit Mode Switcher */}
+        {/* Canvas HUD */}
+        <div className="studio-canvas-hud">
           <button
             type="button"
             onClick={onToggleViewMode}
-            className={`p-1.5 rounded-full transition-colors cursor-pointer flex items-center gap-1.5 px-2.5 font-mono text-xs font-bold ${
-              viewMode === 'edit'
-                ? 'bg-[var(--color-primary)] text-[#090A0C]'
-                : 'bg-[var(--bg-surface-2)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-            }`}
-            title="Toggle Edit / Clean Preview Mode"
+            className={`studio-canvas-hud-btn ${viewMode === 'edit' ? 'active' : ''}`}
+            title="Toggle Edit / Preview"
+            style={{ width: 'auto', borderRadius: 'var(--radius-sm)', padding: '4px 10px', gap: '4px', display: 'flex' }}
           >
-            {viewMode === 'edit' ? <Edit3 size={13} /> : <Eye size={13} />}
-            <span>{viewMode === 'edit' ? 'Edit Nodes' : 'Preview'}</span>
+            {viewMode === 'edit' ? <Edit3 size={12} /> : <Eye size={12} />}
+            <span className="font-mono text-[10px] font-bold">{viewMode === 'edit' ? 'Edit' : 'View'}</span>
           </button>
 
-          {/* Grid Toggle */}
           <button
             type="button"
             onClick={onToggleGridLines}
-            className={`p-1.5 rounded-full transition-colors cursor-pointer ${
-              showGridLines
-                ? 'bg-[var(--bg-surface-3)] text-[var(--color-primary)]'
-                : 'bg-[var(--bg-surface-2)] text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
-            }`}
-            title="Toggle Grid Guidelines"
+            className={`studio-canvas-hud-btn ${showGridLines ? '' : ''}`}
+            title="Toggle grid"
+            style={showGridLines ? { color: 'var(--color-primary)' } : {}}
           >
-            <Grid size={13} />
+            <Grid size={12} />
           </button>
 
-          <div className="h-4 w-px bg-[var(--border-subtle)] mx-1" />
+          <div className="studio-canvas-hud-divider" />
 
-          {/* Point Count Badge */}
-          <span className="font-mono text-[11px] text-[var(--text-secondary)] px-1">
-            {config.points.length} Nodes
+          <span className="studio-canvas-hud-label">
+            <strong>{config.points.length}</strong> nodes
           </span>
 
-          {/* Quick Context Action on Selected Point */}
           {selectedPoint && onRandomizePointColor && (
             <button
               type="button"
               onClick={() => onRandomizePointColor(selectedPoint.id)}
-              className="p-1.5 rounded-full bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
-              title="Randomize selected node color"
+              className="studio-canvas-hud-btn"
+              title="Randomize node color"
             >
-              <RefreshCw size={12} />
+              <RefreshCw size={11} />
             </button>
           )}
 
@@ -279,10 +339,11 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
             <button
               type="button"
               onClick={() => onDeletePoint(selectedPoint.id)}
-              className="p-1.5 rounded-full bg-[var(--bg-surface-2)] hover:bg-rose-950/40 text-rose-400 transition-colors cursor-pointer"
-              title="Delete selected node"
+              className="studio-canvas-hud-btn"
+              title="Delete node"
+              style={{ color: '#F87171' }}
             >
-              <Trash2 size={12} />
+              <Trash2 size={11} />
             </button>
           )}
         </div>

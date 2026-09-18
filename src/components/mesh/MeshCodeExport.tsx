@@ -260,7 +260,7 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
       <StudioCodeBlock
         tabs={exportTabs}
         activeTab={activeTab}
-        onTabChange={(t) => setActiveTab(t as any)}
+        onTabChange={setActiveTab}
         code={currentTabConfig.code}
         filename={currentTabConfig.filename}
         language={currentTabConfig.language}

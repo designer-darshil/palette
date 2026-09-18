@@ -1,6 +1,81 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
+/* ─── Inspector Tab System ─── */
+
+export interface InspectorTab {
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+}
+
+interface StudioTabbedInspectorProps {
+  title?: string;
+  tabs: InspectorTab[];
+  activeTab: string;
+  onTabChange: (id: string) => void;
+  children: React.ReactNode;
+}
+
+export const StudioTabbedInspector: React.FC<StudioTabbedInspectorProps> = ({
+  tabs,
+  activeTab,
+  onTabChange,
+  children,
+}) => {
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      const nextIndex = (index + 1) % tabs.length;
+      onTabChange(tabs[nextIndex].id);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prevIndex = (index - 1 + tabs.length) % tabs.length;
+      onTabChange(tabs[prevIndex].id);
+    }
+  };
+
+  return (
+    <div className="studio-tabbed-inspector">
+      {/* Tab Bar */}
+      <div className="studio-inspector-tabs" role="tablist" aria-label="Studio inspector tabs">
+        {tabs.map((tab, idx) => {
+          const isActive = tab.id === activeTab;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              id={`studio-tab-${tab.id}`}
+              aria-selected={isActive}
+              aria-controls={`studio-panel-${tab.id}`}
+              tabIndex={isActive ? 0 : -1}
+              onClick={() => onTabChange(tab.id)}
+              onKeyDown={(e) => handleKeyDown(e, idx)}
+              className={`studio-inspector-tab ${isActive ? 'active' : ''}`}
+            >
+              {tab.icon}
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Tab Content */}
+      <div
+        className="studio-inspector-content"
+        role="tabpanel"
+        id={`studio-panel-${activeTab}`}
+        aria-labelledby={`studio-tab-${activeTab}`}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+/* ─── Section ─── */
+
 interface StudioInspectorSectionProps {
   title: string;
   badge?: string;
@@ -15,39 +90,43 @@ export const StudioInspectorSection: React.FC<StudioInspectorSectionProps> = ({
   children,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const sectionId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
   return (
-    <div className="border-b border-[var(--border-subtle)] last:border-b-0">
+    <div className="studio-section">
       <button
         type="button"
+        id={`section-header-${sectionId}`}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-3.5 py-2.5 flex items-center justify-between text-left hover:bg-[var(--bg-surface-2)] transition-colors cursor-pointer"
+        className="studio-section-header"
         aria-expanded={isOpen}
+        aria-controls={`section-body-${sectionId}`}
       >
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider">
-            {title}
-          </span>
-          {badge && (
-            <span className="font-mono text-[9px] px-1.5 py-0.2 bg-[var(--bg-surface-3)] text-[var(--text-secondary)] rounded-xs">
-              {badge}
-            </span>
-          )}
+          <span className="studio-section-title">{title}</span>
+          {badge && <span className="studio-section-badge">{badge}</span>}
         </div>
         <ChevronDown
           size={12}
-          className={`text-[var(--text-tertiary)] transition-transform duration-150 ${isOpen ? 'rotate-180' : ''}`}
+          className={`studio-section-chevron ${isOpen ? 'open' : ''}`}
         />
       </button>
 
       {isOpen && (
-        <div className="px-3.5 pb-3.5 pt-1 flex flex-col gap-2.5 animate-in fade-in duration-100">
+        <div
+          id={`section-body-${sectionId}`}
+          role="region"
+          aria-labelledby={`section-header-${sectionId}`}
+          className="studio-section-body"
+        >
           {children}
         </div>
       )}
     </div>
   );
 };
+
+/* ─── Control Row ─── */
 
 interface StudioControlRowProps {
   label: string;
@@ -63,21 +142,17 @@ export const StudioControlRow: React.FC<StudioControlRowProps> = ({
   children,
 }) => {
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between">
-        <label className="font-mono text-[11px] font-semibold text-[var(--text-secondary)]">
-          {label}
-        </label>
-        {action || (sublabel && (
-          <span className="font-mono text-[10px] text-[var(--text-tertiary)]">
-            {sublabel}
-          </span>
-        ))}
+    <div className="studio-control-row">
+      <div className="studio-control-label-row">
+        <label className="studio-control-label">{label}</label>
+        {action || (sublabel && <span className="studio-control-sublabel">{sublabel}</span>)}
       </div>
       <div>{children}</div>
     </div>
   );
 };
+
+/* ─── Slider Input ─── */
 
 interface StudioSliderInputProps {
   value: number;
@@ -98,19 +173,24 @@ export const StudioSliderInput: React.FC<StudioSliderInputProps> = ({
   onChange,
   disabled = false,
 }) => {
+  const percentage = ((value - min) / (max - min)) * 100;
+
   return (
-    <div className="flex items-center gap-2">
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="studio-slider flex-1 h-1 bg-[var(--bg-surface-3)] rounded-xs appearance-none cursor-pointer"
-      />
-      <div className="flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-1.5 py-0.5 w-14 justify-end">
+    <div className="studio-slider-row">
+      <div className="studio-slider-track-wrapper">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          disabled={disabled}
+          onChange={(e) => onChange(parseFloat(e.target.value))}
+          className="studio-range-input"
+          style={{ '--slider-progress': `${percentage}%` } as React.CSSProperties}
+        />
+      </div>
+      <div className="studio-slider-value">
         <input
           type="number"
           min={min}
@@ -122,13 +202,15 @@ export const StudioSliderInput: React.FC<StudioSliderInputProps> = ({
             const val = parseFloat(e.target.value);
             if (!isNaN(val)) onChange(val);
           }}
-          className="w-full bg-transparent font-mono text-[11px] text-[var(--text-primary)] text-right outline-none"
+          className="studio-slider-number-input"
         />
-        {unit && <span className="font-mono text-[10px] text-[var(--text-tertiary)] ml-0.5">{unit}</span>}
+        {unit && <span className="studio-slider-unit">{unit}</span>}
       </div>
     </div>
   );
 };
+
+/* ─── Segmented Control ─── */
 
 interface StudioSegmentedProps<T extends string> {
   options: { id: T; label: string; icon?: React.ReactNode }[];
@@ -138,7 +220,7 @@ interface StudioSegmentedProps<T extends string> {
 
 export function StudioSegmented<T extends string>({ options, value, onChange }: StudioSegmentedProps<T>) {
   return (
-    <div className="grid bg-[var(--bg-surface-2)] p-0.5 rounded-xs border border-[var(--border-subtle)]" style={{ gridTemplateColumns: `repeat(${options.length}, 1fr)` }}>
+    <div className="studio-segmented" style={{ gridTemplateColumns: `repeat(${options.length}, 1fr)` }}>
       {options.map((opt) => {
         const isSelected = opt.id === value;
         return (
@@ -146,11 +228,7 @@ export function StudioSegmented<T extends string>({ options, value, onChange }: 
             key={opt.id}
             type="button"
             onClick={() => onChange(opt.id)}
-            className={`py-1 px-1.5 rounded-xs font-mono text-[10px] font-bold flex items-center justify-center gap-1 transition-all cursor-pointer ${
-              isSelected
-                ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] shadow-xs border border-[var(--border-subtle)]'
-                : 'text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
-            }`}
+            className={`studio-segmented-btn ${isSelected ? 'active' : ''}`}
           >
             {opt.icon}
             <span>{opt.label}</span>

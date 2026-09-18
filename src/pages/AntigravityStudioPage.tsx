@@ -13,12 +13,10 @@ import {
 } from '../utils/antigravityEngine';
 import { StudioWorkspace } from '../components/studio/StudioWorkspace';
 import { StudioTopBar, StudioExportOption } from '../components/studio/StudioTopBar';
-import { StudioPresetRail, StudioPresetItem } from '../components/studio/StudioPresetRail';
 import { AntigravityHeroCanvas } from '../components/antigravity/AntigravityHeroCanvas';
 import { AntigravityInspector } from '../components/antigravity/AntigravityInspector';
-import { AntigravityBottomDock } from '../components/antigravity/AntigravityBottomDock';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Code, FileJson, Sparkles, Compass, Play, ArrowDown, Feather } from 'lucide-react';
+import { Code, FileJson, Sparkles, Activity } from 'lucide-react';
 
 interface AntigravityStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -28,7 +26,6 @@ interface AntigravityStudioPageProps {
 export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
   onNavigate,
 }) => {
-  // Parse state from URL search params or fallback
   const [config, setConfig] = useState<AntigravityConfig>(() => {
     const searchParams = new URLSearchParams(window.location.search);
     return deserializeAntigravityConfig(searchParams);
@@ -37,11 +34,9 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
   const [isInspectorOpen, setIsInspectorOpen] = useState(true);
   const [hasCopiedShare, setHasCopiedShare] = useState(false);
 
-  // History stack for Undo / Redo
   const [history, setHistory] = useState<AntigravityConfig[]>([config]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
 
-  // URL state synchronization via replaceState
   useEffect(() => {
     const qs = serializeAntigravityConfig(config);
     const newUrl = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
@@ -102,31 +97,6 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
     setTimeout(() => setHasCopiedShare(false), 2000);
   }, []);
 
-  // Presets mapped to StudioPresetRail format with visual icons
-  const presetItems: StudioPresetItem[] = useMemo(() => {
-    return ANTIGRAVITY_PRESETS.map((p) => {
-      let icon = <Compass size={18} className="text-[var(--color-primary)]" />;
-      if (p.id.includes('float') || p.id.includes('weightless')) icon = <Feather size={18} className="text-cyan-400" />;
-      if (p.id.includes('drop') || p.id.includes('heavy')) icon = <ArrowDown size={18} className="text-amber-400" />;
-      if (p.id.includes('bounce') || p.id.includes('hyper')) icon = <Sparkles size={18} className="text-pink-400" />;
-
-      return {
-        id: p.id,
-        name: p.name,
-        description: p.description,
-        previewNode: (
-          <div className="flex flex-col items-center justify-center gap-1">
-            {icon}
-            <span className="font-mono text-[9px] text-[var(--text-tertiary)]">
-              G:{p.config.gravityY ?? 0} · M:{p.config.mass ?? 1}
-            </span>
-          </div>
-        ),
-      };
-    });
-  }, []);
-
-  // Export options for top bar dropdown
   const exportOptions: StudioExportOption[] = useMemo(() => [
     {
       id: 'keyframes',
@@ -181,9 +151,8 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
       <StudioWorkspace
         topBar={
           <StudioTopBar
-            studioName="Antigravity Studio"
-            documentTitle={config.preset ? config.preset.toUpperCase() : 'CUSTOM KINEMATICS'}
-            badge="Physics Engine"
+            studioName="Antigravity"
+            documentTitle={config.preset ? config.preset.replace('-', ' ') : 'Custom Kinematics'}
             onRandomize={handleRandomize}
             onReset={handleResetSettings}
             onUndo={handleUndo}
@@ -197,14 +166,6 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
             isInspectorOpen={isInspectorOpen}
           />
         }
-        leftRail={
-          <StudioPresetRail
-            title="PHYSICS PRESETS"
-            presets={presetItems}
-            selectedPresetId={config.preset || undefined}
-            onSelectPreset={handleSelectPreset}
-          />
-        }
         canvas={
           <AntigravityHeroCanvas
             config={config}
@@ -216,11 +177,16 @@ export const AntigravityStudioPage: React.FC<AntigravityStudioPageProps> = ({
             <AntigravityInspector
               config={config}
               onChange={handleConfigChange}
+              onSelectPreset={handleSelectPreset}
+              sourceUrl={sourceUrl}
             />
           ) : undefined
         }
-        bottomBar={
-          <AntigravityBottomDock config={config} />
+        statusBar={
+          <div className="flex items-center gap-2 w-full">
+            <Activity size={11} className="text-[var(--color-primary)]" />
+            <span>Mass: {config.mass}kg · G: ({config.gravityX}, {config.gravityY}) · Bounce: {Math.round(config.restitution * 100)}%</span>
+          </div>
         }
       />
     </div>

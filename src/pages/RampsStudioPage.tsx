@@ -16,9 +16,8 @@ import { StudioWorkspace } from '../components/studio/StudioWorkspace';
 import { StudioTopBar, StudioExportOption } from '../components/studio/StudioTopBar';
 import { RampsInstrumentCanvas } from '../components/ramps/RampsInstrumentCanvas';
 import { RampsInspector } from '../components/ramps/RampsInspector';
-import { RampsBottomDock } from '../components/ramps/RampsBottomDock';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Code, FileJson, Sparkles, Copy } from 'lucide-react';
+import { Code, FileJson, Sparkles, Activity } from 'lucide-react';
 
 interface RampsStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -37,7 +36,6 @@ interface RampsStudioPageProps {
 }
 
 export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, initialParams }) => {
-  // Parse initial state from URL or props
   const [config, setConfig] = useState<RampsConfig>(() => {
     const searchParams = new URLSearchParams(window.location.search);
 
@@ -71,11 +69,9 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
   const [isInspectorOpen, setIsInspectorOpen] = useState(true);
   const [hasCopiedShare, setHasCopiedShare] = useState(false);
 
-  // History stack for Undo / Redo
   const [history, setHistory] = useState<RampsConfig[]>([config]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
 
-  // Synchronize state with URL parameters
   useEffect(() => {
     const params = new URLSearchParams();
     params.set('b', config.brand);
@@ -93,12 +89,10 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
     window.history.replaceState({}, '', newUrl);
   }, [config]);
 
-  // Compute full deterministic palette result via OKLCH engine
   const paletteResult = useMemo(() => {
     return generateFullRampsSystem(config);
   }, [config]);
 
-  // Inject agent-readable JSON script tag for headless crawlers
   useEffect(() => {
     let scriptTag = document.getElementById('ramps-studio-palette') as HTMLScriptElement | null;
     if (!scriptTag) {
@@ -176,7 +170,6 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
     });
   };
 
-  // Export options for top bar dropdown
   const exportOptions: StudioExportOption[] = useMemo(() => [
     {
       id: 'css',
@@ -227,8 +220,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
         topBar={
           <StudioTopBar
             studioName="Ramps Studio"
-            documentTitle={`#${config.brand.toUpperCase()} · ${config.scheme.toUpperCase()}`}
-            badge="OKLCH Engine"
+            documentTitle={`#${config.brand.toUpperCase()} · ${config.scheme}`}
             onRandomize={handleRandomize}
             onReset={handleReset}
             onUndo={handleUndo}
@@ -261,16 +253,17 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               paletteResult={paletteResult}
               selectedRampKey={selectedRampKey}
               selectedStep={selectedStep}
+              wcagLevel={config.wcag}
+              onToggleExcludeToken={toggleExcludeToken}
+              excludedTokens={config.excludedTokens}
             />
           ) : undefined
         }
-        bottomBar={
-          <RampsBottomDock
-            paletteResult={paletteResult}
-            wcagLevel={config.wcag}
-            onToggleExcludeToken={toggleExcludeToken}
-            excludedTokens={config.excludedTokens}
-          />
+        statusBar={
+          <div className="flex items-center gap-2 w-full">
+            <Activity size={11} className="text-[var(--color-primary)]" />
+            <span>{Object.keys(paletteResult.ramps).length} ramps · {paletteResult.tokens.length} tokens · OKLCH engine</span>
+          </div>
         }
       />
     </div>

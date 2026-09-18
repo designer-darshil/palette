@@ -17,8 +17,8 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
   const { isSaved, saveItem } = useSaved();
   const saved = isSaved(palette.id);
 
-  const handleCopySingleHex = async (e: React.MouseEvent, hex: string, name: string) => {
-    e.stopPropagation();
+  const handleCopySingleHex = async (e: React.MouseEvent | React.KeyboardEvent | undefined, hex: string, name: string) => {
+    e?.stopPropagation();
     const success = await copyToClipboard(hex);
     if (success) {
       Analytics.trackColorCopy(hex, 'HEX', name);
@@ -82,7 +82,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                handleCopySingleHex(e as any, c.hex, c.name);
+                handleCopySingleHex(e, c.hex, c.name);
               }
             }}
           >

@@ -10,11 +10,6 @@ import {
   Pause,
   RotateCcw,
   Sparkles,
-  ArrowUp,
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  Activity,
   Compass,
 } from 'lucide-react';
 
@@ -37,17 +32,10 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
   const [trajectoryPoints, setTrajectoryPoints] = useState<Array<{ x: number; y: number }>>([]);
   const [collisionRipple, setCollisionRipple] = useState<{ x: number; y: number; id: number } | null>(null);
 
-  // Live HUD metrics
   const [hudMetrics, setHudMetrics] = useState({
-    x: 300,
-    y: 200,
-    vx: 0,
-    vy: 0,
-    speed: 0,
-    energy: 0,
+    x: 300, y: 200, vx: 0, vy: 0, speed: 0, energy: 0,
   });
 
-  // Initialize and update simulation
   useEffect(() => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -66,7 +54,6 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
     });
   }, [config]);
 
-  // ResizeObserver for canvas dimensions
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -84,7 +71,6 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Animation Loop with requestAnimationFrame
   useEffect(() => {
     let animationFrameId: number;
     let lastTime = performance.now();
@@ -141,7 +127,6 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
     return () => cancelAnimationFrame(animationFrameId);
   }, [isPlaying, config.showTrajectory, config.mass]);
 
-  // Pointer Handlers for Direct Drag & Throw
   const handlePointerDown = (e: React.PointerEvent) => {
     if (!containerRef.current || !simRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -185,51 +170,39 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
     }
   };
 
-  const motionDesc = describeMotion(config);
-
   return (
-    <div className="w-full h-full min-h-[480px] lg:min-h-[560px] flex flex-col relative rounded-xs overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-surface-1)]">
-      {/* 1. Main Interactive Simulation Stage */}
+    <div className="w-full h-full flex flex-col relative">
+      {/* Simulation Stage */}
       <div
         ref={containerRef}
         className="relative w-full flex-1 overflow-hidden cursor-crosshair select-none"
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
       >
-        {/* Subtle Kinematic Grid Background */}
+        {/* Dot Grid Background */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-20"
+          className="absolute inset-0 pointer-events-none opacity-15"
           style={{
-            backgroundImage: `radial-gradient(var(--text-tertiary) 1px, transparent 1px)`,
-            backgroundSize: '24px 24px',
+            backgroundImage: `radial-gradient(var(--text-tertiary) 0.5px, transparent 0.5px)`,
+            backgroundSize: '20px 20px',
           }}
         />
 
-        {/* Gravity Force Direction Vector Indicator */}
-        <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-[var(--bg-surface-2)]/80 backdrop-blur-md border border-[var(--border-subtle)] px-2.5 py-1.5 rounded-xs font-mono text-[10px] text-[var(--text-secondary)] shadow-xs pointer-events-none">
-          <Compass size={13} className="text-[var(--color-primary)]" />
-          <span>
-            G: ({config.gravityX > 0 ? `+${config.gravityX}` : config.gravityX}, {config.gravityY > 0 ? `+${config.gravityY}` : config.gravityY})
+        {/* Corner: Gravity Vector */}
+        <div className="studio-corner-badge top-left">
+          <Compass size={11} className="text-[var(--color-primary)]" />
+          <span>G: ({config.gravityX}, {config.gravityY})</span>
+        </div>
+
+        {/* Corner: State */}
+        <div className="studio-corner-badge top-right">
+          <span className={`studio-state-dot ${simState === 'dragging' ? 'dragging' : isPlaying ? 'playing' : 'paused'}`} />
+          <span className="font-bold text-[var(--text-primary)] uppercase text-[9px]">
+            {simState === 'dragging' ? 'Drag' : isPlaying ? 'Live' : 'Paused'}
           </span>
         </div>
 
-        {/* Top-Right Direct State Badge */}
-        <div className="absolute top-4 right-4 z-20 flex items-center gap-2 bg-[var(--bg-surface-2)]/80 backdrop-blur-md border border-[var(--border-subtle)] px-2.5 py-1.5 rounded-xs font-mono text-[10px] shadow-xs pointer-events-none">
-          <span
-            className={`w-2 h-2 rounded-full ${
-              simState === 'dragging'
-                ? 'bg-amber-400 animate-pulse'
-                : isPlaying
-                ? 'bg-emerald-400'
-                : 'bg-rose-400'
-            }`}
-          />
-          <span className="uppercase font-bold text-[var(--text-primary)]">
-            {simState === 'dragging' ? 'DIRECT USER DRAG' : isPlaying ? 'SIMULATING' : 'PAUSED'}
-          </span>
-        </div>
-
-        {/* Trajectory Prediction Nodes */}
+        {/* Trajectory */}
         {config.showTrajectory && trajectoryPoints.length > 0 && (
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
             {trajectoryPoints.map((pt, idx) => (
@@ -245,25 +218,25 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
           </svg>
         )}
 
-        {/* Collision Impact Pulse */}
+        {/* Collision Ripple */}
         {collisionRipple && (
           <div
             key={collisionRipple.id}
             className="absolute rounded-full border border-[var(--color-primary)] pointer-events-none animate-ping"
             style={{
-              left: collisionRipple.x - 30,
-              top: collisionRipple.y - 30,
-              width: 60,
-              height: 60,
-              opacity: 0.6,
+              left: collisionRipple.x - 24,
+              top: collisionRipple.y - 24,
+              width: 48,
+              height: 48,
+              opacity: 0.5,
             }}
           />
         )}
 
-        {/* The Hero Physics Object (Direct Manipulation / Drag & Throw) */}
+        {/* Physics Object */}
         <div
           onPointerDown={handlePointerDown}
-          className="absolute z-20 cursor-grab active:cursor-grabbing transition-shadow"
+          className="absolute z-20 cursor-grab active:cursor-grabbing"
           style={{
             transform: `translate(${objectTransform.x}px, ${objectTransform.y}px) rotate(${objectTransform.angle}deg)`,
             transformOrigin: 'center center',
@@ -274,16 +247,15 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
             marginLeft: -40,
           }}
         >
-          {/* Object Styling Based on Type */}
           {config.object === 'card' && (
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-md bg-[var(--bg-surface-elevated)] border-2 border-[var(--color-primary-border)] shadow-2xl flex flex-col justify-between p-2.5 backdrop-blur-md">
               <div className="flex items-center justify-between">
                 <span className="w-2 h-2 rounded-full bg-[var(--color-primary)]" />
-                <span className="font-mono text-[9px] text-[var(--text-tertiary)]">MASS {config.mass}</span>
+                <span className="font-mono text-[9px] text-[var(--text-tertiary)]">M:{config.mass}</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-mono text-[10px] font-bold text-[var(--text-primary)]">KROMA SPECIMEN</span>
-                <span className="font-mono text-[8px] text-[var(--text-tertiary)]">#BFA3F0 ACCENT</span>
+                <span className="font-mono text-[10px] font-bold text-[var(--text-primary)]">SPECIMEN</span>
+                <span className="font-mono text-[8px] text-[var(--text-tertiary)]">#BFA3F0</span>
               </div>
               <div className="w-full h-1 bg-[var(--color-primary-subtle)] rounded-full overflow-hidden">
                 <div className="h-full bg-[var(--color-primary)] w-3/4" />
@@ -300,7 +272,7 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
           {(config.object === 'rounded' || config.object === 'button') && (
             <div className="w-32 h-14 sm:w-36 sm:h-16 rounded-full bg-[var(--bg-surface-elevated)] border-2 border-[var(--color-primary)] shadow-2xl flex items-center justify-between px-3.5 backdrop-blur-md">
               <span className="w-3 h-3 rounded-full bg-[var(--color-primary)]" />
-              <span className="font-mono text-xs font-bold text-[var(--text-primary)]">MOTION TOKEN</span>
+              <span className="font-mono text-xs font-bold text-[var(--text-primary)]">MOTION</span>
               <span className="font-mono text-[9px] text-[var(--text-tertiary)]">{Math.round(hudMetrics.speed)}px/s</span>
             </div>
           )}
@@ -312,61 +284,38 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
           )}
         </div>
 
-        {/* Floating Stage Bottom HUD Bar (Micro Telemetry & Transport Controls) */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-[var(--bg-surface-1)]/90 backdrop-blur-xl border border-[var(--border-strong)] px-3 py-1.5 rounded-full shadow-2xl">
-          {/* Play / Pause */}
+        {/* Compact Canvas HUD */}
+        <div className="studio-canvas-hud">
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="p-1.5 rounded-full bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] transition-colors cursor-pointer"
-            title={isPlaying ? 'Pause Simulation (Space)' : 'Play Simulation (Space)'}
+            className="studio-canvas-hud-btn"
+            title={isPlaying ? 'Pause' : 'Play'}
           >
-            {isPlaying ? <Pause size={13} /> : <Play size={13} className="text-emerald-400 fill-emerald-400" />}
+            {isPlaying ? <Pause size={12} /> : <Play size={12} className="text-emerald-400" />}
           </button>
 
-          {/* Reset Object */}
           <button
             type="button"
             onClick={handleReset}
-            className="p-1.5 rounded-full bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
-            title="Reset Object Position (R)"
+            className="studio-canvas-hud-btn"
+            title="Reset position"
           >
-            <RotateCcw size={13} />
+            <RotateCcw size={12} />
           </button>
 
-          <div className="h-4 w-px bg-[var(--border-subtle)] mx-1" />
+          <div className="studio-canvas-hud-divider" />
 
-          {/* Live Telemetry Readout */}
-          <div className="flex items-center gap-3 font-mono text-[11px] text-[var(--text-secondary)] px-1">
-            <span className="flex items-center gap-1">
-              <span className="text-[var(--text-tertiary)]">V:</span>
-              <strong className="text-[var(--text-primary)]">{hudMetrics.speed}</strong>
-              <span className="text-[9px] text-[var(--text-tertiary)]">px/s</span>
-            </span>
+          <div className="studio-canvas-hud-label">
+            <span className="text-[var(--text-tertiary)]">V:</span>
+            <strong>{hudMetrics.speed}</strong>
+          </div>
 
-            <span className="flex items-center gap-1">
-              <span className="text-[var(--text-tertiary)]">KE:</span>
-              <strong className="text-[var(--color-primary-text)]">{hudMetrics.energy}</strong>
-              <span className="text-[9px] text-[var(--text-tertiary)]">J</span>
-            </span>
-
-            <span className="hidden sm:flex items-center gap-1">
-              <span className="text-[var(--text-tertiary)]">POS:</span>
-              <span className="text-[var(--text-primary)]">({hudMetrics.x}, {hudMetrics.y})</span>
-            </span>
+          <div className="studio-canvas-hud-label hidden sm:flex">
+            <span className="text-[var(--text-tertiary)]">KE:</span>
+            <strong className="text-[var(--color-primary)]">{hudMetrics.energy}</strong>
           </div>
         </div>
-      </div>
-
-      {/* Motion Description Bar */}
-      <div className="px-4 py-2 bg-[var(--bg-surface-2)] border-t border-[var(--border-subtle)] flex items-center justify-between font-mono text-[11px] text-[var(--text-secondary)]">
-        <div className="flex items-center gap-2 truncate">
-          <Activity size={13} className="text-[var(--color-primary)] flex-shrink-0" />
-          <span className="truncate">{motionDesc}</span>
-        </div>
-        <span className="font-bold text-[var(--color-primary)] flex-shrink-0 uppercase text-[10px] hidden sm:inline">
-          {config.preset ? config.preset.replace('-', ' ') : 'CUSTOM MOTION'}
-        </span>
       </div>
     </div>
   );

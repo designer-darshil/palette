@@ -325,7 +325,7 @@ export function generateSingleRamp(
   baseChroma: number,
   isDerived: boolean = false
 ): ColorRamp {
-  const steps: ColorRamp['steps'] = {} as any;
+  const steps = {} as Record<StepKey, ColorRamp['steps'][StepKey]>;
 
   for (const step of STEP_KEYS) {
     const targetL = LIGHTNESS_MAP[step];

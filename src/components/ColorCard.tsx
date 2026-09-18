@@ -17,8 +17,8 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
   const { isSaved, saveItem } = useSaved();
   const saved = isSaved(color.id);
 
-  const handleCopyHex = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleCopyHex = async (e?: React.MouseEvent | React.KeyboardEvent) => {
+    e?.stopPropagation();
     const success = await copyToClipboard(color.hex);
     if (success) {
       Analytics.trackColorCopy(color.hex, 'HEX', color.name);
@@ -67,7 +67,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            handleCopyHex(e as any);
+            handleCopyHex(e);
           }
         }}
       >

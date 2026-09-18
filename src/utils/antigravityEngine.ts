@@ -891,7 +891,7 @@ export function serializeAntigravityConfig(config: AntigravityConfig): string {
   return p.toString();
 }
 
-export function deserializeAntigravityConfig(params: URLSearchParams | Record<string, string>): AntigravityConfig {
+export function deserializeAntigravityConfig(params: URLSearchParams | Record<string, string | undefined>): AntigravityConfig {
   const get = (key: string) => {
     if (params instanceof URLSearchParams) return params.get(key);
     return params[key] || null;

@@ -13,6 +13,10 @@ export interface MeshPoint {
   softness?: number; // 0.1 to 2.0 falloff factor
 }
 
+export function isValidHex(hex: string): boolean {
+  return /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(hex);
+}
+
 export type BackgroundMode = 'canvas' | 'transparent' | 'solid';
 
 export interface MeshGradientConfig {
@@ -54,7 +58,7 @@ export const MESH_PRESETS: MeshPreset[] = [
     config: {
       softness: 1.2,
       intensity: 1.1,
-      blur: 15,
+      blur: 0,
       grain: 12,
       points: [
         { id: 'p1', x: 10, y: 15, color: '#00A896', influence: 1.2 },
@@ -74,7 +78,7 @@ export const MESH_PRESETS: MeshPreset[] = [
     config: {
       softness: 1.1,
       intensity: 1.2,
-      blur: 10,
+      blur: 0,
       grain: 8,
       points: [
         { id: 'p1', x: 20, y: 20, color: '#FFAE33', influence: 1.3 },
@@ -94,7 +98,7 @@ export const MESH_PRESETS: MeshPreset[] = [
     config: {
       softness: 1.3,
       intensity: 1.0,
-      blur: 20,
+      blur: 0,
       grain: 10,
       points: [
         { id: 'p1', x: 15, y: 15, color: '#031926', influence: 1.4 },
@@ -114,7 +118,7 @@ export const MESH_PRESETS: MeshPreset[] = [
     config: {
       softness: 1.4,
       intensity: 0.9,
-      blur: 25,
+      blur: 0,
       grain: 6,
       points: [
         { id: 'p1', x: 20, y: 20, color: '#E8DFF5', influence: 1.2 },
@@ -134,7 +138,7 @@ export const MESH_PRESETS: MeshPreset[] = [
     config: {
       softness: 0.9,
       intensity: 1.3,
-      blur: 8,
+      blur: 0,
       grain: 5,
       points: [
         { id: 'p1', x: 15, y: 20, color: '#FF007F', influence: 1.1 },
@@ -154,7 +158,7 @@ export const MESH_PRESETS: MeshPreset[] = [
     config: {
       softness: 1.3,
       intensity: 1.1,
-      blur: 18,
+      blur: 0,
       grain: 15,
       points: [
         { id: 'p1', x: 15, y: 15, color: '#0A0A0C', influence: 1.5 },
@@ -174,7 +178,7 @@ export const MESH_PRESETS: MeshPreset[] = [
     config: {
       softness: 1.0,
       intensity: 1.2,
-      blur: 12,
+      blur: 0,
       grain: 10,
       points: [
         { id: 'p1', x: 20, y: 20, color: '#1A0B0B', influence: 1.4 },
@@ -194,7 +198,7 @@ export const MESH_PRESETS: MeshPreset[] = [
     config: {
       softness: 1.5,
       intensity: 0.9,
-      blur: 24,
+      blur: 0,
       grain: 12,
       points: [
         { id: 'p1', x: 20, y: 20, color: '#EAE0D5', influence: 1.2 },
@@ -221,7 +225,7 @@ export const DEFAULT_MESH_CONFIG: MeshGradientConfig = {
   columns: 3,
   softness: 1.2,
   intensity: 1.1,
-  blur: 15,
+  blur: 0,
   grain: 10,
   rotation: 0,
   scale: 1.0,
@@ -472,42 +476,47 @@ export function serializeMeshConfig(config: MeshGradientConfig): string {
   return params.toString();
 }
 
-export function deserializeMeshConfig(searchParams: URLSearchParams): MeshGradientConfig {
-  const presetId = searchParams.get('p');
+export function deserializeMeshConfig(searchParams: URLSearchParams | Record<string, string | undefined>): MeshGradientConfig {
+  const get = (key: string) => {
+    if (searchParams instanceof URLSearchParams) return searchParams.get(key);
+    return searchParams[key] ?? null;
+  };
+
+  const presetId = get('p');
   const matchedPreset = presetId ? MESH_PRESETS.find((p) => p.id === presetId) : null;
 
   const base: MeshGradientConfig = matchedPreset
     ? { ...DEFAULT_MESH_CONFIG, ...matchedPreset.config, preset: presetId }
     : { ...DEFAULT_MESH_CONFIG };
 
-  const seed = searchParams.get('s');
+  const seed = get('s');
   if (seed && !isNaN(parseInt(seed, 10))) base.seed = parseInt(seed, 10);
 
-  const sf = searchParams.get('sf');
+  const sf = get('sf');
   if (sf && !isNaN(parseFloat(sf))) base.softness = parseFloat(sf);
 
-  const intensity = searchParams.get('in');
+  const intensity = get('in');
   if (intensity && !isNaN(parseFloat(intensity))) base.intensity = parseFloat(intensity);
 
-  const bl = searchParams.get('bl');
+  const bl = get('bl');
   if (bl && !isNaN(parseFloat(bl))) base.blur = parseFloat(bl);
 
-  const gr = searchParams.get('gr');
+  const gr = get('gr');
   if (gr && !isNaN(parseFloat(gr))) base.grain = parseFloat(gr);
 
-  const rot = searchParams.get('rot');
+  const rot = get('rot');
   if (rot && !isNaN(parseFloat(rot))) base.rotation = parseFloat(rot);
 
-  const sc = searchParams.get('sc');
+  const sc = get('sc');
   if (sc && !isNaN(parseFloat(sc))) base.scale = parseFloat(sc);
 
-  const bg = searchParams.get('bg');
+  const bg = get('bg');
   if (bg === 'canvas' || bg === 'transparent' || bg === 'solid') base.background = bg;
 
-  const scol = searchParams.get('scol');
-  if (scol) base.solidColor = `#${scol}`;
+  const scol = get('scol');
+  if (scol && isValidHex(scol)) base.solidColor = scol.startsWith('#') ? scol : `#${scol}`;
 
-  const ptsParam = searchParams.get('pts');
+  const ptsParam = get('pts');
   if (ptsParam) {
     const rawChunks = ptsParam.split(';');
     const parsedPoints: MeshPoint[] = [];

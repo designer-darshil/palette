@@ -17,8 +17,8 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
   const { isSaved, saveItem } = useSaved();
   const saved = isSaved(gradient.id);
 
-  const handleCopyCss = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleCopyCss = async (e?: React.MouseEvent | React.KeyboardEvent) => {
+    e?.stopPropagation();
     const success = await copyToClipboard(`background: ${gradient.css};`);
     if (success) {
       Analytics.trackColorCopy(gradient.css, 'CSS Gradient', gradient.title);
@@ -66,7 +66,7 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            handleCopyCss(e as any);
+            handleCopyCss(e);
           }
         }}
       >

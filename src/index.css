@@ -40,6 +40,16 @@
 
   --focus-ring: var(--color-primary);
 
+  /* Canonical Responsive Breakpoint System Tokens */
+  --bp-xs: 390px;
+  --bp-sm: 480px;
+  --bp-md: 640px;
+  --bp-lg: 768px;
+  --bp-xl: 900px;
+  --bp-2xl: 1024px;
+  --bp-3xl: 1200px;
+  --bp-4xl: 1440px;
+
   /* Standardized Typography Scale */
   --text-2xs: 0.65rem;
   --text-xs: 0.72rem;
@@ -1531,6 +1541,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   }
 }
 
+/* — Studio Inspector Breakpoint System — */
 .studio-inspector {
   width: 100%;
   max-width: 100%;
@@ -1547,16 +1558,83 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   max-height: 48vh;
 }
 
+/* 1024–1199px: Desktop / Small Laptop */
 @media (min-width: 1024px) {
   .studio-inspector {
-    width: 320px;
-    min-width: 300px;
-    max-width: 360px;
+    width: 280px;
+    min-width: 260px;
+    max-width: 300px;
     max-height: none;
     height: 100%;
     border-top: none;
     border-left: 1px solid var(--border-subtle);
   }
+}
+
+/* 1200–1439px: Large Desktop */
+@media (min-width: 1200px) {
+  .studio-inspector {
+    width: 300px;
+    min-width: 280px;
+    max-width: 320px;
+  }
+}
+
+/* ≥ 1440px: XL Desktop */
+@media (min-width: 1440px) {
+  .studio-inspector {
+    width: 340px;
+    min-width: 300px;
+    max-width: 360px;
+  }
+}
+
+/* < 480px: Mobile */
+@media (max-width: 479px) {
+  .studio-inspector {
+    max-height: 52vh;
+  }
+}
+
+/* < 390px: Extra Small Mobile */
+@media (max-width: 389px) {
+  .studio-inspector {
+    max-height: 56vh;
+  }
+}
+
+/* — Presets Responsive Grid & Rail — */
+.studio-preset-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 767px) {
+  .studio-preset-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .studio-preset-grid > * {
+    flex: 0 0 140px;
+    min-width: 140px;
+    scroll-snap-align: start;
+  }
+}
+
+/* — Code Editor Isolation Container Rule — */
+.studio-code-container,
+.code-editor {
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* — Status Bar — */

@@ -115,7 +115,7 @@ export const StudioTopBar: React.FC<StudioTopBarProps> = ({
           <button
             type="button"
             onClick={onReset}
-            className="studio-topbar-icon-btn"
+            className="studio-topbar-icon-btn hidden min-[1200px]:flex"
             title="Reset to defaults"
           >
             <RotateCcw size={14} />
@@ -126,7 +126,7 @@ export const StudioTopBar: React.FC<StudioTopBarProps> = ({
           <button
             type="button"
             onClick={onShareUrl}
-            className="studio-topbar-icon-btn"
+            className="studio-topbar-icon-btn hidden min-[1200px]:flex"
             title="Copy shareable link"
           >
             {hasCopiedShare ? <Check size={14} className="text-emerald-400" /> : <Share2 size={14} />}
@@ -137,11 +137,11 @@ export const StudioTopBar: React.FC<StudioTopBarProps> = ({
           <button
             type="button"
             onClick={onRandomize}
-            className="studio-topbar-accent-btn"
+            className="studio-topbar-accent-btn hidden min-[768px]:inline-flex"
             title="Randomize (R)"
           >
             <Sparkles size={13} className="flex-shrink-0" />
-            <span className="studio-btn-text">Randomize</span>
+            <span className="hidden min-[1024px]:inline">Randomize</span>
           </button>
         )}
 
@@ -156,7 +156,7 @@ export const StudioTopBar: React.FC<StudioTopBarProps> = ({
             >
               <Download size={13} className="flex-shrink-0" />
               <span className="studio-btn-text">Export</span>
-              <ChevronDown size={10} className={`transition-transform duration-150 flex-shrink-0 ${exportOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={10} className={`hidden sm:inline-block transition-transform duration-150 flex-shrink-0 ${exportOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {exportOpen && (

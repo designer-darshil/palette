@@ -361,7 +361,7 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
 
       {activeTab === 'presets' && (
         <div className="p-3">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="studio-preset-grid">
             {MESH_PRESETS.map((p) => {
               const isSelected = config.preset === p.id;
               const colors = p.colors || ['#3D7DFF', '#BFA3F0', '#00F0FF'];

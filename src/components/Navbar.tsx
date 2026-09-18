@@ -34,6 +34,43 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
   const [mobileOpen, setMobileOpen] = useState(false);
   const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
   const toolsDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
+
+  // Document Scroll Lock System for Mobile Navigation
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.classList.add('nav-open');
+    document.body.classList.add('nav-open');
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false);
+        mobileToggleRef.current?.focus();
+      }
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      document.documentElement.classList.remove('nav-open');
+      document.body.classList.remove('nav-open');
+      document.body.style.paddingRight = '';
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [mobileOpen]);
 
   // Close tools dropdown when clicking outside
   useEffect(() => {
@@ -308,20 +345,54 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
 
             {/* Mobile Navigation Toggle — Mobile/Tablet Only */}
             <button
+              ref={mobileToggleRef}
               className="mobile-menu-toggle w-9 h-9 flex items-center justify-center p-0 md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle navigation menu"
+              aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileOpen}
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Navigation Overlay with Structured Categories */}
-        {mobileOpen && (
-          <div className="mobile-nav-overlay">
-            <div className="px-4 py-2 font-mono text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
+      {/* Contained Mobile Navigation Overlay with Document Scroll Lock */}
+      {mobileOpen && (
+        <div
+          className="mobile-nav-overlay mobile-nav"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile Navigation Menu"
+        >
+          {/* Fixed Nav Header */}
+          <div className="mobile-nav__header">
+            <Link
+              to={{ path: 'home' }}
+              onNavigate={handleNav}
+              className="brand-logo"
+              aria-label="KROMA Color Library Home"
+            >
+              <span className="brand-glyph" />
+              <span className="brand-title-text">KROMA</span>
+            </Link>
+
+            <button
+              type="button"
+              className="mobile-menu-toggle w-9 h-9 flex items-center justify-center p-0"
+              onClick={() => {
+                setMobileOpen(false);
+                mobileToggleRef.current?.focus();
+              }}
+              aria-label="Close navigation menu"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* Contained Scrollable Options (ONLY THIS SCROLLS) */}
+          <div className="mobile-nav__options">
+            <div className="mobile-nav__section-header">
               LIBRARY CATALOG
             </div>
             <Link
@@ -364,8 +435,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               <Sparkles size={16} />
             </Link>
 
-            <div className="px-4 pt-4 pb-2 font-mono text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-semibold border-t border-[var(--border-subtle)] mt-2">
-              STUDIO &amp; TOOLS
+            <div className="mobile-nav__section-header">
+              STUDIO &amp; CREATION TOOLS
             </div>
             <Link
               to={{ path: 'ramps' }}
@@ -382,6 +453,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
             >
               <span>Antigravity Studio (Physics)</span>
               <Compass size={16} className="text-cyan-400" />
+            </Link>
+            <Link
+              to={{ path: 'mesh' }}
+              onNavigate={handleNav}
+              className={`mobile-nav-link ${isActive('mesh') ? 'active' : ''}`}
+            >
+              <span>Mesh Gradient Studio</span>
+              <Wand2 size={16} style={{ color: 'var(--color-primary-text)' }} />
             </Link>
             <Link
               to={{ path: 'palette-generator' }}
@@ -432,11 +511,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               <Radio size={16} color="#E63946" />
             </Link>
 
-            <div className="px-4 pt-4 pb-2 font-mono text-[10px] text-[var(--text-tertiary)] uppercase tracking-wider font-semibold border-t border-[var(--border-subtle)] mt-2">
-              PREFERENCES &amp; WORKSPACE
+            <div className="mobile-nav__section-header">
+              PREFERENCES &amp; SAVED
             </div>
-
-            {/* Saved Items Link in Drawer */}
             <Link
               to={{ path: 'saved' }}
               onNavigate={handleNav}
@@ -450,12 +527,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                 <span className="saved-count-badge">{savedItems.length}</span>
               )}
             </Link>
+          </div>
 
-            {/* Appearance / Theme Selector in Drawer */}
-            <div className="px-3.5 py-3 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] mt-1 flex flex-col gap-2.5">
+          {/* Fixed Nav Footer (Theme & Appearance) */}
+          <div className="mobile-nav__footer">
+            <div className="px-3.5 py-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex flex-col gap-2">
               <div className="flex items-center justify-between text-xs font-mono text-[var(--text-secondary)] font-semibold uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
-                  {theme === 'dark' ? <Moon size={14} /> : <Sun size={14} color="#E9C46A" />}
+                  {theme === 'dark' ? <Moon size={13} /> : <Sun size={13} color="#E9C46A" />}
                   <span>Appearance</span>
                 </span>
                 <span className="text-[var(--accent-gold)] capitalize font-bold">{theme}</span>
@@ -465,35 +544,35 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                 <button
                   type="button"
                   onClick={() => setTheme('light')}
-                  className={`py-2 px-3 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-all ${
+                  className={`py-2 px-3 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer ${
                     theme === 'light'
                       ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-sm'
                       : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
                   }`}
                   aria-label="Set Light Theme"
                 >
-                  <Sun size={14} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />
+                  <Sun size={13} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />
                   <span>Light</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setTheme('dark')}
-                  className={`py-2 px-3 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-all ${
+                  className={`py-2 px-3 rounded-xs text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer ${
                     theme === 'dark'
                       ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-sm'
                       : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
                   }`}
                   aria-label="Set Dark Theme"
                 >
-                  <Moon size={14} />
+                  <Moon size={13} />
                   <span>Dark</span>
                 </button>
               </div>
             </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
     </>
   );
 };

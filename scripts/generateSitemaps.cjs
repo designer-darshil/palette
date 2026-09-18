@@ -83,7 +83,9 @@ function main() {
   console.log(`✅ sitemap-main.xml generated (${mainUrls.length} URLs)`);
 
   // 2. Colors Sitemap
-  const colorsPath = path.join(rootDir, 'src/data/colors.ts');
+  const colorsJsonPath = path.join(rootDir, 'src/data/colors.json');
+  const colorsTsPath = path.join(rootDir, 'src/data/colors.ts');
+  const colorsPath = fs.existsSync(colorsJsonPath) ? colorsJsonPath : colorsTsPath;
   const colorSlugs = extractSlugsFromTsFile(colorsPath);
   const colorUrls = colorSlugs.map((slug) =>
     generateUrlXml(`${SITE_URL}/colors/${encodeURIComponent(slug)}`, 'monthly', '0.75')

@@ -149,115 +149,114 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
   };
 
   return (
-    <section id="mesh-code-export" className="w-full flex flex-col gap-5">
-      <div>
-        <h2 className="text-base sm:text-lg font-bold text-[var(--text-primary)] flex items-center gap-2 tracking-tight">
-          <Code2 size={18} style={{ color: 'var(--color-primary-text)' }} />
-          <span>Code, Vector &amp; Image Export</span>
-        </h2>
-        <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
-          Export as multi-radial CSS, resolution-independent SVG, DTCG design tokens, or high-res PNG/WebP.
-        </p>
-      </div>
-
+    <section id="mesh-code-export" className="w-full flex flex-col gap-4 min-w-0">
       {/* Raster Image Direct Download Panel */}
       <div
-        className="w-full bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
+        className="w-full bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-3.5 flex flex-col gap-3 shadow-xs min-w-0"
         style={{ borderRadius: 'var(--radius-md)' }}
       >
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <Image size={16} style={{ color: 'var(--color-primary-text)' }} />
-            <h3 className="text-xs sm:text-sm font-bold font-mono text-[var(--text-primary)]">
-              High-Resolution Raster Image Download
+        <div className="flex flex-col gap-0.5 min-w-0">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <Image size={14} style={{ color: 'var(--color-primary-text)' }} className="flex-shrink-0" />
+            <h3 className="text-xs font-bold font-mono text-[var(--text-primary)] truncate">
+              Raster Image Export
             </h3>
           </div>
-          <p className="text-xs text-[var(--text-tertiary)]">
-            Render offscreen canvas directly to lossless PNG or WebP with full resolution scaling.
+          <p className="text-[11px] text-[var(--text-tertiary)] leading-snug">
+            Render canvas directly to lossless PNG or WebP with full resolution scaling.
           </p>
         </div>
 
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* Preset Resolution Buttons */}
-          <div className="flex items-center gap-1 bg-[var(--bg-surface-2)] p-1 rounded-xs border border-[var(--border-subtle)]">
-            <button
-              type="button"
-              onClick={() => {
-                setRasterWidth(1200);
-                setRasterHeight(800);
-              }}
-              className={`px-2.5 py-1 text-xs font-mono rounded-xs transition-colors cursor-pointer ${
-                rasterWidth === 1200 && rasterHeight === 800
-                  ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              1200 × 800
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setRasterWidth(1920);
-                setRasterHeight(1080);
-              }}
-              className={`px-2.5 py-1 text-xs font-mono rounded-xs transition-colors cursor-pointer ${
-                rasterWidth === 1920 && rasterHeight === 1080
-                  ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              1080p
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setRasterWidth(3840);
-                setRasterHeight(2160);
-              }}
-              className={`px-2.5 py-1 text-xs font-mono rounded-xs transition-colors cursor-pointer ${
-                rasterWidth === 3840 && rasterHeight === 2160
-                  ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              4K UHD
-            </button>
-          </div>
-
-          {/* Format Selector */}
-          <div className="flex items-center bg-[var(--bg-surface-2)] p-1 rounded-xs border border-[var(--border-subtle)]">
-            {(['png', 'webp'] as const).map((fmt) => (
+        {/* Controls Grid */}
+        <div className="flex flex-col gap-2 min-w-0">
+          {/* Row 1: Resolution Options */}
+          <div className="flex flex-col gap-1 min-w-0">
+            <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase font-semibold">Resolution</span>
+            <div className="grid grid-cols-3 gap-1 bg-[var(--bg-surface-2)] p-1 rounded-xs border border-[var(--border-subtle)] min-w-0">
               <button
-                key={fmt}
                 type="button"
-                onClick={() => setRasterFormat(fmt)}
-                className={`px-2.5 py-1 text-xs font-mono uppercase rounded-xs transition-colors cursor-pointer ${
-                  rasterFormat === fmt
+                onClick={() => {
+                  setRasterWidth(1200);
+                  setRasterHeight(800);
+                }}
+                className={`py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer text-center truncate ${
+                  rasterWidth === 1200 && rasterHeight === 800
                     ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
-                {fmt}
+                1200×800
               </button>
-            ))}
+              <button
+                type="button"
+                onClick={() => {
+                  setRasterWidth(1920);
+                  setRasterHeight(1080);
+                }}
+                className={`py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer text-center truncate ${
+                  rasterWidth === 1920 && rasterHeight === 1080
+                    ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                1080p
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setRasterWidth(3840);
+                  setRasterHeight(2160);
+                }}
+                className={`py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer text-center truncate ${
+                  rasterWidth === 3840 && rasterHeight === 2160
+                    ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                4K UHD
+              </button>
+            </div>
           </div>
 
-          {/* Download Button */}
-          <button
-            type="button"
-            onClick={handleDownloadRaster}
-            disabled={isExportingImage}
-            className="btn-studio-primary"
-            style={{ padding: '7px 16px', fontSize: '0.8rem' }}
-          >
-            <Download size={14} />
-            <span>{isExportingImage ? 'Rendering...' : `Download ${rasterFormat.toUpperCase()}`}</span>
-          </button>
+          {/* Row 2: Format + Download Action */}
+          <div className="flex items-center gap-2 min-w-0">
+            {/* Format Selector */}
+            <div className="flex items-center bg-[var(--bg-surface-2)] p-1 rounded-xs border border-[var(--border-subtle)] flex-shrink-0">
+              {(['png', 'webp'] as const).map((fmt) => (
+                <button
+                  key={fmt}
+                  type="button"
+                  onClick={() => setRasterFormat(fmt)}
+                  className={`px-2 py-1 text-[11px] font-mono uppercase rounded-xs transition-colors cursor-pointer ${
+                    rasterFormat === fmt
+                      ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  }`}
+                >
+                  {fmt}
+                </button>
+              ))}
+            </div>
+
+            {/* Download Button */}
+            <button
+              type="button"
+              onClick={handleDownloadRaster}
+              disabled={isExportingImage}
+              className="btn-studio-primary flex-1 justify-center whitespace-nowrap"
+              style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+            >
+              <Download size={13} />
+              <span className="whitespace-nowrap">{isExportingImage ? 'Rendering...' : `Download ${rasterFormat.toUpperCase()}`}</span>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Code, SVG & Token Exporter Block */}
       <StudioCodeBlock
+        title="Developer Code & Token Export"
+        description="Multi-radial CSS, SVG vector markup, and DTCG design tokens."
         tabs={exportTabs}
         activeTab={activeTab}
         onTabChange={setActiveTab}

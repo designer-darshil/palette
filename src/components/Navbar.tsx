@@ -473,7 +473,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                   aria-label="Set Light Theme"
                 >
                   <Sun size={14} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />
-                  <span>☀ Light</span>
+                  <span>Light</span>
                 </button>
 
                 <button
@@ -487,7 +487,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
                   aria-label="Set Dark Theme"
                 >
                   <Moon size={14} />
-                  <span>☾ Dark</span>
+                  <span>Dark</span>
                 </button>
               </div>
             </div>

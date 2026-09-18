@@ -1223,6 +1223,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   height: calc(100vh - 60px);
   height: calc(100dvh - 60px);
   max-height: calc(100vh - 60px);
@@ -1230,19 +1232,22 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   background: var(--bg-canvas);
   overflow: hidden;
   user-select: none;
+  position: relative;
 }
 
 /* — Toolbar — */
 .studio-topbar {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   height: 40px;
   background: var(--bg-surface-1);
   border-bottom: 1px solid var(--border-subtle);
-  padding: 0 12px;
+  padding: 0 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
   z-index: 30;
   flex-shrink: 0;
 }
@@ -1250,8 +1255,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .studio-topbar-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
 }
 
 .studio-topbar-title {
@@ -1260,11 +1267,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   color: var(--text-primary);
   letter-spacing: -0.01em;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .studio-topbar-sep {
   color: var(--text-tertiary);
   font-size: 12px;
+  flex-shrink: 0;
 }
 
 .studio-topbar-doc {
@@ -1274,7 +1284,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 140px;
+  max-width: 130px;
 }
 
 @media (max-width: 640px) {
@@ -1282,15 +1292,20 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .studio-topbar-doc {
     display: none;
   }
+  .studio-topbar-title {
+    font-size: 12px;
+    max-width: 120px;
+  }
 }
 
 .studio-topbar-history {
   display: flex;
   align-items: center;
   gap: 2px;
-  margin-left: 4px;
-  padding-left: 8px;
+  margin-left: 2px;
+  padding-left: 6px;
   border-left: 1px solid var(--border-subtle);
+  flex-shrink: 0;
 }
 
 @media (max-width: 640px) {
@@ -1302,8 +1317,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .studio-topbar-center {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   min-width: 0;
+  overflow: hidden;
 }
 
 .studio-topbar-right {
@@ -1325,6 +1341,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   cursor: pointer;
   background: transparent;
   border: none;
+  flex-shrink: 0;
 }
 
 .studio-topbar-icon-btn:hover {
@@ -1356,17 +1373,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .studio-topbar-accent-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 12px;
+  gap: 4px;
+  padding: 5px 10px;
   border-radius: var(--radius-xs);
   background: var(--color-primary);
   color: var(--color-primary-contrast);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   border: none;
   transition: all var(--transition-quick);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .studio-topbar-accent-btn:hover {
@@ -1381,18 +1399,19 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .studio-topbar-export-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
+  gap: 4px;
+  padding: 5px 9px;
   border-radius: var(--radius-xs);
   background: var(--bg-surface-2);
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   font-family: var(--font-mono);
   cursor: pointer;
   border: 1px solid var(--border-subtle);
   transition: all var(--transition-quick);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .studio-topbar-export-btn:hover {
@@ -1400,18 +1419,30 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   border-color: var(--border-medium);
 }
 
+@media (max-width: 520px) {
+  .studio-btn-text {
+    display: none;
+  }
+  .studio-topbar-accent-btn,
+  .studio-topbar-export-btn {
+    padding: 5px 7px;
+  }
+}
+
 .studio-export-menu {
   position: absolute;
   right: 0;
+  left: auto;
   top: 100%;
   margin-top: 6px;
-  width: 240px;
+  width: 250px;
+  max-width: calc(100vw - 20px);
   background: var(--bg-surface-1);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-elevated);
   padding: 4px;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -1432,6 +1463,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   padding: 7px 10px;
   border-radius: var(--radius-xs);
   text-align: left;
@@ -1441,6 +1473,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   transition: background var(--transition-quick);
   background: transparent;
   border: none;
+  min-width: 0;
 }
 
 .studio-export-menu-item:hover {
@@ -1467,6 +1500,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 0;
   position: relative;
   overflow: hidden;
@@ -1482,7 +1517,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  min-height: 240px;
+  min-width: 0;
+  width: 100%;
   position: relative;
   overflow: hidden;
   background: var(--bg-canvas);
@@ -1496,22 +1533,27 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .studio-inspector {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   background: var(--bg-surface-1);
   border-top: 1px solid var(--border-subtle);
+  border-left: none;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  z-index: 10;
+  z-index: 20;
   overflow-y: auto;
-  max-height: 50vh;
+  overflow-x: hidden;
+  max-height: 48vh;
 }
 
 @media (min-width: 1024px) {
   .studio-inspector {
-    width: 300px;
-    min-width: 280px;
-    max-width: 320px;
+    width: 320px;
+    min-width: 300px;
+    max-width: 360px;
     max-height: none;
+    height: 100%;
     border-top: none;
     border-left: 1px solid var(--border-subtle);
   }
@@ -1519,8 +1561,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* — Status Bar — */
 .studio-status-bar {
-  height: 28px;
-  padding: 0 12px;
+  height: 26px;
+  padding: 0 10px;
   border-top: 1px solid var(--border-subtle);
   background: var(--bg-surface-1);
   display: flex;
@@ -1531,6 +1573,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   color: var(--text-tertiary);
   flex-shrink: 0;
   z-index: 10;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* — Tabbed Inspector — */
@@ -1538,6 +1582,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
+  width: 100%;
 }
 
 .studio-inspector-tabs {
@@ -1549,6 +1595,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   background: var(--bg-surface-1);
   overflow-x: auto;
   flex-shrink: 0;
+  min-width: 0;
+  width: 100%;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -1561,7 +1609,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 8px 10px;
+  padding: 7px 9px;
   font-size: 11px;
   font-weight: 600;
   color: var(--text-tertiary);
@@ -1572,6 +1620,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   border-bottom: 2px solid transparent;
   transition: all var(--transition-quick);
   margin-bottom: -1px;
+  flex-shrink: 0;
 }
 
 .studio-inspector-tab:hover {
@@ -1586,11 +1635,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .studio-inspector-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+  width: 100%;
 }
 
 /* — Section — */
 .studio-section {
   border-bottom: 1px solid var(--border-subtle);
+  min-width: 0;
+  width: 100%;
 }
 
 .studio-section:last-child {
@@ -1599,7 +1653,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .studio-section-header {
   width: 100%;
-  padding: 10px 14px;
+  padding: 9px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1608,6 +1662,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   transition: background var(--transition-quick);
   background: transparent;
   border: none;
+  min-width: 0;
 }
 
 .studio-section-header:hover {
@@ -1619,20 +1674,25 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   font-weight: 600;
   color: var(--text-secondary);
   letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .studio-section-badge {
   font-family: var(--font-mono);
   font-size: 10px;
-  padding: 1px 6px;
+  padding: 1px 5px;
   background: var(--bg-surface-2);
   color: var(--text-tertiary);
   border-radius: var(--radius-xs);
+  flex-shrink: 0;
 }
 
 .studio-section-chevron {
   color: var(--text-tertiary);
   transition: transform 150ms ease;
+  flex-shrink: 0;
 }
 
 .studio-section-chevron.open {
@@ -1640,10 +1700,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .studio-section-body {
-  padding: 4px 14px 14px;
+  padding: 4px 12px 12px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
+  min-width: 0;
+  width: 100%;
 }
 
 /* — Control Row — */

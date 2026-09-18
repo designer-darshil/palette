@@ -131,36 +131,38 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
 
         {/* Selected Stop Popover */}
         {activeStop && (
-          <div className="flex items-center gap-3 p-3 rounded-sm bg-[var(--bg-surface-1)] border border-[var(--color-primary-border)]">
-            <div
-              className="w-10 h-10 rounded-sm flex items-center justify-center font-mono text-xs font-bold flex-shrink-0"
-              style={{
-                backgroundColor: activeStop.hex,
-                color: activeStop.contrastWithWhite < 4.5 ? '#FFFFFF' : '#000000',
-              }}
-            >
-              {stepKeyStr}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-xs text-[var(--text-primary)]">
-                  {activeRamp.label}-{stepKeyStr}
-                </span>
-                <span className="font-mono text-[10px] text-[var(--text-tertiary)]">{activeStop.oklch}</span>
+          <div className="flex flex-wrap items-center justify-between gap-2.5 p-2.5 sm:p-3 rounded-sm bg-[var(--bg-surface-1)] border border-[var(--color-primary-border)] min-w-0">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xs flex items-center justify-center font-mono text-xs font-bold flex-shrink-0"
+                style={{
+                  backgroundColor: activeStop.hex,
+                  color: activeStop.contrastWithWhite < 4.5 ? '#FFFFFF' : '#000000',
+                }}
+              >
+                {stepKeyStr}
               </div>
-              <div className="flex items-center gap-3 mt-0.5 font-mono text-[10px] text-[var(--text-secondary)]">
-                <span>W:{activeStop.contrastWithWhite.toFixed(1)}</span>
-                <span>B:{activeStop.contrastWithBlack.toFixed(1)}</span>
-                <span>L:{(activeStop.lightness * 100).toFixed(0)}%</span>
-                <span>C:{activeStop.chroma.toFixed(3)}</span>
-                <span>H:{activeStop.hue.toFixed(0)}°</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="font-semibold text-xs text-[var(--text-primary)] whitespace-nowrap">
+                    {activeRamp.label}-{stepKeyStr}
+                  </span>
+                  <span className="font-mono text-[10px] text-[var(--text-tertiary)] truncate">{activeStop.oklch}</span>
+                </div>
+                <div className="flex items-center gap-2 mt-0.5 font-mono text-[10px] text-[var(--text-secondary)] flex-wrap">
+                  <span>W:{activeStop.contrastWithWhite.toFixed(1)}</span>
+                  <span>B:{activeStop.contrastWithBlack.toFixed(1)}</span>
+                  <span>L:{(activeStop.lightness * 100).toFixed(0)}%</span>
+                  <span>C:{activeStop.chroma.toFixed(3)}</span>
+                  <span>H:{activeStop.hue.toFixed(0)}°</span>
+                </div>
               </div>
             </div>
             <button
               type="button"
               onClick={(e) => handleCopy(activeStop.hex, e)}
               className="studio-topbar-accent-btn"
-              style={{ padding: '4px 10px', fontSize: '11px' }}
+              style={{ padding: '4px 8px', fontSize: '11px', flexShrink: 0 }}
             >
               {copiedHex === activeStop.hex ? <Check size={11} /> : <Copy size={11} />}
               <span>{copiedHex === activeStop.hex ? 'Copied' : activeStop.hex}</span>

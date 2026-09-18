@@ -140,8 +140,8 @@ export const StudioTopBar: React.FC<StudioTopBarProps> = ({
             className="studio-topbar-accent-btn"
             title="Randomize (R)"
           >
-            <Sparkles size={13} />
-            <span>Randomize</span>
+            <Sparkles size={13} className="flex-shrink-0" />
+            <span className="studio-btn-text">Randomize</span>
           </button>
         )}
 
@@ -154,9 +154,9 @@ export const StudioTopBar: React.FC<StudioTopBarProps> = ({
               aria-expanded={exportOpen}
               aria-haspopup="true"
             >
-              <Download size={13} />
-              <span>Export</span>
-              <ChevronDown size={10} className={`transition-transform duration-150 ${exportOpen ? 'rotate-180' : ''}`} />
+              <Download size={13} className="flex-shrink-0" />
+              <span className="studio-btn-text">Export</span>
+              <ChevronDown size={10} className={`transition-transform duration-150 flex-shrink-0 ${exportOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {exportOpen && (
@@ -172,12 +172,12 @@ export const StudioTopBar: React.FC<StudioTopBarProps> = ({
                     }}
                     className="studio-export-menu-item"
                   >
-                    <div className="flex items-center gap-2">
-                      {opt.icon && <span className="studio-export-menu-icon">{opt.icon}</span>}
-                      <span className="font-semibold">{opt.label}</span>
+                    <div className="flex items-center gap-2 min-w-0">
+                      {opt.icon && <span className="studio-export-menu-icon flex-shrink-0">{opt.icon}</span>}
+                      <span className="font-semibold truncate">{opt.label}</span>
                     </div>
                     {opt.sublabel && (
-                      <span className="studio-export-menu-sublabel">{opt.sublabel}</span>
+                      <span className="studio-export-menu-sublabel flex-shrink-0">{opt.sublabel}</span>
                     )}
                   </button>
                 ))}

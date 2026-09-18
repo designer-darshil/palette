@@ -50,11 +50,18 @@ const Root: React.FC = () => {
   );
 };
 
+declare global {
+  interface Window {
+    __KROMA_REACT_ROOT__?: ReactDOM.Root;
+    __KROMA_LOADER_COMPLETE__?: () => void;
+  }
+}
+
 const container = document.getElementById('root')!;
-let root = (container as any)._reactRoot;
+let root = window.__KROMA_REACT_ROOT__;
 if (!root) {
   root = ReactDOM.createRoot(container);
-  (container as any)._reactRoot = root;
+  window.__KROMA_REACT_ROOT__ = root;
 }
 
 root.render(
@@ -62,3 +69,4 @@ root.render(
     <Root />
   </React.StrictMode>
 );
+

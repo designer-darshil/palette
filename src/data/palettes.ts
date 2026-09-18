@@ -2,6 +2,49 @@ import { PaletteItem } from '../types';
 
 export const CURATED_PALETTES: PaletteItem[] = [
   {
+    "id": "p_terracotta_raw_plaster",
+    "slug": "terracotta-raw-plaster",
+    "title": "Terracotta & Raw Plaster",
+    "category": "vintage",
+    "description": "Mineral earths, baked clay, sun-bleached linen, and warm ochres inspired by Mediterranean craft and raw ceramics.",
+    "colors": [
+      {
+        "name": "Terracotta Earthen",
+        "hex": "#C86D51",
+        "role": "Clay Anchor"
+      },
+      {
+        "name": "Warm Ochre",
+        "hex": "#E09F67",
+        "role": "Sunlit Earth"
+      },
+      {
+        "name": "Burnished Sienna",
+        "hex": "#70483C",
+        "role": "Deep Shadow"
+      },
+      {
+        "name": "Raw Plaster",
+        "hex": "#D4C3A3",
+        "role": "Linen Surface"
+      },
+      {
+        "name": "Sunbleached Linen",
+        "hex": "#F3EFEA",
+        "role": "Ambient Light"
+      }
+    ],
+    "tags": [
+      "autumn",
+      "warm",
+      "earthy",
+      "terracotta",
+      "craft",
+      "mediterranean"
+    ],
+    "featured": true
+  },
+  {
     "id": "p1",
     "slug": "swiss-editorial-system",
     "title": "Swiss Editorial System",

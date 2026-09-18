@@ -50,7 +50,14 @@ const Root: React.FC = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root')!;
+let root = (container as any)._reactRoot;
+if (!root) {
+  root = ReactDOM.createRoot(container);
+  (container as any)._reactRoot = root;
+}
+
+root.render(
   <React.StrictMode>
     <Root />
   </React.StrictMode>

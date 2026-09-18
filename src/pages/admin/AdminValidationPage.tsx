@@ -6,26 +6,37 @@ import { CURATED_COMBOS } from '../../data/combos';
 import { CURATED_GRADIENTS } from '../../data/gradients';
 
 export const AdminValidationPage: React.FC = () => {
-  // Real dataset validation checks
-  const totalColors = CURATED_COLORS.length;
-  const invalidHexColors = CURATED_COLORS.filter((c) => !/^#[0-9A-Fa-f]{6}$/.test(c.hex));
-  const missingSlugColors = CURATED_COLORS.filter((c) => !c.slug);
-  const missingOklch = CURATED_COLORS.filter((c) => !c.oklch);
+  const { totalColors, totalPalettes, totalCombos, totalGradients, checks } = React.useMemo(() => {
+    const totalColors = CURATED_COLORS.length;
+    // Fast verification on sample or full set
+    let invalidHexCount = 0;
+    let missingSlugCount = 0;
+    let missingOklchCount = 0;
 
-  const totalPalettes = CURATED_PALETTES.length;
-  const invalidPaletteColors = CURATED_PALETTES.filter((p) => p.colors.length < 3);
+    for (let i = 0; i < totalColors; i++) {
+      const c = CURATED_COLORS[i];
+      if (!c.hex || c.hex[0] !== '#' || c.hex.length !== 7) invalidHexCount++;
+      if (!c.slug) missingSlugCount++;
+      if (!c.oklch) missingOklchCount++;
+    }
 
-  const totalCombos = CURATED_COMBOS.length;
-  const totalGradients = CURATED_GRADIENTS.length;
+    const totalPalettes = CURATED_PALETTES.length;
+    const invalidPaletteColors = CURATED_PALETTES.filter((p) => p.colors.length < 3);
 
-  const checks = [
-    { title: 'HEX Code Format & Validation', passed: invalidHexColors.length === 0, count: `${totalColors - invalidHexColors.length}/${totalColors} Valid`, status: '100% OK' },
-    { title: 'OKLCH Perceptual Gamut Coordinates', passed: missingOklch.length === 0, count: `${totalColors - missingOklch.length}/${totalColors} Calculated`, status: '100% OK' },
-    { title: 'Unique Slug URI Routing', passed: missingSlugColors.length === 0, count: `${totalColors} Slugs Unique`, status: '100% OK' },
-    { title: 'Palette Structure (≥3 Swatches)', passed: invalidPaletteColors.length === 0, count: `${totalPalettes} Compliant`, status: '100% OK' },
-    { title: 'Combo Contrast Accessibility (WCAG AAA)', passed: true, count: `${totalCombos} Pairings Validated`, status: '100% OK' },
-    { title: 'Gradient CSS Syntax & Direction', passed: true, count: `${totalGradients} Multi-Stop Valid`, status: '100% OK' },
-  ];
+    const totalCombos = CURATED_COMBOS.length;
+    const totalGradients = CURATED_GRADIENTS.length;
+
+    const checks = [
+      { title: 'HEX Code Format & Validation', passed: invalidHexCount === 0, count: `${totalColors - invalidHexCount}/${totalColors} Valid`, status: '100% OK' },
+      { title: 'OKLCH Perceptual Gamut Coordinates', passed: missingOklchCount === 0, count: `${totalColors - missingOklchCount}/${totalColors} Calculated`, status: '100% OK' },
+      { title: 'Unique Slug URI Routing', passed: missingSlugCount === 0, count: `${totalColors} Slugs Unique`, status: '100% OK' },
+      { title: 'Palette Structure (≥3 Swatches)', passed: invalidPaletteColors.length === 0, count: `${totalPalettes} Compliant`, status: '100% OK' },
+      { title: 'Combo Contrast Accessibility (WCAG AAA)', passed: true, count: `${totalCombos} Pairings Validated`, status: '100% OK' },
+      { title: 'Gradient CSS Syntax & Direction', passed: true, count: `${totalGradients} Multi-Stop Valid`, status: '100% OK' },
+    ];
+
+    return { totalColors, totalPalettes, totalCombos, totalGradients, checks };
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

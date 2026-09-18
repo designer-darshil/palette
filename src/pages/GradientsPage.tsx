@@ -121,24 +121,26 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
         </p>
       </header>
 
-      {/* Filter Bar */}
-      <div className="filter-bar">
-        <div className="filter-pills">
-          <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', alignSelf: 'center', marginRight: '4px' }}>
+      {/* Responsive Filter Panel */}
+      <div className="filter-panel">
+        <div className="filter-group w-full min-w-0">
+          <span className="filter-group-label">
             ATMOSPHERE:
           </span>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
+          <div className="filter-options filter-options--scroll flex-1">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                className={`filter-option ${selectedCategory === cat ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <div className="filter-search mt-1">
           <Search size={14} color="#9DA3AF" style={{ position: 'absolute', left: 10 }} />
           <input
             type="text"

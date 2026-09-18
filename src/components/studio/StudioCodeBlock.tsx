@@ -53,9 +53,9 @@ export const StudioCodeBlock = <T extends string>({
       {/* Section Header */}
       <div className="flex flex-col gap-2 min-w-0">
         <div className="min-w-0">
-          <h3 className="text-xs sm:text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5 tracking-tight">
+          <h3 className="studio-section-title font-bold text-[var(--text-primary)] flex items-center gap-1.5 tracking-tight">
             <FileCode size={15} className="text-[var(--text-secondary)] flex-shrink-0" />
-            <span>{title}</span>
+            <span className="studio-heading">{title}</span>
           </h3>
           {description && (
             <p className="text-[11px] text-[var(--text-tertiary)] mt-0.5 leading-snug break-words">
@@ -65,34 +65,34 @@ export const StudioCodeBlock = <T extends string>({
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap min-w-0">
           <button
             type="button"
             onClick={handleDownload}
-            className="btn-secondary"
-            style={{ padding: '5px 10px', fontSize: '0.75rem', flex: 1, minWidth: '90px', justifyContent: 'center' }}
+            className="btn-secondary studio-button flex-1 min-w-[90px] justify-center sm:flex-initial"
+            style={{ padding: '5px 10px', fontSize: '0.75rem' }}
             title="Download file to your local workspace"
           >
-            <Download size={12} />
-            <span className="whitespace-nowrap">Download</span>
+            <Download size={12} className="flex-shrink-0" />
+            <span>Download</span>
           </button>
 
           <button
             type="button"
             onClick={handleCopy}
-            className="btn-studio-primary"
-            style={{ padding: '5px 12px', fontSize: '0.75rem', flex: 1, minWidth: '100px', justifyContent: 'center' }}
+            className="btn-studio-primary studio-button flex-1 min-w-[100px] justify-center sm:flex-initial"
+            style={{ padding: '5px 12px', fontSize: '0.75rem' }}
             title="Copy code to clipboard"
           >
             {copied ? (
               <>
-                <Check size={12} />
-                <span className="whitespace-nowrap">Copied!</span>
+                <Check size={12} className="flex-shrink-0" />
+                <span>Copied!</span>
               </>
             ) : (
               <>
-                <Copy size={12} />
-                <span className="whitespace-nowrap">Copy Code</span>
+                <Copy size={12} className="flex-shrink-0" />
+                <span>Copy Code</span>
               </>
             )}
           </button>
@@ -101,18 +101,18 @@ export const StudioCodeBlock = <T extends string>({
 
       {/* Code Container with Tabs Header */}
       <div
-        className="w-full rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface-1)] overflow-hidden shadow-xs min-w-0"
+        className="code-wrapper rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface-1)] shadow-xs"
         style={{ borderRadius: 'var(--radius-md)' }}
       >
         {/* Tab Navigation Header */}
-        <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[var(--border-subtle)] bg-[var(--bg-surface-2)]/70 overflow-x-auto min-w-0">
-          <div className="flex items-center gap-1 min-w-max">
+        <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[var(--border-subtle)] bg-[var(--bg-surface-2)]/70 min-w-0">
+          <div className="code-tabs items-center gap-1">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => onTabChange(tab.id)}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-xs text-[11px] font-mono font-medium transition-all cursor-pointer whitespace-nowrap ${
+                className={`code-tab flex items-center gap-1 px-2.5 py-1 rounded-xs text-[11px] font-mono font-medium transition-all cursor-pointer ${
                   activeTab === tab.id
                     ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold border border-[var(--border-medium)] shadow-2xs'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)]'
@@ -140,9 +140,9 @@ export const StudioCodeBlock = <T extends string>({
         </div>
 
         {/* Code Content Viewport (Strictly isolated horizontal scroll) */}
-        <div className="relative p-3 overflow-x-auto max-h-[380px] bg-[var(--bg-surface-1)] min-w-0">
+        <div className="code-editor relative p-3 max-h-[380px] bg-[var(--bg-surface-1)]">
           <pre
-            className="font-mono text-[11px] leading-relaxed text-[var(--text-primary)] whitespace-pre selection:bg-[var(--color-primary)] selection:text-[var(--color-primary-contrast)] m-0"
+            className="font-mono text-[11px] leading-relaxed text-[var(--text-primary)] selection:bg-[var(--color-primary)] selection:text-[var(--color-primary-contrast)] m-0"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
             <code>{code}</code>

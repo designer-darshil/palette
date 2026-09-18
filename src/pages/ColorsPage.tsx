@@ -115,58 +115,67 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
         </p>
       </header>
 
-      {/* Filter Bar */}
-      <div className="filter-bar">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
-          <div className="filter-pills">
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', alignSelf: 'center', marginRight: '4px' }}>
+      {/* Responsive Filter Panel */}
+      <div className="filter-panel">
+        <div className="flex flex-col gap-2.5 w-full min-w-0">
+          {/* Spectrum Filter */}
+          <div className="filter-group">
+            <span className="filter-group-label">
               SPECTRUM:
             </span>
-            {hueGroups.map((hg) => (
-              <button
-                key={hg}
-                className={`filter-pill ${selectedHueGroup === hg ? 'active' : ''}`}
-                onClick={() => setSelectedHueGroup(hg)}
-              >
-                {hg}
-              </button>
-            ))}
-          </div>
-
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <div className="filter-pills">
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', alignSelf: 'center', marginRight: '4px' }}>
-                FAMILY:
-              </span>
-              {families.map((f) => (
+            <div className="filter-options filter-options--scroll flex-1">
+              {hueGroups.map((hg) => (
                 <button
-                  key={f}
-                  className={`filter-pill ${selectedFamily === f ? 'active' : ''}`}
-                  onClick={() => setSelectedFamily(f)}
+                  key={hg}
+                  className={`filter-option ${selectedHueGroup === hg ? 'active' : ''}`}
+                  onClick={() => setSelectedHueGroup(hg)}
                 >
-                  {f}
+                  {hg}
                 </button>
               ))}
             </div>
+          </div>
 
-            <div className="filter-pills">
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', alignSelf: 'center', marginRight: '4px' }}>
+          {/* Family & Tone Filters */}
+          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 flex-wrap w-full min-w-0">
+            <div className="filter-group flex-1 min-w-0">
+              <span className="filter-group-label">
+                FAMILY:
+              </span>
+              <div className="filter-options filter-options--scroll flex-1">
+                {families.map((f) => (
+                  <button
+                    key={f}
+                    className={`filter-option ${selectedFamily === f ? 'active' : ''}`}
+                    onClick={() => setSelectedFamily(f)}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="filter-group flex-1 min-w-0">
+              <span className="filter-group-label">
                 TONE:
               </span>
-              {tones.map((t) => (
-                <button
-                  key={t}
-                  className={`filter-pill ${selectedTone === t ? 'active' : ''}`}
-                  onClick={() => setSelectedTone(t)}
-                >
-                  {t}
-                </button>
-              ))}
+              <div className="filter-options filter-options--scroll flex-1">
+                {tones.map((t) => (
+                  <button
+                    key={t}
+                    className={`filter-option ${selectedTone === t ? 'active' : ''}`}
+                    onClick={() => setSelectedTone(t)}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        {/* Responsive Search Input */}
+        <div className="filter-search mt-1">
           <Search size={14} color="#9DA3AF" style={{ position: 'absolute', left: 10 }} />
           <input
             type="text"

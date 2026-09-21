@@ -8,6 +8,7 @@ import { generateCollectionPageSchema } from '../utils/schemaGenerator';
 import { PageHeader } from '../components/common/PageHeader';
 import { ResultsCountBar } from '../components/common/ResultsCountBar';
 import { EmptyState } from '../components/common/EmptyState';
+import { Button } from '../components/common/Button';
 
 interface ColorsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -110,6 +111,17 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
         sectionLabel="Digital library · Specimen catalog"
         title="Curated Color Specimens"
         description={`A calibrated catalog of ${colors.length.toLocaleString()} digital pigments across all 16 spectrum families. Each tone is documented with sRGB, HSL, OKLCH, contrast scores against dark and light grounds, and harmonious relationships.`}
+        actions={
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => onNavigate({ path: 'color-name-finder' })}
+            className="flex items-center gap-2"
+          >
+            <Search size={14} className="text-teal-400" />
+            <span>Color Name Finder</span>
+          </Button>
+        }
       />
 
       {/* Responsive Filter Panel */}

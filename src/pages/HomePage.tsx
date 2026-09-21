@@ -1,5 +1,5 @@
 import React from 'react';
-import { Palette, Layers, Sparkles } from 'lucide-react';
+import { Palette, Layers, Sparkles, Wand2, Compass, Grid, Image as ImageIcon, ShieldCheck, Search, ArrowRight } from 'lucide-react';
 import { RouteType } from '../types';
 import { CURATED_COLORS } from '../data/colors';
 import { CURATED_PALETTES } from '../data/palettes';
@@ -16,6 +16,99 @@ import { generateWebSiteSchema } from '../utils/schemaGenerator';
 import { Link } from '../components/common/Link';
 import { Button } from '../components/common/Button';
 import { Analytics } from '../utils/analytics';
+
+const CREATIVE_STUDIOS = [
+  {
+    id: 'ramps',
+    title: 'Ramps Studio',
+    badge: 'OKLCH Engine',
+    badgeColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+    description: 'Generate accessible 50–950 design token scales and semantic neutrals from a single brand hue.',
+    icon: Layers,
+    iconColor: 'text-emerald-400',
+    path: { path: 'ramps' } as RouteType,
+  },
+  {
+    id: 'palette-generator',
+    title: 'Palette Generator',
+    badge: 'Generative AI',
+    badgeColor: 'text-pink-400 bg-pink-500/10 border-pink-500/20',
+    description: 'Create balanced harmonious schemes with interactive swatch locking, spacebar rolls, and export options.',
+    icon: Sparkles,
+    iconColor: 'text-pink-400',
+    path: { path: 'palette-generator' } as RouteType,
+  },
+  {
+    id: 'mesh',
+    title: 'Mesh Gradient Studio',
+    badge: 'Multi-Point Canvas',
+    badgeColor: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+    description: 'Compose fluid organic radial gradients and export production CSS, SVG, or high-res canvases.',
+    icon: Wand2,
+    iconColor: 'text-purple-400',
+    path: { path: 'mesh' } as RouteType,
+  },
+  {
+    id: 'pattern-studio',
+    title: 'Pattern Studio',
+    badge: 'SVG Vector',
+    badgeColor: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+    description: 'Algorithmic geometric textures, bauhaus motifs, and tileable vector patterns calibrated to your palette.',
+    icon: Grid,
+    iconColor: 'text-amber-400',
+    path: { path: 'pattern-studio' } as RouteType,
+  },
+  {
+    id: 'extract-from-image',
+    title: 'Extract from Image',
+    badge: 'Photo Vision',
+    badgeColor: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
+    description: 'Upload photographs to extract dominant hues, vibrance vectors, and calibrated design system swatches.',
+    icon: ImageIcon,
+    iconColor: 'text-blue-400',
+    path: { path: 'extract-from-image' } as RouteType,
+  },
+  {
+    id: 'brand-kit',
+    title: 'Brand Kit Studio',
+    badge: 'Design System',
+    badgeColor: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+    description: 'Build complete brand guideline sheets with simulated UI elements, token variables, and typographic contrast.',
+    icon: Palette,
+    iconColor: 'text-rose-400',
+    path: { path: 'brand-kit' } as RouteType,
+  },
+  {
+    id: 'contrast-checker',
+    title: 'Contrast Checker',
+    badge: 'WCAG AAA / AA',
+    badgeColor: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
+    description: 'Validate accessibility ratios in real time with automated lightness nudging for compliant text.',
+    icon: ShieldCheck,
+    iconColor: 'text-indigo-400',
+    path: { path: 'contrast-checker' } as RouteType,
+  },
+  {
+    id: 'color-name-finder',
+    title: 'Color Name Finder',
+    badge: '44,000+ Pigments',
+    badgeColor: 'text-teal-400 bg-teal-500/10 border-teal-500/20',
+    description: 'Reverse look up exact and nearest pigment titles across historical catalogs, CIELAB, and natural minerals.',
+    icon: Search,
+    iconColor: 'text-teal-400',
+    path: { path: 'color-name-finder' } as RouteType,
+  },
+  {
+    id: 'antigravity',
+    title: 'Antigravity Studio',
+    badge: 'Physics Sandbox',
+    badgeColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
+    description: 'Interactive particle physics simulation demonstrating chromatic gravity, repulsions, and collisions.',
+    icon: Compass,
+    iconColor: 'text-cyan-400',
+    path: { path: 'antigravity' } as RouteType,
+  },
+];
 
 interface HomePageProps {
   onNavigate: (route: RouteType) => void;
@@ -185,6 +278,55 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Explore Live Colors
             </Button>
           </Link>
+        </div>
+      </section>
+
+      {/* Creative Studios & Color Engineering Grid */}
+      <section className="mb-14">
+        <div className="flex justify-between items-end mb-6 pb-2 border-b border-[var(--border-subtle)]">
+          <div>
+            <span className="page-category-label">Generative Engines &amp; Workspaces</span>
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-[var(--text-primary)]">
+              Creative Studios &amp; Color Engineering
+            </h2>
+          </div>
+          <span className="text-xs font-mono text-[var(--text-tertiary)] hidden sm:inline-block">
+            9 INTERACTIVE ENGINES
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {CREATIVE_STUDIOS.map((studio) => {
+            const Icon = studio.icon;
+            return (
+              <Link
+                key={studio.id}
+                to={studio.path}
+                onNavigate={onNavigate}
+                className="group p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-[var(--radius-md)] flex flex-col justify-between hover:border-[var(--border-strong)] hover:shadow-[var(--shadow-sm)] hover:-translate-y-0.5 transition-all text-left"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-9 h-9 rounded-[var(--radius-sm)] bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <Icon size={18} className={studio.iconColor} />
+                    </div>
+                    <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${studio.badgeColor}`}>
+                      {studio.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-[var(--text-primary)] mb-1 group-hover:text-[var(--color-primary)] transition-colors flex items-center justify-between">
+                    <span>{studio.title}</span>
+                    <ArrowRight size={14} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[var(--color-primary)]" />
+                  </h3>
+
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                    {studio.description}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
 

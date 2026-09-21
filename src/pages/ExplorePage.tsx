@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Compass, Sparkles, TrendingUp, Clock, Shuffle, Layers, ArrowRight, Palette, Grid, Heart, Gamepad2 } from 'lucide-react';
+import { Compass, Sparkles, TrendingUp, Clock, Shuffle, Layers, ArrowRight, Palette, Grid, Heart, Gamepad2, Search, Wand2 } from 'lucide-react';
 import { RouteType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useCollections } from '../context/CollectionContext';
@@ -204,6 +204,81 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Quick Discovery Channels */}
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Link
+          to={{ path: 'combos' }}
+          onNavigate={onNavigate}
+          className="group p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md hover:border-[var(--border-strong)] hover:shadow-sm transition-all flex items-center gap-3"
+        >
+          <div className="w-8 h-8 rounded bg-rose-500/10 text-rose-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+            <Wand2 size={16} />
+          </div>
+          <div className="min-w-0">
+            <div className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--color-primary)] transition-colors truncate">
+              Harmonies &amp; Combos
+            </div>
+            <div className="text-[10px] text-[var(--text-tertiary)] font-mono truncate">
+              Curated Pairs &amp; Triads
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to={{ path: 'gradients' }}
+          onNavigate={onNavigate}
+          className="group p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md hover:border-[var(--border-strong)] hover:shadow-sm transition-all flex items-center gap-3"
+        >
+          <div className="w-8 h-8 rounded bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+            <Sparkles size={16} />
+          </div>
+          <div className="min-w-0">
+            <div className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--color-primary)] transition-colors truncate">
+              CSS Gradients
+            </div>
+            <div className="text-[10px] text-[var(--text-tertiary)] font-mono truncate">
+              Multi-stop blends
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to={{ path: 'color-name-finder' }}
+          onNavigate={onNavigate}
+          className="group p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md hover:border-[var(--border-strong)] hover:shadow-sm transition-all flex items-center gap-3"
+        >
+          <div className="w-8 h-8 rounded bg-teal-500/10 text-teal-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+            <Search size={16} />
+          </div>
+          <div className="min-w-0">
+            <div className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--color-primary)] transition-colors truncate">
+              Name Finder
+            </div>
+            <div className="text-[10px] text-[var(--text-tertiary)] font-mono truncate">
+              44,000+ pigments
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to={{ path: 'play' }}
+          onNavigate={onNavigate}
+          className="group p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md hover:border-[var(--border-strong)] hover:shadow-sm transition-all flex items-center gap-3"
+        >
+          <div className="w-8 h-8 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+            <Gamepad2 size={16} />
+          </div>
+          <div className="min-w-0">
+            <div className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--color-primary)] transition-colors truncate">
+              Color Games
+            </div>
+            <div className="text-[10px] text-[var(--text-tertiary)] font-mono truncate">
+              Hexle &amp; Acuity
+            </div>
+          </div>
+        </Link>
       </section>
 
       {/* Filter and Explore Results Section */}

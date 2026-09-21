@@ -97,7 +97,66 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
       ).slice(0, 2)
     : [];
 
+  const studioToolsList = [
+    {
+      id: 'color-name-finder',
+      name: 'Color Name Finder',
+      desc: 'Identify official names & nearest perceptual match for any HEX',
+      route: { path: 'color-name-finder' as const },
+    },
+    {
+      id: 'contrast-checker',
+      name: 'Contrast Checker',
+      desc: 'WCAG 2.1 compliance ratio & remediation tokens',
+      route: { path: 'contrast-checker' as const },
+    },
+    {
+      id: 'ramps',
+      name: 'Ramps Studio',
+      desc: 'OKLCH color scales & semantic design tokens',
+      route: { path: 'ramps' as const },
+    },
+    {
+      id: 'mesh',
+      name: 'Mesh Gradient Studio',
+      desc: 'Radial mesh gradient generative canvas',
+      route: { path: 'mesh' as const },
+    },
+    {
+      id: 'antigravity',
+      name: 'Antigravity Studio',
+      desc: 'Kinetic physics simulation & motion token exports',
+      route: { path: 'antigravity' as const },
+    },
+    {
+      id: 'pattern-studio',
+      name: 'Pattern Studio',
+      desc: 'Algorithmic geometric textures & SVG wallpaper generator',
+      route: { path: 'pattern-studio' as const },
+    },
+    {
+      id: 'extract-from-image',
+      name: 'Extract from Image',
+      desc: 'Sample and extract color systems from photos',
+      route: { path: 'extract-from-image' as const },
+    },
+  ];
+
+  const matchedTools = rawQ
+    ? studioToolsList.filter(
+        (t) =>
+          t.name.toLowerCase().includes(rawQ) ||
+          t.desc.toLowerCase().includes(rawQ) ||
+          t.id.includes(rawQ)
+      )
+    : [];
+
   const allResults: { type: string; label: string; route: RouteType }[] = [
+    ...matchedTools.map((t) => ({
+      type: 'tool',
+      label: t.name,
+      route: t.route,
+    })),
     ...matchedColors.map((c) => ({
       type: 'color',
       label: `${c.name} (${c.hex})`,
@@ -195,16 +254,49 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                 Popular Searches &amp; Coordinates
               </span>
               <div className="flex flex-wrap gap-1.5">
-                {['#1D4ED8', '#E63946', 'Swiss Editorial', 'Luxury', 'Earthen', 'Dots Pattern', 'Elena Voss'].map((term) => (
+                {['#1D4ED8', 'Color Name Finder', '#E63946', 'Contrast Checker', 'Swiss Editorial', 'Luxury', 'Dots Pattern', 'Elena Voss'].map((term) => (
                   <button
                     key={term}
-                    onClick={() => setQuery(term)}
+                    onClick={() => {
+                      if (term === 'Color Name Finder') {
+                        handleSelect({ path: 'color-name-finder' });
+                      } else if (term === 'Contrast Checker') {
+                        handleSelect({ path: 'contrast-checker' });
+                      } else {
+                        setQuery(term);
+                      }
+                    }}
                     className="filter-pill text-xs px-2.5 py-1"
                   >
                     {term}
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Studios & Tools */}
+          {matchedTools.length > 0 && (
+            <div>
+              <div className="px-3 py-1.5 text-xs text-[var(--text-tertiary)] font-sans font-semibold tracking-tight">
+                Studio Engines &amp; Utilities
+              </div>
+              {matchedTools.map((tool) => (
+                <div
+                  key={tool.id}
+                  onClick={() => handleSelect(tool.route)}
+                  className="search-result-item cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="p-1 rounded-xs bg-[var(--bg-surface-3)] text-teal-400">
+                      <Wand2 size={13} />
+                    </span>
+                    <span className="font-bold text-xs text-[var(--text-primary)]">{tool.name}</span>
+                    <span className="text-[11px] text-[var(--text-secondary)]">{tool.desc}</span>
+                  </div>
+                  <ArrowRight size={13} className="text-[var(--text-tertiary)]" />
+                </div>
+              ))}
             </div>
           )}
 

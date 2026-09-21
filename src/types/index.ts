@@ -201,6 +201,10 @@ export type RouteType =
   | { path: 'mesh'; p?: string; s?: string; sf?: string; in?: string; bl?: string; gr?: string; rot?: string; sc?: string; bg?: string; scol?: string; pts?: string }
   | { path: 'api-mesh'; p?: string; s?: string; sf?: string; in?: string; bl?: string; gr?: string; rot?: string; sc?: string; bg?: string; scol?: string; pts?: string; format?: string }
   | { path: 'palette-generator'; colors?: string }
+  | { path: 'generate'; colors?: string }
+  | { path: 'create'; b?: string; a?: string; a2?: string; m?: string; s?: string; c?: string; f?: string; v?: string; xr?: string; xt?: string }
+  | { path: 'about' }
+  | { path: 'search'; q?: string }
   | { path: 'contrast-checker'; fg?: string; bg?: string }
   | { path: 'color-name-finder'; hex?: string }
   | { path: 'extract-from-image'; imagePreset?: string }

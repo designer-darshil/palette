@@ -1,328 +1,472 @@
-import React from 'react';
-import { Palette, Layers, Sparkles, Wand2, Compass, Grid, Image as ImageIcon, ShieldCheck, Search, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { ArrowUpRight, RotateCcw, Copy, Check } from 'lucide-react';
 import { RouteType } from '../types';
-import { CURATED_COLORS } from '../data/colors';
 import { CURATED_PALETTES } from '../data/palettes';
-import { CURATED_COMBOS } from '../data/combos';
-import { CURATED_GRADIENTS } from '../data/gradients';
-import { ColorCard } from '../components/ColorCard';
-import { PaletteCard } from '../components/PaletteCard';
-import { ComboCard } from '../components/ComboCard';
-import { GradientCard } from '../components/GradientCard';
+import { CURATED_COLLECTIONS } from '../data/collections';
 import { copyToClipboard } from '../utils/colorUtils';
-import { useToast } from '../context/ToastContext';
+import { generatePalette, GeneratorColor } from '../utils/paletteGenerator';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebSiteSchema } from '../utils/schemaGenerator';
 import { Link } from '../components/common/Link';
-import { Button } from '../components/common/Button';
 import { Analytics } from '../utils/analytics';
-
-const CREATIVE_STUDIOS = [
-  {
-    id: 'ramps',
-    title: 'Ramps Studio',
-    badge: 'OKLCH Engine',
-    badgeColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-    description: 'Generate accessible 50–950 design token scales and semantic neutrals from a single brand hue.',
-    icon: Layers,
-    iconColor: 'text-emerald-400',
-    path: { path: 'ramps' } as RouteType,
-  },
-  {
-    id: 'palette-generator',
-    title: 'Palette Generator',
-    badge: 'Generative AI',
-    badgeColor: 'text-pink-400 bg-pink-500/10 border-pink-500/20',
-    description: 'Create balanced harmonious schemes with interactive swatch locking, spacebar rolls, and export options.',
-    icon: Sparkles,
-    iconColor: 'text-pink-400',
-    path: { path: 'palette-generator' } as RouteType,
-  },
-  {
-    id: 'mesh',
-    title: 'Mesh Gradient Studio',
-    badge: 'Multi-Point Canvas',
-    badgeColor: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
-    description: 'Compose fluid organic radial gradients and export production CSS, SVG, or high-res canvases.',
-    icon: Wand2,
-    iconColor: 'text-purple-400',
-    path: { path: 'mesh' } as RouteType,
-  },
-  {
-    id: 'pattern-studio',
-    title: 'Pattern Studio',
-    badge: 'SVG Vector',
-    badgeColor: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
-    description: 'Algorithmic geometric textures, bauhaus motifs, and tileable vector patterns calibrated to your palette.',
-    icon: Grid,
-    iconColor: 'text-amber-400',
-    path: { path: 'pattern-studio' } as RouteType,
-  },
-  {
-    id: 'extract-from-image',
-    title: 'Extract from Image',
-    badge: 'Photo Vision',
-    badgeColor: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
-    description: 'Upload photographs to extract dominant hues, vibrance vectors, and calibrated design system swatches.',
-    icon: ImageIcon,
-    iconColor: 'text-blue-400',
-    path: { path: 'extract-from-image' } as RouteType,
-  },
-  {
-    id: 'brand-kit',
-    title: 'Brand Kit Studio',
-    badge: 'Design System',
-    badgeColor: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
-    description: 'Build complete brand guideline sheets with simulated UI elements, token variables, and typographic contrast.',
-    icon: Palette,
-    iconColor: 'text-rose-400',
-    path: { path: 'brand-kit' } as RouteType,
-  },
-  {
-    id: 'contrast-checker',
-    title: 'Contrast Checker',
-    badge: 'WCAG AAA / AA',
-    badgeColor: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
-    description: 'Validate accessibility ratios in real time with automated lightness nudging for compliant text.',
-    icon: ShieldCheck,
-    iconColor: 'text-indigo-400',
-    path: { path: 'contrast-checker' } as RouteType,
-  },
-  {
-    id: 'color-name-finder',
-    title: 'Color Name Finder',
-    badge: '44,000+ Pigments',
-    badgeColor: 'text-teal-400 bg-teal-500/10 border-teal-500/20',
-    description: 'Reverse look up exact and nearest pigment titles across historical catalogs, CIELAB, and natural minerals.',
-    icon: Search,
-    iconColor: 'text-teal-400',
-    path: { path: 'color-name-finder' } as RouteType,
-  },
-  {
-    id: 'antigravity',
-    title: 'Antigravity Studio',
-    badge: 'Physics Sandbox',
-    badgeColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
-    description: 'Interactive particle physics simulation demonstrating chromatic gravity, repulsions, and collisions.',
-    icon: Compass,
-    iconColor: 'text-cyan-400',
-    path: { path: 'antigravity' } as RouteType,
-  },
-];
+import '../styles/home.css';
 
 interface HomePageProps {
   onNavigate: (route: RouteType) => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
-  const { showToast } = useToast();
+/* ─── Color Families for Section 04 ─── */
+const COLOR_FAMILIES = [
+  { name: 'Reds', hex: '#FF3B30', text: '#FFFFFF', mood: 'warm' },
+  { name: 'Oranges', hex: '#FF9500', text: '#FFFFFF', mood: 'energetic' },
+  { name: 'Yellows', hex: '#FFD60A', text: '#171717', mood: 'cheerful' },
+  { name: 'Greens', hex: '#34C759', text: '#FFFFFF', mood: 'natural' },
+  { name: 'Blues', hex: '#00AEEF', text: '#FFFFFF', mood: 'calm' },
+  { name: 'Purples', hex: '#7B2CBF', text: '#FFFFFF', mood: 'creative' },
+  { name: 'Neutrals', hex: '#2D3142', text: '#FFFFFF', mood: 'minimal' },
+  { name: 'Darks', hex: '#171717', text: '#FFFFFF', mood: 'bold' },
+];
 
-  const handleCopyQuick = async (hex: string, name: string) => {
-    const success = await copyToClipboard(hex);
-    if (success) {
-      Analytics.trackColorCopy(hex, 'HEX', name);
-      showToast(`Copied ${hex}`, name, hex);
+/* ─── Image Extraction Pin Specimen ─── */
+const IMAGE_SPECIMEN_PINS = [
+  { id: 'pin-1', x: 28, y: 35, hex: '#244D3B', name: 'Kyoto Bamboo' },
+  { id: 'pin-2', x: 52, y: 65, hex: '#7DAA83', name: 'Moss Emerald' },
+  { id: 'pin-3', x: 74, y: 25, hex: '#D8C7A8', name: 'Morning Mist' },
+  { id: 'pin-4', x: 82, y: 78, hex: '#54463A', name: 'Cedar Trunk' },
+  { id: 'pin-5', x: 42, y: 88, hex: '#16241C', name: 'Obsidian Soil' },
+];
+
+export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
+  /* ─── Parallax State for Hero Shapes ─── */
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth < 768) return;
+      const { innerWidth, innerHeight } = window;
+      const x = (e.clientX / innerWidth - 0.5) * 2; // -1 to 1
+      const y = (e.clientY / innerHeight - 0.5) * 2;
+      setMouseOffset({ x, y });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  /* ─── Section 02: Color of the Moment State ─── */
+  const [momentCopied, setMomentCopied] = useState(false);
+  const momentColor = {
+    name: 'Coral Red',
+    hex: '#FF3B30',
+    rgb: '255 / 59 / 48',
+    role: 'PRIMARY CHROMATIC SPECIMEN',
+  };
+
+  const handleCopyMoment = async (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const ok = await copyToClipboard(momentColor.hex);
+    if (ok) {
+      Analytics.trackColorCopy(momentColor.hex, 'HEX', momentColor.name);
+      setMomentCopied(true);
+      setTimeout(() => setMomentCopied(false), 1800);
     }
   };
 
+  /* ─── Section 05: Real Interactive Generator State ─── */
+  const [generatedColors, setGeneratedColors] = useState<GeneratorColor[]>(() =>
+    generatePalette(5, [], 'curated')
+  );
+  const [selectedSlotIndex, setSelectedSlotIndex] = useState(0);
+
+  const handleReGenerate = () => {
+    const next = generatePalette(5, [], 'curated');
+    setGeneratedColors(next);
+  };
+
+  const activeGeneratorColor = generatedColors[selectedSlotIndex] || generatedColors[0];
+
+  /* ─── Section 06: Image Swatch Copy State ─── */
+  const [copiedPin, setCopiedPin] = useState<string | null>(null);
+
+  const handleCopyPinHex = async (hex: string, id: string) => {
+    const ok = await copyToClipboard(hex);
+    if (ok) {
+      Analytics.trackColorCopy(hex, 'HEX', 'Image Pin');
+      setCopiedPin(id);
+      setTimeout(() => setCopiedPin(null), 1800);
+    }
+  };
+
+  /* 4 Curated Palettes for Section 03 */
+  const featuredPalettes = CURATED_PALETTES.slice(0, 4);
+
+  /* 3 Curated Collections for Section 07 */
+  const featuredCollections = CURATED_COLLECTIONS.slice(0, 3);
+
   return (
-    <div className="home-container max-w-[1360px] mx-auto px-4 md:px-8">
+    <div className="home-reimagined">
       <SEOHead
         rawTitle
-        title="KROMA — Digital Color Library & Design Specimen Reference"
-        description="A curated digital color library, modernist palette catalogue, WCAG AAA harmony combinations, and CSS gradient specimens for designers and digital architects."
+        title="KROMA — The Digital Color Studio"
+        description="An interactive digital color laboratory to discover, explore, generate, and create with color. Perceptual palettes, OKLCH tokens, and editorial color science."
         canonicalPath="/"
         jsonLd={generateWebSiteSchema()}
       />
 
-      {/* Hero Section */}
-      <section className="hero-editorial">
-        <div className="hero-editorial-grid">
-          <div className="hero-copy-col">
-            <div className="hero-kicker">
-              <span className="brand-glyph" style={{ width: 10, height: 10 }} />
-              <span>Editorial Digital Color Reference</span>
-            </div>
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 01 — HERO / COLOR CANVAS
+          ═════════════════════════════════════════════════════════ */}
+      <section className="home-hero" ref={heroRef} aria-label="Hero Introduction">
+        {/* Parallax Color Swatch Shapes */}
+        <div className="home-hero__canvas" aria-hidden="true">
+          <div
+            className="home-hero__shape home-hero__shape--1"
+            style={{
+              transform: `rotate(12deg) translate(${mouseOffset.x * 14}px, ${mouseOffset.y * 12}px)`,
+            }}
+          />
+          <div
+            className="home-hero__shape home-hero__shape--2"
+            style={{
+              transform: `translate(${mouseOffset.x * -10}px, ${mouseOffset.y * -8}px)`,
+            }}
+          />
+          <div
+            className="home-hero__shape home-hero__shape--3"
+            style={{
+              transform: `rotate(-8deg) translate(${mouseOffset.x * 8}px, ${mouseOffset.y * 14}px)`,
+            }}
+          />
+          <div
+            className="home-hero__shape home-hero__shape--4"
+            style={{
+              transform: `rotate(18deg) translate(${mouseOffset.x * -12}px, ${mouseOffset.y * 10}px)`,
+            }}
+          />
+          <div
+            className="home-hero__shape home-hero__shape--5"
+            style={{
+              transform: `rotate(-14deg) translate(${mouseOffset.x * 15}px, ${mouseOffset.y * -11}px)`,
+            }}
+          />
+          <div
+            className="home-hero__shape home-hero__shape--6"
+            style={{
+              transform: `rotate(6deg) translate(${mouseOffset.x * -8}px, ${mouseOffset.y * -12}px)`,
+            }}
+          />
+        </div>
 
-            <h1 className="hero-headline">
-              COLOR, <br />
-              <span>curated.</span>
-            </h1>
+        {/* Hero Typography & Content */}
+        <div className="home-hero__header">
+          <span className="home-label">THE COLOR STUDIO</span>
+          <h1 className="home-hero__headline">
+            COLOR<br />
+            CHANGES<br />
+            EVERYTHING.
+          </h1>
+        </div>
 
-            <p className="hero-lead">
-              A serious, calibrated library of pigment hues, modernist palette systems, color harmony combos, and CSS gradient specimens for designers and front-end architects.
+        <div className="home-hero__content-row">
+          <div className="home-hero__copy-group">
+            <p className="home-hero__lead">
+              Discover palettes, generate new combinations, and build a visual language that feels like yours.
             </p>
-
-            <div className="hero-actions flex items-center gap-3 flex-wrap mt-6">
-              <Link to={{ path: 'ramps' }} onNavigate={onNavigate}>
-                <Button variant="primary" size="md" iconLeft={<Sparkles size={15} />}>
-                  Ramps Studio (OKLCH)
-                </Button>
+            <div className="home-hero__actions">
+              <Link to={{ path: 'colors' }} onNavigate={onNavigate} className="home-btn-primary">
+                <span>Explore Colors</span>
+                <ArrowUpRight size={15} />
               </Link>
-
-              <Link to={{ path: 'colors' }} onNavigate={onNavigate}>
-                <Button variant="secondary" size="md">
-                  Explore Colors
-                </Button>
-              </Link>
-
-              <Link to={{ path: 'palettes' }} onNavigate={onNavigate}>
-                <Button variant="secondary" size="md" iconLeft={<Layers size={15} />}>
-                  Palette Systems
-                </Button>
+              <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="home-btn-secondary">
+                <span>Generate a Palette</span>
               </Link>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="hero-specimen-stage">
-            <div className="hero-specimen-header flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)] mb-3 pb-2 border-b border-[var(--border-subtle)]">
-              <span>Specimen Nº 01 — Modernist Triad</span>
-              <span className="text-emerald-400">WCAG AAA (18.9:1)</span>
-            </div>
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 02 — COLOR OF THE MOMENT
+          ═════════════════════════════════════════════════════════ */}
+      <section className="home-section-medium home-moment" aria-label="Color of the Moment">
+        <span className="home-label">COLOR OF THE MOMENT</span>
+        <div
+          className="home-moment__block"
+          style={{ backgroundColor: momentColor.hex, color: '#FFFFFF' }}
+          onClick={handleCopyMoment}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && handleCopyMoment()}
+          aria-label={`Copy color ${momentColor.name} (${momentColor.hex})`}
+        >
+          <div className="home-moment__top">
+            <span>SPECIMEN Nº 01</span>
+            <span>{momentColor.role}</span>
+          </div>
 
-            <div className="hero-specimen-plates flex flex-col sm:flex-row gap-3 h-[280px]">
-              <div
-                className="hero-plate-large flex-1 rounded-[var(--radius-sm)] p-4 flex flex-col justify-between cursor-pointer transition-transform hover:-translate-y-0.5 shadow-[var(--shadow-sm)]"
-                style={{ backgroundColor: '#1D4ED8', color: '#FFFFFF' }}
-                onClick={() => handleCopyQuick('#1D4ED8', 'Celestial Cobalt')}
-              >
-                <span className="font-mono text-xs opacity-85">
-                  PRIMARY SPECIMEN
-                </span>
-                <div>
-                  <div className="font-bold text-xl">Celestial Cobalt</div>
-                  <div className="font-mono text-sm opacity-90">#1D4ED8</div>
-                </div>
+          <div className="home-moment__bottom">
+            <div>
+              <div className="home-moment__name">{momentColor.name}</div>
+              <div className="home-moment__specs">
+                {momentColor.hex} • RGB {momentColor.rgb}
               </div>
-
-              <div className="hero-plate-stack w-full sm:w-[150px] flex flex-col gap-2">
-                <div
-                  className="hero-plate-sub flex-1 rounded-[var(--radius-sm)] p-2.5 flex flex-col justify-center cursor-pointer transition-transform hover:-translate-y-0.5"
-                  style={{ backgroundColor: '#E63946', color: '#FFFFFF' }}
-                  onClick={() => handleCopyQuick('#E63946', 'Vermilion')}
-                >
-                  <span className="font-semibold text-sm">Vermilion</span>
-                  <span className="font-mono text-xs opacity-90">#E63946</span>
-                </div>
-
-                <div
-                  className="hero-plate-sub flex-1 rounded-[var(--radius-sm)] p-2.5 flex flex-col justify-center cursor-pointer transition-transform hover:-translate-y-0.5"
-                  style={{ backgroundColor: '#E9C46A', color: '#111111' }}
-                  onClick={() => handleCopyQuick('#E9C46A', 'Saffron Ochre')}
-                >
-                  <span className="font-semibold text-sm">Saffron Ochre</span>
-                  <span className="font-mono text-xs opacity-90">#E9C46A</span>
-                </div>
-
-                <div
-                  className="hero-plate-sub flex-1 rounded-[var(--radius-sm)] p-2.5 flex flex-col justify-center cursor-pointer transition-transform hover:-translate-y-0.5 border border-white/10"
-                  style={{ backgroundColor: '#111215', color: '#FFFFFF' }}
-                  onClick={() => handleCopyQuick('#111215', 'Tokyo Sumi')}
-                >
-                  <span className="font-semibold text-sm">Tokyo Sumi</span>
-                  <span className="font-mono text-xs opacity-90">#111215</span>
-                </div>
-              </div>
             </div>
 
-            <div className="flex justify-between items-center text-xs text-[var(--text-tertiary)] mt-3">
-              <span>Click any swatch to copy HEX</span>
-              <span className="font-mono">sRGB • OKLCH • WCAG</span>
-            </div>
+            <button
+              type="button"
+              className="home-moment__copy-action"
+              onClick={handleCopyMoment}
+              aria-label="Copy color"
+            >
+              {momentCopied ? (
+                <>
+                  <Check size={14} />
+                  <span>COPIED</span>
+                </>
+              ) : (
+                <>
+                  <Copy size={14} />
+                  <span>COPY COLOR</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Ramps Studio Flagship Doorway */}
-      <section className="mb-10">
-        <div className="bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-[var(--radius-md)] p-6 md:p-7 flex items-center justify-between flex-wrap gap-5 shadow-[var(--shadow-sm)] hover:border-[var(--border-strong)] transition-all">
-          <div className="max-w-xl">
-            <div className="inline-flex items-center gap-2 mb-2 text-xs font-semibold text-[var(--color-primary-text)]">
-              <span className="w-2 h-2 rounded-full bg-[var(--color-primary)] inline-block" />
-              <span className="tracking-tight">Ramps Studio — Design Token Engine</span>
-            </div>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1 text-[var(--text-primary)]">
-              Color ramps and semantic tokens your agent can read.
-            </h2>
-            <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
-              Generate complete accessible design token systems from one brand color: perceptually-even OKLCH scales (50–950), scheme-derived accents, chroma-matched neutrals, and enforced WCAG AAA/AA contrast.
-            </p>
-          </div>
-
-          <Link to={{ path: 'ramps' }} onNavigate={onNavigate}>
-            <Button variant="primary" size="md">
-              Launch Ramps Studio
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Live Atmospheric Doorway */}
-      <section className="mb-12">
-        <div className="bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-[var(--radius-md)] p-6 md:p-7 flex items-center justify-between flex-wrap gap-5 shadow-[var(--shadow-sm)] hover:border-[var(--border-strong)] transition-all">
-          <div className="max-w-xl">
-            <div className="inline-flex items-center gap-2 mb-2 text-xs font-semibold text-rose-400">
-              <span className="w-2 h-2 rounded-full bg-rose-500 inline-block animate-pulse" />
-              <span className="tracking-tight">Live Atmosphere Broadcast</span>
-            </div>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1 text-[var(--text-primary)]">
-              What does the world look like right now?
-            </h2>
-            <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed">
-              Deterministic real-time chromatic atmospheres calibrated from solar elevation, Rayleigh scatter, time of day, and environmental temperatures.
-            </p>
-          </div>
-
-          <Link to={{ path: 'live' }} onNavigate={onNavigate}>
-            <Button variant="secondary" size="md">
-              Explore Live Colors
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Creative Studios & Color Engineering Grid */}
-      <section className="mb-14">
-        <div className="flex justify-between items-end mb-6 pb-2 border-b border-[var(--border-subtle)]">
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 03 — DISCOVER PALETTES
+          ═════════════════════════════════════════════════════════ */}
+      <section className="home-section-major home-palettes" aria-label="Discover Palettes">
+        <div className="home-palettes__header">
           <div>
-            <span className="page-category-label">Generative Engines &amp; Workspaces</span>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-[var(--text-primary)]">
-              Creative Studios &amp; Color Engineering
-            </h2>
+            <span className="home-label">CURATED SYSTEMS</span>
+            <h2 className="home-palettes__title">DISCOVER PALETTES</h2>
           </div>
-          <span className="text-xs font-mono text-[var(--text-tertiary)] hidden sm:inline-block">
-            9 INTERACTIVE ENGINES
-          </span>
+          <Link to={{ path: 'palettes' }} onNavigate={onNavigate} className="home-btn-secondary">
+            <span>All Palettes ↗</span>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {CREATIVE_STUDIOS.map((studio) => {
-            const Icon = studio.icon;
+        <div className="home-palettes__grid">
+          {featuredPalettes.map((palette) => (
+            <Link
+              key={palette.id}
+              to={{ path: 'palette-detail', slug: palette.slug }}
+              onNavigate={onNavigate}
+              className="home-palette-card"
+              aria-label={`View palette ${palette.title}`}
+            >
+              <div className="home-palette-card__strip">
+                {palette.colors.map((color, idx) => (
+                  <div
+                    key={idx}
+                    className="home-palette-card__swatch"
+                    style={{ backgroundColor: color.hex }}
+                    title={`${color.name} (${color.hex})`}
+                  />
+                ))}
+              </div>
+              <div className="home-palette-card__info">
+                <span className="home-palette-card__name">{palette.title}</span>
+                <span className="home-palette-card__cta">
+                  <span>View</span>
+                  <ArrowUpRight size={13} />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 04 — COLOR EXPLORATION (Split Layout)
+          ═════════════════════════════════════════════════════════ */}
+      <section className="home-section-major home-explore-split" aria-label="Color Exploration">
+        <div className="home-explore-split__left">
+          <span className="home-label">EXPLORATION</span>
+          <h2 className="home-explore-split__title">
+            FIND<br />
+            YOUR<br />
+            COLOR.
+          </h2>
+          <p className="home-explore-split__desc">
+            Explore chromatic families, natural earth pigments, and precision architectural hues.
+          </p>
+        </div>
+
+        <div className="home-explore-grid" role="group" aria-label="Color family tiles">
+          {COLOR_FAMILIES.map((family) => (
+            <Link
+              key={family.name}
+              to={{ path: 'colors' }}
+              onNavigate={onNavigate}
+              className="home-family-tile"
+              style={{ backgroundColor: family.hex, color: family.text }}
+              aria-label={`Explore ${family.name} color family`}
+            >
+              <span className="home-family-tile__label">{family.name}</span>
+              <span className="home-family-tile__hex">{family.hex}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 05 — GENERATE (Dark Dramatic Section)
+          ═════════════════════════════════════════════════════════ */}
+      <section className="home-section-major home-generate-dark" aria-label="Generative Engine">
+        <div className="home-generate-grid">
+          <div>
+            <span className="home-label" style={{ color: '#00AEEF' }}>GENERATIVE STUDIO</span>
+            <h2 className="home-generate__heading">
+              MAKE<br />
+              A COLOR<br />
+              YOU'VE NEVER<br />
+              SEEN.
+            </h2>
+            <p className="home-generate__text">
+              Generate unexpected palettes, starting from a color, image, or idea. Real-time chromatic balance calibrated to harmonious scales.
+            </p>
+            <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="home-btn-primary">
+              <span>Generate Palette</span>
+              <ArrowUpRight size={15} />
+            </Link>
+          </div>
+
+          {/* Working Interactive Mini-Generator */}
+          <div className="home-mini-generator">
+            <div className="home-mini-generator__strip">
+              {generatedColors.map((col, idx) => (
+                <div
+                  key={col.id || idx}
+                  className="home-mini-generator__slot"
+                  style={{
+                    backgroundColor: col.hex,
+                    outline: selectedSlotIndex === idx ? '2px solid #FFFFFF' : 'none',
+                    outlineOffset: '-2px',
+                  }}
+                  onClick={() => setSelectedSlotIndex(idx)}
+                  title={`${col.name} (${col.hex}) - Click to inspect`}
+                />
+              ))}
+            </div>
+
+            <div className="home-mini-generator__specs">
+              <div>
+                <span className="font-bold text-white block text-sm">{activeGeneratorColor.name}</span>
+                <span className="text-xs text-[#888888]">{activeGeneratorColor.hex}</span>
+              </div>
+              <button
+                type="button"
+                className="home-mini-generator__btn"
+                onClick={handleReGenerate}
+                aria-label="Generate new harmonic palette"
+              >
+                <RotateCcw size={14} />
+                <span>GENERATE ↻</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 06 — FROM IMAGE TO COLOR
+          ═════════════════════════════════════════════════════════ */}
+      <section className="home-section-major home-image-extract" aria-label="Extract From Image">
+        <div className="home-image-extract__header">
+          <div>
+            <span className="home-label">PHOTO EXTRACTION</span>
+            <h2 className="home-image-extract__title">YOUR IMAGE. YOUR PALETTE.</h2>
+          </div>
+          <Link to={{ path: 'extract-from-image' }} onNavigate={onNavigate} className="home-btn-secondary">
+            <span>Extract From Image ↗</span>
+          </Link>
+        </div>
+
+        <div
+          className="home-image-extract__stage"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=1200&q=85')`,
+          }}
+        >
+          {/* Chromatic Pin Markers on the photo */}
+          {IMAGE_SPECIMEN_PINS.map((pin) => (
+            <div
+              key={pin.id}
+              className="home-image-pin"
+              style={{
+                left: `${pin.x}%`,
+                top: `${pin.y}%`,
+                backgroundColor: pin.hex,
+              }}
+              title={`${pin.name} (${pin.hex})`}
+            />
+          ))}
+
+          {/* Swatches strip overlay */}
+          <div className="home-image-swatches">
+            {IMAGE_SPECIMEN_PINS.map((pin) => (
+              <button
+                key={pin.id}
+                type="button"
+                className="home-image-swatch-chip"
+                onClick={() => handleCopyPinHex(pin.hex, pin.id)}
+                title={`Click to copy ${pin.hex}`}
+              >
+                <span className="home-image-swatch-dot" style={{ backgroundColor: pin.hex }} />
+                <span>{copiedPin === pin.id ? 'COPIED' : pin.hex}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 07 — SAVED COLORS / COLLECTIONS
+          ═════════════════════════════════════════════════════════ */}
+      <section className="home-section-major home-collections" aria-label="Collections and Inspiration">
+        <div className="home-collections__header">
+          <div>
+            <span className="home-label">INSPIRATION ARCHIVE</span>
+            <h2 className="home-collections__title">KEEP WHAT INSPIRES YOU.</h2>
+          </div>
+          <Link to={{ path: 'collections' }} onNavigate={onNavigate} className="home-btn-secondary">
+            <span>View Collections ↗</span>
+          </Link>
+        </div>
+
+        <div className="home-collections__grid">
+          {featuredCollections.map((col) => {
+            const previewColors = (col.coverPreview || '#171717,#FF3B30,#00AEEF,#34C759,#FFD60A')
+              .split(',')
+              .filter((c) => c.startsWith('#'))
+              .slice(0, 5);
+
             return (
               <Link
-                key={studio.id}
-                to={studio.path}
+                key={col.id}
+                to={{ path: 'collection-detail', slug: col.slug }}
                 onNavigate={onNavigate}
-                className="group p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-[var(--radius-md)] flex flex-col justify-between hover:border-[var(--border-strong)] hover:shadow-[var(--shadow-sm)] hover:-translate-y-0.5 transition-all text-left"
+                className="home-collection-card"
+                aria-label={`View collection ${col.title}`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="w-9 h-9 rounded-[var(--radius-sm)] bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex items-center justify-center group-hover:scale-105 transition-transform">
-                      <Icon size={18} className={studio.iconColor} />
-                    </div>
-                    <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${studio.badgeColor}`}>
-                      {studio.badge}
-                    </span>
+                  <div className="home-collection-card__swatches">
+                    {previewColors.map((hex, idx) => (
+                      <span
+                        key={idx}
+                        className="home-collection-card__swatch"
+                        style={{ backgroundColor: hex }}
+                      />
+                    ))}
                   </div>
-
-                  <h3 className="text-base font-bold text-[var(--text-primary)] mb-1 group-hover:text-[var(--color-primary)] transition-colors flex items-center justify-between">
-                    <span>{studio.title}</span>
-                    <ArrowRight size={14} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-[var(--color-primary)]" />
-                  </h3>
-
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                    {studio.description}
-                  </p>
+                  <div className="home-collection-card__name">{col.title}</div>
+                </div>
+                <div className="home-collection-card__meta">
+                  <span>{col.creator.name}</span> • <span>{col.items.length} items</span>
                 </div>
               </Link>
             );
@@ -330,95 +474,43 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Featured Colors Grid */}
-      <section className="mb-14">
-        <div className="flex justify-between items-end mb-6 pb-2 border-b border-[var(--border-subtle)]">
-          <div>
-            <span className="page-category-label">Curated Gamut</span>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-[var(--text-primary)]">
-              Master Color Specimens
-            </h2>
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 08 — COLOR STATEMENT
+          ═════════════════════════════════════════════════════════ */}
+      <section className="home-statement" aria-label="Final Creative Statement">
+        <h2 className="home-statement__text">
+          THERE'S A<br />
+          COLOR FOR<br />
+          EVERY IDEA.
+        </h2>
+
+        {/* Signature Rocking Rainbow Roller Emblem */}
+        <div className="home-statement__roller-container" aria-hidden="true">
+          <div className="home-statement__roller-rock">
+            <svg
+              width="42"
+              height="42"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect x="3" y="3" width="10" height="14" rx="2.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
+              <rect x="4.2" y="4.2" width="7.6" height="2" rx="0.5" fill="#FF3B30" />
+              <rect x="4.2" y="6.2" width="7.6" height="2" rx="0.5" fill="#FF9500" />
+              <rect x="4.2" y="8.2" width="7.6" height="2" rx="0.5" fill="#FFD60A" />
+              <rect x="4.2" y="10.2" width="7.6" height="2" rx="0.5" fill="#34C759" />
+              <rect x="4.2" y="12.2" width="7.6" height="2" rx="0.5" fill="#00AEEF" />
+              <rect x="4.2" y="14.2" width="7.6" height="2" rx="0.5" fill="#7B2CBF" />
+              <path
+                d="M8 17 L8 18.5 C8 19 8.5 19.5 9 19.5 L15 19.5 C15.5 19.5 16 19.5 16 19.5"
+                stroke="currentColor"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+                fill="none"
+              />
+              <line x1="16" y1="18.5" x2="16" y2="22" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
           </div>
-          <Link to={{ path: 'colors' }} onNavigate={onNavigate}>
-            <Button variant="secondary" size="sm">
-              View All Colors ({CURATED_COLORS.length})
-            </Button>
-          </Link>
-        </div>
-
-        <div className="specimen-grid-colors grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {CURATED_COLORS.slice(0, 4).map((color) => (
-            <ColorCard key={color.id} color={color} onNavigate={onNavigate} />
-          ))}
-        </div>
-      </section>
-
-      {/* Featured Palettes Section */}
-      <section className="mb-14">
-        <div className="flex justify-between items-end mb-6 pb-2 border-b border-[var(--border-subtle)]">
-          <div>
-            <span className="page-category-label">Editorial Systems</span>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-[var(--text-primary)]">
-              Modernist &amp; Earthen Palettes
-            </h2>
-          </div>
-          <Link to={{ path: 'palettes' }} onNavigate={onNavigate}>
-            <Button variant="secondary" size="sm">
-              All Palettes ({CURATED_PALETTES.length})
-            </Button>
-          </Link>
-        </div>
-
-        <div className="specimen-grid-palettes grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {CURATED_PALETTES.slice(0, 2).map((palette) => (
-            <PaletteCard key={palette.id} palette={palette} onNavigate={onNavigate} />
-          ))}
-        </div>
-      </section>
-
-      {/* Color Harmonies / Combos Preview */}
-      <section className="mb-14">
-        <div className="flex justify-between items-end mb-6 pb-2 border-b border-[var(--border-subtle)]">
-          <div>
-            <span className="page-category-label">Relational Theory</span>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-[var(--text-primary)]">
-              Color Harmonies &amp; Combinations
-            </h2>
-          </div>
-          <Link to={{ path: 'combos' }} onNavigate={onNavigate}>
-            <Button variant="secondary" size="sm">
-              All Harmonies ({CURATED_COMBOS.length})
-            </Button>
-          </Link>
-        </div>
-
-        <div className="specimen-grid-combos grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {CURATED_COMBOS.slice(0, 2).map((combo) => (
-            <ComboCard key={combo.id} combo={combo} onNavigate={onNavigate} />
-          ))}
-        </div>
-      </section>
-
-      {/* CSS Gradients Preview */}
-      <section className="mb-12">
-        <div className="flex justify-between items-end mb-6 pb-2 border-b border-[var(--border-subtle)]">
-          <div>
-            <span className="page-category-label">Continuous Gamut</span>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-[var(--text-primary)]">
-              Curated CSS Gradients
-            </h2>
-          </div>
-          <Link to={{ path: 'gradients' }} onNavigate={onNavigate}>
-            <Button variant="secondary" size="sm">
-              All Gradients ({CURATED_GRADIENTS.length})
-            </Button>
-          </Link>
-        </div>
-
-        <div className="specimen-grid-gradients grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {CURATED_GRADIENTS.slice(0, 2).map((gradient) => (
-            <GradientCard key={gradient.id} gradient={gradient} onNavigate={onNavigate} />
-          ))}
         </div>
       </section>
     </div>

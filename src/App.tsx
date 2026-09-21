@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { RouteType } from './types';
+import { Header } from './components/Header';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
-import { KromaLoader } from './components/common/KromaLoader';
+import { RainbowPaintRollerPreloader } from './components/common/RainbowPaintRollerPreloader';
 import { generateFullRampsSystem, normalizeHex, isValidHex, RampsScope, RampsScheme, RampsWcag, RampsNotation, RampsVividness } from './utils/rampsEngine';
 import { deserializeAntigravityConfig, serializeAntigravityConfig, generateMotionTokens, generateCssExport, generateJsExport, generateFramerMotionExport, describeMotion } from './utils/antigravityEngine';
 import { deserializeMeshConfig, serializeMeshConfig, generateMeshCss, generateMeshSvg, generateMeshTokensJson } from './utils/meshEngine';
@@ -14,6 +15,7 @@ import { CURATED_GRADIENTS } from './data/gradients';
 
 // Lazy-loaded route components for optimal initial bundle size and Core Web Vitals
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 const ColorsPage = lazy(() => import('./pages/ColorsPage').then(m => ({ default: m.ColorsPage })));
 const ColorDetailPage = lazy(() => import('./pages/ColorDetailPage').then(m => ({ default: m.ColorDetailPage })));
 const PalettesPage = lazy(() => import('./pages/PalettesPage').then(m => ({ default: m.PalettesPage })));
@@ -324,9 +326,37 @@ function parseUrlToRoute(): RouteType {
   }
 
   // 9. Tools & Generators
-  if (s0 === 'palette-generator' || s0 === 'generator') {
+  if (s0 === 'palette-generator' || s0 === 'generator' || s0 === 'generate') {
     const colors = searchParams.get('colors') || undefined;
-    return { path: 'palette-generator', colors };
+    return { path: 'generate', colors };
+  }
+  if (s0 === 'create') {
+    if (s1 === 'pattern') {
+      return {
+        path: 'pattern-studio',
+        palette: searchParams.get('palette') || undefined,
+        type: searchParams.get('type') || undefined,
+        scale: searchParams.get('scale') || undefined,
+        density: searchParams.get('density') || undefined,
+        rotation: searchParams.get('rotation') || undefined,
+      };
+    }
+    if (s1 === 'mesh') return { path: 'mesh' };
+    if (s1 === 'physics' || s1 === 'antigravity') return { path: 'antigravity' };
+    if (s1 === 'image') return { path: 'extract-from-image' };
+    return {
+      path: 'create',
+      b: searchParams.get('b') || undefined,
+      a: searchParams.get('a') || undefined,
+      a2: searchParams.get('a2') || undefined,
+      m: searchParams.get('m') || undefined,
+      s: searchParams.get('s') || undefined,
+      c: searchParams.get('c') || undefined,
+      f: searchParams.get('f') || undefined,
+      v: searchParams.get('v') || undefined,
+      xr: searchParams.get('xr') || undefined,
+      xt: searchParams.get('xt') || undefined,
+    };
   }
   if (s0 === 'contrast-checker' || s0 === 'contrast') {
     const fg = searchParams.get('fg') || searchParams.get('foreground') || undefined;
@@ -337,7 +367,7 @@ function parseUrlToRoute(): RouteType {
     const hex = searchParams.get('hex') || searchParams.get('color') || undefined;
     return { path: 'color-name-finder', hex };
   }
-  if (s0 === 'extract-from-image' || s0 === 'extract' || s0 === 'image') {
+  if (s0 === 'extract-from-image' || s0 === 'extract' || s0 === 'image' || s0 === 'image-to-palette' || s0 === 'image-palette') {
     const imagePreset = searchParams.get('preset') || undefined;
     return { path: 'extract-from-image', imagePreset };
   }
@@ -388,6 +418,14 @@ function parseUrlToRoute(): RouteType {
 
   if (s0 === 'saved') {
     return { path: 'saved' };
+  }
+
+  if (s0 === 'about') {
+    return { path: 'about' };
+  }
+
+  if (s0 === 'search') {
+    return { path: 'search', q: searchParams.get('q') || undefined };
   }
 
   // 11. Direct slug fallback support
@@ -577,7 +615,14 @@ function routeToUrl(route: RouteType): string {
         return qs ? `/api/mesh?${qs}` : '/api/mesh';
       }
     case 'palette-generator':
-      return route.colors ? `/palette-generator?colors=${route.colors}` : '/palette-generator';
+    case 'generate':
+      return route.colors ? `/generate?colors=${route.colors}` : '/generate';
+    case 'create':
+      return '/create';
+    case 'about':
+      return '/about';
+    case 'search':
+      return route.q ? `/search?q=${encodeURIComponent(route.q)}` : '/search';
     case 'contrast-checker':
       {
         const params = new URLSearchParams();
@@ -612,6 +657,16 @@ export const App: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const { isActive, previewMode } = useMaintenance();
 
+  // Complete initial boot preloader once App mounts
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const dismiss = (window as any).__RAINBOW_LOADER_COMPLETE__;
+      if (typeof dismiss === 'function') {
+        dismiss();
+      }
+    }
+  }, []);
+
   // Configure manual browser scroll restoration to prevent stuck scroll positions
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -634,7 +689,7 @@ export const App: React.FC = () => {
     }
   }, [currentRoute]);
 
-  // Sync browser back/forward
+  // Sync browser back/forward seamlessly
   useEffect(() => {
     const handlePopState = () => {
       setCurrentRoute(parseUrlToRoute());
@@ -644,10 +699,12 @@ export const App: React.FC = () => {
   }, []);
 
   const handleNavigate = (route: RouteType) => {
-    setCurrentRoute(route);
     const newUrl = routeToUrl(route);
-    if (window.location.pathname !== newUrl) {
+    if (window.location.pathname + window.location.search !== newUrl) {
+      setCurrentRoute(route);
       window.history.pushState(null, '', newUrl);
+    } else {
+      setCurrentRoute(route);
     }
   };
 
@@ -754,7 +811,7 @@ export const App: React.FC = () => {
   // Admin route renders its own standalone layout (Always accessible, never locked out)
   if (currentRoute.path === 'admin') {
     return (
-      <Suspense fallback={<KromaLoader minHeight="60vh" label="LOADING ADMIN WORKSPACE" />}>
+      <Suspense fallback={<RainbowPaintRollerPreloader fullscreen={false} />}>
         <AdminHubPage onNavigatePublic={handleNavigate} />
       </Suspense>
     );
@@ -764,7 +821,7 @@ export const App: React.FC = () => {
   // When active and not in preview mode, renders the standalone MaintenancePage
   if (isActive && !previewMode) {
     return (
-      <Suspense fallback={<KromaLoader minHeight="60vh" label="SYSTEM CALIBRATION" />}>
+      <Suspense fallback={<RainbowPaintRollerPreloader fullscreen={false} />}>
         <MaintenancePage onNavigateAdmin={() => handleNavigate({ path: 'admin' })} />
       </Suspense>
     );
@@ -853,11 +910,18 @@ export const App: React.FC = () => {
         return <LiveColorsPage onNavigate={handleNavigate} />;
       case 'ramps':
         return <RampsStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
+      case 'create':
+        return <RampsStudioPage onNavigate={handleNavigate} initialParams={currentRoute as any} />;
+      case 'about':
+        return <AboutPage onNavigate={handleNavigate} />;
+      case 'search':
+        return <ExplorePage onNavigate={handleNavigate} initialMood={currentRoute.q} />;
       case 'antigravity':
         return <AntigravityStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'mesh':
         return <MeshGradientStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'palette-generator':
+      case 'generate':
         return (
           <MobilePaletteGeneratorPage
             initialColorsQuery={currentRoute.colors}
@@ -895,7 +959,7 @@ export const App: React.FC = () => {
           />
         );
       case 'saved':
-        return <ProfilePage onNavigate={handleNavigate} initialTab="saved" />;
+        return <SavedPage onNavigate={handleNavigate} />;
       case 'not-found':
         return <NotFoundPage requestedUrl={currentRoute.requestedUrl} onNavigate={handleNavigate} />;
       default:
@@ -903,18 +967,24 @@ export const App: React.FC = () => {
     }
   };
 
-  const isStudioView = ['ramps', 'antigravity', 'mesh', 'pattern-studio'].includes(currentRoute.path);
+  const isStudioView = ['ramps', 'create', 'antigravity', 'mesh', 'pattern-studio'].includes(currentRoute.path);
+
+  useEffect(() => {
+    if (currentRoute.path === 'search') {
+      setSearchOpen(true);
+    }
+  }, [currentRoute.path]);
 
   return (
     <div className="app-container">
-      <Navbar
+      <Header
         currentRoute={currentRoute}
         onNavigate={handleNavigate}
         onOpenSearch={() => setSearchOpen(true)}
       />
 
       <main className={`main-content ${isStudioView ? 'main-content-studio' : ''}`}>
-        <Suspense fallback={<KromaLoader minHeight="50vh" />}>
+        <Suspense fallback={<RainbowPaintRollerPreloader fullscreen={false} />}>
           {renderCurrentPage()}
         </Suspense>
       </main>

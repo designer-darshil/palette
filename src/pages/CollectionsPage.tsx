@@ -4,7 +4,10 @@ import { RouteType } from '../types';
 import { useCollections } from '../context/CollectionContext';
 import { CollectionCard } from '../components/CollectionCard';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
+import { ResultsCountBar } from '../components/common/ResultsCountBar';
+import { EmptyState } from '../components/common/EmptyState';
 
 interface CollectionsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -34,44 +37,49 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
         canonicalPath="/collections"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Explore', to: { path: 'explore' } },
           { label: 'Collections', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Curator workspaces"
+        title="Color Collections"
+        description="Curated anthologies of design systems, brand identities, editorial gamuts, and personal workspaces."
+        actions={
+          <Button
+            variant="primary"
+            size="sm"
+            iconLeft={<FolderPlus size={14} />}
+            onClick={() => setModalOpen(true)}
+          >
+            New Collection
+          </Button>
+        }
       />
 
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Layers size={16} className="text-[var(--color-primary)]" />
-            <span className="page-category-label">Curator Workspaces</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Color Collections
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-2xl">
-            Curated anthologies of design systems, brand identities, editorial gamuts, and personal workspaces.
-          </p>
-        </div>
-
-        <button
-          onClick={() => setModalOpen(true)}
-          className="btn-primary text-xs px-4 py-2.5 flex items-center gap-2 self-start sm:self-auto"
-        >
-          <FolderPlus size={14} />
-          <span>New Collection</span>
-        </button>
-      </div>
+      <ResultsCountBar
+        displayedCount={collections.length}
+        totalCount={collections.length}
+        itemName="collections"
+      />
 
       {/* Grid of Collections */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {collections.map((col) => (
-          <CollectionCard key={col.id} collection={col} onNavigate={onNavigate} />
-        ))}
-      </div>
+      {collections.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {collections.map((col) => (
+            <CollectionCard key={col.id} collection={col} onNavigate={onNavigate} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState
+          title="No collections created yet"
+          description="Create your first collection to assemble custom palettes, color specimens, and design tokens."
+          actionLabel="Create First Collection"
+          onAction={() => setModalOpen(true)}
+        />
+      )}
 
       {/* Create Modal */}
       {modalOpen && (
@@ -90,7 +98,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
                   placeholder="e.g. Nordic Architecture Minimal"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full text-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xs px-3 py-2"
+                  className="w-full text-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xs px-3 py-2 focus:border-[var(--border-strong)] focus:outline-none"
                   required
                   autoFocus
                 />
@@ -103,21 +111,22 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
                   placeholder="Brief description of this collection's purpose or aesthetic..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full text-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xs px-3 py-2 h-20 resize-none"
+                  className="w-full text-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xs px-3 py-2 h-20 resize-none focus:border-[var(--border-strong)] focus:outline-none"
                 />
               </div>
 
               <div className="flex items-center justify-end gap-2 pt-2 border-t border-[var(--border-subtle)]">
-                <button
+                <Button
                   type="button"
+                  variant="secondary"
+                  size="sm"
                   onClick={() => setModalOpen(false)}
-                  className="btn-secondary text-xs px-3.5 py-1.5"
                 >
                   Cancel
-                </button>
-                <button type="submit" className="btn-primary text-xs px-4 py-1.5">
+                </Button>
+                <Button type="submit" variant="primary" size="sm">
                   Create Collection
-                </button>
+                </Button>
               </div>
             </form>
           </div>

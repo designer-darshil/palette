@@ -9,7 +9,8 @@ import { ColorCard } from '../components/ColorCard';
 import { GradientCard } from '../components/GradientCard';
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Link } from '../components/common/Link';
 
 interface RandomDiscoveryPageProps {
@@ -48,37 +49,27 @@ export const RandomDiscoveryPage: React.FC<RandomDiscoveryPageProps> = ({ onNavi
         canonicalPath="/random"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Explore', to: { path: 'explore' } },
           { label: 'Random Discovery', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Serendipitous exploration"
+        title="Random Specimen Laboratory"
+        description="Break creative blocks by exploring unpredicted color relationships and unexpected palettes."
+        actions={
+          <Button
+            variant="primary"
+            size="sm"
+            iconLeft={<RefreshCw size={14} />}
+            onClick={rollNewBatch}
+          >
+            Roll New Specimens
+          </Button>
+        }
       />
-
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Shuffle size={16} className="text-pink-400" />
-            <span className="page-category-label">Serendipitous Exploration</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Random Specimen Laboratory
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-2xl">
-            Break creative blocks by exploring unpredicted color relationships and unexpected palettes.
-          </p>
-        </div>
-
-        <button
-          onClick={rollNewBatch}
-          className="btn-primary text-xs px-4 py-2.5 flex items-center gap-2 self-start sm:self-auto"
-        >
-          <RefreshCw size={14} />
-          <span>Roll New Specimens</span>
-        </button>
-      </div>
 
       {/* Triad of Random Specimens */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -86,8 +77,8 @@ export const RandomDiscoveryPage: React.FC<RandomDiscoveryPageProps> = ({ onNavi
         {randomPalette && (
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-[var(--accent-gold)] uppercase">
-                Random Palette System
+              <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
+                Random palette system
               </span>
               <Link
                 to={{ path: 'palette-remix', slug: randomPalette.slug }}
@@ -106,8 +97,8 @@ export const RandomDiscoveryPage: React.FC<RandomDiscoveryPageProps> = ({ onNavi
         {randomColor && (
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-[var(--accent-gold)] uppercase">
-                Random Master Color
+              <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
+                Random master color
               </span>
               <Link
                 to={{ path: 'color-relationships', slug: randomColor.slug }}
@@ -126,8 +117,8 @@ export const RandomDiscoveryPage: React.FC<RandomDiscoveryPageProps> = ({ onNavi
         {randomGradient && (
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-[var(--accent-gold)] uppercase">
-                Random CSS Gradient
+              <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
+                Random CSS gradient
               </span>
               <Link
                 to={{ path: 'mesh' }}

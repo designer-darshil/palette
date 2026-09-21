@@ -16,6 +16,8 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { generateColorSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Analytics } from '../utils/analytics';
 
 interface ColorDetailPageProps {
@@ -143,72 +145,74 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
         keywords={[color.name, color.hex, color.family, color.hueGroup, ...color.tags]}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Colors', to: { path: 'colors' } },
           { label: color.family.toUpperCase(), to: `/colors?family=${color.family}` },
           { label: color.name, isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel={`Color specimen · ${color.family} gamut`}
+        title={`${color.name} (${color.hex})`}
+        description={color.description}
+        actions={
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Copy size={13} />}
+              onClick={() => handleCopyValue(color.hex, 'HEX')}
+            >
+              Copy HEX
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Sparkles size={13} className="text-pink-400" />}
+              onClick={() => onNavigate({ path: 'color-relationships', slug: color.slug })}
+              title={`View Harmonic Relationships for ${color.name}`}
+            >
+              Harmonics
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<ShieldCheck size={13} className="text-blue-400" />}
+              onClick={() => onNavigate({ path: 'contrast-checker', fg: color.hex.replace('#', ''), bg: 'FFFFFF' })}
+              title={`Test ${color.name} in Contrast Checker`}
+            >
+              Check Contrast
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Wand2 size={13} className="text-amber-400" />}
+              onClick={() => onNavigate({ path: 'palette-generator', colors: color.hex.replace('#', '') })}
+              title={`Generate Palette from ${color.name}`}
+            >
+              Gen Palette
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share Specimen URL"
+            >
+              Share
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
+              onClick={handleToggleSave}
+            >
+              {saved ? 'Saved' : 'Save'}
+            </Button>
+          </div>
+        }
       />
-
-      {/* Navigation Breadcrumbs & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <Link
-          to={{ path: 'colors' }}
-          onNavigate={onNavigate}
-          className="detail-back-btn w-fit inline-flex items-center gap-2"
-        >
-          <ArrowLeft size={16} />
-          <span>Back to Colors Library</span>
-        </Link>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-          <Link
-            to={{ path: 'color-relationships', slug: color.slug }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            title={`View Harmonic Relationships for ${color.name}`}
-          >
-            <Sparkles size={13} className="text-pink-400" />
-            <span>Relationship Map</span>
-          </Link>
-          <Link
-            to={{ path: 'contrast-checker', fg: color.hex.replace('#', ''), bg: 'FFFFFF' }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            title={`Test ${color.name} in Contrast Checker`}
-          >
-            <ShieldCheck size={13} className="text-blue-400" />
-            <span>Check Contrast</span>
-          </Link>
-          <Link
-            to={{ path: 'palette-generator', colors: color.hex.replace('#', '') }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            title={`Generate Palette from ${color.name}`}
-          >
-            <Wand2 size={13} className="text-amber-400" />
-            <span>Gen Palette</span>
-          </Link>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={handleShare}
-            title="Share Specimen URL"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={handleToggleSave}
-          >
-            <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save'}</span>
-          </button>
-        </div>
-      </div>
 
       {/* Hero Color Specimen */}
       <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">

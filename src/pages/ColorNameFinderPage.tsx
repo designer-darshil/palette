@@ -37,7 +37,8 @@ import {
 import { createPaletteSlug } from '../utils/canonicalResourceUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Link } from '../components/common/Link';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { Analytics } from '../utils/analytics';
@@ -161,6 +162,8 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
     }
   };
 
+  const isColorSaved = isSaved(`color-${currentHex.replace('#', '').toLowerCase()}`);
+
   // Save specimen to workspace
   const handleSaveColor = () => {
     saveItem({
@@ -225,56 +228,48 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
         keywords={['color name finder', 'HEX color identifier', 'what color is this hex', 'color naming tool']}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Tools', to: { path: 'palettes' } },
           { label: 'Color Name Finder', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Perceptual color identification engine"
+        title="Color Name Finder"
+        description="Identify exact and closest meaningful color names from curated editorial gamuts using human visual perceptual distance (ΔE)."
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Shuffle size={13} />}
+              onClick={handleRandomColor}
+              title="Generate Random Color"
+            >
+              Random
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share Color URL"
+            >
+              Share
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Bookmark size={13} fill={isColorSaved ? 'currentColor' : 'none'} />}
+              onClick={handleSaveColor}
+              title="Save Color Specimen"
+            >
+              {isColorSaved ? 'Saved' : 'Save'}
+            </Button>
+          </div>
+        }
       />
-
-      {/* Page Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-[var(--border-subtle)]">
-        <div>
-          <span className="font-mono text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-            PERCEPTUAL COLOR IDENTIFICATION ENGINE
-          </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-            Color Name Finder
-          </h1>
-          <p className="text-sm text-[var(--text-secondary)] mt-1 max-w-xl">
-            Identify exact and closest meaningful color names from curated editorial gamuts using human visual perceptual distance ($\Delta E$).
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={handleRandomColor}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Generate Random Color"
-          >
-            <Shuffle size={13} />
-            <span>Random</span>
-          </button>
-          <button
-            onClick={handleShare}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Share Color URL"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            onClick={handleSaveColor}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-3)] hover:bg-[var(--bg-surface-elevated)] text-[var(--accent-gold)] border border-[var(--accent-gold)] rounded-xs transition-colors whitespace-nowrap"
-            title="Save Specimen"
-          >
-            <Bookmark size={13} />
-            <span>Save</span>
-          </button>
-        </div>
-      </header>
 
       {/* Mode Switcher Tabs (Single Color vs Palette Analyzer) */}
       <div className="flex items-center gap-2">

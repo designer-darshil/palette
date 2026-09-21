@@ -42,7 +42,8 @@ import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Link } from '../components/common/Link';
 import { Analytics } from '../utils/analytics';
 import { ColorCard } from '../components/ColorCard';
@@ -286,60 +287,51 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         keywords={['live atmosphere colors', 'real time color generator', 'sky color palette', 'solar elevation color']}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Palettes', to: { path: 'palettes' } },
           { label: 'Live Atmosphere', isCurrent: true },
         ]}
         onNavigate={onNavigate}
-      />
-
-      {/* Editorial Header */}
-      <header className="page-header mb-0">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-          <div>
-            <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-              REAL-TIME ENVIRONMENTAL SPECIMEN • SECTION 05
-            </span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-              Live Atmosphere Colors
-            </h1>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-              What does the world look like right now? Deterministic chromatic atmospheres synthesized from real-time solar elevation, Rayleigh scatter, geographic coordinates, and atmospheric temperatures.
-            </p>
-          </div>
-
+        sectionLabel="Real-time environmental specimen"
+        title="Live Atmosphere Colors"
+        description="What does the world look like right now? Deterministic chromatic atmospheres synthesized from real-time solar elevation, Rayleigh scatter, geographic coordinates, and atmospheric temperatures."
+        actions={
           <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap w-full sm:w-auto">
-            <button
-              className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial whitespace-nowrap"
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<RefreshCw size={13} className={loadingWeather ? 'spin-anim' : ''} />}
               onClick={() => updateAtmosphere(selectedLocation, simulatedHour)}
               disabled={loadingWeather}
               title="Refresh environmental data"
             >
-              <RefreshCw size={13} className={loadingWeather ? 'spin-anim' : ''} />
-              <span>{loadingWeather ? 'Syncing...' : 'Sync Live'}</span>
-            </button>
+              {loadingWeather ? 'Syncing...' : 'Sync Live'}
+            </Button>
 
-            <button
-              className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial whitespace-nowrap"
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
               onClick={handleShare}
               title="Share Live Atmosphere URL"
             >
-              <Share2 size={13} />
-              <span>Share</span>
-            </button>
+              Share
+            </Button>
 
-            <button
-              className="btn-secondary text-xs px-3.5 py-2 inline-flex items-center justify-center gap-1.5 w-full sm:w-auto whitespace-nowrap"
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Bookmark size={13} fill={isCurrentSaved ? 'currentColor' : 'none'} />}
               onClick={handleSaveToWorkspace}
+              title="Save to Personal Workspace"
             >
-              <Bookmark size={13} fill={isCurrentSaved ? '#E9C46A' : 'none'} color={isCurrentSaved ? '#E9C46A' : 'currentColor'} />
-              <span>{isCurrentSaved ? 'Saved' : 'Save Atmosphere'}</span>
-            </button>
+              {isCurrentSaved ? 'Saved' : 'Save System'}
+            </Button>
           </div>
-        </div>
-      </header>
+        }
+      />
 
       {/* Location & Context Control Strip */}
       <section className="filter-bar flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 p-3 sm:p-4 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">

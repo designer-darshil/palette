@@ -5,7 +5,9 @@ import { ComboCard } from '../components/ComboCard';
 import { Search, Loader2 } from 'lucide-react';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { ResultsCountBar } from '../components/common/ResultsCountBar';
+import { EmptyState } from '../components/common/EmptyState';
 
 interface CombosPageProps {
   onNavigate: (route: RouteType) => void;
@@ -106,21 +108,16 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
         jsonLd={collectionSchema}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Combos', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Digital library · Relational harmonies"
+        title="Color Harmonies & Combinations"
+        description={`A library of ${combos.length.toLocaleString()} relational color combinations with explicit surface proportions, WCAG AAA contrast scores, and architectural role definitions.`}
       />
-
-      <header className="page-header">
-        <span className="page-category-label">Digital Library • Section 03</span>
-        <h1 className="page-title">Color Harmonies &amp; Combinations</h1>
-        <p className="page-description">
-          A library of {combos.length.toLocaleString()} relational color combinations with explicit surface proportions, WCAG AAA contrast scores, and architectural role definitions.
-        </p>
-      </header>
 
       {/* Responsive Filter Panel */}
       <div className="filter-panel">
@@ -154,25 +151,22 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
-        <span>SHOWING {displayedCombos.length.toLocaleString()} OF {filteredCombos.length.toLocaleString()} COLOR HARMONIES</span>
-      </div>
+      <ResultsCountBar
+        displayedCount={displayedCombos.length}
+        totalCount={filteredCombos.length}
+        itemName="COLOR HARMONIES"
+      />
 
       {filteredCombos.length === 0 ? (
-        <div style={{ padding: '64px 20px', textAlign: 'center', background: 'var(--bg-surface-1)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '12px' }}>
-            No harmony combinations match the filter.
-          </p>
-          <button
-            className="btn-secondary"
-            onClick={() => {
-              setSelectedHarmony('all');
-              setSearchQuery('');
-            }}
-          >
-            Reset Filters
-          </button>
-        </div>
+        <EmptyState
+          title="No color harmonies found"
+          description="No harmony combinations match your current filter and search criteria."
+          actionLabel="Reset Filters"
+          onAction={() => {
+            setSelectedHarmony('all');
+            setSearchQuery('');
+          }}
+        />
       ) : (
         <>
           <div className="specimen-grid-combos">

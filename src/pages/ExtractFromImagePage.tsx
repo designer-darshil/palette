@@ -37,7 +37,8 @@ import { createPaletteSlug } from '../utils/canonicalResourceUtils';
 import { findClosestColorName } from '../utils/paletteGenerator';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Link } from '../components/common/Link';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { Analytics } from '../utils/analytics';
@@ -311,64 +312,57 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
         keywords={['extract color from image', 'image color palette generator', 'photo color picker', 'image hex extractor']}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Tools', to: { path: 'palettes' } },
           { label: 'Extract from Image', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Image chromatic harmony engine"
+        title="Extract from Image"
+        description="Upload photographs or design assets to extract perceptually distinct color gamuts, detect semantic UI roles, and create reusable palettes."
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Sparkles size={13} className="text-[var(--accent-gold)]" />}
+              onClick={() => setShowPresets(!showPresets)}
+              title="Try Curated Photography Presets"
+            >
+              Try Examples
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Copy size={13} />}
+              onClick={handleCopyAllHex}
+              title="Copy All Swatches"
+            >
+              Copy All
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share Palette URL"
+            >
+              Share
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />}
+              onClick={handleSavePalette}
+              title="Save Palette"
+            >
+              {saved ? 'Saved' : 'Save Palette'}
+            </Button>
+          </div>
+        }
       />
-
-      {/* Page Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-[var(--border-subtle)]">
-        <div>
-          <span className="font-mono text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-            IMAGE CHROMATIC HARMONY ENGINE
-          </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-            Extract from Image
-          </h1>
-          <p className="text-sm text-[var(--text-secondary)] mt-1 max-w-xl">
-            Upload photographs or design assets to extract perceptually distinct color gamuts, detect semantic UI roles, and create reusable palettes.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={() => setShowPresets(!showPresets)}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Try Curated Photography Presets"
-          >
-            <Sparkles size={13} className="text-[var(--accent-gold)]" />
-            <span>Try Examples</span>
-          </button>
-          <button
-            onClick={handleCopyAllHex}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Copy All Swatches"
-          >
-            <Copy size={13} />
-            <span>Copy All</span>
-          </button>
-          <button
-            onClick={handleShare}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Share Palette URL"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            onClick={handleSavePalette}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-3)] hover:bg-[var(--bg-surface-elevated)] text-[var(--accent-gold)] border border-[var(--accent-gold)] rounded-xs transition-colors whitespace-nowrap"
-            title="Save Palette"
-          >
-            <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            <span>{saved ? 'Saved' : 'Save Palette'}</span>
-          </button>
-        </div>
-      </header>
 
       {/* Photography Presets Drawer (Collapsible) */}
       {showPresets && (

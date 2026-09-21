@@ -5,7 +5,9 @@ import { ColorCard } from '../components/ColorCard';
 import { Search, Loader2 } from 'lucide-react';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { ResultsCountBar } from '../components/common/ResultsCountBar';
+import { EmptyState } from '../components/common/EmptyState';
 
 interface ColorsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -99,21 +101,16 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
         jsonLd={collectionSchema}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Colors', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Digital library · Specimen catalog"
+        title="Curated Color Specimens"
+        description={`A calibrated catalog of ${colors.length.toLocaleString()} digital pigments across all 16 spectrum families. Each tone is documented with sRGB, HSL, OKLCH, contrast scores against dark and light grounds, and harmonious relationships.`}
       />
-
-      <header className="page-header">
-        <span className="page-category-label">Digital Library • Section 01</span>
-        <h1 className="page-title">Curated Color Specimens</h1>
-        <p className="page-description">
-          A calibrated catalog of {colors.length.toLocaleString()} digital pigments across all 16 spectrum families. Each tone is documented with sRGB, HSL, OKLCH, contrast scores against dark and light grounds, and harmonious relationships.
-        </p>
-      </header>
 
       {/* Responsive Filter Panel */}
       <div className="filter-panel">
@@ -188,27 +185,24 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
-        <span>SHOWING {displayedColors.length.toLocaleString()} OF {filteredColors.length.toLocaleString()} MATCHING SPECIMENS</span>
-      </div>
+      <ResultsCountBar
+        displayedCount={displayedColors.length}
+        totalCount={filteredColors.length}
+        itemName="MATCHING SPECIMENS"
+      />
 
       {filteredColors.length === 0 ? (
-        <div style={{ padding: '64px 20px', textAlign: 'center', background: 'var(--bg-surface-1)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '12px' }}>
-            No color specimens match the current filter criteria.
-          </p>
-          <button
-            className="btn-secondary"
-            onClick={() => {
-              setSelectedFamily('all');
-              setSelectedTone('all');
-              setSelectedHueGroup('all');
-              setSearchQuery('');
-            }}
-          >
-            Reset Filters
-          </button>
-        </div>
+        <EmptyState
+          title="No color specimens found"
+          description="No color specimens match the current filter criteria."
+          actionLabel="Reset Filters"
+          onAction={() => {
+            setSelectedFamily('all');
+            setSelectedTone('all');
+            setSelectedHueGroup('all');
+            setSearchQuery('');
+          }}
+        />
       ) : (
         <>
           <div className="specimen-grid-colors">

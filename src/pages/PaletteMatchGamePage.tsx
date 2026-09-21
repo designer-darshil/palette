@@ -4,6 +4,8 @@ import { RouteType } from '../types';
 import { generatePaletteMatchRound, PaletteMatchRound } from '../utils/gameEngines';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 
 interface PaletteMatchGamePageProps {
   onNavigate: (route: RouteType) => void;
@@ -51,33 +53,27 @@ export const PaletteMatchGamePage: React.FC<PaletteMatchGamePageProps> = ({ onNa
         canonicalPath="/play/palette-match"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Play', to: { path: 'play' } },
           { label: 'Palette Match', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Harmonic sequence puzzle"
+        title="Palette Match: Harmonic Alignment"
+        description="Click two swatches to swap their positions into correct harmonic alignment."
+        actions={
+          <Button
+            variant="secondary"
+            size="sm"
+            iconLeft={<RefreshCw size={13} />}
+            onClick={handleRestart}
+          >
+            New Palette
+          </Button>
+        }
       />
-
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-subtle)] pb-4">
-        <div>
-          <h1 className="text-2xl font-extrabold text-[var(--text-primary)]">
-            Palette Match: Harmonic Alignment
-          </h1>
-          <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-            Click two swatches to swap their positions into correct harmonic alignment.
-          </p>
-        </div>
-
-        <button
-          onClick={handleRestart}
-          className="btn-secondary text-xs px-3 py-1.5 flex items-center gap-1.5 self-start sm:self-auto"
-        >
-          <RefreshCw size={13} />
-          <span>New Palette</span>
-        </button>
-      </div>
 
       <div className="p-4 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-lg flex flex-col gap-4">
         <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase font-semibold">
@@ -122,9 +118,9 @@ export const PaletteMatchGamePage: React.FC<PaletteMatchGamePageProps> = ({ onNa
           <p className="text-xs text-[var(--text-secondary)]">
             You reconstructed <strong>{round.targetPaletteTitle}</strong> perfectly.
           </p>
-          <button onClick={handleRestart} className="btn-primary text-xs px-5 py-2">
+          <Button onClick={handleRestart} variant="primary" size="sm">
             Next Challenge
-          </button>
+          </Button>
         </div>
       )}
     </div>

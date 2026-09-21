@@ -5,6 +5,8 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 
 interface ApiDocsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -31,26 +33,16 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
         canonicalPath="/api"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
-          { label: 'Developer API &amp; Tokens', isCurrent: true },
+          { label: 'Developer API & Tokens', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Developer platform · Deterministic endpoints"
+        title="API & Token Specifications"
+        description="Deterministic programmatic interfaces designed for agent consumption, CI/CD pipeline integration, and design token generators."
       />
-
-      <div className="border-b border-[var(--border-subtle)] pb-6">
-        <div className="flex items-center gap-2 mb-2">
-          <Terminal size={16} className="text-[var(--color-primary)]" />
-          <span className="page-category-label">DEVELOPER PLATFORM</span>
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-          API &amp; Token Specifications
-        </h1>
-        <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-2xl">
-          Deterministic programmatic interfaces designed for agent consumption, CI/CD pipeline integration, and design token generators.
-        </p>
-      </div>
 
       {/* Endpoint 1: Ramps Studio API */}
       <section className="p-5 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-lg flex flex-col gap-4">
@@ -63,13 +55,14 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
               /api/palette
             </span>
           </div>
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
+            iconLeft={copiedEndpoint === 'Ramps API URL' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
             onClick={() => handleCopy('https://kroma.design/api/palette?b=3d7dff&m=full', 'Ramps API URL')}
-            className="btn-secondary text-xs px-2.5 py-1 flex items-center gap-1"
           >
-            {copiedEndpoint === 'Ramps API URL' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-            <span>Copy URL</span>
-          </button>
+            Copy URL
+          </Button>
         </div>
 
         <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
@@ -92,13 +85,14 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
               /api/antigravity
             </span>
           </div>
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
+            iconLeft={copiedEndpoint === 'Antigravity API URL' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
             onClick={() => handleCopy('https://kroma.design/api/antigravity?p=editorial-float', 'Antigravity API URL')}
-            className="btn-secondary text-xs px-2.5 py-1 flex items-center gap-1"
           >
-            {copiedEndpoint === 'Antigravity API URL' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-            <span>Copy URL</span>
-          </button>
+            Copy URL
+          </Button>
         </div>
 
         <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
@@ -117,13 +111,14 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
               /api/mesh
             </span>
           </div>
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
+            iconLeft={copiedEndpoint === 'Mesh API URL' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
             onClick={() => handleCopy('https://kroma.design/api/mesh?p=aurora-borealis&format=css', 'Mesh API URL')}
-            className="btn-secondary text-xs px-2.5 py-1 flex items-center gap-1"
           >
-            {copiedEndpoint === 'Mesh API URL' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-            <span>Copy URL</span>
-          </button>
+            Copy URL
+          </Button>
         </div>
 
         <p className="text-xs text-[var(--text-secondary)] leading-relaxed">

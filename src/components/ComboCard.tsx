@@ -5,6 +5,7 @@ import { copyToClipboard, getComboKeyColors } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
+import { SpecimenCardBase } from './common/SpecimenCardBase';
 import { Analytics } from '../utils/analytics';
 
 interface ComboCardProps {
@@ -62,7 +63,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
   };
 
   return (
-    <article
+    <SpecimenCardBase
       className="combo-specimen-card relative group"
       aria-label={`Color harmony combo: ${combo.title} (${color1.hex} and ${color2.hex})`}
     >
@@ -152,6 +153,6 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
           </div>
         </div>
       </div>
-    </article>
+    </SpecimenCardBase>
   );
 };

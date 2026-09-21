@@ -12,7 +12,8 @@ import { CollectionCard } from '../components/CollectionCard';
 import { CreatorCard } from '../components/CreatorCard';
 import { sortTrendingPalettes, sortTrendingColors, sortTrendingCollections, sortTrendingCreators } from '../utils/rankingEngine';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { ResultsCountBar } from '../components/common/ResultsCountBar';
 
 interface TrendingPageProps {
   onNavigate: (route: RouteType) => void;
@@ -38,63 +39,77 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
         canonicalPath="/trending"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Explore', to: { path: 'explore' } },
           { label: 'Trending', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="High velocity spectrum"
+        title="Trending in PaletteParadise"
+        description="Ranked by creator saves, active token exports, remixes, and community engagement."
+        actions={
+          <div className="filter-pills flex flex-wrap gap-1.5">
+            <button
+              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'palettes' ? 'active' : ''}`}
+              onClick={() => setActiveTab('palettes')}
+            >
+              Palettes ({trendingPalettes.length})
+            </button>
+            <button
+              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'colors' ? 'active' : ''}`}
+              onClick={() => setActiveTab('colors')}
+            >
+              Colors ({trendingColors.length})
+            </button>
+            <button
+              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'gradients' ? 'active' : ''}`}
+              onClick={() => setActiveTab('gradients')}
+            >
+              Gradients ({gradients.length})
+            </button>
+            <button
+              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
+              onClick={() => setActiveTab('collections')}
+            >
+              Collections ({trendingCollections.length})
+            </button>
+            <button
+              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'creators' ? 'active' : ''}`}
+              onClick={() => setActiveTab('creators')}
+            >
+              Creators ({trendingCreators.length})
+            </button>
+          </div>
+        }
       />
 
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp size={16} className="text-amber-400" />
-            <span className="page-category-label">High Velocity Spectrum</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Trending in PaletteParadise
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-2xl">
-            Ranked by creator saves, active token exports, remixes, and community engagement.
-          </p>
-        </div>
-
-        {/* Content Type Filter Pills */}
-        <div className="filter-pills flex flex-wrap gap-1.5">
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'palettes' ? 'active' : ''}`}
-            onClick={() => setActiveTab('palettes')}
-          >
-            Palettes ({trendingPalettes.length})
-          </button>
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'colors' ? 'active' : ''}`}
-            onClick={() => setActiveTab('colors')}
-          >
-            Colors ({trendingColors.length})
-          </button>
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'gradients' ? 'active' : ''}`}
-            onClick={() => setActiveTab('gradients')}
-          >
-            Gradients ({gradients.length})
-          </button>
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
-            onClick={() => setActiveTab('collections')}
-          >
-            Collections ({trendingCollections.length})
-          </button>
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'creators' ? 'active' : ''}`}
-            onClick={() => setActiveTab('creators')}
-          >
-            Creators ({trendingCreators.length})
-          </button>
-        </div>
-      </div>
+      <ResultsCountBar
+        displayedCount={
+          activeTab === 'palettes'
+            ? trendingPalettes.length
+            : activeTab === 'colors'
+            ? trendingColors.length
+            : activeTab === 'gradients'
+            ? gradients.length
+            : activeTab === 'collections'
+            ? trendingCollections.length
+            : trendingCreators.length
+        }
+        totalCount={
+          activeTab === 'palettes'
+            ? trendingPalettes.length
+            : activeTab === 'colors'
+            ? trendingColors.length
+            : activeTab === 'gradients'
+            ? gradients.length
+            : activeTab === 'collections'
+            ? trendingCollections.length
+            : trendingCreators.length
+        }
+        itemName={activeTab}
+      />
 
       {/* Render Active Tab Content */}
       {activeTab === 'palettes' && (

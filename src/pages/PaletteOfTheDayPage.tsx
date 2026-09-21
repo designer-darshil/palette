@@ -11,7 +11,8 @@ import { PaletteCard } from '../components/PaletteCard';
 import { PalettePreviewModes } from '../components/PalettePreviewModes';
 import { AccessibilityMatrix } from '../components/AccessibilityMatrix';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Link } from '../components/common/Link';
 
 interface PaletteOfTheDayPageProps {
@@ -56,48 +57,37 @@ export const PaletteOfTheDayPage: React.FC<PaletteOfTheDayPageProps> = ({ onNavi
         canonicalPath="/palette-of-the-day"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Explore', to: { path: 'explore' } },
           { label: 'Palette of the Day', isCurrent: true },
         ]}
         onNavigate={onNavigate}
-      />
-
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Calendar size={16} className="text-[var(--accent-gold)]" />
-            <span className="page-category-label">DAILY SYSTEM SPECIMEN • {dateString.toUpperCase()}</span>
+        sectionLabel={`Daily system specimen · ${dateString}`}
+        title={palette.title}
+        description={palette.description}
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Wand2 size={14} />}
+              onClick={() => onNavigate({ path: 'palette-remix', slug: palette.slug })}
+            >
+              Remix Palette
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Bookmark size={14} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
+              onClick={handleToggleSave}
+            >
+              {saved ? 'Saved' : 'Save'}
+            </Button>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-[var(--text-primary)]">
-            {palette.title}
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-            {palette.description}
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <Link
-            to={{ path: 'palette-remix', slug: palette.slug }}
-            onNavigate={onNavigate}
-            className="btn-primary text-xs px-4 py-2.5 flex items-center gap-1.5"
-          >
-            <Wand2 size={14} />
-            <span>Remix Palette</span>
-          </Link>
-          <button
-            onClick={handleToggleSave}
-            className="btn-secondary text-xs px-3.5 py-2.5 flex items-center gap-1.5"
-          >
-            <Bookmark size={14} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save'}</span>
-          </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Palette Hero Swatch Banner */}
       <div className="h-44 sm:h-60 rounded-md overflow-hidden flex border border-[var(--border-subtle)] shadow-xl">

@@ -3,6 +3,7 @@ import { Layers, Bookmark, Heart, ArrowRight } from 'lucide-react';
 import { CollectionItem, RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
+import { SpecimenCardBase } from './common/SpecimenCardBase';
 
 interface CollectionCardProps {
   collection: CollectionItem;
@@ -39,7 +40,10 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ collection, onNa
   };
 
   return (
-    <div className="specimen-card group flex flex-col justify-between p-4 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-md transition-all duration-200">
+    <SpecimenCardBase
+      className="specimen-card justify-between"
+      aria-label={`Collection: ${collection.title}`}
+    >
       <div>
         {/* Cover Preview Swatches */}
         <Link
@@ -115,6 +119,6 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ collection, onNa
           </Link>
         </div>
       </div>
-    </div>
+    </SpecimenCardBase>
   );
 };

@@ -5,6 +5,8 @@ import { getDailyHexleTarget, evaluateHexleGuess, HexleGuessResult } from '../ut
 import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 
 interface HexleGamePageProps {
   onNavigate: (route: RouteType) => void;
@@ -51,33 +53,27 @@ export const HexleGamePage: React.FC<HexleGamePageProps> = ({ onNavigate }) => {
         canonicalPath="/play/hexle"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Play', to: { path: 'play' } },
           { label: 'Hexle', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Chromatic deduction laboratory"
+        title="Hexle: Guess the HEX"
+        description="Identify the color's RGB hexadecimal coordinates in 6 attempts or fewer."
+        actions={
+          <Button
+            variant="secondary"
+            size="sm"
+            iconLeft={<RefreshCw size={13} />}
+            onClick={handleRestart}
+          >
+            New Game
+          </Button>
+        }
       />
-
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-subtle)] pb-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)]">
-            Hexle: Guess the HEX
-          </h1>
-          <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-            Identify the color's RGB hexadecimal coordinates in 6 attempts or fewer.
-          </p>
-        </div>
-
-        <button
-          onClick={handleRestart}
-          className="btn-secondary text-xs px-3 py-1.5 flex items-center gap-1.5 self-start sm:self-auto"
-        >
-          <RefreshCw size={13} />
-          <span>New Game</span>
-        </button>
-      </div>
 
       {/* Mystery Color Box */}
       <div
@@ -152,9 +148,9 @@ export const HexleGamePage: React.FC<HexleGamePageProps> = ({ onNavigate }) => {
             maxLength={7}
             autoFocus
           />
-          <button type="submit" className="btn-primary text-xs px-6 py-2.5 font-bold">
+          <Button type="submit" variant="primary" size="md">
             Guess ({6 - guesses.length} left)
-          </button>
+          </Button>
         </form>
       ) : (
         <div className="p-6 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-md text-center flex flex-col items-center gap-3">
@@ -164,9 +160,9 @@ export const HexleGamePage: React.FC<HexleGamePageProps> = ({ onNavigate }) => {
           <p className="text-xs text-[var(--text-secondary)] font-mono">
             Target color was <strong>{target.name}</strong> ({target.hex})
           </p>
-          <button onClick={handleRestart} className="btn-primary text-xs px-5 py-2">
+          <Button onClick={handleRestart} variant="primary" size="sm">
             Play Next Color
-          </button>
+          </Button>
         </div>
       )}
     </div>

@@ -34,6 +34,8 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { generatePaletteSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Analytics } from '../utils/analytics';
 
 interface PaletteDetailPageProps {
@@ -223,78 +225,75 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         keywords={[palette.title, palette.category, ...palette.tags, ...palette.colors.map((c) => c.name)]}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Palettes', to: { path: 'palettes' } },
           { label: palette.category.toUpperCase(), to: `/palettes?category=${palette.category}` },
           { label: palette.title, isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel={`Palette system · ${palette.category} · ${palette.colors.length} swatches`}
+        title={palette.title}
+        description={palette.description}
+        actions={
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Wand2 size={13} />}
+              onClick={() => onNavigate({ path: 'palette-remix', slug: palette.slug })}
+              title="Remix this palette"
+            >
+              Remix
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<FolderPlus size={13} />}
+              onClick={() => setCollectionModalOpen(true)}
+              title="Add to Collection"
+            >
+              Collection
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Code size={13} />}
+              onClick={() => setTokenModalOpen(true)}
+              title="Export tokens in CSS / SCSS / Tailwind / DTCG JSON"
+            >
+              Export Tokens
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Heart size={13} fill={liked ? '#F87171' : 'none'} color={liked ? '#F87171' : 'currentColor'} />}
+              onClick={handleToggleLike}
+              title={liked ? 'Unlike' : 'Like'}
+            >
+              {liked ? 'Liked' : 'Like'}
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share Palette URL"
+            >
+              Share
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
+              onClick={handleToggleSave}
+            >
+              {saved ? 'Saved' : 'Save'}
+            </Button>
+          </div>
+        }
       />
-
-      {/* Navigation Breadcrumb & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <Link
-          to={{ path: 'palettes' }}
-          onNavigate={onNavigate}
-          className="detail-back-btn w-fit inline-flex items-center gap-2"
-        >
-          <ArrowLeft size={16} />
-          <span>Back to Palettes Catalog</span>
-        </Link>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-          <Link
-            to={{ path: 'palette-remix', slug: palette.slug }}
-            onNavigate={onNavigate}
-            className="btn-primary text-xs px-3.5 py-2 flex items-center gap-1.5"
-            title="Remix this palette"
-          >
-            <Wand2 size={13} />
-            <span>Remix</span>
-          </Link>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={() => setCollectionModalOpen(true)}
-            title="Add to Collection"
-          >
-            <FolderPlus size={13} />
-            <span>Add to Collection</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={() => setTokenModalOpen(true)}
-            title="Export tokens in CSS / SCSS / Tailwind / DTCG JSON"
-          >
-            <Code size={13} />
-            <span>Export Tokens</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={handleToggleLike}
-            title={liked ? 'Unlike' : 'Like'}
-          >
-            <Heart size={13} fill={liked ? '#F87171' : 'none'} color={liked ? '#F87171' : 'currentColor'} />
-            <span>{liked ? 'Liked' : 'Like'}</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={handleShare}
-            title="Share Palette URL"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            onClick={handleToggleSave}
-          >
-            <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save'}</span>
-          </button>
-        </div>
-      </div>
 
       {/* Palette Hero Swatch Banner */}
       <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">

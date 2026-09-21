@@ -10,6 +10,8 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { NotFoundPage } from './NotFoundPage';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 
 interface PatternDetailPageProps {
   slug: string;
@@ -97,61 +99,54 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
         canonicalPath={`/patterns/${pattern.slug}`}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Patterns', to: { path: 'patterns' } },
           { label: pattern.title, isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel={`${pattern.type} pattern · ${pattern.category}`}
+        title={pattern.title}
+        description={pattern.description}
+        actions={
+          <div className="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Sliders size={13} />}
+              onClick={() =>
+                onNavigate({
+                  path: 'pattern-studio',
+                  palette: pattern.palette.map((c) => c.replace('#', '')).join('-'),
+                  type: pattern.type,
+                  scale: String(pattern.scale),
+                  density: String(pattern.density),
+                  rotation: String(pattern.rotation),
+                })
+              }
+            >
+              Open in Studio
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Download size={13} />}
+              onClick={handleDownloadSvg}
+            >
+              Download SVG
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
+              onClick={handleToggleSave}
+            >
+              {saved ? 'Saved' : 'Save'}
+            </Button>
+          </div>
+        }
       />
-
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-            {pattern.type.toUpperCase()} PATTERN · {pattern.category.toUpperCase()}
-          </span>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-            {pattern.title}
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-            {pattern.description}
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap self-start sm:self-auto">
-          <Link
-            to={{
-              path: 'pattern-studio',
-              palette: pattern.palette.map((c) => c.replace('#', '')).join('-'),
-              type: pattern.type,
-              scale: String(pattern.scale),
-              density: String(pattern.density),
-              rotation: String(pattern.rotation),
-            }}
-            onNavigate={onNavigate}
-            className="btn-primary text-xs px-3.5 py-2 flex items-center gap-1.5"
-          >
-            <Sliders size={13} />
-            <span>Open in Studio</span>
-          </Link>
-          <button
-            onClick={handleDownloadSvg}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-          >
-            <Download size={13} />
-            <span>Download SVG</span>
-          </button>
-          <button
-            onClick={handleToggleSave}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-          >
-            <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save'}</span>
-          </button>
-        </div>
-      </div>
 
       {/* Hero Pattern Stage */}
       <div
@@ -165,13 +160,14 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
           <h3 className="text-sm font-bold text-[var(--text-primary)]">
             CSS Background Implementation
           </h3>
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
+            iconLeft={copiedCss ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
             onClick={handleCopyCss}
-            className="btn-secondary text-xs px-3 py-1.5 flex items-center gap-1.5"
           >
-            {copiedCss ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-            <span>{copiedCss ? 'Copied' : 'Copy CSS'}</span>
-          </button>
+            {copiedCss ? 'Copied' : 'Copy CSS'}
+          </Button>
         </div>
 
         <pre className="p-4 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs font-mono text-xs text-[var(--text-primary)] overflow-x-auto">

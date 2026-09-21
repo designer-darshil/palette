@@ -53,7 +53,8 @@ import { ColorPickerModal } from '../components/ColorPickerModal';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Link } from '../components/common/Link';
 import { Analytics } from '../utils/analytics';
 
@@ -282,56 +283,48 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
         keywords={['brand kit generator', 'design system tokens', 'brand color palette studio', 'UI color system creator']}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Tools', to: { path: 'palettes' } },
           { label: 'Brand Kit Studio', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="System design & brand identity studio"
+        title="Brand Kit Studio"
+        description="Translate color palettes into interactive, production-ready mini design systems with real-time website, mobile app, and dashboard UI previews."
+        actions={
+          <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Code size={13} />}
+              onClick={() => setShowExportModal(true)}
+              title="Export Tokens"
+            >
+              Export Tokens
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share Brand Kit"
+            >
+              Share
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Bookmark size={13} />}
+              onClick={handleSaveBrandKit}
+              title="Save Brand Kit"
+            >
+              Save Brand Kit
+            </Button>
+          </div>
+        }
       />
-
-      {/* Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-[var(--border-subtle)]">
-        <div>
-          <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-            SYSTEM DESIGN &amp; BRAND IDENTITY STUDIO
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-            Brand Kit Studio
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-xl leading-relaxed">
-            Translate color palettes into interactive, production-ready mini design systems with real-time website, mobile app, and dashboard UI previews.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
-          <button
-            onClick={() => setShowExportModal(true)}
-            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Export Tokens"
-          >
-            <Code size={13} />
-            <span>Export Tokens</span>
-          </button>
-          <button
-            onClick={handleShare}
-            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Share Brand Kit"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            onClick={handleSaveBrandKit}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-3)] hover:bg-[var(--bg-surface-elevated)] text-[var(--accent-gold)] border border-[var(--accent-gold)] rounded-xs transition-colors whitespace-nowrap"
-            title="Save Brand Kit"
-          >
-            <Bookmark size={13} />
-            <span>Save Brand Kit</span>
-          </button>
-        </div>
-      </header>
 
       {/* Main Studio Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start min-w-0">

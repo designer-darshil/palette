@@ -5,7 +5,9 @@ import { GradientCard } from '../components/GradientCard';
 import { Search, Loader2 } from 'lucide-react';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { ResultsCountBar } from '../components/common/ResultsCountBar';
+import { EmptyState } from '../components/common/EmptyState';
 
 interface GradientsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -105,21 +107,16 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
         jsonLd={collectionSchema}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Gradients', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Digital library · Multi-stop spectra"
+        title="Curated CSS Gradients"
+        description={`A library of ${gradients.length.toLocaleString()} continuous color transitions engineered for clean browser rendering, editorial atmosphere, and digital backdrops.`}
       />
-
-      <header className="page-header">
-        <span className="page-category-label">Digital Library • Section 04</span>
-        <h1 className="page-title">Curated CSS Gradients</h1>
-        <p className="page-description">
-          A library of {gradients.length.toLocaleString()} continuous color transitions engineered for clean browser rendering, editorial atmosphere, and digital backdrops.
-        </p>
-      </header>
 
       {/* Responsive Filter Panel */}
       <div className="filter-panel">
@@ -153,25 +150,22 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
-        <span>SHOWING {displayedGradients.length.toLocaleString()} OF {filteredGradients.length.toLocaleString()} GRADIENT SPECIMENS</span>
-      </div>
+      <ResultsCountBar
+        displayedCount={displayedGradients.length}
+        totalCount={filteredGradients.length}
+        itemName="GRADIENT SPECIMENS"
+      />
 
       {filteredGradients.length === 0 ? (
-        <div style={{ padding: '64px 20px', textAlign: 'center', background: 'var(--bg-surface-1)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '12px' }}>
-            No gradients match the selected atmosphere filter.
-          </p>
-          <button
-            className="btn-secondary"
-            onClick={() => {
-              setSelectedCategory('all');
-              setSearchQuery('');
-            }}
-          >
-            Reset Filters
-          </button>
-        </div>
+        <EmptyState
+          title="No gradients found"
+          description="No gradient transitions match the selected atmosphere filter."
+          actionLabel="Reset Filters"
+          onAction={() => {
+            setSelectedCategory('all');
+            setSearchQuery('');
+          }}
+        />
       ) : (
         <>
           <div className="specimen-grid-gradients">

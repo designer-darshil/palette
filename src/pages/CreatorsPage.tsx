@@ -1,10 +1,11 @@
 import React from 'react';
-import { Users, Palette, Layers, Grid } from 'lucide-react';
 import { RouteType } from '../types';
 import { useCreators } from '../context/CreatorContext';
 import { CreatorCard } from '../components/CreatorCard';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { ResultsCountBar } from '../components/common/ResultsCountBar';
+import { EmptyState } from '../components/common/EmptyState';
 
 interface CreatorsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -21,35 +22,36 @@ export const CreatorsPage: React.FC<CreatorsPageProps> = ({ onNavigate }) => {
         canonicalPath="/creators"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Explore', to: { path: 'explore' } },
           { label: 'Creators', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Community ecosystem"
+        title="Designers & Colorists"
+        description="Explore portfolios of curated palette systems, token architectures, and harmonic specimens."
       />
 
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Users size={16} className="text-[var(--color-primary)]" />
-            <span className="page-category-label">Community Ecosystem</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Designers &amp; Colorists
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-2xl">
-            Explore portfolios of curated palette systems, token architectures, and harmonic specimens.
-          </p>
-        </div>
-      </div>
+      <ResultsCountBar
+        displayedCount={creators.length}
+        totalCount={creators.length}
+        itemName="creators"
+      />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {creators.map((cr) => (
-          <CreatorCard key={cr.id} creator={cr} onNavigate={onNavigate} />
-        ))}
-      </div>
+      {creators.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {creators.map((cr) => (
+            <CreatorCard key={cr.id} creator={cr} onNavigate={onNavigate} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState
+          title="No creators found"
+          description="Creator portfolios will appear here once registered."
+        />
+      )}
     </div>
   );
 };

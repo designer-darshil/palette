@@ -5,6 +5,7 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
+import { SpecimenCardBase } from './common/SpecimenCardBase';
 import { Analytics } from '../utils/analytics';
 
 interface GradientCardProps {
@@ -55,7 +56,7 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
   };
 
   return (
-    <article className="gradient-card" aria-label={`CSS Gradient: ${gradient.title}`}>
+    <SpecimenCardBase className="gradient-card" aria-label={`CSS Gradient: ${gradient.title}`}>
       <div
         className="gradient-preview-area"
         style={{ background: gradient.css }}
@@ -151,6 +152,6 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
           </div>
         </div>
       </div>
-    </article>
+    </SpecimenCardBase>
   );
 };

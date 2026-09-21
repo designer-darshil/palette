@@ -10,7 +10,8 @@ import { findSimilarColors, findSimilarPalettes } from '../utils/similarityEngin
 import { PaletteCard } from '../components/PaletteCard';
 import { ColorCard } from '../components/ColorCard';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Link } from '../components/common/Link';
 
 interface ColorOfTheDayPageProps {
@@ -61,47 +62,37 @@ export const ColorOfTheDayPage: React.FC<ColorOfTheDayPageProps> = ({ onNavigate
         canonicalPath="/color-of-the-day"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Explore', to: { path: 'explore' } },
           { label: 'Color of the Day', isCurrent: true },
         ]}
         onNavigate={onNavigate}
-      />
-
-      {/* Hero Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Calendar size={16} className="text-[var(--accent-gold)]" />
-            <span className="page-category-label">DAILY CURATION • {dateString.toUpperCase()}</span>
+        sectionLabel={`Daily curation · ${dateString}`}
+        title={color.name}
+        description={color.description}
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Copy size={14} />}
+              onClick={handleCopyHex}
+            >
+              Copy {color.hex}
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Bookmark size={14} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
+              onClick={handleToggleSave}
+            >
+              {saved ? 'Saved' : 'Save'}
+            </Button>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-[var(--text-primary)]">
-            {color.name}
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-            {color.description}
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={handleCopyHex}
-            className="btn-primary text-xs px-4 py-2.5 flex items-center gap-1.5"
-          >
-            <Copy size={14} />
-            <span>Copy {color.hex}</span>
-          </button>
-          <button
-            onClick={handleToggleSave}
-            className="btn-secondary text-xs px-3.5 py-2.5 flex items-center gap-1.5"
-          >
-            <Bookmark size={14} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save'}</span>
-          </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Hero Swatch Stage */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

@@ -5,6 +5,7 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
+import { SpecimenCardBase } from './common/SpecimenCardBase';
 import { Analytics } from '../utils/analytics';
 
 interface PaletteCardProps {
@@ -68,7 +69,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
   };
 
   return (
-    <article className="palette-card" aria-label={`Palette: ${palette.title}`}>
+    <SpecimenCardBase className="palette-card" aria-label={`Palette: ${palette.title}`}>
       <div className="palette-swatches-strip" role="group" aria-label="Color swatches">
         {palette.colors.map((c, idx) => (
           <div
@@ -154,6 +155,6 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
           </div>
         </div>
       </div>
-    </article>
+    </SpecimenCardBase>
   );
 };

@@ -314,9 +314,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               </button>
 
               {studiosDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-80 bg-[var(--bg-surface-1)] border border-[var(--border-strong)] rounded-md shadow-2xl p-2 z-50 flex flex-col gap-1 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-3 py-1 font-mono text-[9px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider">
-                    Studio Engines &amp; Generators
+                <div className="absolute top-full left-0 mt-2 w-80 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md shadow-2xl p-2 z-50 flex flex-col gap-1 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-3 py-1 font-sans text-[11px] font-semibold text-[var(--text-tertiary)]">
+                    Studio engines &amp; generators
                   </div>
                   {studioTools.map((tool) => (
                     <Link
@@ -359,9 +359,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               </button>
 
               {communityDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-80 bg-[var(--bg-surface-1)] border border-[var(--border-strong)] rounded-md shadow-2xl p-2 z-50 flex flex-col gap-1 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-3 py-1 font-mono text-[9px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider">
-                    Community &amp; Collections
+                <div className="absolute top-full left-0 mt-2 w-80 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md shadow-2xl p-2 z-50 flex flex-col gap-1 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-3 py-1 font-sans text-[11px] font-semibold text-[var(--text-tertiary)]">
+                    Community &amp; collections
                   </div>
                   {communityLinks.map((link) => (
                     <Link
@@ -467,7 +467,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
           </div>
 
           <div className="mobile-nav__options">
-            <div className="mobile-nav__section-header">DISCOVERY &amp; GAMUTS</div>
+            <div className="mobile-nav__section-header">Discovery &amp; gamuts</div>
             <Link to={{ path: 'explore' }} onNavigate={handleNav} className={`mobile-nav-link ${isActive('explore') ? 'active' : ''}`}>
               <span>Explore Spectrum</span>
               <Compass size={16} />
@@ -509,7 +509,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               <Gamepad2 size={16} />
             </Link>
 
-            <div className="mobile-nav__section-header">STUDIO ENGINES</div>
+            <div className="mobile-nav__section-header">Studio engines</div>
             <Link to={{ path: 'ramps' }} onNavigate={handleNav} className="mobile-nav-link">
               <span>Ramps Studio (OKLCH)</span>
               <Layers size={16} className="text-emerald-400" />
@@ -531,7 +531,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentRoute, onNavigate, onOpen
               <ImageIcon size={16} className="text-blue-400" />
             </Link>
 
-            <div className="mobile-nav__section-header">WORKSPACE &amp; THEME</div>
+            <div className="mobile-nav__section-header">Workspace &amp; theme</div>
             <Link to={{ path: 'profile' }} onNavigate={handleNav} className="mobile-nav-link">
               <span>Curator Workspace ({savedItems.length})</span>
               <Bookmark size={16} />

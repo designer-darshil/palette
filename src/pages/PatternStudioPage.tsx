@@ -6,7 +6,8 @@ import { useToast } from '../context/ToastContext';
 import { generatePatternSvg, generatePatternCss } from '../utils/patternEngine';
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 
 interface PatternStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -102,47 +103,37 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
         canonicalPath="/create/pattern"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Patterns', to: { path: 'patterns' } },
           { label: 'Pattern Studio', isCurrent: true },
         ]}
         onNavigate={onNavigate}
-      />
-
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Sliders size={16} className="text-[var(--color-primary)]" />
-            <span className="page-category-label">GENERATIVE VECTOR STUDIO</span>
+        sectionLabel="Generative vector studio"
+        title="Pattern Studio"
+        description="Synthesize algorithmic surface patterns, geometric lattices, and vector textures driven by palette tokens."
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={copiedCss ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+              onClick={handleCopyCss}
+            >
+              {copiedCss ? 'Copied CSS' : 'Copy CSS'}
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Download size={14} />}
+              onClick={handleDownloadSvg}
+            >
+              Download SVG
+            </Button>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Pattern Studio
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-2xl">
-            Synthesize algorithmic surface patterns, geometric lattices, and vector textures driven by palette tokens.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={handleCopyCss}
-            className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5"
-          >
-            {copiedCss ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-            <span>{copiedCss ? 'Copied CSS' : 'Copy CSS'}</span>
-          </button>
-          <button
-            onClick={handleDownloadSvg}
-            className="btn-primary text-xs px-4 py-2 flex items-center gap-1.5"
-          >
-            <Download size={14} />
-            <span>Download SVG</span>
-          </button>
-        </div>
-      </div>
+        }
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Controls Panel */}

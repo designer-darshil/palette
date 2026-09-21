@@ -5,7 +5,9 @@ import { PaletteCard } from '../components/PaletteCard';
 import { Search, Loader2 } from 'lucide-react';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { ResultsCountBar } from '../components/common/ResultsCountBar';
+import { EmptyState } from '../components/common/EmptyState';
 
 interface PalettesPageProps {
   onNavigate: (route: RouteType) => void;
@@ -107,21 +109,16 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
         jsonLd={collectionSchema}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Palettes', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Digital library · Palette systems"
+        title="Curated Palette Systems"
+        description={`A catalogue of ${palettes.length.toLocaleString()} modernist, architectural, and botanical harmonic palettes assembled for identity systems, design tokens, and editorial specimen documents.`}
       />
-
-      <header className="page-header">
-        <span className="page-category-label">Digital Library • Section 02</span>
-        <h1 className="page-title">Curated Palette Systems</h1>
-        <p className="page-description">
-          A catalogue of {palettes.length.toLocaleString()} modernist, architectural, and botanical harmonic palettes assembled for identity systems, design tokens, and editorial specimen documents.
-        </p>
-      </header>
 
       {/* Responsive Filter Panel */}
       <div className="filter-panel">
@@ -155,25 +152,22 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
-        <span>SHOWING {displayedPalettes.length.toLocaleString()} OF {filteredPalettes.length.toLocaleString()} PALETTE SYSTEMS</span>
-      </div>
+      <ResultsCountBar
+        displayedCount={displayedPalettes.length}
+        totalCount={filteredPalettes.length}
+        itemName="PALETTE SYSTEMS"
+      />
 
       {filteredPalettes.length === 0 ? (
-        <div style={{ padding: '64px 20px', textAlign: 'center', background: 'var(--bg-surface-1)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '12px' }}>
-            No palettes match the selected category.
-          </p>
-          <button
-            className="btn-secondary"
-            onClick={() => {
-              setSelectedCategory('all');
-              setSearchQuery('');
-            }}
-          >
-            Reset Filters
-          </button>
-        </div>
+        <EmptyState
+          title="No palette systems found"
+          description="No palettes match the selected category and search criteria."
+          actionLabel="Reset Filters"
+          onAction={() => {
+            setSelectedCategory('all');
+            setSearchQuery('');
+          }}
+        />
       ) : (
         <>
           <div className="specimen-grid-palettes">

@@ -191,8 +191,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           {/* Quick Suggestions when empty */}
           {!rawQ && (
             <div className="p-4 flex flex-col gap-2">
-              <span className="text-[10px] font-mono uppercase text-[var(--text-tertiary)] font-bold">
-                POPULAR SEARCHES &amp; COORDINATES
+              <span className="text-xs font-sans text-[var(--text-tertiary)] font-semibold tracking-tight">
+                Popular Searches &amp; Coordinates
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {['#1D4ED8', '#E63946', 'Swiss Editorial', 'Luxury', 'Earthen', 'Dots Pattern', 'Elena Voss'].map((term) => (
@@ -211,7 +211,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           {/* Colors */}
           {matchedColors.length > 0 && (
             <div>
-              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+              <div className="px-3 py-1.5 text-xs text-[var(--text-tertiary)] font-sans font-semibold tracking-tight">
                 Colors
               </div>
               {matchedColors.map((c) => (
@@ -234,7 +234,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           {/* Palettes */}
           {matchedPalettes.length > 0 && (
             <div>
-              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+              <div className="px-3 py-1.5 text-xs text-[var(--text-tertiary)] font-sans font-semibold tracking-tight">
                 Palettes
               </div>
               {matchedPalettes.map((p) => (
@@ -260,7 +260,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           {/* Collections */}
           {matchedCollections.length > 0 && (
             <div>
-              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+              <div className="px-3 py-1.5 text-xs text-[var(--text-tertiary)] font-sans font-semibold tracking-tight">
                 Collections
               </div>
               {matchedCollections.map((col) => (
@@ -282,7 +282,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           {/* Patterns */}
           {matchedPatterns.length > 0 && (
             <div>
-              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+              <div className="px-3 py-1.5 text-xs text-[var(--text-tertiary)] font-sans font-semibold tracking-tight">
                 Patterns
               </div>
               {matchedPatterns.map((pat) => (
@@ -304,7 +304,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           {/* Creators */}
           {matchedCreators.length > 0 && (
             <div>
-              <div className="px-3 py-1.5 text-[10px] text-[var(--text-tertiary)] uppercase font-mono font-bold">
+              <div className="px-3 py-1.5 text-xs text-[var(--text-tertiary)] font-sans font-semibold tracking-tight">
                 Creators
               </div>
               {matchedCreators.map((cr) => (

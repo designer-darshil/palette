@@ -5,6 +5,7 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
+import { SpecimenCardBase } from './common/SpecimenCardBase';
 import { Analytics } from '../utils/analytics';
 
 interface ColorCardProps {
@@ -56,7 +57,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
   };
 
   return (
-    <article className="color-card" aria-label={`Color specimen: ${color.name}`}>
+    <SpecimenCardBase className="color-card" aria-label={`Color specimen: ${color.name}`}>
       <div
         className="color-card-swatch"
         style={{ backgroundColor: color.hex }}
@@ -138,6 +139,6 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
           </div>
         </div>
       </div>
-    </article>
+    </SpecimenCardBase>
   );
 };

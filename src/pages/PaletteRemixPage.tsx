@@ -17,6 +17,8 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { NotFoundPage } from './NotFoundPage';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { PalettePreviewModes } from '../components/PalettePreviewModes';
 
 interface PaletteRemixPageProps {
@@ -104,58 +106,39 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
         canonicalPath={`/palettes/${originalPalette.slug}/remix`}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Palettes', to: { path: 'palettes' } },
           { label: originalPalette.title, to: { path: 'palette-detail', slug: originalPalette.slug } },
           { label: 'Remix Studio', isCurrent: true },
         ]}
         onNavigate={onNavigate}
-      />
-
-      {/* Header with Attribution */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <Wand2 size={16} className="text-amber-400" />
-            <span className="page-category-label">REMIX STUDIO · LINEAGE ENGINE</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Remixing: {originalPalette.title}
-          </h1>
-          <div className="flex items-center gap-1.5 mt-2 text-xs text-[var(--text-secondary)] font-mono">
-            <GitFork size={13} className="text-[var(--text-tertiary)]" />
-            <span>Remixed from:</span>
-            <Link
-              to={{ path: 'palette-detail', slug: originalPalette.slug }}
-              onNavigate={onNavigate}
-              className="text-[var(--color-primary)] hover:underline font-bold"
+        sectionLabel="Remix studio · Lineage engine"
+        title={`Remixing: ${originalPalette.title}`}
+        description={`Interactive remix workspace for ${originalPalette.title}. Fine-tune hues, saturation, temperature, and lightness.`}
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<RotateCcw size={13} />}
+              onClick={handleReset}
+              title="Reset to original parameters"
             >
-              {originalPalette.title}
-            </Link>
-            <span>by {originalPalette.creator?.name || 'PaletteParadise Archive'}</span>
+              Reset
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Save size={14} />}
+              onClick={handleSaveRemix}
+            >
+              Save Remix
+            </Button>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={handleReset}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            title="Reset to original parameters"
-          >
-            <RotateCcw size={13} />
-            <span>Reset</span>
-          </button>
-          <button
-            onClick={handleSaveRemix}
-            className="btn-primary text-xs px-4 py-2 flex items-center gap-1.5"
-          >
-            <Save size={14} />
-            <span>Save Remix</span>
-          </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Before / After Live Comparison Banner */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -207,13 +190,14 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
               { key: 'invert', label: 'Invert Hues' },
             ] as const
           ).map((p) => (
-            <button
+            <Button
               key={p.key}
+              variant="secondary"
+              size="sm"
               onClick={() => handleApplyPreset(p.key)}
-              className="btn-secondary text-xs px-3 py-1.5"
             >
               {p.label}
-            </button>
+            </Button>
           ))}
         </div>
       </section>

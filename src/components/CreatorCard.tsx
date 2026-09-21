@@ -2,6 +2,7 @@ import React from 'react';
 import { Palette, Layers, Grid, ArrowRight, ShieldCheck } from 'lucide-react';
 import { CreatorItem, RouteType } from '../types';
 import { Link } from './common/Link';
+import { SpecimenCardBase } from './common/SpecimenCardBase';
 
 interface CreatorCardProps {
   creator: CreatorItem;
@@ -10,7 +11,10 @@ interface CreatorCardProps {
 
 export const CreatorCard: React.FC<CreatorCardProps> = ({ creator, onNavigate }) => {
   return (
-    <div className="specimen-card group flex flex-col justify-between p-4 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-md transition-all duration-200">
+    <SpecimenCardBase
+      className="specimen-card justify-between"
+      aria-label={`Creator: ${creator.name}`}
+    >
       <div>
         {/* Creator Header */}
         <div className="flex items-center gap-3 mb-3">
@@ -81,6 +85,6 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ creator, onNavigate })
           <ArrowRight size={11} />
         </Link>
       </div>
-    </div>
+    </SpecimenCardBase>
   );
 };

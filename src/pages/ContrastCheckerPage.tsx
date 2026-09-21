@@ -44,7 +44,8 @@ import { ColorPickerModal } from '../components/ColorPickerModal';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Analytics } from '../utils/analytics';
 
 interface ContrastCheckerPageProps {
@@ -267,56 +268,48 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
         keywords={['color contrast checker', 'WCAG contrast ratio', 'accessible color pairs', 'WCAG AAA color checker', 'contrast validator']}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Tools', to: { path: 'palettes' } },
           { label: 'Contrast Checker', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Accessibility & WCAG 2.1 spec"
+        title="Color Contrast Checker"
+        description="Evaluate exact luminance contrast ratios between foreground and background specimens, inspect WCAG AA/AAA compliance, and simulate color vision perception."
+        actions={
+          <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share Contrast Pair"
+            >
+              Share
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={copiedKey === 'report' ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+              onClick={handleCopyReport}
+              title="Copy Full Report"
+            >
+              {copiedKey === 'report' ? 'Copied' : 'Copy Report'}
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Bookmark size={13} />}
+              onClick={handleSave}
+              title="Save Specimen"
+            >
+              Save Pair
+            </Button>
+          </div>
+        }
       />
-
-      {/* Page Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-[var(--border-subtle)]">
-        <div>
-          <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-            ACCESSIBILITY &amp; WCAG 2.1 SPEC
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-            Color Contrast Checker
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-xl leading-relaxed">
-            Evaluate exact luminance contrast ratios between foreground and background specimens, inspect WCAG AA/AAA compliance, and simulate color vision perception.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
-          <button
-            onClick={handleShare}
-            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Share Contrast Pair"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            onClick={handleCopyReport}
-            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-medium)] rounded-xs transition-colors whitespace-nowrap"
-            title="Copy Full Report"
-          >
-            {copiedKey === 'report' ? <Check size={13} color="#10B981" /> : <Copy size={13} />}
-            <span>Copy Report</span>
-          </button>
-          <button
-            onClick={handleSave}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface-3)] hover:bg-[var(--bg-surface-elevated)] text-[var(--accent-gold)] border border-[var(--accent-gold)] rounded-xs transition-colors whitespace-nowrap"
-            title="Save Specimen"
-          >
-            <Bookmark size={13} />
-            <span>Save</span>
-          </button>
-        </div>
-      </header>
 
       {/* Main Studio Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start min-w-0">

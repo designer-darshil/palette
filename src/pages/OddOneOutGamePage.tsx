@@ -4,6 +4,8 @@ import { RouteType } from '../types';
 import { generateOddOneOutRound, OddOneOutRound } from '../utils/gameEngines';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 
 interface OddOneOutGamePageProps {
   onNavigate: (route: RouteType) => void;
@@ -59,37 +61,29 @@ export const OddOneOutGamePage: React.FC<OddOneOutGamePageProps> = ({ onNavigate
         canonicalPath="/play/odd-one-out"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Play', to: { path: 'play' } },
           { label: 'Odd One Out', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel={`Optical acuity test · Level ${level}`}
+        title="Odd One Out"
+        description="Spot the subtly altered color tile in the grid before your streak ends."
+        actions={
+          <div className="flex items-center gap-3 text-xs font-mono">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xs bg-amber-500/10 border border-amber-500/20 text-amber-400 font-bold">
+              <Flame size={14} />
+              <span>Score: {score}</span>
+            </div>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)]">
+              <Trophy size={14} />
+              <span>Best: {highScore}</span>
+            </div>
+          </div>
+        }
       />
-
-      {/* Header & Score Bar */}
-      <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-4">
-        <div>
-          <h1 className="text-2xl font-extrabold text-[var(--text-primary)]">
-            Odd One Out
-          </h1>
-          <p className="text-xs text-[var(--text-secondary)]">
-            Level {level} • ΔE ~ {round.difficultyDelta}%
-          </p>
-        </div>
-
-        <div className="flex items-center gap-4 text-xs font-mono">
-          <div className="flex items-center gap-1 text-amber-400 font-bold">
-            <Flame size={14} />
-            <span>Score: {score}</span>
-          </div>
-          <div className="flex items-center gap-1 text-[var(--text-tertiary)]">
-            <Trophy size={14} />
-            <span>Best: {highScore}</span>
-          </div>
-        </div>
-      </div>
 
       {/* Game Grid */}
       {!gameOver ? (
@@ -116,9 +110,9 @@ export const OddOneOutGamePage: React.FC<OddOneOutGamePageProps> = ({ onNavigate
           <p className="text-sm text-[var(--text-secondary)]">
             You reached <strong>Level {level}</strong> with a final score of <strong>{score}</strong>.
           </p>
-          <button onClick={handleRestart} className="btn-primary text-xs px-6 py-2.5">
+          <Button onClick={handleRestart} variant="primary" size="md">
             Play Again
-          </button>
+          </Button>
         </div>
       )}
     </div>

@@ -8,6 +8,10 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { NotFoundPage } from './NotFoundPage';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
+import { EmptyState } from '../components/common/EmptyState';
+import { SpecimenCardBase } from '../components/common/SpecimenCardBase';
 
 interface CollectionDetailPageProps {
   slug: string;
@@ -54,61 +58,49 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
         canonicalPath={`/collections/${collection.slug}`}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Collections', to: { path: 'collections' } },
           { label: collection.title, isCurrent: true },
         ]}
         onNavigate={onNavigate}
-      />
-
-      {/* Header and Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-            CURATED COLLECTION • {collection.items.length} SPECIMENS
-          </span>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-            {collection.title}
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-            {collection.description}
-          </p>
-          <div className="flex items-center gap-2 mt-3 text-xs text-[var(--text-tertiary)]">
-            <span>Curated by <strong className="text-[var(--text-primary)]">{collection.creator.name}</strong></span>
-            <span>•</span>
-            <span className="font-mono">{new Date(collection.createdAt).toLocaleDateString()}</span>
+        sectionLabel={`Curated collection · ${collection.items.length} specimens`}
+        title={collection.title}
+        description={`${collection.description} Curated by ${collection.creator.name} on ${new Date(collection.createdAt).toLocaleDateString()}.`}
+        actions={
+          <div className="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share collection link"
+            >
+              Share
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Copy size={13} />}
+              onClick={handleDuplicate}
+              title="Duplicate collection to your workspace"
+            >
+              Duplicate
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Trash2 size={13} />}
+              onClick={handleDelete}
+              className="text-red-400 hover:text-red-300"
+              title="Delete collection"
+            >
+              Delete
+            </Button>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap self-start sm:self-auto">
-          <button
-            onClick={handleShare}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            title="Share collection link"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            onClick={handleDuplicate}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-            title="Duplicate collection to your workspace"
-          >
-            <Copy size={13} />
-            <span>Duplicate</span>
-          </button>
-          <button
-            onClick={handleDelete}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 text-red-400 hover:text-red-300"
-            title="Delete collection"
-          >
-            <Trash2 size={13} />
-            <span>Delete</span>
-          </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Items Section */}
       <div className="flex flex-col gap-4">
@@ -119,26 +111,21 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
         </div>
 
         {collection.items.length === 0 ? (
-          <div className="p-12 text-center bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">
-            <Layers size={32} className="mx-auto mb-2 text-[var(--text-tertiary)]" />
-            <p className="text-sm font-semibold text-[var(--text-primary)]">
-              This collection has no items yet.
-            </p>
-            <p className="text-xs text-[var(--text-secondary)] mt-1 mb-4">
-              Explore palettes, colors, or gradients and click "Add to Collection".
-            </p>
-            <Link to={{ path: 'explore' }} onNavigate={onNavigate} className="btn-primary text-xs px-4 py-2 inline-flex">
-              Explore Library
-            </Link>
-          </div>
+          <EmptyState
+            icon={<Layers size={32} />}
+            title="This collection has no items yet"
+            description="Explore palettes, colors, or gradients and click 'Add to Collection'."
+            actionLabel="Explore Library"
+            onAction={() => onNavigate({ path: 'explore' })}
+          />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {collection.items.map((item) => {
               const previews = item.preview.split(',').filter(Boolean);
               return (
-                <div
+                <SpecimenCardBase
                   key={item.id}
-                  className="specimen-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between"
+                  className="p-3.5 flex flex-col justify-between"
                 >
                   <div>
                     {/* Visual Preview */}
@@ -188,7 +175,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
                       <Trash2 size={12} />
                     </button>
                   </div>
-                </div>
+                </SpecimenCardBase>
               );
             })}
           </div>

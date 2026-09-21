@@ -16,6 +16,9 @@ import { sortTrendingPalettes, sortNewestPalettes } from '../utils/rankingEngine
 import { USE_CASES, MOODS, VISUAL_CHARACTERS, SEASONS } from '../utils/taxonomy';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
+import { EmptyState } from '../components/common/EmptyState';
 
 interface ExplorePageProps {
   onNavigate: (route: RouteType) => void;
@@ -92,56 +95,53 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       />
 
       {/* Hero Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Compass size={16} className="text-[var(--color-primary)]" />
-            <span className="page-category-label">Curated Spectrum Hub</span>
+      <PageHeader
+        breadcrumbs={[
+          { label: 'Home', to: { path: 'home' } },
+          { label: 'Explore', isCurrent: true },
+        ]}
+        onNavigate={onNavigate}
+        sectionLabel="Curated spectrum hub"
+        title="Explore & Discover Color"
+        description="Discover calibrated palettes, color theories, daily specimens, and generative design tokens across curated taxonomies."
+        actions={
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Shuffle size={13} className="text-pink-400" />}
+              onClick={() => onNavigate({ path: 'random' })}
+              title="Surprise me with a random specimen"
+            >
+              Random Specimen
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<TrendingUp size={13} className="text-amber-400" />}
+              onClick={() => onNavigate({ path: 'trending' })}
+            >
+              Trending
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Clock size={13} className="text-emerald-400" />}
+              onClick={() => onNavigate({ path: 'new' })}
+            >
+              New Releases
+            </Button>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Explore &amp; Discover Color
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-            Discover calibrated palettes, color theories, daily specimens, and generative design tokens across curated taxonomies.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <Link
-            to={{ path: 'random' }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5"
-            title="Surprise me with a random specimen"
-          >
-            <Shuffle size={13} className="text-pink-400" />
-            <span>Random Specimen</span>
-          </Link>
-          <Link
-            to={{ path: 'trending' }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5"
-          >
-            <TrendingUp size={13} className="text-amber-400" />
-            <span>Trending</span>
-          </Link>
-          <Link
-            to={{ path: 'new' }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5"
-          >
-            <Clock size={13} className="text-emerald-400" />
-            <span>New Releases</span>
-          </Link>
-        </div>
-      </div>
+        }
+      />
 
       {/* Daily Specimen Highlights Banner */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Color of the Day Card */}
         <div className="p-4 sm:p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between gap-4">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase font-bold text-[var(--accent-gold)] tracking-wider">
-              COLOR OF THE DAY • {dailyColor.dateString}
+            <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
+              Color of the day • {dailyColor.dateString}
             </span>
             <Link
               to={{ path: 'color-of-the-day' }}
@@ -175,8 +175,8 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
         {/* Palette of the Day Card */}
         <div className="p-4 sm:p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between gap-4">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase font-bold text-[var(--accent-gold)] tracking-wider">
-              PALETTE OF THE DAY • {dailyPalette.dateString}
+            <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
+              Palette of the day • {dailyPalette.dateString}
             </span>
             <Link
               to={{ path: 'palette-of-the-day' }}
@@ -222,11 +222,20 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
         </div>
 
         {filteredPalettes.length === 0 && (
-          <div className="p-12 text-center bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">
-            <p className="text-sm text-[var(--text-secondary)]">
-              No palette systems match the active filter criteria.
-            </p>
-          </div>
+          <EmptyState
+            title="No palettes match your criteria"
+            description="Try changing your mood, character, or category filters to broaden the specimen selection."
+            actionLabel="Reset Filters"
+            onAction={() =>
+              setFilters({
+                category: undefined,
+                mood: undefined,
+                character: undefined,
+                season: undefined,
+                sortBy: 'trending',
+              })
+            }
+          />
         )}
       </section>
 

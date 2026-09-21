@@ -14,6 +14,8 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { generateComboSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Analytics } from '../utils/analytics';
 
 interface ComboDetailPageProps {
@@ -156,57 +158,60 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
         keywords={[combo.title, combo.harmonyType, ...combo.tags, ...combo.colors.map((c) => c.name)]}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Combos', to: { path: 'combos' } },
           { label: combo.title, isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel={`${combo.harmonyType} · Contrast ratio ${combo.contrastScore}`}
+        title={combo.title}
+        description={combo.description}
+        actions={
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Copy size={13} />}
+              onClick={handleCopyAll}
+            >
+              Copy Tokens
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<ShieldCheck size={13} className="text-blue-400" />}
+              onClick={() =>
+                onNavigate({
+                  path: 'contrast-checker',
+                  fg: focal1.hex.replace('#', ''),
+                  bg: focal2.hex.replace('#', ''),
+                })
+              }
+            >
+              Test Contrast
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share Combo URL"
+            >
+              Share
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
+              onClick={handleToggleSave}
+            >
+              {saved ? 'Saved' : 'Save'}
+            </Button>
+          </div>
+        }
       />
-
-      {/* Navigation Breadcrumb & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <Link
-          to={{ path: 'combos' }}
-          onNavigate={onNavigate}
-          className="detail-back-btn w-fit inline-flex items-center gap-2"
-        >
-          <ArrowLeft size={16} />
-          <span>Back to Combos Library</span>
-        </Link>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-          <Link
-            to={{
-              path: 'contrast-checker',
-              fg: focal1.hex.replace('#', ''),
-              bg: focal2.hex.replace('#', ''),
-            }}
-            onNavigate={onNavigate}
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
-            title="Test pairing in Contrast Checker"
-          >
-            <ShieldCheck size={13} className="text-blue-400" />
-            <span>Test Contrast</span>
-          </Link>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
-            onClick={handleShare}
-            title="Share Combo URL"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
-            onClick={handleToggleSave}
-          >
-            <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save'}</span>
-          </button>
-        </div>
-      </div>
 
       {/* Hero Hierarchy Stage — High Impact 2-Color Specimen Showcase */}
       <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
@@ -311,24 +316,6 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
         </div>
       </section>
 
-      {/* Combo Details Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
-        <div>
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
-            <span className="combo-harmony-badge">{combo.harmonyType}</span>
-            <span className="combo-contrast-badge">{combo.contrastScore}</span>
-          </div>
-          <h1 className="page-title">{combo.title}</h1>
-          <p className="page-description">{combo.description}</p>
-        </div>
-
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <button className="btn-primary" onClick={handleCopyAll} style={{ whiteSpace: 'nowrap' }}>
-            <Copy size={15} />
-            <span>Copy Harmony Tokens</span>
-          </button>
-        </div>
-      </div>
 
       {/* Relational Balance Breakdown with Color Links */}
       <section className="contrast-assessment-box">

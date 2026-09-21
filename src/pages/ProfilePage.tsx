@@ -9,6 +9,10 @@ import { PaletteCard } from '../components/PaletteCard';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
+import { EmptyState } from '../components/common/EmptyState';
+import { SpecimenCardBase } from '../components/common/SpecimenCardBase';
 
 interface ProfilePageProps {
   onNavigate: (route: RouteType) => void;
@@ -33,41 +37,26 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
         canonicalPath="/profile"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Curator Workspace', isCurrent: true },
         ]}
         onNavigate={onNavigate}
-      />
-
-      {/* User Header */}
-      <div className="p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xl shadow-md">
-            CW
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold text-[var(--text-primary)]">
-              Curator Workspace
-            </h1>
-            <p className="text-xs text-[var(--text-secondary)]">
-              Local workstation library • {savedItems.length} saved specimens • {userCollections.length} custom collections
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Link
-            to={{ path: 'collections' }}
-            onNavigate={onNavigate}
-            className="btn-primary text-xs px-3.5 py-2 flex items-center gap-1.5"
+        sectionLabel="Personal studio repository"
+        title="Curator Workspace"
+        description={`Local workstation library · ${savedItems.length} saved specimens · ${userCollections.length} custom collections.`}
+        actions={
+          <Button
+            variant="primary"
+            size="sm"
+            iconLeft={<FolderPlus size={13} />}
+            onClick={() => onNavigate({ path: 'collections' })}
           >
-            <FolderPlus size={13} />
-            <span>Manage Collections</span>
-          </Link>
-        </div>
-      </div>
+            Manage Collections
+          </Button>
+        }
+      />
 
       {/* Workspace Tabs */}
       <div className="filter-pills flex flex-wrap gap-1.5 border-b border-[var(--border-subtle)] pb-3">
@@ -105,26 +94,21 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
       {activeTab === 'saved' && (
         <div>
           {savedItems.length === 0 ? (
-            <div className="p-12 text-center bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">
-              <Bookmark size={32} className="mx-auto mb-2 text-[var(--text-tertiary)]" />
-              <p className="text-sm font-semibold text-[var(--text-primary)]">
-                No saved specimens yet.
-              </p>
-              <p className="text-xs text-[var(--text-secondary)] mt-1 mb-4">
-                Explore colors, palettes, and gradients to save your favorites.
-              </p>
-              <Link to={{ path: 'explore' }} onNavigate={onNavigate} className="btn-primary text-xs px-4 py-2 inline-flex">
-                Discover Library
-              </Link>
-            </div>
+            <EmptyState
+              icon={<Bookmark size={32} />}
+              title="No saved specimens yet"
+              description="Explore colors, palettes, and gradients to save your favorites."
+              actionLabel="Discover Library"
+              onAction={() => onNavigate({ path: 'explore' })}
+            />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {savedItems.map((item) => {
                 const previews = item.preview.split(',').filter(Boolean);
                 return (
-                  <div
+                  <SpecimenCardBase
                     key={item.id}
-                    className="specimen-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between"
+                    className="p-3.5 flex flex-col justify-between"
                   >
                     <div>
                       <div className="h-16 rounded-xs overflow-hidden mb-2.5 border border-[var(--border-subtle)] flex">
@@ -164,7 +148,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
                         <Trash2 size={12} />
                       </button>
                     </div>
-                  </div>
+                  </SpecimenCardBase>
                 );
               })}
             </div>
@@ -174,66 +158,69 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
 
       {/* Tab: Collections */}
       {activeTab === 'collections' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="w-full">
           {userCollections.length === 0 ? (
-            <div className="col-span-full p-12 text-center bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">
-              <Layers size={32} className="mx-auto mb-2 text-[var(--text-tertiary)]" />
-              <p className="text-sm font-semibold text-[var(--text-primary)]">
-                You haven't created any custom collections yet.
-              </p>
-              <Link to={{ path: 'collections' }} onNavigate={onNavigate} className="btn-primary text-xs px-4 py-2 inline-flex mt-3">
-                Create Collection
-              </Link>
-            </div>
+            <EmptyState
+              icon={<Layers size={32} />}
+              title="You haven't created any custom collections yet"
+              description="Curate custom groups of palettes, swatches, and gradients."
+              actionLabel="Create Collection"
+              onAction={() => onNavigate({ path: 'collections' })}
+            />
           ) : (
-            userCollections.map((col) => (
-              <CollectionCard key={col.id} collection={col} onNavigate={onNavigate} />
-            ))
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {userCollections.map((col) => (
+                <CollectionCard key={col.id} collection={col} onNavigate={onNavigate} />
+              ))}
+            </div>
           )}
         </div>
       )}
 
       {/* Tab: Liked Items */}
       {activeTab === 'liked' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="w-full">
           {likedItems.length === 0 ? (
-            <div className="col-span-full p-12 text-center bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">
-              <Heart size={32} className="mx-auto mb-2 text-[var(--text-tertiary)]" />
-              <p className="text-sm font-semibold text-[var(--text-primary)]">
-                No liked items yet.
-              </p>
-            </div>
+            <EmptyState
+              icon={<Heart size={32} />}
+              title="No liked items yet"
+              description="Click the heart icon on any specimen to bookmark it in your favorites."
+              actionLabel="Explore Library"
+              onAction={() => onNavigate({ path: 'explore' })}
+            />
           ) : (
-            likedItems.map((item) => (
-              <div key={item.id} className="p-3 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-xs">
-                <div className="font-bold text-xs text-[var(--text-primary)]">{item.title}</div>
-                <div className="font-mono text-[10px] text-[var(--text-tertiary)]">{item.type}</div>
-              </div>
-            ))
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {likedItems.map((item) => (
+                <SpecimenCardBase key={item.id} className="p-3">
+                  <div className="font-bold text-xs text-[var(--text-primary)]">{item.title}</div>
+                  <div className="font-mono text-[10px] text-[var(--text-tertiary)]">{item.type}</div>
+                </SpecimenCardBase>
+              ))}
+            </div>
           )}
         </div>
       )}
 
       {/* Tab: Remixes */}
       {activeTab === 'remixes' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="w-full">
           {remixItems.length === 0 ? (
-            <div className="col-span-full p-12 text-center bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md">
-              <Wand2 size={32} className="mx-auto mb-2 text-[var(--text-tertiary)]" />
-              <p className="text-sm font-semibold text-[var(--text-primary)]">
-                No saved remixes yet.
-              </p>
-              <p className="text-xs text-[var(--text-secondary)] mt-1">
-                Open any palette in the library and click "Remix" to create variations.
-              </p>
-            </div>
+            <EmptyState
+              icon={<Wand2 size={32} />}
+              title="No saved remixes yet"
+              description="Open any palette in the library and click 'Remix' to calibrate custom variations."
+              actionLabel="Browse Palettes"
+              onAction={() => onNavigate({ path: 'palettes' })}
+            />
           ) : (
-            remixItems.map((item) => (
-              <div key={item.id} className="p-3 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-xs">
-                <div className="font-bold text-xs text-[var(--text-primary)]">{item.title}</div>
-                <div className="font-mono text-[10px] text-[var(--text-tertiary)]">{item.metadata}</div>
-              </div>
-            ))
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {remixItems.map((item) => (
+                <SpecimenCardBase key={item.id} className="p-3">
+                  <div className="font-bold text-xs text-[var(--text-primary)]">{item.title}</div>
+                  <div className="font-mono text-[10px] text-[var(--text-tertiary)]">{item.metadata}</div>
+                </SpecimenCardBase>
+              ))}
+            </div>
           )}
         </div>
       )}

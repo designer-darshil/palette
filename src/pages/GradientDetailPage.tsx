@@ -13,6 +13,8 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { generateGradientSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { Button } from '../components/common/Button';
 import { Analytics } from '../utils/analytics';
 
 interface GradientDetailPageProps {
@@ -145,44 +147,46 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
         keywords={[baseGradient.title, baseGradient.category, ...baseGradient.tags, ...baseGradient.stops.map((s) => s.color)]}
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Gradients', to: { path: 'gradients' } },
           { label: baseGradient.title, isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel={`${baseGradient.type} gradient · ${baseGradient.category}`}
+        title={baseGradient.title}
+        description={`CSS gradient specimen featuring ${baseGradient.stops.length} color stops (${baseGradient.stops.map((s) => s.color).join(', ')}).`}
+        actions={
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft={<Copy size={13} />}
+              onClick={handleCopyCss}
+            >
+              Copy CSS
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Share2 size={13} />}
+              onClick={handleShare}
+              title="Share Gradient URL"
+            >
+              Share
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              iconLeft={<Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
+              onClick={handleToggleSave}
+            >
+              {saved ? 'Saved' : 'Save'}
+            </Button>
+          </div>
+        }
       />
-
-      {/* Navigation Breadcrumb & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <Link
-          to={{ path: 'gradients' }}
-          onNavigate={onNavigate}
-          className="detail-back-btn w-fit inline-flex items-center gap-2"
-        >
-          <ArrowLeft size={16} />
-          <span>Back to Gradients Library</span>
-        </Link>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto">
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
-            onClick={handleShare}
-            title="Share Gradient URL"
-          >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
-            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1.5 whitespace-nowrap"
-            onClick={handleToggleSave}
-          >
-            <Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />
-            <span>{saved ? 'Saved' : 'Save'}</span>
-          </button>
-        </div>
-      </div>
 
       {/* Hero Gradient Stage */}
       <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">

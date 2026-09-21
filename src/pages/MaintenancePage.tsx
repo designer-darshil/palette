@@ -12,6 +12,7 @@ import {
   Sparkles,
   ExternalLink,
 } from 'lucide-react';
+import { Button } from '../components/common/Button';
 
 interface MaintenancePageProps {
   isPreview?: boolean;
@@ -89,24 +90,24 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
             )}
 
             {isAuthenticated && (
-              <button
-                type="button"
+              <Button
+                variant="secondary"
+                size="sm"
+                iconRight={<ArrowRight size={12} />}
                 onClick={onNavigateAdmin || (() => { window.location.href = '/admin'; })}
-                className="px-2.5 py-1 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-mono text-[11px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <span>Admin Hub</span>
-                <ArrowRight size={12} />
-              </button>
+                Admin Hub
+              </Button>
             )}
 
             {isPreview && onExitPreview && (
-              <button
-                type="button"
+              <Button
+                variant="primary"
+                size="sm"
                 onClick={onExitPreview}
-                className="px-2.5 py-1 rounded-xs bg-[var(--color-primary)] text-[var(--color-primary-contrast)] font-mono text-[11px] font-bold hover:opacity-90 transition-opacity cursor-pointer"
               >
                 Exit Preview
-              </button>
+              </Button>
             )}
           </div>
         </header>
@@ -180,26 +181,27 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
 
           {/* Action Buttons */}
           <div className="flex items-center gap-3 flex-wrap justify-center">
-            <button
-              type="button"
+            <Button
+              variant="primary"
+              size="md"
+              iconLeft={<RefreshCw size={13} className={isRefreshing ? 'animate-spin' : ''} />}
               onClick={handleManualRefresh}
               disabled={isRefreshing}
-              className="px-4 py-2 rounded-xs bg-[var(--color-primary)] text-[var(--color-primary-contrast)] font-semibold text-xs transition-transform active:scale-95 hover:opacity-95 shadow-sm flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              <RefreshCw size={13} className={isRefreshing ? 'animate-spin' : ''} />
-              <span>{isRefreshing ? 'Checking...' : 'Check Status'}</span>
-            </button>
+              {isRefreshing ? 'Checking...' : 'Check Status'}
+            </Button>
 
             {state.supportUrl && (
-              <a
-                href={state.supportUrl}
-                target={state.supportUrl.startsWith('http') ? '_blank' : undefined}
-                rel="noreferrer"
-                className="px-4 py-2 rounded-xs bg-[var(--bg-surface-1)] hover:bg-[var(--bg-surface-2)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-semibold text-xs transition-colors flex items-center gap-2"
+              <Button
+                variant="secondary"
+                size="md"
+                iconLeft={<Mail size={13} />}
+                onClick={() => {
+                  if (state.supportUrl) window.open(state.supportUrl, '_blank');
+                }}
               >
-                <Mail size={13} />
-                <span>Contact Support</span>
-              </a>
+                Contact Support
+              </Button>
             )}
           </div>
         </main>

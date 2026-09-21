@@ -1,9 +1,10 @@
 import React from 'react';
-import { Gamepad2, Sparkles, Target, Eye, Layers, ArrowRight } from 'lucide-react';
+import { Target, Eye, Layers, ArrowRight } from 'lucide-react';
 import { RouteType } from '../types';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
-import { Link } from '../components/common/Link';
+import { PageHeader } from '../components/common/PageHeader';
+import { SpecimenCardBase } from '../components/common/SpecimenCardBase';
+import { Button } from '../components/common/Button';
 
 interface PlayHubPageProps {
   onNavigate: (route: RouteType) => void;
@@ -18,39 +19,30 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
         canonicalPath="/play"
       />
 
-      <Breadcrumbs
-        items={[
+      <PageHeader
+        breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Play', isCurrent: true },
         ]}
         onNavigate={onNavigate}
+        sectionLabel="Sensory calibration games"
+        title="Color Play & Sensory Calibration"
+        description="Test and refine your perceptual acuity for RGB channels, subtle Delta-E differences, and harmonic balance."
       />
-
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-subtle)] pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Gamepad2 size={16} className="text-[var(--color-primary)]" />
-            <span className="page-category-label">Sensory Calibration Games</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
-            Color Play &amp; Sensory Calibration
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-2xl">
-            Test and refine your perceptual acuity for RGB channels, subtle Delta-E differences, and harmonic balance.
-          </p>
-        </div>
-      </div>
 
       {/* Game Selection Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Game 1: Hexle */}
-        <div className="p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-lg flex flex-col justify-between gap-6 transition-all group">
+        <SpecimenCardBase
+          className="p-6 flex flex-col justify-between gap-6"
+          onClick={() => onNavigate({ path: 'play-hexle' })}
+        >
           <div>
             <div className="w-12 h-12 rounded-md bg-amber-500/10 text-amber-400 flex items-center justify-center mb-4">
               <Target size={24} />
             </div>
-            <span className="font-mono text-[10px] uppercase font-bold text-[var(--accent-gold)] tracking-wider block mb-1">
-              DAILY COLOR PUZZLE
+            <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)] block mb-1">
+              Daily color puzzle
             </span>
             <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">
               Hexle
@@ -60,24 +52,28 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <Link
-            to={{ path: 'play-hexle' }}
-            onNavigate={onNavigate}
-            className="btn-primary text-xs px-4 py-2.5 flex items-center justify-between"
+          <Button
+            variant="primary"
+            size="md"
+            iconRight={<ArrowRight size={14} />}
+            onClick={() => onNavigate({ path: 'play-hexle' })}
+            className="w-full justify-between"
           >
-            <span>Play Hexle</span>
-            <ArrowRight size={13} />
-          </Link>
-        </div>
+            Play Hexle
+          </Button>
+        </SpecimenCardBase>
 
         {/* Game 2: Odd One Out */}
-        <div className="p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-lg flex flex-col justify-between gap-6 transition-all group">
+        <SpecimenCardBase
+          className="p-6 flex flex-col justify-between gap-6"
+          onClick={() => onNavigate({ path: 'play-odd-one-out' })}
+        >
           <div>
             <div className="w-12 h-12 rounded-md bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
               <Eye size={24} />
             </div>
-            <span className="font-mono text-[10px] uppercase font-bold text-emerald-400 tracking-wider block mb-1">
-              PERCEPTUAL ACUITY
+            <span className="font-sans text-[11px] font-semibold text-emerald-400 block mb-1">
+              Perceptual acuity
             </span>
             <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">
               Odd One Out
@@ -87,24 +83,28 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <Link
-            to={{ path: 'play-odd-one-out' }}
-            onNavigate={onNavigate}
-            className="btn-primary text-xs px-4 py-2.5 flex items-center justify-between"
+          <Button
+            variant="primary"
+            size="md"
+            iconRight={<ArrowRight size={14} />}
+            onClick={() => onNavigate({ path: 'play-odd-one-out' })}
+            className="w-full justify-between"
           >
-            <span>Play Odd One Out</span>
-            <ArrowRight size={13} />
-          </Link>
-        </div>
+            Play Odd One Out
+          </Button>
+        </SpecimenCardBase>
 
         {/* Game 3: Palette Match */}
-        <div className="p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-lg flex flex-col justify-between gap-6 transition-all group">
+        <SpecimenCardBase
+          className="p-6 flex flex-col justify-between gap-6"
+          onClick={() => onNavigate({ path: 'play-palette-match' })}
+        >
           <div>
             <div className="w-12 h-12 rounded-md bg-pink-500/10 text-pink-400 flex items-center justify-center mb-4">
               <Layers size={24} />
             </div>
-            <span className="font-mono text-[10px] uppercase font-bold text-pink-400 tracking-wider block mb-1">
-              HARMONIC ORDER
+            <span className="font-sans text-[11px] font-semibold text-pink-400 block mb-1">
+              Harmonic order
             </span>
             <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">
               Palette Match
@@ -114,15 +114,16 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <Link
-            to={{ path: 'play-palette-match' }}
-            onNavigate={onNavigate}
-            className="btn-primary text-xs px-4 py-2.5 flex items-center justify-between"
+          <Button
+            variant="primary"
+            size="md"
+            iconRight={<ArrowRight size={14} />}
+            onClick={() => onNavigate({ path: 'play-palette-match' })}
+            className="w-full justify-between"
           >
-            <span>Play Palette Match</span>
-            <ArrowRight size={13} />
-          </Link>
-        </div>
+            Play Palette Match
+          </Button>
+        </SpecimenCardBase>
       </div>
     </div>
   );

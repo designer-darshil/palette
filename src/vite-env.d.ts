@@ -10,5 +10,5 @@ interface ImportMeta {
 }
 
 interface Window {
-  __KROMA_LOADER_COMPLETE__?: () => void;
+  __RAINBOW_LOADER_COMPLETE__?: () => void;
 }

@@ -1,0 +1,248 @@
+/* ═══════════════════════════════════════════════════════════════
+   RAINBOW PAINT ROLLER PRELOADER SYSTEM (Theme-Aware)
+   Single Global Preloader for Kroma
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --loader-bg-light: #F8F8F8;
+  --loader-outline-light: #171717;
+  --loader-handle-light: #D9A77A;
+  --loader-ferrule-light: #D0D0D4;
+
+  --loader-bg-dark: #171717;
+  --loader-outline-dark: #F8F8F8;
+  --loader-handle-dark: #C99568;
+  --loader-ferrule-dark: #3A3D45;
+
+  /* Active variables (default based on dark unless light is specified) */
+  --loader-bg: var(--loader-bg-dark);
+  --loader-outline: var(--loader-outline-dark);
+  --loader-handle: var(--loader-handle-dark);
+  --loader-ferrule: var(--loader-ferrule-dark);
+}
+
+[data-theme="light"],
+.rainbow-preloader-theme-light {
+  --loader-bg: var(--loader-bg-light);
+  --loader-outline: var(--loader-outline-light);
+  --loader-handle: var(--loader-handle-light);
+  --loader-ferrule: var(--loader-ferrule-light);
+}
+
+[data-theme="dark"],
+:root:not([data-theme="light"]),
+.rainbow-preloader-theme-dark {
+  --loader-bg: var(--loader-bg-dark);
+  --loader-outline: var(--loader-outline-dark);
+  --loader-handle: var(--loader-handle-dark);
+  --loader-ferrule: var(--loader-ferrule-dark);
+}
+
+/* ─── Preloader Container ──────────────────────────────────── */
+
+.rainbow-preloader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--loader-bg);
+  color: var(--loader-outline);
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.rainbow-preloader-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  z-index: 999999 !important;
+  pointer-events: all;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 500ms ease-out,
+    visibility 500ms ease-out,
+    background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rainbow-preloader-inline {
+  position: relative;
+  width: 100%;
+  min-height: 50vh;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 400ms ease-out, visibility 400ms ease-out;
+}
+
+.rainbow-preloader-exit {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* ─── Base Roller Wrapper: Fixed Center ~45° Signature Tilt ──── */
+
+.rainbow-roller-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 68px;
+  height: 68px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+.rainbow-roller-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* ─── Layer 1: Roller Assembly (Rocking around axle) ───────── */
+
+.roller-assembly {
+  transform-box: fill-box;
+  transform-origin: 43px 40px;
+  animation: rollerAssemblyRock 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes rollerAssemblyRock {
+  0% {
+    transform: translateX(-1px) rotate(-8deg);
+  }
+  25% {
+    transform: translateX(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateX(1px) rotate(8deg);
+  }
+  75% {
+    transform: translateX(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-1px) rotate(-8deg);
+  }
+}
+
+/* ─── Layer 2: Roller Cylinder (Physical rolling rotation) ──── */
+
+.roller-cylinder {
+  transform-box: fill-box;
+  transform-origin: 43px 40px;
+  animation: rollerCylinderRoll 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes rollerCylinderRoll {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(12deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-12deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* ─── Layer 3: Roller Frame & Wooden Handle ────────────────── */
+
+.roller-frame {
+  transform-box: fill-box;
+  transform-origin: 43px 18px;
+  animation: rollerFrameFollow 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes rollerFrameFollow {
+  0% {
+    transform: rotate(1.5deg);
+  }
+  25% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-1.5deg);
+  }
+  75% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(1.5deg);
+  }
+}
+
+/* ─── Dynamic Outline & Handle Fills ────────────────────────── */
+
+.rainbow-roller-outline {
+  stroke: var(--loader-outline);
+  transition: stroke 240ms ease;
+}
+
+.rainbow-roller-fill {
+  fill: var(--loader-outline);
+  transition: fill 240ms ease;
+}
+
+.rainbow-roller-handle {
+  fill: var(--loader-handle);
+  stroke: var(--loader-outline);
+  transition: fill 240ms ease, stroke 240ms ease;
+}
+
+.rainbow-roller-ferrule {
+  fill: var(--loader-ferrule);
+  stroke: var(--loader-outline);
+  transition: fill 240ms ease, stroke 240ms ease;
+}
+
+/* ─── Responsive Scaling: Desktop 68px, Tablet 58px, Mobile 50px ─ */
+
+@media (max-width: 1024px) {
+  .rainbow-roller-wrapper {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+@media (max-width: 768px) {
+  .rainbow-roller-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* ─── Accessibility: Reduced Motion ────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .roller-assembly,
+  .roller-cylinder,
+  .roller-frame {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .rainbow-roller-wrapper {
+    transform: translate(-50%, -50%) rotate(45deg) !important;
+  }
+
+  .rainbow-preloader-fullscreen,
+  .rainbow-preloader-inline {
+    transition: opacity 400ms ease-out, visibility 400ms ease-out !important;
+  }
+}

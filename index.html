@@ -52,10 +52,30 @@
         -moz-osx-font-smoothing: grayscale;
         overflow-x: hidden;
       }
+      :root {
+        --loader-bg-light: #F8F8F8;
+        --loader-outline-light: #171717;
+        --loader-handle-light: #D9A77A;
+        --loader-ferrule-light: #D0D0D4;
+
+        --loader-bg-dark: #171717;
+        --loader-outline-dark: #F8F8F8;
+        --loader-handle-dark: #C99568;
+        --loader-ferrule-dark: #3A3D45;
+
+        --loader-bg: var(--loader-bg-dark);
+        --loader-outline: var(--loader-outline-dark);
+        --loader-handle: var(--loader-handle-dark);
+        --loader-ferrule: var(--loader-ferrule-dark);
+      }
       html[data-theme="light"],
       html[data-theme="light"] body {
         background-color: #F7F8FA;
         color: #12141A;
+        --loader-bg: var(--loader-bg-light);
+        --loader-outline: var(--loader-outline-light);
+        --loader-handle: var(--loader-handle-light);
+        --loader-ferrule: var(--loader-ferrule-light);
       }
       html[data-theme="dark"],
       html[data-theme="dark"] body,
@@ -63,188 +83,328 @@
       html:not([data-theme="light"]) body {
         background-color: #090A0C;
         color: #F8F9FA;
+        --loader-bg: var(--loader-bg-dark);
+        --loader-outline: var(--loader-outline-dark);
+        --loader-handle: var(--loader-handle-dark);
+        --loader-ferrule: var(--loader-ferrule-dark);
       }
       body.kroma-locked {
         overflow: hidden !important;
       }
-      #kroma-boot-loader {
+      #rainbow-boot-preloader {
         position: fixed;
         inset: 0;
         width: 100vw;
         height: 100vh;
         height: 100dvh;
-        z-index: 99999;
-        background-color: #090A0C;
+        z-index: 999999;
+        background-color: var(--loader-bg);
+        color: var(--loader-outline);
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
         box-sizing: border-box;
         opacity: 1;
-        transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1);
+        visibility: visible;
+        transition: opacity 500ms ease-out, visibility 500ms ease-out;
         pointer-events: all;
       }
-      html[data-theme="light"] #kroma-boot-loader {
-        background-color: #F7F8FA;
-      }
-      html[data-theme="light"] .kroma-loader-wordmark,
-      html[data-theme="light"] .kroma-loader-pct {
-        color: #12141A;
-      }
-      html[data-theme="light"] .kroma-loader-track {
-        background: rgba(0, 0, 0, 0.08);
-      }
-      html[data-theme="light"] .kroma-loader-label {
-        color: #8C95A6;
-      }
-      #kroma-boot-loader.kroma-loader-exit {
+      #rainbow-boot-preloader.rainbow-preloader-exit {
         opacity: 0;
         pointer-events: none;
+        visibility: hidden;
       }
-      .kroma-loader-inner {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      .rainbow-roller-wrapper {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 68px;
+        height: 68px;
+        transform: translate(-50%, -50%) rotate(45deg);
+        transform-origin: center center;
+        pointer-events: none;
+      }
+      .rainbow-roller-svg {
         width: 100%;
-        max-width: 340px;
-        padding: 0 24px;
-        box-sizing: border-box;
-      }
-      .kroma-loader-brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 36px;
-      }
-      .kroma-loader-glyph {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: #E63946;
-        box-shadow: 0 0 12px rgba(230, 57, 70, 0.55);
-        flex-shrink: 0;
-        animation: kromaBootPulse 2.4s ease-in-out infinite;
-      }
-      .kroma-loader-wordmark {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 1.35rem;
-        font-weight: 800;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: #F8F9FA;
-      }
-      .kroma-loader-track-wrap {
-        width: 100%;
-        margin-bottom: 16px;
-      }
-      .kroma-loader-track {
-        width: 100%;
-        height: 2px;
-        background: rgba(255, 255, 255, 0.07);
-        border-radius: 2px;
-        overflow: hidden;
-        position: relative;
-      }
-      .kroma-loader-fill {
         height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, #E63946 0%, #E9C46A 100%);
-        border-radius: 2px;
-        transition: width 240ms cubic-bezier(0.25, 1, 0.5, 1);
+        display: block;
+        overflow: visible;
       }
-      .kroma-loader-pct {
-        font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-        font-size: 2.2rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        color: #F8F9FA;
-        line-height: 1;
-        margin-bottom: 10px;
-        font-variant-numeric: tabular-nums;
+      /* Layer 1: Roller Assembly (Main rocking & subtle ±1px displacement around axle) */
+      .roller-assembly {
+        transform-box: fill-box;
+        transform-origin: 43px 40px;
+        animation: rollerAssemblyRock 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
       }
-      .kroma-loader-label {
-        font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-        font-size: 0.65rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: #606675;
+      @keyframes rollerAssemblyRock {
+        0% {
+          transform: translateX(-1px) rotate(-8deg);
+        }
+        25% {
+          transform: translateX(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateX(1px) rotate(8deg);
+        }
+        75% {
+          transform: translateX(0px) rotate(0deg);
+        }
+        100% {
+          transform: translateX(-1px) rotate(-8deg);
+        }
       }
-      @keyframes kromaBootPulse {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.5; transform: scale(0.82); }
+      /* Layer 2: Roller Cylinder (Physical rolling rotation around cylinder axle) */
+      .roller-cylinder {
+        transform-box: fill-box;
+        transform-origin: 43px 40px;
+        animation: rollerCylinderRoll 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      }
+      @keyframes rollerCylinderRoll {
+        0% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(12deg);
+        }
+        50% {
+          transform: rotate(0deg);
+        }
+        75% {
+          transform: rotate(-12deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+      /* Layer 3: Roller Frame & Handle (Physically attached to top axle pin, follows naturally) */
+      .roller-frame {
+        transform-box: fill-box;
+        transform-origin: 43px 18px;
+        animation: rollerFrameFollow 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      }
+      @keyframes rollerFrameFollow {
+        0% {
+          transform: rotate(1.5deg);
+        }
+        25% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(-1.5deg);
+        }
+        75% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(1.5deg);
+        }
+      }
+      @media (max-width: 768px) {
+        .rainbow-roller-wrapper {
+          width: 58px;
+          height: 58px;
+        }
+      }
+      @media (max-width: 480px) {
+        .rainbow-roller-wrapper {
+          width: 50px;
+          height: 50px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .roller-assembly,
+        .roller-cylinder,
+        .roller-frame {
+          animation: none !important;
+          transform: none !important;
+        }
+        .rainbow-roller-wrapper {
+          transform: translate(-50%, -50%) rotate(45deg) !important;
+        }
+        #rainbow-boot-preloader {
+          transition: opacity 400ms ease-out, visibility 400ms ease-out !important;
+        }
       }
     </style>
   </head>
   <body class="kroma-locked">
-    <!-- Immediate Zero-Flicker Boot Loader (Painted on Frame 0 before JS/CSS bundle) -->
-    <div id="kroma-boot-loader" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="KROMA is loading" aria-live="polite">
-      <div class="kroma-loader-inner">
-        <div class="kroma-loader-brand">
-          <span class="kroma-loader-glyph" aria-hidden="true"></span>
-          <span class="kroma-loader-wordmark">KROMA</span>
-        </div>
-        <div class="kroma-loader-track-wrap" aria-hidden="true">
-          <div class="kroma-loader-track">
-            <div id="kroma-boot-fill" class="kroma-loader-fill"></div>
-          </div>
-        </div>
-        <div id="kroma-boot-pct" class="kroma-loader-pct" aria-hidden="true">00%</div>
-        <div class="kroma-loader-label" aria-hidden="true">LOADING EXPERIENCE</div>
+    <!-- Immediate Minimal Rainbow Paint Roller Preloader (Frame 0 paint) -->
+    <div id="rainbow-boot-preloader" role="status" aria-label="Loading..." aria-live="polite">
+      <div class="rainbow-roller-wrapper">
+        <svg
+          viewBox="0 0 100 100"
+          class="rainbow-roller-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+        >
+          <defs>
+            <clipPath id="bootRainbowCylinderClip">
+              <rect x="33" y="18" width="20" height="44" rx="6" ry="6" />
+            </clipPath>
+          </defs>
+
+          <!-- Roller Assembly (Main physical rocking & rolling around axle) -->
+          <g class="roller-assembly" style="transform-origin: 43px 40px;">
+            <!-- Roller Frame & Handle Layer (Firmly pinned at top axle pin 43, 18) -->
+            <g class="roller-frame" style="transform-origin: 43px 18px;">
+              <!-- Metal Wire Bracket -->
+              <path
+                d="M 43 19 L 43 14 C 43 11, 45 9, 48 9 L 60 9 C 63.5 9, 65.5 11, 65.5 14.5 L 65.5 39 C 65.5 42, 63.5 44, 61 45.5 L 59 47 C 58 47.7, 57.5 48.8, 57.5 50 L 57.5 55"
+                fill="none"
+                stroke="var(--loader-outline)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <!-- Metal Ferrule Collar -->
+              <rect
+                x="55.5"
+                y="55"
+                width="4"
+                height="3"
+                rx="0.8"
+                fill="var(--loader-ferrule)"
+                stroke="var(--loader-outline)"
+                stroke-width="1.2"
+              />
+
+              <!-- Wooden Handle -->
+              <path
+                d="M 55.5 58 L 54 75 C 53.5 81, 61.5 81, 61 75 L 59.5 58 Z"
+                fill="var(--loader-handle)"
+                stroke="var(--loader-outline)"
+                stroke-width="1.4"
+                stroke-linejoin="round"
+              />
+            </g>
+
+            <!-- Roller Cylinder Layer (Performs physical rolling rotation around axle) -->
+            <g class="roller-cylinder" style="transform-origin: 43px 40px;">
+              <!-- Clipped Solid Rainbow Stripes -->
+              <g clip-path="url(#bootRainbowCylinderClip)">
+                <!-- 6. Purple (#7B2CBF) -->
+                <path
+                  d="M 31 16 L 55 16 L 55 25.5 C 48 27.5, 39 23.5, 31 25.5 Z"
+                  fill="#7B2CBF"
+                />
+                <!-- 5. Blue / Cyan (#00AEEF) -->
+                <path
+                  d="M 31 25.5 C 39 23.5, 48 27.5, 55 25.5 L 55 33 C 48 35, 39 31, 31 33 Z"
+                  fill="#00AEEF"
+                />
+                <!-- 4. Green (#34C759) -->
+                <path
+                  d="M 31 33 C 39 31, 48 35, 55 33 L 55 40.5 C 48 42.5, 39 38.5, 31 40.5 Z"
+                  fill="#34C759"
+                />
+                <!-- 3. Yellow (#FFD60A) -->
+                <path
+                  d="M 31 40.5 C 39 38.5, 48 42.5, 55 40.5 L 55 48 C 48 50, 39 46, 31 48 Z"
+                  fill="#FFD60A"
+                />
+                <!-- 2. Orange (#FF9500) -->
+                <path
+                  d="M 31 48 C 48 46, 48 50, 55 48 L 55 55.5 C 48 57.5, 39 53.5, 31 55.5 Z"
+                  fill="#FF9500"
+                />
+                <!-- 1. Red (#FF3B30) -->
+                <path
+                  d="M 31 55.5 C 39 53.5, 48 57.5, 55 55.5 L 55 65 L 31 65 Z"
+                  fill="#FF3B30"
+                />
+              </g>
+
+              <!-- Organic Wave Separators -->
+              <path
+                d="M 33 25.5 C 40 23.8, 47 27.2, 53 25.5"
+                fill="none"
+                stroke="var(--loader-outline)"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M 33 33 C 40 31.3, 47 34.7, 53 33"
+                fill="none"
+                stroke="var(--loader-outline)"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M 33 40.5 C 40 38.8, 47 42.2, 53 40.5"
+                fill="none"
+                stroke="var(--loader-outline)"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M 33 48 C 40 46.3, 47 49.7, 53 48"
+                fill="none"
+                stroke="var(--loader-outline)"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M 33 55.5 C 40 53.8, 47 57.2, 53 55.5"
+                fill="none"
+                stroke="var(--loader-outline)"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              />
+
+              <!-- Roller Outer Border -->
+              <rect
+                x="33"
+                y="18"
+                width="20"
+                height="44"
+                rx="6"
+                ry="6"
+                fill="none"
+                stroke="var(--loader-outline)"
+                stroke-width="1.4"
+              />
+
+              <!-- Top wire attachment pin -->
+              <circle cx="43" cy="18" r="1.5" fill="var(--loader-outline)" />
+            </g>
+          </g>
+        </svg>
       </div>
     </div>
 
-    <!-- Boot Loader Progress Engine -->
+    <!-- Minimal Preloader Dismiss Engine -->
     <script>
       (function() {
-        var fill = document.getElementById('kroma-boot-fill');
-        var pct = document.getElementById('kroma-boot-pct');
-        var loader = document.getElementById('kroma-boot-loader');
-        if (!fill || !pct || !loader) return;
+        var loader = document.getElementById('rainbow-boot-preloader');
+        if (!loader) return;
 
-        var progress = 0;
         var dismissed = false;
 
-        function setProgress(val) {
-          if (dismissed || val <= progress) return;
-          progress = val;
-          fill.style.width = progress + '%';
-          pct.textContent = (progress < 10 ? '0' : '') + progress + '%';
-          loader.setAttribute('aria-valuenow', progress);
-
-          if (progress >= 100) {
-            dismissed = true;
-            setTimeout(function() {
-              loader.classList.add('kroma-loader-exit');
-              setTimeout(function() {
-                if (loader && loader.parentNode) {
-                  loader.parentNode.removeChild(loader);
-                }
-                document.body.classList.remove('kroma-locked');
-              }, 380);
-            }, 260);
-          }
+        function completeLoader() {
+          if (dismissed) return;
+          dismissed = true;
+          // Smooth 500ms fade-out (opacity: 1 -> 0)
+          loader.classList.add('rainbow-preloader-exit');
+          setTimeout(function() {
+            if (loader && loader.parentNode) {
+              loader.parentNode.removeChild(loader);
+            }
+            document.body.classList.remove('kroma-locked');
+          }, 520);
         }
 
-        var schedule = [
-          { p: 28, d: 100 },
-          { p: 52, d: 240 },
-          { p: 72, d: 420 },
-          { p: 86, d: 640 },
-          { p: 94, d: 880 },
-          { p: 100, d: 1180 }
-        ];
+        // Global Rainbow Loader bridge
+        window.__RAINBOW_LOADER_COMPLETE__ = completeLoader;
 
-        schedule.forEach(function(item) {
-          setTimeout(function() {
-            setProgress(item.p);
-          }, item.d);
-        });
-
-        // Global bridge so React or any lifecycle event can complete the loader cleanly
-        window.__KROMA_LOADER_COMPLETE__ = function() {
-          setProgress(100);
-        };
+        // Auto-dismiss safety fallback
+        setTimeout(function() {
+          if (!dismissed) {
+            completeLoader();
+          }
+        }, 1800);
       })();
     </script>
 

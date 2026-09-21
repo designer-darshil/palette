@@ -23,9 +23,9 @@ initAnalytics();
 // ─────────────────────────────────────────────────────────────
 const Root: React.FC = () => {
   useEffect(() => {
-    // Notify boot loader that React tree has mounted
-    if (typeof window !== 'undefined' && window.__KROMA_LOADER_COMPLETE__) {
-      window.__KROMA_LOADER_COMPLETE__();
+    // Notify RainbowPaintRollerPreloader that React tree has mounted
+    if (typeof window !== 'undefined' && window.__RAINBOW_LOADER_COMPLETE__) {
+      window.__RAINBOW_LOADER_COMPLETE__();
     }
   }, []);
 
@@ -53,7 +53,7 @@ const Root: React.FC = () => {
 declare global {
   interface Window {
     __KROMA_REACT_ROOT__?: ReactDOM.Root;
-    __KROMA_LOADER_COMPLETE__?: () => void;
+    __RAINBOW_LOADER_COMPLETE__?: () => void;
   }
 }
 

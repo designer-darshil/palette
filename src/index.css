@@ -3339,6 +3339,21 @@ body.nav-open {
   50%       { opacity: 0.5; transform: scale(0.82); }
 }
 
+@keyframes kromaLoaderShimmer {
+  0% {
+    width: 15%;
+    margin-left: 0%;
+  }
+  50% {
+    width: 60%;
+    margin-left: 20%;
+  }
+  100% {
+    width: 30%;
+    margin-left: 70%;
+  }
+}
+
 /* Reduced Motion Compliance */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

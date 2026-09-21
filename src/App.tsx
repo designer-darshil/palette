@@ -3,6 +3,7 @@ import { RouteType } from './types';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
+import { KromaLoader } from './components/common/KromaLoader';
 import { generateFullRampsSystem, normalizeHex, isValidHex, RampsScope, RampsScheme, RampsWcag, RampsNotation, RampsVividness } from './utils/rampsEngine';
 import { deserializeAntigravityConfig, serializeAntigravityConfig, generateMotionTokens, generateCssExport, generateJsExport, generateFramerMotionExport, describeMotion } from './utils/antigravityEngine';
 import { deserializeMeshConfig, serializeMeshConfig, generateMeshCss, generateMeshSvg, generateMeshTokensJson } from './utils/meshEngine';
@@ -753,7 +754,7 @@ export const App: React.FC = () => {
   // Admin route renders its own standalone layout (Always accessible, never locked out)
   if (currentRoute.path === 'admin') {
     return (
-      <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" /></div>}>
+      <Suspense fallback={<KromaLoader minHeight="60vh" label="LOADING ADMIN WORKSPACE" />}>
         <AdminHubPage onNavigatePublic={handleNavigate} />
       </Suspense>
     );
@@ -763,7 +764,7 @@ export const App: React.FC = () => {
   // When active and not in preview mode, renders the standalone MaintenancePage
   if (isActive && !previewMode) {
     return (
-      <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" /></div>}>
+      <Suspense fallback={<KromaLoader minHeight="60vh" label="SYSTEM CALIBRATION" />}>
         <MaintenancePage onNavigateAdmin={() => handleNavigate({ path: 'admin' })} />
       </Suspense>
     );
@@ -913,11 +914,7 @@ export const App: React.FC = () => {
       />
 
       <main className={`main-content ${isStudioView ? 'main-content-studio' : ''}`}>
-        <Suspense fallback={
-          <div className="flex items-center justify-center min-h-[50vh]">
-            <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-          </div>
-        }>
+        <Suspense fallback={<KromaLoader minHeight="50vh" />}>
           {renderCurrentPage()}
         </Suspense>
       </main>

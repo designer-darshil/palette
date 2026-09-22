@@ -380,13 +380,28 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             </Link>
 
             {/* Studios Dropdown */}
-            <div className="kroma-header__dropdown" ref={studiosRef}>
+            <div
+              className="kroma-header__dropdown"
+              ref={studiosRef}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setStudiosOpen(false);
+                }
+              }}
+            >
               <button
                 type="button"
                 className={`kroma-header__dropdown-btn ${isStudioActive ? 'kroma-header__dropdown-btn--active' : ''}`}
                 onClick={() => {
                   setStudiosOpen(!studiosOpen);
                   setCommunityOpen(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setStudiosOpen(true);
+                    setCommunityOpen(false);
+                  }
                 }}
                 aria-expanded={studiosOpen}
                 aria-haspopup="true"
@@ -398,42 +413,158 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
               </button>
 
               <div
-                className={`kroma-header__dropdown-menu ${studiosOpen ? 'kroma-header__dropdown-menu--open' : ''}`}
+                className={`kroma-header__dropdown-menu kroma-header__dropdown-menu--studios ${
+                  studiosOpen ? 'kroma-header__dropdown-menu--open' : ''
+                }`}
                 role="menu"
                 aria-label="Studio engines and generators"
               >
-                <div className="kroma-header__dropdown-header">Studio Engines &amp; Tools</div>
-                {STUDIO_TOOLS.map((tool) => (
-                  <Link
-                    key={tool.id}
-                    to={tool.path}
-                    onNavigate={handleNav}
-                    className="kroma-header__dropdown-item"
-                    role="menuitem"
-                  >
-                    <div
-                      className="kroma-header__dropdown-icon"
-                      style={{ color: tool.color, backgroundColor: `${tool.color}15` }}
+                <div className="kroma-header__dropdown-grid">
+                  {/* Column 1: Generators & Color Science */}
+                  <div className="kroma-header__dropdown-col">
+                    <div className="kroma-header__dropdown-category">
+                      Generators &amp; Science
+                    </div>
+                    <div className="kroma-header__dropdown-list">
+                      {[
+                        STUDIO_TOOLS[0], // Ramps
+                        STUDIO_TOOLS[4], // Palette Generator
+                        STUDIO_TOOLS[2], // Mesh Gradient
+                        STUDIO_TOOLS[3], // Pattern Studio
+                      ].map((tool) => {
+                        const isActive = currentRoute.path === tool.id;
+                        return (
+                          <Link
+                            key={tool.id}
+                            to={tool.path}
+                            onNavigate={handleNav}
+                            className={`kroma-header__dropdown-item ${
+                              isActive ? 'kroma-header__dropdown-item--active' : ''
+                            }`}
+                            role="menuitem"
+                          >
+                            <span
+                              className="kroma-header__dropdown-marker"
+                              style={{ backgroundColor: tool.color }}
+                              aria-hidden="true"
+                            />
+                            <div className="kroma-header__dropdown-text">
+                              <span className="kroma-header__dropdown-title">
+                                {tool.title}
+                              </span>
+                              <span className="kroma-header__dropdown-desc">
+                                {tool.description}
+                              </span>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Column 2: Systems & Workspaces */}
+                  <div className="kroma-header__dropdown-col">
+                    <div className="kroma-header__dropdown-category">
+                      Systems &amp; Workspaces
+                    </div>
+                    <div className="kroma-header__dropdown-list">
+                      {[
+                        STUDIO_TOOLS[1], // Antigravity
+                        STUDIO_TOOLS[6], // Brand Kit
+                        STUDIO_TOOLS[7], // Contrast Checker
+                        STUDIO_TOOLS[5], // Extract from Image
+                      ].map((tool) => {
+                        const isActive = currentRoute.path === tool.id;
+                        return (
+                          <Link
+                            key={tool.id}
+                            to={tool.path}
+                            onNavigate={handleNav}
+                            className={`kroma-header__dropdown-item ${
+                              isActive ? 'kroma-header__dropdown-item--active' : ''
+                            }`}
+                            role="menuitem"
+                          >
+                            <span
+                              className="kroma-header__dropdown-marker"
+                              style={{ backgroundColor: tool.color }}
+                              aria-hidden="true"
+                            />
+                            <div className="kroma-header__dropdown-text">
+                              <span className="kroma-header__dropdown-title">
+                                {tool.title}
+                              </span>
+                              <span className="kroma-header__dropdown-desc">
+                                {tool.description}
+                              </span>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Column 3: Editorial Featured Studio Strip */}
+                  <div className="kroma-header__dropdown-featured">
+                    <div>
+                      <div className="kroma-header__dropdown-featured-tag">
+                        WORKSPACE
+                      </div>
+                      <div className="kroma-header__dropdown-featured-title">
+                        Kroma Studio Gateway
+                      </div>
+                      <p className="kroma-header__dropdown-featured-desc">
+                        An integrated creative color laboratory for exploring harmonic relationships, gamuts, and design tokens.
+                      </p>
+                      <div
+                        className="kroma-header__dropdown-palette-strip"
+                        aria-hidden="true"
+                      >
+                        <span style={{ backgroundColor: '#FF3B30' }} />
+                        <span style={{ backgroundColor: '#FF9500' }} />
+                        <span style={{ backgroundColor: '#FFD60A' }} />
+                        <span style={{ backgroundColor: '#34C759' }} />
+                        <span style={{ backgroundColor: '#00AEEF' }} />
+                        <span style={{ backgroundColor: '#7B2CBF' }} />
+                      </div>
+                    </div>
+                    <Link
+                      to={{ path: 'create' }}
+                      onNavigate={handleNav}
+                      className="kroma-header__dropdown-featured-link"
+                      role="menuitem"
                     >
-                      {tool.icon}
-                    </div>
-                    <div className="kroma-header__dropdown-text">
-                      <span className="kroma-header__dropdown-title">{tool.title}</span>
-                      <span className="kroma-header__dropdown-desc">{tool.description}</span>
-                    </div>
-                  </Link>
-                ))}
+                      <span>Explore Studio Gateway</span>
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Community Dropdown */}
-            <div className="kroma-header__dropdown" ref={communityRef}>
+            <div
+              className="kroma-header__dropdown"
+              ref={communityRef}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setCommunityOpen(false);
+                }
+              }}
+            >
               <button
                 type="button"
                 className={`kroma-header__dropdown-btn ${isCommunityActive ? 'kroma-header__dropdown-btn--active' : ''}`}
                 onClick={() => {
                   setCommunityOpen(!communityOpen);
                   setStudiosOpen(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setCommunityOpen(true);
+                    setStudiosOpen(false);
+                  }
                 }}
                 aria-expanded={communityOpen}
                 aria-haspopup="true"
@@ -445,31 +576,83 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
               </button>
 
               <div
-                className={`kroma-header__dropdown-menu ${communityOpen ? 'kroma-header__dropdown-menu--open' : ''}`}
+                className={`kroma-header__dropdown-menu kroma-header__dropdown-menu--community ${
+                  communityOpen ? 'kroma-header__dropdown-menu--open' : ''
+                }`}
                 role="menu"
                 aria-label="Community and collections"
               >
-                <div className="kroma-header__dropdown-header">Community &amp; Curation</div>
-                {COMMUNITY_LINKS.map((link) => (
-                  <Link
-                    key={link.id}
-                    to={link.path}
-                    onNavigate={handleNav}
-                    className="kroma-header__dropdown-item"
-                    role="menuitem"
-                  >
-                    <div
-                      className="kroma-header__dropdown-icon"
-                      style={{ color: link.color, backgroundColor: `${link.color}15` }}
+                <div className="kroma-header__dropdown-grid kroma-header__dropdown-grid--community">
+                  {/* Column 1: Community Destinations */}
+                  <div className="kroma-header__dropdown-col">
+                    <div className="kroma-header__dropdown-category">
+                      Curation &amp; Play
+                    </div>
+                    <div className="kroma-header__dropdown-list">
+                      {COMMUNITY_LINKS.map((link) => {
+                        const isActive = currentRoute.path === link.id;
+                        return (
+                          <Link
+                            key={link.id}
+                            to={link.path}
+                            onNavigate={handleNav}
+                            className={`kroma-header__dropdown-item ${
+                              isActive ? 'kroma-header__dropdown-item--active' : ''
+                            }`}
+                            role="menuitem"
+                          >
+                            <span
+                              className="kroma-header__dropdown-marker"
+                              style={{ backgroundColor: link.color }}
+                              aria-hidden="true"
+                            />
+                            <div className="kroma-header__dropdown-text">
+                              <span className="kroma-header__dropdown-title">
+                                {link.title}
+                              </span>
+                              <span className="kroma-header__dropdown-desc">
+                                {link.description}
+                              </span>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Column 2: Editorial Featured Spotlight */}
+                  <div className="kroma-header__dropdown-featured">
+                    <div>
+                      <div className="kroma-header__dropdown-featured-tag">
+                        FEATURED
+                      </div>
+                      <div className="kroma-header__dropdown-featured-title">
+                        Sensory Color Games
+                      </div>
+                      <p className="kroma-header__dropdown-featured-desc">
+                        Train chromatic perception with interactive challenges including Hexle, Odd One Out, and Palette Match.
+                      </p>
+                      <div
+                        className="kroma-header__dropdown-palette-strip"
+                        aria-hidden="true"
+                      >
+                        <span style={{ backgroundColor: '#00AEEF' }} />
+                        <span style={{ backgroundColor: '#34C759' }} />
+                        <span style={{ backgroundColor: '#FF9500' }} />
+                        <span style={{ backgroundColor: '#FF2D55' }} />
+                      </div>
+                    </div>
+                    <Link
+                      to={{ path: 'play' }}
+                      onNavigate={handleNav}
+                      className="kroma-header__dropdown-featured-link"
+                      role="menuitem"
                     >
-                      {link.icon}
-                    </div>
-                    <div className="kroma-header__dropdown-text">
-                      <span className="kroma-header__dropdown-title">{link.title}</span>
-                      <span className="kroma-header__dropdown-desc">{link.description}</span>
-                    </div>
-                  </Link>
-                ))}
+                      <span>Launch Games Hub</span>
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </nav>

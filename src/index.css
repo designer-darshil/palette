@@ -1,10 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import './styles/preloader.css';
 @import './styles/home.css';
 @import './styles/inner-pages.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* KROMA — Editorial Digital Color Library Design System */
 

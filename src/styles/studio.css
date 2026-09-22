@@ -1,0 +1,511 @@
+/* ═════════════════════════════════════════════════════════════════
+   KROMA STUDIO — Digital Color Workspace Design System
+   Visual Language: Editorial · Minimal · Quiet · Tactile · Premium
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Studio Typography & Layout Tokens ─────────────────────── */
+.studio-page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+  min-height: calc(100vh - 64px);
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .studio-page {
+    padding: 48px 48px 120px;
+  }
+}
+
+@media (max-width: 640px) {
+  .studio-page {
+    padding: 24px 16px 64px;
+  }
+}
+
+/* Studio Headings */
+.studio-headline {
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-weight: 550;
+  font-size: clamp(40px, 7vw, 92px);
+  line-height: 0.88;
+  letter-spacing: -0.06em;
+  color: var(--text-primary, #171717);
+  margin: 0 0 24px 0;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.studio-subhead {
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.5;
+  color: var(--text-secondary, #707070);
+  max-width: 580px;
+  margin: 0 0 40px 0;
+  letter-spacing: -0.01em;
+}
+
+.studio-label {
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary, #707070);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.studio-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-subtle, rgba(0, 0, 0, 0.08));
+  margin: 48px 0;
+  border: none;
+}
+
+/* ── 2. Primary Studio Action Grid ────────────────────────────── */
+.studio-action-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+
+@media (min-width: 640px) {
+  .studio-action-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .studio-action-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.studio-action-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  background: transparent;
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 200ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.studio-action-card:hover {
+  border-color: var(--text-primary, #171717);
+  transform: translateY(-2px);
+}
+
+.studio-action-specimen {
+  height: 90px;
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.studio-action-label {
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary, #707070);
+  margin-bottom: 4px;
+}
+
+.studio-action-title {
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--text-primary, #171717);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── 3. Recent Work Archive ───────────────────────────────────── */
+.studio-recent-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.studio-recent-palette-bar {
+  display: flex;
+  height: 84px;
+  width: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.studio-recent-item:hover .studio-recent-palette-bar {
+  transform: translateY(-3px);
+}
+
+.studio-recent-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+}
+
+.studio-recent-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-primary, #171717);
+}
+
+.studio-recent-sub {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary, #707070);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── 4. Color Experiments (Working Wall) ──────────────────────── */
+.studio-experiments-wall {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  margin-bottom: 64px;
+}
+
+.studio-experiment-brick-wide {
+  grid-column: span 12;
+}
+
+@media (min-width: 768px) {
+  .studio-experiment-brick-wide {
+    grid-column: span 7;
+  }
+}
+
+.studio-experiment-brick-narrow {
+  grid-column: span 12;
+}
+
+@media (min-width: 768px) {
+  .studio-experiment-brick-narrow {
+    grid-column: span 5;
+  }
+}
+
+.studio-experiment-brick-third {
+  grid-column: span 12;
+}
+
+@media (min-width: 768px) {
+  .studio-experiment-brick-third {
+    grid-column: span 4;
+  }
+}
+
+.studio-experiment-brick {
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  padding: 16px;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  position: relative;
+  transition: border-color 200ms ease;
+}
+
+.studio-experiment-brick:hover {
+  border-color: var(--text-primary, #171717);
+}
+
+/* Overlapping swatches within an experiment */
+.studio-swatch-stack {
+  position: relative;
+  height: 120px;
+  width: 100%;
+}
+
+.studio-swatch-stack-item {
+  position: absolute;
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 200ms ease;
+}
+
+.studio-swatch-stack-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  z-index: 10;
+}
+
+/* ── 5. Minimal Studio Controls & Buttons ─────────────────────── */
+.studio-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--text-primary, #171717);
+  color: var(--bg-canvas, #F8F8F8);
+  padding: 10px 18px;
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--text-primary, #171717);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 150ms ease, transform 150ms ease;
+  user-select: none;
+}
+
+.studio-btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.studio-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-primary, #171717);
+  padding: 10px 18px;
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.15));
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+  user-select: none;
+}
+
+.studio-btn-secondary:hover {
+  border-color: var(--text-primary, #171717);
+}
+
+.studio-btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary, #707070);
+  cursor: pointer;
+  transition: color 150ms ease;
+  text-decoration: none;
+}
+
+.studio-btn-link:hover {
+  color: var(--text-primary, #171717);
+}
+
+/* ── 6. Studio Generator Laboratory ───────────────────────────── */
+.studio-lab-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+.studio-start-color-block {
+  width: 100%;
+  height: 140px;
+  border-radius: 2px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: background-color 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.studio-palette-canvas {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 380px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .studio-palette-canvas {
+    flex-direction: row;
+    height: 480px;
+  }
+}
+
+.studio-canvas-column {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  cursor: pointer;
+  transition: flex 300ms cubic-bezier(0.22, 1, 0.36, 1), background-color 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  outline: none;
+}
+
+.studio-canvas-column.selected {
+  outline: 2px solid var(--text-primary, #171717);
+  outline-offset: -2px;
+  z-index: 5;
+}
+
+.studio-canvas-column:hover {
+  flex: 1.2;
+}
+
+/* ── 7. Image-to-Palette Studio Canvas ────────────────────────── */
+.studio-image-canvas {
+  position: relative;
+  width: 100%;
+  max-height: 520px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--bg-surface-1, #111216);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.studio-chromatic-pin {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.studio-chromatic-pin:hover {
+  transform: translate(-50%, -50%) scale(1.3);
+  z-index: 20;
+}
+
+/* ── 8. Tactile Color Wall (Saved Colors) ──────────────────────── */
+.studio-color-wall {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+@media (min-width: 640px) {
+  .studio-color-wall {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .studio-color-wall {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.studio-wall-tile {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  border-radius: 2px;
+  padding: 12px;
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.studio-wall-tile:hover {
+  border-color: var(--text-primary, #171717);
+  transform: translateY(-2px);
+}
+
+.studio-wall-swatch {
+  height: 100px;
+  width: 100%;
+  border-radius: 2px;
+  margin-bottom: 12px;
+  transition: transform 200ms ease;
+}
+
+.studio-wall-tile:hover .studio-wall-swatch {
+  transform: scale(1.02);
+}
+
+/* ── 9. Branded Empty State ───────────────────────────────────── */
+.studio-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 48px 0;
+}
+
+.studio-empty-title {
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-weight: 550;
+  font-size: clamp(24px, 4vw, 44px);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  color: var(--text-primary, #171717);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.studio-empty-desc {
+  font-family: var(--font-sans, 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 15px;
+  color: var(--text-secondary, #707070);
+  margin-bottom: 24px;
+  max-width: 420px;
+  line-height: 1.5;
+}
+
+/* ── 10. Motion Safety ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .studio-action-card,
+  .studio-recent-palette-bar,
+  .studio-canvas-column,
+  .studio-start-color-block,
+  .studio-wall-tile,
+  .studio-wall-swatch {
+    transition: none !important;
+    transform: none !important;
+  }
+}

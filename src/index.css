@@ -1,6 +1,7 @@
 @import './styles/preloader.css';
 @import './styles/home.css';
 @import './styles/inner-pages.css';
+@import './styles/studio.css';
 
 @tailwind base;
 @tailwind components;

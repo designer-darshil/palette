@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Wand2, RotateCcw, Save, Copy, ArrowLeft, Sliders, Check, Sparkles, Code, GitFork } from 'lucide-react';
+import { RotateCcw, Bookmark, ArrowUpRight, Copy } from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useSaved } from '../context/SavedContext';
@@ -14,12 +14,7 @@ import {
 } from '../utils/remixEngine';
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { NotFoundPage } from './NotFoundPage';
-import { Link } from '../components/common/Link';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { PalettePreviewModes } from '../components/PalettePreviewModes';
 
 interface PaletteRemixPageProps {
   slug: string;
@@ -50,20 +45,6 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
     const updatedHistory = [...history.slice(0, historyIndex + 1), newAdj];
     setHistory(updatedHistory);
     setHistoryIndex(updatedHistory.length - 1);
-  };
-
-  const handleUndo = () => {
-    if (historyIndex > 0) {
-      setHistoryIndex(historyIndex - 1);
-      setAdjustments(history[historyIndex - 1]);
-    }
-  };
-
-  const handleRedo = () => {
-    if (historyIndex < history.length - 1) {
-      setHistoryIndex(historyIndex + 1);
-      setAdjustments(history[historyIndex + 1]);
-    }
   };
 
   const handleReset = () => {
@@ -99,120 +80,129 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
   };
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="studio-page">
       <SEOHead
-        title={`Remix: ${originalPalette.title} — Palette Studio`}
+        title={`Remix: ${originalPalette.title} — Calibration Studio | KROMA`}
         description={`Interactive remix workspace for ${originalPalette.title}. Fine-tune hues, saturation, temperature, and lightness.`}
         canonicalPath={`/palettes/${originalPalette.slug}/remix`}
       />
 
-      <PageHeader
-        breadcrumbs={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Palettes', to: { path: 'palettes' } },
-          { label: originalPalette.title, to: { path: 'palette-detail', slug: originalPalette.slug } },
-          { label: 'Remix Studio', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-        sectionLabel="Remix studio · Lineage engine"
-        title={`Remixing: ${originalPalette.title}`}
-        description={`Interactive remix workspace for ${originalPalette.title}. Fine-tune hues, saturation, temperature, and lightness.`}
-        actions={
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<RotateCcw size={13} />}
-              onClick={handleReset}
-              title="Reset to original parameters"
-            >
-              Reset
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              iconLeft={<Save size={14} />}
-              onClick={handleSaveRemix}
-            >
-              Save Remix
-            </Button>
-          </div>
-        }
-      />
-
-      {/* Before / After Live Comparison Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Original */}
-        <div className="p-4 rounded-md bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] flex flex-col gap-2">
-          <span className="font-mono text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-wider">
-            ORIGINAL SPECIMEN ({originalPalette.title})
+      {/* Editorial Breadcrumb */}
+      <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
+        <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
+          <span>/</span>
+          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'palettes' })}>PALETTES</span>
+          <span>/</span>
+          <span className="cursor-pointer hover:text-[var(--text-primary)] truncate max-w-xs" onClick={() => onNavigate({ path: 'palette-detail', slug: originalPalette.slug })}>
+            {originalPalette.title}
           </span>
-          <div className="h-20 rounded-xs overflow-hidden flex border border-[var(--border-subtle)]">
+          <span>/</span>
+          <span className="text-[var(--text-primary)] font-semibold">REMIX</span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleReset}
+            className="studio-btn-secondary py-1.5 px-3 text-[11px]"
+            title="Reset to original parameters"
+          >
+            <RotateCcw size={12} />
+            <span>RESET</span>
+          </button>
+          <button
+            onClick={handleSaveRemix}
+            className="studio-btn-primary py-1.5 px-3.5 text-[11px]"
+          >
+            <Bookmark size={12} />
+            <span>SAVE REMIX ↗</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Header */}
+      <header className="mb-12">
+        <span className="studio-label">PARAMETRIC CALIBRATION</span>
+        <h1 className="studio-headline">
+          REMIX:<br />
+          {originalPalette.title}
+        </h1>
+        <p className="studio-subhead">
+          Sculpt hue offsets, saturation intensity, temperature warmth, and luminance contrast across the entire chromatic lineage.
+        </p>
+      </header>
+
+      {/* Comparative Color Strips */}
+      <section className="mb-14 flex flex-col gap-6">
+        <div>
+          <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider mb-2">
+            <span>ORIGINAL SPECIMEN</span>
+            <span>{originalPalette.colors.length} COLORS</span>
+          </div>
+          <div className="h-20 flex rounded-xs overflow-hidden border border-[var(--border-subtle)]">
             {originalPalette.colors.map((c, i) => (
-              <div key={i} className="flex-1" style={{ backgroundColor: c.hex }} title={`${c.name} (${c.hex})`} />
+              <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} title={`${c.name} (${c.hex})`} />
             ))}
           </div>
         </div>
 
-        {/* Remixed */}
-        <div className="p-4 rounded-md bg-[var(--bg-surface-1)] border border-[var(--border-medium)] flex flex-col gap-2 ring-1 ring-[var(--accent-gold)]/40">
-          <span className="font-mono text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">
-            ACTIVE REMIX INTERPRETATION
-          </span>
-          <div className="h-20 rounded-xs overflow-hidden flex border border-[var(--border-subtle)]">
+        <div>
+          <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-primary)] uppercase tracking-wider mb-2 font-bold">
+            <span>ACTIVE REMIX CALIBRATION</span>
+            <span>LIVE PREVIEW</span>
+          </div>
+          <div className="h-28 flex rounded-xs overflow-hidden border border-[var(--text-primary)]">
             {remixedColors.map((c, i) => (
-              <div key={i} className="flex-1 flex flex-col justify-end p-1" style={{ backgroundColor: c.hex }}>
-                <span className="font-mono text-[9px] font-bold text-white drop-shadow-md truncate">
-                  {c.hex}
-                </span>
+              <div
+                key={i}
+                className="flex-1 h-full flex flex-col justify-end p-2 text-white font-mono text-[11px] font-bold drop-shadow-md"
+                style={{ backgroundColor: c.hex }}
+              >
+                <span className="truncate">{c.name}</span>
+                <span>{c.hex}</span>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* One-Click Presets */}
-      <section className="flex flex-col gap-2.5">
-        <span className="font-mono text-xs font-bold text-[var(--text-tertiary)] uppercase tracking-wider">
-          One-Click Harmonics &amp; Tone Presets
-        </span>
+      {/* Harmonic Presets */}
+      <section className="mb-12">
+        <span className="studio-label mb-3 block">ONE-CLICK HARMONICS</span>
         <div className="flex flex-wrap gap-2">
           {(
             [
-              { key: 'lighter', label: 'Lighter' },
-              { key: 'darker', label: 'Darker' },
-              { key: 'warmer', label: 'Warmer' },
-              { key: 'cooler', label: 'Cooler' },
-              { key: 'vibrant', label: 'More Saturated' },
-              { key: 'muted', label: 'Muted Matte' },
-              { key: 'high-contrast', label: 'High Contrast' },
-              { key: 'soft-contrast', label: 'Soft Contrast' },
-              { key: 'invert', label: 'Invert Hues' },
+              { key: 'lighter', label: 'LIGHTER' },
+              { key: 'darker', label: 'DARKER' },
+              { key: 'warmer', label: 'WARMER' },
+              { key: 'cooler', label: 'COOLER' },
+              { key: 'vibrant', label: 'SATURATED' },
+              { key: 'muted', label: 'MUTED MATTE' },
+              { key: 'high-contrast', label: 'HIGH CONTRAST' },
+              { key: 'soft-contrast', label: 'SOFT CONTRAST' },
+              { key: 'invert', label: 'INVERT HUES' },
             ] as const
           ).map((p) => (
-            <Button
+            <button
               key={p.key}
-              variant="secondary"
-              size="sm"
               onClick={() => handleApplyPreset(p.key)}
+              className="px-3 py-1.5 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-xs font-mono uppercase tracking-wider text-[var(--text-primary)] rounded-xs transition-colors"
             >
               {p.label}
-            </Button>
+            </button>
           ))}
         </div>
       </section>
 
       {/* Sliders Precision Controls */}
-      <section className="p-5 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-5">
-        <h3 className="text-sm font-bold text-[var(--text-primary)]">
-          Precision Parametric Calibration
-        </h3>
+      <section className="p-6 border border-[var(--border-subtle)] rounded-xs mb-16">
+        <span className="studio-label mb-6 block">PRECISION PARAMETRIC CALIBRATION</span>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Hue Shift */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             <div className="flex justify-between text-xs font-mono">
-              <span className="text-[var(--text-secondary)]">Hue Shift</span>
+              <span className="text-[var(--text-secondary)] uppercase">HUE SHIFT</span>
               <span className="font-bold text-[var(--text-primary)]">{adjustments.hueShift}°</span>
             </div>
             <input
@@ -223,14 +213,14 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
               onChange={(e) =>
                 updateAdjustments({ ...adjustments, hueShift: parseInt(e.target.value) })
               }
-              className="w-full accent-[var(--color-primary)]"
+              className="w-full accent-[var(--text-primary)]"
             />
           </div>
 
           {/* Saturation */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             <div className="flex justify-between text-xs font-mono">
-              <span className="text-[var(--text-secondary)]">Saturation Multiplier</span>
+              <span className="text-[var(--text-secondary)] uppercase">SATURATION</span>
               <span className="font-bold text-[var(--text-primary)]">{adjustments.saturationMultiplier}x</span>
             </div>
             <input
@@ -239,65 +229,35 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
               max="200"
               value={Math.round(adjustments.saturationMultiplier * 100)}
               onChange={(e) =>
-                updateAdjustments({
-                  ...adjustments,
-                  saturationMultiplier: parseFloat((parseInt(e.target.value) / 100).toFixed(2)),
-                })
+                updateAdjustments({ ...adjustments, saturationMultiplier: parseInt(e.target.value) / 100 })
               }
-              className="w-full accent-[var(--color-primary)]"
+              className="w-full accent-[var(--text-primary)]"
             />
           </div>
 
           {/* Lightness */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             <div className="flex justify-between text-xs font-mono">
-              <span className="text-[var(--text-secondary)]">Lightness Offset</span>
-              <span className="font-bold text-[var(--text-primary)]">{adjustments.lightnessShift}%</span>
+              <span className="text-[var(--text-secondary)] uppercase">LIGHTNESS</span>
+              <span className="font-bold text-[var(--text-primary)]">{adjustments.lightnessShift > 0 ? `+${adjustments.lightnessShift}` : adjustments.lightnessShift}</span>
             </div>
             <input
               type="range"
-              min="-40"
-              max="40"
+              min="-50"
+              max="50"
               value={adjustments.lightnessShift}
               onChange={(e) =>
                 updateAdjustments({ ...adjustments, lightnessShift: parseInt(e.target.value) })
               }
-              className="w-full accent-[var(--color-primary)]"
-            />
-          </div>
-
-          {/* Contrast */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between text-xs font-mono">
-              <span className="text-[var(--text-secondary)]">Contrast Curve</span>
-              <span className="font-bold text-[var(--text-primary)]">{adjustments.contrastMultiplier}x</span>
-            </div>
-            <input
-              type="range"
-              min="50"
-              max="180"
-              value={Math.round(adjustments.contrastMultiplier * 100)}
-              onChange={(e) =>
-                updateAdjustments({
-                  ...adjustments,
-                  contrastMultiplier: parseFloat((parseInt(e.target.value) / 100).toFixed(2)),
-                })
-              }
-              className="w-full accent-[var(--color-primary)]"
+              className="w-full accent-[var(--text-primary)]"
             />
           </div>
 
           {/* Temperature */}
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             <div className="flex justify-between text-xs font-mono">
-              <span className="text-[var(--text-secondary)]">Temperature (Cool ↔ Warm)</span>
-              <span className="font-bold text-[var(--text-primary)]">
-                {adjustments.temperatureShift > 0
-                  ? `+${adjustments.temperatureShift} (Warm)`
-                  : adjustments.temperatureShift < 0
-                  ? `${adjustments.temperatureShift} (Cool)`
-                  : '0 (Neutral)'}
-              </span>
+              <span className="text-[var(--text-secondary)] uppercase">TEMPERATURE</span>
+              <span className="font-bold text-[var(--text-primary)]">{adjustments.temperatureShift > 0 ? `+${adjustments.temperatureShift}` : adjustments.temperatureShift}</span>
             </div>
             <input
               type="range"
@@ -307,14 +267,11 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
               onChange={(e) =>
                 updateAdjustments({ ...adjustments, temperatureShift: parseInt(e.target.value) })
               }
-              className="w-full accent-[var(--color-primary)]"
+              className="w-full accent-[var(--text-primary)]"
             />
           </div>
         </div>
       </section>
-
-      {/* Live UI Proof with Remixed Colors */}
-      <PalettePreviewModes palette={remixedPaletteObject} />
     </div>
   );
 };

@@ -1,43 +1,95 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   ArrowUpRight,
   Sparkles,
-  Layers,
-  Wand2,
-  Bookmark,
+  Lock,
+  Unlock,
+  Copy,
+  Check,
+  RefreshCw,
+  Sliders,
   Plus,
+  Search,
 } from 'lucide-react';
-import { RouteType } from '../types';
+import { RouteType, PaletteItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useSaved } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
-import { copyToClipboard } from '../utils/colorUtils';
+import { copyToClipboard, hexToRgb, hexToHsl } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
+import { generatePalette, findClosestColorName } from '../utils/paletteGenerator';
 
 interface CreateStudioGatewayPageProps {
   onNavigate: (route: RouteType) => void;
 }
 
 export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = ({ onNavigate }) => {
-  const { palettes, colors } = useLibraryData();
-  const { savedItems } = useSaved();
+  const { palettes, colors, addPalette } = useLibraryData();
+  const { savedItems, saveItem, isSaved } = useSaved();
   const { showToast } = useToast();
 
-  const recentPalette = palettes[0] || {
-    id: 'studio-default',
-    title: 'Chromatic Spectrum System',
-    category: 'Studio Default',
-    slug: 'chromatic-spectrum',
-    colors: [
-      { name: 'Pure Red', hex: '#FF3B30' },
-      { name: 'Warm Amber', hex: '#FF9500' },
-      { name: 'Lemon Sun', hex: '#FFD60A' },
-      { name: 'Emerald', hex: '#34C759' },
-      { name: 'Cyan Azure', hex: '#00AEEF' },
-    ],
+  // Search filter state inside studio
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Interactive Studio Palette Creator Canvas State
+  const [creatorColors, setCreatorColors] = useState([
+    { hex: '#171717', name: 'Ink Obsidian', locked: false },
+    { hex: '#FF3B30', name: 'Radical Vermilion', locked: false },
+    { hex: '#FF9500', name: 'Amber Glow', locked: false },
+    { hex: '#FFD60A', name: 'Solar Yellow', locked: false },
+    { hex: '#00AEEF', name: 'Electric Cyan', locked: false },
+  ]);
+  const [selectedColorIndex, setSelectedColorIndex] = useState<number>(1);
+  const [creatorTitle, setCreatorTitle] = useState('STUDIO STUDY 01');
+
+  // Interactive Palette Randomizer
+  const handleRandomizeCreator = () => {
+    const fresh = generatePalette(creatorColors.length, [], 'curated');
+    setCreatorColors((prev) =>
+      prev.map((c, idx) => (c.locked ? c : { hex: fresh[idx].hex, name: fresh[idx].name, locked: false }))
+    );
+    showToast('Randomized unlocked studio colors');
   };
 
-  const favoriteColors = colors.slice(0, 8);
+  const handleToggleLock = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCreatorColors((prev) =>
+      prev.map((c, i) => (i === index ? { ...c, locked: !c.locked } : c))
+    );
+  };
+
+  const handleSaveCanvasPalette = () => {
+    const slug = creatorTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'studio-study';
+    const newPalette: PaletteItem = {
+      id: `studio-${Date.now()}`,
+      title: creatorTitle,
+      slug,
+      category: 'Studio Study',
+      description: 'Created on the Kroma Studio Canvas.',
+      likes: 1,
+      createdAt: new Date().toISOString(),
+      tags: ['studio', 'canvas'],
+      creator: {
+        name: 'You',
+        username: 'studio',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
+      },
+      colors: creatorColors.map((c) => ({
+        hex: c.hex,
+        name: c.name,
+      })),
+    };
+    addPalette(newPalette);
+    saveItem({
+      id: newPalette.id,
+      type: 'palette',
+      title: newPalette.title,
+      slug: newPalette.slug,
+      preview: newPalette.colors.map((c) => c.hex).join(','),
+      metadata: 'Created in Studio Canvas',
+    });
+    showToast('Saved to your Studio Archive', creatorTitle);
+  };
 
   const handleCopyHex = async (hex: string, name: string) => {
     const ok = await copyToClipboard(hex);
@@ -46,300 +98,569 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
     }
   };
 
+  // Recent work (Palettes from library)
+  const recentPalettes = useMemo(() => palettes.slice(0, 4), [palettes]);
+
+  // Selected Color details
+  const activeColor = creatorColors[selectedColorIndex] || creatorColors[0];
+  const activeRgb = hexToRgb(activeColor.hex);
+  const activeHsl = hexToHsl(activeColor.hex);
+
+  // Search filtered results
+  const filteredPalettes = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase();
+    return palettes.filter(
+      (p) =>
+        p.title.toLowerCase().includes(q) ||
+        p.colors.some((c) => c.hex.toLowerCase().includes(q) || c.name.toLowerCase().includes(q))
+    );
+  }, [searchQuery, palettes]);
+
+  const filteredColors = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase();
+    return colors.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.hex.toLowerCase().includes(q)
+    );
+  }, [searchQuery, colors]);
+
   return (
-    <div className="kroma-page">
+    <div className="studio-page">
       <SEOHead
-        title="The Studio — Your Color Workspace | KROMA"
-        description="A high-end creative suite. Ramps studio, mesh gradients, antigravity physics, and generative pattern engines in one unified workspace."
+        title="The Studio — Digital Color Workspace | KROMA"
+        description="A quiet place to explore, create and collect color. Parametric ramps, generative studies, kinetic physics, and custom color compositions."
         canonicalPath="/create"
       />
 
-      {/* Top Editorial Hero */}
-      <header className="kroma-hero">
-        <div className="kroma-label">THE STUDIO</div>
-        <h1 className="kroma-headline">YOUR COLOR WORKSPACE.</h1>
-        <p className="kroma-lead">
-          A high-end creative suite. Everything in reach: parametric ramps, generative mesh fields, kinetic particles, and vector pattern systems.
+      {/* ── 08: STUDIO INTRO ────────────────────────────────────── */}
+      <header className="mb-16">
+        <span className="studio-label">THE STUDIO</span>
+        <h1 className="studio-headline">
+          MAKE<br />
+          SOMETHING<br />
+          COLORFUL.
+        </h1>
+        <p className="studio-subhead">
+          A quiet place to explore, create and collect color.
         </p>
       </header>
 
-      {/* Module 1: Recent Palette (Oversized Strip) */}
-      <section className="mb-14">
-        <div className="flex items-baseline justify-between mb-3">
-          <div className="font-mono text-[11px] text-neutral-400 uppercase tracking-wider">
-            MODULE 01 / RECENT PALETTE
+      {/* ── 09: PRIMARY STUDIO ACTIONS ──────────────────────────── */}
+      <section className="mb-20">
+        <div className="studio-label mb-3">WORKSPACE ACTIONS</div>
+        <div className="studio-action-grid">
+          {/* Action 1: Create Palette */}
+          <div
+            className="studio-action-card group"
+            onClick={() => {
+              const el = document.getElementById('studio-canvas-section');
+              el?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            role="button"
+            tabIndex={0}
+          >
+            <div>
+              <div className="studio-action-specimen">
+                {['#FF3B30', '#FF9500', '#FFD60A', '#171717'].map((hex, i) => (
+                  <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
+                ))}
+              </div>
+              <div className="studio-action-label">CANVAS STAGE</div>
+            </div>
+            <div className="studio-action-title">
+              <span>CREATE PALETTE</span>
+              <ArrowUpRight size={15} />
+            </div>
           </div>
-          <button
+
+          {/* Action 2: Generate */}
+          <div
+            className="studio-action-card group"
             onClick={() => onNavigate({ path: 'palette-generator' })}
-            className="text-xs font-sans font-semibold tracking-wider uppercase text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors"
+            role="button"
+            tabIndex={0}
           >
-            NEW SYSTEM ↗
-          </button>
-        </div>
-
-        <div
-          className="kroma-palette-strip"
-          onClick={() => onNavigate({ path: 'palette-detail', slug: recentPalette.slug })}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') onNavigate({ path: 'palette-detail', slug: recentPalette.slug });
-          }}
-        >
-          <div className="kroma-palette-strip__colors">
-            {recentPalette.colors.map((c, i) => (
-              <div
-                key={i}
-                className="kroma-palette-strip__color-bar"
-                style={{ backgroundColor: c.hex }}
-                title={`${c.name} (${c.hex})`}
-              />
-            ))}
-            <span className="kroma-palette-strip__hover-cta">
-              <span>OPEN IN WORKSPACE</span>
-              <ArrowUpRight size={13} />
-            </span>
+            <div>
+              <div className="studio-action-specimen">
+                {['#00AEEF', '#7B2CBF', '#FF3B30'].map((hex, i) => (
+                  <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
+                ))}
+              </div>
+              <div className="studio-action-label">LABORATORY</div>
+            </div>
+            <div className="studio-action-title">
+              <span>GENERATE ↻</span>
+              <ArrowUpRight size={15} />
+            </div>
           </div>
 
-          <div className="kroma-palette-strip__meta flex items-center justify-between">
+          {/* Action 3: Image to Palette */}
+          <div
+            className="studio-action-card group"
+            onClick={() => onNavigate({ path: 'extract-from-image' })}
+            role="button"
+            tabIndex={0}
+          >
             <div>
-              <div className="kroma-palette-strip__num">
-                LATEST SYSTEM · {recentPalette.category?.toUpperCase() || 'STUDIO'}
+              <div className="studio-action-specimen" style={{ background: 'linear-gradient(135deg, #171717 0%, #34C759 50%, #00AEEF 100%)' }}>
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-5 h-5 rounded-full border border-white bg-white/20" />
+                </div>
               </div>
-              <div className="kroma-palette-strip__title">
-                {recentPalette.title}
-              </div>
+              <div className="studio-action-label">CHROMATIC EXTRACTION</div>
             </div>
-            <div className="font-mono text-xs text-neutral-400">
-              {recentPalette.colors.length} TONAL SPECIMENS
+            <div className="studio-action-title">
+              <span>IMAGE → PALETTE</span>
+              <ArrowUpRight size={15} />
+            </div>
+          </div>
+
+          {/* Action 4: Explore Colors */}
+          <div
+            className="studio-action-card group"
+            onClick={() => onNavigate({ path: 'colors' })}
+            role="button"
+            tabIndex={0}
+          >
+            <div>
+              <div className="studio-action-specimen">
+                {['#FF3B30', '#34C759', '#00AEEF', '#7B2CBF', '#FFD60A'].map((hex, i) => (
+                  <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
+                ))}
+              </div>
+              <div className="studio-action-label">SWATCH ARCHIVE</div>
+            </div>
+            <div className="studio-action-title">
+              <span>EXPLORE COLORS</span>
+              <ArrowUpRight size={15} />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Module 3: Generative Doorways (Large Visual Cards with Live Previews) */}
-      <section className="mb-14">
-        <div className="font-mono text-[11px] text-neutral-400 uppercase tracking-wider mb-4">
-          MODULE 02 / GENERATIVE INSTRUMENTS
+      {/* ── 12 & 13: STUDIO PALETTE CREATOR (Creative Canvas) ───── */}
+      <section id="studio-canvas-section" className="mb-24">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 mb-4">
+          <div>
+            <span className="studio-label">PALETTE CREATOR</span>
+            <input
+              type="text"
+              value={creatorTitle}
+              onChange={(e) => setCreatorTitle(e.target.value)}
+              className="bg-transparent font-sans text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-primary)] border-b border-transparent hover:border-[var(--border-subtle)] focus:border-[var(--text-primary)] outline-none transition-colors"
+              title="Click to rename palette"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleRandomizeCreator}
+              className="studio-btn-secondary"
+              title="Randomize unlocked swatches"
+            >
+              <RefreshCw size={13} />
+              <span>RANDOMIZE ↻</span>
+            </button>
+            <button
+              onClick={handleSaveCanvasPalette}
+              className="studio-btn-primary"
+            >
+              <span>SAVE TO STUDIO ↗</span>
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Doorway 1: Ramps Studio */}
-          <div
-            className="bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm p-5 cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-200 flex flex-col justify-between group"
-            onClick={() => onNavigate({ path: 'ramps' })}
-          >
-            <div>
-              {/* Live Visual Preview */}
-              <div className="h-32 rounded-sm overflow-hidden mb-4 flex flex-col justify-between p-2 border border-black/5 shadow-inner" style={{ background: 'linear-gradient(to right, #00AEEF, #7B2CBF, #FF3B30)' }}>
-                <span className="self-end font-mono text-[9px] font-bold text-white bg-black/40 px-1.5 py-0.5 rounded-xs">
-                  RAMP
-                </span>
-                <div className="flex gap-1">
-                  {['#00AEEF', '#5642D8', '#7B2CBF', '#C82E6E', '#FF3B30'].map((h, i) => (
-                    <div key={i} className="flex-1 h-3 rounded-xs border border-white/20" style={{ backgroundColor: h }} />
-                  ))}
+        {/* The Dominant Color Canvas */}
+        <div className="studio-palette-canvas border border-[var(--border-subtle)]">
+          {creatorColors.map((color, index) => {
+            const isSelected = selectedColorIndex === index;
+            return (
+              <div
+                key={index}
+                onClick={() => setSelectedColorIndex(index)}
+                className={`studio-canvas-column ${isSelected ? 'selected' : ''}`}
+                style={{ backgroundColor: color.hex }}
+              >
+                {/* Top controls: Lock & Number */}
+                <div className="flex items-center justify-between text-white drop-shadow-md">
+                  <span className="font-mono text-[11px] uppercase tracking-wider font-bold">
+                    0{index + 1}
+                  </span>
+                  <button
+                    onClick={(e) => handleToggleLock(index, e)}
+                    className="p-1 rounded-xs bg-black/30 hover:bg-black/60 transition-colors"
+                    title={color.locked ? 'Unlock swatch' : 'Lock swatch'}
+                  >
+                    {color.locked ? <Lock size={12} /> : <Unlock size={12} className="opacity-60" />}
+                  </button>
+                </div>
+
+                {/* Bottom info: Name, Hex, Click to copy */}
+                <div
+                  className="flex flex-col gap-1 text-white drop-shadow-md"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopyHex(color.hex, color.name);
+                  }}
+                  title="Click to copy HEX"
+                >
+                  <span className="font-sans text-xs font-semibold uppercase tracking-wider truncate">
+                    {color.name}
+                  </span>
+                  <span className="font-mono text-sm font-bold flex items-center justify-between">
+                    <span>{color.hex}</span>
+                    <span className="text-[10px] opacity-0 hover:opacity-100 uppercase tracking-wider">
+                      COPY
+                    </span>
+                  </span>
                 </div>
               </div>
+            );
+          })}
+        </div>
 
-              <div className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mb-1">
-                SYSTEM SCALES
-              </div>
-              <h3 className="font-sans text-lg font-bold text-neutral-900 dark:text-white uppercase flex items-center justify-between">
-                <span>RAMPS STUDIO</span>
-                <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-              </h3>
-              <p className="font-sans text-xs text-neutral-500 mt-1 leading-relaxed">
-                Generate perceptually stepped UI scales and WCAG contrast ramps.
-              </p>
+        {/* Inline Color Inspector & Precision Adjuster */}
+        <div className="mt-4 p-4 border border-[var(--border-subtle)] flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div
+              className="w-8 h-8 rounded-xs border border-[var(--border-subtle)]"
+              style={{ backgroundColor: activeColor.hex }}
+            />
+            <div className="flex flex-col">
+              <span className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                {activeColor.name}
+              </span>
+              <span className="font-mono text-[11px] text-[var(--text-secondary)]">
+                HEX: {activeColor.hex} · RGB: {activeRgb ? `${activeRgb.r}, ${activeRgb.g}, ${activeRgb.b}` : '—'} · HSL: {activeHsl ? `${activeHsl.h}°, ${activeHsl.s}%, ${activeHsl.l}%` : '—'}
+              </span>
             </div>
           </div>
 
-          {/* Doorway 2: Mesh Gradient */}
-          <div
-            className="bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm p-5 cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-200 flex flex-col justify-between group"
-            onClick={() => onNavigate({ path: 'mesh' })}
-          >
-            <div>
-              {/* Live Mesh Gradient Preview */}
-              <div
-                className="h-32 rounded-sm overflow-hidden mb-4 p-2 border border-black/5 shadow-inner flex justify-end items-start"
-                style={{
-                  background: 'radial-gradient(at 0% 0%, #FF3B30 0px, transparent 50%), radial-gradient(at 100% 0%, #00AEEF 0px, transparent 50%), radial-gradient(at 100% 100%, #FFD60A 0px, transparent 50%), radial-gradient(at 0% 100%, #7B2CBF 0px, transparent 50%), #171717',
-                }}
-              >
-                <span className="font-mono text-[9px] font-bold text-white bg-black/40 px-1.5 py-0.5 rounded-xs">
-                  MESH
-                </span>
-              </div>
-
-              <div className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mb-1">
-                COMPLEX BLENDS
-              </div>
-              <h3 className="font-sans text-lg font-bold text-neutral-900 dark:text-white uppercase flex items-center justify-between">
-                <span>MESH GRADIENT</span>
-                <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-              </h3>
-              <p className="font-sans text-xs text-neutral-500 mt-1 leading-relaxed">
-                Sculpt fluid multi-point gradient canvases and export CSS.
-              </p>
-            </div>
-          </div>
-
-          {/* Doorway 3: Antigravity */}
-          <div
-            className="bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm p-5 cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-200 flex flex-col justify-between group"
-            onClick={() => onNavigate({ path: 'antigravity' })}
-          >
-            <div>
-              {/* Live Particle Preview */}
-              <div
-                className="h-32 rounded-sm overflow-hidden mb-4 p-3 bg-[#111216] border border-black/5 shadow-inner relative flex justify-end items-start"
-              >
-                <span className="font-mono text-[9px] font-bold text-white bg-black/40 px-1.5 py-0.5 rounded-xs z-10">
-                  PHYSICS
-                </span>
-                <div className="absolute inset-0 flex items-center justify-around pointer-events-none">
-                  <div className="w-8 h-8 rounded-full bg-[#FF3B30] blur-xs animate-bounce" />
-                  <div className="w-10 h-10 rounded-full bg-[#00AEEF] blur-xs animate-pulse" />
-                  <div className="w-6 h-6 rounded-full bg-[#FFD60A] blur-xs" />
-                </div>
-              </div>
-
-              <div className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mb-1">
-                KINETIC CANVAS
-              </div>
-              <h3 className="font-sans text-lg font-bold text-neutral-900 dark:text-white uppercase flex items-center justify-between">
-                <span>ANTIGRAVITY</span>
-                <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-              </h3>
-              <p className="font-sans text-xs text-neutral-500 mt-1 leading-relaxed">
-                Floating chromatic particles interacting with mouse forces.
-              </p>
-            </div>
-          </div>
-
-          {/* Doorway 4: Pattern Studio */}
-          <div
-            className="bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm p-5 cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-200 flex flex-col justify-between group"
-            onClick={() => onNavigate({ path: 'pattern-studio' })}
-          >
-            <div>
-              {/* Live Pattern Texture Preview */}
-              <div
-                className="h-32 rounded-sm overflow-hidden mb-4 p-2 border border-black/5 shadow-inner flex justify-end items-start"
-                style={{
-                  backgroundColor: '#1E2028',
-                  backgroundImage: 'radial-gradient(#34C759 1.5px, transparent 1.5px), radial-gradient(#FF9500 1.5px, #1E2028 1.5px)',
-                  backgroundSize: '16px 16px',
-                  backgroundPosition: '0 0, 8px 8px',
-                }}
-              >
-                <span className="font-mono text-[9px] font-bold text-white bg-black/40 px-1.5 py-0.5 rounded-xs">
-                  PATTERN
-                </span>
-              </div>
-
-              <div className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mb-1">
-                SURFACE TEXTURES
-              </div>
-              <h3 className="font-sans text-lg font-bold text-neutral-900 dark:text-white uppercase flex items-center justify-between">
-                <span>PATTERN STUDIO</span>
-                <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-              </h3>
-              <p className="font-sans text-xs text-neutral-500 mt-1 leading-relaxed">
-                Generate repeating vector SVG patterns and geometric textures.
-              </p>
-            </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => handleCopyHex(activeColor.hex, activeColor.name)}
+              className="studio-btn-secondary"
+            >
+              <Copy size={12} />
+              <span>COPY HEX</span>
+            </button>
+            <input
+              type="color"
+              value={activeColor.hex}
+              onChange={(e) => {
+                const newHex = e.target.value.toUpperCase();
+                setCreatorColors((prev) =>
+                  prev.map((c, i) => (i === selectedColorIndex ? { ...c, hex: newHex, name: findClosestColorName(newHex) } : c))
+                );
+              }}
+              className="w-8 h-8 cursor-pointer rounded-xs border border-[var(--border-subtle)] bg-transparent p-0"
+              title="Choose custom color"
+            />
           </div>
         </div>
       </section>
 
-      {/* Module 2: Color Tiles (Quick Access) */}
-      <section className="mb-14">
-        <div className="flex items-baseline justify-between mb-4">
-          <div className="font-mono text-[11px] text-neutral-400 uppercase tracking-wider">
-            MODULE 03 / QUICK SPECIMEN TILES
+      {/* ── 10: RECENT WORK (Visual Archive) ────────────────────── */}
+      <section className="mb-24">
+        <div className="flex items-baseline justify-between mb-6">
+          <div>
+            <span className="studio-label">VISUAL ARCHIVE</span>
+            <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
+              RECENT WORK
+            </h2>
           </div>
           <button
-            onClick={() => onNavigate({ path: 'colors' })}
-            className="text-xs font-sans font-semibold tracking-wider uppercase text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors"
+            onClick={() => onNavigate({ path: 'palettes' })}
+            className="studio-btn-link"
           >
-            VIEW DRAWER ↗
+            <span>VIEW ALL PALETTES</span>
+            <ArrowUpRight size={13} />
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-          {favoriteColors.map((color) => (
+        <div className="flex flex-col">
+          {recentPalettes.map((p, idx) => (
             <div
-              key={color.id}
-              onClick={() => handleCopyHex(color.hex, color.name)}
-              className="group bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm p-3 cursor-pointer hover:border-neutral-400 transition-all flex flex-col justify-between"
+              key={p.id}
+              className="studio-recent-item group"
+              onClick={() => onNavigate({ path: 'palette-detail', slug: p.slug })}
+              role="button"
+              tabIndex={0}
             >
-              <div
-                className="h-16 rounded-xs mb-2 shadow-inner group-hover:scale-105 transition-transform"
-                style={{ backgroundColor: color.hex }}
-              />
-              <div className="font-sans text-xs font-bold text-neutral-900 dark:text-white truncate">
-                {color.name}
+              <div className="studio-recent-palette-bar">
+                {p.colors.map((c, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 h-full"
+                    style={{ backgroundColor: c.hex }}
+                    title={`${c.name} (${c.hex})`}
+                  />
+                ))}
               </div>
-              <div className="font-mono text-[10px] text-neutral-400">
-                {color.hex}
+              <div className="studio-recent-meta">
+                <div>
+                  <span className="studio-recent-title mr-3">{p.title}</span>
+                  <span className="studio-recent-sub">{p.colors.length} COLORS</span>
+                </div>
+                <div className="flex items-center gap-1 font-mono text-[11px] text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors">
+                  <span>OPEN</span>
+                  <ArrowUpRight size={12} />
+                </div>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Module 4: Saved Inspiration */}
-      <section className="mb-16">
-        <div className="flex items-baseline justify-between mb-4">
-          <div className="font-mono text-[11px] text-neutral-400 uppercase tracking-wider">
-            MODULE 04 / SAVED INSPIRATION ({savedItems.length})
-          </div>
-          <button
-            onClick={() => onNavigate({ path: 'saved' })}
-            className="text-xs font-sans font-semibold tracking-wider uppercase text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors"
-          >
-            OPEN ARCHIVE ↗
-          </button>
+      {/* ── 11: COLOR EXPERIMENTS (Working Wall) ────────────────── */}
+      <section className="mb-24">
+        <div className="mb-6">
+          <span className="studio-label">DESIGNER'S WALL</span>
+          <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
+            COLOR EXPERIMENTS
+          </h2>
         </div>
 
-        {savedItems.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-            {savedItems.slice(0, 6).map((item) => (
-              <div
-                key={item.id}
-                onClick={() => onNavigate({ path: 'saved' })}
-                className="p-3 bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm cursor-pointer hover:border-neutral-400 transition-all flex flex-col"
-              >
-                <div
-                  className="h-14 rounded-xs mb-2 shadow-inner"
-                  style={{
-                    background: item.preview.includes(',') ? undefined : item.preview,
-                    backgroundColor: item.preview.includes(',') ? item.preview.split(',')[0] : undefined,
-                  }}
-                />
-                <span className="font-sans text-xs font-bold truncate text-neutral-900 dark:text-white">
-                  {item.title}
-                </span>
-                <span className="font-mono text-[10px] text-neutral-400 uppercase">
-                  {item.type}
-                </span>
+        <div className="studio-experiments-wall">
+          {/* Experiment Brick 1: Asymmetrical Composition */}
+          <div className="studio-experiment-brick studio-experiment-brick-wide">
+            <div className="flex items-baseline justify-between mb-3">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+                EXP 01 / ANOMALOUS RATIO
+              </span>
+              <span className="font-mono text-[10px] text-[var(--text-secondary)]">
+                OKLCH COMPLEMENTARY
+              </span>
+            </div>
+            <div className="h-28 flex rounded-xs overflow-hidden mb-3">
+              <div className="w-[50%] h-full flex flex-col justify-end p-2 text-white font-mono text-[10px]" style={{ backgroundColor: '#171717' }}>
+                DOMINANT 50%
               </div>
-            ))}
+              <div className="w-[25%] h-full flex flex-col justify-end p-2 text-white font-mono text-[10px]" style={{ backgroundColor: '#FF3B30' }}>
+                SUB 25%
+              </div>
+              <div className="w-[15%] h-full flex flex-col justify-end p-2 text-black font-mono text-[10px]" style={{ backgroundColor: '#FFD60A' }}>
+                15%
+              </div>
+              <div className="w-[10%] h-full flex flex-col justify-end p-2 text-white font-mono text-[10px]" style={{ backgroundColor: '#00AEEF' }}>
+                10%
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+                Obsidian · Vermilion · Solar · Cyan
+              </span>
+              <button
+                onClick={() => onNavigate({ path: 'palette-generator', colors: '171717-FF3B30-FFD60A-00AEEF' })}
+                className="studio-btn-link"
+              >
+                <span>STUDY ↗</span>
+              </button>
+            </div>
           </div>
-        ) : (
-          <div className="p-8 text-center border border-dashed border-neutral-200 dark:border-neutral-800 rounded-sm">
-            <p className="font-sans text-xs text-neutral-500 mb-3">
-              No saved items in your inspiration queue yet.
-            </p>
-            <button
-              onClick={() => onNavigate({ path: 'palettes' })}
-              className="font-sans text-xs font-bold uppercase tracking-wider px-4 py-2 border border-neutral-300 dark:border-neutral-700 hover:border-neutral-900 dark:hover:border-white transition-colors"
-            >
-              BROWSE PALETTES ↗
-            </button>
+
+          {/* Experiment Brick 2: Overlapping Physical Swatches */}
+          <div className="studio-experiment-brick studio-experiment-brick-narrow">
+            <div className="flex items-baseline justify-between mb-2">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+                EXP 02 / DEPTH STACK
+              </span>
+              <span className="font-mono text-[10px] text-[var(--text-secondary)]">
+                CHROMATIC LAYERING
+              </span>
+            </div>
+            <div className="studio-swatch-stack mb-2">
+              <div
+                className="studio-swatch-stack-item w-28 h-20 top-2 left-2"
+                style={{ backgroundColor: '#7B2CBF' }}
+                title="Deep Violet (#7B2CBF)"
+              />
+              <div
+                className="studio-swatch-stack-item w-28 h-20 top-5 left-16"
+                style={{ backgroundColor: '#00AEEF' }}
+                title="Electric Cyan (#00AEEF)"
+              />
+              <div
+                className="studio-swatch-stack-item w-28 h-20 top-8 left-32"
+                style={{ backgroundColor: '#34C759' }}
+                title="Emerald Light (#34C759)"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+                Violet · Azure · Emerald
+              </span>
+              <button
+                onClick={() => onNavigate({ path: 'mesh' })}
+                className="studio-btn-link"
+              >
+                <span>MESH ↗</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Experiment Brick 3: High Contrast Minimal Pairing */}
+          <div className="studio-experiment-brick studio-experiment-brick-third">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+              EXP 03 / KINETIC TENSION
+            </span>
+            <div className="h-24 flex items-center justify-center p-2 rounded-xs my-2" style={{ backgroundColor: '#0E0F12' }}>
+              <div className="w-10 h-10 rounded-full animate-pulse" style={{ backgroundColor: '#FFD60A' }} />
+              <div className="w-8 h-8 rounded-full -ml-3" style={{ backgroundColor: '#FF3B30' }} />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+                Physics Specimen
+              </span>
+              <button
+                onClick={() => onNavigate({ path: 'antigravity' })}
+                className="studio-btn-link"
+              >
+                <span>TEST ↗</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Experiment Brick 4: Vector Pattern Study */}
+          <div className="studio-experiment-brick studio-experiment-brick-third">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+              EXP 04 / GEOMETRIC REPEAT
+            </span>
+            <div
+              className="h-24 rounded-xs my-2"
+              style={{
+                backgroundColor: '#171717',
+                backgroundImage: 'radial-gradient(#34C759 2px, transparent 2px), radial-gradient(#FF9500 2px, #171717 2px)',
+                backgroundSize: '16px 16px',
+                backgroundPosition: '0 0, 8px 8px',
+              }}
+            />
+            <div className="flex items-center justify-between">
+              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+                Surface Grid
+              </span>
+              <button
+                onClick={() => onNavigate({ path: 'pattern-studio' })}
+                className="studio-btn-link"
+              >
+                <span>VECTOR ↗</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Experiment Brick 5: Semantic Ramps */}
+          <div className="studio-experiment-brick studio-experiment-brick-third">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+              EXP 05 / WCAG STEPPING
+            </span>
+            <div className="h-24 flex flex-col justify-center gap-1 my-2">
+              <div className="flex gap-1 h-5">
+                {['#E0F2FE', '#7DD3FC', '#0284C7', '#0369A1'].map((hex, i) => (
+                  <div key={i} className="flex-1 rounded-xs" style={{ backgroundColor: hex }} />
+                ))}
+              </div>
+              <div className="flex gap-1 h-5">
+                {['#FEE2E2', '#FCA5A5', '#DC2626', '#991B1B'].map((hex, i) => (
+                  <div key={i} className="flex-1 rounded-xs" style={{ backgroundColor: hex }} />
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+                System Tokens
+              </span>
+              <button
+                onClick={() => onNavigate({ path: 'ramps' })}
+                className="studio-btn-link"
+              >
+                <span>RAMPS ↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 22: SEARCH INSIDE STUDIO ────────────────────────────── */}
+      <section className="mb-24">
+        <div className="mb-4">
+          <span className="studio-label">DISCOVERY INDEX</span>
+          <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
+            SEARCH YOUR COLORS
+          </h2>
+        </div>
+
+        <div className="relative mb-6">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by color name, HEX code (#FF3B30), or mood..."
+            className="w-full bg-transparent border-b border-[var(--border-subtle)] focus:border-[var(--text-primary)] py-3 pl-8 pr-4 font-sans text-base sm:text-lg text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none transition-colors"
+          />
+          <Search size={18} className="absolute left-0 top-4 text-[var(--text-secondary)]" />
+        </div>
+
+        {searchQuery.trim() && (
+          <div className="flex flex-col gap-6">
+            {filteredPalettes.length > 0 && (
+              <div>
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-secondary)] mb-3 block">
+                  PALETTES ({filteredPalettes.length})
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {filteredPalettes.slice(0, 6).map((p) => (
+                    <div
+                      key={p.id}
+                      onClick={() => onNavigate({ path: 'palette-detail', slug: p.slug })}
+                      className="p-3 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] cursor-pointer transition-colors"
+                    >
+                      <div className="h-14 flex rounded-xs overflow-hidden mb-2">
+                        {p.colors.map((c, i) => (
+                          <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
+                        ))}
+                      </div>
+                      <span className="font-sans text-xs font-bold uppercase text-[var(--text-primary)]">
+                        {p.title}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {filteredColors.length > 0 && (
+              <div>
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-secondary)] mb-3 block">
+                  SPECIMENS ({filteredColors.length})
+                </span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+                  {filteredColors.slice(0, 12).map((c) => (
+                    <div
+                      key={c.id}
+                      onClick={() => handleCopyHex(c.hex, c.name)}
+                      className="p-2 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] cursor-pointer transition-colors"
+                    >
+                      <div className="h-12 rounded-xs mb-1.5" style={{ backgroundColor: c.hex }} />
+                      <div className="font-sans text-[11px] font-bold uppercase truncate text-[var(--text-primary)]">
+                        {c.name}
+                      </div>
+                      <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                        {c.hex}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {filteredPalettes.length === 0 && filteredColors.length === 0 && (
+              <div className="studio-empty-state">
+                <div className="studio-empty-title">NO MATCHING CHROMATIC DATA.</div>
+                <div className="studio-empty-desc">
+                  Try searching for a different tone, like Vermilion, Cobalt, Amber, or #FF3B30.
+                </div>
+              </div>
+            )}
           </div>
         )}
       </section>

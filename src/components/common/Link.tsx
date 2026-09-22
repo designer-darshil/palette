@@ -69,7 +69,14 @@ export function hrefToRoute(href: string): RouteType {
   const segments = clean.split('/');
   const s0 = segments[0];
 
-  if (clean === 'palettes/live' || clean === 'palette/live' || s0 === 'live') {
+  if (
+    clean === 'palettes/live' ||
+    clean === 'palette/live' ||
+    s0 === 'live' ||
+    s0 === 'weather' ||
+    s0 === 'weather-color' ||
+    s0 === 'weather-colors'
+  ) {
     return { path: 'live' };
   }
   if (s0 === 'colors') {

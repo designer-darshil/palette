@@ -20,6 +20,7 @@ import {
   Gamepad2,
   Shuffle,
   Code,
+  CloudSun,
 } from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
@@ -97,6 +98,14 @@ const STUDIO_TOOLS = [
     icon: <ShieldCheck size={15} />,
     color: '#5856D6',
     path: { path: 'contrast-checker' } as RouteType,
+  },
+  {
+    id: 'live',
+    title: 'Weather Color (Live)',
+    description: 'Real-time solar elevation, Rayleigh scatter & atmospheric tones',
+    icon: <CloudSun size={15} />,
+    color: '#00AEEF',
+    path: { path: 'live' } as RouteType,
   },
 ];
 

@@ -194,6 +194,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </Link>
               </li>
               <li>
+                <Link to={{ path: 'live' }} onNavigate={handleNav} className="kroma-footer__link">
+                  Atmospheric Weather Color
+                </Link>
+              </li>
+              <li>
                 <Link to={{ path: 'api-docs' }} onNavigate={handleNav} className="kroma-footer__link">
                   Developer API &amp; Tokens
                 </Link>

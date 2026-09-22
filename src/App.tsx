@@ -321,7 +321,10 @@ function parseUrlToRoute(): RouteType {
     path === 'palettes/live-atmosphere' ||
     path === 'palette/live-atmosphere' ||
     s0 === 'live' ||
-    s0 === 'live-atmosphere'
+    s0 === 'live-atmosphere' ||
+    s0 === 'weather' ||
+    s0 === 'weather-color' ||
+    s0 === 'weather-colors'
   ) {
     return { path: 'live' };
   }

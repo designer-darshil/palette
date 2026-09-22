@@ -1,58 +1,47 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   ArrowLeftRight,
-  CheckCircle2,
-  XCircle,
-  AlertTriangle,
   Copy,
   Check,
   Share2,
   Bookmark,
-  Sparkles,
-  Layers,
-  Eye,
-  Sliders,
-  RotateCcw,
-  Info,
-  ShieldCheck,
-  Zap,
-  ArrowRight,
+  ArrowUpRight,
 } from 'lucide-react';
-import { RouteType, PaletteItem } from '../types';
+import { RouteType } from '../types';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
 import {
   getContrastRatio,
-  getContrastRating,
-  getTextColorForBackground,
   hexToRgb,
   hexToHsl,
-  hexToOklch,
   hslToHex,
-  rgbToHex,
   copyToClipboard,
 } from '../utils/colorUtils';
 import { findClosestColorName } from '../utils/paletteGenerator';
-import {
-  getContrastSuggestions,
-  simulateCvd,
-  CvdType,
-  ContrastSuggestion,
-} from '../utils/contrastSuggestions';
-import { ColorPickerModal } from '../components/ColorPickerModal';
-import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Analytics } from '../utils/analytics';
 
 interface ContrastCheckerPageProps {
   initialFg?: string;
   initialBg?: string;
   onNavigate: (route: RouteType) => void;
 }
+
+interface QuickPair {
+  name: string;
+  fg: string;
+  bg: string;
+}
+
+const QUICK_PAIRS: QuickPair[] = [
+  { name: 'OBSIDIAN / RAW', fg: '#171717', bg: '#F8F8F8' },
+  { name: 'BLACK / WHITE', fg: '#000000', bg: '#FFFFFF' },
+  { name: 'NAVY / CREAM', fg: '#0A192F', bg: '#FDFBF7' },
+  { name: 'PURPLE / YELLOW', fg: '#7B2CBF', bg: '#FFD60A' },
+  { name: 'BLUE / WHITE', fg: '#00AEEF', bg: '#FFFFFF' },
+  { name: 'DARK GREEN / WHITE', fg: '#134E4A', bg: '#FFFFFF' },
+];
 
 export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
   initialFg,
@@ -61,15 +50,15 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 }) => {
   const { showToast } = useToast();
   const { saveItem, isSaved } = useSaved();
-  const { palettes, addCombo } = useLibraryData();
+  const { addCombo } = useLibraryData();
 
-  // Color State (defaults to classic high-contrast pairing)
+  // Color State (defaults to Kroma Obsidian on Raw Canvas)
   const [fgHex, setFgHex] = useState<string>(() => {
     if (initialFg) {
       const clean = initialFg.startsWith('#') ? initialFg : `#${initialFg}`;
       if (/^#[0-9A-F]{6}$/i.test(clean)) return clean.toUpperCase();
     }
-    return '#E9C46A';
+    return '#171717';
   });
 
   const [bgHex, setBgHex] = useState<string>(() => {
@@ -77,14 +66,10 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       const clean = initialBg.startsWith('#') ? initialBg : `#${initialBg}`;
       if (/^#[0-9A-F]{6}$/i.test(clean)) return clean.toUpperCase();
     }
-    return '#111215';
+    return '#F8F8F8';
   });
 
-  const [selectedPaletteId, setSelectedPaletteId] = useState<string>('');
-  const [matrixOpen, setMatrixOpen] = useState<boolean>(false);
-  const [cvdMode, setCvdMode] = useState<CvdType>('normal');
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const [pickerTarget, setPickerTarget] = useState<'fg' | 'bg' | null>(null);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Sync URL query state
   useEffect(() => {
@@ -99,53 +84,11 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
   // Real-time Contrast Ratio Calculation
   const ratio = useMemo(() => getContrastRatio(fgHex, bgHex), [fgHex, bgHex]);
 
-  // WCAG 2.1 Criteria evaluations
-  const wcagResults = useMemo(() => {
-    return {
-      aaNormal: {
-        pass: ratio >= 4.5,
-        threshold: '4.5:1',
-        title: 'AA Normal Text',
-        description: 'Standard body text (< 18pt / 24px)',
-      },
-      aaLarge: {
-        pass: ratio >= 3.0,
-        threshold: '3.0:1',
-        title: 'AA Large Text',
-        description: 'Headings (≥ 18pt or 14pt bold)',
-      },
-      aaaNormal: {
-        pass: ratio >= 7.0,
-        threshold: '7.0:1',
-        title: 'AAA Normal Text',
-        description: 'Enhanced readability standard',
-      },
-      aaaLarge: {
-        pass: ratio >= 4.5,
-        threshold: '4.5:1',
-        title: 'AAA Large Text',
-        description: 'Enhanced large typography standard',
-      },
-      uiComponents: {
-        pass: ratio >= 3.0,
-        threshold: '3.0:1',
-        title: 'UI Components & Graphics',
-        description: 'Icons, buttons, input borders',
-      },
-    };
-  }, [ratio]);
-
-  // Dynamic Suggestions
-  const suggestions = useMemo(() => getContrastSuggestions(fgHex, bgHex), [fgHex, bgHex]);
-
-  // Simulated colors under CVD
-  const simulatedFg = useMemo(() => simulateCvd(fgHex, cvdMode), [fgHex, cvdMode]);
-  const simulatedBg = useMemo(() => simulateCvd(bgHex, cvdMode), [bgHex, cvdMode]);
-
-  // Selected palette for comparison
-  const selectedPalette = useMemo(() => {
-    return palettes.find((p) => p.id === selectedPaletteId) || palettes[0];
-  }, [palettes, selectedPaletteId]);
+  // WCAG Evaluations
+  const wcagNormalAA = ratio >= 4.5;
+  const wcagNormalAAA = ratio >= 7.0;
+  const wcagLargeAA = ratio >= 3.0;
+  const wcagLargeAAA = ratio >= 4.5;
 
   // Swap colors action
   const handleSwap = () => {
@@ -154,47 +97,28 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
     setBgHex(temp);
   };
 
-  // 1-Click Apply Suggestion
-  const handleApplySuggestion = (sugg: ContrastSuggestion) => {
-    if (sugg.type === 'modify-fg') {
-      setFgHex(sugg.suggestedHex);
-      showToast(`Updated Foreground to ${sugg.suggestedHex}`, `New ratio: ${sugg.newRatio}:1`);
-    } else {
-      setBgHex(sugg.suggestedHex);
-      showToast(`Updated Background to ${sugg.suggestedHex}`, `New ratio: ${sugg.newRatio}:1`);
+  // Adjust lightness helper (+5% / -5%)
+  const handleAdjustLightness = (target: 'fg' | 'bg', delta: number) => {
+    const currentHex = target === 'fg' ? fgHex : bgHex;
+    const hsl = hexToHsl(currentHex);
+    if (!hsl) return;
+    const newL = Math.max(0, Math.min(100, hsl.l + delta));
+    const newHex = hslToHex(hsl.h, hsl.s, newL);
+    if (target === 'fg') setFgHex(newHex);
+    else setBgHex(newHex);
+  };
+
+  // Subtle Copy action (no large toast, inline indicator)
+  const handleCopyValue = async (value: string, key: string) => {
+    const ok = await copyToClipboard(value);
+    if (ok) {
+      setCopiedField(key);
+      setTimeout(() => setCopiedField(null), 1400);
     }
   };
 
-  // Copy Actions
-  const handleCopy = async (text: string, key: string, label: string) => {
-    const success = await copyToClipboard(text);
-    if (success) {
-      setCopiedKey(key);
-      setTimeout(() => setCopiedKey(null), 1200);
-      showToast(`Copied ${label}`, text);
-    }
-  };
-
-  // Copy Full Contrast Report
-  const handleCopyReport = async () => {
-    const report = [
-      `KROMA Contrast Assessment Report`,
-      `Foreground: ${fgHex}`,
-      `Background: ${bgHex}`,
-      `Contrast Ratio: ${ratio}:1`,
-      `WCAG AA Normal: ${wcagResults.aaNormal.pass ? 'PASS' : 'FAIL'}`,
-      `WCAG AA Large: ${wcagResults.aaLarge.pass ? 'PASS' : 'FAIL'}`,
-      `WCAG AAA Normal: ${wcagResults.aaaNormal.pass ? 'PASS' : 'FAIL'}`,
-      `WCAG AAA Large: ${wcagResults.aaaLarge.pass ? 'PASS' : 'FAIL'}`,
-      `WCAG UI Components: ${wcagResults.uiComponents.pass ? 'PASS' : 'FAIL'}`,
-      `URL: ${window.location.href}`,
-    ].join('\n');
-
-    await handleCopy(report, 'report', 'Accessibility Report');
-  };
-
-  // Save Contrast Specimen
-  const handleSave = () => {
+  // Save pair to collection
+  const handleSavePair = () => {
     const hex1 = fgHex.replace('#', '').toLowerCase();
     const hex2 = bgHex.replace('#', '').toLowerCase();
     const canonicalSlug = `contrast-${hex1}-${hex2}`;
@@ -229,653 +153,563 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
     showToast('Saved contrast specimen to collection', `${ratio}:1 Ratio`);
   };
 
-  // Share action
   const handleShare = async () => {
-    const success = await copyToClipboard(window.location.href);
-    if (success) {
-      showToast('Contrast link copied to clipboard', 'Share URL ready');
+    const ok = await copyToClipboard(window.location.href);
+    if (ok) {
+      setCopiedField('share');
+      setTimeout(() => setCopiedField(null), 1400);
+      showToast('Contrast link copied to clipboard');
     }
   };
 
-  // Adjust Lightness helper
-  const handleAdjustLightness = (target: 'fg' | 'bg', delta: number) => {
-    const currentHex = target === 'fg' ? fgHex : bgHex;
-    const hsl = hexToHsl(currentHex);
-    if (!hsl) return;
-    const newL = Math.max(0, Math.min(100, hsl.l + delta));
-    const newHex = hslToHex(hsl.h, hsl.s, newL);
-    if (target === 'fg') setFgHex(newHex);
-    else setBgHex(newHex);
-  };
+  const fgRgb = hexToRgb(fgHex);
+  const fgHsl = hexToHsl(fgHex);
+  const bgRgb = hexToRgb(bgHex);
+  const bgHsl = hexToHsl(bgHex);
+
+  // Position percentage for contrast scale (1 to 21 logarithmic approximation)
+  const scalePosition = useMemo(() => {
+    const clamped = Math.max(1, Math.min(21, ratio));
+    return ((clamped - 1) / 20) * 100;
+  }, [ratio]);
+
+  const currentSlug = `contrast-${fgHex.replace('#', '').toLowerCase()}-${bgHex.replace('#', '').toLowerCase()}`;
+  const isSavedPair = isSaved(currentSlug);
 
   const contrastSchema = useMemo(() => {
     return generateWebApplicationSchema({
-      name: 'WCAG Color Contrast Checker & Accessibility Engine',
+      name: 'KROMA Color Contrast Instrument',
       description:
-        'Calculate precise WCAG 2.1 contrast ratios, verify AA/AAA compliance for normal and large text, and simulate color blindness vision impairments.',
+        'A visual color contrast instrument. See how two colors speak together through live typography, large canvas fields, and exact WCAG 2.1 verification.',
       url: '/contrast-checker',
       applicationCategory: 'DesignApplication',
     });
   }, []);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 flex flex-col gap-6 sm:gap-8 min-w-0">
+    <div className="studio-page">
       <SEOHead
-        title="WCAG Color Contrast Checker & Accessibility Engine"
-        description="Verify WCAG 2.1 AA & AAA luminance contrast ratios for text, UI components, and graphical surfaces with instant automated color remediation."
+        title="Color Contrast Instrument — See How Colors Speak | KROMA"
+        description="A visual color contrast instrument. See how two colors behave together through live typography, large canvas fields, and exact WCAG verification."
         canonicalPath="/contrast-checker"
         jsonLd={contrastSchema}
-        keywords={['color contrast checker', 'WCAG contrast ratio', 'accessible color pairs', 'WCAG AAA color checker', 'contrast validator']}
       />
 
-      <PageHeader
-        breadcrumbs={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Tools', to: { path: 'palettes' } },
-          { label: 'Contrast Checker', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-        sectionLabel="Accessibility & WCAG 2.1 spec"
-        title="Color Contrast Checker"
-        description="Evaluate exact luminance contrast ratios between foreground and background specimens, inspect WCAG AA/AAA compliance, and simulate color vision perception."
-        actions={
-          <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Share2 size={13} />}
-              onClick={handleShare}
-              title="Share Contrast Pair"
-            >
-              Share
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={copiedKey === 'report' ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-              onClick={handleCopyReport}
-              title="Copy Full Report"
-            >
-              {copiedKey === 'report' ? 'Copied' : 'Copy Report'}
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              iconLeft={<Bookmark size={13} />}
-              onClick={handleSave}
-              title="Save Specimen"
-            >
-              Save Pair
-            </Button>
-          </div>
-        }
-      />
-
-      {/* Main Studio Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start min-w-0">
-        {/* Left Column: Color Pickers, Swap, and Ratio Result (6 Cols on Desktop) */}
-        <div className="lg:col-span-6 flex flex-col gap-4 sm:gap-6 min-w-0">
-          {/* Dual Color Input Controls Card */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 shadow-lg flex flex-col gap-4 sm:gap-5 min-w-0">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-1 border-b border-[var(--border-subtle)]/60">
-              <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-                PAIR CONFIGURATION
-              </span>
-              <button
-                onClick={handleSwap}
-                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-mono text-[var(--text-primary)] bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-medium)] rounded-xs transition-all self-start sm:self-auto"
-                title="Swap Foreground and Background"
-              >
-                <ArrowLeftRight size={12} className="text-[var(--accent-gold)]" />
-                <span>Swap Colors</span>
-              </button>
-            </div>
-
-            {/* Foreground Input Control */}
-            <div className="flex flex-col gap-2.5 p-3 sm:p-4 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-sm min-w-0">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <label className="text-xs font-mono text-[var(--text-secondary)] font-bold uppercase">
-                    FOREGROUND (TEXT / ICON)
-                  </label>
-                  <button
-                    onClick={() => onNavigate({ path: 'color-name-finder', hex: fgHex })}
-                    className="text-[10px] font-mono text-[var(--accent-gold)] hover:underline inline-flex items-center gap-0.5"
-                    title="Find closest color name"
-                  >
-                    <span>Find Name</span>
-                    <ArrowRight size={10} />
-                  </button>
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-mono text-[var(--text-tertiary)] truncate">
-                  {findClosestColorName(fgHex)} • {hexToOklch(fgHex)}
-                </span>
-              </div>
-
-              {/* Main Input Row */}
-              <div className="flex items-center gap-2.5 min-w-0">
-                <ColorSwatchPicker
-                  value={fgHex}
-                  onChange={(val) => setFgHex(val)}
-                  showLabel={false}
-                  size="lg"
-                />
-                <input
-                  type="text"
-                  value={fgHex}
-                  onChange={(e) => {
-                    const val = e.target.value.toUpperCase();
-                    if (/^#[0-9A-F]{0,6}$/i.test(val)) setFgHex(val);
-                  }}
-                  className="flex-1 min-w-0 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs px-3 py-2 font-mono text-base font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
-                />
-              </div>
-
-              {/* Adjustment Controls Row */}
-              <div className="flex items-center justify-between gap-2 pt-2 border-t border-[var(--border-subtle)]/60">
-                <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">
-                  Lightness Shift
-                </span>
-                <div className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => handleAdjustLightness('fg', -5)}
-                    className="px-2.5 py-1 bg-[var(--bg-surface-3)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-xs text-xs font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                    title="Darken Foreground 5%"
-                  >
-                    −5%
-                  </button>
-                  <button
-                    onClick={() => handleAdjustLightness('fg', 5)}
-                    className="px-2.5 py-1 bg-[var(--bg-surface-3)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-xs text-xs font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                    title="Lighten Foreground 5%"
-                  >
-                    +5%
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Background Input Control */}
-            <div className="flex flex-col gap-2.5 p-3 sm:p-4 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-sm min-w-0">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <label className="text-xs font-mono text-[var(--text-secondary)] font-bold uppercase">
-                    BACKGROUND (CANVAS / SURFACE)
-                  </label>
-                  <button
-                    onClick={() => onNavigate({ path: 'color-name-finder', hex: bgHex })}
-                    className="text-[10px] font-mono text-[var(--accent-gold)] hover:underline inline-flex items-center gap-0.5"
-                    title="Find closest color name"
-                  >
-                    <span>Find Name</span>
-                    <ArrowRight size={10} />
-                  </button>
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-mono text-[var(--text-tertiary)] truncate">
-                  {findClosestColorName(bgHex)} • {hexToOklch(bgHex)}
-                </span>
-              </div>
-
-              {/* Main Input Row */}
-              <div className="flex items-center gap-2.5 min-w-0">
-                <ColorSwatchPicker
-                  value={bgHex}
-                  onChange={(val) => setBgHex(val)}
-                  showLabel={false}
-                  size="lg"
-                />
-                <input
-                  type="text"
-                  value={bgHex}
-                  onChange={(e) => {
-                    const val = e.target.value.toUpperCase();
-                    if (/^#[0-9A-F]{0,6}$/i.test(val)) setBgHex(val);
-                  }}
-                  className="flex-1 min-w-0 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-xs px-3 py-2 font-mono text-base font-bold text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
-                />
-              </div>
-
-              {/* Adjustment Controls Row */}
-              <div className="flex items-center justify-between gap-2 pt-2 border-t border-[var(--border-subtle)]/60">
-                <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">
-                  Lightness Shift
-                </span>
-                <div className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => handleAdjustLightness('bg', -5)}
-                    className="px-2.5 py-1 bg-[var(--bg-surface-3)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-xs text-xs font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                    title="Darken Background 5%"
-                  >
-                    −5%
-                  </button>
-                  <button
-                    onClick={() => handleAdjustLightness('bg', 5)}
-                    className="px-2.5 py-1 bg-[var(--bg-surface-3)] hover:bg-[var(--bg-surface-elevated)] border border-[var(--border-subtle)] rounded-xs text-xs font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                    title="Lighten Background 5%"
-                  >
-                    +5%
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Contrast Ratio Hero Card */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-6 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 min-w-0">
-            <div>
-              <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-                CONTRAST RATIO
-              </span>
-              <div className="text-3xl sm:text-4xl md:text-5xl font-black font-mono tracking-tight mt-1 text-[var(--text-primary)]">
-                {ratio} <span className="text-xl sm:text-2xl text-[var(--text-tertiary)] font-normal">: 1</span>
-              </div>
-              <div className="flex items-center gap-2 mt-2">
-                <span
-                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-xs font-mono text-xs font-bold ${
-                    ratio >= 7.0
-                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                      : ratio >= 4.5
-                      ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                      : ratio >= 3.0
-                      ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
-                      : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                  }`}
-                >
-                  {ratio >= 7.0 ? <CheckCircle2 size={12} /> : ratio >= 4.5 ? <CheckCircle2 size={12} /> : ratio >= 3.0 ? <AlertTriangle size={12} /> : <XCircle size={12} />}
-                  <span>{ratio >= 7.0 ? 'AAA ENHANCED' : ratio >= 4.5 ? 'AA COMPLIANT' : ratio >= 3.0 ? 'AA LARGE ONLY' : 'NON-COMPLIANT'}</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Quick Visual Swatch Preview */}
-            <div className="flex items-center gap-3 self-start sm:self-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-[var(--border-subtle)]">
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xs border border-[var(--border-medium)] shadow-inner cursor-pointer"
-                  style={{ backgroundColor: fgHex }}
-                  onClick={() => handleCopy(fgHex, 'fg', 'Foreground HEX')}
-                  title="Foreground Swatch (Tap to copy)"
-                />
-                <span className="font-mono text-[10px] sm:text-[11px] text-[var(--text-secondary)] mt-1 font-bold">{fgHex}</span>
-              </div>
-              <span className="font-mono text-xs text-[var(--text-tertiary)] font-bold">ON</span>
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xs border border-[var(--border-medium)] shadow-inner cursor-pointer"
-                  style={{ backgroundColor: bgHex }}
-                  onClick={() => handleCopy(bgHex, 'bg', 'Background HEX')}
-                  title="Background Swatch (Tap to copy)"
-                />
-                <span className="font-mono text-[10px] sm:text-[11px] text-[var(--text-secondary)] mt-1 font-bold">{bgHex}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* WCAG Criteria Breakdown Grid */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 shadow-lg flex flex-col gap-3 min-w-0">
-            <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-              WCAG 2.1 COMPLIANCE BREAKDOWN
-            </span>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {Object.entries(wcagResults).map(([key, item]) => (
-                <div
-                  key={key}
-                  className={`p-2.5 sm:p-3 rounded-xs border flex items-center justify-between transition-colors gap-2 ${
-                    item.pass
-                      ? 'bg-emerald-500/5 border-emerald-500/20'
-                      : 'bg-rose-500/5 border-rose-500/20'
-                  }`}
-                >
-                  <div className="min-w-0">
-                    <div className="text-xs font-bold text-[var(--text-primary)] truncate">
-                      {item.title}
-                    </div>
-                    <div className="text-[10px] sm:text-[11px] text-[var(--text-secondary)] mt-0.5">
-                      Target: {item.threshold}
-                    </div>
-                  </div>
-
-                  <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-xs font-mono text-[10px] sm:text-[11px] font-bold flex-shrink-0 ${
-                      item.pass
-                        ? 'bg-emerald-500/15 text-emerald-400'
-                        : 'bg-rose-500/15 text-rose-400'
-                    }`}
-                  >
-                    {item.pass ? <CheckCircle2 size={11} /> : <XCircle size={11} />}
-                    <span>{item.pass ? 'PASS' : 'FAIL'}</span>
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Remediation & Suggestions Engine */}
-          {suggestions.length > 0 && (
-            <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 shadow-lg flex flex-col gap-3 min-w-0">
-              <div className="flex items-center gap-2">
-                <Zap size={14} color="#E9C46A" />
-                <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-                  AUTOMATIC CONTRAST REMEDIATION
-                </span>
-              </div>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                The current pairing does not meet standard AAA thresholds. Below are mathematically optimized tone suggestions that reach target contrast while preserving your original hue.
-              </p>
-
-              <div className="flex flex-col gap-2 mt-1">
-                {suggestions.map((sugg, idx) => (
-                  <div
-                    key={idx}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 sm:p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs hover:border-[var(--border-medium)] transition-colors gap-2"
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span
-                        className="w-7 h-7 rounded-xs border border-[var(--border-medium)] flex-shrink-0"
-                        style={{ backgroundColor: sugg.suggestedHex }}
-                      />
-                      <div className="min-w-0">
-                        <div className="text-xs font-bold text-[var(--text-primary)] truncate">
-                          {sugg.label}
-                        </div>
-                        <div className="font-mono text-[10px] sm:text-[11px] text-[var(--text-secondary)] mt-0.5">
-                          {sugg.suggestedHex} • Reaches {sugg.newRatio}:1
-                        </div>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => handleApplySuggestion(sugg)}
-                      className="px-3 py-1.5 bg-[var(--bg-surface-3)] hover:bg-[var(--text-primary)] text-[var(--text-primary)] hover:text-[var(--text-inverse)] border border-[var(--border-medium)] rounded-xs text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap self-start sm:self-auto"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+      {/* ── 22: Editorial Breadcrumb ────────────────────────────── */}
+      <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
+        <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
+          <span>/</span>
+          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'explore' })}>TOOLS</span>
+          <span>/</span>
+          <span className="text-[var(--text-primary)] font-semibold">CONTRAST</span>
         </div>
 
-        {/* Right Column: Live Design Preview Stage & Palette Matrix (6 Cols on Desktop) */}
-        <div className="lg:col-span-6 flex flex-col gap-4 sm:gap-6 min-w-0 w-full">
-          {/* Live Design Preview Canvas */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 shadow-lg flex flex-col gap-4 min-w-0">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-                REAL-WORLD DESIGN SPECIMEN PREVIEW
-              </span>
-              <span className="font-mono text-[10px] sm:text-[11px] text-[var(--text-secondary)] font-bold">
-                {ratio}:1 Ratio
-              </span>
-            </div>
-
-            {/* Specimen Frame */}
-            <div
-              className="rounded-md border p-4 sm:p-6 flex flex-col gap-4 sm:gap-5 transition-colors duration-200 min-w-0"
-              style={{
-                backgroundColor: simulatedBg,
-                color: simulatedFg,
-                borderColor: fgHex === '#FFFFFF' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)',
-              }}
-            >
-              {/* Heading Specimen */}
-              <div>
-                <span style={{ color: simulatedFg, opacity: 0.8 }} className="font-mono text-[10px] sm:text-xs uppercase tracking-wider font-semibold">
-                  Large Display Typography
-                </span>
-                <h3 style={{ color: simulatedFg }} className="text-xl sm:text-2xl font-extrabold tracking-tight mt-1 leading-snug">
-                  Accessible Design Empowers Everyone
-                </h3>
-              </div>
-
-              {/* Body Typography Specimen */}
-              <div>
-                <span style={{ color: simulatedFg, opacity: 0.8 }} className="font-mono text-[10px] sm:text-xs uppercase tracking-wider font-semibold">
-                  Regular Body Text (15px / 1.6 Line Height)
-                </span>
-                <p style={{ color: simulatedFg, opacity: 0.95 }} className="text-xs sm:text-sm mt-1 leading-relaxed">
-                  Luminance contrast is the perceived difference in visual lightness between foreground typography and background canvas surfaces. Ensuring sufficient contrast prevents eye strain and guarantees universal readability across OLED, IPS, and e-paper displays.
-                </p>
-              </div>
-
-              {/* UI Component: Primary Button */}
-              <div>
-                <span style={{ color: simulatedFg, opacity: 0.8 }} className="font-mono text-[10px] sm:text-xs uppercase tracking-wider font-semibold mb-2 block">
-                  Interactive UI Component
-                </span>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
-                  <button
-                    style={{
-                      backgroundColor: simulatedFg,
-                      color: simulatedBg,
-                      border: 'none',
-                    }}
-                    className="px-4 sm:px-5 py-2.5 rounded-xs font-bold text-xs uppercase tracking-wider shadow-md hover:opacity-90 transition-opacity text-center"
-                  >
-                    Primary Action Button
-                  </button>
-
-                  <div
-                    style={{
-                      border: `1px solid ${simulatedFg}`,
-                      color: simulatedFg,
-                    }}
-                    className="px-3.5 py-2 rounded-xs font-mono text-xs font-semibold text-center"
-                  >
-                    Input Focus State
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Color Vision Deficiency (CVD) Simulation Controls */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 shadow-lg flex flex-col gap-3 min-w-0">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Eye size={14} color="#3B82F6" />
-                <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-blue)] uppercase tracking-wider font-semibold">
-                  COLOR VISION DEFICIENCY (CVD) SIMULATION
-                </span>
-              </div>
-            </div>
-            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-              Preview how this color pairing is perceived by users with different color vision deficiencies.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-1">
-              {[
-                { id: 'normal', label: 'Normal Vision' },
-                { id: 'protanopia', label: 'Protanopia (Red)' },
-                { id: 'deuteranopia', label: 'Deuteranopia (Green)' },
-                { id: 'tritanopia', label: 'Tritanopia (Blue)' },
-                { id: 'achromatopsia', label: 'Achromatopsia (Mono)' },
-              ].map((m) => (
-                <button
-                  key={m.id}
-                  onClick={() => setCvdMode(m.id as CvdType)}
-                  className={`p-2.5 rounded-xs text-xs font-semibold text-left transition-all ${
-                    cvdMode === m.id
-                      ? 'bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--accent-blue)]'
-                      : 'bg-[var(--bg-surface-2)] text-[var(--text-secondary)] border border-[var(--border-subtle)] hover:bg-[var(--bg-surface-3)]'
-                  }`}
-                >
-                  {m.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Palette Mode & Multi-Pair Matrix */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-4 sm:p-5 shadow-lg flex flex-col gap-3.5 sm:gap-4 min-w-0">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <Layers size={14} color="#E9C46A" />
-                <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-                  COMPARE FROM PALETTE LIBRARY
-                </span>
-              </div>
-              <button
-                onClick={() => setMatrixOpen(!matrixOpen)}
-                className="text-xs font-mono text-[var(--accent-gold)] hover:underline self-start sm:self-auto"
-              >
-                {matrixOpen ? 'Hide Full Matrix' : 'Show Full Matrix'}
-              </button>
-            </div>
-
-            {/* Select Existing Palette */}
-            <div className="flex flex-col gap-3">
-              <select
-                value={selectedPalette?.id}
-                onChange={(e) => setSelectedPaletteId(e.target.value)}
-                className="bg-[var(--bg-surface-2)] border border-[var(--border-medium)] rounded-xs p-2.5 text-xs text-[var(--text-primary)] font-semibold w-full"
-                aria-label="Select Palette System"
-              >
-                {palettes.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.title} ({p.colors.length} tones)
-                  </option>
-                ))}
-              </select>
-
-              {/* Responsive Swatch Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3 mt-1">
-                {selectedPalette.colors.map((c, idx) => {
-                  const isFg = fgHex.toUpperCase() === c.hex.toUpperCase();
-                  const isBg = bgHex.toUpperCase() === c.hex.toUpperCase();
-
-                  return (
-                    <div
-                      key={idx}
-                      className={`p-2.5 bg-[var(--bg-surface-2)] border rounded-xs flex flex-col gap-2 transition-all ${
-                        isFg || isBg
-                          ? 'border-[var(--border-strong)] bg-[var(--bg-surface-3)] shadow-md'
-                          : 'border-[var(--border-subtle)] hover:border-[var(--border-medium)]'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-[9px] text-[var(--text-tertiary)] font-bold">
-                          0{idx + 1}
-                        </span>
-                        <span className="font-mono text-[9px] text-[var(--text-secondary)] font-semibold truncate max-w-[64px]">
-                          {c.hex}
-                        </span>
-                      </div>
-
-                      <div
-                        className="h-9 w-full rounded-xs border border-[var(--border-subtle)] shadow-inner cursor-pointer"
-                        style={{ backgroundColor: c.hex }}
-                        onClick={() => setFgHex(c.hex)}
-                        title={`Click to set ${c.name} (${c.hex}) as Foreground`}
-                      />
-
-                      <div className="text-[10px] font-bold text-[var(--text-primary)] truncate">
-                        {c.name}
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-1 pt-1 border-t border-[var(--border-subtle)]">
-                        <button
-                          onClick={() => setFgHex(c.hex)}
-                          className={`py-1 rounded-xs font-mono text-[9px] font-bold transition-all text-center ${
-                            isFg
-                              ? 'bg-[var(--accent-gold)] text-black shadow-sm'
-                              : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
-                          }`}
-                          title="Set as Foreground"
-                        >
-                          FG {isFg ? '✓' : ''}
-                        </button>
-                        <button
-                          onClick={() => setBgHex(c.hex)}
-                          className={`py-1 rounded-xs font-mono text-[9px] font-bold transition-all text-center ${
-                            isBg
-                              ? 'bg-[var(--accent-gold)] text-black shadow-sm'
-                              : 'bg-[var(--bg-surface-1)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
-                          }`}
-                          title="Set as Background"
-                        >
-                          BG {isBg ? '✓' : ''}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Full N x N Palette Contrast Matrix */}
-            {matrixOpen && (
-              <div className="overflow-x-auto mt-2 pt-3 border-t border-[var(--border-subtle)] w-full">
-                <table className="w-full text-left font-mono text-[11px] min-w-[360px]">
-                  <thead>
-                    <tr className="border-b border-[var(--border-subtle)] text-[var(--text-tertiary)]">
-                      <th className="p-2">FG / BG</th>
-                      {selectedPalette.colors.map((c, i) => (
-                        <th key={i} className="p-2 text-center">
-                          <span
-                            className="inline-block w-4 h-4 rounded-xs border border-[var(--border-subtle)]"
-                            style={{ backgroundColor: c.hex }}
-                            title={c.name}
-                          />
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedPalette.colors.map((fg, rowIdx) => (
-                      <tr key={rowIdx} className="border-b border-[var(--border-subtle)]">
-                        <td className="p-2 font-bold flex items-center gap-1.5">
-                          <span
-                            className="w-3.5 h-3.5 rounded-xs border border-[var(--border-subtle)] inline-block flex-shrink-0"
-                            style={{ backgroundColor: fg.hex }}
-                          />
-                          <span className="truncate max-w-[80px]">{fg.name}</span>
-                        </td>
-                        {selectedPalette.colors.map((bg, colIdx) => {
-                          const r = getContrastRatio(fg.hex, bg.hex);
-                          const pass = r >= 4.5;
-                          return (
-                            <td
-                              key={colIdx}
-                              onClick={() => {
-                                setFgHex(fg.hex);
-                                setBgHex(bg.hex);
-                              }}
-                              className={`p-2 text-center cursor-pointer transition-colors ${
-                                pass ? 'text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/15' : 'text-rose-400 bg-rose-500/5 hover:bg-rose-500/15'
-                              }`}
-                              title={`${fg.name} on ${bg.name}: ${r}:1 (Click to test)`}
-                            >
-                              {r}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleShare}
+            className="studio-btn-secondary py-1.5 px-3 text-[11px]"
+            title="Share pair URL"
+          >
+            <Share2 size={12} />
+            <span>{copiedField === 'share' ? 'COPIED' : 'SHARE'}</span>
+          </button>
+          <button
+            onClick={handleSavePair}
+            className="studio-btn-primary py-1.5 px-3 text-[11px]"
+          >
+            <Bookmark size={12} />
+            <span>{isSavedPair ? 'SAVED' : 'SAVE PAIR'}</span>
+          </button>
         </div>
       </div>
 
-      {/* Interactive Color Selector Modal */}
-      {pickerTarget && (
-        <ColorPickerModal
-          isOpen={!!pickerTarget}
-          initialColor={pickerTarget === 'fg' ? fgHex : bgHex}
-          paletteColors={selectedPalette?.colors?.map((c) => c.hex) || []}
-          title={pickerTarget === 'fg' ? 'SELECT FOREGROUND COLOR' : 'SELECT BACKGROUND COLOR'}
-          onApply={(hex) => {
-            if (pickerTarget === 'fg') setFgHex(hex);
-            else setBgHex(hex);
-          }}
-          onClose={() => setPickerTarget(null)}
-        />
-      )}
+      {/* ── 03: Page Intro ──────────────────────────────────────── */}
+      <header className="mb-12">
+        <span className="studio-label">COLOR / CONTRAST</span>
+        <h1 className="studio-headline">
+          SEE<br />
+          HOW COLORS<br />
+          SPEAK.
+        </h1>
+        <p className="studio-subhead">
+          A visual instrument to see, test, and understand how two colors behave together.
+        </p>
+      </header>
+
+      {/* ── 04: Main Contrast Canvas ────────────────────────────── */}
+      <section className="mb-8">
+        <div
+          className="contrast-canvas border border-[var(--border-subtle)]"
+          style={{ backgroundColor: bgHex, color: fgHex }}
+        >
+          {/* Top Canvas Label */}
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest opacity-80">
+            <span>VISUAL CONTRAST FIELD</span>
+            <span>{ratio}:1</span>
+          </div>
+
+          {/* Large Hero Typography Demonstration */}
+          <div className="my-8 sm:my-12">
+            <div className="font-sans font-bold text-5xl sm:text-7xl md:text-8xl tracking-tighter leading-none mb-3 uppercase">
+              COLOR SPEAKS.
+            </div>
+            <p className="font-sans text-lg sm:text-2xl font-medium tracking-tight max-w-xl opacity-90 leading-snug">
+              Typography is light and shadow. Contrast creates voice.
+            </p>
+          </div>
+
+          {/* Bottom Canvas Metadata */}
+          <div className="flex items-center justify-between font-mono text-xs uppercase tracking-wider opacity-80 pt-4 border-t border-current/15">
+            <span>FOREGROUND: {fgHex}</span>
+            <span>BACKGROUND: {bgHex}</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 05 & 06: Live Color Controls with SWAP ───────────────── */}
+      <section className="mb-14 p-5 sm:p-6 border border-[var(--border-subtle)] rounded-xs">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
+          {/* Background Control */}
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+              <span>BACKGROUND</span>
+              <span>{findClosestColorName(bgHex)}</span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div
+                className="w-12 h-12 rounded-xs border border-[var(--border-subtle)] relative overflow-hidden flex-shrink-0 cursor-pointer"
+                style={{ backgroundColor: bgHex }}
+                title="Click to choose background color"
+              >
+                <input
+                  type="color"
+                  value={bgHex}
+                  onChange={(e) => setBgHex(e.target.value.toUpperCase())}
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                  title="Background color picker"
+                />
+              </div>
+
+              <input
+                type="text"
+                value={bgHex}
+                onChange={(e) => {
+                  const val = e.target.value.toUpperCase();
+                  if (/^#[0-9A-F]{0,6}$/i.test(val)) setBgHex(val);
+                }}
+                className="flex-1 bg-transparent border-b border-[var(--border-subtle)] focus:border-[var(--text-primary)] font-mono text-lg font-bold text-[var(--text-primary)] py-1 outline-none"
+              />
+
+              <div className="flex items-center gap-1 font-mono text-xs">
+                <button
+                  onClick={() => handleAdjustLightness('bg', -5)}
+                  className="px-2 py-1 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
+                  title="Darken Background 5%"
+                >
+                  -5%
+                </button>
+                <button
+                  onClick={() => handleAdjustLightness('bg', 5)}
+                  className="px-2 py-1 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
+                  title="Lighten Background 5%"
+                >
+                  +5%
+                </button>
+              </div>
+            </div>
+
+            {/* Technical values with copy */}
+            <div className="flex items-center gap-3 font-mono text-[11px] text-[var(--text-secondary)]">
+              <button
+                onClick={() => handleCopyValue(bgHex, 'bg-hex')}
+                className="hover:text-[var(--text-primary)] transition-colors"
+              >
+                HEX {copiedField === 'bg-hex' ? 'COPIED' : bgHex}
+              </button>
+              <span>·</span>
+              <button
+                onClick={() => handleCopyValue(`rgb(${bgRgb?.r}, ${bgRgb?.g}, ${bgRgb?.b})`, 'bg-rgb')}
+                className="hover:text-[var(--text-primary)] transition-colors"
+              >
+                RGB {copiedField === 'bg-rgb' ? 'COPIED' : `${bgRgb?.r}, ${bgRgb?.g}, ${bgRgb?.b}`}
+              </button>
+              <span>·</span>
+              <button
+                onClick={() => handleCopyValue(`hsl(${bgHsl?.h}, ${bgHsl?.s}%, ${bgHsl?.l}%)`, 'bg-hsl')}
+                className="hover:text-[var(--text-primary)] transition-colors"
+              >
+                HSL {copiedField === 'bg-hsl' ? 'COPIED' : `${bgHsl?.h}°, ${bgHsl?.s}%`}
+              </button>
+            </div>
+          </div>
+
+          {/* Central SWAP Button */}
+          <div className="flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 my-2 md:my-0">
+            <button
+              onClick={handleSwap}
+              className="studio-btn-secondary py-1.5 px-3 text-xs flex items-center gap-1.5 bg-[var(--bg-canvas)]"
+              title="Swap Foreground and Background"
+            >
+              <ArrowLeftRight size={12} />
+              <span>SWAP ↕</span>
+            </button>
+          </div>
+
+          {/* Foreground Control */}
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+              <span>FOREGROUND</span>
+              <span>{findClosestColorName(fgHex)}</span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div
+                className="w-12 h-12 rounded-xs border border-[var(--border-subtle)] relative overflow-hidden flex-shrink-0 cursor-pointer"
+                style={{ backgroundColor: fgHex }}
+                title="Click to choose foreground color"
+              >
+                <input
+                  type="color"
+                  value={fgHex}
+                  onChange={(e) => setFgHex(e.target.value.toUpperCase())}
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                  title="Foreground color picker"
+                />
+              </div>
+
+              <input
+                type="text"
+                value={fgHex}
+                onChange={(e) => {
+                  const val = e.target.value.toUpperCase();
+                  if (/^#[0-9A-F]{0,6}$/i.test(val)) setFgHex(val);
+                }}
+                className="flex-1 bg-transparent border-b border-[var(--border-subtle)] focus:border-[var(--text-primary)] font-mono text-lg font-bold text-[var(--text-primary)] py-1 outline-none"
+              />
+
+              <div className="flex items-center gap-1 font-mono text-xs">
+                <button
+                  onClick={() => handleAdjustLightness('fg', -5)}
+                  className="px-2 py-1 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
+                  title="Darken Foreground 5%"
+                >
+                  -5%
+                </button>
+                <button
+                  onClick={() => handleAdjustLightness('fg', 5)}
+                  className="px-2 py-1 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
+                  title="Lighten Foreground 5%"
+                >
+                  +5%
+                </button>
+              </div>
+            </div>
+
+            {/* Technical values with copy */}
+            <div className="flex items-center gap-3 font-mono text-[11px] text-[var(--text-secondary)]">
+              <button
+                onClick={() => handleCopyValue(fgHex, 'fg-hex')}
+                className="hover:text-[var(--text-primary)] transition-colors"
+              >
+                HEX {copiedField === 'fg-hex' ? 'COPIED' : fgHex}
+              </button>
+              <span>·</span>
+              <button
+                onClick={() => handleCopyValue(`rgb(${fgRgb?.r}, ${fgRgb?.g}, ${fgRgb?.b})`, 'fg-rgb')}
+                className="hover:text-[var(--text-primary)] transition-colors"
+              >
+                RGB {copiedField === 'fg-rgb' ? 'COPIED' : `${fgRgb?.r}, ${fgRgb?.g}, ${fgRgb?.b}`}
+              </button>
+              <span>·</span>
+              <button
+                onClick={() => handleCopyValue(`hsl(${fgHsl?.h}, ${fgHsl?.s}%, ${fgHsl?.l}%)`, 'fg-hsl')}
+                className="hover:text-[var(--text-primary)] transition-colors"
+              >
+                HSL {copiedField === 'fg-hsl' ? 'COPIED' : `${fgHsl?.h}°, ${fgHsl?.s}%`}
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 07, 08 & 13: Contrast Score, WCAG Matrix & Visual Scale ─ */}
+      <section className="mb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left: Prominent Ratio & Scale (7 Cols) */}
+        <div className="lg:col-span-7 flex flex-col justify-between">
+          <div className="mb-6">
+            <span className="studio-label">LUMINANCE RATIO</span>
+            <div className="flex items-baseline gap-4">
+              <span className="font-sans text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[var(--text-primary)]">
+                {ratio} : 1
+              </span>
+              <button
+                onClick={() => handleCopyValue(`${ratio}:1`, 'ratio')}
+                className="font-mono text-xs uppercase tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              >
+                {copiedField === 'ratio' ? 'COPIED' : 'COPY'}
+              </button>
+            </div>
+          </div>
+
+          {/* 13: Horizontal Contrast Scale */}
+          <div className="mt-4 pt-4 border-t border-[var(--border-subtle)]">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
+              CONTRAST SPECTRUM (1:1 TO 21:1)
+            </span>
+            <div className="contrast-scale-track">
+              <div
+                className="contrast-scale-indicator"
+                style={{ left: `${scalePosition}%` }}
+                title={`Current ratio: ${ratio}:1`}
+              />
+            </div>
+            <div className="flex justify-between font-mono text-[10px] text-[var(--text-secondary)] pt-1">
+              <span>1:1</span>
+              <span>3:1 (AA Lg)</span>
+              <span>4.5:1 (AA)</span>
+              <span>7:1 (AAA)</span>
+              <span>21:1</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: 08 & 09 Accessibility Status (5 Cols) */}
+        <div className="lg:col-span-5 p-5 border border-[var(--border-subtle)] rounded-xs">
+          <span className="studio-label mb-2 block">WCAG 2.1 SPECIFICATION</span>
+
+          <div className="flex flex-col">
+            {/* Row 1: Normal AA */}
+            <div className="wcag-row">
+              <div>
+                <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                  NORMAL TEXT · AA
+                </div>
+                <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                  BODY TEXT &lt; 18PT (4.5:1)
+                </div>
+              </div>
+              <span className={wcagNormalAA ? 'wcag-status-pass' : 'wcag-status-fail'}>
+                ● {wcagNormalAA ? 'PASS' : 'FAIL'}
+              </span>
+            </div>
+
+            {/* Row 2: Normal AAA */}
+            <div className="wcag-row">
+              <div>
+                <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                  NORMAL TEXT · AAA
+                </div>
+                <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                  ENHANCED READING (7.0:1)
+                </div>
+              </div>
+              <span className={wcagNormalAAA ? 'wcag-status-pass' : 'wcag-status-fail'}>
+                ● {wcagNormalAAA ? 'PASS' : 'FAIL'}
+              </span>
+            </div>
+
+            {/* Row 3: Large AA */}
+            <div className="wcag-row">
+              <div>
+                <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                  LARGE TEXT · AA
+                </div>
+                <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                  HEADINGS ≥ 18PT OR 14PT BOLD (3.0:1)
+                </div>
+              </div>
+              <span className={wcagLargeAA ? 'wcag-status-pass' : 'wcag-status-fail'}>
+                ● {wcagLargeAA ? 'PASS' : 'FAIL'}
+              </span>
+            </div>
+
+            {/* Row 4: Large AAA */}
+            <div className="wcag-row" style={{ borderBottom: 'none' }}>
+              <div>
+                <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                  LARGE TEXT · AAA
+                </div>
+                <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                  ENHANCED HEADINGS (4.5:1)
+                </div>
+              </div>
+              <span className={wcagLargeAAA ? 'wcag-status-pass' : 'wcag-status-fail'}>
+                ● {wcagLargeAAA ? 'PASS' : 'FAIL'}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 10: Live Typography Test ("TEST IT.") ────────────────── */}
+      <section className="mb-20">
+        <div className="mb-6">
+          <span className="studio-label">SCALE AUDIT</span>
+          <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
+            TEST IT.
+          </h2>
+        </div>
+
+        <div
+          className="p-6 sm:p-8 rounded-xs border border-[var(--border-subtle)] flex flex-col gap-8 transition-colors duration-300"
+          style={{ backgroundColor: bgHex, color: fgHex }}
+        >
+          {/* 48px Display */}
+          <div>
+            <span className="font-mono text-[10px] uppercase tracking-wider opacity-60 block mb-1">
+              48PX / DISPLAY HEADLINE
+            </span>
+            <div className="font-sans font-bold text-3xl sm:text-5xl tracking-tight leading-none">
+              Sphinx of black quartz, judge my vow.
+            </div>
+          </div>
+
+          {/* 24px Medium Heading */}
+          <div>
+            <span className="font-mono text-[10px] uppercase tracking-wider opacity-60 block mb-1">
+              24PX / SECTION HEADING
+            </span>
+            <div className="font-sans font-semibold text-xl sm:text-2xl tracking-tight">
+              Color is perceptual luminance interacting with the human eye.
+            </div>
+          </div>
+
+          {/* 16px Paragraph */}
+          <div>
+            <span className="font-mono text-[10px] uppercase tracking-wider opacity-60 block mb-1">
+              16PX / BODY PARAGRAPH
+            </span>
+            <p className="font-sans text-base leading-relaxed max-w-3xl opacity-90">
+              Good contrast is not merely an accessibility requirement—it is the foundation of hierarchy, pacing, and editorial authority in digital design. Readers process high-contrast typographies with reduced cognitive fatigue.
+            </p>
+          </div>
+
+          {/* 12px Small Body / Metadata */}
+          <div>
+            <span className="font-mono text-[10px] uppercase tracking-wider opacity-60 block mb-1">
+              12PX / MICRO METADATA
+            </span>
+            <div className="font-mono text-xs uppercase tracking-wider opacity-80">
+              SPECIMEN ID: {fgHex.replace('#', '')}-{bgHex.replace('#', '')} · WCAG 2.1 COMPLIANT RATIO: {ratio}:1
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 11: Real-World Editorial Preview Composition ────────── */}
+      <section className="mb-20">
+        <div className="mb-6">
+          <span className="studio-label">SURFACE COMPOSITION</span>
+          <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
+            EDITORIAL PREVIEW
+          </h2>
+        </div>
+
+        <div
+          className="p-8 sm:p-12 rounded-xs border border-[var(--border-subtle)] flex flex-col justify-between min-h-[300px] transition-colors duration-300"
+          style={{ backgroundColor: bgHex, color: fgHex }}
+        >
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest pb-6 border-b border-current/15 opacity-80">
+            <span>KROMA EDITORIAL</span>
+            <span>ISSUE 04</span>
+          </div>
+
+          <div className="my-8 max-w-2xl">
+            <h3 className="font-sans font-bold text-3xl sm:text-4xl tracking-tight mb-3 uppercase">
+              Color changes everything.
+            </h3>
+            <p className="font-sans text-sm sm:text-base leading-relaxed opacity-90">
+              When foreground and background establish clear tonal boundaries, content becomes immediate. The relationship between these two specimens produces an evaluated contrast coefficient of {ratio}:1.
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between pt-6 border-t border-current/15 text-xs font-mono uppercase tracking-wider opacity-80">
+            <span>Aa Bb Cc 123</span>
+            <span>{ratio >= 4.5 ? 'CERTIFIED ACCESSIBLE' : 'CAUTION: LOW CONTRAST'}</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 15: Quick Contrast Pairs ────────────────────────────── */}
+      <section className="mb-20">
+        <div className="mb-6">
+          <span className="studio-label">INSPIRATION</span>
+          <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
+            TRY A COMBINATION
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {QUICK_PAIRS.map((pair) => {
+            const pairRatio = getContrastRatio(pair.fg, pair.bg);
+            const isSelected = fgHex === pair.fg && bgHex === pair.bg;
+
+            return (
+              <div
+                key={pair.name}
+                onClick={() => {
+                  setFgHex(pair.fg);
+                  setBgHex(pair.bg);
+                }}
+                className={`p-3 border rounded-xs cursor-pointer transition-all flex flex-col justify-between min-h-[110px] ${
+                  isSelected
+                    ? 'border-[var(--text-primary)] ring-1 ring-[var(--text-primary)]'
+                    : 'border-[var(--border-subtle)] hover:border-[var(--text-primary)]'
+                }`}
+              >
+                {/* 2-Color Preview Swatch */}
+                <div className="h-10 rounded-xs overflow-hidden flex border border-[var(--border-subtle)] mb-2">
+                  <div className="w-1/2 h-full" style={{ backgroundColor: pair.bg }} title={`Background: ${pair.bg}`} />
+                  <div className="w-1/2 h-full" style={{ backgroundColor: pair.fg }} title={`Foreground: ${pair.fg}`} />
+                </div>
+
+                <div>
+                  <div className="font-sans text-[11px] font-bold uppercase truncate text-[var(--text-primary)]">
+                    {pair.name}
+                  </div>
+                  <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                    {pairRatio}:1
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── 14: Accessibility Explanation ──────────────────────── */}
+      <section className="p-8 border border-[var(--border-subtle)] rounded-xs mb-16">
+        <span className="studio-label mb-2 block">WCAG ARCHITECTURE</span>
+        <h3 className="font-sans text-lg font-bold uppercase tracking-tight text-[var(--text-primary)] mb-3">
+          WHAT DOES THE RATIO MEAN?
+        </h3>
+        <p className="font-sans text-sm text-[var(--text-secondary)] max-w-3xl leading-relaxed mb-6">
+          Contrast ratio measures the difference in perceived luminance between foreground typography and its surrounding background surface on a scale from 1:1 (zero contrast) to 21:1 (pure black on pure white).
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-[var(--border-subtle)] font-mono text-xs">
+          <div>
+            <span className="font-bold text-[var(--text-primary)] block mb-1">4.5 : 1</span>
+            <span className="text-[var(--text-secondary)]">
+              Normal text AA threshold for all standard body typography under 18pt.
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-[var(--text-primary)] block mb-1">7.0 : 1</span>
+            <span className="text-[var(--text-secondary)]">
+              Normal text AAA threshold for enhanced readability and low-vision accessibility.
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-[var(--text-primary)] block mb-1">3.0 : 1</span>
+            <span className="text-[var(--text-secondary)]">
+              Large text AA threshold for bold headlines ≥ 14pt or regular text ≥ 18pt.
+            </span>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

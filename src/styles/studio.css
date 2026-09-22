@@ -497,14 +497,114 @@
   line-height: 1.5;
 }
 
-/* ── 10. Motion Safety ────────────────────────────────────────── */
+/* ── 10. Contrast Instrument Specifics ────────────────────────── */
+.contrast-canvas {
+  width: 100%;
+  min-height: 280px;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px;
+  box-sizing: border-box;
+  transition: background-color 300ms ease-out, color 300ms ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .contrast-canvas {
+    min-height: 380px;
+    padding: 48px;
+  }
+}
+
+.contrast-scale-track {
+  width: 100%;
+  height: 4px;
+  background: var(--border-subtle, rgba(0, 0, 0, 0.12));
+  position: relative;
+  border-radius: 2px;
+  margin: 16px 0 8px;
+}
+
+.contrast-scale-indicator {
+  position: absolute;
+  top: -6px;
+  width: 4px;
+  height: 16px;
+  background: var(--text-primary, #171717);
+  border-radius: 1px;
+  transform: translateX(-50%);
+  transition: left 300ms ease-out;
+}
+
+.contrast-scale-marker {
+  position: absolute;
+  top: 8px;
+  transform: translateX(-50%);
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  color: var(--text-secondary, #707070);
+}
+
+.wcag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+}
+
+.wcag-status-pass {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-primary, #171717);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wcag-status-fail {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary, #707070);
+  opacity: 0.6;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contrast-preset-field {
+  display: flex;
+  height: 52px;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.contrast-preset-field:hover {
+  transform: translateY(-2px);
+  border-color: var(--text-primary, #171717);
+}
+
+/* ── 11. Motion Safety ────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .studio-action-card,
   .studio-recent-palette-bar,
   .studio-canvas-column,
   .studio-start-color-block,
   .studio-wall-tile,
-  .studio-wall-swatch {
+  .studio-wall-swatch,
+  .contrast-canvas,
+  .contrast-scale-indicator,
+  .contrast-preset-field {
     transition: none !important;
     transform: none !important;
   }

@@ -9,7 +9,6 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebSiteSchema } from '../utils/schemaGenerator';
 import { Link } from '../components/common/Link';
 import { Analytics } from '../utils/analytics';
-import '../styles/home.css';
 
 interface HomePageProps {
   onNavigate: (route: RouteType) => void;
@@ -105,7 +104,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const featuredCollections = CURATED_COLLECTIONS.slice(0, 3);
 
   return (
-    <div className="home-reimagined">
+    <div className="w-full max-w-[1400px] mx-auto px-5 sm:px-8 box-border text-[#171717] dark:text-white bg-transparent overflow-x-hidden">
       <SEOHead
         rawTitle
         title="KROMA — The Digital Color Studio"
@@ -117,41 +116,41 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 01 — HERO / COLOR CANVAS
           ═════════════════════════════════════════════════════════ */}
-      <section className="home-hero" ref={heroRef} aria-label="Hero Introduction">
+      <section className="relative min-h-[84dvh] flex flex-col justify-center py-8 md:py-12 select-none" ref={heroRef} aria-label="Hero Introduction">
         {/* Parallax Color Swatch Shapes */}
-        <div className="home-hero__canvas" aria-hidden="true">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-70 md:opacity-100" aria-hidden="true">
           <div
-            className="home-hero__shape home-hero__shape--1"
+            className="absolute will-change-transform transition-transform duration-150 ease-out shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] top-[2%] md:top-[8%] right-[4%] md:right-[6%] w-[70px] md:w-[90px] lg:w-[130px] h-[100px] md:h-[130px] lg:h-[180px] rounded-md bg-[#FF3B30]"
             style={{
               transform: `rotate(12deg) translate(${mouseOffset.x * 14}px, ${mouseOffset.y * 12}px)`,
             }}
           />
           <div
-            className="home-hero__shape home-hero__shape--2"
+            className="absolute will-change-transform transition-transform duration-150 ease-out shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] top-[45%] md:top-[36%] right-[4%] md:right-[18%] w-[70px] md:w-[100px] lg:w-[140px] h-[70px] md:h-[100px] lg:h-[140px] rounded-full bg-[#FFD60A]"
             style={{
               transform: `translate(${mouseOffset.x * -10}px, ${mouseOffset.y * -8}px)`,
             }}
           />
           <div
-            className="home-hero__shape home-hero__shape--3"
+            className="hidden md:block absolute will-change-transform transition-transform duration-150 ease-out shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] bottom-[12%] right-[8%] w-[120px] lg:w-[160px] h-[70px] lg:h-[90px] rounded-md bg-[#FF9500]"
             style={{
               transform: `rotate(-8deg) translate(${mouseOffset.x * 8}px, ${mouseOffset.y * 14}px)`,
             }}
           />
           <div
-            className="home-hero__shape home-hero__shape--4"
+            className="hidden md:block absolute will-change-transform transition-transform duration-150 ease-out shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] top-[14%] left-[56%] w-[70px] h-[70px] rounded bg-[#34C759]"
             style={{
               transform: `rotate(18deg) translate(${mouseOffset.x * -12}px, ${mouseOffset.y * 10}px)`,
             }}
           />
           <div
-            className="home-hero__shape home-hero__shape--5"
+            className="hidden md:block absolute will-change-transform transition-transform duration-150 ease-out shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] bottom-[24%] left-[48%] w-8 h-[120px] rounded bg-[#00AEEF]"
             style={{
               transform: `rotate(-14deg) translate(${mouseOffset.x * 15}px, ${mouseOffset.y * -11}px)`,
             }}
           />
           <div
-            className="home-hero__shape home-hero__shape--6"
+            className="hidden lg:block absolute will-change-transform transition-transform duration-150 ease-out shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] top-[48%] right-[32%] w-[88px] h-[88px] rounded-md bg-[#7B2CBF]"
             style={{
               transform: `rotate(6deg) translate(${mouseOffset.x * -8}px, ${mouseOffset.y * -12}px)`,
             }}
@@ -159,26 +158,26 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
 
         {/* Hero Typography & Content */}
-        <div className="home-hero__header">
-          <span className="home-label">THE COLOR STUDIO</span>
-          <h1 className="home-hero__headline">
+        <div className="relative z-10 max-w-full">
+          <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">THE COLOR STUDIO</span>
+          <h1 className="font-sans text-[clamp(64px,11vw,160px)] font-bold leading-[0.86] tracking-[-0.065em] text-[#171717] dark:text-white m-0 p-0 uppercase pointer-events-none">
             COLOR<br />
             CHANGES<br />
             EVERYTHING.
           </h1>
         </div>
 
-        <div className="home-hero__content-row">
-          <div className="home-hero__copy-group">
-            <p className="home-hero__lead">
+        <div className="flex items-end justify-between gap-8 mt-12 relative z-10 flex-wrap">
+          <div className="max-w-[440px]">
+            <p className="font-sans text-[17px] leading-[1.55] text-[#666666] dark:text-[#A0A0A0] mb-7">
               Discover palettes, generate new combinations, and build a visual language that feels like yours.
             </p>
-            <div className="home-hero__actions">
-              <Link to={{ path: 'colors' }} onNavigate={onNavigate} className="home-btn-primary">
+            <div className="flex items-center gap-3.5 flex-wrap">
+              <Link to={{ path: 'colors' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-[#171717] dark:bg-[#F8F8F8] text-[#F8F8F8] dark:text-[#171717] font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border-0 cursor-pointer transition-all hover:-translate-y-0.5 hover:opacity-90">
                 <span>Explore Colors</span>
                 <ArrowUpRight size={15} />
               </Link>
-              <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="home-btn-secondary">
+              <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-[#171717] dark:text-white font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border border-black/20 dark:border-white/20 cursor-pointer transition-all hover:-translate-y-0.5 hover:bg-black/5 dark:hover:bg-white/10">
                 <span>Generate a Palette</span>
               </Link>
             </div>
@@ -189,10 +188,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 02 — COLOR OF THE MOMENT
           ═════════════════════════════════════════════════════════ */}
-      <section className="home-section-medium home-moment" aria-label="Color of the Moment">
-        <span className="home-label">COLOR OF THE MOMENT</span>
+      <section className="my-12 md:my-16 lg:my-[88px] flex flex-col" aria-label="Color of the Moment">
+        <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">COLOR OF THE MOMENT</span>
         <div
-          className="home-moment__block"
+          className="group/moment relative w-full min-h-[320px] md:min-h-[440px] rounded p-5 md:p-8 flex flex-col justify-between cursor-pointer transition-all duration-300 hover:scale-[1.012] hover:shadow-[0_20px_48px_-12px_rgba(0,0,0,0.2)] select-none box-border"
           style={{ backgroundColor: momentColor.hex, color: '#FFFFFF' }}
           onClick={handleCopyMoment}
           role="button"
@@ -200,22 +199,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           onKeyDown={(e) => e.key === 'Enter' && handleCopyMoment()}
           aria-label={`Copy color ${momentColor.name} (${momentColor.hex})`}
         >
-          <div className="home-moment__top">
+          <div className="flex items-center justify-between font-mono text-xs tracking-[0.06em] uppercase">
             <span>SPECIMEN Nº 01</span>
             <span>{momentColor.role}</span>
           </div>
 
-          <div className="home-moment__bottom">
+          <div className="flex items-end justify-between flex-wrap gap-4">
             <div>
-              <div className="home-moment__name">{momentColor.name}</div>
-              <div className="home-moment__specs">
+              <div className="font-sans text-[clamp(32px,5vw,64px)] font-bold leading-none tracking-[-0.03em] mb-1.5">{momentColor.name}</div>
+              <div className="font-mono text-[13px] tracking-[0.04em] opacity-90">
                 {momentColor.hex} • RGB {momentColor.rgb}
               </div>
             </div>
 
             <button
               type="button"
-              className="home-moment__copy-action"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/20 backdrop-blur-md font-sans text-xs font-semibold tracking-[0.05em] uppercase border border-white/30 transition-all group-hover/moment:bg-white/35 group-hover/moment:-translate-y-0.5 cursor-pointer"
               onClick={handleCopyMoment}
               aria-label="Copy color"
             >
@@ -238,39 +237,39 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 03 — DISCOVER PALETTES
           ═════════════════════════════════════════════════════════ */}
-      <section className="home-section-major home-palettes" aria-label="Discover Palettes">
-        <div className="home-palettes__header">
+      <section className="my-16 md:my-24 lg:my-[120px]" aria-label="Discover Palettes">
+        <div className="flex items-end justify-between mb-7">
           <div>
-            <span className="home-label">CURATED SYSTEMS</span>
-            <h2 className="home-palettes__title">DISCOVER PALETTES</h2>
+            <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">CURATED SYSTEMS</span>
+            <h2 className="font-sans text-[clamp(28px,4vw,48px)] font-bold tracking-[-0.035em] uppercase m-0">DISCOVER PALETTES</h2>
           </div>
-          <Link to={{ path: 'palettes' }} onNavigate={onNavigate} className="home-btn-secondary">
+          <Link to={{ path: 'palettes' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-[#171717] dark:text-white font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border border-black/20 dark:border-white/20 cursor-pointer transition-all hover:-translate-y-0.5 hover:bg-black/5 dark:hover:bg-white/10">
             <span>All Palettes ↗</span>
           </Link>
         </div>
 
-        <div className="home-palettes__grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {featuredPalettes.map((palette) => (
             <Link
               key={palette.id}
               to={{ path: 'palette-detail', slug: palette.slug }}
               onNavigate={onNavigate}
-              className="home-palette-card"
+              className="group/pcard flex flex-col bg-[#F8F8F8] dark:bg-[#141518] border border-black/10 dark:border-white/10 rounded overflow-hidden no-underline text-[#171717] dark:text-white transition-all duration-200 hover:-translate-y-2 hover:border-black/25 dark:hover:border-white/25 hover:shadow-[0_16px_36px_-8px_rgba(0,0,0,0.12)] cursor-pointer"
               aria-label={`View palette ${palette.title}`}
             >
-              <div className="home-palette-card__strip">
+              <div className="flex h-60 w-full">
                 {palette.colors.map((color, idx) => (
                   <div
                     key={idx}
-                    className="home-palette-card__swatch"
+                    className="flex-1 h-full transition-[flex] duration-200 group-hover/pcard:hover:flex-[1.4]"
                     style={{ backgroundColor: color.hex }}
                     title={`${color.name} (${color.hex})`}
                   />
                 ))}
               </div>
-              <div className="home-palette-card__info">
-                <span className="home-palette-card__name">{palette.title}</span>
-                <span className="home-palette-card__cta">
+              <div className="p-4 flex items-center justify-between">
+                <span className="font-sans text-[15px] font-semibold tracking-[-0.01em]">{palette.title}</span>
+                <span className="font-sans text-xs font-semibold text-neutral-400 group-hover/pcard:text-[#171717] dark:group-hover/pcard:text-white inline-flex items-center gap-1 transition-all group-hover/pcard:translate-x-0.5">
                   <span>View</span>
                   <ArrowUpRight size={13} />
                 </span>
@@ -283,31 +282,31 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 04 — COLOR EXPLORATION (Split Layout)
           ═════════════════════════════════════════════════════════ */}
-      <section className="home-section-major home-explore-split" aria-label="Color Exploration">
-        <div className="home-explore-split__left">
-          <span className="home-label">EXPLORATION</span>
-          <h2 className="home-explore-split__title">
+      <section className="my-16 md:my-24 lg:my-[120px] grid grid-cols-1 md:grid-cols-[1fr_1.3fr] gap-8 md:gap-12 items-center" aria-label="Color Exploration">
+        <div>
+          <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">EXPLORATION</span>
+          <h2 className="font-sans text-[clamp(48px,7vw,100px)] font-bold leading-[0.88] tracking-[-0.05em] uppercase mb-5">
             FIND<br />
             YOUR<br />
             COLOR.
           </h2>
-          <p className="home-explore-split__desc">
+          <p className="font-sans text-base text-[#666666] dark:text-[#9E9E9E] max-w-[360px] leading-[1.5] m-0">
             Explore chromatic families, natural earth pigments, and precision architectural hues.
           </p>
         </div>
 
-        <div className="home-explore-grid" role="group" aria-label="Color family tiles">
+        <div className="group/tilegrid grid grid-cols-2 sm:grid-cols-4 gap-3" role="group" aria-label="Color family tiles">
           {COLOR_FAMILIES.map((family) => (
             <Link
               key={family.name}
               to={{ path: 'colors' }}
               onNavigate={onNavigate}
-              className="home-family-tile"
+              className="relative aspect-square rounded p-3.5 flex flex-col justify-between no-underline cursor-pointer transition-all duration-200 overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.06)] group-hover/tilegrid:opacity-55 hover:!opacity-100 hover:scale-105 hover:z-10 hover:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.2)]"
               style={{ backgroundColor: family.hex, color: family.text }}
               aria-label={`Explore ${family.name} color family`}
             >
-              <span className="home-family-tile__label">{family.name}</span>
-              <span className="home-family-tile__hex">{family.hex}</span>
+              <span className="font-sans text-sm font-bold tracking-[-0.01em]">{family.name}</span>
+              <span className="font-mono text-[11px] opacity-90">{family.hex}</span>
             </Link>
           ))}
         </div>
@@ -316,32 +315,32 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 05 — GENERATE (Dark Dramatic Section)
           ═════════════════════════════════════════════════════════ */}
-      <section className="home-section-major home-generate-dark" aria-label="Generative Engine">
-        <div className="home-generate-grid">
+      <section className="my-16 md:my-24 lg:my-[120px] bg-[#171717] text-[#F8F8F8] rounded-md p-5 sm:p-9 md:p-12 lg:p-16 box-border" aria-label="Generative Engine">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-9 md:gap-12 items-center">
           <div>
-            <span className="home-label" style={{ color: '#00AEEF' }}>GENERATIVE STUDIO</span>
-            <h2 className="home-generate__heading">
+            <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#00AEEF] inline-flex items-center gap-2 mb-4">GENERATIVE STUDIO</span>
+            <h2 className="font-sans text-[clamp(36px,5.5vw,76px)] font-bold leading-[0.9] tracking-[-0.04em] uppercase mb-4 text-white">
               MAKE<br />
               A COLOR<br />
               YOU'VE NEVER<br />
               SEEN.
             </h2>
-            <p className="home-generate__text">
+            <p className="font-sans text-base text-[#A0A0A0] leading-[1.5] mb-7 max-w-[440px]">
               Generate unexpected palettes, starting from a color, image, or idea. Real-time chromatic balance calibrated to harmonious scales.
             </p>
-            <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="home-btn-primary">
+            <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-[#F8F8F8] text-[#171717] font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border-0 cursor-pointer transition-all hover:-translate-y-0.5 hover:opacity-90">
               <span>Generate Palette</span>
               <ArrowUpRight size={15} />
             </Link>
           </div>
 
           {/* Working Interactive Mini-Generator */}
-          <div className="home-mini-generator">
-            <div className="home-mini-generator__strip">
+          <div className="bg-[#202020] border border-white/10 rounded-md p-6 flex flex-col gap-5">
+            <div className="flex h-[100px] rounded overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.3)]">
               {generatedColors.map((col, idx) => (
                 <div
                   key={col.id || idx}
-                  className="home-mini-generator__slot"
+                  className="flex-1 h-full transition-colors duration-250 cursor-pointer"
                   style={{
                     backgroundColor: col.hex,
                     outline: selectedSlotIndex === idx ? '2px solid #FFFFFF' : 'none',
@@ -353,14 +352,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               ))}
             </div>
 
-            <div className="home-mini-generator__specs">
+            <div className="flex items-center justify-between font-mono text-xs text-[#CCCCCC]">
               <div>
                 <span className="font-bold text-white block text-sm">{activeGeneratorColor.name}</span>
                 <span className="text-xs text-[#888888]">{activeGeneratorColor.hex}</span>
               </div>
               <button
                 type="button"
-                className="home-mini-generator__btn"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-[#171717] rounded-full font-sans text-[13px] font-bold tracking-[0.04em] uppercase cursor-pointer transition-transform hover:bg-[#E8E8E8] hover:scale-[1.02] border-0"
                 onClick={handleReGenerate}
                 aria-label="Generate new harmonic palette"
               >
@@ -375,19 +374,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 06 — FROM IMAGE TO COLOR
           ═════════════════════════════════════════════════════════ */}
-      <section className="home-section-major home-image-extract" aria-label="Extract From Image">
-        <div className="home-image-extract__header">
+      <section className="my-16 md:my-24 lg:my-[120px] flex flex-col gap-7" aria-label="Extract From Image">
+        <div className="flex items-end justify-between flex-wrap gap-4">
           <div>
-            <span className="home-label">PHOTO EXTRACTION</span>
-            <h2 className="home-image-extract__title">YOUR IMAGE. YOUR PALETTE.</h2>
+            <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">PHOTO EXTRACTION</span>
+            <h2 className="font-sans text-[clamp(32px,5vw,68px)] font-bold tracking-[-0.035em] uppercase m-0 leading-[0.95]">YOUR IMAGE. YOUR PALETTE.</h2>
           </div>
-          <Link to={{ path: 'extract-from-image' }} onNavigate={onNavigate} className="home-btn-secondary">
+          <Link to={{ path: 'extract-from-image' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-[#171717] dark:text-white font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border border-black/20 dark:border-white/20 cursor-pointer transition-all hover:-translate-y-0.5 hover:bg-black/5 dark:hover:bg-white/10">
             <span>Extract From Image ↗</span>
           </Link>
         </div>
 
         <div
-          className="home-image-extract__stage"
+          className="relative w-full h-[320px] md:h-[440px] rounded-md overflow-hidden bg-cover bg-center flex items-end p-4 md:p-6 box-border"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=1200&q=85')`,
           }}
@@ -396,7 +395,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           {IMAGE_SPECIMEN_PINS.map((pin) => (
             <div
               key={pin.id}
-              className="home-image-pin"
+              className="absolute w-[22px] h-[22px] rounded-full border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.4)] animate-pin-pulse -translate-x-1/2 -translate-y-1/2"
               style={{
                 left: `${pin.x}%`,
                 top: `${pin.y}%`,
@@ -407,16 +406,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           ))}
 
           {/* Swatches strip overlay */}
-          <div className="home-image-swatches">
+          <div className="relative z-10 flex items-center gap-2.5 bg-[#171717]/80 backdrop-blur-md py-3 px-4 rounded-xl sm:rounded-full border border-white/15 max-w-fit flex-wrap sm:flex-nowrap">
             {IMAGE_SPECIMEN_PINS.map((pin) => (
               <button
                 key={pin.id}
                 type="button"
-                className="home-image-swatch-chip"
+                className="flex items-center gap-1.5 font-mono text-[11px] text-white py-1 px-2 rounded-full bg-white/10 cursor-pointer transition-transform hover:scale-105"
                 onClick={() => handleCopyPinHex(pin.hex, pin.id)}
                 title={`Click to copy ${pin.hex}`}
               >
-                <span className="home-image-swatch-dot" style={{ backgroundColor: pin.hex }} />
+                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: pin.hex }} />
                 <span>{copiedPin === pin.id ? 'COPIED' : pin.hex}</span>
               </button>
             ))}
@@ -427,18 +426,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 07 — SAVED COLORS / COLLECTIONS
           ═════════════════════════════════════════════════════════ */}
-      <section className="home-section-major home-collections" aria-label="Collections and Inspiration">
-        <div className="home-collections__header">
+      <section className="my-16 md:my-24 lg:my-[120px]" aria-label="Collections and Inspiration">
+        <div className="flex items-end justify-between mb-7 flex-wrap gap-4">
           <div>
-            <span className="home-label">INSPIRATION ARCHIVE</span>
-            <h2 className="home-collections__title">KEEP WHAT INSPIRES YOU.</h2>
+            <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">INSPIRATION ARCHIVE</span>
+            <h2 className="font-sans text-[clamp(32px,5vw,68px)] font-bold tracking-[-0.035em] uppercase m-0 leading-[0.95]">KEEP WHAT INSPIRES YOU.</h2>
           </div>
-          <Link to={{ path: 'collections' }} onNavigate={onNavigate} className="home-btn-secondary">
+          <Link to={{ path: 'collections' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-[#171717] dark:text-white font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border border-black/20 dark:border-white/20 cursor-pointer transition-all hover:-translate-y-0.5 hover:bg-black/5 dark:hover:bg-white/10">
             <span>View Collections ↗</span>
           </Link>
         </div>
 
-        <div className="home-collections__grid">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
           {featuredCollections.map((col) => {
             const previewColors = (col.coverPreview || '#171717,#FF3B30,#00AEEF,#34C759,#FFD60A')
               .split(',')
@@ -450,22 +449,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 key={col.id}
                 to={{ path: 'collection-detail', slug: col.slug }}
                 onNavigate={onNavigate}
-                className="home-collection-card"
+                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/10 dark:border-white/10 rounded p-5 no-underline text-[#171717] dark:text-white flex flex-col justify-between h-[190px] transition-all duration-200 hover:-translate-y-1 hover:border-black/25 dark:hover:border-white/25 hover:shadow-[0_12px_28px_-6px_rgba(0,0,0,0.08)]"
                 aria-label={`View collection ${col.title}`}
               >
                 <div>
-                  <div className="home-collection-card__swatches">
+                  <div className="flex h-4 rounded-[3px] overflow-hidden mb-4">
                     {previewColors.map((hex, idx) => (
                       <span
                         key={idx}
-                        className="home-collection-card__swatch"
+                        className="flex-1 h-full"
                         style={{ backgroundColor: hex }}
                       />
                     ))}
                   </div>
-                  <div className="home-collection-card__name">{col.title}</div>
+                  <div className="font-sans text-[17px] font-bold tracking-[-0.02em] mb-1">{col.title}</div>
                 </div>
-                <div className="home-collection-card__meta">
+                <div className="font-mono text-[11px] text-neutral-400">
                   <span>{col.creator.name}</span> • <span>{col.items.length} items</span>
                 </div>
               </Link>
@@ -477,16 +476,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 08 — COLOR STATEMENT
           ═════════════════════════════════════════════════════════ */}
-      <section className="home-statement" aria-label="Final Creative Statement">
-        <h2 className="home-statement__text">
+      <section className="flex flex-col items-center justify-center text-center pt-24 pb-28 select-none" aria-label="Final Creative Statement">
+        <h2 className="font-sans text-[clamp(48px,8vw,120px)] font-semibold leading-[0.9] tracking-[-0.055em] uppercase text-[#171717] dark:text-white max-w-[960px] mx-auto mb-9">
           THERE'S A<br />
           COLOR FOR<br />
           EVERY IDEA.
         </h2>
 
         {/* Signature Rocking Rainbow Roller Emblem */}
-        <div className="home-statement__roller-container" aria-hidden="true">
-          <div className="home-statement__roller-rock">
+        <div className="flex items-center justify-center w-14 h-14" aria-hidden="true">
+          <div className="origin-center animate-roller-rock">
             <svg
               width="42"
               height="42"

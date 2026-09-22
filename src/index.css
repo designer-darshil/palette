@@ -1,11 +1,6 @@
 @import './styles/preloader.css';
-@import './styles/home.css';
 @import './styles/inner-pages.css';
 @import './styles/studio.css';
-@import './styles/explore.css';
-@import './styles/pattern-studio.css';
-@import './styles/palette-generator.css';
-@import './styles/mesh-gradient.css';
 
 @tailwind base;
 @tailwind components;

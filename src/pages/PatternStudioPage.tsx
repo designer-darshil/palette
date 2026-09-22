@@ -330,7 +330,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
   }, [patternType, activePalette, scale, density, rotation, strokeWidth, opacity, currentBg]);
 
   return (
-    <div className="pattern-studio">
+    <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 pt-8 pb-24 text-[#171717] dark:text-white">
       <SEOHead
         title="Generative Pattern Studio — Vector Surface Generator | KROMA"
         description="Synthesize repeating algorithmic patterns, vector lattices, dot matrices, and textile textures driven by harmonic color systems."
@@ -338,46 +338,46 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
       />
 
       {/* ─── 1. Minimal Kroma Breadcrumb ─────────────────────────── */}
-      <nav className="pattern-breadcrumb" aria-label="Breadcrumb">
+      <nav className="flex items-center gap-2 font-sans text-[11.5px] font-medium tracking-[0.04em] uppercase mb-6" aria-label="Breadcrumb">
         <button
           type="button"
           onClick={() => onNavigate({ path: 'home' })}
-          className="pattern-breadcrumb__link"
+          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit"
         >
           HOME
         </button>
-        <span className="pattern-breadcrumb__separator" aria-hidden="true">/</span>
+        <span className="text-[#171717]/25 dark:text-white/25 font-light" aria-hidden="true">/</span>
         <button
           type="button"
           onClick={() => onNavigate({ path: 'create' })}
-          className="pattern-breadcrumb__link"
+          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit"
         >
           STUDIO
         </button>
-        <span className="pattern-breadcrumb__separator" aria-hidden="true">/</span>
-        <span className="pattern-breadcrumb__current">PATTERN STUDIO</span>
+        <span className="text-[#171717]/25 dark:text-white/25 font-light" aria-hidden="true">/</span>
+        <span className="text-[#171717] dark:text-white font-semibold">PATTERN STUDIO</span>
       </nav>
 
       {/* ─── 2. Compact Editorial Intro ─────────────────────────── */}
-      <header className="pattern-intro">
-        <div className="pattern-intro__eyebrow">
-          <span className="pattern-intro__eyebrow-dot" />
+      <header className="mb-10 flex flex-col gap-2">
+        <div className="font-mono text-[11px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-[1px] bg-[#FF9500]" />
           <span>DIGITAL PATTERN LAB • VECTOR SURFACE INSTRUMENT</span>
         </div>
-        <h1 className="pattern-intro__title">
+        <h1 className="font-sans text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-[-0.03em] leading-[0.98] text-[#171717] dark:text-white m-0 uppercase">
           CREATE REPEATING WORLDS.
         </h1>
-        <p className="pattern-intro__lead">
+        <p className="font-sans text-[14.5px] text-[#707070] dark:text-[#9A9A9E] mt-1 mb-0 max-w-[500px] leading-[1.45]">
           Build algorithmic visual rhythm from shape, color, density, and spatial repetition.
         </p>
       </header>
 
       {/* ─── 3. Main Workspace: Live Canvas & Control System ────── */}
-      <div className="pattern-workspace">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start mb-20">
         {/* Left/Center: The Pattern Canvas Artboard */}
-        <div className="pattern-canvas-col">
+        <div className="flex flex-col gap-4">
           <div
-            className="pattern-canvas-frame"
+            className="w-full min-h-[380px] sm:min-h-[520px] bg-[#F8F8F8] dark:bg-[#141518] border border-black/10 dark:border-white/10 rounded overflow-hidden relative flex items-center justify-center shadow-[0_4px_20px_-6px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_-6px_rgba(0,0,0,0.35)] transition-colors [&>svg]:w-full [&>svg]:h-full [&>svg]:block"
             style={{ backgroundColor: currentBg }}
             role="region"
             aria-label="Live pattern canvas"
@@ -385,11 +385,11 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           />
 
           {/* Minimal Canvas Action Toolbar */}
-          <div className="pattern-canvas-toolbar">
-            <div className="pattern-toolbar-group">
+          <div className="flex items-center justify-between gap-3 flex-wrap py-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <button
                 type="button"
-                className="pattern-toolbar-btn pattern-toolbar-btn--accent"
+                className="inline-flex items-center gap-1.5 bg-[#171717] dark:bg-white text-white dark:text-[#171717] border border-[#171717] dark:border-white hover:bg-black dark:hover:bg-[#E5E5E5] rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] cursor-pointer transition-all"
                 onClick={handleRandomize}
                 title="Synthesize surprise pattern parameters"
               >
@@ -399,7 +399,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
               <button
                 type="button"
-                className="pattern-toolbar-btn"
+                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
                 onClick={handleReset}
                 title="Reset parameters to baseline defaults"
               >
@@ -409,7 +409,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
               <button
                 type="button"
-                className="pattern-toolbar-btn"
+                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
                 onClick={() => setCanvasFit((f) => (f === 'cover' ? 'contain' : 'cover'))}
                 title="Toggle canvas view aspect"
               >
@@ -418,10 +418,10 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               </button>
             </div>
 
-            <div className="pattern-toolbar-group">
+            <div className="flex items-center gap-2 flex-wrap">
               <button
                 type="button"
-                className="pattern-toolbar-btn"
+                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
                 onClick={handleCopyCss}
                 title="Copy ready CSS snippet"
               >
@@ -431,7 +431,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
               <button
                 type="button"
-                className="pattern-toolbar-btn"
+                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
                 onClick={handleDownloadSvg}
                 title="Download scalable SVG file"
               >
@@ -441,7 +441,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
               <button
                 type="button"
-                className="pattern-toolbar-btn"
+                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
                 onClick={handleDownloadPng}
                 title="Download high-resolution 1800x1120 PNG"
               >
@@ -453,25 +453,27 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
         </div>
 
         {/* Right: Compact Creative Instrument Controls */}
-        <aside className="pattern-instruments-col" aria-label="Pattern controls">
+        <aside className="flex flex-col gap-7 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded p-6" aria-label="Pattern controls">
           {/* Instrument 1: Geometry / Shape Picker */}
-          <div className="pattern-instrument-group">
-            <div className="pattern-instrument-header">
-              <span className="pattern-instrument-label">GEOMETRY SHAPE</span>
-              <span className="pattern-instrument-value">{patternType.toUpperCase()}</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">GEOMETRY SHAPE</span>
+              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{patternType.toUpperCase()}</span>
             </div>
-            <div className="pattern-shape-grid">
+            <div className="grid grid-cols-4 gap-1.5">
               {SHAPE_OPTIONS.map((opt) => (
                 <button
                   key={opt.type}
                   type="button"
                   onClick={() => setPatternType(opt.type)}
-                  className={`pattern-shape-btn ${
-                    patternType === opt.type ? 'pattern-shape-btn--active' : ''
+                  className={`flex flex-col items-center justify-center gap-1 border rounded-[2px] py-2 px-1 cursor-pointer transition-all font-mono text-[10px] font-medium uppercase ${
+                    patternType === opt.type
+                      ? 'bg-[#171717] dark:bg-white text-white dark:text-[#171717] border-[#171717] dark:border-white'
+                      : 'bg-transparent border-black/[0.08] dark:border-white/[0.08] text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white hover:border-black/[0.24] dark:hover:border-white/[0.24]'
                   }`}
                   title={`Shape: ${opt.label}`}
                 >
-                  <span className="pattern-shape-icon">{opt.glyph}</span>
+                  <span className="text-sm leading-none">{opt.glyph}</span>
                   <span>{opt.label}</span>
                 </button>
               ))}
@@ -479,10 +481,10 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           </div>
 
           {/* Instrument 2: Scale / Tile Size */}
-          <div className="pattern-instrument-group">
-            <div className="pattern-instrument-header">
-              <span className="pattern-instrument-label">SCALE / TILE</span>
-              <span className="pattern-instrument-value">{scale}PX</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">SCALE / TILE</span>
+              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{scale}PX</span>
             </div>
             <input
               type="range"
@@ -490,16 +492,16 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               max="100"
               value={scale}
               onChange={(e) => setScale(parseInt(e.target.value))}
-              className="pattern-slider"
+              className="w-full h-1 rounded bg-black/12 dark:bg-white/15 outline-none cursor-pointer accent-[#171717] dark:accent-white"
               aria-label="Scale / Tile Size"
             />
           </div>
 
           {/* Instrument 3: Density / Spacing */}
-          <div className="pattern-instrument-group">
-            <div className="pattern-instrument-header">
-              <span className="pattern-instrument-label">DENSITY / RHYTHM</span>
-              <span className="pattern-instrument-value">{density}%</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">DENSITY / RHYTHM</span>
+              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{density}%</span>
             </div>
             <input
               type="range"
@@ -507,16 +509,16 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               max="100"
               value={density}
               onChange={(e) => setDensity(parseInt(e.target.value))}
-              className="pattern-slider"
+              className="w-full h-1 rounded bg-black/12 dark:bg-white/15 outline-none cursor-pointer accent-[#171717] dark:accent-white"
               aria-label="Density / Spacing"
             />
           </div>
 
           {/* Instrument 4: Rotation Angle */}
-          <div className="pattern-instrument-group">
-            <div className="pattern-instrument-header">
-              <span className="pattern-instrument-label">ROTATION ANGLE</span>
-              <span className="pattern-instrument-value">{rotation}°</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">ROTATION ANGLE</span>
+              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{rotation}°</span>
             </div>
             <input
               type="range"
@@ -524,16 +526,16 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               max="180"
               value={rotation}
               onChange={(e) => setRotation(parseInt(e.target.value))}
-              className="pattern-slider"
+              className="w-full h-1 rounded bg-black/12 dark:bg-white/15 outline-none cursor-pointer accent-[#171717] dark:accent-white"
               aria-label="Rotation Angle"
             />
           </div>
 
           {/* Instrument 5: Stroke Weight */}
-          <div className="pattern-instrument-group">
-            <div className="pattern-instrument-header">
-              <span className="pattern-instrument-label">STROKE WEIGHT</span>
-              <span className="pattern-instrument-value">{strokeWidth}PX</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">STROKE WEIGHT</span>
+              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{strokeWidth}PX</span>
             </div>
             <input
               type="range"
@@ -542,16 +544,16 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               step="0.5"
               value={strokeWidth}
               onChange={(e) => setStrokeWidth(parseFloat(e.target.value))}
-              className="pattern-slider"
+              className="w-full h-1 rounded bg-black/12 dark:bg-white/15 outline-none cursor-pointer accent-[#171717] dark:accent-white"
               aria-label="Stroke Weight"
             />
           </div>
 
           {/* Instrument 6: Opacity */}
-          <div className="pattern-instrument-group">
-            <div className="pattern-instrument-header">
-              <span className="pattern-instrument-label">OPACITY</span>
-              <span className="pattern-instrument-value">{Math.round(opacity * 100)}%</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">OPACITY</span>
+              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{Math.round(opacity * 100)}%</span>
             </div>
             <input
               type="range"
@@ -560,15 +562,15 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               step="0.05"
               value={opacity}
               onChange={(e) => setOpacity(parseFloat(e.target.value))}
-              className="pattern-slider"
+              className="w-full h-1 rounded bg-black/12 dark:bg-white/15 outline-none cursor-pointer accent-[#171717] dark:accent-white"
               aria-label="Opacity"
             />
           </div>
 
           {/* Instrument 7: Visual Color System & Palette Assignment */}
-          <div className="pattern-instrument-group">
-            <div className="pattern-instrument-header">
-              <span className="pattern-instrument-label">ASSIGNED PALETTE</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">ASSIGNED PALETTE</span>
               <button
                 type="button"
                 className="text-[11px] font-mono text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase transition-colors"
@@ -580,24 +582,26 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
             {/* Visual Palette Strip Preview */}
             <div
-              className="pattern-palette-bar"
+              className="flex w-full h-8 rounded-[2px] overflow-hidden border border-black/[0.08] dark:border-white/[0.08] cursor-pointer hover:scale-[1.01] transition-transform"
               onClick={() => setShowPaletteDrawer(!showPaletteDrawer)}
               title="Click to toggle palette selection"
             >
               {activePalette.map((hex, i) => (
-                <span key={i} style={{ backgroundColor: hex }} />
+                <span key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
               ))}
             </div>
 
             {/* Palette Drawer list when opened */}
             {showPaletteDrawer && (
-              <div className="pattern-palette-quicklist">
+              <div className="flex flex-col gap-1.5 max-h-40 overflow-y-auto pr-1">
                 {palettes.slice(0, 24).map((p, idx) => (
                   <button
                     key={p.id}
                     type="button"
-                    className={`pattern-palette-option ${
-                      selectedPaletteIndex === idx ? 'pattern-palette-option--active' : ''
+                    className={`flex items-center justify-between gap-2 border border-transparent rounded-[2px] px-1.5 py-1 cursor-pointer font-sans text-[11.5px] text-left transition-all ${
+                      selectedPaletteIndex === idx
+                        ? 'bg-black/[0.06] dark:bg-white/10 font-semibold text-[#171717] dark:text-white'
+                        : 'bg-transparent text-[#171717] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
                     }`}
                     onClick={() => {
                       setSelectedPaletteIndex(idx);
@@ -606,9 +610,9 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                     }}
                   >
                     <span className="truncate">{p.title}</span>
-                    <div className="pattern-mini-swatches">
+                    <div className="flex w-14 h-3.5 rounded-[1px] overflow-hidden shrink-0">
                       {p.colors.map((c, ci) => (
-                        <span key={ci} style={{ backgroundColor: c.hex }} />
+                        <span key={ci} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
                       ))}
                     </div>
                   </button>
@@ -618,18 +622,18 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           </div>
 
           {/* Instrument 8: Canvas Background Color */}
-          <div className="pattern-instrument-group">
-            <div className="pattern-instrument-header">
-              <span className="pattern-instrument-label">BACKGROUND TONE</span>
-              <span className="pattern-instrument-value">{currentBg.toUpperCase()}</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">BACKGROUND TONE</span>
+              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{currentBg.toUpperCase()}</span>
             </div>
-            <div className="pattern-bg-swatches">
+            <div className="flex items-center gap-2 flex-wrap">
               {['#F8F8F8', '#141518', '#000000', ...activePalette.slice(0, 4)].map((hex, bi) => (
                 <button
                   key={bi}
                   type="button"
-                  className={`pattern-bg-swatch ${
-                    currentBg.toLowerCase() === hex.toLowerCase() ? 'pattern-bg-swatch--active' : ''
+                  className={`w-6 h-6 rounded-[2px] border border-black/15 dark:border-white/15 cursor-pointer transition-transform hover:scale-110 ${
+                    currentBg.toLowerCase() === hex.toLowerCase() ? 'ring-2 ring-[#171717] dark:ring-white ring-offset-1' : ''
                   }`}
                   style={{ backgroundColor: hex }}
                   onClick={() => setBackgroundColor(hex)}
@@ -642,11 +646,11 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
       </div>
 
       {/* ─── 4. Pattern Presets ("START WITH A FORM") ────────────── */}
-      <section className="pattern-section">
-        <div className="pattern-section__header">
+      <section className="mb-20">
+        <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
           <div>
-            <h2 className="pattern-section__title">PATTERN PRESETS</h2>
-            <p className="pattern-section__desc">
+            <h2 className="font-sans text-xl font-bold tracking-[-0.015em] uppercase text-[#171717] dark:text-white m-0">PATTERN PRESETS</h2>
+            <p className="font-sans text-[13px] text-[#707070] dark:text-[#8E8E93] m-0 mt-1">
               Curated starting forms inspired by architectural lattices, modernist halftones, and topographical contours.
             </p>
           </div>
@@ -655,7 +659,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           </span>
         </div>
 
-        <div className="pattern-presets-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {CURATED_PATTERNS.slice(0, 8).map((preset) => {
             const thumbSvg = generatePatternSvg(
               {
@@ -675,7 +679,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
             return (
               <div
                 key={preset.id}
-                className="pattern-preset-card"
+                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden cursor-pointer flex flex-col transition-all duration-200 ease-out hover:-translate-y-1 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.4)]"
                 onClick={() => handleApplyPreset(preset)}
                 role="button"
                 tabIndex={0}
@@ -684,12 +688,12 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                 }}
               >
                 <div
-                  className="pattern-preset-thumb"
+                  className="w-full h-[150px] overflow-hidden bg-[#111215] [&>svg]:w-full [&>svg]:h-full [&>svg]:block"
                   dangerouslySetInnerHTML={{ __html: thumbSvg }}
                 />
-                <div className="pattern-preset-info">
-                  <span className="pattern-preset-title">{preset.title}</span>
-                  <span className="pattern-preset-tag">{preset.type}</span>
+                <div className="p-3.5 sm:px-4 flex items-center justify-between gap-2">
+                  <span className="font-sans text-[13.5px] font-semibold text-[#171717] dark:text-white truncate">{preset.title}</span>
+                  <span className="font-mono text-[10.5px] text-[#707070] uppercase shrink-0">{preset.type}</span>
                 </div>
               </div>
             );
@@ -698,11 +702,11 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
       </section>
 
       {/* ─── 5. Pattern Variations ────────────────────────────────── */}
-      <section className="pattern-section">
-        <div className="pattern-section__header">
+      <section className="mb-20">
+        <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
           <div>
-            <h2 className="pattern-section__title">VARIATIONS</h2>
-            <p className="pattern-section__desc">
+            <h2 className="font-sans text-xl font-bold tracking-[-0.015em] uppercase text-[#171717] dark:text-white m-0">VARIATIONS</h2>
+            <p className="font-sans text-[13px] text-[#707070] dark:text-[#8E8E93] m-0 mt-1">
               Algorithmic mutations derived in real time from your current active parameters.
             </p>
           </div>
@@ -711,13 +715,13 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           </span>
         </div>
 
-        <div className="pattern-variations-grid">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {variations.map((v, vi) => {
             const varSvg = generatePatternSvg(v.config, 200, 110);
             return (
               <div
                 key={vi}
-                className="pattern-variation-card"
+                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden cursor-pointer flex flex-col transition-all duration-150 hover:-translate-y-0.5 hover:border-black/[0.24] dark:hover:border-white/[0.24]"
                 onClick={() => {
                   v.apply();
                   showToast(`Applied Mutation: ${v.label}`);
@@ -730,10 +734,10 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                 }}
               >
                 <div
-                  className="pattern-variation-thumb"
+                  className="w-full h-[110px] overflow-hidden [&>svg]:w-full [&>svg]:h-full [&>svg]:block"
                   dangerouslySetInnerHTML={{ __html: varSvg }}
                 />
-                <div className="pattern-variation-label">{v.label}</div>
+                <div className="p-2 sm:px-2.5 font-mono text-[10.5px] font-semibold text-[#707070] dark:text-[#8E8E93] text-center uppercase">{v.label}</div>
               </div>
             );
           })}
@@ -741,50 +745,50 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
       </section>
 
       {/* ─── 6. Pattern Details & Export Summary ──────────────────── */}
-      <section className="pattern-section">
-        <div className="pattern-section__header">
+      <section className="mb-10">
+        <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
           <div>
-            <h2 className="pattern-section__title">PATTERN DETAILS &amp; CODE</h2>
-            <p className="pattern-section__desc">
+            <h2 className="font-sans text-xl font-bold tracking-[-0.015em] uppercase text-[#171717] dark:text-white m-0">PATTERN DETAILS &amp; CODE</h2>
+            <p className="font-sans text-[13px] text-[#707070] dark:text-[#8E8E93] m-0 mt-1">
               Precision parameters, mathematical reproduction seed, and production-ready CSS snippet.
             </p>
           </div>
         </div>
 
-        <div className="pattern-footer-grid">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch w-full max-w-full min-w-0 box-border">
           {/* Left: Metadata & Specs Table */}
-          <div className="pattern-detail-box">
-            <div className="pattern-detail-row">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded p-4 sm:p-5 lg:p-6 flex flex-col gap-4 w-full max-w-full min-w-0 box-border">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.06] dark:border-white/[0.06] min-w-0 gap-2">
               <span className="font-mono text-xs text-neutral-500 uppercase">Pattern Type</span>
               <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white uppercase">
                 {patternType}
               </span>
             </div>
-            <div className="pattern-detail-row">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.06] dark:border-white/[0.06] min-w-0 gap-2">
               <span className="font-mono text-xs text-neutral-500 uppercase">Tile Size</span>
               <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {scale}px ({Math.round(scale * 1.5)}px unit)
               </span>
             </div>
-            <div className="pattern-detail-row">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.06] dark:border-white/[0.06] min-w-0 gap-2">
               <span className="font-mono text-xs text-neutral-500 uppercase">Density Spacing</span>
               <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {density}%
               </span>
             </div>
-            <div className="pattern-detail-row">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.06] dark:border-white/[0.06] min-w-0 gap-2">
               <span className="font-mono text-xs text-neutral-500 uppercase">Rotation Angle</span>
               <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {rotation}°
               </span>
             </div>
-            <div className="pattern-detail-row">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.06] dark:border-white/[0.06] min-w-0 gap-2">
               <span className="font-mono text-xs text-neutral-500 uppercase">Stroke Weight</span>
               <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {strokeWidth}px
               </span>
             </div>
-            <div className="pattern-detail-row">
+            <div className="flex items-center justify-between pb-2 border-b border-black/[0.06] dark:border-white/[0.06] min-w-0 gap-2">
               <span className="font-mono text-xs text-neutral-500 uppercase">Reproduction Seed</span>
               <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {seedString}
@@ -793,12 +797,12 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           </div>
 
           {/* Right: CSS Code Snippet & Direct Actions */}
-          <div className="pattern-detail-box">
-            <div className="pattern-declaration-header">
-              <span className="pattern-declaration-title">CSS Surface Declaration</span>
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded p-4 sm:p-5 lg:p-6 flex flex-col gap-4 w-full max-w-full min-w-0 box-border">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 w-full max-w-full min-w-0 box-border">
+              <span className="font-mono text-xs text-[#707070] dark:text-[#8E8E93] uppercase tracking-[0.04em] min-w-0 break-words">CSS Surface Declaration</span>
               <button
                 type="button"
-                className="pattern-toolbar-btn text-xs py-1 shrink-0"
+                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-2.5 py-1 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all shrink-0"
                 onClick={handleCopyCss}
               >
                 {copiedCss ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
@@ -806,14 +810,14 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               </button>
             </div>
 
-            <pre className="pattern-code-snippet">
-              <code>{cssCode}</code>
+            <pre className="font-mono text-[11.5px] bg-black/[0.03] dark:bg-white/[0.04] p-3 rounded-[2px] overflow-x-auto overflow-y-auto whitespace-pre-wrap break-words [overflow-wrap:anywhere] text-[#171717] dark:text-[#E0E0E0] max-h-[140px] w-full max-w-full min-w-0 box-border">
+              <code className="block w-full max-w-full min-w-0 whitespace-inherit break-words [overflow-wrap:anywhere]">{cssCode}</code>
             </pre>
 
-            <div className="pattern-declaration-actions">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 pt-2 w-full max-w-full min-w-0 box-border [&>button]:min-w-0 [&>button]:box-border [&>button_span]:overflow-hidden [&>button_span]:text-ellipsis [&>button_span]:whitespace-nowrap">
               <button
                 type="button"
-                className="pattern-toolbar-btn pattern-toolbar-btn--accent flex-1 justify-center py-2"
+                className="inline-flex items-center justify-center gap-1.5 bg-[#171717] dark:bg-white text-white dark:text-[#171717] border border-[#171717] dark:border-white hover:bg-black dark:hover:bg-[#E5E5E5] rounded-[2px] px-3 py-2 font-sans text-xs font-semibold tracking-[0.03em] cursor-pointer transition-all flex-1"
                 onClick={handleDownloadSvg}
               >
                 <Download size={13} />
@@ -822,7 +826,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
               <button
                 type="button"
-                className="pattern-toolbar-btn flex-1 justify-center py-2"
+                className="inline-flex items-center justify-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-2 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all flex-1"
                 onClick={handleDownloadPng}
               >
                 <Image size={13} />

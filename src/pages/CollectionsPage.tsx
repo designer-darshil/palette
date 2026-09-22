@@ -45,7 +45,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
           className="studio-btn-primary py-1.5 px-3.5 text-xs flex items-center gap-2"
         >
           <Plus size={13} />
-          <span>+ NEW COLLECTION</span>
+          <span>NEW COLLECTION</span>
         </button>
       </div>
 

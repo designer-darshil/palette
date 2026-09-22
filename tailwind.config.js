@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        sans: ['"General Sans"', '"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
         serif: ['"Instrument Serif"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', '"SF Mono"', 'Consolas', 'monospace'],
       },
@@ -27,6 +27,17 @@ export default {
         'border-strong': 'var(--border-strong)',
         'accent-gold': 'var(--accent-gold)',
         'accent-blue': 'var(--accent-blue)',
+        kroma: {
+          bg: '#F8F8F8',
+          text: '#171717',
+          muted: '#707070',
+          red: '#FF3B30',
+          orange: '#FF9500',
+          yellow: '#FFD60A',
+          green: '#34C759',
+          blue: '#00AEEF',
+          purple: '#7B2CBF',
+        },
       },
       borderRadius: {
         'xs': '2px',
@@ -41,6 +52,21 @@ export default {
         'lg': '1024px',
         'xl': '1280px',
         '2xl': '1440px',
+      },
+      keyframes: {
+        pinPulse: {
+          '0%, 100%': { transform: 'translate(-50%, -50%) scale(1)' },
+          '50%': { transform: 'translate(-50%, -50%) scale(1.15)' },
+        },
+        statementRollerRock: {
+          '0%, 100%': { transform: 'rotate(-8deg)' },
+          '25%, 75%': { transform: 'rotate(0deg)' },
+          '50%': { transform: 'rotate(8deg)' },
+        },
+      },
+      animation: {
+        'pin-pulse': 'pinPulse 2s ease-in-out infinite',
+        'roller-rock': 'statementRollerRock 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite',
       },
     },
   },

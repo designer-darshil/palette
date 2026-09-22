@@ -308,7 +308,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
   });
 
   return (
-    <div className="generator-page">
+    <div className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 py-8 pb-24 text-[var(--text-primary)]">
       <SEOHead
         title="Palette Generator — Color Laboratory | KROMA"
         description="A generative color instrument. Generate, observe, adjust, and export dynamic color systems built around harmonic relationships."
@@ -317,28 +317,28 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       />
 
       {/* ── 1. Minimal Editorial Breadcrumb ─────────────────────── */}
-      <nav aria-label="Breadcrumb" className="generator-breadcrumb">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-sans text-[11.5px] font-medium tracking-wider uppercase mb-6">
         <button
           onClick={() => onNavigate({ path: 'home' })}
-          className="generator-breadcrumb__link"
+          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
         >
           HOME
         </button>
-        <span className="generator-breadcrumb__separator">/</span>
+        <span className="text-black/25 dark:text-white/25 font-light">/</span>
         <button
           onClick={() => onNavigate({ path: 'create' })}
-          className="generator-breadcrumb__link"
+          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
         >
           STUDIO
         </button>
-        <span className="generator-breadcrumb__separator">/</span>
-        <span className="generator-breadcrumb__current">PALETTE GENERATOR</span>
+        <span className="text-black/25 dark:text-white/25 font-light">/</span>
+        <span className="text-kroma-text dark:text-white font-semibold">PALETTE GENERATOR</span>
       </nav>
 
       {/* ── 2. Compact Editorial Intro ─────────────────────────── */}
-      <header className="generator-intro">
-        <div className="generator-intro__eyebrow">
-          <span className="generator-intro__eyebrow-dot" />
+      <header className="mb-8 flex flex-col gap-2">
+        <div className="font-mono text-[11px] font-semibold tracking-widest uppercase text-kroma-muted dark:text-[#8E8E93] flex items-center gap-2 flex-wrap">
+          <span className="w-1.5 h-1.5 rounded-xs bg-[#BFA3F0]" />
           <span>COLOR LABORATORY</span>
           <span className="text-[var(--text-tertiary)]">•</span>
           <span>{colorCount} COLORS</span>
@@ -346,19 +346,19 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           <span>{harmony.toUpperCase()}</span>
         </div>
 
-        <h1 className="generator-intro__title">
+        <h1 className="font-sans font-medium text-[clamp(36px,6vw,84px)] leading-[0.9] tracking-[-0.05em] text-kroma-text dark:text-white uppercase select-none my-0">
           MAKE A COLOR SYSTEM.
         </h1>
 
-        <p className="generator-intro__lead">
+        <p className="font-sans text-[clamp(15px,1.4vw,18px)] leading-relaxed text-kroma-muted dark:text-[#8E8E93] max-w-[580px] mb-2 tracking-tight">
           Generate, refine and save palettes built around color relationships.
         </p>
       </header>
 
       {/* ── 3. Main Palette Canvas (Hero) ───────────────────────── */}
-      <section className="generator-canvas-wrapper" aria-label="Live Palette Canvas">
+      <section className="w-full mb-8" aria-label="Live Palette Canvas">
         <div
-          className="generator-canvas"
+          className="w-full h-[460px] sm:h-[520px] rounded-sm overflow-hidden flex flex-col sm:flex-row border border-black/[0.08] dark:border-white/10 shadow-xs transition-transform duration-150"
           style={{
             opacity: isGenerating ? 0.75 : 1,
             transform: isGenerating ? 'scale(0.998)' : 'scale(1)',
@@ -376,7 +376,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                   setSelectedColorIdx(idx);
                   handleCopySingle(color.hex, color.name);
                 }}
-                className="generator-color-column"
+                className="flex-1 flex flex-col justify-between p-4 sm:p-6 cursor-pointer transition-all duration-200 relative group hover:flex-[1.35]"
                 style={{
                   backgroundColor: color.hex,
                   color: textColor,
@@ -386,14 +386,16 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                 title="Click to inspect & copy HEX"
               >
                 {/* Column Header: Index & Lock Button */}
-                <div className="generator-column-header">
-                  <span className="generator-column-num">
+                <div className="flex items-center justify-between w-full">
+                  <span className="font-mono text-xs font-bold opacity-80 select-none">
                     {String(idx + 1).padStart(2, '0')}
                   </span>
 
                   <button
                     onClick={(e) => toggleLock(idx, e)}
-                    className={`generator-lock-btn ${color.locked ? 'generator-lock-btn--active' : ''}`}
+                    className={`p-1.5 rounded-xs bg-black/20 hover:bg-black/35 backdrop-blur-xs text-white border border-white/20 cursor-pointer transition-all active:scale-95 ${
+                      color.locked ? 'bg-black/50! border-white/40!' : ''
+                    }`}
                     aria-label={color.locked ? `Unlock ${color.hex}` : `Lock ${color.hex}`}
                     title={color.locked ? 'Unlock swatch' : 'Lock swatch'}
                   >
@@ -402,9 +404,9 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                 </div>
 
                 {/* Column Footer: Color Name, HEX, and Copy Indicator */}
-                <div className="generator-column-footer">
+                <div className="flex flex-col gap-1 select-none">
                   <div
-                    className="generator-column-name"
+                    className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider truncate"
                     style={{
                       textShadow: isWhiteText
                         ? '0 1px 3px rgba(0,0,0,0.5)'
@@ -414,9 +416,9 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                     {color.name}
                   </div>
 
-                  <div className="generator-column-hex-row">
+                  <div className="flex items-center justify-between gap-2">
                     <span
-                      className="generator-column-hex"
+                      className="font-mono text-xs sm:text-sm font-bold tracking-wider"
                       style={{
                         textShadow: isWhiteText
                           ? '0 1px 3px rgba(0,0,0,0.5)'
@@ -427,8 +429,8 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                     </span>
 
                     <span
-                      className={`generator-column-copy-badge ${
-                        copiedHex === color.hex ? 'generator-column-copy-badge--copied' : ''
+                      className={`font-mono text-[10px] font-bold px-1.5 py-0.5 rounded-xs bg-black/25 text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity ${
+                        copiedHex === color.hex ? 'opacity-100 bg-[#34C759]! border-[#34C759]!' : ''
                       }`}
                     >
                       {copiedHex === color.hex ? 'COPIED' : 'COPY'}
@@ -442,26 +444,26 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       </section>
 
       {/* ── 4. Generation Toolbar (Actions) ─────────────────────── */}
-      <div className="generator-toolbar">
-        <div className="generator-toolbar-left">
+      <div className="flex items-center justify-between gap-4 flex-wrap mb-12 p-3 bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm">
+        <div className="flex items-center gap-3 flex-wrap">
           {/* Primary Action Button */}
           <button
             onClick={handleGenerate}
-            className="generator-primary-btn"
+            className="inline-flex items-center gap-2 bg-kroma-text hover:bg-black dark:bg-white dark:hover:bg-[#ECECEC] text-white dark:text-kroma-text border border-kroma-text dark:border-white rounded-xs px-5 py-2 font-sans text-xs font-bold tracking-wider uppercase cursor-pointer transition-all active:scale-98"
             title="Press Spacebar to Generate"
           >
             <RefreshCw size={14} className={isGenerating ? 'animate-spin' : ''} />
             <span>GENERATE</span>
           </button>
 
-          <span className="generator-shortcut-hint">
+          <span className="font-mono text-[11px] text-kroma-muted dark:text-[#8E8E93] hidden md:inline">
             (SPACEBAR)
           </span>
 
           {/* Randomize Button */}
           <button
             onClick={handleRandomize}
-            className="generator-btn-subtle"
+            className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
             title="Generate random anchor palette"
           >
             <Sparkles size={13} />
@@ -469,12 +471,12 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           </button>
         </div>
 
-        <div className="generator-toolbar-right">
+        <div className="flex items-center gap-2 flex-wrap">
           {/* Undo / Redo */}
           <button
             onClick={handleUndo}
             disabled={historyIndex <= 0}
-            className="generator-btn-subtle p-2"
+            className="inline-flex items-center justify-center p-2 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs font-sans text-xs text-kroma-text dark:text-white cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             aria-label="Undo palette state"
             title="Undo"
           >
@@ -484,7 +486,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           <button
             onClick={handleRedo}
             disabled={historyIndex >= history.length - 1}
-            className="generator-btn-subtle p-2"
+            className="inline-flex items-center justify-center p-2 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs font-sans text-xs text-kroma-text dark:text-white cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             aria-label="Redo palette state"
             title="Redo"
           >
@@ -494,7 +496,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           {/* Save Palette */}
           <button
             onClick={handleSavePalette}
-            className="generator-btn-subtle"
+            className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
             title="Save to Studio Library"
           >
             <Bookmark size={13} />
@@ -504,7 +506,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           {/* Export */}
           <button
             onClick={() => setExportOpen(true)}
-            className="generator-btn-subtle"
+            className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
             title="Export Palette Code"
           >
             <Code size={13} />
@@ -514,18 +516,18 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       </div>
 
       {/* ── 5. Generation Control Instruments ───────────────────── */}
-      <section className="generator-controls-section" aria-label="Generation Controls">
-        <div className="generator-controls-grid">
+      <section className="mb-12" aria-label="Generation Controls">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Control 1: Base Color */}
-          <div className="generator-instrument">
-            <div className="generator-instrument__header">
-              <span className="generator-instrument__label">BASE COLOR</span>
-              <span className="generator-instrument__value">SEED</span>
+          <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-3">
+            <div className="flex items-center justify-between font-mono text-[10.5px] font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
+              <span className="tracking-wider">BASE COLOR</span>
+              <span className="text-kroma-text dark:text-white font-bold">SEED</span>
             </div>
 
-            <div className="generator-base-color-box">
+            <div className="flex items-center gap-3">
               <div
-                className="generator-base-color-preview"
+                className="w-10 h-10 rounded-xs border border-black/15 flex-shrink-0 relative overflow-hidden"
                 style={{ backgroundColor: baseColor }}
               >
                 <input
@@ -538,13 +540,13 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                     setColors(newPal);
                     pushToHistory(newPal);
                   }}
-                  className="generator-base-color-input"
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                   title="Click to pick base color"
                 />
               </div>
 
-              <div className="generator-base-color-text">
-                <span className="generator-base-color-hex">{baseColor}</span>
+              <div className="flex flex-col">
+                <span className="font-mono text-sm font-bold text-kroma-text dark:text-white">{baseColor}</span>
                 <span className="text-[10.5px] font-sans text-[var(--text-tertiary)] uppercase tracking-wider">
                   {findClosestColorName(baseColor)}
                 </span>
@@ -557,13 +559,13 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           </div>
 
           {/* Control 2: Color Harmony */}
-          <div className="generator-instrument">
-            <div className="generator-instrument__header">
-              <span className="generator-instrument__label">HARMONY SYSTEM</span>
-              <span className="generator-instrument__value">{harmony.toUpperCase()}</span>
+          <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-3">
+            <div className="flex items-center justify-between font-mono text-[10.5px] font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
+              <span className="tracking-wider">HARMONY SYSTEM</span>
+              <span className="text-kroma-text dark:text-white font-bold">{harmony.toUpperCase()}</span>
             </div>
 
-            <div className="generator-harmony-grid">
+            <div className="grid grid-cols-2 gap-1.5">
               {(
                 [
                   { id: 'curated', label: 'Curated', dots: 5 },
@@ -577,15 +579,17 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                 <button
                   key={h.id}
                   onClick={() => handleHarmonyChange(h.id)}
-                  className={`generator-harmony-btn ${
-                    harmony === h.id ? 'generator-harmony-btn--active' : ''
+                  className={`p-2 font-mono text-[11px] uppercase rounded-xs border transition-colors cursor-pointer flex items-center justify-between ${
+                    harmony === h.id
+                      ? 'border-kroma-text dark:border-white font-bold bg-black/[0.06] dark:bg-white/[0.1] text-kroma-text dark:text-white'
+                      : 'border-black/10 dark:border-white/10 text-kroma-muted hover:text-kroma-text dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   <div className="flex items-center justify-between w-full">
-                    <span className="generator-harmony-name">{h.label}</span>
-                    <div className="generator-harmony-dots">
+                    <span className="font-medium truncate">{h.label}</span>
+                    <div className="flex items-center gap-0.5">
                       {Array.from({ length: h.dots }).map((_, i) => (
-                        <span key={i} className="generator-harmony-dot" />
+                        <span key={i} className="w-1 h-1 rounded-full bg-current opacity-60" />
                       ))}
                     </div>
                   </div>
@@ -595,19 +599,21 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           </div>
 
           {/* Control 3: Colors Count & Contrast Intelligence */}
-          <div className="generator-instrument">
-            <div className="generator-instrument__header">
-              <span className="generator-instrument__label">PALETTE SIZE</span>
-              <span className="generator-instrument__value">{colorCount} STEPS</span>
+          <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-3">
+            <div className="flex items-center justify-between font-mono text-[10.5px] font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
+              <span className="tracking-wider">PALETTE SIZE</span>
+              <span className="text-kroma-text dark:text-white font-bold">{colorCount} STEPS</span>
             </div>
 
-            <div className="generator-count-row">
+            <div className="flex gap-1.5">
               {[3, 4, 5, 6, 7].map((count) => (
                 <button
                   key={count}
                   onClick={() => handleCountChange(count)}
-                  className={`generator-count-btn ${
-                    colorCount === count ? 'generator-count-btn--active' : ''
+                  className={`flex-1 py-1.5 font-mono text-xs uppercase border rounded-xs transition-colors cursor-pointer ${
+                    colorCount === count
+                      ? 'border-kroma-text! dark:border-white! font-bold! bg-kroma-text! text-white! dark:bg-white! dark:text-kroma-text!'
+                      : 'border-black/15 dark:border-white/15 text-kroma-muted hover:text-kroma-text dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   {count}
@@ -616,7 +622,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
             </div>
 
             {/* Accessibility Intelligence Summary */}
-            <div className="generator-contrast-status mt-2">
+            <div className="flex items-center justify-between p-2 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] mt-2">
               <div className="flex items-center gap-2">
                 {paletteContrast.isPass ? (
                   <CheckCircle2 size={13} className="text-[#34C759]" />
@@ -636,11 +642,11 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       </section>
 
       {/* ── 6. Palette Variations ("EXPLORE VARIATIONS") ─────────── */}
-      <section className="generator-variations-section" aria-label="Palette Variations">
-        <div className="generator-section-header">
+      <section className="mb-12" aria-label="Palette Variations">
+        <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
           <div>
-            <h2 className="generator-section-title">EXPLORE VARIATIONS</h2>
-            <p className="generator-section-desc">
+            <h2 className="font-sans text-xl font-bold tracking-tight text-kroma-text dark:text-white uppercase my-0">EXPLORE VARIATIONS</h2>
+            <p className="font-sans text-sm text-kroma-muted dark:text-[#8E8E93] max-w-[560px] my-1">
               Alternative harmonic compositions derived from the current chromatic seed.
             </p>
           </div>
@@ -649,73 +655,73 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           </span>
         </div>
 
-        <div className="generator-variations-grid">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {variations.map((v, i) => (
             <div
               key={i}
               onClick={() => applyVariation(v.palette)}
-              className="generator-variation-card"
+              className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-2 cursor-pointer hover:border-black/25 dark:hover:border-white/25 transition-all flex flex-col gap-2"
               title={`Apply ${v.label} variation`}
             >
-              <div className="generator-variation-strip">
+              <div className="flex h-10 rounded-xs overflow-hidden border border-black/10 dark:border-white/10">
                 {v.palette.map((c, ci) => (
                   <div
                     key={ci}
-                    className="generator-variation-bar"
+                    className="flex-1 h-full"
                     style={{ backgroundColor: c.hex }}
                   />
                 ))}
               </div>
-              <div className="generator-variation-label">{v.label}</div>
+              <div className="font-mono text-[10px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider text-center">{v.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── 7. Color Refinement & Detailed Specs ─────────────────── */}
-      <section className="generator-details-section" aria-label="Color Refinement">
-        <div className="generator-section-header">
+      <section className="mb-12" aria-label="Color Refinement">
+        <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
           <div>
-            <h2 className="generator-section-title">COLOR REFINEMENT</h2>
-            <p className="generator-section-desc">
+            <h2 className="font-sans text-xl font-bold tracking-tight text-kroma-text dark:text-white uppercase my-0">COLOR REFINEMENT</h2>
+            <p className="font-sans text-sm text-kroma-muted dark:text-[#8E8E93] max-w-[560px] my-1">
               Active specimen inspection with RGB, OKLCH, and photometric analysis.
             </p>
           </div>
         </div>
 
-        <div className="generator-details-box">
+        <div className="flex items-center justify-between p-4 bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm flex-wrap gap-4">
           <div
-            className="generator-detail-swatch"
+            className="w-12 h-12 rounded-xs border border-black/15 flex-shrink-0"
             style={{ backgroundColor: activeColor.hex }}
           />
 
-          <div className="generator-detail-specs">
-            <div className="generator-spec-item">
-              <span className="generator-spec-label">NAME</span>
-              <span className="generator-spec-val truncate">{activeColor.name}</span>
+          <div className="flex items-center gap-6 flex-wrap">
+            <div className="flex flex-col gap-0.5">
+              <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">NAME</span>
+              <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">{activeColor.name}</span>
             </div>
 
-            <div className="generator-spec-item">
-              <span className="generator-spec-label">HEX</span>
-              <span className="generator-spec-val">{activeColor.hex}</span>
+            <div className="flex flex-col gap-0.5">
+              <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">HEX</span>
+              <span className="font-mono text-xs font-bold text-kroma-text dark:text-white">{activeColor.hex}</span>
             </div>
 
-            <div className="generator-spec-item">
-              <span className="generator-spec-label">RGB</span>
-              <span className="generator-spec-val">
+            <div className="flex flex-col gap-0.5">
+              <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">RGB</span>
+              <span className="font-mono text-xs font-bold text-kroma-text dark:text-white">
                 {activeRgb ? `${activeRgb.r}, ${activeRgb.g}, ${activeRgb.b}` : '—'}
               </span>
             </div>
 
-            <div className="generator-spec-item">
-              <span className="generator-spec-label">OKLCH</span>
-              <span className="generator-spec-val truncate">{activeOklch}</span>
+            <div className="flex flex-col gap-0.5">
+              <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">OKLCH</span>
+              <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">{activeOklch}</span>
             </div>
           </div>
 
           <button
             onClick={() => handleCopySingle(activeColor.hex, activeColor.name)}
-            className="generator-btn-subtle text-xs"
+            className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
           >
             <Copy size={12} />
             <span>{copiedHex === activeColor.hex ? 'COPIED' : 'COPY SPEC'}</span>
@@ -726,11 +732,11 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       {/* ── 8. Export Modal ─────────────────────────────────────── */}
       {exportOpen && (
         <div
-          className="generator-modal-backdrop"
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
           onClick={() => setExportOpen(false)}
         >
           <div
-            className="generator-modal-content"
+            className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-6 w-full max-w-lg flex flex-col gap-4 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
@@ -739,20 +745,22 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
               </span>
               <button
                 onClick={() => setExportOpen(false)}
-                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-1"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-1 cursor-pointer"
                 aria-label="Close export modal"
               >
                 <X size={16} />
               </button>
             </div>
 
-            <div className="generator-modal-tabs">
+            <div className="flex gap-2">
               {(['css', 'tailwind', 'json', 'hex'] as const).map((fmt) => (
                 <button
                   key={fmt}
                   onClick={() => setExportFormat(fmt)}
-                  className={`generator-modal-tab ${
-                    exportFormat === fmt ? 'generator-modal-tab--active' : ''
+                  className={`flex-1 py-1.5 font-mono text-xs uppercase border rounded-xs transition-colors cursor-pointer ${
+                    exportFormat === fmt
+                      ? 'border-kroma-text! dark:border-white! font-bold! bg-kroma-text! text-white! dark:bg-white! dark:text-kroma-text!'
+                      : 'border-black/15 dark:border-white/15 text-kroma-muted hover:text-kroma-text dark:hover:text-white'
                   }`}
                 >
                   {fmt}
@@ -771,7 +779,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                 showToast(`Copied ${exportFormat.toUpperCase()} tokens`);
                 setExportOpen(false);
               }}
-              className="generator-primary-btn w-full justify-center"
+              className="inline-flex items-center justify-center gap-2 bg-kroma-text hover:bg-black dark:bg-white dark:hover:bg-[#ECECEC] text-white dark:text-kroma-text border border-kroma-text dark:border-white rounded-xs px-5 py-2.5 font-sans text-xs font-bold tracking-wider uppercase cursor-pointer transition-all w-full"
             >
               <Copy size={13} />
               <span>COPY CODE</span>

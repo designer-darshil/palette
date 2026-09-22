@@ -137,7 +137,25 @@ export interface CreatorItem {
   badges?: string[];
 }
 
-export type PatternType = 'dots' | 'grid' | 'stripes' | 'noise' | 'waves' | 'geometry' | 'lines' | 'shapes';
+export type PatternType =
+  | 'dots'
+  | 'grid'
+  | 'stripes'
+  | 'noise'
+  | 'waves'
+  | 'geometry'
+  | 'lines'
+  | 'shapes'
+  | 'orbital'
+  | 'liquid-grid'
+  | 'micro-dot'
+  | 'offset-block'
+  | 'ribbon'
+  | 'cellular'
+  | 'wave-field'
+  | 'checker-flux'
+  | 'linear-noise'
+  | 'color-weave';
 
 export interface PatternItem {
   id: string;

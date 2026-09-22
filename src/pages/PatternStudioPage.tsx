@@ -26,6 +26,16 @@ const SHAPE_OPTIONS: { type: PatternType; label: string; glyph: string }[] = [
   { type: 'geometry', label: 'Geometry', glyph: '◇' },
   { type: 'lines', label: 'Lines', glyph: '╱' },
   { type: 'shapes', label: 'Shapes', glyph: '▲' },
+  { type: 'orbital', label: 'Orbital', glyph: '◎' },
+  { type: 'liquid-grid', label: 'Liquid Grid', glyph: '≈' },
+  { type: 'micro-dot', label: 'Micro Dot', glyph: '·' },
+  { type: 'offset-block', label: 'Offset Block', glyph: '▤' },
+  { type: 'ribbon', label: 'Ribbon', glyph: '∾' },
+  { type: 'cellular', label: 'Cellular', glyph: '⬡' },
+  { type: 'wave-field', label: 'Wave Field', glyph: '≋' },
+  { type: 'checker-flux', label: 'Checker Flux', glyph: '▦' },
+  { type: 'linear-noise', label: 'Linear Noise', glyph: '╌' },
+  { type: 'color-weave', label: 'Color Weave', glyph: '井' },
   { type: 'noise', label: 'Noise', glyph: '░' },
 ];
 
@@ -178,7 +188,25 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
   // Randomize ("Surprise me")
   const handleRandomize = () => {
-    const types: PatternType[] = ['dots', 'grid', 'stripes', 'waves', 'geometry', 'lines', 'shapes'];
+    const types: PatternType[] = [
+      'dots',
+      'grid',
+      'stripes',
+      'waves',
+      'geometry',
+      'lines',
+      'shapes',
+      'orbital',
+      'liquid-grid',
+      'micro-dot',
+      'offset-block',
+      'ribbon',
+      'cellular',
+      'wave-field',
+      'checker-flux',
+      'linear-noise',
+      'color-weave',
+    ];
     const randomType = types[Math.floor(Math.random() * types.length)];
     const randomPaletteIdx = Math.floor(Math.random() * Math.min(palettes.length, 30));
     const randomScale = Math.floor(Math.random() * 55) + 25; // 25 to 80

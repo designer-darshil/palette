@@ -332,7 +332,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
   ];
 
   return (
-    <div className="brand-studio-workspace">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-10 pb-20 md:pb-[120px] box-border">
       <SEOHead
         title="Brand Kit Studio — Visual Identity & Color Workspace | KROMA"
         description="Build a sophisticated brand identity from color with semantic role hierarchy, live multi-surface UI previews, and design token exports."
@@ -342,21 +342,21 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       />
 
       {/* ── 01: Minimal Editorial Breadcrumb ─────────────────────── */}
-      <nav aria-label="Breadcrumb" className="brand-studio-breadcrumb">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] text-text-secondary mb-8">
         <button
           onClick={() => onNavigate({ path: 'create' })}
-          className="brand-studio-breadcrumb-link focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+          className="text-text-secondary no-underline cursor-pointer transition-colors duration-150 hover:text-text-primary focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
         >
           STUDIO
         </button>
-        <span className="brand-studio-breadcrumb-sep">/</span>
-        <span className="brand-studio-breadcrumb-current">BRAND KIT</span>
+        <span className="text-text-tertiary">/</span>
+        <span className="text-text-primary font-medium">BRAND KIT</span>
       </nav>
 
       {/* ── 02: Intro Header ──────────────────────────────────────── */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[var(--border-subtle)]">
         <div>
-          <span className="brand-studio-section-label">BRAND KIT</span>
+          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">BRAND KIT</span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-[var(--text-primary)] leading-[1.08] m-0">
             Your brand, in color.
           </h1>
@@ -395,7 +395,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       <section aria-labelledby="canvas-heading" className="flex flex-col gap-3">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <span id="canvas-heading" className="brand-studio-section-label !mb-0">
+            <span id="canvas-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary !mb-0 block">
               01 — BRAND IDENTITY CANVAS
             </span>
           </div>
@@ -440,7 +440,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
         )}
 
         {/* Large Visual Composition: The Canvas */}
-        <div className="brand-canvas-frame shadow-sm">
+        <div className="w-full rounded border border-border-subtle overflow-hidden relative shadow-sm">
           {/* Top Primary Color Field */}
           <div
             className="p-8 sm:p-12 md:p-16 flex flex-col justify-between min-h-[260px] sm:min-h-[320px] transition-colors duration-300"
@@ -575,11 +575,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 04: Color System (Asymmetric Hierarchy) ─────────────── */}
       <section aria-labelledby="color-system-heading" className="flex flex-col gap-4">
         <div>
-          <span id="color-system-heading" className="brand-studio-section-label">
+          <span id="color-system-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             02 — COLOR SYSTEM
           </span>
-          <h2 className="brand-studio-section-title">Hierarchy & Semantic Roles</h2>
-          <p className="brand-studio-section-desc">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Hierarchy & Semantic Roles</h2>
+          <p className="font-sans text-sm leading-normal text-text-secondary max-w-[640px] m-0">
             Visual roles define identity. Large swatches dominate, communicating priority over raw data.
           </p>
         </div>
@@ -807,11 +807,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       <section aria-labelledby="live-preview-heading" className="flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <span id="live-preview-heading" className="brand-studio-section-label">
+            <span id="live-preview-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
               03 — LIVE BRAND PREVIEW
             </span>
-            <h2 className="brand-studio-section-title">Real-World Surface Proof</h2>
-            <p className="brand-studio-section-desc">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Real-World Surface Proof</h2>
+            <p className="font-sans text-sm leading-normal text-text-secondary max-w-[640px] m-0">
               Experience how your palette actually performs across full digital product touchpoints.
             </p>
           </div>
@@ -1244,16 +1244,16 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 06: Color Relationship ───────────────────────────────── */}
       <section aria-labelledby="relationship-heading" className="flex flex-col gap-3">
         <div>
-          <span id="relationship-heading" className="brand-studio-section-label">
+          <span id="relationship-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             04 — COLOR RELATIONSHIP
           </span>
-          <h2 className="brand-studio-section-title">Harmonic Flow & Proportions</h2>
-          <p className="brand-studio-section-desc">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Harmonic Flow & Proportions</h2>
+          <p className="font-sans text-sm leading-normal text-text-secondary max-w-[640px] m-0">
             Visual hierarchy across connected chromatic planes. Demonstrates tonal balance without abstract charts.
           </p>
         </div>
 
-        <div className="brand-relationship-strip">
+        <div className="w-full h-24 rounded overflow-hidden flex">
           {[
             { key: 'primary', label: 'PRIMARY', hex: brandKit.roles.primary, flex: '4' },
             { key: 'secondary', label: 'SECONDARY', hex: brandKit.roles.secondary, flex: '2.5' },
@@ -1265,7 +1265,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             return (
               <div
                 key={seg.key}
-                className="brand-relationship-segment"
+                className="h-full flex flex-col justify-end p-3 box-border transition-all duration-300 cursor-pointer"
                 style={{
                   flex: seg.flex,
                   backgroundColor: seg.hex,
@@ -1287,11 +1287,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 07: Typography Preview ───────────────────────────────── */}
       <section aria-labelledby="typography-heading" className="flex flex-col gap-4">
         <div>
-          <span id="typography-heading" className="brand-studio-section-label">
+          <span id="typography-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             05 — TYPOGRAPHY SYSTEM
           </span>
-          <h2 className="brand-studio-section-title">Restrained Typographic Scale</h2>
-          <p className="brand-studio-section-desc">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Restrained Typographic Scale</h2>
+          <p className="font-sans text-sm leading-normal text-text-secondary max-w-[640px] m-0">
             Set in General Sans. Clean, neutral, precise, editorial.
           </p>
         </div>
@@ -1363,18 +1363,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 08: Brand In Use ─────────────────────────────────────── */}
       <section aria-labelledby="brand-in-use-heading" className="flex flex-col gap-4">
         <div>
-          <span id="brand-in-use-heading" className="brand-studio-section-label">
+          <span id="brand-in-use-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             06 — BRAND IN USE
           </span>
-          <h2 className="brand-studio-section-title">Touchpoint Versatility</h2>
-          <p className="brand-studio-section-desc">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Touchpoint Versatility</h2>
+          <p className="font-sans text-sm leading-normal text-text-secondary max-w-[640px] m-0">
             Compact digital and physical applications demonstrating how your palette flexes.
           </p>
         </div>
 
-        <div className="brand-in-use-grid">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* 01 — SOCIAL POST */}
-          <div className="brand-mockup-card shadow-sm">
+          <div className="rounded border border-border-subtle overflow-hidden relative bg-surface-1 shadow-sm">
             <div
               className="aspect-square p-5 flex flex-col justify-between transition-colors duration-300"
               style={{
@@ -1422,7 +1422,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           </div>
 
           {/* 02 — WEB FRAGMENT */}
-          <div className="brand-mockup-card shadow-sm">
+          <div className="rounded border border-border-subtle overflow-hidden relative bg-surface-1 shadow-sm">
             <div
               className="aspect-square p-4 flex flex-col justify-between transition-colors duration-300"
               style={{
@@ -1474,7 +1474,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           </div>
 
           {/* 03 — CAMPAIGN BANNER */}
-          <div className="brand-mockup-card shadow-sm">
+          <div className="rounded border border-border-subtle overflow-hidden relative bg-surface-1 shadow-sm">
             <div
               className="aspect-square p-5 flex flex-col justify-between transition-colors duration-300"
               style={{
@@ -1511,7 +1511,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           </div>
 
           {/* 04 — PRODUCT SURFACE */}
-          <div className="brand-mockup-card shadow-sm">
+          <div className="rounded border border-border-subtle overflow-hidden relative bg-surface-1 shadow-sm">
             <div
               className="aspect-square p-5 flex flex-col justify-between border-b transition-colors duration-300"
               style={{
@@ -1559,11 +1559,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 09: WCAG 2.2 + OKLCH Contrast Audit & Tokens ─────────── */}
       <section aria-labelledby="accessibility-heading" className="flex flex-col gap-6">
         <div>
-          <span id="accessibility-heading" className="brand-studio-section-label">
+          <span id="accessibility-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             07 — WCAG 2.2 + OKLCH AUDIT & TOKENS
           </span>
-          <h2 className="brand-studio-section-title">Contrast Verification & Semantic Tokens</h2>
-          <p className="brand-studio-section-desc">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Contrast Verification & Semantic Tokens</h2>
+          <p className="font-sans text-sm leading-normal text-text-secondary max-w-[640px] m-0">
             Exact WCAG 2.2 verification across every actual UI combination. When contrast fails, OKLCH adjusts lightness while strictly preserving hue and chroma.
           </p>
         </div>

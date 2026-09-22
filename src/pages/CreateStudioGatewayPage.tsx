@@ -126,7 +126,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
   }, [searchQuery, colors]);
 
   return (
-    <div className="studio-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title="The Studio — Digital Color Workspace | KROMA"
         description="A quiet place to explore, create and collect color. Parametric ramps, generative studies, kinetic physics, and custom color compositions."
@@ -135,24 +135,24 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
 
       {/* ── 08: STUDIO INTRO ────────────────────────────────────── */}
       <header className="mb-16">
-        <span className="studio-label">THE STUDIO</span>
-        <h1 className="studio-headline">
+        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4 block">THE STUDIO</span>
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
           MAKE<br />
           SOMETHING<br />
           COLORFUL.
         </h1>
-        <p className="studio-subhead">
+        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           A quiet place to explore, create and collect color.
         </p>
       </header>
 
       {/* ── 09: PRIMARY STUDIO ACTIONS ──────────────────────────── */}
       <section className="mb-20">
-        <div className="studio-label mb-3">WORKSPACE ACTIONS</div>
-        <div className="studio-action-grid">
+        <div className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-3 block">WORKSPACE ACTIONS</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {/* Action 1: Create Palette */}
           <div
-            className="studio-action-card group"
+            className="bg-surface-1 border border-border-subtle rounded p-6 flex flex-col justify-between min-h-[220px] cursor-pointer transition-all duration-150 select-none hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
             onClick={() => {
               const el = document.getElementById('studio-canvas-section');
               el?.scrollIntoView({ behavior: 'smooth' });
@@ -161,14 +161,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             tabIndex={0}
           >
             <div>
-              <div className="studio-action-specimen">
+              <div className="w-full h-[90px] rounded-xs mb-5 overflow-hidden relative">
                 {['#FF3B30', '#FF9500', '#FFD60A', '#171717'].map((hex, i) => (
                   <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
                 ))}
               </div>
-              <div className="studio-action-label">CANVAS STAGE</div>
+              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-secondary mb-2">CANVAS STAGE</div>
             </div>
-            <div className="studio-action-title">
+            <div className="font-sans text-lg font-semibold leading-tight text-text-primary tracking-tight">
               <span>CREATE PALETTE</span>
               <ArrowUpRight size={15} />
             </div>
@@ -176,20 +176,20 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
 
           {/* Action 2: Generate */}
           <div
-            className="studio-action-card group"
+            className="bg-surface-1 border border-border-subtle rounded p-6 flex flex-col justify-between min-h-[220px] cursor-pointer transition-all duration-150 select-none hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
             onClick={() => onNavigate({ path: 'palette-generator' })}
             role="button"
             tabIndex={0}
           >
             <div>
-              <div className="studio-action-specimen">
+              <div className="w-full h-[90px] rounded-xs mb-5 overflow-hidden relative">
                 {['#00AEEF', '#7B2CBF', '#FF3B30'].map((hex, i) => (
                   <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
                 ))}
               </div>
-              <div className="studio-action-label">LABORATORY</div>
+              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-secondary mb-2">LABORATORY</div>
             </div>
-            <div className="studio-action-title">
+            <div className="font-sans text-lg font-semibold leading-tight text-text-primary tracking-tight">
               <span>GENERATE ↻</span>
               <ArrowUpRight size={15} />
             </div>
@@ -197,20 +197,20 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
 
           {/* Action 3: Image to Palette */}
           <div
-            className="studio-action-card group"
+            className="bg-surface-1 border border-border-subtle rounded p-6 flex flex-col justify-between min-h-[220px] cursor-pointer transition-all duration-150 select-none hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
             onClick={() => onNavigate({ path: 'extract-from-image' })}
             role="button"
             tabIndex={0}
           >
             <div>
-              <div className="studio-action-specimen" style={{ background: 'linear-gradient(135deg, #171717 0%, #34C759 50%, #00AEEF 100%)' }}>
+              <div className="w-full h-[90px] rounded-xs mb-5 overflow-hidden relative" style={{ background: 'linear-gradient(135deg, #171717 0%, #34C759 50%, #00AEEF 100%)' }}>
                 <div className="w-full h-full flex items-center justify-center">
                   <div className="w-5 h-5 rounded-full border border-white bg-white/20" />
                 </div>
               </div>
-              <div className="studio-action-label">CHROMATIC EXTRACTION</div>
+              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-secondary mb-2">CHROMATIC EXTRACTION</div>
             </div>
-            <div className="studio-action-title">
+            <div className="font-sans text-lg font-semibold leading-tight text-text-primary tracking-tight">
               <span>IMAGE → PALETTE</span>
               <ArrowUpRight size={15} />
             </div>
@@ -218,20 +218,20 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
 
           {/* Action 4: Explore Colors */}
           <div
-            className="studio-action-card group"
+            className="bg-surface-1 border border-border-subtle rounded p-6 flex flex-col justify-between min-h-[220px] cursor-pointer transition-all duration-150 select-none hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
             onClick={() => onNavigate({ path: 'colors' })}
             role="button"
             tabIndex={0}
           >
             <div>
-              <div className="studio-action-specimen">
+              <div className="w-full h-[90px] rounded-xs mb-5 overflow-hidden relative">
                 {['#FF3B30', '#34C759', '#00AEEF', '#7B2CBF', '#FFD60A'].map((hex, i) => (
                   <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
                 ))}
               </div>
-              <div className="studio-action-label">SWATCH ARCHIVE</div>
+              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-secondary mb-2">SWATCH ARCHIVE</div>
             </div>
-            <div className="studio-action-title">
+            <div className="font-sans text-lg font-semibold leading-tight text-text-primary tracking-tight">
               <span>EXPLORE COLORS</span>
               <ArrowUpRight size={15} />
             </div>
@@ -243,7 +243,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
       <section id="studio-canvas-section" className="mb-24">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 mb-4">
           <div>
-            <span className="studio-label">PALETTE CREATOR</span>
+            <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4 block">PALETTE CREATOR</span>
             <input
               type="text"
               value={creatorTitle}
@@ -255,7 +255,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           <div className="flex items-center gap-3">
             <button
               onClick={handleRandomizeCreator}
-              className="studio-btn-secondary"
+              className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
               title="Randomize unlocked swatches"
             >
               <RefreshCw size={13} />
@@ -263,7 +263,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             </button>
             <button
               onClick={handleSaveCanvasPalette}
-              className="studio-btn-primary"
+              className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
             >
               <span>SAVE TO STUDIO ↗</span>
             </button>
@@ -271,14 +271,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
         </div>
 
         {/* The Dominant Color Canvas */}
-        <div className="studio-palette-canvas border border-[var(--border-subtle)]">
+        <div className="flex flex-col md:flex-row w-full h-auto min-h-[480px] md:min-h-0 md:h-[380px] rounded overflow-hidden border border-[var(--border-subtle)]">
           {creatorColors.map((color, index) => {
             const isSelected = selectedColorIndex === index;
             return (
               <div
                 key={index}
                 onClick={() => setSelectedColorIndex(index)}
-                className={`studio-canvas-column ${isSelected ? 'selected' : ''}`}
+                className={`relative flex flex-col justify-end p-6 box-border transition-all duration-300 cursor-pointer ${isSelected ? 'flex-[1.2]' : 'flex-1'}`}
                 style={{ backgroundColor: color.hex }}
               >
                 {/* Top controls: Lock & Number */}
@@ -339,7 +339,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           <div className="flex items-center gap-3">
             <button
               onClick={() => handleCopyHex(activeColor.hex, activeColor.name)}
-              className="studio-btn-secondary"
+              className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             >
               <Copy size={12} />
               <span>COPY HEX</span>
@@ -364,14 +364,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
       <section className="mb-24">
         <div className="flex items-baseline justify-between mb-6">
           <div>
-            <span className="studio-label">VISUAL ARCHIVE</span>
+            <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4 block">VISUAL ARCHIVE</span>
             <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
               RECENT WORK
             </h2>
           </div>
           <button
             onClick={() => onNavigate({ path: 'palettes' })}
-            className="studio-btn-link"
+            className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
           >
             <span>VIEW ALL PALETTES</span>
             <ArrowUpRight size={13} />
@@ -382,12 +382,12 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           {recentPalettes.map((p, idx) => (
             <div
               key={p.id}
-              className="studio-recent-item group"
+              className="flex items-center justify-between p-4 sm:px-5 bg-surface-1 border border-border-subtle rounded cursor-pointer transition-all duration-150 select-none hover:border-text-primary hover:translate-x-0.5 group"
               onClick={() => onNavigate({ path: 'palette-detail', slug: p.slug })}
               role="button"
               tabIndex={0}
             >
-              <div className="studio-recent-palette-bar">
+              <div className="flex w-[140px] h-7 rounded-xs overflow-hidden">
                 {p.colors.map((c, i) => (
                   <div
                     key={i}
@@ -397,10 +397,10 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                   />
                 ))}
               </div>
-              <div className="studio-recent-meta">
+              <div className="flex items-baseline gap-3">
                 <div>
-                  <span className="studio-recent-title mr-3">{p.title}</span>
-                  <span className="studio-recent-sub">{p.colors.length} COLORS</span>
+                  <span className="font-sans text-sm font-semibold text-text-primary mr-3">{p.title}</span>
+                  <span className="font-mono text-[10px] text-text-secondary uppercase">{p.colors.length} COLORS</span>
                 </div>
                 <div className="flex items-center gap-1 font-mono text-[11px] text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors">
                   <span>OPEN</span>
@@ -415,15 +415,15 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
       {/* ── 11: COLOR EXPERIMENTS (Working Wall) ────────────────── */}
       <section className="mb-24">
         <div className="mb-6">
-          <span className="studio-label">DESIGNER'S WALL</span>
+          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4 block">DESIGNER'S WALL</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             COLOR EXPERIMENTS
           </h2>
         </div>
 
-        <div className="studio-experiments-wall">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
           {/* Experiment Brick 1: Asymmetrical Composition */}
-          <div className="studio-experiment-brick studio-experiment-brick-wide">
+          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-7">
             <div className="flex items-baseline justify-between mb-3">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
                 EXP 01 / ANOMALOUS RATIO
@@ -452,7 +452,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               </span>
               <button
                 onClick={() => onNavigate({ path: 'palette-generator', colors: '171717-FF3B30-FFD60A-00AEEF' })}
-                className="studio-btn-link"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
               >
                 <span>STUDY ↗</span>
               </button>
@@ -460,7 +460,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           {/* Experiment Brick 2: Overlapping Physical Swatches */}
-          <div className="studio-experiment-brick studio-experiment-brick-narrow">
+          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-5">
             <div className="flex items-baseline justify-between mb-2">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
                 EXP 02 / DEPTH STACK
@@ -469,19 +469,19 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 CHROMATIC LAYERING
               </span>
             </div>
-            <div className="studio-swatch-stack mb-2">
+            <div className="relative w-full h-[120px] mb-2">
               <div
-                className="studio-swatch-stack-item w-28 h-20 top-2 left-2"
+                className="absolute rounded shadow-md transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-2 left-2"
                 style={{ backgroundColor: '#7B2CBF' }}
                 title="Deep Violet (#7B2CBF)"
               />
               <div
-                className="studio-swatch-stack-item w-28 h-20 top-5 left-16"
+                className="absolute rounded shadow-md transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-5 left-16"
                 style={{ backgroundColor: '#00AEEF' }}
                 title="Electric Cyan (#00AEEF)"
               />
               <div
-                className="studio-swatch-stack-item w-28 h-20 top-8 left-32"
+                className="absolute rounded shadow-md transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-8 left-32"
                 style={{ backgroundColor: '#34C759' }}
                 title="Emerald Light (#34C759)"
               />
@@ -492,7 +492,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               </span>
               <button
                 onClick={() => onNavigate({ path: 'mesh' })}
-                className="studio-btn-link"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
               >
                 <span>MESH ↗</span>
               </button>
@@ -500,7 +500,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           {/* Experiment Brick 3: High Contrast Minimal Pairing */}
-          <div className="studio-experiment-brick studio-experiment-brick-third">
+          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4">
             <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
               EXP 03 / KINETIC TENSION
             </span>
@@ -514,7 +514,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               </span>
               <button
                 onClick={() => onNavigate({ path: 'antigravity' })}
-                className="studio-btn-link"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
               >
                 <span>TEST ↗</span>
               </button>
@@ -522,7 +522,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           {/* Experiment Brick 4: Vector Pattern Study */}
-          <div className="studio-experiment-brick studio-experiment-brick-third">
+          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4">
             <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
               EXP 04 / GEOMETRIC REPEAT
             </span>
@@ -541,7 +541,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               </span>
               <button
                 onClick={() => onNavigate({ path: 'pattern-studio' })}
-                className="studio-btn-link"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
               >
                 <span>VECTOR ↗</span>
               </button>
@@ -549,7 +549,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           {/* Experiment Brick 5: Semantic Ramps */}
-          <div className="studio-experiment-brick studio-experiment-brick-third">
+          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4">
             <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
               EXP 05 / WCAG STEPPING
             </span>
@@ -571,7 +571,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               </span>
               <button
                 onClick={() => onNavigate({ path: 'ramps' })}
-                className="studio-btn-link"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
               >
                 <span>RAMPS ↗</span>
               </button>
@@ -583,7 +583,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
       {/* ── 22: SEARCH INSIDE STUDIO ────────────────────────────── */}
       <section className="mb-24">
         <div className="mb-4">
-          <span className="studio-label">DISCOVERY INDEX</span>
+          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4 block">DISCOVERY INDEX</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             SEARCH YOUR COLORS
           </h2>
@@ -654,9 +654,9 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             )}
 
             {filteredPalettes.length === 0 && filteredColors.length === 0 && (
-              <div className="studio-empty-state">
-                <div className="studio-empty-title">NO MATCHING CHROMATIC DATA.</div>
-                <div className="studio-empty-desc">
+              <div className="py-20 px-8 text-center border border-dashed border-border-subtle rounded flex flex-col items-center justify-center gap-4">
+                <div className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-text-secondary">NO MATCHING CHROMATIC DATA.</div>
+                <div className="font-sans text-sm text-text-tertiary max-w-[420px] leading-relaxed">
                   Try searching for a different tone, like Vermilion, Cobalt, Amber, or #FF3B30.
                 </div>
               </div>

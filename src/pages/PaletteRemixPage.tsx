@@ -80,7 +80,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
   };
 
   return (
-    <div className="studio-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title={`Remix: ${originalPalette.title} — Calibration Studio | KROMA`}
         description={`Interactive remix workspace for ${originalPalette.title}. Fine-tune hues, saturation, temperature, and lightness.`}
@@ -104,7 +104,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
         <div className="flex items-center gap-3">
           <button
             onClick={handleReset}
-            className="studio-btn-secondary py-1.5 px-3 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             title="Reset to original parameters"
           >
             <RotateCcw size={12} />
@@ -112,7 +112,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
           </button>
           <button
             onClick={handleSaveRemix}
-            className="studio-btn-primary py-1.5 px-3.5 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3.5 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
             <Bookmark size={12} />
             <span>SAVE REMIX ↗</span>
@@ -122,12 +122,12 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
 
       {/* Header */}
       <header className="mb-12">
-        <span className="studio-label">PARAMETRIC CALIBRATION</span>
-        <h1 className="studio-headline">
+        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">PARAMETRIC CALIBRATION</span>
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
           REMIX:<br />
           {originalPalette.title}
         </h1>
-        <p className="studio-subhead">
+        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           Sculpt hue offsets, saturation intensity, temperature warmth, and luminance contrast across the entire chromatic lineage.
         </p>
       </header>

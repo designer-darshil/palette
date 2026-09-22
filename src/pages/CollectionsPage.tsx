@@ -25,7 +25,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
   };
 
   return (
-    <div className="studio-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title="Collections — Inspiration Archive | KROMA"
         description="Personal art archives of color systems, brand identities, and design tokens assembled into curated folders."
@@ -42,7 +42,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
 
         <button
           onClick={() => setModalOpen(true)}
-          className="studio-btn-primary py-1.5 px-3.5 text-xs flex items-center gap-2"
+          className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-3.5 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
         >
           <Plus size={13} />
           <span>NEW COLLECTION</span>
@@ -51,12 +51,12 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
 
       {/* Hero */}
       <header className="mb-14">
-        <span className="studio-label">INSPIRATION ARCHIVE</span>
-        <h1 className="studio-headline">
+        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">INSPIRATION ARCHIVE</span>
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
           KEEP WHAT<br />
           INSPIRES YOU.
         </h1>
-        <p className="studio-subhead">
+        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           A tactile archive of curated color sets, harmony experiments, and saved palettes.
         </p>
       </header>
@@ -114,14 +114,14 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
         </div>
       ) : (
         /* Branded Empty State */
-        <div className="studio-empty-state max-w-md border border-dashed border-[var(--border-subtle)] p-8">
-          <div className="studio-empty-title">NOTHING HERE YET.</div>
-          <p className="studio-empty-desc">
+        <div className="max-w-md py-16 px-8 text-center border border-dashed border-border-subtle rounded flex flex-col items-center justify-center gap-4">
+          <div className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-text-secondary">NOTHING HERE YET.</div>
+          <p className="font-sans text-sm text-text-tertiary max-w-[420px] leading-relaxed">
             Start collecting colors that make you stop scrolling. Gather palettes, specimens, and gradients into your private archive.
           </p>
           <button
             onClick={() => onNavigate({ path: 'colors' })}
-            className="studio-btn-primary"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
             <span>EXPLORE COLORS ↗</span>
           </button>
@@ -136,7 +136,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
-              <span className="studio-label mb-0">NEW COLLECTION</span>
+              <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-0">NEW COLLECTION</span>
               <button onClick={() => setModalOpen(false)} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                 <X size={16} />
               </button>
@@ -144,8 +144,8 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
 
             <form onSubmit={handleCreate} className="flex flex-col gap-4">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] mb-1">
-                  TITLE
+                <label className="block text-xs font-mono text-[var(--text-secondary)] uppercase tracking-wider mb-1.5">
+                  TITLE *
                 </label>
                 <input
                   type="text"
@@ -153,14 +153,14 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
                   autoFocus
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g. Kyoto Sunset References"
+                  placeholder="e.g. Kyoto Ochre & Tea"
                   className="w-full bg-transparent border border-[var(--border-subtle)] focus:border-[var(--text-primary)] px-3 py-2 text-sm text-[var(--text-primary)] outline-none rounded-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] mb-1">
-                  DESCRIPTION (OPTIONAL)
+                <label className="block text-xs font-mono text-[var(--text-secondary)] uppercase tracking-wider mb-1.5">
+                  DESCRIPTION
                 </label>
                 <textarea
                   rows={3}
@@ -175,13 +175,13 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="studio-btn-secondary py-1.5 px-3 text-xs"
+                  className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
                 >
                   CANCEL
                 </button>
                 <button
                   type="submit"
-                  className="studio-btn-primary py-1.5 px-4 text-xs"
+                  className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-4 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
                 >
                   CREATE ARCHIVE ↗
                 </button>

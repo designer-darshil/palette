@@ -40,6 +40,9 @@
 
 /* ─── Preloader Container ──────────────────────────────────── */
 
+/*
+UNUSED CSS — verified no project usage after Tailwind migration
+
 .rainbow-preloader-container {
   display: flex;
   align-items: center;
@@ -89,7 +92,7 @@
   visibility: hidden !important;
 }
 
-/* ─── Base Roller Wrapper: Fixed Center ~45° Signature Tilt ──── */
+/* ─── Base Roller Wrapper: Fixed Center ~45° Signature Tilt ──── * /
 
 .rainbow-roller-wrapper {
   position: absolute;
@@ -108,6 +111,7 @@
   display: block;
   overflow: visible;
 }
+*/
 
 /* ─── Layer 1: Roller Assembly (Rocking around axle) ───────── */
 
@@ -213,6 +217,9 @@
 
 /* ─── Responsive Scaling: Desktop 68px, Tablet 58px, Mobile 50px ─ */
 
+/*
+UNUSED CSS — verified no project usage after Tailwind migration
+
 @media (max-width: 1024px) {
   .rainbow-roller-wrapper {
     width: 58px;
@@ -226,6 +233,7 @@
     height: 50px;
   }
 }
+*/
 
 /* ─── Accessibility: Reduced Motion ────────────────────────── */
 

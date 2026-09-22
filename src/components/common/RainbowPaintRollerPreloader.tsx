@@ -64,14 +64,20 @@ export const RainbowPaintRollerPreloader: React.FC<RainbowPaintRollerPreloaderPr
       role="status"
       aria-label={ariaLabel}
       aria-live="polite"
-      className={`rainbow-preloader-container rainbow-preloader-theme-${currentTheme} ${
-        fullscreen ? 'rainbow-preloader-fullscreen' : 'rainbow-preloader-inline'
-      } ${isExiting ? 'rainbow-preloader-exit' : ''} ${className}`}
+      style={{
+        backgroundColor: 'var(--loader-bg)',
+        color: 'var(--loader-outline)',
+      }}
+      className={`rainbow-preloader-theme-${currentTheme} flex items-center justify-center select-none box-border border-0 outline-0 shadow-none transition-colors duration-240 ${
+        fullscreen
+          ? 'fixed inset-0 w-screen h-screen h-[100dvh] z-[999999] pointer-events-auto transition-all duration-500'
+          : 'relative w-full min-h-[50vh] transition-all duration-400'
+      } ${isExiting ? '!opacity-0 !pointer-events-none !invisible' : 'opacity-100 visible'} ${className}`}
     >
-      <div className="rainbow-roller-wrapper">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 origin-center pointer-events-none w-[68px] h-[68px] lg:w-[58px] lg:h-[58px] md:w-[50px] md:h-[50px]">
         <svg
           viewBox="0 0 100 100"
-          className="rainbow-roller-svg"
+          className="w-full h-full block overflow-visible"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="xMidYMid meet"
           aria-hidden="true"

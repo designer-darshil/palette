@@ -187,7 +187,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
   }, []);
 
   return (
-    <div className="studio-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title="Color Contrast Instrument — See How Colors Speak | KROMA"
         description="A visual color contrast instrument. See how two colors behave together through live typography, large canvas fields, and exact WCAG verification."
@@ -208,7 +208,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={handleShare}
-            className="studio-btn-secondary py-1.5 px-3 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             title="Share pair URL"
           >
             <Share2 size={12} />
@@ -216,7 +216,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
           </button>
           <button
             onClick={handleSavePair}
-            className="studio-btn-primary py-1.5 px-3 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
             <Bookmark size={12} />
             <span>{isSavedPair ? 'SAVED' : 'SAVE PAIR'}</span>
@@ -226,13 +226,13 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
       {/* ── 03: Page Intro ──────────────────────────────────────── */}
       <header className="mb-12">
-        <span className="studio-label">COLOR / CONTRAST</span>
-        <h1 className="studio-headline">
+        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">COLOR / CONTRAST</span>
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
           SEE<br />
           HOW COLORS<br />
           SPEAK.
         </h1>
-        <p className="studio-subhead">
+        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           A visual instrument to see, test, and understand how two colors behave together.
         </p>
       </header>
@@ -240,7 +240,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       {/* ── 04: Main Contrast Canvas ────────────────────────────── */}
       <section className="mb-8">
         <div
-          className="contrast-canvas border border-[var(--border-subtle)]"
+          className="w-full min-h-[280px] md:min-h-[220px] rounded p-5 md:p-8 flex flex-col justify-between box-border transition-colors duration-200 relative border border-[var(--border-subtle)]"
           style={{ backgroundColor: bgHex, color: fgHex }}
         >
           {/* Top Canvas Label */}
@@ -349,7 +349,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
           <div className="flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 my-2 md:my-0">
             <button
               onClick={handleSwap}
-              className="studio-btn-secondary py-1.5 px-3 text-xs flex items-center gap-1.5 bg-[var(--bg-canvas)]"
+              className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-[var(--bg-canvas)] text-text-primary border border-border-subtle rounded cursor-pointer flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
               title="Swap Foreground and Background"
             >
               <ArrowLeftRight size={12} />
@@ -439,7 +439,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
         {/* Left: Prominent Ratio & Scale (7 Cols) */}
         <div className="lg:col-span-7 flex flex-col justify-between">
           <div className="mb-6">
-            <span className="studio-label">LUMINANCE RATIO</span>
+            <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">LUMINANCE RATIO</span>
             <div className="flex items-baseline gap-4">
               <span className="font-sans text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[var(--text-primary)]">
                 {ratio} : 1
@@ -458,9 +458,9 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
             <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
               CONTRAST SPECTRUM (1:1 TO 21:1)
             </span>
-            <div className="contrast-scale-track">
+            <div className="w-full h-1 bg-border-subtle rounded-xs relative my-4 md:mb-6">
               <div
-                className="contrast-scale-indicator"
+                className="absolute -top-1 w-3 h-3 rounded-full bg-text-primary -translate-x-1/2 transition-[left] duration-300 ease-out"
                 style={{ left: `${scalePosition}%` }}
                 title={`Current ratio: ${ratio}:1`}
               />
@@ -477,11 +477,11 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
         {/* Right: 08 & 09 Accessibility Status (5 Cols) */}
         <div className="lg:col-span-5 p-5 border border-[var(--border-subtle)] rounded-xs">
-          <span className="studio-label mb-2 block">WCAG 2.1 SPECIFICATION</span>
+          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">WCAG 2.1 SPECIFICATION</span>
 
           <div className="flex flex-col">
             {/* Row 1: Normal AA */}
-            <div className="wcag-row">
+            <div className="flex items-center justify-between py-3 border-b border-border-subtle">
               <div>
                 <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   NORMAL TEXT · AA
@@ -490,13 +490,13 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                   BODY TEXT &lt; 18PT (4.5:1)
                 </div>
               </div>
-              <span className={wcagNormalAA ? 'wcag-status-pass' : 'wcag-status-fail'}>
+              <span className={wcagNormalAA ? 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
                 ● {wcagNormalAA ? 'PASS' : 'FAIL'}
               </span>
             </div>
 
             {/* Row 2: Normal AAA */}
-            <div className="wcag-row">
+            <div className="flex items-center justify-between py-3 border-b border-border-subtle">
               <div>
                 <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   NORMAL TEXT · AAA
@@ -505,13 +505,13 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                   ENHANCED READING (7.0:1)
                 </div>
               </div>
-              <span className={wcagNormalAAA ? 'wcag-status-pass' : 'wcag-status-fail'}>
+              <span className={wcagNormalAAA ? 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
                 ● {wcagNormalAAA ? 'PASS' : 'FAIL'}
               </span>
             </div>
 
             {/* Row 3: Large AA */}
-            <div className="wcag-row">
+            <div className="flex items-center justify-between py-3 border-b border-border-subtle">
               <div>
                 <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   LARGE TEXT · AA
@@ -520,13 +520,13 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                   HEADINGS ≥ 18PT OR 14PT BOLD (3.0:1)
                 </div>
               </div>
-              <span className={wcagLargeAA ? 'wcag-status-pass' : 'wcag-status-fail'}>
+              <span className={wcagLargeAA ? 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
                 ● {wcagLargeAA ? 'PASS' : 'FAIL'}
               </span>
             </div>
 
             {/* Row 4: Large AAA */}
-            <div className="wcag-row" style={{ borderBottom: 'none' }}>
+            <div className="flex items-center justify-between py-3" style={{ borderBottom: 'none' }}>
               <div>
                 <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   LARGE TEXT · AAA
@@ -535,7 +535,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                   ENHANCED HEADINGS (4.5:1)
                 </div>
               </div>
-              <span className={wcagLargeAAA ? 'wcag-status-pass' : 'wcag-status-fail'}>
+              <span className={wcagLargeAAA ? 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
                 ● {wcagLargeAAA ? 'PASS' : 'FAIL'}
               </span>
             </div>
@@ -546,7 +546,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       {/* ── 10: Live Typography Test ("TEST IT.") ────────────────── */}
       <section className="mb-20">
         <div className="mb-6">
-          <span className="studio-label">SCALE AUDIT</span>
+          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">SCALE AUDIT</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             TEST IT.
           </h2>
@@ -601,7 +601,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       {/* ── 11: Real-World Editorial Preview Composition ────────── */}
       <section className="mb-20">
         <div className="mb-6">
-          <span className="studio-label">SURFACE COMPOSITION</span>
+          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">SURFACE COMPOSITION</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             EDITORIAL PREVIEW
           </h2>
@@ -635,7 +635,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       {/* ── 15: Quick Contrast Pairs ────────────────────────────── */}
       <section className="mb-20">
         <div className="mb-6">
-          <span className="studio-label">INSPIRATION</span>
+          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">INSPIRATION</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             TRY A COMBINATION
           </h2>
@@ -681,7 +681,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
       {/* ── 14: Accessibility Explanation ──────────────────────── */}
       <section className="p-8 border border-[var(--border-subtle)] rounded-xs mb-16">
-        <span className="studio-label mb-2 block">WCAG ARCHITECTURE</span>
+        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">WCAG ARCHITECTURE</span>
         <h3 className="font-sans text-lg font-bold uppercase tracking-tight text-[var(--text-primary)] mb-3">
           WHAT DOES THE RATIO MEAN?
         </h3>

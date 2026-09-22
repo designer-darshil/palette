@@ -45,7 +45,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
   };
 
   return (
-    <div className="studio-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title={`${collection.title} — Moodboard Collection | KROMA`}
         description={collection.description}
@@ -65,7 +65,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
         <div className="flex items-center gap-2">
           <button
             onClick={handleShare}
-            className="studio-btn-secondary py-1.5 px-3 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             title="Share collection link"
           >
             <Share2 size={12} />
@@ -73,7 +73,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
           </button>
           <button
             onClick={handleDuplicate}
-            className="studio-btn-secondary py-1.5 px-3 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             title="Duplicate collection"
           >
             <Copy size={12} />
@@ -91,23 +91,23 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
 
       {/* Header — Moodboard Identity */}
       <header className="mb-14">
-        <span className="studio-label">CURATED MOODBOARD</span>
-        <h1 className="studio-headline">{collection.title}</h1>
-        <p className="studio-subhead">
+        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">CURATED MOODBOARD</span>
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">{collection.title}</h1>
+        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           {collection.description} Curated by {collection.creator.name} · {collection.items.length} specimens.
         </p>
       </header>
 
       {/* ── 19: OPEN VISUAL WALL (Moodboard) ────────────────────── */}
       {collection.items.length === 0 ? (
-        <div className="studio-empty-state max-w-md border border-dashed border-[var(--border-subtle)] p-8">
-          <div className="studio-empty-title">COLLECTION IS EMPTY.</div>
-          <p className="studio-empty-desc">
+        <div className="max-w-md py-16 px-8 text-center border border-dashed border-border-subtle rounded flex flex-col items-center justify-center gap-4">
+          <div className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-text-secondary">COLLECTION IS EMPTY.</div>
+          <p className="font-sans text-sm text-text-tertiary max-w-[420px] leading-relaxed">
             Explore palettes, colors, or gradients and save them directly to this moodboard wall.
           </p>
           <button
             onClick={() => onNavigate({ path: 'explore' })}
-            className="studio-btn-primary"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
             <span>EXPLORE SPECIMENS ↗</span>
           </button>
@@ -168,7 +168,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
                       else if (item.type === 'combo') onNavigate({ path: 'combo-detail', slug: item.slug });
                       else onNavigate({ path: 'pattern-detail', slug: item.slug });
                     }}
-                    className="studio-btn-link"
+                    className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
                   >
                     <span>OPEN SPECIMEN</span>
                     <ArrowUpRight size={12} />

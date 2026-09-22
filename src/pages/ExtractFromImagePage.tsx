@@ -205,7 +205,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
   });
 
   return (
-    <div className="studio-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title="Image to Palette — Visual Extraction Studio | KROMA"
         description="A visual color extraction workspace. Sample chromatic moments from images into calibrated color palettes."
@@ -224,21 +224,21 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={handleCopyAll}
-            className="studio-btn-secondary py-1.5 px-3 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
             <Copy size={12} />
             <span>{copiedAll ? 'COPIED ALL' : 'COPY ALL'}</span>
           </button>
           <button
             onClick={handleGenerateVariation}
-            className="studio-btn-secondary py-1.5 px-3 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
             <Sparkles size={12} />
             <span>VARIATION ↗</span>
           </button>
           <button
             onClick={handleSavePalette}
-            className="studio-btn-primary py-1.5 px-3 text-[11px]"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
             <Bookmark size={12} />
             <span>{saved ? 'SAVED' : 'SAVE PALETTE'}</span>
@@ -284,7 +284,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
           />
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="studio-btn-secondary py-1.5 px-4 text-xs font-mono tracking-wider"
+            className="font-mono text-xs font-medium tracking-wider uppercase py-1.5 px-4 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
             <Upload size={13} />
             <span>CHOOSE IMAGE ↗</span>

@@ -170,7 +170,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
   }, [palette]);
 
   return (
-    <div className="kroma-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title={`${palette.title} — Physical Color Study | KROMA`}
         description={`${palette.description} A calibrated proportional study of ${palette.colors.length} chromatic balance points.`}
@@ -206,7 +206,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           {palette.title}
         </h1>
 
-        <p className="kroma-lead max-w-2xl">
+        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-2xl m-0">
           {palette.description || 'A physical color study exploring spatial weight, luminance hierarchy, and chromatic harmony.'}
         </p>
       </div>
@@ -408,7 +408,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         <section className="mb-16">
           <div className="flex items-baseline justify-between mb-6">
             <div>
-              <div className="kroma-label mb-1">RELATED PALETTES</div>
+              <div className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-1">RELATED PALETTES</div>
               <h2 className="font-sans text-2xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase">
                 MORE COLOR STUDIES
               </h2>

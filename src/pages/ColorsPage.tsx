@@ -139,7 +139,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
   }, [colors]);
 
   return (
-    <div className="kroma-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title="Explore Colors — Digital Swatch Drawer | KROMA"
         description={`Explore KROMA's catalog of ${colors.length.toLocaleString()} calibrated digital color specimens across tactile spectrum families.`}
@@ -148,22 +148,22 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
       />
 
       {/* Editorial Studio Hero */}
-      <header className="kroma-hero">
-        <div className="kroma-label">EXPLORE COLORS</div>
-        <h1 className="kroma-headline">FIND YOUR COLOR.</h1>
-        <p className="kroma-lead">
+      <header className="border-b border-border-subtle pb-8 md:pb-12 mb-8 md:mb-12">
+        <div className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4">EXPLORE COLORS</div>
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">FIND YOUR COLOR.</h1>
+        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           A tactile drawer full of calibrated swatches. Discover pigments, copy hex codes instantly, and inspect chromatic relationships.
         </p>
       </header>
 
       {/* Top: Tight Horizontal Row of Tactile Color Family Tiles */}
-      <div className="kroma-families-bar" role="region" aria-label="Color Family Selector">
+      <div className="flex gap-3 overflow-x-auto pb-4 mb-10 [scrollbar-width:thin]" role="region" aria-label="Color Family Selector">
         {FAMILY_TILES.map((f) => {
           const isActive = selectedFamily === f.familyKey;
           return (
             <div
               key={f.name}
-              className="kroma-family-chip"
+              className="flex-none w-40 h-[90px] p-3.5 flex flex-col justify-between rounded cursor-pointer box-border transition-all duration-150 select-none hover:-translate-y-0.5 hover:shadow-md"
               style={{
                 backgroundColor: f.hex,
                 color: f.textDark ? '#171717' : '#FFFFFF',
@@ -180,11 +180,11 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                 }
               }}
             >
-              <div className="kroma-family-chip__label">
+              <div className="flex items-center justify-between font-sans text-xs font-semibold tracking-wider uppercase">
                 <span>{f.name}</span>
-                <span className="kroma-family-chip__arrow">↗</span>
+                <span className="text-sm opacity-80">↗</span>
               </div>
-              <div className="kroma-family-chip__hex">{f.hex}</div>
+              <div className="font-mono text-[11px] opacity-90">{f.hex}</div>
             </div>
           );
         })}
@@ -192,9 +192,11 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
 
       {/* Clean Typographic Search & Filter Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <div className="kroma-filter-bar mb-0">
+        <div className="flex flex-wrap gap-2 mb-0">
           <button
-            className={`kroma-filter-btn ${selectedFamily === 'all' && selectedTone === 'all' ? 'kroma-filter-btn--active' : ''}`}
+            className={`font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2 bg-surface-1 border border-border-subtle text-text-secondary cursor-pointer transition-colors duration-150 select-none hover:border-text-primary hover:text-text-primary ${
+              selectedFamily === 'all' && selectedTone === 'all' ? '!bg-text-primary !text-canvas !border-text-primary' : ''
+            }`}
             onClick={() => {
               setSelectedFamily('all');
               setSelectedTone('all');
@@ -205,7 +207,9 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
           {toneFilters.filter(t => t !== 'all').map((tone) => (
             <button
               key={tone}
-              className={`kroma-filter-btn ${selectedTone === tone ? 'kroma-filter-btn--active' : ''}`}
+              className={`font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2 bg-surface-1 border border-border-subtle text-text-secondary cursor-pointer transition-colors duration-150 select-none hover:border-text-primary hover:text-text-primary ${
+                selectedTone === tone ? '!bg-text-primary !text-canvas !border-text-primary' : ''
+              }`}
               onClick={() => setSelectedTone(selectedTone === tone ? 'all' : tone)}
             >
               {tone.toUpperCase()}
@@ -213,7 +217,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
           ))}
           {selectedFamily !== 'all' && (
             <button
-              className="kroma-filter-btn kroma-filter-btn--active"
+              className="font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2 !bg-text-primary !text-canvas !border-text-primary cursor-pointer select-none"
               onClick={() => setSelectedFamily('all')}
             >
               FAMILY: {selectedFamily.toUpperCase()} ×
@@ -252,7 +256,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
         </div>
       ) : (
         <>
-          <div className="kroma-color-grid">
+          <div className="grid grid-cols-2 min-[540px]:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
             {displayedColors.map((color) => {
               const isCopied = copiedHex === color.hex;
               const saved = isSaved(color.id);
@@ -260,7 +264,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
               return (
                 <div
                   key={color.id}
-                  className="kroma-color-tile"
+                  className="bg-surface-1 border border-border-subtle rounded overflow-hidden flex flex-col cursor-pointer transition-all duration-150 hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
                   onClick={() => onNavigate({ path: 'color-detail', slug: color.slug })}
                   role="button"
                   tabIndex={0}
@@ -269,12 +273,12 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                   }}
                 >
                   <div
-                    className="kroma-color-tile__swatch"
+                    className="w-full aspect-square relative flex items-center justify-center"
                     style={{ backgroundColor: color.hex }}
                     onClick={(e) => handleCopy(color.hex, color.name, e)}
                     title="Click to copy HEX"
                   >
-                    <span className="kroma-color-tile__copy-badge">
+                    <span className="absolute inset-0 flex items-center justify-center gap-1 bg-black/40 backdrop-blur-xs text-white font-mono text-[10px] font-medium tracking-wider opacity-0 transition-opacity duration-150 pointer-events-none group-hover:opacity-100">
                       {isCopied ? (
                         <>
                           <Check size={12} className="text-emerald-400" />
@@ -289,9 +293,9 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                     </span>
                   </div>
 
-                  <div className="kroma-color-tile__info">
+                  <div className="p-2.5 sm:px-3 flex flex-col gap-0.5">
                     <div className="flex items-center justify-between gap-1">
-                      <span className="kroma-color-tile__name">{color.name}</span>
+                      <span className="font-sans text-xs font-medium text-text-primary truncate">{color.name}</span>
                       <button
                         className="p-1 text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
                         onClick={(e) => handleToggleSave(color, e)}
@@ -300,7 +304,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                         <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
                       </button>
                     </div>
-                    <span className="kroma-color-tile__hex">{color.hex}</span>
+                    <span className="font-mono text-[11px] text-text-secondary">{color.hex}</span>
                   </div>
                 </div>
               );

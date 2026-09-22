@@ -130,7 +130,7 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
   }, [palettes]);
 
   return (
-    <div className="kroma-page">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
         title="Palette Library — Colors That Belong Together | KROMA"
         description={`Explore ${palettes.length.toLocaleString()} modernist, architectural, and editorial color palettes curated with calibrated contrast and design token exports.`}
@@ -139,21 +139,23 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
       />
 
       {/* Editorial Hero */}
-      <header className="kroma-hero">
-        <div className="kroma-label">PALETTE LIBRARY</div>
-        <h1 className="kroma-headline">COLORS THAT BELONG TOGETHER.</h1>
-        <p className="kroma-lead">
+      <header className="border-b border-border-subtle pb-8 md:pb-12 mb-8 md:mb-12">
+        <div className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4">PALETTE LIBRARY</div>
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">COLORS THAT BELONG TOGETHER.</h1>
+        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           A curated exhibition of harmonic color systems. Living palettes engineered for digital interfaces, editorial prints, and spatial identities.
         </p>
       </header>
 
       {/* Filter Bar and Typographic Search */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
-        <div className="kroma-filter-bar mb-0">
+        <div className="flex flex-wrap gap-2 mb-0">
           {FILTER_TABS.map((tab) => (
             <button
               key={tab.id}
-              className={`kroma-filter-btn ${activeFilter === tab.id ? 'kroma-filter-btn--active' : ''}`}
+              className={`font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2 bg-surface-1 border border-border-subtle text-text-secondary cursor-pointer transition-colors duration-150 select-none hover:border-text-primary hover:text-text-primary ${
+                activeFilter === tab.id ? '!bg-text-primary !text-canvas !border-text-primary' : ''
+              }`}
               onClick={() => setActiveFilter(tab.id)}
             >
               {tab.label} {tab.id === 'all' && `(${palettes.length})`}
@@ -190,7 +192,7 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
         </div>
       ) : (
         <>
-          <div className="kroma-palettes-gallery">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
             {displayedPalettes.map((palette) => (
               <PaletteCard
                 key={palette.id}

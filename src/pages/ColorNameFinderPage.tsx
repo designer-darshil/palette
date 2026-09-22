@@ -695,13 +695,13 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
 
             {/* Action to open in Palette Detail */}
             <div className="flex justify-end mt-2">
-              <button
+              <Button
+                variant="primary"
                 onClick={() => onNavigate({ path: 'palette-detail', slug: selectedPalette.slug })}
-                className="btn-primary inline-flex items-center gap-2"
+                iconRight={<ArrowRight size={14} />}
               >
-                <span>View Full Palette Detail</span>
-                <ArrowRight size={14} />
-              </button>
+                View Full Palette Detail
+              </Button>
             </div>
           </div>
         </div>

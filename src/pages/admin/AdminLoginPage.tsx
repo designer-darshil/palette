@@ -3,6 +3,7 @@ import { ShieldCheck, Lock, Mail, ArrowLeft, AlertCircle, CheckCircle2 } from 'l
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { RouteType } from '../../types';
 import { SEOHead } from '../../components/seo/SEOHead';
+import { KromaButton } from '../../components/common/KromaButton';
 
 interface AdminLoginPageProps {
   onNavigatePublic: (route: RouteType) => void;
@@ -160,21 +161,16 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
             </div>
           </div>
 
-          <button
+          <KromaButton
             type="submit"
             disabled={loading}
-            className="btn-primary"
-            style={{
-              width: '100%',
-              justifyContent: 'center',
-              padding: '11px',
-              fontSize: '0.88rem',
-              marginTop: '8px',
-            }}
+            isLoading={loading}
+            variant="filled"
+            className="w-full mt-2"
+            iconLeft={<ShieldCheck size={16} />}
           >
-            <ShieldCheck size={16} />
-            <span>{loading ? 'Authenticating...' : 'Sign In to Admin Panel'}</span>
-          </button>
+            {loading ? 'Authenticating...' : 'Sign In to Admin Panel'}
+          </KromaButton>
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--border-subtle)' }}>

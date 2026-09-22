@@ -24,6 +24,13 @@ import {
   Check,
   AlertCircle,
   CloudSun,
+  Trash2,
+  Sliders,
+  Eye,
+  Info,
+  Globe,
+  Radio,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { RouteType } from '../types';
 import {
@@ -35,6 +42,7 @@ import {
   generateLiveAtmosphere,
   getSolarPhase,
   interpretWeatherCode,
+  getLocalTimeInTimezone,
 } from '../utils/liveColorEngine';
 import { CURATED_COLORS } from '../data/colors';
 import { CURATED_PALETTES } from '../data/palettes';
@@ -47,7 +55,7 @@ import { useLibraryData } from '../context/LibraryDataContext';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
+import { Button, KromaButton } from '../components/common/Button';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
@@ -77,7 +85,7 @@ const SOLAR_FORECAST_MILESTONES = [
 
 export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem } = useSaved();
+  const { isSaved, saveItem, removeItem, savedItems } = useSaved();
   const { addPalette } = useLibraryData();
 
   const [selectedLocation, setSelectedLocation] = useState<LiveLocation>(PRESET_LOCATIONS[1]); // Default Ahmedabad
@@ -191,6 +199,12 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
     const title = `${atmosphere.locationName} ${atmosphere.solarPhase}`;
     const preview = atmosphere.swatches.map((s) => s.hex).join(',');
 
+    if (isCurrentSaved) {
+      removeItem(canonicalSlug);
+      showToast('Removed from saved collection', atmosphere.title);
+      return;
+    }
+
     saveItem({
       id: canonicalSlug,
       type: 'palette',
@@ -214,10 +228,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       tags: ['live', 'weather', 'atmosphere', atmosphere.solarPhase.toLowerCase()],
     });
 
-    showToast(
-      isCurrentSaved ? 'Removed from saved' : 'Saved weather atmosphere to collection',
-      atmosphere.title
-    );
+    showToast('Saved weather atmosphere to collection', atmosphere.title);
   };
 
   // Astronomical Solar Elevation estimation in degrees (-90° to +90°)
@@ -226,6 +237,17 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
     const angle = Math.round(Math.sin(((h - 6) / 12) * Math.PI) * 72);
     return angle;
   }, [atmosphere.localTimeHours]);
+
+  // Saved weather/atmosphere items
+  const savedWeatherItems = useMemo(() => {
+    return savedItems.filter(
+      (item) =>
+        item.id.startsWith('live-') ||
+        item.slug.startsWith('live-') ||
+        item.metadata?.includes('•') ||
+        item.title.toLowerCase().includes('atmosphere')
+    );
+  }, [savedItems]);
 
   // Export formats
   const getCssVariables = () => {
@@ -293,22 +315,22 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
   const relatedGradients = CURATED_GRADIENTS.slice(0, 3);
 
   // Solar Phase Icon
-  const getPhaseIcon = () => {
-    switch (atmosphere.solarPhase) {
+  const getPhaseIcon = (phase: string) => {
+    switch (phase) {
       case 'Sunrise':
       case 'Dawn':
-        return <Sunrise size={14} className="text-[#FF9500]" />;
+        return <Sunrise size={13} className="text-[#FF9500]" />;
       case 'Solar Noon':
       case 'Morning':
       case 'Afternoon':
-        return <Sun size={14} className="text-[#FFD60A]" />;
+        return <Sun size={13} className="text-[#FFD60A]" />;
       case 'Golden Hour':
       case 'Sunset':
-        return <Sunset size={14} className="text-[#FF3B30]" />;
+        return <Sunset size={13} className="text-[#FF3B30]" />;
       case 'Twilight':
       case 'Midnight Abyss':
       default:
-        return <Moon size={14} className="text-[#00AEEF]" />;
+        return <Moon size={13} className="text-[#00AEEF]" />;
     }
   };
 
@@ -318,18 +340,21 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
     const { weatherType } = interpretWeatherCode(code);
     switch (weatherType) {
       case 'rain':
-        return <CloudRain size={14} className="text-[#00AEEF]" />;
+        return <CloudRain size={13} className="text-[#00AEEF]" />;
       case 'snow':
-        return <Snowflake size={14} className="text-[#00AEEF]" />;
+        return <Snowflake size={13} className="text-[#00AEEF]" />;
       case 'storm':
-        return <Zap size={14} className="text-[#FF9500]" />;
+        return <Zap size={13} className="text-[#FF9500]" />;
       case 'cloudy':
-        return <Cloud size={14} className="text-[#707070]" />;
+        return <Cloud size={13} className="text-[#707070]" />;
       case 'clear':
       default:
-        return <Sun size={14} className="text-[#FFD60A]" />;
+        return <Sun size={13} className="text-[#FFD60A]" />;
     }
   };
+
+  // Thermal position along scale (-10°C to +40°C)
+  const thermalPercent = Math.max(0, Math.min(100, ((atmosphere.temperatureC - (-10)) / (40 - (-10))) * 100));
 
   const liveSchema = useMemo(() => {
     return generateWebApplicationSchema({
@@ -405,7 +430,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         </div>
       )}
 
-      {/* ─── 01. OBSERVATORY TELEMETRY & LOCATION CONTROL CARD ──────── */}
+      {/* ─── 01. OBSERVATORY TELEMETRY & PARAMETER CARD ─────────────── */}
       <KromaCard as="section" interactive={false} variant="default">
         <KromaCardBody className="p-4 sm:p-5 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
           {/* Location Selector Controls */}
@@ -432,20 +457,21 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               ))}
             </select>
 
-            <button
+            <KromaButton
+              variant="outline"
+              size="sm"
               onClick={handleUseDeviceLocation}
               disabled={loadingWeather}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded-[3px] border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/[0.04] text-[#171717] dark:text-white hover:border-black/30 dark:hover:border-white/30 transition-all cursor-pointer"
+              iconLeft={<Compass size={12} className={loadingWeather ? 'animate-spin' : ''} />}
             >
-              <Compass size={12} className={loadingWeather ? 'animate-spin' : ''} />
-              <span>Use My GPS</span>
-            </button>
+              Use My GPS
+            </KromaButton>
           </div>
 
           {/* Meteorological Telemetry Readout Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-5 pt-3 lg:pt-0 border-t lg:border-t-0 border-black/[0.08] dark:border-white/[0.08]">
-            {/* Metric 1: Local Time */}
-            <div className="flex flex-col gap-0.5">
+            {/* Metric 1: Local Time Card */}
+            <div className="p-2.5 bg-white dark:bg-[#1C1D22] border border-black/[0.06] dark:border-white/[0.06] rounded-[3px] flex flex-col gap-0.5">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] flex items-center gap-1">
                 <Clock size={11} /> LOCAL TIME
               </span>
@@ -454,18 +480,18 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               </span>
             </div>
 
-            {/* Metric 2: Solar Trajectory */}
-            <div className="flex flex-col gap-0.5">
+            {/* Metric 2: Solar Phase Card */}
+            <div className="p-2.5 bg-white dark:bg-[#1C1D22] border border-black/[0.06] dark:border-white/[0.06] rounded-[3px] flex flex-col gap-0.5">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] flex items-center gap-1">
-                {getPhaseIcon()} SOLAR PHASE
+                {getPhaseIcon(atmosphere.solarPhase)} SOLAR PHASE
               </span>
               <span className="font-sans text-xs sm:text-[13px] font-bold text-[#171717] dark:text-white truncate">
                 {atmosphere.solarPhase}
               </span>
             </div>
 
-            {/* Metric 3: Weather Condition */}
-            <div className="flex flex-col gap-0.5">
+            {/* Metric 3: Weather Condition Card */}
+            <div className="p-2.5 bg-white dark:bg-[#1C1D22] border border-black/[0.06] dark:border-white/[0.06] rounded-[3px] flex flex-col gap-0.5">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] flex items-center gap-1">
                 {getWeatherIcon()} WEATHER
               </span>
@@ -474,8 +500,8 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               </span>
             </div>
 
-            {/* Metric 4: Solar Elevation Angle */}
-            <div className="flex flex-col gap-0.5">
+            {/* Metric 4: Solar Elevation Angle Card */}
+            <div className="p-2.5 bg-white dark:bg-[#1C1D22] border border-black/[0.06] dark:border-white/[0.06] rounded-[3px] flex flex-col gap-0.5">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] flex items-center gap-1">
                 <Sun size={11} /> SOLAR ANGLE
               </span>
@@ -487,7 +513,132 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         </KromaCardBody>
       </KromaCard>
 
-      {/* ─── 02. COLOR-OF-WEATHER MAIN VISUALIZATION HERO CARD ──────── */}
+      {/* ─── 02. ATMOSPHERIC TEMPERATURE & OPTICAL SCATTER CARD ─────── */}
+      <KromaCard as="section" interactive={false} variant="default">
+        <KromaCardBody className="p-4 sm:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6">
+          {/* Temperature & Thermal Chromatic Band */}
+          <div className="flex-1 flex flex-col gap-2">
+            <div className="flex items-baseline justify-between">
+              <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-1.5">
+                <Thermometer size={12} className="text-[#FF9500]" />
+                <span>THERMAL CHROMATIC INDEX</span>
+              </span>
+              <span className="font-mono text-xs font-bold text-[#171717] dark:text-white">
+                {atmosphere.temperatureC}°C / {Math.round(atmosphere.temperatureC * 1.8 + 32)}°F
+              </span>
+            </div>
+
+            {/* Visual Thermal Scale Bar */}
+            <div className="relative w-full h-3 rounded-[2px] overflow-hidden bg-black/10 dark:bg-white/10">
+              <div
+                className="w-full h-full"
+                style={{
+                  background: 'linear-gradient(90deg, #00AEEF 0%, #007AFF 25%, #34C759 50%, #FF9500 75%, #FF3B30 100%)',
+                }}
+              />
+              {/* Pointer indicator */}
+              <div
+                className="absolute top-0 bottom-0 w-1.5 bg-white shadow-[0_0_4px_rgba(0,0,0,0.6)] -ml-[3px]"
+                style={{ left: `${thermalPercent}%` }}
+                title={`Ambient reading: ${atmosphere.temperatureC}°C`}
+              />
+            </div>
+
+            <div className="flex justify-between font-mono text-[9.5px] text-[#707070] uppercase">
+              <span>-10°C (Glacial)</span>
+              <span>15°C (Temperate)</span>
+              <span>+40°C (Arid Solar)</span>
+            </div>
+          </div>
+
+          {/* Rayleigh Scatter & Light Density Narrative */}
+          <div className="md:w-1/2 md:border-l md:border-black/[0.08] dark:md:border-white/[0.08] md:pl-6 flex flex-col justify-center">
+            <div className="flex items-center gap-1.5 font-mono text-[10.5px] text-[#707070] uppercase font-semibold mb-1">
+              <SlidersHorizontal size={11} className="text-[#00AEEF]" />
+              <span>ATMOSPHERIC RAYLEIGH SCATTERING</span>
+            </div>
+            <p className="font-sans text-xs text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0">
+              Solar elevation of <strong className="text-[#171717] dark:text-white font-mono">{estimatedElevation}°</strong> produces an optical air mass factor that shifts ambient horizon wavelengths toward{' '}
+              <strong className="text-[#171717] dark:text-white">{atmosphere.swatches[0]?.name}</strong> while sustaining zenith depth in <strong className="text-[#171717] dark:text-white">{atmosphere.swatches[3]?.name}</strong>.
+            </p>
+          </div>
+        </KromaCardBody>
+      </KromaCard>
+
+      {/* ─── 03. OBSERVATORY GLOBAL LOCATIONS GRID ─────────────────── */}
+      <section className="flex flex-col gap-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+          <div>
+            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+              <span>01</span>
+              <span>•</span>
+              <span>GLOBAL OBSERVATORIES</span>
+            </span>
+            <h2 className="font-sans text-xl sm:text-2xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0">
+              World Atmospheric Conditions
+            </h2>
+          </div>
+          <span className="font-mono text-[10px] sm:text-xs text-[#707070] uppercase">
+            SELECT TO SYNTHESIZE LOCAL SKY SPECTRUM
+          </span>
+        </div>
+
+        {/* 9 Preset Location Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {PRESET_LOCATIONS.filter((loc) => loc.name !== 'Local Device').map((loc) => {
+            const isCurrent = selectedLocation.name === loc.name;
+            const local = getLocalTimeInTimezone(loc.timezone);
+            const phase = getSolarPhase(local.hours, local.minutes);
+
+            return (
+              <KromaCard
+                key={loc.name}
+                variant="default"
+                className={`cursor-pointer transition-all ${
+                  isCurrent ? 'ring-2 ring-[#00AEEF] border-[#00AEEF]' : ''
+                }`}
+                onClick={() => {
+                  setSelectedLocation(loc);
+                  setSimulatedHour(null);
+                }}
+                role="button"
+                tabIndex={0}
+              >
+                <div className="p-3 flex flex-col justify-between h-full gap-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] text-[#707070] uppercase">
+                      {local.formatted}
+                    </span>
+                    <span className="flex items-center gap-1 font-mono text-[9px] uppercase text-[#FF9500]">
+                      {getPhaseIcon(phase)}
+                    </span>
+                  </div>
+
+                  <div>
+                    <div className="font-sans text-xs sm:text-sm font-bold text-[#171717] dark:text-white truncate">
+                      {loc.name}
+                    </div>
+                    <div className="font-sans text-[11px] text-[#707070] truncate">
+                      {loc.country}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1.5 border-t border-black/[0.06] dark:border-white/[0.06]">
+                    <span className="font-mono text-[9px] text-[#707070] truncate">
+                      {loc.latitude > 0 ? `${loc.latitude.toFixed(0)}°N` : `${Math.abs(loc.latitude).toFixed(0)}°S`}
+                    </span>
+                    <span className="font-mono text-[9px] font-semibold uppercase text-[#00AEEF] truncate">
+                      {phase}
+                    </span>
+                  </div>
+                </div>
+              </KromaCard>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ─── 04. COLOR-OF-WEATHER MAIN VISUALIZATION HERO CARD ──────── */}
       <KromaCard as="section" interactive={false} variant="featured" className="overflow-hidden">
         <KromaCardVisual heightClass="min-h-[280px] sm:min-h-[380px] w-full relative">
           <div
@@ -563,12 +714,12 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         </div>
       </KromaCard>
 
-      {/* ─── 03. 24-HOUR SOLAR CHROMA & FORECAST TIMELINE ─────────── */}
+      {/* ─── 05. 24-HOUR SOLAR CHROMA & FORECAST TIMELINE ─────────── */}
       <section className="flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
           <div>
             <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
-              <span>01</span>
+              <span>02</span>
               <span>•</span>
               <span>SOLAR TRAJECTORY</span>
             </span>
@@ -621,12 +772,12 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         </div>
       </section>
 
-      {/* ─── 04. DETAILED ATMOSPHERIC SWATCH SPECTRUM CARDS ────────── */}
+      {/* ─── 06. DETAILED ATMOSPHERIC SWATCH SPECTRUM CARDS ────────── */}
       <section className="flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
           <div>
             <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
-              <span>02</span>
+              <span>03</span>
               <span>•</span>
               <span>CALIBRATED SWATCHES</span>
             </span>
@@ -710,13 +861,13 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         </div>
       </section>
 
-      {/* ─── 05. PRODUCTION DESIGN TOKEN EXPORT CARD ──────────────── */}
+      {/* ─── 07. PRODUCTION DESIGN TOKEN EXPORT CARD ──────────────── */}
       <KromaCard as="section" interactive={false} variant="default">
         <KromaCardBody className="p-5 sm:p-6 flex flex-col gap-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
-                <span>03</span>
+                <span>04</span>
                 <span>•</span>
                 <span>PRODUCTION TOKENS</span>
               </span>
@@ -747,23 +898,132 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               <code>{currentExportCode}</code>
             </pre>
 
-            <button
-              onClick={handleCopyTokens}
-              className="absolute top-3 right-3 px-3 py-1.5 bg-[#F8F8F8] dark:bg-[#1C1D22] hover:bg-black/10 dark:hover:bg-white/10 text-[#171717] dark:text-white border border-black/[0.08] dark:border-white/[0.08] rounded-[3px] font-mono text-xs font-semibold inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-            >
-              <Copy size={12} />
-              <span>Copy Tokens</span>
-            </button>
+            <div className="absolute top-3 right-3">
+              <KromaButton
+                variant="outline"
+                size="sm"
+                onClick={handleCopyTokens}
+                iconLeft={<Copy size={12} />}
+              >
+                Copy Tokens
+              </KromaButton>
+            </div>
           </div>
         </KromaCardBody>
       </KromaCard>
 
-      {/* ─── 06. CONNECTED LIBRARY DISCOVERY ──────────────────────── */}
+      {/* ─── 08. SAVED WEATHER-COLOR ITEMS ─────────────────────────── */}
+      <section className="flex flex-col gap-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+          <div>
+            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+              <span>05</span>
+              <span>•</span>
+              <span>PERSONAL WORKSPACE</span>
+            </span>
+            <h2 className="font-sans text-xl sm:text-2xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0">
+              Saved Atmospheric Items
+            </h2>
+          </div>
+          {savedWeatherItems.length > 0 && (
+            <span className="font-mono text-xs text-[#707070]">
+              {savedWeatherItems.length} SAVED SPECTRA
+            </span>
+          )}
+        </div>
+
+        {savedWeatherItems.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {savedWeatherItems.map((item) => {
+              const hexList = item.preview ? item.preview.split(',') : [];
+              return (
+                <KromaCard key={item.id} variant="default" className="flex flex-col justify-between">
+                  <div>
+                    {/* Swatch strip visual */}
+                    <div className="w-full h-16 flex overflow-hidden border-b border-black/[0.08] dark:border-white/[0.08]">
+                      {hexList.map((hex, i) => (
+                        <div
+                          key={i}
+                          className="flex-1 h-full transition-[flex] duration-200 hover:flex-[1.5]"
+                          style={{ backgroundColor: hex }}
+                          title={hex}
+                        />
+                      ))}
+                    </div>
+
+                    <div className="p-3.5 flex flex-col gap-1">
+                      <div className="font-sans font-bold text-sm text-[#171717] dark:text-white truncate">
+                        {item.title}
+                      </div>
+                      {item.metadata && (
+                        <div className="font-mono text-[10px] text-[#707070] truncate">
+                          {item.metadata}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 pt-0 flex items-center justify-between border-t border-black/[0.06] dark:border-white/[0.06] mt-2">
+                    <button
+                      onClick={() => {
+                        copyToClipboard(hexList.join(', '));
+                        showToast('Copied saved palette hexes', item.title);
+                      }}
+                      className="inline-flex items-center gap-1 font-mono text-[11px] text-[#707070] hover:text-[#171717] dark:hover:text-white cursor-pointer bg-transparent border-0 p-0"
+                    >
+                      <Copy size={11} />
+                      <span>Copy Hexes</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        removeItem(item.id);
+                        showToast('Removed saved atmosphere', item.title);
+                      }}
+                      className="inline-flex items-center gap-1 font-mono text-[11px] text-[#FF3B30] hover:underline cursor-pointer bg-transparent border-0 p-0"
+                    >
+                      <Trash2 size={11} />
+                      <span>Remove</span>
+                    </button>
+                  </div>
+                </KromaCard>
+              );
+            })}
+          </div>
+        ) : (
+          /* Empty State Card */
+          <KromaCard interactive={false} variant="default">
+            <KromaCardBody className="p-8 sm:p-12 text-center flex flex-col items-center justify-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-[#707070]">
+                <Bookmark size={18} />
+              </div>
+              <div className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#171717] dark:text-white">
+                NO SAVED ATMOSPHERES YET
+              </div>
+              <p className="font-sans text-xs text-[#707070] max-w-md leading-relaxed m-0">
+                Capture the unique lighting of dawn, solar noon, or stormy twilights from any observatory and archive them directly to your personal palette library.
+              </p>
+              <div className="mt-2">
+                <KromaButton
+                  variant="filled"
+                  size="sm"
+                  onClick={handleSaveToWorkspace}
+                  iconLeft={<Bookmark size={12} />}
+                >
+                  Save Current Atmosphere
+                </KromaButton>
+              </div>
+            </KromaCardBody>
+          </KromaCard>
+        )}
+      </section>
+
+      {/* ─── 09. CONNECTED LIBRARY DISCOVERY ──────────────────────── */}
       {relatedPalettes.length > 0 && (
         <section className="flex flex-col gap-3.5">
           <div>
             <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
-              <span>04</span>
+              <span>06</span>
               <span>•</span>
               <span>HARMONIC SPECIMENS</span>
             </span>
@@ -783,7 +1043,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         <section className="flex flex-col gap-3.5">
           <div>
             <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
-              <span>05</span>
+              <span>07</span>
               <span>•</span>
               <span>DUAL HARMONIES</span>
             </span>
@@ -803,7 +1063,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         <section className="flex flex-col gap-3.5">
           <div>
             <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
-              <span>06</span>
+              <span>08</span>
               <span>•</span>
               <span>ATMOSPHERIC GRADIENTS</span>
             </span>

@@ -115,7 +115,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
             className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3.5 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
             <Bookmark size={12} />
-            <span>SAVE REMIX ↗</span>
+            <span>SAVE REMIX</span>
           </button>
         </div>
       </div>

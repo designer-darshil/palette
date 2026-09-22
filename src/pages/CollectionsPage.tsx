@@ -122,7 +122,8 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
             onClick={() => onNavigate({ path: 'colors' })}
             className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
-            <span>EXPLORE COLORS ↗</span>
+            <span>EXPLORE COLORS</span>
+            <ArrowUpRight size={13} />
           </button>
         </div>
       )}
@@ -180,9 +181,10 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
                 </button>
                 <button
                   type="submit"
-                  className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-4 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
+                  className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-4 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
                 >
-                  CREATE ARCHIVE ↗
+                  <span>CREATE ARCHIVE</span>
+                  <Plus size={13} />
                 </button>
               </div>
             </form>

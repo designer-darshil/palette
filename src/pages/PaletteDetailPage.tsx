@@ -373,7 +373,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
             className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-neutral-900 dark:hover:border-white transition-colors flex items-center gap-2"
           >
             <RefreshCw size={14} />
-            <span>GENERATE SIMILAR ↗</span>
+            <span>GENERATE SIMILAR</span>
           </button>
         </div>
 
@@ -415,9 +415,10 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
             </div>
             <button
               onClick={() => onNavigate({ path: 'palettes' })}
-              className="text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase"
+              className="text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase inline-flex items-center gap-1"
             >
-              VIEW ALL ↗
+              <span>VIEW ALL</span>
+              <ArrowUpRight size={13} />
             </button>
           </div>
 

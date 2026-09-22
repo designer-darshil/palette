@@ -8,6 +8,7 @@ import { generatePalette, GeneratorColor } from '../utils/paletteGenerator';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebSiteSchema } from '../utils/schemaGenerator';
 import { Link } from '../components/common/Link';
+import { KromaButton } from '../components/common/KromaButton';
 import { Analytics } from '../utils/analytics';
 
 interface HomePageProps {
@@ -173,13 +174,21 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Discover palettes, generate new combinations, and build a visual language that feels like yours.
             </p>
             <div className="flex items-center gap-3.5 flex-wrap">
-              <Link to={{ path: 'colors' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-[#171717] dark:bg-[#F8F8F8] text-[#F8F8F8] dark:text-[#171717] font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border-0 cursor-pointer transition-all hover:-translate-y-0.5 hover:opacity-90">
-                <span>Explore Colors</span>
-                <ArrowUpRight size={15} />
-              </Link>
-              <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-[#171717] dark:text-white font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border border-black/20 dark:border-white/20 cursor-pointer transition-all hover:-translate-y-0.5 hover:bg-black/5 dark:hover:bg-white/10">
-                <span>Generate a Palette</span>
-              </Link>
+              <KromaButton
+                variant="filled"
+                to={{ path: 'colors' }}
+                onNavigate={onNavigate}
+                iconRight={<ArrowUpRight size={15} />}
+              >
+                Explore Colors
+              </KromaButton>
+              <KromaButton
+                variant="outline"
+                to={{ path: 'generate' }}
+                onNavigate={onNavigate}
+              >
+                Generate a Palette
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -243,9 +252,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">CURATED SYSTEMS</span>
             <h2 className="font-sans text-[clamp(28px,4vw,48px)] font-bold tracking-[-0.035em] uppercase m-0">DISCOVER PALETTES</h2>
           </div>
-          <Link to={{ path: 'palettes' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-[#171717] dark:text-white font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border border-black/20 dark:border-white/20 cursor-pointer transition-all hover:-translate-y-0.5 hover:bg-black/5 dark:hover:bg-white/10">
-            <span>All Palettes ↗</span>
-          </Link>
+          <KromaButton
+            variant="outline"
+            to={{ path: 'palettes' }}
+            onNavigate={onNavigate}
+            iconRight={<ArrowUpRight size={14} />}
+          >
+            All Palettes
+          </KromaButton>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
@@ -328,10 +342,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <p className="font-sans text-base text-[#A0A0A0] leading-[1.5] mb-7 max-w-[440px]">
               Generate unexpected palettes, starting from a color, image, or idea. Real-time chromatic balance calibrated to harmonious scales.
             </p>
-            <Link to={{ path: 'generate' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-[#F8F8F8] text-[#171717] font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border-0 cursor-pointer transition-all hover:-translate-y-0.5 hover:opacity-90">
-              <span>Generate Palette</span>
-              <ArrowUpRight size={15} />
-            </Link>
+            <KromaButton
+              variant="filled"
+              className="!bg-[#F8F8F8] !text-[#171717] hover:!opacity-90"
+              to={{ path: 'generate' }}
+              onNavigate={onNavigate}
+              iconRight={<ArrowUpRight size={15} />}
+            >
+              Generate Palette
+            </KromaButton>
           </div>
 
           {/* Working Interactive Mini-Generator */}
@@ -357,15 +376,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 <span className="font-bold text-white block text-sm">{activeGeneratorColor.name}</span>
                 <span className="text-xs text-[#888888]">{activeGeneratorColor.hex}</span>
               </div>
-              <button
-                type="button"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-[#171717] rounded-full font-sans text-[13px] font-bold tracking-[0.04em] uppercase cursor-pointer transition-transform hover:bg-[#E8E8E8] hover:scale-[1.02] border-0"
+              <KromaButton
+                variant="filled"
+                className="!bg-white !text-[#171717] hover:!bg-[#E8E8E8]"
+                iconLeft={<RotateCcw size={14} />}
                 onClick={handleReGenerate}
                 aria-label="Generate new harmonic palette"
               >
-                <RotateCcw size={14} />
-                <span>GENERATE ↻</span>
-              </button>
+                GENERATE
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -380,9 +399,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">PHOTO EXTRACTION</span>
             <h2 className="font-sans text-[clamp(32px,5vw,68px)] font-bold tracking-[-0.035em] uppercase m-0 leading-[0.95]">YOUR IMAGE. YOUR PALETTE.</h2>
           </div>
-          <Link to={{ path: 'extract-from-image' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-[#171717] dark:text-white font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border border-black/20 dark:border-white/20 cursor-pointer transition-all hover:-translate-y-0.5 hover:bg-black/5 dark:hover:bg-white/10">
-            <span>Extract From Image ↗</span>
-          </Link>
+          <KromaButton
+            variant="outline"
+            to={{ path: 'extract-from-image' }}
+            onNavigate={onNavigate}
+            iconRight={<ArrowUpRight size={14} />}
+          >
+            Extract From Image
+          </KromaButton>
         </div>
 
         <div
@@ -432,9 +456,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">INSPIRATION ARCHIVE</span>
             <h2 className="font-sans text-[clamp(32px,5vw,68px)] font-bold tracking-[-0.035em] uppercase m-0 leading-[0.95]">KEEP WHAT INSPIRES YOU.</h2>
           </div>
-          <Link to={{ path: 'collections' }} onNavigate={onNavigate} className="inline-flex items-center gap-2 px-6 py-3 bg-transparent text-[#171717] dark:text-white font-sans text-[13.5px] font-semibold tracking-[0.02em] uppercase rounded-full no-underline border border-black/20 dark:border-white/20 cursor-pointer transition-all hover:-translate-y-0.5 hover:bg-black/5 dark:hover:bg-white/10">
-            <span>View Collections ↗</span>
-          </Link>
+          <KromaButton
+            variant="outline"
+            to={{ path: 'collections' }}
+            onNavigate={onNavigate}
+            iconRight={<ArrowUpRight size={14} />}
+          >
+            View Collections
+          </KromaButton>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">

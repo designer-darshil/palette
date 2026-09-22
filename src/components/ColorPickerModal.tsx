@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { X, Check } from 'lucide-react';
 import { CustomColorPicker } from './common/CustomColorPicker';
+import { KromaButton } from './common/KromaButton';
 
 export interface ColorPickerModalProps {
   isOpen: boolean;
@@ -84,22 +85,23 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
 
         {/* Footer Actions */}
         <div className="flex items-center justify-end gap-2 pt-2 border-t border-[var(--border-subtle)]">
-          <button
+          <KromaButton
             type="button"
+            variant="outline"
+            size="sm"
             onClick={onClose}
-            className="px-3 py-1.5 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-xs text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
           >
             Cancel
-          </button>
-          <button
+          </KromaButton>
+          <KromaButton
             type="button"
+            variant="filled"
+            size="sm"
             onClick={handleApply}
-            className="btn-studio-primary"
-            style={{ padding: '6px 14px', fontSize: '0.75rem' }}
+            iconLeft={<Check size={13} />}
           >
-            <Check size={13} />
-            <span>Apply</span>
-          </button>
+            Apply
+          </KromaButton>
         </div>
       </div>
     </div>

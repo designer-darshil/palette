@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Plus, Check, Layers } from 'lucide-react';
 import { useCollections } from '../context/CollectionContext';
 import { useToast } from '../context/ToastContext';
+import { KromaButton } from './common/KromaButton';
 
 interface AddToCollectionModalProps {
   isOpen: boolean;
@@ -112,9 +113,9 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({
               className="flex-1 text-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-xs px-3 py-1.5"
               autoFocus
             />
-            <button type="submit" className="btn-primary text-xs px-3 py-1.5">
+            <KromaButton type="submit" variant="filled" size="sm">
               Create &amp; Add
-            </button>
+            </KromaButton>
           </form>
         ) : (
           <button

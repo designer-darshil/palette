@@ -9,6 +9,7 @@ import {
 } from '../utils/tokenExportEngine';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
+import { KromaButton } from './common/KromaButton';
 
 interface TokenExportModalProps {
   isOpen: boolean;
@@ -108,13 +109,16 @@ export const TokenExportModal: React.FC<TokenExportModalProps> = ({
             <code>{code}</code>
           </pre>
 
-          <button
-            onClick={handleCopy}
-            className="absolute top-2.5 right-2.5 btn-secondary text-xs px-2.5 py-1.5 flex items-center gap-1.5"
-          >
-            {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-            <span>{copied ? 'Copied' : 'Copy Tokens'}</span>
-          </button>
+          <div className="absolute top-2.5 right-2.5">
+            <KromaButton
+              variant="outline"
+              size="sm"
+              onClick={handleCopy}
+              iconLeft={copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+            >
+              {copied ? 'Copied' : 'Copy Tokens'}
+            </KromaButton>
+          </div>
         </div>
 
         <div className="flex items-center justify-between text-xs text-[var(--text-tertiary)] font-mono">

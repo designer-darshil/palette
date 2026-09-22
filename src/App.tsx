@@ -531,7 +531,7 @@ function routeToUrl(route: RouteType): string {
     case 'api-docs':
       return '/api';
     case 'live':
-      return '/palettes/live';
+      return '/weather';
     case 'ramps':
       {
         const params = new URLSearchParams();

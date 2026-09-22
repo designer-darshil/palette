@@ -234,7 +234,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
             className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
             <Sparkles size={12} />
-            <span>VARIATION ↗</span>
+            <span>VARIATION</span>
           </button>
           <button
             onClick={handleSavePalette}
@@ -287,7 +287,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
             className="font-mono text-xs font-medium tracking-wider uppercase py-1.5 px-4 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
             <Upload size={13} />
-            <span>CHOOSE IMAGE ↗</span>
+            <span>CHOOSE IMAGE</span>
           </button>
         </div>
       </div>

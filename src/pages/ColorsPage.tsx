@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { RouteType } from '../types';
+import { RouteType, ColorItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useSaved } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
 import { copyToClipboard } from '../utils/colorUtils';
-import { Search, Loader2, ArrowUpRight, Bookmark, Check } from 'lucide-react';
+import { Search, Loader2, ArrowUpRight, Bookmark, Check, X, Copy } from 'lucide-react';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
 
@@ -12,7 +12,7 @@ interface ColorsPageProps {
   onNavigate: (route: RouteType) => void;
 }
 
-const BATCH_SIZE = 48;
+const BATCH_SIZE = 40;
 
 const FAMILY_TILES = [
   { name: 'RED', hex: '#FF3B30', textDark: false, familyKey: 'red' },
@@ -22,10 +22,10 @@ const FAMILY_TILES = [
   { name: 'BLUE', hex: '#00AEEF', textDark: true, familyKey: 'blue' },
   { name: 'PURPLE', hex: '#7B2CBF', textDark: false, familyKey: 'purple' },
   { name: 'PINK', hex: '#FF2D55', textDark: false, familyKey: 'pink' },
-  { name: 'BROWN', hex: '#A2845E', textDark: false, familyKey: 'earth' },
+  { name: 'EARTH', hex: '#A2845E', textDark: false, familyKey: 'earth' },
   { name: 'NEUTRAL', hex: '#8E8E93', textDark: false, familyKey: 'neutral' },
-  { name: 'BLACK', hex: '#171717', textDark: false, familyKey: 'deep' },
-  { name: 'WHITE', hex: '#F0F0F2', textDark: true, familyKey: 'light' },
+  { name: 'DEEP', hex: '#171717', textDark: false, familyKey: 'deep' },
+  { name: 'LIGHT', hex: '#F0F0F2', textDark: true, familyKey: 'light' },
 ];
 
 export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
@@ -103,11 +103,11 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
     if (ok) {
       setCopiedHex(hex);
       showToast(`Copied ${hex}`, name, hex);
-      setTimeout(() => setCopiedHex((curr) => (curr === hex ? null : curr)), 1800);
+      setTimeout(() => setCopiedHex((curr) => (curr === hex ? null : curr)), 1600);
     }
   };
 
-  const handleToggleSave = (color: typeof colors[0], e: React.MouseEvent) => {
+  const handleToggleSave = (color: ColorItem, e: React.MouseEvent) => {
     e.stopPropagation();
     const saved = isSaved(color.id);
     saveItem({
@@ -127,8 +127,8 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
 
   const collectionSchema = useMemo(() => {
     return generateCollectionPageSchema({
-      name: 'Curated Color Specimens Library',
-      description: `Comprehensive digital color library featuring ${colors.length} calibrated pigments with sRGB, HSL, and OKLCH color metrics.`,
+      name: 'Curated Color Specimens Exhibition',
+      description: `Digital colour exhibition featuring ${colors.length} calibrated specimens with spectral, sRGB, HSL, and OKLCH color metrics.`,
       url: '/colors',
       items: colors.slice(0, 30).map((c) => ({
         name: `${c.name} (${c.hex})`,
@@ -139,98 +139,100 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
   }, [colors]);
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
+    <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 pb-20 box-border text-[#171717] dark:text-white">
       <SEOHead
-        title="Explore Colors — Digital Swatch Drawer | KROMA"
-        description={`Explore KROMA's catalog of ${colors.length.toLocaleString()} calibrated digital color specimens across tactile spectrum families.`}
+        title="Colours Show — Digital Colour Exhibition | KROMA"
+        description={`A curated exhibition of colour studies, combinations, specimens, and visual experiments across ${colors.length.toLocaleString()} calibrated pigments.`}
         canonicalPath="/colors"
         jsonLd={collectionSchema}
       />
 
-      {/* Editorial Studio Hero */}
-      <header className="border-b border-border-subtle pb-8 md:pb-12 mb-8 md:mb-12">
-        <div className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4">EXPLORE COLORS</div>
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">FIND YOUR COLOR.</h1>
-        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
-          A tactile drawer full of calibrated swatches. Discover pigments, copy hex codes instantly, and inspect chromatic relationships.
-        </p>
+      {/* ── 01: Compact Editorial Exhibition Opening ────────────────── */}
+      <header className="mb-8 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div className="flex flex-col gap-2">
+            <div className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070] dark:text-[#909090] flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-[1px] bg-[#FF3B30]" />
+              <span>COLOUR SHOW</span>
+            </div>
+            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight leading-[0.95] text-[#171717] dark:text-white m-0">
+              COLOUR, IN ITS<br />
+              PUREST FORM.
+            </h1>
+            <p className="font-sans text-sm sm:text-base text-[#707070] dark:text-[#A0A0A0] max-w-xl m-0 mt-1 leading-[1.5]">
+              A curated collection of colour studies, combinations, specimens, and visual experiments.
+            </p>
+          </div>
+
+          {/* Gamut Counter & Quick Family Bar */}
+          <div className="flex flex-col gap-2.5 lg:items-end">
+            <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-[#707070] dark:text-[#909090]">
+              {filteredColors.length} EXHIBITION SPECIMENS
+            </span>
+            <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 scrollbar-none" role="region" aria-label="Color Gamuts">
+              {FAMILY_TILES.map((f) => {
+                const isActive = selectedFamily === f.familyKey;
+                return (
+                  <button
+                    key={f.name}
+                    onClick={() => setSelectedFamily(isActive ? 'all' : f.familyKey)}
+                    className={`h-7 px-2 rounded-[2px] font-mono text-[10px] tracking-wider uppercase inline-flex items-center gap-1.5 transition-all duration-150 cursor-pointer select-none border ${
+                      isActive
+                        ? 'bg-[#171717] text-white dark:bg-white dark:text-[#171717] border-transparent shadow-xs'
+                        : 'bg-transparent text-[#707070] dark:text-[#909090] border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 hover:text-[#171717] dark:hover:text-white'
+                    }`}
+                    title={`Filter ${f.name} gamut`}
+                  >
+                    <span className="w-2 h-2 rounded-[1px]" style={{ backgroundColor: f.hex }} />
+                    <span>{f.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </header>
 
-      {/* Top: Tight Horizontal Row of Tactile Color Family Tiles */}
-      <div className="flex gap-3 overflow-x-auto pb-4 mb-10 [scrollbar-width:thin]" role="region" aria-label="Color Family Selector">
-        {FAMILY_TILES.map((f) => {
-          const isActive = selectedFamily === f.familyKey;
-          return (
-            <div
-              key={f.name}
-              className="flex-none w-40 h-[90px] p-3.5 flex flex-col justify-between rounded cursor-pointer box-border transition-all duration-150 select-none hover:-translate-y-0.5 hover:shadow-md"
-              style={{
-                backgroundColor: f.hex,
-                color: f.textDark ? '#171717' : '#FFFFFF',
-                outline: isActive ? '3px solid #171717' : 'none',
-                outlineOffset: '2px',
-              }}
-              onClick={() => setSelectedFamily(isActive ? 'all' : f.familyKey)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setSelectedFamily(isActive ? 'all' : f.familyKey);
-                }
-              }}
-            >
-              <div className="flex items-center justify-between font-sans text-xs font-semibold tracking-wider uppercase">
-                <span>{f.name}</span>
-                <span className="text-sm opacity-80">↗</span>
-              </div>
-              <div className="font-mono text-[11px] opacity-90">{f.hex}</div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Clean Typographic Search & Filter Controls */}
+      {/* ── 02: Editorial Catalogue Controls ────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <div className="flex flex-wrap gap-2 mb-0">
-          <button
-            className={`font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2 bg-surface-1 border border-border-subtle text-text-secondary cursor-pointer transition-colors duration-150 select-none hover:border-text-primary hover:text-text-primary ${
-              selectedFamily === 'all' && selectedTone === 'all' ? '!bg-text-primary !text-canvas !border-text-primary' : ''
-            }`}
-            onClick={() => {
-              setSelectedFamily('all');
-              setSelectedTone('all');
-            }}
-          >
-            ALL ({colors.length})
-          </button>
-          {toneFilters.filter(t => t !== 'all').map((tone) => (
-            <button
-              key={tone}
-              className={`font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2 bg-surface-1 border border-border-subtle text-text-secondary cursor-pointer transition-colors duration-150 select-none hover:border-text-primary hover:text-text-primary ${
-                selectedTone === tone ? '!bg-text-primary !text-canvas !border-text-primary' : ''
-              }`}
-              onClick={() => setSelectedTone(selectedTone === tone ? 'all' : tone)}
-            >
-              {tone.toUpperCase()}
-            </button>
-          ))}
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-[#707070] dark:text-[#909090] mr-1">
+            TONE:
+          </span>
+          {toneFilters.map((tone) => {
+            const isActive = selectedTone === tone;
+            return (
+              <button
+                key={tone}
+                onClick={() => setSelectedTone(tone)}
+                className={`font-mono text-[11px] tracking-[0.08em] uppercase px-3 py-1.5 rounded-[2px] transition-colors duration-150 cursor-pointer select-none border ${
+                  isActive
+                    ? 'bg-[#171717] text-white dark:bg-white dark:text-[#171717] border-[#171717] dark:border-white font-semibold'
+                    : 'bg-transparent text-[#707070] dark:text-[#909090] border-black/[0.08] dark:border-white/[0.08] hover:border-black/25 dark:hover:border-white/25 hover:text-[#171717] dark:hover:text-white'
+                }`}
+              >
+                {tone.toUpperCase()}
+              </button>
+            );
+          })}
+
           {selectedFamily !== 'all' && (
             <button
-              className="font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2 !bg-text-primary !text-canvas !border-text-primary cursor-pointer select-none"
               onClick={() => setSelectedFamily('all')}
+              className="font-mono text-[11px] tracking-[0.08em] uppercase px-3 py-1.5 rounded-[2px] bg-[#171717] text-white dark:bg-white dark:text-[#171717] cursor-pointer select-none inline-flex items-center gap-1.5 ml-1"
             >
-              FAMILY: {selectedFamily.toUpperCase()} ×
+              <span>GAMUT: {selectedFamily.toUpperCase()}</span>
+              <X size={11} />
             </button>
           )}
         </div>
 
-        {/* Typographic Search Input */}
-        <div className="relative min-w-[240px]">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+        {/* Minimal Search Field */}
+        <div className="relative min-w-[240px] sm:min-w-[280px]">
+          <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#707070]" />
           <input
             type="text"
-            className="w-full bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm py-2 pl-9 pr-4 text-xs font-sans text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:border-neutral-900 dark:focus:border-neutral-100 transition-colors"
+            className="w-full bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] py-1.5 pl-8 pr-3 text-xs font-sans text-[#171717] dark:text-white placeholder-[#707070] focus:outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors"
             placeholder="Search specimen or #HEX..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -238,73 +240,118 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* The Color Grid: Square/Rectangular Fields with Instant Copy and Micro-Feedback */}
+      {/* ── 03: The Exhibition Gallery — Asymmetric Editorial Rhythms ─ */}
       {filteredColors.length === 0 ? (
-        <div className="py-20 text-center border border-dashed border-neutral-200 dark:border-neutral-800 rounded-sm">
-          <p className="font-sans text-sm font-semibold tracking-wider uppercase text-neutral-400 mb-2">NO SPECIMENS FOUND</p>
-          <p className="font-sans text-xs text-neutral-500 mb-6">Try clearing your search query or selecting a different family.</p>
+        <div className="py-20 text-center border border-dashed border-black/[0.08] dark:border-white/[0.08] rounded-[2px]">
+          <p className="font-mono text-xs font-semibold tracking-widest uppercase text-[#707070] mb-2">NO SPECIMENS IN THIS GAMUT</p>
+          <p className="font-sans text-xs text-[#707070] mb-6">Reset your query or explore a different tone filter.</p>
           <button
             onClick={() => {
               setSelectedFamily('all');
               setSelectedTone('all');
               setSearchQuery('');
             }}
-            className="font-sans text-xs font-semibold tracking-wider uppercase px-4 py-2 border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-900 hover:text-white transition-colors"
+            className="font-mono text-xs font-semibold tracking-wider uppercase px-4 py-2 border border-black/20 dark:border-white/20 hover:bg-[#171717] hover:text-white transition-colors"
           >
-            RESET FILTERS
+            RESET EXHIBITION
           </button>
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-2 min-[540px]:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
-            {displayedColors.map((color) => {
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 auto-rows-auto">
+            {displayedColors.map((color, index) => {
               const isCopied = copiedHex === color.hex;
               const saved = isSaved(color.id);
+              const specimenNumber = String(index + 1).padStart(2, '0');
+
+              // Asymmetric rhythmic layout pattern:
+              // Index % 10 === 0: Featured wide exhibition anchor (spans 2 cols, 2 rows on lg)
+              // Index % 10 === 5: Wide banner specimen (spans 2 cols on lg)
+              // Others: Clean precision specimen tiles
+              const isAnchorHero = index % 10 === 0;
+              const isWideBanner = index % 10 === 5;
+
+              const colSpanClass = isAnchorHero
+                ? 'col-span-2 row-span-2 min-h-[300px] sm:min-h-[340px]'
+                : isWideBanner
+                ? 'col-span-2 min-h-[190px]'
+                : 'col-span-1 min-h-[190px]';
 
               return (
                 <div
                   key={color.id}
-                  className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] group select-none"
+                  className={`group relative bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] overflow-hidden flex flex-col justify-between cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none ${colSpanClass}`}
                   onClick={() => onNavigate({ path: 'color-detail', slug: color.slug })}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') onNavigate({ path: 'color-detail', slug: color.slug });
                   }}
+                  aria-label={`Inspect ${color.name} ${color.hex}`}
                 >
+                  {/* Dominant Color Field */}
                   <div
-                    className="w-full aspect-square relative flex items-center justify-center"
+                    className="w-full flex-1 relative transition-transform duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.01]"
                     style={{ backgroundColor: color.hex }}
-                    onClick={(e) => handleCopy(color.hex, color.name, e)}
-                    title="Click to copy HEX"
                   >
-                    <span className="absolute inset-0 flex items-center justify-center gap-1 bg-black/50 backdrop-blur-xs text-white font-mono text-[10px] font-medium tracking-wider opacity-0 transition-opacity duration-150 pointer-events-none group-hover:opacity-100">
-                      {isCopied ? (
-                        <>
-                          <Check size={12} className="text-emerald-400" />
-                          <span>COPIED!</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>COPY HEX</span>
-                          <ArrowUpRight size={11} />
-                        </>
-                      )}
-                    </span>
-                  </div>
+                    {/* Corner Specimen Index Tag */}
+                    <div className="absolute top-2.5 left-2.5 z-10 font-mono text-[9.5px] font-bold px-1.5 py-0.5 rounded-[1px] bg-black/60 text-white backdrop-blur-xs">
+                      {specimenNumber}
+                    </div>
 
-                  <div className="p-2.5 sm:px-3 flex flex-col gap-0.5">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="font-sans text-xs font-bold text-[#171717] dark:text-white truncate">{color.name}</span>
+                    {/* Action Pill on Hover */}
+                    <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/40 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-20 p-2">
                       <button
-                        className="p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white transition-colors"
-                        onClick={(e) => handleToggleSave(color, e)}
-                        title={saved ? 'Saved' : 'Save color'}
+                        type="button"
+                        onClick={(e) => handleCopy(color.hex, color.name, e)}
+                        className="bg-white text-[#171717] font-mono text-[10.5px] font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 cursor-pointer"
+                        title="Click to copy HEX"
                       >
-                        <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
+                        {isCopied ? (
+                          <>
+                            <Check size={12} className="text-emerald-600" />
+                            <span>COPIED</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy size={11} />
+                            <span>{color.hex}</span>
+                          </>
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={(e) => handleToggleSave(color, e)}
+                        className={`p-1.5 rounded-[2px] border transition-transform hover:scale-105 cursor-pointer ${
+                          saved
+                            ? 'bg-white text-black border-transparent'
+                            : 'bg-black/60 text-white border-white/20 hover:bg-black/80'
+                        }`}
+                        title={saved ? 'Saved' : 'Save specimen'}
+                      >
+                        <Bookmark size={12} fill={saved ? 'currentColor' : 'none'} />
                       </button>
                     </div>
-                    <span className="font-mono text-[11px] text-[#707070] dark:text-[#909090]">{color.hex}</span>
+                  </div>
+
+                  {/* Technical Exhibition Annotation */}
+                  <div className="p-3 bg-[#F8F8F8] dark:bg-[#141518] border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="font-sans text-xs font-bold text-[#171717] dark:text-white truncate uppercase tracking-tight">
+                        {color.name}
+                      </div>
+                      <div className="font-mono text-[10.5px] text-[#707070] dark:text-[#909090] flex items-center gap-1.5 mt-0.5">
+                        <span>{color.hex}</span>
+                        {isAnchorHero && color.rgb && (
+                          <span className="hidden sm:inline opacity-70">· {color.rgb}</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="text-[#707070] group-hover:text-[#171717] dark:group-hover:text-white transition-colors shrink-0">
+                      <ArrowUpRight size={13} className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
                   </div>
                 </div>
               );
@@ -312,18 +359,18 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
           </div>
 
           {/* Infinite Scroll Sentinel */}
-          <div ref={observerRef} style={{ height: '30px', margin: '30px 0' }} />
+          <div ref={observerRef} style={{ height: '30px', margin: '24px 0' }} />
 
           {isLoadingMore && (
-            <div className="flex items-center justify-center gap-2 py-8 text-neutral-500 font-mono text-xs">
+            <div className="flex items-center justify-center gap-2 py-8 text-[#707070] font-mono text-xs">
               <Loader2 size={16} className="animate-spin" />
-              <span>STREAMING SPECIMENS...</span>
+              <span>STREAMING EXHIBITION SPECIMENS...</span>
             </div>
           )}
 
           {visibleCount >= filteredColors.length && filteredColors.length > BATCH_SIZE && (
-            <div className="text-center py-12 text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
-              END OF SPECIMEN DRAWER • {filteredColors.length} PIGMENTS LOADED
+            <div className="text-center py-10 font-mono text-[10.5px] tracking-widest text-[#707070] uppercase">
+              ARCHIVE BOUNDARY REACHED • {filteredColors.length} CALIBRATED SPECIMENS EXHIBITED
             </div>
           )}
         </>
@@ -331,4 +378,3 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
     </div>
   );
 };
-

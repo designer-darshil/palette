@@ -2,6 +2,7 @@ import React from 'react';
 import { X, Check } from 'lucide-react';
 import { FilterState } from './FilterBar';
 import { MOODS, VISUAL_CHARACTERS, SEASONS } from '../utils/taxonomy';
+import { KromaButton } from './common/KromaButton';
 
 interface FilterSheetProps {
   isOpen: boolean;
@@ -153,13 +154,14 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
           >
             Reset All
           </button>
-          <button
+          <KromaButton
             onClick={onClose}
-            className="btn-primary text-xs px-5 py-2 flex items-center gap-1.5"
+            variant="filled"
+            size="sm"
+            iconLeft={<Check size={14} />}
           >
-            <Check size={14} />
-            <span>Apply Filters</span>
-          </button>
+            Apply Filters
+          </KromaButton>
         </div>
       </div>
     </div>

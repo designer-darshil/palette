@@ -11,9 +11,16 @@ import { KromaCard } from './common/KromaCard';
 interface PatternCardProps {
   pattern: PatternItem;
   onNavigate: (route: RouteType) => void;
+  heightClass?: string;
+  className?: string;
 }
 
-export const PatternCard: React.FC<PatternCardProps> = ({ pattern, onNavigate }) => {
+export const PatternCard: React.FC<PatternCardProps> = ({
+  pattern,
+  onNavigate,
+  heightClass = 'h-44 sm:h-48',
+  className = '',
+}) => {
   const { showToast } = useToast();
   const { isSaved, saveItem } = useSaved();
   const saved = isSaved(pattern.id);
@@ -72,13 +79,13 @@ export const PatternCard: React.FC<PatternCardProps> = ({ pattern, onNavigate })
   return (
     <KromaCard
       aria-label={`Pattern: ${pattern.title}`}
-      className="group/pat"
+      className={`group/pat ${className}`}
       onClick={() => onNavigate({ path: 'pattern-detail', slug: pattern.slug })}
     >
       {/* Edge-to-Edge Vector Pattern Preview (Hero of the Card) */}
-      <div className="w-full h-44 sm:h-48 relative overflow-hidden select-none cursor-pointer border-b border-black/[0.06] dark:border-white/[0.06]">
+      <div className={`w-full ${heightClass} relative overflow-hidden select-none cursor-pointer border-b border-black/[0.06] dark:border-white/[0.06]`}>
         <div
-          className="w-full h-full"
+          className="w-full h-full transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/pat:scale-105 motion-reduce:transform-none"
           dangerouslySetInnerHTML={{ __html: svgPreview }}
         />
         <span className="absolute top-2.5 right-2.5 font-mono text-[9px] font-semibold uppercase px-1.5 py-0.5 rounded-[2px] bg-black/70 text-white backdrop-blur-xs tracking-wider">

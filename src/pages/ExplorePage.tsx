@@ -10,6 +10,7 @@ import { sortTrendingPalettes, sortNewestPalettes } from '../utils/rankingEngine
 import { copyToClipboard, hexToRgb } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Analytics } from '../utils/analytics';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface ExplorePageProps {
   onNavigate: (route: RouteType) => void;
@@ -249,54 +250,167 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
         canonicalPath="/explore"
       />
 
-      {/* ─── 1. Editorial Hero & Dynamic Color Installation ──────── */}
-      <section className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-12 items-center mb-16 lg:mb-24 pb-10 lg:pb-14 border-b border-black/[0.08] dark:border-white/[0.08]">
-        <div className="flex flex-col gap-4">
-          <div className="font-mono text-[11px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-[1px] bg-[#00AEEF]" />
-            <span>KROMA ARCHIVE • VOL. 01</span>
-          </div>
-          <h1 className="font-sans text-5xl sm:text-6xl lg:text-[76px] font-extrabold tracking-[-0.035em] leading-[0.94] text-[#171717] dark:text-white m-0 uppercase">
-            DISCOVER<br />
-            <span className="text-[#00AEEF] inline-block relative">COLOR.</span>
-          </h1>
-          <p className="font-sans text-[15px] font-normal leading-[1.55] text-[#707070] dark:text-[#9A9A9E] max-w-[480px] m-0 mt-2">
-            Explore palettes, color relationships and visual combinations created across Kroma.
-          </p>
-        </div>
+      {/* ─── 1. Editorial Discovery Opening & Digital Colour Magazine ──── */}
+      <section className="mb-12 sm:mb-16 pb-8 sm:pb-12 border-b border-black/[0.08] dark:border-white/[0.08]">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-14 items-center">
+          {/* Editorial Headline & Discovery Navigation */}
+          <div className="flex flex-col gap-4">
+            <div className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070] dark:text-[#909090] flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-[1px] bg-[#00AEEF]" />
+              <span>EXPLORE</span>
+            </div>
+            <h1 className="font-sans text-4xl sm:text-5xl lg:text-[68px] font-extrabold tracking-[-0.035em] leading-[0.94] text-[#171717] dark:text-white m-0 uppercase">
+              DISCOVER THE<br />
+              WORLD OF COLOUR.
+            </h1>
+            <p className="font-sans text-sm sm:text-base leading-[1.55] text-[#707070] dark:text-[#A0A0A0] max-w-[480px] m-0">
+              Explore palettes, colours, patterns, specimens, and visual studies created across Kroma.
+            </p>
 
-        {/* Dynamic Solid Color Installation (Real library colors, no gradients) */}
-        <div className="grid grid-cols-6 grid-rows-4 gap-1.5 sm:gap-2 w-full rounded overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] p-1.5 sm:p-2 border border-black/[0.08] dark:border-white/[0.08] h-[200px] sm:h-[260px]" role="region" aria-label="Interactive color installation">
-          {heroColorBlocks.map((block, idx) => (
+            {/* Editorial Discovery Navigation */}
+            <nav className="flex items-center gap-3 sm:gap-5 pt-3 mt-1 border-t border-black/[0.06] dark:border-white/[0.06] text-xs font-mono tracking-wider uppercase flex-wrap" aria-label="Archive navigation">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('all');
+                  archiveRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                className="text-[#171717] dark:text-white font-bold hover:underline cursor-pointer transition-colors p-0 bg-transparent border-0 inline-flex items-center gap-1"
+              >
+                <span>PALETTES</span>
+              </button>
+              <span className="text-[#707070]/40">/</span>
+              <button
+                type="button"
+                onClick={() => onNavigate({ path: 'colors' })}
+                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0 inline-flex items-center gap-1"
+              >
+                <span>COLOURS</span>
+                <ArrowUpRight size={11} />
+              </button>
+              <span className="text-[#707070]/40">/</span>
+              <button
+                type="button"
+                onClick={() => onNavigate({ path: 'patterns' })}
+                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0 inline-flex items-center gap-1"
+              >
+                <span>PATTERNS</span>
+                <ArrowUpRight size={11} />
+              </button>
+              <span className="text-[#707070]/40">/</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('daily-specimen-section');
+                  el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0"
+              >
+                <span>SPECIMENS</span>
+              </button>
+              <span className="text-[#707070]/40">/</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('mood-stories-section');
+                  el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0"
+              >
+                <span>STORIES</span>
+              </button>
+            </nav>
+          </div>
+
+          {/* Visual Hero — Digital Colour Magazine Composition (Real Library Content) */}
+          <div className="grid grid-cols-12 grid-rows-6 gap-2 h-[260px] sm:h-[300px] w-full p-2 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[3px] overflow-hidden select-none" role="region" aria-label="Explore Visual Magazine Preview">
+            {/* Dominant Featured Color Plate (Col 1-7, Row 1-6) */}
             <div
-              key={idx}
-              className="group/block rounded-[2px] relative cursor-pointer flex items-end p-1.5 overflow-hidden transition-transform duration-200 hover:scale-[0.98] hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:z-10"
-              style={{
-                backgroundColor: block.hex,
-                gridColumn: block.colSpan,
-                gridRow: block.rowSpan,
-              }}
-              onClick={() => handleCopySingleHex(block.hex, block.name)}
+              className="col-span-7 row-span-6 rounded-[2px] p-3 sm:p-4 flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-transform duration-200 hover:scale-[0.995]"
+              style={{ backgroundColor: dailyColor.color.hex, color: dailyColor.color.bestTextColor || '#FFFFFF' }}
+              onClick={() => handleCopySingleHex(dailyColor.color.hex, dailyColor.color.name)}
+              title={`Click to copy ${dailyColor.color.name} (${dailyColor.color.hex})`}
               role="button"
               tabIndex={0}
-              title={`Click to copy ${block.name} (${block.hex})`}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleCopySingleHex(block.hex, block.name);
-                }
+                if (e.key === 'Enter') handleCopySingleHex(dailyColor.color.hex, dailyColor.color.name);
               }}
             >
-              <span className="opacity-0 group-hover/block:opacity-100 translate-y-1 group-hover/block:translate-y-0 font-mono text-[10px] font-semibold py-0.5 px-1.5 bg-black/85 text-white rounded-[2px] transition-all pointer-events-none whitespace-nowrap">
-                {copiedColor === block.hex ? 'COPIED' : block.hex}
-              </span>
+              <div className="flex items-center justify-between font-mono text-[9.5px] uppercase tracking-wider opacity-90">
+                <span>FEATURED SPECIMEN</span>
+                <span className="px-1 py-0.5 rounded-[1px] bg-black/30 backdrop-blur-xs text-white">
+                  {copiedColor === dailyColor.color.hex ? 'COPIED' : dailyColor.color.hex}
+                </span>
+              </div>
+              <div>
+                <div className="font-sans text-xl sm:text-2xl font-extrabold uppercase tracking-tight leading-none drop-shadow-xs">
+                  {dailyColor.color.name}
+                </div>
+                <div className="font-mono text-[11px] opacity-85 mt-1">
+                  {dailyColor.color.family.toUpperCase()} GAMUT
+                </div>
+              </div>
             </div>
-          ))}
+
+            {/* Top Palette Strip (Col 8-12, Row 1-3) */}
+            <div
+              className="col-span-5 row-span-3 rounded-[2px] overflow-hidden flex cursor-pointer border border-black/10 dark:border-white/10 group"
+              onClick={() => handleCopyPalette(dailyPalette.palette)}
+              title={`Click to copy palette ${dailyPalette.palette.title}`}
+              role="button"
+              tabIndex={0}
+            >
+              {dailyPalette.palette.colors.map((c, i) => (
+                <div
+                  key={i}
+                  className="flex-1 h-full transition-[flex] duration-200 group-hover:hover:flex-[1.4]"
+                  style={{ backgroundColor: c.hex }}
+                  title={`${c.name} (${c.hex})`}
+                />
+              ))}
+            </div>
+
+            {/* Two Accent Specimen Tiles (Col 8-9 & 10-12, Row 4-6) */}
+            {trendingPalettes[0] && (
+              <div
+                className="col-span-2 row-span-3 rounded-[2px] p-2 flex flex-col justify-between cursor-pointer transition-transform hover:scale-98"
+                style={{ backgroundColor: trendingPalettes[0].colors[0]?.hex || '#FF3B30' }}
+                onClick={() => handleCopySingleHex(trendingPalettes[0].colors[0]?.hex || '#FF3B30', trendingPalettes[0].colors[0]?.name || 'Accent')}
+                title={`Click to copy ${trendingPalettes[0].colors[0]?.hex}`}
+                role="button"
+                tabIndex={0}
+              >
+                <span className="font-mono text-[8.5px] text-white/90 drop-shadow-xs">01</span>
+                <span className="font-mono text-[9px] font-bold text-white drop-shadow-xs truncate">
+                  {trendingPalettes[0].colors[0]?.hex}
+                </span>
+              </div>
+            )}
+
+            {trendingPalettes[0]?.colors[1] && (
+              <div
+                className="col-span-3 row-span-3 rounded-[2px] p-2 flex flex-col justify-between cursor-pointer transition-transform hover:scale-98"
+                style={{ backgroundColor: trendingPalettes[0].colors[1].hex }}
+                onClick={() => handleCopySingleHex(trendingPalettes[0].colors[1].hex, trendingPalettes[0].colors[1].name)}
+                title={`Click to copy ${trendingPalettes[0].colors[1].hex}`}
+                role="button"
+                tabIndex={0}
+              >
+                <div className="flex items-center justify-between font-mono text-[8.5px] text-white/90 drop-shadow-xs">
+                  <span>02</span>
+                  <span className="truncate max-w-[65px] uppercase">{trendingPalettes[0].colors[1].name}</span>
+                </div>
+                <span className="font-mono text-[9px] font-bold text-white drop-shadow-xs">
+                  {trendingPalettes[0].colors[1].hex}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
       {/* ─── 2. Featured Color (Large Open Composition) ──────────── */}
-      <section className="mb-16 sm:mb-24">
+      <section id="daily-specimen-section" className="mb-16 sm:mb-24">
         <div className="flex items-end justify-between mb-8 gap-5 flex-wrap">
           <div className="flex flex-col gap-1.5">
             <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
@@ -381,28 +495,28 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
             </div>
 
             <div className="flex items-center gap-3 flex-wrap">
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-[#171717] dark:bg-white text-white dark:text-[#171717] border border-[#171717] dark:border-white hover:bg-black dark:hover:bg-[#E5E5E5] rounded-[2px] px-4 py-2 font-sans text-[12.5px] font-semibold cursor-pointer transition-all hover:-translate-y-0.5"
+              <KromaButton
+                variant="filled"
+                size="sm"
                 onClick={() => handleCopySingleHex(dailyColor.color.hex, dailyColor.color.name)}
+                iconLeft={<Copy size={13} />}
               >
-                <Copy size={13} />
-                <span>{copiedColor === dailyColor.color.hex ? 'COPIED' : 'COPY HEX'}</span>
-              </button>
+                {copiedColor === dailyColor.color.hex ? 'COPIED' : 'COPY HEX'}
+              </KromaButton>
 
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent text-[#171717] dark:text-white border border-black/15 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/30 dark:hover:border-white/30 rounded-[2px] px-4 py-2 font-sans text-[12.5px] font-semibold cursor-pointer transition-all"
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={() =>
                   onNavigate({
                     path: 'color-detail',
                     slug: dailyColor.color.slug || dailyColor.color.hex.replace('#', '').toLowerCase(),
                   })
                 }
+                iconRight={<ArrowRight size={13} />}
               >
-                <span>EXPLORE COLOR</span>
-                <ArrowRight size={13} />
-              </button>
+                EXPLORE COLOR
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -471,39 +585,39 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
             </div>
 
             <div className="flex items-center gap-3">
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent text-[#171717] dark:text-white border border-black/15 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/30 dark:hover:border-white/30 rounded-[2px] px-4 py-2 font-sans text-[12.5px] font-semibold cursor-pointer transition-all"
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={() => handleCopyPalette(dailyPalette.palette)}
                 title="Copy all hex codes"
+                iconLeft={<Copy size={13} />}
               >
-                <Copy size={13} />
-                <span>COPY ALL</span>
-              </button>
+                COPY ALL
+              </KromaButton>
 
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent text-[#171717] dark:text-white border border-black/15 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/30 dark:hover:border-white/30 rounded-[2px] px-4 py-2 font-sans text-[12.5px] font-semibold cursor-pointer transition-all"
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={() => handleToggleSavePalette(dailyPalette.palette)}
                 title={featuredPaletteSaved ? 'Remove from saved' : 'Save palette'}
+                iconLeft={<Bookmark size={13} fill={featuredPaletteSaved ? 'currentColor' : 'none'} />}
               >
-                <Bookmark size={13} fill={featuredPaletteSaved ? 'currentColor' : 'none'} />
-                <span>{featuredPaletteSaved ? 'SAVED' : 'SAVE'}</span>
-              </button>
+                {featuredPaletteSaved ? 'SAVED' : 'SAVE'}
+              </KromaButton>
 
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-[#171717] dark:bg-white text-white dark:text-[#171717] border border-[#171717] dark:border-white hover:bg-black dark:hover:bg-[#E5E5E5] rounded-[2px] px-4 py-2 font-sans text-[12.5px] font-semibold cursor-pointer transition-all hover:-translate-y-0.5"
+              <KromaButton
+                variant="filled"
+                size="sm"
                 onClick={() =>
                   onNavigate({
                     path: 'palette-detail',
                     slug: dailyPalette.palette.slug,
                   })
                 }
+                iconRight={<ArrowRight size={13} />}
               >
-                <span>EXPLORE PALETTE</span>
-                <ArrowRight size={13} />
-              </button>
+                EXPLORE PALETTE
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -559,7 +673,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       </section>
 
       {/* ─── 5. Color Stories (Explore by Mood) ───────────────────── */}
-      <section className="mb-16 sm:mb-24">
+      <section id="mood-stories-section" className="mb-16 sm:mb-24">
         <div className="flex items-end justify-between mb-8 gap-5 flex-wrap">
           <div className="flex flex-col gap-1.5">
             <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
@@ -588,7 +702,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
             >
               <div className="flex items-center justify-between">
                 <span className="font-sans text-[13.5px] font-semibold tracking-[0.04em] uppercase text-[#171717] dark:text-white">{mood.label}</span>
-                <span className="text-sm text-[#707070] group-hover/mood:text-[#171717] dark:group-hover/mood:text-white group-hover/mood:translate-x-0.5 group-hover/mood:-translate-y-0.5 transition-all">↗</span>
+                <ArrowUpRight size={13} className="text-[#707070] group-hover/mood:text-[#171717] dark:group-hover/mood:text-white transition-all group-hover/mood:translate-x-0.5 group-hover/mood:-translate-y-0.5" />
               </div>
               <div className="flex h-12 w-full rounded-[2px] overflow-hidden">
                 {mood.colors.map((hex, hi) => (
@@ -701,15 +815,16 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
             <p className="font-sans text-xs text-neutral-500 mb-6">
               Try adjusting your search criteria or selecting a different aesthetic mood.
             </p>
-            <button
+            <KromaButton
+              variant="outline"
+              size="sm"
               onClick={() => {
                 setActiveTab('all');
                 setSearchQuery('');
               }}
-              className="inline-flex items-center gap-1.5 bg-transparent text-[#171717] dark:text-white border border-black/15 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/30 dark:hover:border-white/30 rounded-[2px] px-4 py-2 font-sans text-[12.5px] font-semibold cursor-pointer transition-all"
             >
               RESET ARCHIVE FILTERS
-            </button>
+            </KromaButton>
           </div>
         ) : (
           <>

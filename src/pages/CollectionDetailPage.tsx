@@ -109,7 +109,8 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
             onClick={() => onNavigate({ path: 'explore' })}
             className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
-            <span>EXPLORE SPECIMENS ↗</span>
+            <span>EXPLORE SPECIMENS</span>
+            <ArrowUpRight size={13} />
           </button>
         </div>
       ) : (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sparkles, RotateCcw, Share2, Check, Terminal } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface StudioIntroProps {
   category: string;
@@ -53,73 +54,55 @@ export const StudioIntro: React.FC<StudioIntroProps> = ({
         {/* Global Action Controls */}
         <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
           {onRandomize && (
-            <button
+            <KromaButton
               type="button"
+              variant="filled"
+              size="sm"
               onClick={onRandomize}
-              className="btn-studio-primary"
-              style={{ padding: '8px 16px', fontSize: '0.78rem' }}
+              iconLeft={<Sparkles size={13} />}
               title="Generate random configuration"
             >
-              <Sparkles size={13} />
-              <span>Randomize</span>
-            </button>
+              Randomize
+            </KromaButton>
           )}
 
           {onReset && (
-            <button
+            <KromaButton
               type="button"
+              variant="outline"
+              size="sm"
               onClick={onReset}
-              className="btn-secondary"
-              style={{ padding: '8px 14px', fontSize: '0.78rem' }}
+              iconLeft={<RotateCcw size={13} />}
               title="Reset parameters to default"
             >
-              <RotateCcw size={13} />
-              <span>Reset</span>
-            </button>
+              Reset
+            </KromaButton>
           )}
 
           {onCopyPrompt && (
-            <button
+            <KromaButton
               type="button"
+              variant="outline"
+              size="sm"
               onClick={onCopyPrompt}
-              className="btn-secondary"
-              style={{ padding: '8px 14px', fontSize: '0.78rem' }}
+              iconLeft={hasCopiedPrompt ? <Check size={13} className="text-emerald-400" /> : <Terminal size={13} />}
               title="Copy LLM / coding agent prompt"
             >
-              {hasCopiedPrompt ? (
-                <>
-                  <Check size={13} className="text-emerald-400" />
-                  <span className="text-emerald-400 font-bold">Prompt Copied!</span>
-                </>
-              ) : (
-                <>
-                  <Terminal size={13} style={{ color: 'var(--color-primary-text)' }} />
-                  <span>Agent Prompt</span>
-                </>
-              )}
-            </button>
+              {hasCopiedPrompt ? 'Prompt Copied!' : 'Agent Prompt'}
+            </KromaButton>
           )}
 
           {onShareUrl && (
-            <button
+            <KromaButton
               type="button"
+              variant="filled"
+              size="sm"
               onClick={onShareUrl}
-              className="btn-studio-primary"
-              style={{ padding: '8px 16px', fontSize: '0.78rem' }}
+              iconLeft={hasCopiedShare ? <Check size={13} /> : <Share2 size={13} />}
               title="Copy shareable permalink"
             >
-              {hasCopiedShare ? (
-                <>
-                  <Check size={13} />
-                  <span>Link Copied!</span>
-                </>
-              ) : (
-                <>
-                  <Share2 size={13} />
-                  <span>Share URL</span>
-                </>
-              )}
-            </button>
+              {hasCopiedShare ? 'Link Copied!' : 'Share'}
+            </KromaButton>
           )}
         </div>
       </div>

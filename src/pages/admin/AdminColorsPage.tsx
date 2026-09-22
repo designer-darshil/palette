@@ -12,10 +12,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
+  X,
 } from 'lucide-react';
 import { ColorItem } from '../../types';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
+import { KromaButton } from '../../components/common/KromaButton';
 import {
   hexToRgb,
   hexToHsl,
@@ -192,14 +194,14 @@ export const AdminColorsPage: React.FC = () => {
           </p>
         </div>
 
-        <button
+        <KromaButton
           onClick={handleOpenCreate}
-          className="btn-primary"
-          style={{ padding: '8px 16px', fontSize: '0.82rem' }}
+          variant="filled"
+          size="sm"
+          iconLeft={<Plus size={15} />}
         >
-          <Plus size={15} />
-          <span>New Color Specimen</span>
-        </button>
+          New Color Specimen
+        </KromaButton>
       </div>
 
       {/* Filter Bar */}
@@ -435,8 +437,9 @@ export const AdminColorsPage: React.FC = () => {
               <button
                 onClick={() => { setEditingColor(null); setIsCreating(false); }}
                 style={{ background: 'transparent', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer' }}
+                aria-label="Close modal"
               >
-                ✕
+                <X size={16} />
               </button>
             </div>
 
@@ -628,21 +631,21 @@ export const AdminColorsPage: React.FC = () => {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                <button
+                <KromaButton
                   type="button"
+                  variant="outline"
+                  size="sm"
                   onClick={() => { setEditingColor(null); setIsCreating(false); }}
-                  className="btn-secondary"
-                  style={{ padding: '8px 16px' }}
                 >
                   Cancel
-                </button>
-                <button
+                </KromaButton>
+                <KromaButton
                   type="submit"
-                  className="btn-primary"
-                  style={{ padding: '8px 20px' }}
+                  variant="filled"
+                  size="sm"
                 >
                   {isCreating ? 'Create Color' : 'Save Changes'}
-                </button>
+                </KromaButton>
               </div>
             </form>
           </div>

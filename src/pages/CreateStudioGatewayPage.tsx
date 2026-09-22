@@ -18,6 +18,7 @@ import { useToast } from '../context/ToastContext';
 import { copyToClipboard, hexToRgb, hexToHsl } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generatePalette, findClosestColorName } from '../utils/paletteGenerator';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface CreateStudioGatewayPageProps {
   onNavigate: (route: RouteType) => void;
@@ -189,7 +190,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             <div className="p-5 flex flex-col justify-between flex-1">
               <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-[#707070] dark:text-[#909090] mb-2">LABORATORY</div>
               <div className="font-sans text-[17px] font-bold leading-tight text-[#171717] dark:text-white tracking-tight flex items-center justify-between">
-                <span>GENERATE ↻</span>
+                <span>GENERATE</span>
                 <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
               </div>
             </div>
@@ -253,20 +254,21 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             />
           </div>
           <div className="flex items-center gap-3">
-            <button
+            <KromaButton
+              variant="outline"
               onClick={handleRandomizeCreator}
-              className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
+              iconLeft={<RefreshCw size={13} />}
               title="Randomize unlocked swatches"
             >
-              <RefreshCw size={13} />
-              <span>RANDOMIZE ↻</span>
-            </button>
-            <button
+              RANDOMIZE
+            </KromaButton>
+            <KromaButton
+              variant="filled"
               onClick={handleSaveCanvasPalette}
-              className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
+              iconRight={<ArrowUpRight size={14} />}
             >
-              <span>SAVE TO STUDIO ↗</span>
-            </button>
+              SAVE TO STUDIO
+            </KromaButton>
           </div>
         </div>
 
@@ -337,13 +339,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <KromaButton
+              variant="outline"
+              size="sm"
               onClick={() => handleCopyHex(activeColor.hex, activeColor.name)}
-              className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
+              iconLeft={<Copy size={12} />}
             >
-              <Copy size={12} />
-              <span>COPY HEX</span>
-            </button>
+              COPY HEX
+            </KromaButton>
             <input
               type="color"
               value={activeColor.hex}
@@ -453,7 +456,8 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 onClick={() => onNavigate({ path: 'palette-generator', colors: '171717-FF3B30-FFD60A-00AEEF' })}
                 className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
-                <span>STUDY ↗</span>
+                <span>STUDY</span>
+                <ArrowUpRight size={12} />
               </button>
             </div>
           </div>
@@ -493,13 +497,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 onClick={() => onNavigate({ path: 'mesh' })}
                 className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
-                <span>MESH ↗</span>
+                <span>MESH</span>
+                <ArrowUpRight size={12} />
               </button>
             </div>
           </div>
 
           {/* Experiment Brick 3: High Contrast Minimal Pairing */}
-          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-6 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
             <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               EXP 03 / KINETIC TENSION
             </span>
@@ -515,13 +520,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 onClick={() => onNavigate({ path: 'antigravity' })}
                 className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
-                <span>TEST ↗</span>
+                <span>TEST</span>
+                <ArrowUpRight size={12} />
               </button>
             </div>
           </div>
 
           {/* Experiment Brick 4: Vector Pattern Study */}
-          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-6 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
             <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               EXP 04 / GEOMETRIC REPEAT
             </span>
@@ -542,13 +548,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 onClick={() => onNavigate({ path: 'pattern-studio' })}
                 className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
-                <span>VECTOR ↗</span>
+                <span>VECTOR</span>
+                <ArrowUpRight size={12} />
               </button>
             </div>
           </div>
 
           {/* Experiment Brick 5: Semantic Ramps */}
-          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-6 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
             <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               EXP 05 / WCAG STEPPING
             </span>
@@ -572,7 +579,38 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 onClick={() => onNavigate({ path: 'ramps' })}
                 className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
-                <span>RAMPS ↗</span>
+                <span>RAMPS</span>
+                <ArrowUpRight size={12} />
+              </button>
+            </div>
+          </div>
+
+          {/* Experiment Brick 6: Atmospheric Weather Color */}
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-6 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+              EXP 06 / SOLAR HORIZON
+            </span>
+            <div className="h-24 rounded-[2px] my-2 overflow-hidden flex flex-col justify-between p-2.5" style={{ background: 'linear-gradient(180deg, #1D3557 0%, #457B9D 45%, #E07A5F 80%, #F4A261 100%)' }}>
+              <div className="flex items-center justify-between text-[10px] font-mono text-white/90">
+                <span>RAYLEIGH SCATTER</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#34C759] animate-pulse" />
+              </div>
+              <div className="h-2 rounded-[1px] flex overflow-hidden">
+                {['#1D3557', '#457B9D', '#A8DADC', '#E07A5F', '#F4A261'].map((c, i) => (
+                  <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
+                Weather Color
+              </span>
+              <button
+                onClick={() => onNavigate({ path: 'live' })}
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
+              >
+                <span>OBSERVE</span>
+                <ArrowUpRight size={12} />
               </button>
             </div>
           </div>

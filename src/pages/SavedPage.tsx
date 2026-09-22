@@ -5,6 +5,7 @@ import { useSaved, SavedItem } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface SavedPageProps {
   onNavigate: (route: RouteType) => void;
@@ -73,17 +74,18 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
         </div>
 
         {savedItems.length > 0 && (
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={() => {
               if (window.confirm('Clear all saved colors from your drawer?')) {
                 clearAll();
                 showToast('Cleared saved archive');
               }
             }}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
             CLEAR ARCHIVE
-          </button>
+          </KromaButton>
         )}
       </div>
 
@@ -196,12 +198,13 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
           <p className="font-sans text-sm text-text-tertiary max-w-[420px] leading-relaxed">
             Find a color or balance study you love, and bookmark it to create your personal color wall.
           </p>
-          <button
+          <KromaButton
+            variant="filled"
             onClick={() => onNavigate({ path: 'colors' })}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
+            iconRight={<ArrowUpRight size={14} />}
           >
-            <span>START EXPLORING ↗</span>
-          </button>
+            START EXPLORING
+          </KromaButton>
         </div>
       )}
     </div>

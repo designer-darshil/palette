@@ -12,6 +12,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { useAdminAuth, UserRole, AdminUser } from '../../context/AdminAuthContext';
+import { KromaButton } from '../../components/common/KromaButton';
 
 export const AdminUsersPage: React.FC = () => {
   const { users, currentUser, isSuperAdmin, addUser, removeUser, updateUserRole, toggleUserStatus } = useAdminAuth();
@@ -111,14 +112,14 @@ export const AdminUsersPage: React.FC = () => {
           </p>
         </div>
 
-        <button
+        <KromaButton
           onClick={() => setShowAddModal(true)}
-          className="btn-primary"
-          style={{ padding: '8px 16px', fontSize: '0.82rem' }}
+          variant="filled"
+          size="sm"
+          iconLeft={<UserPlus size={14} />}
         >
-          <UserPlus size={14} />
-          <span>Provision New User</span>
-        </button>
+          Provision New User
+        </KromaButton>
       </div>
 
       {feedback && (
@@ -411,12 +412,12 @@ export const AdminUsersPage: React.FC = () => {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '10px' }}>
-                <button type="button" onClick={() => setShowAddModal(false)} className="btn-secondary">
+                <KromaButton type="button" variant="outline" size="sm" onClick={() => setShowAddModal(false)}>
                   Cancel
-                </button>
-                <button type="submit" className="btn-primary">
+                </KromaButton>
+                <KromaButton type="submit" variant="filled" size="sm">
                   Create User
-                </button>
+                </KromaButton>
               </div>
             </form>
           </div>
@@ -454,12 +455,12 @@ export const AdminUsersPage: React.FC = () => {
             </select>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <button type="button" onClick={() => setRoleChangeTarget(null)} className="btn-secondary">
+              <KromaButton type="button" variant="outline" size="sm" onClick={() => setRoleChangeTarget(null)}>
                 Cancel
-              </button>
-              <button type="button" onClick={handleConfirmRoleChange} className="btn-primary">
+              </KromaButton>
+              <KromaButton type="button" variant="filled" size="sm" onClick={handleConfirmRoleChange}>
                 Confirm Role Update
-              </button>
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -477,9 +478,9 @@ export const AdminUsersPage: React.FC = () => {
             </p>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <button type="button" onClick={() => setRemoveTarget(null)} className="btn-secondary">
+              <KromaButton type="button" variant="outline" size="sm" onClick={() => setRemoveTarget(null)}>
                 Cancel
-              </button>
+              </KromaButton>
               <button
                 type="button"
                 onClick={handleConfirmRemove}

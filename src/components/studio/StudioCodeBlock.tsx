@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, Download, FileCode } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 export interface StudioExportTab<T extends string = string> {
   id: T;
@@ -66,36 +67,27 @@ export const StudioCodeBlock = <T extends string>({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2 flex-wrap min-w-0">
-          <button
+          <KromaButton
             type="button"
+            variant="outline"
+            size="sm"
             onClick={handleDownload}
-            className="btn-secondary studio-button flex-1 min-w-[90px] justify-center sm:flex-initial"
-            style={{ padding: '5px 10px', fontSize: '0.75rem' }}
+            iconLeft={<Download size={12} />}
             title="Download file to your local workspace"
           >
-            <Download size={12} className="flex-shrink-0" />
-            <span>Download</span>
-          </button>
+            Download
+          </KromaButton>
 
-          <button
+          <KromaButton
             type="button"
+            variant="filled"
+            size="sm"
             onClick={handleCopy}
-            className="btn-studio-primary studio-button flex-1 min-w-[100px] justify-center sm:flex-initial"
-            style={{ padding: '5px 12px', fontSize: '0.75rem' }}
+            iconLeft={copied ? <Check size={12} /> : <Copy size={12} />}
             title="Copy code to clipboard"
           >
-            {copied ? (
-              <>
-                <Check size={12} className="flex-shrink-0" />
-                <span>Copied!</span>
-              </>
-            ) : (
-              <>
-                <Copy size={12} className="flex-shrink-0" />
-                <span>Copy Code</span>
-              </>
-            )}
-          </button>
+            {copied ? 'Copied!' : 'Copy Code'}
+          </KromaButton>
         </div>
       </div>
 

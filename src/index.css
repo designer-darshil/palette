@@ -83,6 +83,14 @@
 
   --transition-quick: 140ms cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 240ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ─── Global Kroma Custom Scrollbar System Tokens (Dark / Default) ─── */
+  --kroma-scrollbar-track: transparent;
+  --kroma-scrollbar-thumb: rgba(255, 255, 255, 0.16);
+  --kroma-scrollbar-thumb-hover: rgba(255, 255, 255, 0.32);
+  --kroma-scrollbar-thumb-active: rgba(255, 255, 255, 0.48);
+  --kroma-scrollbar-size: 6px;
+  --kroma-scrollbar-radius: 9999px;
 }
 
 :root[data-theme="light"],
@@ -120,6 +128,116 @@
   --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-specimen: 0 12px 32px -8px rgba(0, 0, 0, 0.08);
   --shadow-elevated: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+
+  /* ─── Global Kroma Custom Scrollbar System Tokens (Light Theme) ─── */
+  --kroma-scrollbar-track: transparent;
+  --kroma-scrollbar-thumb: rgba(23, 23, 23, 0.18);
+  --kroma-scrollbar-thumb-hover: rgba(23, 23, 23, 0.36);
+  --kroma-scrollbar-thumb-active: rgba(23, 23, 23, 0.54);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL KROMA CUSTOM SCROLL SYSTEM
+   Universal, tactile, future-proof scrollbar inheritance across all pages,
+   drawers, modals, code blocks, and studio panels.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Firefox / Modern Standard Engine (Document & Elements) */
+html,
+body,
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
+}
+
+/* WebKit Engine (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+  width: var(--kroma-scrollbar-size);
+  height: var(--kroma-scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--kroma-scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--kroma-scrollbar-thumb);
+  border-radius: var(--kroma-scrollbar-radius);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--kroma-scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--kroma-scrollbar-thumb-active);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Reusable Kroma Scroll Utilities */
+.kroma-scroll,
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
+  -webkit-overflow-scrolling: touch;
+}
+
+.kroma-scroll-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
+  -webkit-overflow-scrolling: touch;
+}
+
+.kroma-scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
+  -webkit-overflow-scrolling: touch;
+}
+
+.kroma-scroll-none,
+.scrollbar-none {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.kroma-scroll-none::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ─── Kroma Button Ripple Interaction ─── */
+@keyframes kroma-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.animate-kroma-ripple {
+  animation: kroma-ripple 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-kroma-ripple {
+    animation: none !important;
+    display: none !important;
+  }
 }
 
 *, *::before, *::after {
@@ -1249,14 +1367,18 @@ body.nav-open {
   max-width: 100%;
   min-width: 0;
   -webkit-overflow-scrolling: touch;
+  /* UNUSED CSS — superseded by global Kroma custom scroll system
   scrollbar-width: thin;
+  */
 }
 
 .filter-options--scroll {
   flex-wrap: nowrap;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
+  /* UNUSED CSS — superseded by global Kroma custom scroll system
   scrollbar-width: thin;
+  */
 }
 
 .filter-option,
@@ -1909,6 +2031,10 @@ Migrated to: src/components/common/KromaCard.tsx and Tailwind utility tokens
 }
 */
 
+/*
+UNUSED CSS — superseded by Global Kroma Button System (src/components/common/KromaButton.tsx)
+Old purple #BFA3F0 button styles preserved in comments per project unused-CSS guidelines.
+
 .btn-primary {
   background: var(--color-primary);
   background-color: #BFA3F0;
@@ -2026,6 +2152,89 @@ Migrated to: src/components/common/KromaCard.tsx and Tailwind utility tokens
   pointer-events: none;
   transform: none;
   box-shadow: none;
+}
+*/
+
+/* ─── Modern Global Kroma Button Classes (Home Page Source of Truth) ─── */
+.btn-primary,
+.btn-studio-primary {
+  background-color: #171717;
+  color: #F8F8F8;
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] .btn-studio-primary,
+.dark .btn-primary,
+.dark .btn-studio-primary {
+  background-color: #F8F8F8;
+  color: #171717;
+}
+
+.btn-primary:hover,
+.btn-studio-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active,
+.btn-studio-primary:active {
+  opacity: 0.95;
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+:root[data-theme="dark"] .btn-secondary,
+.dark .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+:root[data-theme="dark"] .btn-secondary:hover,
+.dark .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -2471,7 +2680,9 @@ Migrated to: src/components/common/KromaCard.tsx and Tailwind utility tokens
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  /* UNUSED CSS — superseded by global Kroma custom scroll system
   scrollbar-width: thin;
+  */
   -webkit-overflow-scrolling: touch;
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { UploadCloud, CheckCircle2, AlertTriangle, FileText, ArrowRight } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { KromaButton } from '../../components/common/KromaButton';
 
 export const AdminImportPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
@@ -111,14 +112,14 @@ export const AdminImportPage: React.FC = () => {
         />
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '12px' }}>
-          <button
+          <KromaButton
             onClick={handleValidate}
-            className="btn-primary"
-            style={{ padding: '8px 18px', fontSize: '0.82rem' }}
+            variant="filled"
+            size="sm"
+            iconRight={<ArrowRight size={14} />}
           >
-            <span>Parse &amp; Validate Records</span>
-            <ArrowRight size={14} />
-          </button>
+            Parse &amp; Validate Records
+          </KromaButton>
         </div>
       </div>
 
@@ -177,14 +178,14 @@ export const AdminImportPage: React.FC = () => {
               <span>Import executed successfully! Records incorporated into memory dataset.</span>
             </div>
           ) : (
-            <button
+            <KromaButton
               disabled={parseResult.validCount === 0}
               onClick={handleExecuteImport}
-              className="btn-primary"
-              style={{ padding: '10px 20px', fontSize: '0.85rem' }}
+              variant="filled"
+              size="sm"
             >
-              <span>Commit Import ({parseResult.validCount} records)</span>
-            </button>
+              Commit Import ({parseResult.validCount} records)
+            </KromaButton>
           )}
         </div>
       )}

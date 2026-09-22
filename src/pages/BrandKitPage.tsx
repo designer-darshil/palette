@@ -16,6 +16,8 @@ import {
   Activity,
   ShieldCheck,
   Check,
+  ArrowRight,
+  X,
 } from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
 import { useToast } from '../context/ToastContext';
@@ -598,7 +600,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           >
             <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider opacity-85">
               <span>{primaryRole.roleId}</span>
-              <span className="group-hover:underline flex items-center gap-1">Edit Swatch →</span>
+              <span className="group-hover:underline flex items-center gap-1">
+                <span>Edit Swatch</span>
+                <ArrowRight size={12} />
+              </span>
             </div>
             <div>
               <span className="text-2xl sm:text-3xl font-semibold tracking-tight block">
@@ -714,7 +719,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 >
                   <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-85">
                     <span>{role.roleId}</span>
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity">Edit →</span>
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity inline-flex items-center gap-1">
+                      <span>Edit</span>
+                      <ArrowRight size={10} />
+                    </span>
                   </div>
                   <div>
                     <span className="text-lg font-semibold tracking-tight block">{role.hex}</span>
@@ -894,9 +902,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </div>
             <button
               onClick={handleAutoRemediateOklch}
-              className="text-[11px] font-bold text-[var(--text-primary)] hover:underline"
+              className="text-[11px] font-bold text-[var(--text-primary)] hover:underline inline-flex items-center gap-1"
             >
-              Apply to Kit →
+              <span>Apply to Kit</span>
+              <ArrowRight size={11} />
             </button>
           </div>
         )}
@@ -946,13 +955,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </nav>
 
                 <button
-                  className="px-3 py-1.5 rounded-[2px] text-xs font-medium tracking-wide transition-opacity hover:opacity-90"
+                  className="px-3 py-1.5 rounded-[2px] text-xs font-medium tracking-wide transition-opacity hover:opacity-90 inline-flex items-center gap-1"
                   style={{
                     backgroundColor: activePreviewRoles.button,
                     color: activePreviewRoles.buttonText,
                   }}
                 >
-                  Explore Studio →
+                  <span>Explore Studio</span>
+                  <ArrowRight size={12} />
                 </button>
               </header>
 
@@ -1811,7 +1821,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
                 aria-label="Close modal"
               >
-                ✕
+                <X size={14} />
               </button>
             </div>
 

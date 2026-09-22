@@ -21,6 +21,7 @@ import {
   Shuffle,
   Code,
   CloudSun,
+  ArrowRight,
 } from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
@@ -544,7 +545,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                       role="menuitem"
                     >
                       <span>Explore Studio Gateway</span>
-                      <span aria-hidden="true">→</span>
+                      <ArrowRight size={13} aria-hidden="true" />
                     </Link>
                   </div>
                 </div>
@@ -658,7 +659,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                       role="menuitem"
                     >
                       <span>Launch Games Hub</span>
-                      <span aria-hidden="true">→</span>
+                      <ArrowRight size={13} aria-hidden="true" />
                     </Link>
                   </div>
                 </div>

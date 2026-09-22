@@ -113,17 +113,20 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         {STATS.map((stat, i) => (
           <div
             key={i}
-            className="p-6 rounded-2xl bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] flex flex-col gap-1.5 transition-all hover:border-[var(--border-medium)]"
+            className="p-5 sm:p-6 rounded-[4px] bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] flex flex-col justify-between gap-3 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]"
           >
-            <span
-              className="text-3xl sm:text-4xl font-extrabold tracking-tight"
-              style={{ color: stat.accent }}
-            >
-              {stat.value}
-            </span>
-            <span className="text-xs sm:text-sm font-medium text-[var(--text-secondary)]">
-              {stat.label}
-            </span>
+            <div className="w-6 h-1 rounded-[1px]" style={{ backgroundColor: stat.accent }} />
+            <div>
+              <span
+                className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans block mb-1"
+                style={{ color: stat.accent }}
+              >
+                {stat.value}
+              </span>
+              <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+                {stat.label}
+              </span>
+            </div>
           </div>
         ))}
       </section>
@@ -131,8 +134,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       {/* Core Architectural Pillars */}
       <section className="about-pillars flex flex-col gap-8">
         <div className="flex flex-col gap-2 max-w-xl">
-          <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-tertiary)]">Architecture &amp; Science</span>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">ARCHITECTURE &amp; SCIENCE</span>
+          <h2 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0">
             Engineered for precision and play.
           </h2>
         </div>
@@ -143,15 +146,18 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             return (
               <div
                 key={pillar.index}
-                className="p-6 sm:p-7 rounded-2xl bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] flex flex-col justify-between gap-6 hover:shadow-md transition-all hover:-translate-y-0.5 group"
+                className="rounded-[4px] bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden flex flex-col justify-between transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] group"
               >
-                <div className="flex flex-col gap-4">
+                {/* Chromatic Identity Top Stripe */}
+                <div className="h-1.5 w-full" style={{ backgroundColor: pillar.color }} />
+
+                <div className="p-6 sm:p-7 flex flex-col gap-4 flex-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-semibold text-[var(--text-tertiary)]">
+                    <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090]">
                       {pillar.index}
                     </span>
                     <span
-                      className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border"
+                      className="font-mono text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[2px] border"
                       style={{
                         color: pillar.color,
                         borderColor: `${pillar.color}40`,
@@ -162,18 +168,14 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                     </span>
                   </div>
 
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
-                    style={{ backgroundColor: `${pillar.color}15`, color: pillar.color }}
-                  >
-                    <Icon size={20} strokeWidth={2.2} />
+                  <div className="flex items-center gap-2.5 text-[#171717] dark:text-white">
+                    <Icon size={18} strokeWidth={2.2} style={{ color: pillar.color }} className="flex-shrink-0" />
+                    <h3 className="font-sans text-[17px] font-bold tracking-tight text-[#171717] dark:text-white m-0">
+                      {pillar.title}
+                    </h3>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[var(--text-primary)] tracking-tight">
-                    {pillar.title}
-                  </h3>
-
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                  <p className="font-sans text-xs sm:text-[13px] text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0">
                     {pillar.description}
                   </p>
                 </div>

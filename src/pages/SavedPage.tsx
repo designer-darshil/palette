@@ -129,21 +129,21 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
             return (
               <div
                 key={item.id}
-                className="bg-surface-1 border border-border-subtle rounded p-3 flex flex-col gap-2.5 cursor-pointer transition-all duration-150 hover:-translate-y-0.5 hover:border-text-primary group"
+                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] group select-none"
                 onClick={() => handleOpenItem(item)}
                 role="button"
                 tabIndex={0}
               >
-                {/* Visual Swatch */}
+                {/* Full-bleed Visual Swatch Hero */}
                 {isPalette ? (
-                  <div className="w-full h-20 rounded-xs flex overflow-hidden border border-[var(--border-subtle)]">
+                  <div className="w-full h-28 sm:h-32 flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
                     {colorsList.map((c, i) => (
                       <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.trim() }} />
                     ))}
                   </div>
                 ) : (
                   <div
-                    className="w-full h-20 rounded-xs border border-[var(--border-subtle)]"
+                    className="w-full h-28 sm:h-32 border-b border-black/[0.06] dark:border-white/[0.06]"
                     style={{
                       background: item.preview.includes('gradient') ? item.preview : undefined,
                       backgroundColor: !item.preview.includes('gradient') ? item.preview : undefined,
@@ -151,37 +151,39 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
                   />
                 )}
 
-                {/* Metadata & Copy on hover */}
-                <div className="flex flex-col gap-1">
-                  <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] truncate">
-                    {item.title}
+                {/* Metadata & Copy */}
+                <div className="p-3 sm:p-3.5 flex flex-col gap-1.5 flex-1 justify-between">
+                  <div>
+                    <div className="font-sans text-xs font-bold uppercase tracking-wider text-[#171717] dark:text-white truncate mb-0.5">
+                      {item.title}
+                    </div>
+                    <div className="font-mono text-[11px] text-[#707070] dark:text-[#909090] flex items-center justify-between">
+                      <span className="truncate">{item.preview.split(',')[0]}</span>
+                      <button
+                        onClick={(e) => handleCopy(item, e)}
+                        className="text-[10px] uppercase font-semibold tracking-wider hover:text-[#171717] dark:hover:text-white transition-colors"
+                        title="Copy HEX"
+                      >
+                        {isCopied ? 'COPIED' : 'COPY'}
+                      </button>
+                    </div>
                   </div>
-                  <div className="font-mono text-[11px] text-[var(--text-secondary)] flex items-center justify-between">
-                    <span className="truncate">{item.preview.split(',')[0]}</span>
+
+                  {/* Quick Delete & Type Tag */}
+                  <div className="pt-2 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-[10px] font-mono text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+                    <span>{item.type}</span>
                     <button
-                      onClick={(e) => handleCopy(item, e)}
-                      className="text-[10px] uppercase tracking-wider hover:text-[var(--text-primary)] transition-colors"
-                      title="Copy HEX"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeItem(item.id);
+                        showToast('Removed from saved', item.title);
+                      }}
+                      className="hover:text-rose-500 transition-colors p-1"
+                      title="Remove from saved drawer"
                     >
-                      {isCopied ? 'COPIED' : 'COPY'}
+                      <Trash2 size={12} />
                     </button>
                   </div>
-                </div>
-
-                {/* Quick Delete */}
-                <div className="pt-2 mt-2 border-t border-[var(--border-subtle)] flex items-center justify-between text-[10px] font-mono text-[var(--text-secondary)] uppercase">
-                  <span>{item.type}</span>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeItem(item.id);
-                      showToast('Removed from archive', item.title);
-                    }}
-                    className="hover:text-red-500 transition-colors p-0.5"
-                    title="Remove item"
-                  >
-                    <Trash2 size={11} />
-                  </button>
                 </div>
               </div>
             );

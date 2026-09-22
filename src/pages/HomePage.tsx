@@ -254,24 +254,24 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               key={palette.id}
               to={{ path: 'palette-detail', slug: palette.slug }}
               onNavigate={onNavigate}
-              className="group/pcard flex flex-col bg-[#F8F8F8] dark:bg-[#141518] border border-black/10 dark:border-white/10 rounded overflow-hidden no-underline text-[#171717] dark:text-white transition-all duration-200 hover:-translate-y-2 hover:border-black/25 dark:hover:border-white/25 hover:shadow-[0_16px_36px_-8px_rgba(0,0,0,0.12)] cursor-pointer"
+              className="group/pcard flex flex-col bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden no-underline text-[#171717] dark:text-white transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] cursor-pointer select-none"
               aria-label={`View palette ${palette.title}`}
             >
-              <div className="flex h-60 w-full">
+              <div className="flex h-52 sm:h-56 w-full overflow-hidden">
                 {palette.colors.map((color, idx) => (
                   <div
                     key={idx}
-                    className="flex-1 h-full transition-[flex] duration-200 group-hover/pcard:hover:flex-[1.4]"
+                    className="flex-1 h-full transition-[flex] duration-200 group-hover/pcard:hover:flex-[1.35]"
                     style={{ backgroundColor: color.hex }}
                     title={`${color.name} (${color.hex})`}
                   />
                 ))}
               </div>
-              <div className="p-4 flex items-center justify-between">
-                <span className="font-sans text-[15px] font-semibold tracking-[-0.01em]">{palette.title}</span>
-                <span className="font-sans text-xs font-semibold text-neutral-400 group-hover/pcard:text-[#171717] dark:group-hover/pcard:text-white inline-flex items-center gap-1 transition-all group-hover/pcard:translate-x-0.5">
-                  <span>View</span>
-                  <ArrowUpRight size={13} />
+              <div className="p-3.5 sm:p-4 flex items-center justify-between">
+                <span className="font-sans text-[15px] font-bold tracking-[-0.01em] truncate">{palette.title}</span>
+                <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] group-hover/pcard:text-[#171717] dark:group-hover/pcard:text-white inline-flex items-center gap-1 transition-all group-hover/pcard:translate-x-0.5">
+                  <span>VIEW</span>
+                  <ArrowUpRight size={12} />
                 </span>
               </div>
             </Link>
@@ -301,12 +301,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               key={family.name}
               to={{ path: 'colors' }}
               onNavigate={onNavigate}
-              className="relative aspect-square rounded p-3.5 flex flex-col justify-between no-underline cursor-pointer transition-all duration-200 overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.06)] group-hover/tilegrid:opacity-55 hover:!opacity-100 hover:scale-105 hover:z-10 hover:shadow-[0_12px_28px_-4px_rgba(0,0,0,0.2)]"
+              className="relative aspect-square rounded-[4px] p-3.5 flex flex-col justify-between no-underline cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden border border-black/10 dark:border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.18)]"
               style={{ backgroundColor: family.hex, color: family.text }}
               aria-label={`Explore ${family.name} color family`}
             >
               <span className="font-sans text-sm font-bold tracking-[-0.01em]">{family.name}</span>
-              <span className="font-mono text-[11px] opacity-90">{family.hex}</span>
+              <span className="font-mono text-[11px] font-semibold opacity-95">{family.hex}</span>
             </Link>
           ))}
         </div>
@@ -315,7 +315,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 05 — GENERATE (Dark Dramatic Section)
           ═════════════════════════════════════════════════════════ */}
-      <section className="my-16 md:my-24 lg:my-[120px] bg-[#171717] text-[#F8F8F8] rounded-md p-5 sm:p-9 md:p-12 lg:p-16 box-border" aria-label="Generative Engine">
+      <section className="my-16 md:my-24 lg:my-[120px] bg-[#171717] text-[#F8F8F8] rounded-[4px] p-5 sm:p-9 md:p-12 lg:p-16 box-border" aria-label="Generative Engine">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-9 md:gap-12 items-center">
           <div>
             <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#00AEEF] inline-flex items-center gap-2 mb-4">GENERATIVE STUDIO</span>
@@ -335,8 +335,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
 
           {/* Working Interactive Mini-Generator */}
-          <div className="bg-[#202020] border border-white/10 rounded-md p-6 flex flex-col gap-5">
-            <div className="flex h-[100px] rounded overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.3)]">
+          <div className="bg-[#202020] border border-white/10 rounded-[4px] p-5 sm:p-6 flex flex-col gap-5">
+            <div className="flex h-[100px] rounded-[3px] overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.3)]">
               {generatedColors.map((col, idx) => (
                 <div
                   key={col.id || idx}
@@ -386,7 +386,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
 
         <div
-          className="relative w-full h-[320px] md:h-[440px] rounded-md overflow-hidden bg-cover bg-center flex items-end p-4 md:p-6 box-border"
+          className="relative w-full h-[320px] md:h-[440px] rounded-[4px] overflow-hidden bg-cover bg-center flex items-end p-4 md:p-6 box-border"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=1200&q=85')`,
           }}
@@ -449,23 +449,24 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 key={col.id}
                 to={{ path: 'collection-detail', slug: col.slug }}
                 onNavigate={onNavigate}
-                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/10 dark:border-white/10 rounded p-5 no-underline text-[#171717] dark:text-white flex flex-col justify-between h-[190px] transition-all duration-200 hover:-translate-y-1 hover:border-black/25 dark:hover:border-white/25 hover:shadow-[0_12px_28px_-6px_rgba(0,0,0,0.08)]"
+                className="group/hcol bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden no-underline text-[#171717] dark:text-white flex flex-col justify-between h-[200px] transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] cursor-pointer select-none"
                 aria-label={`View collection ${col.title}`}
               >
-                <div>
-                  <div className="flex h-4 rounded-[3px] overflow-hidden mb-4">
-                    {previewColors.map((hex, idx) => (
-                      <span
-                        key={idx}
-                        className="flex-1 h-full"
-                        style={{ backgroundColor: hex }}
-                      />
-                    ))}
-                  </div>
-                  <div className="font-sans text-[17px] font-bold tracking-[-0.02em] mb-1">{col.title}</div>
+                <div className="flex h-12 w-full border-b border-black/[0.06] dark:border-white/[0.06]">
+                  {previewColors.map((hex, idx) => (
+                    <span
+                      key={idx}
+                      className="flex-1 h-full transition-[flex] duration-200 group-hover/hcol:hover:flex-[1.25]"
+                      style={{ backgroundColor: hex }}
+                    />
+                  ))}
                 </div>
-                <div className="font-mono text-[11px] text-neutral-400">
-                  <span>{col.creator.name}</span> • <span>{col.items.length} items</span>
+                <div className="p-4 flex flex-col justify-between flex-1">
+                  <div className="font-sans text-[16px] font-bold tracking-[-0.01em]">{col.title}</div>
+                  <div className="font-mono text-[11px] text-[#707070] dark:text-[#909090] flex items-center justify-between">
+                    <span>BY {col.creator.name.toUpperCase()}</span>
+                    <span>{col.items.length} ITEMS</span>
+                  </div>
                 </div>
               </Link>
             );

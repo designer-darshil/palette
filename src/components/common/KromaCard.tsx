@@ -1,0 +1,115 @@
+import React from 'react';
+import { clsx } from 'clsx';
+
+export interface KromaCardProps extends React.HTMLAttributes<HTMLElement> {
+  as?: 'article' | 'div' | 'section' | 'li';
+  interactive?: boolean;
+  variant?: 'default' | 'flat' | 'featured' | 'compact';
+}
+
+export const KromaCard = React.forwardRef<HTMLElement, KromaCardProps>(
+  (
+    {
+      as: Component = 'article',
+      interactive = true,
+      variant = 'default',
+      className,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <Component
+        ref={ref as any}
+        className={clsx(
+          // Kroma Card Foundation
+          'group relative bg-[#F8F8F8] dark:bg-[#141518] text-[#171717] dark:text-white',
+          'border border-black/[0.08] dark:border-white/[0.08]',
+          'rounded-[4px] overflow-hidden flex flex-col box-border select-none',
+          // Interactive Hover Motions (150-250ms, cubic-bezier)
+          interactive && [
+            'transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]',
+            'hover:-translate-y-0.5',
+            'hover:border-black/20 dark:hover:border-white/20',
+            'hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]',
+            'cursor-pointer',
+          ],
+          variant === 'featured' && 'border-black/15 dark:border-white/15 shadow-[0_4px_16px_rgba(0,0,0,0.04)]',
+          variant === 'compact' && 'text-xs',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+
+KromaCard.displayName = 'KromaCard';
+
+export interface KromaCardVisualProps extends React.HTMLAttributes<HTMLDivElement> {
+  aspectRatio?: string;
+  heightClass?: string;
+}
+
+export const KromaCardVisual: React.FC<KromaCardVisualProps> = ({
+  aspectRatio,
+  heightClass = 'h-40 sm:h-44',
+  className,
+  children,
+  style,
+  ...props
+}) => {
+  return (
+    <div
+      className={clsx(
+        'w-full relative overflow-hidden flex items-center justify-center',
+        !aspectRatio && heightClass,
+        className
+      )}
+      style={{
+        aspectRatio,
+        ...style,
+      }}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+export interface KromaCardBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const KromaCardBody: React.FC<KromaCardBodyProps> = ({
+  className,
+  children,
+  ...props
+}) => {
+  return (
+    <div className={clsx('p-3.5 sm:p-4 flex flex-col gap-1.5 flex-1', className)} {...props}>
+      {children}
+    </div>
+  );
+};
+
+export interface KromaCardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const KromaCardFooter: React.FC<KromaCardFooterProps> = ({
+  className,
+  children,
+  ...props
+}) => {
+  return (
+    <div
+      className={clsx(
+        'mt-auto pt-2.5 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};

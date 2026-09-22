@@ -5,6 +5,7 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
+import { KromaCard } from './common/KromaCard';
 import { Analytics } from '../utils/analytics';
 
 interface PaletteCardProps {
@@ -97,14 +98,14 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
   };
 
   return (
-    <article
-      className="palette-card"
+    <KromaCard
       aria-label={`Palette: ${palette.title}`}
+      className="group/pcard"
       onClick={() => onNavigate({ path: 'palette-detail', slug: palette.slug })}
     >
       {/* Edge-to-edge Color Composition (Hero of the Card) */}
       <div
-        className="palette-swatches-strip"
+        className="flex h-52 sm:h-56 w-full select-none overflow-hidden"
         role="group"
         aria-label="Color swatches"
       >
@@ -115,7 +116,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
           return (
             <div
               key={idx}
-              className="palette-swatch-item"
+              className="relative cursor-pointer transition-[flex] duration-200 ease-out hover:grow-[2.2] flex items-end justify-center p-2.5 outline-none group/swatch"
               style={{
                 backgroundColor: c.hex,
                 flex: weight,
@@ -131,7 +132,13 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
                 }
               }}
             >
-              <span className={`palette-swatch-pop ${isCopied ? 'copied' : ''}`}>
+              <span
+                className={`font-mono text-[10px] font-semibold tracking-wider text-white bg-black/75 px-1.5 py-0.5 rounded-[2px] shadow-xs transition-all duration-150 ${
+                  isCopied
+                    ? 'opacity-100 translate-y-0 text-emerald-300'
+                    : 'opacity-0 translate-y-1 group-hover/swatch:opacity-100 group-hover/swatch:translate-y-0'
+                }`}
+              >
                 {isCopied ? 'COPIED' : c.hex}
               </span>
             </div>
@@ -140,19 +147,19 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
       </div>
 
       {/* Quiet, Editorial Information & Action Area */}
-      <div className="palette-card-body">
-        <div className="palette-card-info">
-          <h3 className="palette-card-title">
+      <div className="p-3.5 sm:p-4 flex items-center justify-between gap-3 bg-[#F8F8F8] dark:bg-[#141518]">
+        <div className="min-w-0 flex flex-col gap-0.5">
+          <h3 className="font-sans font-bold text-[15px] leading-tight tracking-[-0.01em] text-[#171717] dark:text-white truncate m-0">
             <Link
               to={{ path: 'palette-detail', slug: palette.slug }}
               onNavigate={onNavigate}
-              className="palette-card-title-link"
+              className="hover:underline text-inherit no-underline"
               onClick={(e) => e.stopPropagation()}
             >
               {palette.title}
             </Link>
           </h3>
-          <div className="palette-card-meta">
+          <div className="font-mono text-[11px] text-[#707070] dark:text-[#909090] uppercase tracking-wider flex items-center gap-1.5">
             <span>{palette.category}</span>
             <span>•</span>
             <span>{palette.colors.length} COLORS</span>
@@ -160,10 +167,10 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
         </div>
 
         {/* Subtle, Non-Domineering Card Actions */}
-        <div className="palette-card-actions" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-1 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
           <button
             type="button"
-            className="palette-action-btn"
+            className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
             onClick={handleCopyAllHexes}
             aria-label="Copy all hex values"
             title="Copy all hex values"
@@ -173,7 +180,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
 
           <button
             type="button"
-            className="palette-action-btn"
+            className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
             onClick={handleShare}
             aria-label="Share palette link"
             title="Share palette link"
@@ -183,7 +190,11 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
 
           <button
             type="button"
-            className={`palette-action-btn ${saved ? 'saved' : ''}`}
+            className={`p-1.5 rounded-[2px] transition-colors ${
+              saved
+                ? 'text-[var(--accent-gold)]'
+                : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
+            }`}
             onClick={handleToggleSave}
             aria-label={saved ? 'Remove from saved' : 'Save palette'}
             title={saved ? 'Remove from saved' : 'Save palette'}
@@ -192,6 +203,6 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
           </button>
         </div>
       </div>
-    </article>
+    </KromaCard>
   );
 };

@@ -1360,7 +1360,12 @@ body.nav-open {
   }
 }
 
-/* Color Card Specimen */
+/*
+UNUSED CSS — verified no project usage after Tailwind migration
+Original: Legacy Card Design System (.color-card, .palette-card, .combo-specimen-card, .gradient-card)
+Migrated to: src/components/common/KromaCard.tsx and Tailwind utility tokens
+
+/ * Color Card Specimen * /
 .color-card {
   background: var(--bg-surface-1);
   border: 1px solid var(--border-subtle);
@@ -1507,7 +1512,7 @@ body.nav-open {
   color: var(--accent-gold);
 }
 
-/* ─── Kroma Palette Card (Color-First Editorial Object) ──────── */
+/ * ─── Kroma Palette Card (Color-First Editorial Object) ──────── * /
 .palette-card {
   background-color: var(--bg-surface-1, #F8F8F8);
   border: 1px solid rgba(23, 23, 23, 0.08);
@@ -1540,7 +1545,7 @@ body.nav-open {
   box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45);
 }
 
-/* Majority of Card: Edge-to-Edge Color Composition */
+/ * Majority of Card: Edge-to-Edge Color Composition * /
 .palette-swatches-strip {
   height: 220px;
   display: flex;
@@ -1573,7 +1578,7 @@ body.nav-open {
   flex-grow: 2.2 !important;
 }
 
-/* Minimal Copy Confirmation & Hex Label */
+/ * Minimal Copy Confirmation & Hex Label * /
 .palette-swatch-pop {
   opacity: 0;
   transform: translateY(4px);
@@ -1604,7 +1609,7 @@ body.nav-open {
   color: #34C759;
 }
 
-/* Quiet, Editorial Information & Actions Container */
+/ * Quiet, Editorial Information & Actions Container * /
 .palette-card-body {
   padding: 14px 16px;
   background-color: var(--bg-surface-1, #F8F8F8);
@@ -1680,7 +1685,7 @@ body.nav-open {
   color: #8E8E93;
 }
 
-/* Subtle Action Controls */
+/ * Subtle Action Controls * /
 .palette-card-actions {
   display: flex;
   align-items: center;
@@ -1725,7 +1730,7 @@ body.nav-open {
   color: #FF9500;
 }
 
-/* Redesigned Two-Color Combo Specimen Card */
+/ * Redesigned Two-Color Combo Specimen Card * /
 .combo-specimen-card {
   background: var(--bg-surface-1);
   border: 1px solid var(--border-subtle);
@@ -1852,7 +1857,7 @@ body.nav-open {
   color: var(--text-primary);
 }
 
-/* Gradient Card */
+/ * Gradient Card * /
 .gradient-card {
   background: var(--bg-surface-1);
   border: 1px solid var(--border-subtle);
@@ -1902,7 +1907,7 @@ body.nav-open {
   color: var(--text-primary);
   border-color: var(--border-medium);
 }
-
+*/
 
 .btn-primary {
   background: var(--color-primary);
@@ -3633,6 +3638,12 @@ body.nav-open {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+.admin-card {
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
 }
 
 .admin-sidebar-backdrop {

@@ -12,7 +12,7 @@ import { Link } from '../components/common/Link';
 import { PageHeader } from '../components/common/PageHeader';
 import { Button } from '../components/common/Button';
 import { EmptyState } from '../components/common/EmptyState';
-import { SpecimenCardBase } from '../components/common/SpecimenCardBase';
+import { KromaCard, KromaCardVisual, KromaCardBody, KromaCardFooter } from '../components/common/KromaCard';
 
 interface ProfilePageProps {
   onNavigate: (route: RouteType) => void;
@@ -106,21 +106,25 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
               {savedItems.map((item) => {
                 const previews = item.preview.split(',').filter(Boolean);
                 return (
-                  <SpecimenCardBase
+                  <KromaCard
                     key={item.id}
-                    className="p-3.5 flex flex-col justify-between"
+                    className="flex flex-col justify-between"
                   >
                     <div>
-                      <div className="h-16 rounded-xs overflow-hidden mb-2.5 border border-[var(--border-subtle)] flex">
-                        {previews.map((c, i) => (
-                          <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
-                        ))}
-                      </div>
-                      <div className="font-bold text-xs text-[var(--text-primary)] truncate">{item.title}</div>
-                      <div className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase mt-0.5">{item.type}</div>
+                      <KromaCardVisual heightClass="h-24">
+                        <div className="flex w-full h-full">
+                          {previews.map((c, i) => (
+                            <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
+                          ))}
+                        </div>
+                      </KromaCardVisual>
+                      <KromaCardBody className="py-2.5 px-3">
+                        <div className="font-sans font-bold text-xs text-[#171717] dark:text-white truncate">{item.title}</div>
+                        <div className="font-mono text-[10px] text-[#707070] uppercase mt-0.5">{item.type}</div>
+                      </KromaCardBody>
                     </div>
 
-                    <div className="pt-2 mt-2 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                    <KromaCardFooter className="px-3 py-2 border-t border-black/[0.08] dark:border-white/[0.08] flex items-center justify-between">
                       <Link
                         to={
                           item.type === 'palette'
@@ -134,7 +138,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
                             : { path: 'pattern-detail', slug: item.slug }
                         }
                         onNavigate={onNavigate}
-                        className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-mono font-semibold"
+                        className="text-xs text-[#171717] dark:text-white hover:text-[#00AEEF] dark:hover:text-[#00AEEF] flex items-center gap-1 font-mono font-medium transition-colors"
                       >
                         <span>Open</span>
                         <ExternalLink size={11} />
@@ -142,13 +146,13 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
 
                       <button
                         onClick={() => removeItem(item.id)}
-                        className="text-[11px] text-[var(--text-tertiary)] hover:text-red-400 p-1"
+                        className="text-[11px] text-[#707070] hover:text-[#FF3B30] p-1 transition-colors"
                         title="Remove from saved"
                       >
                         <Trash2 size={12} />
                       </button>
-                    </div>
-                  </SpecimenCardBase>
+                    </KromaCardFooter>
+                  </KromaCard>
                 );
               })}
             </div>
@@ -191,10 +195,12 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {likedItems.map((item) => (
-                <SpecimenCardBase key={item.id} className="p-3">
-                  <div className="font-bold text-xs text-[var(--text-primary)]">{item.title}</div>
-                  <div className="font-mono text-[10px] text-[var(--text-tertiary)]">{item.type}</div>
-                </SpecimenCardBase>
+                <KromaCard key={item.id} variant="default">
+                  <KromaCardBody className="p-3.5">
+                    <div className="font-sans font-bold text-xs text-[#171717] dark:text-white truncate">{item.title}</div>
+                    <div className="font-mono text-[10px] text-[#707070] uppercase mt-0.5">{item.type}</div>
+                  </KromaCardBody>
+                </KromaCard>
               ))}
             </div>
           )}
@@ -215,10 +221,12 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {remixItems.map((item) => (
-                <SpecimenCardBase key={item.id} className="p-3">
-                  <div className="font-bold text-xs text-[var(--text-primary)]">{item.title}</div>
-                  <div className="font-mono text-[10px] text-[var(--text-tertiary)]">{item.metadata}</div>
-                </SpecimenCardBase>
+                <KromaCard key={item.id} variant="default">
+                  <KromaCardBody className="p-3.5">
+                    <div className="font-sans font-bold text-xs text-[#171717] dark:text-white truncate">{item.title}</div>
+                    <div className="font-mono text-[10px] text-[#707070] uppercase mt-0.5">{item.metadata}</div>
+                  </KromaCardBody>
+                </KromaCard>
               ))}
             </div>
           )}

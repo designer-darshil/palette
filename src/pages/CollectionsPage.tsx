@@ -72,41 +72,40 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
             return (
               <div
                 key={col.id}
-                className="group border border-[var(--border-subtle)] hover:border-[var(--text-primary)] p-6 cursor-pointer transition-all flex flex-col justify-between"
+                className="group bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] cursor-pointer select-none"
                 onClick={() => onNavigate({ path: 'collection-detail', slug: col.slug })}
                 role="button"
                 tabIndex={0}
               >
-                <div>
-                  <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-widest block mb-3">
-                    COLLECTION 0{idx + 1}
-                  </span>
-
-                  {/* Multi-layered visual color blocks */}
-                  <div className="flex flex-col gap-1.5 mb-6">
-                    <div className="h-16 flex rounded-xs overflow-hidden">
-                      {previewColors.map((hex, ci) => (
-                        <div key={ci} className="flex-1 h-full" style={{ backgroundColor: hex.trim() }} />
-                      ))}
-                    </div>
-                    <div className="h-8 flex rounded-xs overflow-hidden opacity-80">
-                      {previewColors.slice().reverse().map((hex, ci) => (
-                        <div key={ci} className="flex-1 h-full" style={{ backgroundColor: hex.trim() }} />
-                      ))}
-                    </div>
-                  </div>
-
-                  <h3 className="font-sans text-lg font-bold text-[var(--text-primary)] uppercase tracking-tight mb-1">
-                    {col.title}
-                  </h3>
-                  <p className="font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider mb-4">
-                    {col.items?.length || previewColors.length} COLORS · BY {col.creator?.name || 'STUDIO'}
-                  </p>
+                {/* Edge-to-Edge Color Bands Hero */}
+                <div className="w-full h-36 sm:h-40 flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
+                  {previewColors.map((hex, ci) => (
+                    <div
+                      key={ci}
+                      className="flex-1 h-full transition-[flex] duration-200 group-hover:hover:flex-[1.25]"
+                      style={{ backgroundColor: hex.trim() }}
+                    />
+                  ))}
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)] text-xs font-sans font-bold uppercase tracking-wider text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
-                  <span>VIEW COLLECTION</span>
-                  <ArrowUpRight size={13} />
+                <div className="p-5 sm:p-6 flex flex-col justify-between flex-1">
+                  <div>
+                    <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase tracking-widest block mb-1.5">
+                      COLLECTION 0{idx + 1}
+                    </span>
+
+                    <h3 className="font-sans text-lg font-bold text-[#171717] dark:text-white uppercase tracking-tight mb-1">
+                      {col.title}
+                    </h3>
+                    <p className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase tracking-wider mb-4">
+                      {col.items?.length || previewColors.length} COLORS · BY {col.creator?.name?.toUpperCase() || 'STUDIO'}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-3 border-t border-black/[0.06] dark:border-white/[0.06] text-xs font-sans font-bold uppercase tracking-wider text-[#707070] dark:text-[#909090] group-hover:text-[#171717] dark:group-hover:text-white transition-colors">
+                    <span>VIEW COLLECTION</span>
+                    <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
                 </div>
               </div>
             );

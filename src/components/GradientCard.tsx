@@ -1,11 +1,11 @@
-import React from 'react';
-import { Copy, Bookmark, Share2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Copy, Bookmark, Share2, Check } from 'lucide-react';
 import { GradientItem, RouteType } from '../types';
 import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
-import { SpecimenCardBase } from './common/SpecimenCardBase';
+import { KromaCard } from './common/KromaCard';
 import { Analytics } from '../utils/analytics';
 
 interface GradientCardProps {
@@ -17,11 +17,15 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
   const { showToast } = useToast();
   const { isSaved, saveItem } = useSaved();
   const saved = isSaved(gradient.id);
+  const [copied, setCopied] = useState(false);
 
   const handleCopyCss = async (e?: React.MouseEvent | React.KeyboardEvent) => {
     e?.stopPropagation();
-    const success = await copyToClipboard(`background: ${gradient.css};`);
+    const cssString = `background: ${gradient.css};`;
+    const success = await copyToClipboard(cssString);
     if (success) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
       Analytics.trackColorCopy(gradient.css, 'CSS Gradient', gradient.title);
       showToast('Copied CSS Gradient', gradient.title, gradient.css);
     }
@@ -56,9 +60,14 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
   };
 
   return (
-    <SpecimenCardBase className="gradient-card" aria-label={`CSS Gradient: ${gradient.title}`}>
+    <KromaCard
+      aria-label={`CSS Gradient: ${gradient.title}`}
+      className="group/grad"
+      onClick={() => onNavigate({ path: 'gradient-detail', slug: gradient.slug })}
+    >
+      {/* Edge-to-Edge Gradient Field (Hero of the Card) */}
       <div
-        className="gradient-preview-area"
+        className="w-full h-44 sm:h-48 relative cursor-pointer flex items-end justify-between p-3 select-none"
         style={{ background: gradient.css }}
         onClick={handleCopyCss}
         role="button"
@@ -71,87 +80,93 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
           }
         }}
       >
+        <span className="font-mono text-[10px] font-semibold text-white bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-[2px] shadow-xs uppercase tracking-wider">
+          {gradient.type} {gradient.angle ? `${gradient.angle}°` : ''}
+        </span>
+
         <span
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.72rem',
-            fontWeight: 600,
-            color: '#FFFFFF',
-            textShadow: '0 1px 3px rgba(0,0,0,0.7)',
-            background: 'rgba(0,0,0,0.4)',
-            padding: '2px 6px',
-            borderRadius: '2px',
-          }}
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] font-mono text-[10.5px] font-medium tracking-wider text-white bg-black/75 backdrop-blur-xs shadow-xs transition-all duration-150 ${
+            copied ? 'opacity-100 scale-100' : 'opacity-0 scale-95 group-hover/grad:opacity-100 group-hover/grad:scale-100'
+          }`}
         >
-          {gradient.type.toUpperCase()} {gradient.angle ? `${gradient.angle}°` : ''}
+          {copied ? (
+            <>
+              <Check size={11} className="text-emerald-400" />
+              <span>COPIED</span>
+            </>
+          ) : (
+            <>
+              <Copy size={11} />
+              <span>COPY CSS</span>
+            </>
+          )}
         </span>
       </div>
 
-      <div className="color-card-body">
-        <div className="palette-card-meta">
-          <span>{gradient.category}</span>
-          <span>•</span>
-          <span>{gradient.stops.length} color stops</span>
+      {/* Editorial Content Layer */}
+      <div className="p-3.5 sm:p-4 flex flex-col gap-2 flex-1 bg-[#F8F8F8] dark:bg-[#141518]">
+        <div className="flex items-baseline justify-between gap-2">
+          <h3 className="font-sans font-bold text-[15px] leading-tight text-[#171717] dark:text-white tracking-[-0.01em] truncate m-0">
+            <Link
+              to={{ path: 'gradient-detail', slug: gradient.slug }}
+              onNavigate={onNavigate}
+              onClick={(e) => e.stopPropagation()}
+              className="hover:underline text-inherit no-underline"
+            >
+              {gradient.title}
+            </Link>
+          </h3>
+          <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase tracking-wider flex-shrink-0">
+            {gradient.stops.length} STOPS
+          </span>
         </div>
 
-        <h3 className="palette-card-title">
-          <Link
-            to={{ path: 'gradient-detail', slug: gradient.slug }}
-            onNavigate={onNavigate}
-            style={{ textAlign: 'left', display: 'inline-block', color: 'inherit', textDecoration: 'none' }}
-            className="hover:underline"
-          >
-            {gradient.title}
-          </Link>
-        </h3>
-
-        <div className="palette-color-hex-list">
+        {/* Color Stops Swatches Strip */}
+        <div className="flex items-center gap-1.5 flex-wrap my-0.5">
           {gradient.stops.map((s, idx) => (
             <span
               key={idx}
-              className="palette-mini-hex-pill"
+              className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] bg-black/5 dark:bg-white/10 font-mono text-[10px] text-[#707070] dark:text-[#A0A0A0]"
               title={`${s.name || s.color} at ${s.position}%`}
             >
-              <span className="palette-mini-dot" style={{ backgroundColor: s.color }} />
+              <span className="w-2 h-2 rounded-full border border-black/10" style={{ backgroundColor: s.color }} />
               <span>{s.color}</span>
             </span>
           ))}
         </div>
 
-        <div className="gradient-code-banner" onClick={handleCopyCss} style={{ marginTop: '6px' }}>
-          <span>background: {gradient.css.substring(0, 32)}...</span>
-          <Copy size={12} />
-        </div>
+        {/* Minimal Footer & Actions */}
+        <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+            {gradient.category}
+          </span>
 
-        <div className="color-card-footer" style={{ marginTop: '8px' }}>
-          <button
-            className="color-card-hex-btn"
-            onClick={handleCopyCss}
-            aria-label="Copy gradient CSS"
-          >
-            <Copy size={11} />
-            <span>Copy CSS</span>
-          </button>
-
-          <div className="card-action-icons">
+          <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
             <button
-              className="card-icon-btn"
+              type="button"
+              className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
               onClick={handleShare}
               aria-label="Share gradient link"
               title="Share gradient link"
             >
-              <Share2 size={14} />
+              <Share2 size={13} />
             </button>
             <button
-              className={`card-icon-btn ${saved ? 'saved' : ''}`}
+              type="button"
+              className={`p-1.5 rounded-[2px] transition-colors ${
+                saved
+                  ? 'text-[var(--accent-gold)]'
+                  : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
+              }`}
               onClick={handleToggleSave}
               aria-label={saved ? 'Remove from saved' : 'Save gradient'}
+              title={saved ? 'Saved' : 'Save gradient'}
             >
-              <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
+              <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
             </button>
           </div>
         </div>
       </div>
-    </SpecimenCardBase>
+    </KromaCard>
   );
 };

@@ -264,7 +264,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
               return (
                 <div
                   key={color.id}
-                  className="bg-surface-1 border border-border-subtle rounded overflow-hidden flex flex-col cursor-pointer transition-all duration-150 hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
+                  className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] group select-none"
                   onClick={() => onNavigate({ path: 'color-detail', slug: color.slug })}
                   role="button"
                   tabIndex={0}
@@ -278,7 +278,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                     onClick={(e) => handleCopy(color.hex, color.name, e)}
                     title="Click to copy HEX"
                   >
-                    <span className="absolute inset-0 flex items-center justify-center gap-1 bg-black/40 backdrop-blur-xs text-white font-mono text-[10px] font-medium tracking-wider opacity-0 transition-opacity duration-150 pointer-events-none group-hover:opacity-100">
+                    <span className="absolute inset-0 flex items-center justify-center gap-1 bg-black/50 backdrop-blur-xs text-white font-mono text-[10px] font-medium tracking-wider opacity-0 transition-opacity duration-150 pointer-events-none group-hover:opacity-100">
                       {isCopied ? (
                         <>
                           <Check size={12} className="text-emerald-400" />
@@ -295,16 +295,16 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
 
                   <div className="p-2.5 sm:px-3 flex flex-col gap-0.5">
                     <div className="flex items-center justify-between gap-1">
-                      <span className="font-sans text-xs font-medium text-text-primary truncate">{color.name}</span>
+                      <span className="font-sans text-xs font-bold text-[#171717] dark:text-white truncate">{color.name}</span>
                       <button
-                        className="p-1 text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
+                        className="p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white transition-colors"
                         onClick={(e) => handleToggleSave(color, e)}
                         title={saved ? 'Saved' : 'Save color'}
                       >
                         <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
                       </button>
                     </div>
-                    <span className="font-mono text-[11px] text-text-secondary">{color.hex}</span>
+                    <span className="font-mono text-[11px] text-[#707070] dark:text-[#909090]">{color.hex}</span>
                   </div>
                 </div>
               );

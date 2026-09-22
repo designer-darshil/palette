@@ -152,7 +152,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {/* Action 1: Create Palette */}
           <div
-            className="bg-surface-1 border border-border-subtle rounded p-6 flex flex-col justify-between min-h-[220px] cursor-pointer transition-all duration-150 select-none hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
+            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none"
             onClick={() => {
               const el = document.getElementById('studio-canvas-section');
               el?.scrollIntoView({ behavior: 'smooth' });
@@ -160,80 +160,80 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             role="button"
             tabIndex={0}
           >
-            <div>
-              <div className="w-full h-[90px] rounded-xs mb-5 overflow-hidden relative">
-                {['#FF3B30', '#FF9500', '#FFD60A', '#171717'].map((hex, i) => (
-                  <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
-                ))}
-              </div>
-              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-secondary mb-2">CANVAS STAGE</div>
+            <div className="w-full h-[110px] flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
+              {['#FF3B30', '#FF9500', '#FFD60A', '#171717'].map((hex, i) => (
+                <div key={i} className="flex-1 h-full transition-[flex] duration-200 group-hover/tool:hover:flex-[1.25]" style={{ backgroundColor: hex }} />
+              ))}
             </div>
-            <div className="font-sans text-lg font-semibold leading-tight text-text-primary tracking-tight">
-              <span>CREATE PALETTE</span>
-              <ArrowUpRight size={15} />
+            <div className="p-5 flex flex-col justify-between flex-1">
+              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-[#707070] dark:text-[#909090] mb-2">CANVAS STAGE</div>
+              <div className="font-sans text-[17px] font-bold leading-tight text-[#171717] dark:text-white tracking-tight flex items-center justify-between">
+                <span>CREATE PALETTE</span>
+                <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
+              </div>
             </div>
           </div>
 
           {/* Action 2: Generate */}
           <div
-            className="bg-surface-1 border border-border-subtle rounded p-6 flex flex-col justify-between min-h-[220px] cursor-pointer transition-all duration-150 select-none hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
+            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none"
             onClick={() => onNavigate({ path: 'palette-generator' })}
             role="button"
             tabIndex={0}
           >
-            <div>
-              <div className="w-full h-[90px] rounded-xs mb-5 overflow-hidden relative">
-                {['#00AEEF', '#7B2CBF', '#FF3B30'].map((hex, i) => (
-                  <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
-                ))}
-              </div>
-              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-secondary mb-2">LABORATORY</div>
+            <div className="w-full h-[110px] flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
+              {['#00AEEF', '#7B2CBF', '#FF3B30'].map((hex, i) => (
+                <div key={i} className="flex-1 h-full transition-[flex] duration-200 group-hover/tool:hover:flex-[1.25]" style={{ backgroundColor: hex }} />
+              ))}
             </div>
-            <div className="font-sans text-lg font-semibold leading-tight text-text-primary tracking-tight">
-              <span>GENERATE ↻</span>
-              <ArrowUpRight size={15} />
+            <div className="p-5 flex flex-col justify-between flex-1">
+              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-[#707070] dark:text-[#909090] mb-2">LABORATORY</div>
+              <div className="font-sans text-[17px] font-bold leading-tight text-[#171717] dark:text-white tracking-tight flex items-center justify-between">
+                <span>GENERATE ↻</span>
+                <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
+              </div>
             </div>
           </div>
 
           {/* Action 3: Image to Palette */}
           <div
-            className="bg-surface-1 border border-border-subtle rounded p-6 flex flex-col justify-between min-h-[220px] cursor-pointer transition-all duration-150 select-none hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
+            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none"
             onClick={() => onNavigate({ path: 'extract-from-image' })}
             role="button"
             tabIndex={0}
           >
-            <div>
-              <div className="w-full h-[90px] rounded-xs mb-5 overflow-hidden relative" style={{ background: 'linear-gradient(135deg, #171717 0%, #34C759 50%, #00AEEF 100%)' }}>
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="w-5 h-5 rounded-full border border-white bg-white/20" />
-                </div>
+            <div className="w-full h-[110px] flex items-center justify-center overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]" style={{ background: 'linear-gradient(135deg, #171717 0%, #34C759 50%, #00AEEF 100%)' }}>
+              <div className="w-7 h-7 rounded-full border border-white bg-white/25 backdrop-blur-xs flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-white" />
               </div>
-              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-secondary mb-2">CHROMATIC EXTRACTION</div>
             </div>
-            <div className="font-sans text-lg font-semibold leading-tight text-text-primary tracking-tight">
-              <span>IMAGE → PALETTE</span>
-              <ArrowUpRight size={15} />
+            <div className="p-5 flex flex-col justify-between flex-1">
+              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-[#707070] dark:text-[#909090] mb-2">CHROMATIC EXTRACTION</div>
+              <div className="font-sans text-[17px] font-bold leading-tight text-[#171717] dark:text-white tracking-tight flex items-center justify-between">
+                <span>IMAGE → PALETTE</span>
+                <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
+              </div>
             </div>
           </div>
 
           {/* Action 4: Explore Colors */}
           <div
-            className="bg-surface-1 border border-border-subtle rounded p-6 flex flex-col justify-between min-h-[220px] cursor-pointer transition-all duration-150 select-none hover:-translate-y-0.5 hover:border-text-primary hover:shadow-md group"
+            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none"
             onClick={() => onNavigate({ path: 'colors' })}
             role="button"
             tabIndex={0}
           >
-            <div>
-              <div className="w-full h-[90px] rounded-xs mb-5 overflow-hidden relative">
-                {['#FF3B30', '#34C759', '#00AEEF', '#7B2CBF', '#FFD60A'].map((hex, i) => (
-                  <div key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
-                ))}
-              </div>
-              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-secondary mb-2">SWATCH ARCHIVE</div>
+            <div className="w-full h-[110px] flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
+              {['#FF3B30', '#34C759', '#00AEEF', '#7B2CBF', '#FFD60A'].map((hex, i) => (
+                <div key={i} className="flex-1 h-full transition-[flex] duration-200 group-hover/tool:hover:flex-[1.25]" style={{ backgroundColor: hex }} />
+              ))}
             </div>
-            <div className="font-sans text-lg font-semibold leading-tight text-text-primary tracking-tight">
-              <span>EXPLORE COLORS</span>
-              <ArrowUpRight size={15} />
+            <div className="p-5 flex flex-col justify-between flex-1">
+              <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-[#707070] dark:text-[#909090] mb-2">SWATCH ARCHIVE</div>
+              <div className="font-sans text-[17px] font-bold leading-tight text-[#171717] dark:text-white tracking-tight flex items-center justify-between">
+                <span>EXPLORE COLORS</span>
+                <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
+              </div>
             </div>
           </div>
         </div>
@@ -378,16 +378,16 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </button>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           {recentPalettes.map((p, idx) => (
             <div
               key={p.id}
-              className="flex items-center justify-between p-4 sm:px-5 bg-surface-1 border border-border-subtle rounded cursor-pointer transition-all duration-150 select-none hover:border-text-primary hover:translate-x-0.5 group"
+              className="flex items-center justify-between p-4 sm:px-5 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] select-none hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] group"
               onClick={() => onNavigate({ path: 'palette-detail', slug: p.slug })}
               role="button"
               tabIndex={0}
             >
-              <div className="flex w-[140px] h-7 rounded-xs overflow-hidden">
+              <div className="flex w-[140px] h-7 rounded-[2px] overflow-hidden border border-black/10 dark:border-white/10">
                 {p.colors.map((c, i) => (
                   <div
                     key={i}
@@ -398,24 +398,23 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 ))}
               </div>
               <div className="flex items-baseline gap-3">
-                <div>
-                  <span className="font-sans text-sm font-semibold text-text-primary mr-3">{p.title}</span>
-                  <span className="font-mono text-[10px] text-text-secondary uppercase">{p.colors.length} COLORS</span>
-                </div>
-                <div className="flex items-center gap-1 font-mono text-[11px] text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors">
-                  <span>OPEN</span>
-                  <ArrowUpRight size={12} />
-                </div>
+                <span className="font-sans text-sm font-bold text-[#171717] dark:text-white uppercase tracking-tight">
+                  {p.title}
+                </span>
+                <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase">
+                  {p.colors.length} COLORS
+                </span>
               </div>
+              <ArrowUpRight size={14} className="text-[#707070] dark:text-[#909090] group-hover:text-[#171717] dark:group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── 11: COLOR EXPERIMENTS (Working Wall) ────────────────── */}
+      {/* ── 11: COLOR EXPERIMENTS (Editorial Studies) ───────────── */}
       <section className="mb-24">
-        <div className="mb-6">
-          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4 block">DESIGNER'S WALL</span>
+        <div className="flex items-baseline justify-between mb-6">
+          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4 block">LAB STUDIES</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             COLOR EXPERIMENTS
           </h2>
@@ -423,16 +422,16 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
           {/* Experiment Brick 1: Asymmetrical Composition */}
-          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-7">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-7 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
             <div className="flex items-baseline justify-between mb-3">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
                 EXP 01 / ANOMALOUS RATIO
               </span>
-              <span className="font-mono text-[10px] text-[var(--text-secondary)]">
+              <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090]">
                 OKLCH COMPLEMENTARY
               </span>
             </div>
-            <div className="h-28 flex rounded-xs overflow-hidden mb-3">
+            <div className="h-28 flex rounded-[2px] overflow-hidden mb-3 border border-black/10 dark:border-white/10">
               <div className="w-[50%] h-full flex flex-col justify-end p-2 text-white font-mono text-[10px]" style={{ backgroundColor: '#171717' }}>
                 DOMINANT 50%
               </div>
@@ -447,12 +446,12 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+              <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 Obsidian · Vermilion · Solar · Cyan
               </span>
               <button
                 onClick={() => onNavigate({ path: 'palette-generator', colors: '171717-FF3B30-FFD60A-00AEEF' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
                 <span>STUDY ↗</span>
               </button>
@@ -460,39 +459,39 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           {/* Experiment Brick 2: Overlapping Physical Swatches */}
-          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-5">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-5 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
             <div className="flex items-baseline justify-between mb-2">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
                 EXP 02 / DEPTH STACK
               </span>
-              <span className="font-mono text-[10px] text-[var(--text-secondary)]">
+              <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090]">
                 CHROMATIC LAYERING
               </span>
             </div>
             <div className="relative w-full h-[120px] mb-2">
               <div
-                className="absolute rounded shadow-md transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-2 left-2"
+                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-2 left-2"
                 style={{ backgroundColor: '#7B2CBF' }}
                 title="Deep Violet (#7B2CBF)"
               />
               <div
-                className="absolute rounded shadow-md transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-5 left-16"
+                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-5 left-16"
                 style={{ backgroundColor: '#00AEEF' }}
                 title="Electric Cyan (#00AEEF)"
               />
               <div
-                className="absolute rounded shadow-md transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-8 left-32"
+                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-8 left-32"
                 style={{ backgroundColor: '#34C759' }}
                 title="Emerald Light (#34C759)"
               />
             </div>
             <div className="flex items-center justify-between">
-              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+              <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 Violet · Azure · Emerald
               </span>
               <button
                 onClick={() => onNavigate({ path: 'mesh' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
                 <span>MESH ↗</span>
               </button>
@@ -500,21 +499,21 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           {/* Experiment Brick 3: High Contrast Minimal Pairing */}
-          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               EXP 03 / KINETIC TENSION
             </span>
-            <div className="h-24 flex items-center justify-center p-2 rounded-xs my-2" style={{ backgroundColor: '#0E0F12' }}>
+            <div className="h-24 flex items-center justify-center p-2 rounded-[2px] my-2" style={{ backgroundColor: '#0E0F12' }}>
               <div className="w-10 h-10 rounded-full animate-pulse" style={{ backgroundColor: '#FFD60A' }} />
               <div className="w-8 h-8 rounded-full -ml-3" style={{ backgroundColor: '#FF3B30' }} />
             </div>
             <div className="flex items-center justify-between">
-              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+              <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 Physics Specimen
               </span>
               <button
                 onClick={() => onNavigate({ path: 'antigravity' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
                 <span>TEST ↗</span>
               </button>
@@ -522,12 +521,12 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           {/* Experiment Brick 4: Vector Pattern Study */}
-          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               EXP 04 / GEOMETRIC REPEAT
             </span>
             <div
-              className="h-24 rounded-xs my-2"
+              className="h-24 rounded-[2px] my-2 border border-black/10 dark:border-white/10"
               style={{
                 backgroundColor: '#171717',
                 backgroundImage: 'radial-gradient(#34C759 2px, transparent 2px), radial-gradient(#FF9500 2px, #171717 2px)',
@@ -536,12 +535,12 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               }}
             />
             <div className="flex items-center justify-between">
-              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+              <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 Surface Grid
               </span>
               <button
                 onClick={() => onNavigate({ path: 'pattern-studio' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
                 <span>VECTOR ↗</span>
               </button>
@@ -549,29 +548,29 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
           </div>
 
           {/* Experiment Brick 5: Semantic Ramps */}
-          <div className="bg-surface-1 border border-border-subtle rounded p-6 sm:p-8 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">
+          <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] p-6 sm:p-7 flex flex-col justify-between min-h-[280px] box-border lg:col-span-4 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               EXP 05 / WCAG STEPPING
             </span>
             <div className="h-24 flex flex-col justify-center gap-1 my-2">
               <div className="flex gap-1 h-5">
                 {['#E0F2FE', '#7DD3FC', '#0284C7', '#0369A1'].map((hex, i) => (
-                  <div key={i} className="flex-1 rounded-xs" style={{ backgroundColor: hex }} />
+                  <div key={i} className="flex-1 rounded-[1px]" style={{ backgroundColor: hex }} />
                 ))}
               </div>
               <div className="flex gap-1 h-5">
                 {['#FEE2E2', '#FCA5A5', '#DC2626', '#991B1B'].map((hex, i) => (
-                  <div key={i} className="flex-1 rounded-xs" style={{ backgroundColor: hex }} />
+                  <div key={i} className="flex-1 rounded-[1px]" style={{ backgroundColor: hex }} />
                 ))}
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <span className="font-sans text-xs font-semibold text-[var(--text-primary)] uppercase">
+              <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 System Tokens
               </span>
               <button
                 onClick={() => onNavigate({ path: 'ramps' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
               >
                 <span>RAMPS ↗</span>
               </button>

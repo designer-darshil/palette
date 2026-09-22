@@ -1,10 +1,9 @@
 import React from 'react';
-import { Target, Eye, Layers, ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { RouteType } from '../types';
 import { SEOHead } from '../components/seo/SEOHead';
 import { PageHeader } from '../components/common/PageHeader';
-import { SpecimenCardBase } from '../components/common/SpecimenCardBase';
-import { Button } from '../components/common/Button';
+import { KromaCard } from '../components/common/KromaCard';
 
 interface PlayHubPageProps {
   onNavigate: (route: RouteType) => void;
@@ -12,9 +11,9 @@ interface PlayHubPageProps {
 
 export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
   return (
-    <div className="catalog-container w-full max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="catalog-container w-full max-w-7xl mx-auto flex flex-col gap-8 pb-16">
       <SEOHead
-        title="Play &amp; Color Games — Hexle, Odd One Out &amp; Palette Match"
+        title="Play & Color Games — Hexle, Odd One Out & Palette Match"
         description="Sharpen your chromatic perception and color theory acuity with interactive designer games."
         canonicalPath="/play"
       />
@@ -30,100 +29,151 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
         description="Test and refine your perceptual acuity for RGB channels, subtle Delta-E differences, and harmonic balance."
       />
 
-      {/* Game Selection Cards */}
+      {/* Game Selection Cards — Editorial Instrument System */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Game 1: Hexle */}
-        <SpecimenCardBase
-          className="p-6 flex flex-col justify-between gap-6"
+        <KromaCard
+          className="group/game flex flex-col justify-between"
           onClick={() => onNavigate({ path: 'play-hexle' })}
+          aria-label="Play Hexle color puzzle"
         >
-          <div>
-            <div className="w-12 h-12 rounded-md bg-amber-500/10 text-amber-400 flex items-center justify-center mb-4">
-              <Target size={24} />
+          {/* Visual Hero: Hexadecimal Chromatic Calibration Matrix */}
+          <div className="w-full h-36 bg-[#171717] p-4 flex flex-col justify-between border-b border-black/[0.06] dark:border-white/[0.06] select-none">
+            <div className="flex items-center justify-between font-mono text-[10px] text-white/50 uppercase tracking-wider">
+              <span>RGB CHANNEL MATRIX</span>
+              <span>G-01</span>
             </div>
-            <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)] block mb-1">
-              Daily color puzzle
-            </span>
-            <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">
-              Hexle
-            </h2>
-            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-              Guess the 6-character hexadecimal color value. Receive directional channel feedback for Red, Green, and Blue.
-            </p>
+            <div className="flex items-center gap-1.5 justify-center">
+              {['#FF3B30', '#FF9500', '#FFD60A', '#34C759', '#00AEEF', '#7B2CBF'].map((hex, i) => (
+                <div
+                  key={i}
+                  className="w-9 h-11 rounded-[2px] flex items-center justify-center font-mono text-xs font-bold text-white shadow-xs transition-transform group-hover/game:scale-105"
+                  style={{ backgroundColor: hex }}
+                >
+                  {hex[i + 1] || 'F'}
+                </div>
+              ))}
+            </div>
+            <div className="font-mono text-[10px] text-amber-400/90 text-center tracking-wider">
+              INPUT: # _ _ _ _ _ _
+            </div>
           </div>
 
-          <Button
-            variant="primary"
-            size="md"
-            iconRight={<ArrowRight size={14} />}
-            onClick={() => onNavigate({ path: 'play-hexle' })}
-            className="w-full justify-between"
-          >
-            Play Hexle
-          </Button>
-        </SpecimenCardBase>
+          <div className="p-5 flex flex-col gap-2 flex-1 justify-between bg-[#F8F8F8] dark:bg-[#141518]">
+            <div>
+              <div className="font-mono text-[10px] font-semibold text-[var(--accent-gold)] uppercase tracking-wider mb-1">
+                DAILY COLOR PUZZLE
+              </div>
+              <h2 className="font-sans text-xl font-bold text-[#171717] dark:text-white tracking-tight m-0 mb-2">
+                Hexle
+              </h2>
+              <p className="text-xs text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0">
+                Guess the 6-character hexadecimal color value. Receive directional channel feedback for Red, Green, and Blue.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between font-mono text-xs font-semibold text-[#171717] dark:text-white">
+              <span>PLAY HEXLE</span>
+              <ArrowUpRight size={13} className="transition-transform group-hover/game:translate-x-0.5 group-hover/game:-translate-y-0.5" />
+            </div>
+          </div>
+        </KromaCard>
 
         {/* Game 2: Odd One Out */}
-        <SpecimenCardBase
-          className="p-6 flex flex-col justify-between gap-6"
+        <KromaCard
+          className="group/game flex flex-col justify-between"
           onClick={() => onNavigate({ path: 'play-odd-one-out' })}
+          aria-label="Play Odd One Out perception challenge"
         >
-          <div>
-            <div className="w-12 h-12 rounded-md bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
-              <Eye size={24} />
+          {/* Visual Hero: Delta-E Acuity Grid */}
+          <div className="w-full h-36 bg-[#171717] p-4 flex flex-col justify-between border-b border-black/[0.06] dark:border-white/[0.06] select-none">
+            <div className="flex items-center justify-between font-mono text-[10px] text-white/50 uppercase tracking-wider">
+              <span>DELTA-E DIFFERENTIAL</span>
+              <span>G-02</span>
             </div>
-            <span className="font-sans text-[11px] font-semibold text-emerald-400 block mb-1">
-              Perceptual acuity
-            </span>
-            <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">
-              Odd One Out
-            </h2>
-            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-              Spot the color swatch that differs by minute Delta-E lightness or saturation deltas before time runs out.
-            </p>
+            <div className="grid grid-cols-4 gap-1.5 max-w-[170px] mx-auto">
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-8 h-8 rounded-[2px] transition-transform group-hover/game:scale-105"
+                  style={{
+                    backgroundColor: i === 5 ? '#2ECC71' : '#27AE60',
+                    boxShadow: i === 5 ? '0 0 0 1px rgba(255,255,255,0.4)' : 'none',
+                  }}
+                  title={i === 5 ? 'Subtle delta-E outlier' : undefined}
+                />
+              ))}
+            </div>
+            <div className="font-mono text-[10px] text-emerald-400/90 text-center tracking-wider">
+              THRESHOLD ΔE &lt; 2.5
+            </div>
           </div>
 
-          <Button
-            variant="primary"
-            size="md"
-            iconRight={<ArrowRight size={14} />}
-            onClick={() => onNavigate({ path: 'play-odd-one-out' })}
-            className="w-full justify-between"
-          >
-            Play Odd One Out
-          </Button>
-        </SpecimenCardBase>
+          <div className="p-5 flex flex-col gap-2 flex-1 justify-between bg-[#F8F8F8] dark:bg-[#141518]">
+            <div>
+              <div className="font-mono text-[10px] font-semibold text-emerald-500 uppercase tracking-wider mb-1">
+                PERCEPTUAL ACUITY
+              </div>
+              <h2 className="font-sans text-xl font-bold text-[#171717] dark:text-white tracking-tight m-0 mb-2">
+                Odd One Out
+              </h2>
+              <p className="text-xs text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0">
+                Spot the color swatch that differs by minute Delta-E lightness or saturation deltas before time runs out.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between font-mono text-xs font-semibold text-[#171717] dark:text-white">
+              <span>START CHALLENGE</span>
+              <ArrowUpRight size={13} className="transition-transform group-hover/game:translate-x-0.5 group-hover/game:-translate-y-0.5" />
+            </div>
+          </div>
+        </KromaCard>
 
         {/* Game 3: Palette Match */}
-        <SpecimenCardBase
-          className="p-6 flex flex-col justify-between gap-6"
+        <KromaCard
+          className="group/game flex flex-col justify-between"
           onClick={() => onNavigate({ path: 'play-palette-match' })}
+          aria-label="Play Palette Match harmonic ordering"
         >
-          <div>
-            <div className="w-12 h-12 rounded-md bg-pink-500/10 text-pink-400 flex items-center justify-center mb-4">
-              <Layers size={24} />
+          {/* Visual Hero: Scrambled Chromatic Spectrum Flow */}
+          <div className="w-full h-36 bg-[#171717] p-4 flex flex-col justify-between border-b border-black/[0.06] dark:border-white/[0.06] select-none">
+            <div className="flex items-center justify-between font-mono text-[10px] text-white/50 uppercase tracking-wider">
+              <span>HARMONIC SEQUENCE</span>
+              <span>G-03</span>
             </div>
-            <span className="font-sans text-[11px] font-semibold text-pink-400 block mb-1">
-              Harmonic order
-            </span>
-            <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">
-              Palette Match
-            </h2>
-            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-              Arrange scrambled color swatches into their optimal harmonic progression and role hierarchy.
-            </p>
+            <div className="flex h-9 rounded-[2px] overflow-hidden w-full max-w-[220px] mx-auto border border-white/20">
+              {['#7B2CBF', '#FF3B30', '#00AEEF', '#FFD60A', '#34C759'].map((hex, idx) => (
+                <div
+                  key={idx}
+                  className="flex-1 h-full transition-[flex] duration-200 group-hover/game:hover:flex-[1.4]"
+                  style={{ backgroundColor: hex }}
+                />
+              ))}
+            </div>
+            <div className="font-mono text-[10px] text-pink-400/90 text-center tracking-wider">
+              DRAG &amp; ARRANGE HARMONIES
+            </div>
           </div>
 
-          <Button
-            variant="primary"
-            size="md"
-            iconRight={<ArrowRight size={14} />}
-            onClick={() => onNavigate({ path: 'play-palette-match' })}
-            className="w-full justify-between"
-          >
-            Play Palette Match
-          </Button>
-        </SpecimenCardBase>
+          <div className="p-5 flex flex-col gap-2 flex-1 justify-between bg-[#F8F8F8] dark:bg-[#141518]">
+            <div>
+              <div className="font-mono text-[10px] font-semibold text-pink-500 uppercase tracking-wider mb-1">
+                HARMONIC ORDER
+              </div>
+              <h2 className="font-sans text-xl font-bold text-[#171717] dark:text-white tracking-tight m-0 mb-2">
+                Palette Match
+              </h2>
+              <p className="text-xs text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0">
+                Arrange scrambled color swatches into their optimal harmonic progression and role hierarchy.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between font-mono text-xs font-semibold text-[#171717] dark:text-white">
+              <span>PLAY MATCH</span>
+              <ArrowUpRight size={13} className="transition-transform group-hover/game:translate-x-0.5 group-hover/game:-translate-y-0.5" />
+            </div>
+          </div>
+        </KromaCard>
       </div>
     </div>
   );

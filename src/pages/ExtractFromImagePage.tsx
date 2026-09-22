@@ -1,57 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Upload,
-  Image as ImageIcon,
-  Sparkles,
-  Lock,
-  Unlock,
-  Trash2,
-  Plus,
   Copy,
   Check,
-  Share2,
   Bookmark,
-  ShieldCheck,
-  ExternalLink,
-  RotateCcw,
-  Sliders,
-  Palette,
-  Eye,
-  Zap,
-  ArrowRight,
-  Layers,
-  Wand2,
+  RefreshCw,
+  ArrowUpRight,
+  Sparkles,
 } from 'lucide-react';
 import { RouteType } from '../types';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
-import { copyToClipboard, getTextColorForBackground } from '../utils/colorUtils';
+import { copyToClipboard } from '../utils/colorUtils';
 import {
   extractColorsFromImage,
   ExtractedSwatch,
   IMAGE_PRESETS,
   ImagePreset,
 } from '../utils/imageColorExtractor';
-import { createPaletteSlug } from '../utils/canonicalResourceUtils';
-import { findClosestColorName } from '../utils/paletteGenerator';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Link } from '../components/common/Link';
-import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
-import { Analytics } from '../utils/analytics';
-import {
-  applyRemixAdjustments,
-  applyRemixPreset,
-  DEFAULT_REMIX_ADJUSTMENTS,
-} from '../utils/remixEngine';
 
 interface ExtractFromImagePageProps {
   imagePreset?: string;
   onNavigate: (route: RouteType) => void;
 }
+
+// Representative pin sampling coordinates across image
+const PIN_COORDINATES = [
+  { top: '32%', left: '26%' },
+  { top: '24%', left: '68%' },
+  { top: '56%', left: '42%' },
+  { top: '74%', left: '18%' },
+  { top: '68%', left: '78%' },
+  { top: '44%', left: '84%' },
+  { top: '82%', left: '50%' },
+];
 
 export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
   imagePreset,
@@ -62,12 +47,12 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
   const { addPalette } = useLibraryData();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(() => {
+  const [selectedImage, setSelectedImage] = useState<string>(() => {
     if (imagePreset) {
       const match = IMAGE_PRESETS.find((p) => p.id === imagePreset);
       if (match) return match.url;
     }
-    return IMAGE_PRESETS[0].url; // Default to Botanical preset for immediate beauty
+    return IMAGE_PRESETS[0].url;
   });
 
   const [imageTitle, setImageTitle] = useState<string>(IMAGE_PRESETS[0].title);
@@ -75,18 +60,15 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
   const [swatches, setSwatches] = useState<ExtractedSwatch[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const [showPresets, setShowPresets] = useState<boolean>(false);
+  const [activeSwatchIndex, setActiveSwatchIndex] = useState<number | null>(null);
+  const [copiedHex, setCopiedHex] = useState<string | null>(null);
+  const [copiedAll, setCopiedAll] = useState(false);
 
   // Perform extraction whenever image or count changes
-  const runExtraction = async (
-    imgSrc: string,
-    count: number,
-    lockedList: ExtractedSwatch[] = []
-  ) => {
+  const runExtraction = async (imgSrc: string, count: number) => {
     setLoading(true);
     try {
-      const result = await extractColorsFromImage(imgSrc, count, lockedList);
+      const result = await extractColorsFromImage(imgSrc, count, []);
       setSwatches(result);
     } catch (err: any) {
       showToast('Image extraction failed', err?.message || 'Unsupported image format');
@@ -97,11 +79,11 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
 
   useEffect(() => {
     if (selectedImage) {
-      runExtraction(selectedImage, colorCount, swatches.filter((s) => s.locked));
+      runExtraction(selectedImage, colorCount);
     }
   }, [selectedImage, colorCount]);
 
-  // Handle file selection
+  // File upload handler
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -117,13 +99,11 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
         const dataUrl = event.target.result as string;
         setSelectedImage(dataUrl);
         setImageTitle(file.name.replace(/\.[^/.]+$/, ''));
-        setShowPresets(false);
       }
     };
     reader.readAsDataURL(file);
   };
 
-  // Drag and drop handlers
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(true);
@@ -145,618 +125,305 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
           const dataUrl = event.target.result as string;
           setSelectedImage(dataUrl);
           setImageTitle(file.name.replace(/\.[^/.]+$/, ''));
-          setShowPresets(false);
         }
       };
       reader.readAsDataURL(file);
     } else {
-      showToast('Invalid file dropped', 'Please drop a valid image file.');
+      showToast('Invalid file dropped', 'Please drop a JPG, PNG, or WEBP image.');
     }
   };
 
-  // Preset selection
   const handleSelectPreset = (preset: ImagePreset) => {
     setSelectedImage(preset.url);
     setImageTitle(preset.title);
-    setShowPresets(false);
   };
 
-  // Swatch interaction handlers
-  const handleToggleLock = (id: string) => {
-    setSwatches((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, locked: !s.locked } : s))
-    );
-  };
-
-  const handleColorChange = (id: string, newHex: string) => {
-    const clean = newHex.startsWith('#') ? newHex.toUpperCase() : `#${newHex.toUpperCase()}`;
-    if (/^#[0-9A-F]{0,6}$/i.test(clean)) {
-      setSwatches((prev) =>
-        prev.map((s) => {
-          if (s.id === id) {
-            return {
-              ...s,
-              hex: clean,
-              name: findClosestColorName(clean),
-            };
-          }
-          return s;
-        })
-      );
+  // Actions
+  const handleCopySingle = async (hex: string, name: string) => {
+    const ok = await copyToClipboard(hex);
+    if (ok) {
+      setCopiedHex(hex);
+      showToast(`Copied ${hex}`, name, hex);
+      setTimeout(() => setCopiedHex(null), 1500);
     }
   };
 
-  const handleRoleChange = (id: string, newRole: string) => {
-    setSwatches((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, role: newRole } : s))
-    );
-  };
-
-  const handleDeleteSwatch = (id: string) => {
-    if (swatches.length <= 2) {
-      showToast('Minimum 2 swatches required');
-      return;
-    }
-    setSwatches((prev) => prev.filter((s) => s.id !== id));
-  };
-
-  const handleAddSwatch = () => {
-    if (swatches.length >= 10) {
-      showToast('Maximum 10 swatches allowed');
-      return;
-    }
-    const newHex = '#E9C46A';
-    const newSwatch: ExtractedSwatch = {
-      id: `swatch-manual-${Date.now()}`,
-      hex: newHex,
-      name: findClosestColorName(newHex),
-      role: 'Accent Highlight',
-      locked: false,
-      frequency: 5,
-      luminance: 70,
-    };
-    setSwatches((prev) => [...prev, newSwatch]);
-  };
-
-  // Copy helper
-  const handleCopy = async (text: string, key: string, label: string) => {
-    const success = await copyToClipboard(text);
-    if (success) {
-      setCopiedKey(key);
-      setTimeout(() => setCopiedKey(null), 1200);
-      showToast(`Copied ${label}`, text);
-    }
-  };
-
-  const handleCopyAllHex = async () => {
+  const handleCopyAll = async () => {
     const all = swatches.map((s) => s.hex).join(', ');
-    const success = await copyToClipboard(all);
-    if (success) {
-      showToast('Copied all extracted HEX values', all);
+    const ok = await copyToClipboard(all);
+    if (ok) {
+      setCopiedAll(true);
+      showToast(`Copied ${swatches.length} colors`, imageTitle);
+      setTimeout(() => setCopiedAll(false), 2000);
     }
   };
-
-  // Canonical Slug & Save Action
-  const hexHash = swatches.map((s) => s.hex.replace('#', '').toLowerCase()).join('-');
-  const canonicalSlug = `ext-pal-${hexHash.slice(0, 30)}`;
-  const saved = isSaved(canonicalSlug);
 
   const handleSavePalette = () => {
-    const title = `${imageTitle} Extracted Palette`;
+    const id = `img-pal-${swatches.map((s) => s.hex.replace('#', '').toLowerCase()).join('-')}`;
     const preview = swatches.map((s) => s.hex).join(',');
+    const title = `${imageTitle} System`;
 
     saveItem({
-      id: canonicalSlug,
+      id,
       type: 'palette',
       title,
-      slug: canonicalSlug,
+      slug: id,
       preview,
-      metadata: `Image Extraction • ${swatches.length} Tones`,
+      metadata: `Extracted from image • ${swatches.length} colors`,
     });
 
     addPalette({
-      id: canonicalSlug,
-      slug: canonicalSlug,
+      id,
+      slug: id,
       title,
       category: 'Image Extraction',
-      description: `Color system extracted from photograph "${imageTitle}".`,
-      colors: swatches.map((s) => ({
+      description: `Extracted chromatic harmony from "${imageTitle}".`,
+      colors: swatches.map((s, idx) => ({
         name: s.name,
         hex: s.hex,
-        role: s.role,
+        role: idx === 0 ? 'Dominant' : idx < 3 ? 'Secondary' : 'Accent',
       })),
-      tags: ['extracted', 'image', 'natural'],
+      tags: ['image', 'extracted', 'study'],
     });
 
-    showToast(
-      saved ? 'Removed from saved' : 'Saved extracted palette to workspace',
-      title
-    );
+    showToast('Saved extracted palette to collection', title);
   };
 
-  const handleShare = async () => {
-    const success = await copyToClipboard(window.location.href);
-    if (success) {
-      showToast('Share link copied to clipboard', imageTitle);
-    }
+  const handleGenerateVariation = () => {
+    const colorParam = swatches.map((s) => s.hex.replace('#', '')).join('-');
+    onNavigate({ path: 'palette-generator', colors: colorParam });
   };
 
-  const ROLES_OPTIONS = [
-    'Primary Dominant',
-    'Secondary',
-    'Accent Highlight',
-    'Vibrant Accent',
-    'Light Background',
-    'Dark Canvas',
-    'Neutral Muted',
-    'Surface / Border',
-  ];
+  const currentId = `img-pal-${swatches.map((s) => s.hex.replace('#', '').toLowerCase()).join('-')}`;
+  const saved = isSaved(currentId);
 
-  const extractorSchema = React.useMemo(() => {
-    return generateWebApplicationSchema({
-      name: 'Extract Color Palette from Image',
-      description:
-        'Upload images to extract dominant color spectra, perceptual hues, semantic UI roles, and create reusable palettes.',
-      url: '/extract-from-image',
-      applicationCategory: 'DesignApplication',
-    });
-  }, []);
+  const webAppSchema = generateWebApplicationSchema({
+    name: 'KROMA Image Color Extractor',
+    applicationCategory: 'DesignApplication',
+    url: '/extract-image',
+    description: 'Forensic image color extraction lab with interactive pins and design token exports.',
+  });
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col gap-6 sm:gap-8">
+    <div className="kroma-page">
       <SEOHead
-        title="Extract Color Palette from Image | KROMA Spectrum"
-        description="Extract dominant and harmonious color palettes from photographs and graphic assets with automatic semantic UI role mapping and instant token exports."
-        canonicalPath="/extract-from-image"
-        jsonLd={extractorSchema}
-        keywords={['extract color from image', 'image color palette generator', 'photo color picker', 'image hex extractor']}
+        title="Extract from Image — Turn Images into Color | KROMA"
+        description="A forensic color lab. Upload any image, inspect interactive sampled chromatic pins, and extract harmonic palettes."
+        canonicalPath="/extract-image"
+        jsonLd={webAppSchema}
       />
 
-      <PageHeader
-        breadcrumbs={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Tools', to: { path: 'palettes' } },
-          { label: 'Extract from Image', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-        sectionLabel="Image chromatic harmony engine"
-        title="Extract from Image"
-        description="Upload photographs or design assets to extract perceptually distinct color gamuts, detect semantic UI roles, and create reusable palettes."
-        actions={
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Sparkles size={13} className="text-[var(--accent-gold)]" />}
-              onClick={() => setShowPresets(!showPresets)}
-              title="Try Curated Photography Presets"
-            >
-              Try Examples
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Copy size={13} />}
-              onClick={handleCopyAllHex}
-              title="Copy All Swatches"
-            >
-              Copy All
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Share2 size={13} />}
-              onClick={handleShare}
-              title="Share Palette URL"
-            >
-              Share
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              iconLeft={<Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />}
-              onClick={handleSavePalette}
-              title="Save Palette"
-            >
-              {saved ? 'Saved' : 'Save Palette'}
-            </Button>
-          </div>
-        }
-      />
+      {/* Top Hero */}
+      <header className="kroma-hero">
+        <div className="kroma-label">EXTRACT FROM IMAGE</div>
+        <h1 className="kroma-headline">TURN IMAGES INTO COLOR.</h1>
+        <p className="kroma-lead">
+          A forensic color lab. Sample chromatic moments from photography, paintings, and real-world scenes into calibrated color palettes.
+        </p>
+      </header>
 
-      {/* Photography Presets Drawer (Collapsible) */}
-      {showPresets && (
-        <div className="bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-md p-5 shadow-xl flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-150">
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-              SAMPLE PHOTOGRAPHY PRESETS
-            </span>
-            <button
-              onClick={() => setShowPresets(false)}
-              className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            >
-              Close ✕
-            </button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-            {IMAGE_PRESETS.map((preset) => (
-              <div
-                key={preset.id}
-                onClick={() => handleSelectPreset(preset)}
-                className="bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] rounded-xs overflow-hidden cursor-pointer group transition-all"
-              >
-                <img
-                  src={preset.thumbnail}
-                  alt={preset.title}
-                  className="w-full h-24 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="p-2.5">
-                  <div className="text-xs font-bold text-[var(--text-primary)] truncate">
-                    {preset.title}
-                  </div>
-                  <div className="text-[10px] text-[var(--text-tertiary)] mt-0.5">
-                    {preset.category}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Main Studio Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Image Viewport & Upload Controls (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          {/* Upload Dropzone & Viewport Card */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md overflow-hidden shadow-lg flex flex-col">
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept="image/png, image/jpeg, image/webp"
-              className="hidden"
-            />
-
-            {selectedImage ? (
-              <div className="relative group">
-                <img
-                  src={selectedImage}
-                  alt="Source Specimen"
-                  className="w-full h-64 md:h-72 object-cover"
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="btn-primary text-xs"
-                  >
-                    Replace Image
-                  </button>
-                  <button
-                    onClick={() =>
-                      runExtraction(selectedImage, colorCount, swatches.filter((s) => s.locked))
-                    }
-                    className="btn-secondary text-xs"
-                  >
-                    Re-Analyze
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-                className={`w-full h-64 border-2 border-dashed rounded-md flex flex-col items-center justify-center p-6 text-center cursor-pointer transition-colors ${
-                  isDragging
-                    ? 'border-[var(--accent-gold)] bg-[var(--bg-surface-2)]'
-                    : 'border-[var(--border-medium)] hover:border-[var(--text-primary)] bg-[var(--bg-surface-1)]'
+      {/* Preset Sample Images or Dropzone */}
+      <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {/* Preset Sample Images */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <span className="font-mono text-[11px] text-neutral-400 uppercase tracking-wider whitespace-nowrap mr-1">
+            SAMPLE IMAGES:
+          </span>
+          {IMAGE_PRESETS.map((p) => {
+            const isSelected = selectedImage === p.url;
+            return (
+              <button
+                key={p.id}
+                onClick={() => handleSelectPreset(p)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-xs font-sans transition-all whitespace-nowrap ${
+                  isSelected
+                    ? 'border-neutral-900 dark:border-white bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-semibold'
+                    : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 text-neutral-600 dark:text-neutral-400'
                 }`}
               >
-                <Upload size={32} className="text-[var(--text-tertiary)] mb-2" />
-                <div className="text-sm font-bold text-[var(--text-primary)]">
-                  Upload an image to extract colors
-                </div>
-                <p className="text-xs text-[var(--text-tertiary)] mt-1 max-w-xs">
-                  Drag and drop PNG, JPG, or WEBP, or click to browse your files.
-                </p>
-              </div>
-            )}
-
-            {/* Image Metadata & Count Controls */}
-            <div className="p-4 bg-[var(--bg-surface-1)] border-t border-[var(--border-subtle)] flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs font-bold text-[var(--text-primary)] truncate max-w-[200px]">
-                    {imageTitle}
-                  </div>
-                  <div className="font-mono text-[10px] text-[var(--text-tertiary)]">
-                    {loading ? 'Analyzing spectrum...' : `${swatches.length} swatches extracted`}
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="text-xs font-semibold text-[var(--accent-gold)] hover:underline"
-                >
-                  Upload New
-                </button>
-              </div>
-
-              {/* Swatch Count Selector */}
-              <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)]">
-                <span className="font-mono text-xs text-[var(--text-secondary)] font-bold">
-                  SWATCH COUNT
-                </span>
-                <div className="flex items-center gap-1">
-                  {[3, 4, 5, 6, 7, 8, 10].map((num) => (
-                    <button
-                      key={num}
-                      onClick={() => setColorCount(num)}
-                      className={`w-7 h-7 font-mono text-xs font-bold rounded-xs transition-all ${
-                        colorCount === num
-                          ? 'bg-[var(--text-primary)] text-[var(--text-inverse)]'
-                          : 'bg-[var(--bg-surface-2)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)]'
-                      }`}
-                    >
-                      {num}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Multi-Direction Spectrum Modes */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-5 shadow-lg flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-xs text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-                CHROMATIC EXTRACTION DIRECTIONS
-              </span>
-            </div>
-            <p className="text-xs text-[var(--text-secondary)]">
-              Generate alternate atmospheric interpretations from the same photograph:
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-              {(
-                [
-                  { label: 'Original', key: 'original' },
-                  { label: 'Vibrant', key: 'vibrant' },
-                  { label: 'Muted Matte', key: 'muted' },
-                  { label: 'Warm Sun', key: 'warmer' },
-                  { label: 'Cool Dusk', key: 'cooler' },
-                  { label: 'Dark Mode', key: 'darker' },
-                  { label: 'Light Airy', key: 'lighter' },
-                  { label: 'High Contrast', key: 'high-contrast' },
-                ] as const
-              ).map((mode) => (
-                <button
-                  key={mode.key}
-                  onClick={() => {
-                    if (mode.key === 'original') {
-                      runExtraction(selectedImage!, colorCount, []);
-                    } else {
-                      const remixed = applyRemixAdjustments(
-                        swatches.map((s) => ({ name: s.name, hex: s.hex, role: s.role })),
-                        applyRemixPreset(DEFAULT_REMIX_ADJUSTMENTS, mode.key as any)
-                      );
-                      setSwatches(
-                        remixed.map((r, i) => ({
-                          id: `swatch-dir-${i}-${Date.now()}`,
-                          hex: r.hex,
-                          name: r.name,
-                          role: r.role || 'Surface Accent',
-                          locked: false,
-                          frequency: 10,
-                          luminance: 50,
-                        }))
-                      );
-                      showToast(`Generated ${mode.label} Direction`);
-                    }
-                  }}
-                  className="btn-secondary text-xs px-2.5 py-1.5 text-center"
-                >
-                  {mode.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Cross-Tool Launcher Shortcuts */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-5 shadow-lg flex flex-col gap-3">
-            <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-              CONNECTED CREATION TOOLS
-            </span>
-
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => {
-                  const fg = swatches[0]?.hex || '#10288C';
-                  const bg = swatches[1]?.hex || '#FFFFFF';
-                  onNavigate({ path: 'contrast-checker', fg, bg });
-                }}
-                className="w-full flex items-center justify-between p-2.5 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs transition-colors group"
-              >
-                <div className="flex items-center gap-2.5">
-                  <ShieldCheck size={14} className="text-blue-400" />
-                  <span className="text-xs font-bold text-[var(--text-primary)]">
-                    Check Contrast in Studio
-                  </span>
-                </div>
-                <ArrowRight size={13} className="text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)]" />
+                <span
+                  className="w-3.5 h-3.5 rounded-full bg-cover bg-center border border-black/10 flex-shrink-0"
+                  style={{ backgroundImage: `url(${p.thumbnail})` }}
+                />
+                <span>{p.title.split(' ')[0]}</span>
               </button>
-
-              <button
-                onClick={() => {
-                  const hexList = swatches.map((s) => s.hex.replace('#', '')).join('-');
-                  onNavigate({ path: 'palette-generator', colors: hexList });
-                }}
-                className="w-full flex items-center justify-between p-2.5 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs transition-colors group"
-              >
-                <div className="flex items-center gap-2.5">
-                  <Sparkles size={14} className="text-amber-400" />
-                  <span className="text-xs font-bold text-[var(--text-primary)]">
-                    Open in Mobile Palette Generator
-                  </span>
-                </div>
-                <ArrowRight size={13} className="text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)]" />
-              </button>
-
-              <button
-                onClick={() => {
-                  const hexList = swatches.map((s) => s.hex.replace('#', '')).join('-');
-                  onNavigate({ path: 'brand-kit', paletteSlug: hexList });
-                }}
-                className="w-full flex items-center justify-between p-2.5 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs transition-colors group"
-              >
-                <div className="flex items-center gap-2.5">
-                  <Palette size={14} className="text-emerald-400" />
-                  <span className="text-xs font-bold text-[var(--text-primary)]">
-                    Create Brand Kit with Colors
-                  </span>
-                </div>
-                <ArrowRight size={13} className="text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)]" />
-              </button>
-            </div>
-          </div>
+            );
+          })}
         </div>
 
-        {/* Right Column: Extracted Palette & Interactive Editing (7 Cols) */}
-        <div className="lg:col-span-7 flex flex-col gap-6">
-          {/* Continuous Multi-Tone Palette Preview Strip */}
-          <div className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md overflow-hidden shadow-lg p-5 flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
-                EXTRACTED PALETTE SPECIMEN
-              </span>
-              <button
-                onClick={handleAddSwatch}
-                className="inline-flex items-center gap-1 text-xs font-mono text-[var(--accent-gold)] hover:underline"
-              >
-                <Plus size={12} />
-                <span>Add Tone</span>
-              </button>
-            </div>
-
-            {/* Seamless Visual Gradient Bar */}
-            <div className="w-full h-16 rounded-xs overflow-hidden flex border border-[var(--border-medium)] shadow-inner">
-              {swatches.map((s) => (
-                <div
-                  key={s.id}
-                  style={{ backgroundColor: s.hex }}
-                  className="flex-1 h-full relative group cursor-pointer"
-                  onClick={() => handleCopy(s.hex, s.id, s.name)}
-                  title={`${s.name} (${s.hex}) - Click to copy`}
-                />
-              ))}
-            </div>
-
-            {/* Detailed Swatch Cards List */}
-            <div className="flex flex-col gap-2.5 mt-2">
-              {swatches.map((swatch) => {
-                const textColor = getTextColorForBackground(swatch.hex);
-                return (
-                  <div
-                    key={swatch.id}
-                    className="p-3.5 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs flex items-center justify-between gap-3 transition-all"
-                  >
-                    {/* Color Swatch & Live Picker */}
-                    <div className="flex items-center gap-3">
-                      <ColorSwatchPicker
-                        value={swatch.hex}
-                        onChange={(hex) => handleColorChange(swatch.id, hex)}
-                        showLabel={false}
-                        size="lg"
-                      />
-
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-[var(--text-primary)]">
-                            {swatch.name}
-                          </span>
-                          {swatch.locked && (
-                            <span className="font-mono text-[9px] px-1 py-0.2 bg-amber-500/20 text-amber-400 rounded-xs">
-                              LOCKED
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="font-mono text-[11px] font-bold text-[var(--text-secondary)]">
-                            {swatch.hex}
-                          </span>
-                          <span className="text-[10px] text-[var(--text-tertiary)] font-mono">
-                            • {swatch.frequency}% image coverage
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Role Selector & Actions */}
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <select
-                        value={swatch.role}
-                        onChange={(e) => handleRoleChange(swatch.id, e.target.value)}
-                        className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] text-[var(--text-secondary)] text-[11px] font-mono rounded-xs px-2 py-1 outline-none"
-                      >
-                        {ROLES_OPTIONS.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                      </select>
-
-                      <button
-                        onClick={() => handleToggleLock(swatch.id)}
-                        className={`p-1.5 border rounded-xs transition-colors ${
-                          swatch.locked
-                            ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                            : 'bg-[var(--bg-surface-1)] border-[var(--border-subtle)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)]'
-                        }`}
-                        title={swatch.locked ? 'Unlock Color' : 'Lock Color during Re-extraction'}
-                      >
-                        {swatch.locked ? <Lock size={13} /> : <Unlock size={13} />}
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          onNavigate({ path: 'color-name-finder', hex: swatch.hex })
-                        }
-                        className="p-1.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
-                        title="Identify in Color Name Finder"
-                      >
-                        <ExternalLink size={13} />
-                      </button>
-
-                      <button
-                        onClick={() => handleDeleteSwatch(swatch.id)}
-                        className="p-1.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] text-[var(--text-tertiary)] hover:text-rose-400 rounded-xs transition-colors"
-                        title="Delete Swatch"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Bottom Canonical Palette Bar Action */}
-            <div className="flex justify-end gap-3 pt-3 border-t border-[var(--border-subtle)]">
-              <button
-                onClick={() =>
-                  onNavigate({ path: 'palette-detail', slug: canonicalSlug })
-                }
-                className="btn-primary inline-flex items-center gap-1.5 text-xs"
-              >
-                <span>View Canonical Specimen</span>
-                <ArrowRight size={13} />
-              </button>
-            </div>
-          </div>
+        {/* Upload Trigger */}
+        <div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="font-sans text-xs font-bold tracking-wider uppercase px-4 py-2 border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-neutral-900 dark:hover:border-white rounded-sm transition-colors flex items-center gap-2"
+          >
+            <Upload size={13} />
+            <span>CHOOSE IMAGE ↗</span>
+          </button>
         </div>
       </div>
+
+      {/* Centerpiece: Image Canvas with Interactive Pin Markers */}
+      <section
+        className={`relative w-full rounded-sm overflow-hidden border transition-all duration-200 shadow-xl bg-neutral-100 dark:bg-[#15171C] ${
+          isDragging
+            ? 'border-dashed border-neutral-900 dark:border-white ring-4 ring-black/5'
+            : 'border-neutral-200 dark:border-neutral-800'
+        }`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        aria-label="Image Analysis Stage"
+      >
+        <div className="relative w-full min-h-[360px] sm:min-h-[480px] max-h-[640px] flex items-center justify-center overflow-hidden">
+          <img
+            src={selectedImage}
+            alt={imageTitle}
+            className="w-full h-full object-cover max-h-[640px]"
+          />
+
+          {/* Foreground Chromatic Pins Overlaid ON the Image */}
+          {swatches.map((swatch, idx) => {
+            const pos = PIN_COORDINATES[idx % PIN_COORDINATES.length];
+            const isActive = activeSwatchIndex === idx;
+
+            return (
+              <div
+                key={swatch.id || idx}
+                style={{
+                  top: pos.top,
+                  left: pos.left,
+                }}
+                className="absolute -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer group flex flex-col items-center"
+                onClick={() => setActiveSwatchIndex(idx)}
+              >
+                {/* Tactical Dot with Pulsing Halo */}
+                <div
+                  className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.4)] flex items-center justify-center transition-transform duration-200 ${
+                    isActive ? 'scale-125 ring-4 ring-black/40' : 'group-hover:scale-115'
+                  }`}
+                  style={{ backgroundColor: swatch.hex }}
+                >
+                  <span className="font-mono text-[9px] font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    0{idx + 1}
+                  </span>
+                </div>
+
+                {/* Micro Hover Readout */}
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-2 pointer-events-none bg-black/80 backdrop-blur-md text-white px-2.5 py-1 rounded-xs font-mono text-[10px] tracking-wider uppercase whitespace-nowrap shadow-lg">
+                  {swatch.name} • {swatch.hex}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Loading Overlay if recalculating */}
+          {loading && (
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center text-white font-mono text-xs tracking-widest uppercase">
+              ANALYZING CHROMATIC SPECTRUM...
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Below the Image: Clean Horizontal Palette Strip with Proportions & Actions */}
+      <section className="mt-8 mb-16">
+        <div className="font-mono text-[11px] uppercase tracking-wider text-neutral-400 mb-3 flex items-center justify-between">
+          <span>EXTRACTED PALETTE STRIP ({swatches.length} SPECIMENS)</span>
+          <span>CLICK TO COPY HEX</span>
+        </div>
+
+        {/* The Clean Horizontal Strip */}
+        <div className="w-full rounded-sm overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-md flex flex-col md:flex-row mb-8">
+          {swatches.map((swatch, idx) => {
+            const isActive = activeSwatchIndex === idx;
+            const isCopied = copiedHex === swatch.hex;
+
+            return (
+              <div
+                key={swatch.id || idx}
+                className={`flex-1 flex flex-col justify-between p-4 cursor-pointer transition-all duration-150 ${
+                  isActive ? 'ring-2 ring-inset ring-neutral-900 dark:ring-white' : ''
+                }`}
+                style={{ backgroundColor: swatch.hex }}
+                onClick={() => handleCopySingle(swatch.hex, swatch.name)}
+                onMouseEnter={() => setActiveSwatchIndex(idx)}
+                onMouseLeave={() => setActiveSwatchIndex(null)}
+              >
+                <div className="flex items-center justify-between drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
+                  <span className="font-mono text-[10px] font-bold text-white bg-black/30 px-1.5 py-0.5 rounded-xs">
+                    0{idx + 1}
+                  </span>
+                  <span className="font-mono text-[10px] font-bold text-white/90">
+                    {Math.round(swatch.frequency || (100 / swatches.length))}%
+                  </span>
+                </div>
+
+                <div className="mt-8 drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)] text-white">
+                  <div className="font-sans text-xs sm:text-sm font-bold truncate">
+                    {swatch.name}
+                  </div>
+                  <div className="font-mono text-xs font-bold text-white/90 flex items-center justify-between">
+                    <span>{swatch.hex}</span>
+                    {isCopied ? (
+                      <span className="text-emerald-300 text-[10px]">COPIED!</span>
+                    ) : (
+                      <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100" />
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Primary Actions: SAVE PALETTE · COPY COLORS · GENERATE VARIATION */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-neutral-200 dark:border-neutral-800">
+          <div className="flex flex-wrap items-center gap-3">
+            {/* SAVE PALETTE */}
+            <button
+              onClick={handleSavePalette}
+              className={`font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border transition-colors flex items-center gap-2 ${
+                saved
+                  ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-white dark:text-neutral-900 dark:border-white'
+                  : 'bg-transparent text-neutral-900 dark:text-white border-neutral-300 dark:border-neutral-700 hover:border-neutral-900 dark:hover:border-white'
+              }`}
+            >
+              <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
+              <span>{saved ? 'SAVED TO STUDIO' : 'SAVE PALETTE'}</span>
+            </button>
+
+            {/* COPY COLORS */}
+            <button
+              onClick={handleCopyAll}
+              className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-neutral-900 dark:hover:border-white transition-colors flex items-center gap-2"
+            >
+              {copiedAll ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+              <span>{copiedAll ? 'ALL COPIED!' : 'COPY COLORS'}</span>
+            </button>
+
+            {/* GENERATE VARIATION */}
+            <button
+              onClick={handleGenerateVariation}
+              className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-neutral-900 dark:hover:border-white transition-colors flex items-center gap-2"
+            >
+              <RefreshCw size={14} />
+              <span>GENERATE VARIATION ↗</span>
+            </button>
+          </div>
+
+          <div className="font-mono text-xs text-neutral-400 uppercase tracking-wider">
+            FORENSIC LAB • {imageTitle}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

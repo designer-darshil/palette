@@ -6,24 +6,22 @@ import {
   Heart,
   Share2,
   Code,
-  ArrowRight,
-  Layers,
-  ExternalLink,
-  Sparkles,
-  Wand2,
-  Sliders,
+  ArrowUpRight,
   FolderPlus,
+  RefreshCw,
+  Check,
 } from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
-import { copyToClipboard, getColorAccessibility, getTextColorForBackground } from '../utils/colorUtils';
+import {
+  copyToClipboard,
+  hexToRgb,
+  hexToHsl,
+  getContrastRatio,
+  getContrastRating,
+} from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
-import { PaletteCard } from '../components/PaletteCard';
-import { ComboCard } from '../components/ComboCard';
-import { GradientCard } from '../components/GradientCard';
-import { PalettePreviewModes } from '../components/PalettePreviewModes';
-import { AccessibilityMatrix } from '../components/AccessibilityMatrix';
 import { AddToCollectionModal } from '../components/AddToCollectionModal';
 import { TokenExportModal } from '../components/TokenExportModal';
 import { findSimilarPalettes } from '../utils/similarityEngine';
@@ -32,11 +30,6 @@ import { findClosestColorName } from '../utils/paletteGenerator';
 import { NotFoundPage } from './NotFoundPage';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generatePaletteSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
-import { Link } from '../components/common/Link';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { Analytics } from '../utils/analytics';
 
 interface PaletteDetailPageProps {
   slug: string;
@@ -45,18 +38,19 @@ interface PaletteDetailPageProps {
 
 export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNavigate }) => {
   const { showToast } = useToast();
-  const { isSaved, saveItem, savedItems, isLiked, toggleLike } = useSaved();
-  const { palettes, colors: libraryColors, combos: libraryCombos, gradients: libraryGradients } = useLibraryData();
+  const { isSaved, saveItem, savedItems } = useSaved();
+  const { palettes } = useLibraryData();
   const [collectionModalOpen, setCollectionModalOpen] = useState(false);
   const [tokenModalOpen, setTokenModalOpen] = useState(false);
-  const [exportMode, setExportMode] = useState<'hex' | 'css' | 'tailwind' | 'json'>('css');
+  const [copiedHex, setCopiedHex] = useState<string | null>(null);
+  const [copiedAll, setCopiedAll] = useState(false);
 
-  // Resolve palette comprehensively
+  // Resolve palette
   const palette: PaletteItem | null = useMemo(() => {
     if (!slug) return null;
     const cleanSlug = slug.toLowerCase();
 
-    // 1. Check Library Data (Curated + Custom + Admin)
+    // 1. Check Library Data
     const matchLib = palettes.find(
       (p) => p.slug.toLowerCase() === cleanSlug || p.id.toLowerCase() === cleanSlug
     );
@@ -73,14 +67,14 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           id: matchSaved.id,
           slug: matchSaved.slug,
           title: matchSaved.title,
-          category: 'Curator Workspace',
+          category: 'Studio Collection',
           description: matchSaved.metadata || `Saved palette system with ${hexList.length} tonal swatches.`,
           colors: hexList.map((hex, i) => {
             const cleanHex = hex.startsWith('#') ? hex.toUpperCase() : `#${hex.toUpperCase()}`;
             return {
               name: findClosestColorName(cleanHex),
               hex: cleanHex,
-              role: i === 0 ? 'Background Anchor' : i === 1 ? 'Primary Dominant' : i === 2 ? 'Accent Focus' : 'Surface / Highlight',
+              role: i === 0 ? 'Dominant Anchor' : i === 1 ? 'Primary Secondary' : i === 2 ? 'Secondary' : 'Accent',
             };
           }),
           tags: ['saved', 'workspace', 'custom'],
@@ -88,35 +82,58 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       }
     }
 
-    // 3. Check dynamic decoder from slug
+    // 3. Dynamic decoder
     const decoded = decodePaletteFromSlugOrId(slug);
     if (decoded) return decoded;
 
     return null;
   }, [slug, palettes, savedItems]);
 
+  // Active color selected in composition (default to first color)
+  const [selectedColorIndex, setSelectedColorIndex] = useState<number>(0);
+
   if (!palette) {
     return <NotFoundPage requestedUrl={`/palettes/${slug}`} onNavigate={onNavigate} />;
   }
-  const saved = isSaved(palette.id);
-  const liked = isLiked(palette.id);
 
-  const paletteSchema = useMemo(() => {
-    return generatePaletteSchema(palette);
-  }, [palette]);
+  const saved = isSaved(palette.id);
+  const currentColor = palette.colors[selectedColorIndex] || palette.colors[0];
+
+  // Calculate proportional widths
+  // Standard 5-color: 40%, 20%, 20%, 10%, 10%
+  const getProportionalWeight = (idx: number, total: number) => {
+    if (total === 5) return [40, 20, 20, 10, 10][idx] || 10;
+    if (total === 4) return [40, 25, 20, 15][idx] || 15;
+    if (total === 3) return [50, 30, 20][idx] || 20;
+    if (total === 6) return [35, 20, 15, 12, 10, 8][idx] || 8;
+    return idx === 0 ? 40 : Math.round(60 / (total - 1));
+  };
+
+  const currentColorWeight = getProportionalWeight(selectedColorIndex, palette.colors.length);
+
+  // Inspector metrics
+  const rgb = hexToRgb(currentColor.hex);
+  const hsl = hexToHsl(currentColor.hex);
+  const contrastOnWhite = getContrastRatio(currentColor.hex, '#FFFFFF');
+  const contrastOnDark = getContrastRatio(currentColor.hex, '#171717');
+  const contrastRatingWhite = getContrastRating(contrastOnWhite);
 
   const handleCopySingleHex = async (hex: string, name: string) => {
     const success = await copyToClipboard(hex);
     if (success) {
-      Analytics.trackColorCopy(hex, 'HEX', name);
+      setCopiedHex(hex);
       showToast(`Copied ${hex}`, name, hex);
+      setTimeout(() => setCopiedHex((curr) => (curr === hex ? null : curr)), 1800);
     }
   };
 
-  const handleShare = async () => {
-    const success = await copyToClipboard(window.location.href);
+  const handleCopyAllColors = async () => {
+    const allHexes = palette.colors.map((c) => c.hex).join(', ');
+    const success = await copyToClipboard(allHexes);
     if (success) {
-      showToast('Palette link copied to clipboard', palette.title);
+      setCopiedAll(true);
+      showToast(`Copied ${palette.colors.length} palette colors`, palette.title);
+      setTimeout(() => setCopiedAll(false), 2000);
     }
   };
 
@@ -129,314 +146,120 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       preview: palette.colors.map((c) => c.hex).join(','),
       metadata: `${palette.category} • ${palette.colors.length} swatches`,
     });
-    if (!saved) {
-      Analytics.trackSpecimenSave('palette', palette.id, palette.title);
-    }
     showToast(
       saved ? 'Removed palette from saved' : 'Saved palette to collection',
       palette.title
     );
   };
 
-  const handleToggleLike = () => {
-    const nowLiked = toggleLike(palette.id);
-    showToast(nowLiked ? 'Added to Liked' : 'Removed from Liked', palette.title);
-  };
-
-  const getCleanHexList = () => {
-    return palette.colors.map((c) => `${c.hex}  /* ${c.name} */`).join('\n');
-  };
-
-  const getCssVariables = () => {
-    const lines = palette.colors.map(
-      (c) => `  --color-${c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}: ${c.hex};`
-    );
-    return `:root {\n${lines.join('\n')}\n}`;
-  };
-
-  const getTailwindConfig = () => {
-    const obj: Record<string, string> = {};
-    palette.colors.forEach((c) => {
-      obj[c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')] = c.hex;
-    });
-    return JSON.stringify({ colors: obj }, null, 2);
-  };
-
-  const getJsonExport = () => {
-    return JSON.stringify(
-      {
-        palette: palette.title,
-        category: palette.category,
-        swatches: palette.colors,
-      },
-      null,
-      2
-    );
-  };
-
-  const currentExportCode =
-    exportMode === 'hex'
-      ? getCleanHexList()
-      : exportMode === 'css'
-      ? getCssVariables()
-      : exportMode === 'tailwind'
-      ? getTailwindConfig()
-      : getJsonExport();
-
-  const handleCopyExportCode = async () => {
-    const success = await copyToClipboard(currentExportCode);
+  const handleShare = async () => {
+    const success = await copyToClipboard(window.location.href);
     if (success) {
-      Analytics.trackPaletteCopy(
-        palette.title,
-        palette.colors.map((c) => c.hex)
-      );
-      showToast(`Copied ${exportMode.toUpperCase()} tokens`, palette.title);
+      showToast('Palette link copied to clipboard', palette.title);
     }
   };
 
-  // Find color item in library if exists
-  const findMatchingColorSlug = (hex: string) => {
-    const match = libraryColors.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
-    return match ? match.slug : null;
-  };
-
-  // Measurable Similarity Engine lookup
-  const similarPalettes = useMemo(() => {
-    return findSimilarPalettes(palette, palettes, 4);
+  // Related / similar palettes for "MORE COLOR STUDIES"
+  const relatedStudies = useMemo(() => {
+    return findSimilarPalettes(palette, palettes, 4).map((item) => item.palette);
   }, [palette, palettes]);
 
-  const relatedCombos = libraryCombos.filter(
-    (cb) => (cb.tags && palette.tags && cb.tags.some((t) => palette.tags.includes(t))) || cb.colors.some((c) => palette.colors.some((pc) => pc.hex.toLowerCase() === c.hex.toLowerCase()))
-  ).slice(0, 2);
-
-  const relatedGradients = libraryGradients.filter(
-    (g) => (g.tags && palette.tags && g.tags.some((t) => palette.tags.includes(t))) || g.category === palette.category
-  ).slice(0, 2);
-
-  const paletteHexParam = palette.colors.map((c) => c.hex.replace('#', '')).join('-');
+  const paletteSchema = useMemo(() => {
+    return generatePaletteSchema(palette);
+  }, [palette]);
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="kroma-page">
       <SEOHead
-        title={`${palette.title} — ${palette.category.toUpperCase()} Color Palette System`}
-        description={`${palette.description} Formulated with ${palette.colors.length} chromatic balance points: ${palette.colors.map((c) => `${c.name} (${c.hex})`).join(', ')}.`}
+        title={`${palette.title} — Physical Color Study | KROMA`}
+        description={`${palette.description} A calibrated proportional study of ${palette.colors.length} chromatic balance points.`}
         canonicalPath={`/palettes/${palette.slug}`}
         jsonLd={paletteSchema}
-        keywords={[palette.title, palette.category, ...palette.tags, ...palette.colors.map((c) => c.name)]}
       />
 
-      <PageHeader
-        breadcrumbs={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Palettes', to: { path: 'palettes' } },
-          { label: palette.category.toUpperCase(), to: `/palettes?category=${palette.category}` },
-          { label: palette.title, isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-        sectionLabel={`Palette system · ${palette.category} · ${palette.colors.length} swatches`}
-        title={palette.title}
-        description={palette.description}
-        actions={
-          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-            <Button
-              variant="primary"
-              size="sm"
-              iconLeft={<Wand2 size={13} />}
-              onClick={() => onNavigate({ path: 'palette-remix', slug: palette.slug })}
-              title="Remix this palette"
-            >
-              Remix
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<FolderPlus size={13} />}
-              onClick={() => setCollectionModalOpen(true)}
-              title="Add to Collection"
-            >
-              Collection
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Code size={13} />}
-              onClick={() => setTokenModalOpen(true)}
-              title="Export tokens in CSS / SCSS / Tailwind / DTCG JSON"
-            >
-              Export Tokens
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Heart size={13} fill={liked ? '#F87171' : 'none'} color={liked ? '#F87171' : 'currentColor'} />}
-              onClick={handleToggleLike}
-              title={liked ? 'Unlike' : 'Like'}
-            >
-              {liked ? 'Liked' : 'Like'}
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Share2 size={13} />}
-              onClick={handleShare}
-              title="Share Palette URL"
-            >
-              Share
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
-              onClick={handleToggleSave}
-            >
-              {saved ? 'Saved' : 'Save'}
-            </Button>
-          </div>
-        }
-      />
+      {/* Top: Back Arrow & Palette Title in Large Sans Type */}
+      <div className="pt-8 pb-6">
+        <button
+          onClick={() => onNavigate({ path: 'palettes' })}
+          className="inline-flex items-center gap-1.5 text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors uppercase mb-6"
+        >
+          <ArrowLeft size={14} />
+          <span>ALL PALETTES</span>
+        </button>
 
-      {/* Palette Hero Swatch Banner */}
-      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
-        <div className="h-44 sm:h-60 flex w-full">
-          {palette.colors.map((c, idx) => {
-            const textColor = getTextColorForBackground(c.hex);
-            return (
-              <div
-                key={idx}
-                style={{ backgroundColor: c.hex }}
-                className="flex-1 flex flex-col justify-between p-2.5 sm:p-4 cursor-pointer transition-all duration-200 min-w-0"
-                onClick={() => handleCopySingleHex(c.hex, c.name)}
-                title={`Click to copy ${c.name} (${c.hex})`}
-              >
-                <span
-                  className="font-mono text-[9px] sm:text-[11px] font-semibold px-1.5 py-0.5 rounded-xs w-fit shadow-sm"
-                  style={{
-                    backgroundColor: textColor === '#000000' ? 'rgba(0,0,0,0.18)' : 'rgba(0,0,0,0.45)',
-                    color: textColor === '#000000' ? '#000000' : '#FFFFFF',
-                  }}
-                >
-                  0{idx + 1}
-                </span>
-
-                <div className="min-w-0 overflow-hidden">
-                  <div
-                    className="font-mono text-[11px] sm:text-sm font-bold truncate"
-                    style={{ color: textColor }}
-                  >
-                    {c.hex}
-                  </div>
-                  <div
-                    className="text-[10px] sm:text-xs opacity-90 truncate hidden xs:block font-medium"
-                    style={{ color: textColor }}
-                  >
-                    {c.name}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Palette Header & Meta */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-        <div>
-          <span className="page-category-label text-xs font-mono text-[var(--accent-gold)] uppercase tracking-wider font-semibold">
-            {palette.category.toUpperCase()} SYSTEM • {palette.colors.length} TONAL SPECIMENS
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className="font-sans text-[11px] font-semibold tracking-wider uppercase text-neutral-400">
+            {palette.category?.toUpperCase() || 'EDITORIAL STUDY'}
           </span>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-[var(--text-primary)]">
-            {palette.title}
-          </h1>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1.5 max-w-2xl leading-relaxed">
-            {palette.description}
-          </p>
-
-          {palette.remixedFrom && (
-            <div className="mt-2 text-xs font-mono text-[var(--text-secondary)]">
-              Remixed from <strong>{palette.remixedFrom.title}</strong> by {palette.remixedFrom.creatorName || 'Creator'}
-            </div>
-          )}
+          {palette.tags?.slice(0, 3).map((tag) => (
+            <span
+              key={tag}
+              className="text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 rounded-xs"
+            >
+              #{tag}
+            </span>
+          ))}
         </div>
 
-        <div className="flex gap-2.5 flex-shrink-0">
-          <button
-            className="btn-primary w-full sm:w-auto text-xs px-4 py-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap"
-            onClick={handleCopyExportCode}
-          >
-            <Copy size={14} />
-            <span>Copy Palette Tokens</span>
-          </button>
-        </div>
+        <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase leading-[0.95] mb-4">
+          {palette.title}
+        </h1>
+
+        <p className="kroma-lead max-w-2xl">
+          {palette.description || 'A physical color study exploring spatial weight, luminance hierarchy, and chromatic harmony.'}
+        </p>
       </div>
 
-      {/* Swatch Breakdown Cards with Direct Navigation to Color Specimen & Relationships */}
-      <section className="flex flex-col gap-3.5">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
-          <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
-            Swatches &amp; Architectural Roles
-          </h2>
-          <span className="font-mono text-[10px] sm:text-xs text-[var(--text-tertiary)] uppercase">
-            CLICK COLOR TO EXPLORE RELATIONSHIPS
-          </span>
+      {/* Composition: Proportional Color Composition */}
+      {/* One color 40% (dominant), two colors 20%, two colors 10% (accents) */}
+      <section className="mt-4 mb-8" aria-label="Physical Color Composition">
+        <div className="font-mono text-[11px] tracking-wider uppercase text-neutral-400 mb-2 flex justify-between items-center">
+          <span>PROPORTIONAL COLOR STUDY (40% DOMINANT / 20% SECONDARY / 10% ACCENT)</span>
+          <span>CLICK ANY FIELD TO INSPECT</span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
-          {palette.colors.map((c, idx) => {
-            const slug = findMatchingColorSlug(c.hex);
-            const access = getColorAccessibility(c.hex);
+        <div className="w-full h-56 sm:h-80 md:h-96 rounded-sm overflow-hidden flex shadow-lg border border-black/10 dark:border-white/10">
+          {palette.colors.map((color, idx) => {
+            const weight = getProportionalWeight(idx, palette.colors.length);
+            const isSelected = selectedColorIndex === idx;
+
             return (
               <div
                 key={idx}
-                className="detail-spec-card p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-sm transition-all flex flex-col justify-between"
+                style={{
+                  backgroundColor: color.hex,
+                  flex: weight,
+                  outline: isSelected ? '4px solid #171717' : 'none',
+                  outlineOffset: '-4px',
+                }}
+                className="relative cursor-pointer transition-all duration-200 flex flex-col justify-between p-3 sm:p-5 group hover:brightness-105"
+                onClick={() => setSelectedColorIndex(idx)}
+                role="button"
+                tabIndex={0}
+                aria-label={`${color.name} ${color.hex}, ${weight}% proportion`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelectedColorIndex(idx);
+                  }
+                }}
               >
-                <div>
-                  <div
-                    className="h-20 rounded-xs border border-[var(--border-subtle)] mb-2.5 cursor-pointer shadow-inner relative flex items-end p-1.5"
-                    style={{ backgroundColor: c.hex }}
-                    onClick={() => handleCopySingleHex(c.hex, c.name)}
-                    title="Click to copy HEX"
-                  >
-                    <span
-                      className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-xs shadow-xs"
-                      style={{
-                        backgroundColor: access.bestTextColor === '#000000' ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
-                        color: access.bestTextColor === '#000000' ? '#000000' : '#FFFFFF',
-                      }}
-                    >
-                      {access.passAAA ? 'AAA' : 'AA'} {access.bestContrast}:1
-                    </span>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="font-bold text-xs sm:text-sm text-[var(--text-primary)] truncate">
-                      {c.name}
-                    </span>
-                    <button
-                      onClick={() => handleCopySingleHex(c.hex, c.name)}
-                      className="font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold flex-shrink-0"
-                    >
-                      {c.hex}
-                    </button>
-                  </div>
-                  {c.role && (
-                    <div className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase mt-0.5 truncate">
-                      ROLE: {c.role}
-                    </div>
+                <div className="flex justify-between items-start">
+                  <span className="font-mono text-[10px] sm:text-xs font-bold px-1.5 py-0.5 rounded-xs bg-black/40 text-white backdrop-blur-sm">
+                    {weight}%
+                  </span>
+                  {isSelected && (
+                    <span className="w-2.5 h-2.5 rounded-full bg-white shadow-md ring-2 ring-black" />
                   )}
                 </div>
 
-                <div className="mt-2.5 pt-2 border-t border-[var(--border-subtle)] flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
-                    <span>{access.bestTextColor === '#000000' ? 'Black text' : 'White text'}</span>
-                    <span className="font-bold">{access.bestContrast}:1</span>
+                <div className="opacity-0 group-hover:opacity-100 sm:opacity-100 transition-opacity">
+                  <div className="font-sans text-xs sm:text-sm font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] truncate">
+                    {color.name}
                   </div>
-                  <Link
-                    to={{ path: 'color-relationships', slug: slug || c.hex.replace('#', '') }}
-                    onNavigate={onNavigate}
-                    className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--accent-gold)] hover:underline"
-                  >
-                    <span>Theory &amp; Relationships</span>
-                    <ExternalLink size={10} />
-                  </Link>
+                  <div className="font-mono text-[10px] sm:text-xs text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {color.hex}
+                  </div>
                 </div>
               </div>
             );
@@ -444,127 +267,202 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         </div>
       </section>
 
-      {/* Multi-Preview Proofs (SaaS, Editorial, Mobile, Branding) */}
-      <PalettePreviewModes palette={palette} />
-
-      {/* WCAG 2.1 Accessibility Matrix */}
-      <AccessibilityMatrix colors={palette.colors} />
-
-      {/* Code Export Tokens */}
-      <section className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">
-              Export Tokens for Design &amp; Code
-            </h2>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
-              Formatted for instant drop-in into CSS, Tailwind, SCSS, or DTCG design tokens.
-            </p>
+      {/* Interactive Inspector Readout */}
+      <section className="p-6 sm:p-8 bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm mb-10">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <div
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-sm shadow-inner border border-black/10 flex-shrink-0"
+              style={{ backgroundColor: currentColor.hex }}
+            />
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-xs bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 font-semibold">
+                  {selectedColorIndex === 0 ? 'DOMINANT (40%)' : selectedColorIndex < 3 ? 'SECONDARY (20%)' : 'ACCENT (10%)'}
+                </span>
+                <span className="font-mono text-[11px] text-neutral-400">
+                  SWATCH 0{selectedColorIndex + 1} OF 0{palette.colors.length}
+                </span>
+              </div>
+              <h2 className="font-sans text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white tracking-tight">
+                {currentColor.name}
+              </h2>
+              <div className="font-mono text-sm font-semibold text-neutral-500">
+                {currentColor.hex}
+              </div>
+            </div>
           </div>
 
-          <div className="filter-pills flex flex-wrap gap-1.5 self-start sm:self-auto">
-            <button
-              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'css' ? 'active' : ''}`}
-              onClick={() => setExportMode('css')}
-            >
-              CSS Variables
-            </button>
-            <button
-              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'hex' ? 'active' : ''}`}
-              onClick={() => setExportMode('hex')}
-            >
-              HEX List
-            </button>
-            <button
-              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'tailwind' ? 'active' : ''}`}
-              onClick={() => setExportMode('tailwind')}
-            >
-              Tailwind
-            </button>
-            <button
-              className={`filter-pill text-xs px-2.5 py-1 ${exportMode === 'json' ? 'active' : ''}`}
-              onClick={() => setExportMode('json')}
-            >
-              JSON
-            </button>
+          {/* Technical Readout Data: RGB, HSL, Contrast */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 py-4 border-y lg:border-y-0 lg:border-l border-neutral-200 dark:border-neutral-800 lg:pl-8">
+            <div>
+              <div className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mb-1">HEX</div>
+              <div className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                {currentColor.hex}
+              </div>
+            </div>
+            <div>
+              <div className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mb-1">RGB</div>
+              <div className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                {rgb ? `${rgb.r}, ${rgb.g}, ${rgb.b}` : '—'}
+              </div>
+            </div>
+            <div>
+              <div className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mb-1">HSL</div>
+              <div className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                {hsl ? `${Math.round(hsl.h * 360)}°, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%` : '—'}
+              </div>
+            </div>
+            <div>
+              <div className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mb-1">CONTRAST (LIGHT)</div>
+              <div className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                {contrastOnWhite}:1 ({contrastRatingWhite.label.split(' ')[0]})
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div style={{ position: 'relative' }}>
-          <pre
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-sm)',
-              padding: '16px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.82rem',
-              color: 'var(--text-primary)',
-              overflowX: 'auto',
-            }}
-          >
-            <code>{currentExportCode}</code>
-          </pre>
-
+          {/* Copy Current HEX */}
           <button
-            className="btn-secondary"
-            onClick={handleCopyExportCode}
-            style={{
-              position: 'absolute',
-              top: '12px',
-              right: '12px',
-              padding: '6px 10px',
-              fontSize: '0.75rem',
-            }}
+            onClick={() => handleCopySingleHex(currentColor.hex, currentColor.name)}
+            className="self-start lg:self-center font-sans text-xs font-bold tracking-wider uppercase px-4 py-3 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-sm hover:opacity-90 transition-opacity flex items-center gap-2 whitespace-nowrap"
           >
-            <Copy size={12} />
-            <span>Copy</span>
+            {copiedHex === currentColor.hex ? (
+              <>
+                <Check size={14} className="text-emerald-400" />
+                <span>COPIED!</span>
+              </>
+            ) : (
+              <>
+                <span>COPY HEX</span>
+                <ArrowUpRight size={13} />
+              </>
+            )}
           </button>
         </div>
       </section>
 
-      {/* Similar Palettes via Measurable Similarity Engine */}
-      {similarPalettes.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-4">
+      {/* Primary Actions: SAVE PALETTE, COPY COLORS, GENERATE SIMILAR */}
+      <section className="flex flex-wrap items-center justify-between gap-4 pb-12 border-b border-neutral-200 dark:border-neutral-800 mb-16">
+        <div className="flex flex-wrap items-center gap-3">
+          {/* SAVE PALETTE */}
+          <button
+            onClick={handleToggleSave}
+            className={`font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border transition-colors flex items-center gap-2 ${
+              saved
+                ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-white dark:text-neutral-900 dark:border-white'
+                : 'bg-transparent text-neutral-900 dark:text-white border-neutral-300 dark:border-neutral-700 hover:border-neutral-900 dark:hover:border-white'
+            }`}
+          >
+            <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
+            <span>{saved ? 'SAVED TO STUDIO' : 'SAVE PALETTE'}</span>
+          </button>
+
+          {/* COPY COLORS (All hexes) */}
+          <button
+            onClick={handleCopyAllColors}
+            className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-neutral-900 dark:hover:border-white transition-colors flex items-center gap-2"
+          >
+            {copiedAll ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+            <span>{copiedAll ? 'ALL COPIED!' : 'COPY COLORS'}</span>
+          </button>
+
+          {/* GENERATE SIMILAR */}
+          <button
+            onClick={() => onNavigate({ path: 'palette-generator', colors: currentColor.hex.replace('#', '') })}
+            className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-neutral-900 dark:hover:border-white transition-colors flex items-center gap-2"
+          >
+            <RefreshCw size={14} />
+            <span>GENERATE SIMILAR ↗</span>
+          </button>
+        </div>
+
+        {/* Utility actions: Tokens, Collection, Share */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setTokenModalOpen(true)}
+            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-neutral-800 rounded-sm transition-colors text-xs font-mono uppercase"
+            title="Export CSS / Tailwind tokens"
+          >
+            <Code size={15} />
+          </button>
+          <button
+            onClick={() => setCollectionModalOpen(true)}
+            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-neutral-800 rounded-sm transition-colors text-xs font-mono uppercase"
+            title="Add to Collection"
+          >
+            <FolderPlus size={15} />
+          </button>
+          <button
+            onClick={handleShare}
+            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-neutral-800 rounded-sm transition-colors text-xs font-mono uppercase"
+            title="Share Palette"
+          >
+            <Share2 size={15} />
+          </button>
+        </div>
+      </section>
+
+      {/* Below: More Color Studies: 3-4 related palettes as strips */}
+      {relatedStudies.length > 0 && (
+        <section className="mb-16">
+          <div className="flex items-baseline justify-between mb-6">
             <div>
-              <span className="page-category-label">Multidimensional Match</span>
-              <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
-                Similar Palette Systems
+              <div className="kroma-label mb-1">RELATED PALETTES</div>
+              <h2 className="font-sans text-2xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase">
+                MORE COLOR STUDIES
               </h2>
             </div>
+            <button
+              onClick={() => onNavigate({ path: 'palettes' })}
+              className="text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase"
+            >
+              VIEW ALL ↗
+            </button>
           </div>
-          <div className="specimen-grid-palettes">
-            {similarPalettes.map(({ palette: sp, score, metrics }) => (
-              <div key={sp.id} className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)] px-1">
-                  <span>Match Similarity: <strong>{Math.round(score * 100)}%</strong></span>
-                  <span>Hue: {Math.round(metrics.hueMatch * 100)}% • Lum: {Math.round(metrics.luminanceMatch * 100)}%</span>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {relatedStudies.map((rel, i) => (
+              <div
+                key={rel.id}
+                className="kroma-palette-strip"
+                onClick={() => onNavigate({ path: 'palette-detail', slug: rel.slug })}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') onNavigate({ path: 'palette-detail', slug: rel.slug });
+                }}
+              >
+                <div className="kroma-palette-strip__colors">
+                  {rel.colors.map((c, ci) => (
+                    <div
+                      key={ci}
+                      className="kroma-palette-strip__color-bar"
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  ))}
+                  <span className="kroma-palette-strip__hover-cta">
+                    <span>VIEW STUDY</span>
+                    <ArrowUpRight size={13} />
+                  </span>
                 </div>
-                <PaletteCard palette={sp} onNavigate={onNavigate} />
+                <div className="kroma-palette-strip__meta">
+                  <div className="kroma-palette-strip__num">
+                    STUDY 0{i + 1} · {rel.category?.toUpperCase() || 'SYSTEM'}
+                  </div>
+                  <div className="kroma-palette-strip__title">
+                    {rel.title}
+                  </div>
+                  <div className="font-mono text-[11px] text-neutral-400">
+                    {rel.colors.length} COLORS
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </section>
       )}
 
-      {/* Connected Network: Harmonies & Gradients */}
-      {relatedCombos.length > 0 && (
-        <section>
-          <div className="flex justify-between items-baseline mb-4">
-            <h2 className="text-lg font-bold text-[var(--text-primary)]">
-              Color Harmonies in this Aesthetic
-            </h2>
-          </div>
-          <div className="specimen-grid-combos">
-            {relatedCombos.map((cb) => (
-              <ComboCard key={cb.id} combo={cb} onNavigate={onNavigate} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Modals */}
+      {/* Modals for collection and token export */}
       <AddToCollectionModal
         isOpen={collectionModalOpen}
         onClose={() => setCollectionModalOpen(false)}
@@ -586,3 +484,4 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
     </div>
   );
 };
+

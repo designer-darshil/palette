@@ -1,24 +1,17 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
-  Sparkles,
   Lock,
   Unlock,
   Copy,
   Check,
   Share2,
   Bookmark,
-  Sliders,
   RotateCcw,
   RotateCw,
-  ChevronUp,
-  ChevronDown,
+  RefreshCw,
+  Code,
   X,
-  Plus,
-  Minus,
-  Edit2,
-  ShieldCheck,
-  Info,
-  Layers,
+  ArrowUpRight,
 } from 'lucide-react';
 import { RouteType } from '../types';
 import {
@@ -29,29 +22,21 @@ import {
   formatPaletteExport,
 } from '../utils/paletteGenerator';
 import {
-  hexToRgb,
-  hexToHsl,
-  hexToOklch,
-  hslToHex,
-  rgbToHex,
-  getContrastRatio,
-  getContrastRating,
-  getTextColorForBackground,
   copyToClipboard,
+  getTextColorForBackground,
 } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
-import { CustomColorPicker } from '../components/common/CustomColorPicker';
-import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
-import { Analytics } from '../utils/analytics';
 
 interface MobilePaletteGeneratorProps {
   initialColorsQuery?: string;
   onNavigate: (route: RouteType) => void;
 }
+
+type MoodMode = 'energetic' | 'calm' | 'dark' | 'vivid';
 
 export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> = ({
   initialColorsQuery,
@@ -64,12 +49,12 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
   // Palette Configuration State
   const [colorCount, setColorCount] = useState<number>(5);
   const [harmony, setHarmony] = useState<HarmonyMode>('curated');
+  const [mood, setMood] = useState<MoodMode>('vivid');
   const [baseColor, setBaseColor] = useState<string>('');
 
   // Palette Colors State
   const [colors, setColors] = useState<GeneratorColor[]>(() => {
     if (initialColorsQuery) {
-      // Support both comma-delimited (from generator URL sync) and dash-delimited (from palette detail page)
       const delimiter = initialColorsQuery.includes(',') ? ',' : '-';
       const hexList = initialColorsQuery
         .split(delimiter)
@@ -86,35 +71,21 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
         }));
       }
     }
-    // Default initial generation
     return generatePalette(5, [], 'curated');
   });
-
-  // Sync colorCount with initial parsed colors (URL-provided colors take priority)
-  useEffect(() => {
-    if (initialColorsQuery && colors.length !== colorCount) {
-      setColorCount(colors.length);
-    }
-    // Only run once on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // History for Undo / Redo
   const [history, setHistory] = useState<GeneratorColor[][]>([colors]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
 
-  // Active Modals & Sheets
-  const [activeEditingIndex, setActiveEditingIndex] = useState<number | null>(null);
-  const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+  // Modals & Feedback
   const [exportOpen, setExportOpen] = useState<boolean>(false);
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
-  const [exportFormat, setExportFormat] = useState<'hex' | 'css' | 'tailwind' | 'json'>('hex');
+  const [exportFormat, setExportFormat] = useState<'hex' | 'css' | 'tailwind' | 'json'>('css');
 
-  // Push to history
   const pushToHistory = (newColors: GeneratorColor[]) => {
     const nextHistory = history.slice(0, historyIndex + 1);
     nextHistory.push(newColors);
-    // Keep max 20 history states
     if (nextHistory.length > 20) nextHistory.shift();
     setHistory(nextHistory);
     setHistoryIndex(nextHistory.length - 1);
@@ -129,27 +100,35 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
     }
   }, [colors]);
 
-  // Generate action
+  // Generate action with smooth chromatic transition (no spinner)
   const handleGenerate = useCallback(() => {
-    const newColors = generatePalette(colorCount, colors, harmony, baseColor || undefined);
+    let modeToUse = harmony;
+    if (mood === 'calm' && harmony === 'curated') modeToUse = 'analogous';
+    if (mood === 'energetic' && harmony === 'curated') modeToUse = 'triadic';
+    if (mood === 'dark' && harmony === 'curated') modeToUse = 'monochromatic';
+
+    const newColors = generatePalette(colorCount, colors, modeToUse, baseColor || undefined);
     setColors(newColors);
     pushToHistory(newColors);
-  }, [colorCount, colors, harmony, baseColor, historyIndex, history]);
+  }, [colorCount, colors, harmony, mood, baseColor, historyIndex, history]);
 
   // Keyboard shortcut (Spacebar to generate)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === 'Space' && activeEditingIndex === null && !settingsOpen && !exportOpen) {
+      if (e.code === 'Space' && !exportOpen) {
+        const activeTag = (document.activeElement as HTMLElement)?.tagName;
+        if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') return;
         e.preventDefault();
         handleGenerate();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleGenerate, activeEditingIndex, settingsOpen, exportOpen]);
+  }, [handleGenerate, exportOpen]);
 
-  // Lock / Unlock toggle
-  const toggleLock = (index: number) => {
+  // Lock toggle
+  const toggleLock = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
     setColors((prev) => {
       const next = [...prev];
       next[index] = { ...next[index], locked: !next[index].locked };
@@ -174,31 +153,19 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
     }
   };
 
-  // Move color Up / Down
-  const handleMove = (index: number, direction: 'up' | 'down') => {
-    const target = direction === 'up' ? index - 1 : index + 1;
-    if (target < 0 || target >= colors.length) return;
-    const next = [...colors];
-    const temp = next[index];
-    next[index] = next[target];
-    next[target] = temp;
-    setColors(next);
-    pushToHistory(next);
-  };
-
   // Copy Single HEX
   const handleCopySingle = async (hex: string, name: string) => {
     const success = await copyToClipboard(hex);
     if (success) {
       setCopiedHex(hex);
-      setTimeout(() => setCopiedHex(null), 1200);
+      setTimeout(() => setCopiedHex(null), 1400);
       showToast(`Copied ${hex}`, name, hex);
     }
   };
 
   // Save Palette
   const handleSavePalette = () => {
-    const title = `${colors[0].name} & ${colors[1]?.name || 'Gamut'} System`;
+    const title = `${colors[0].name} & ${colors[1]?.name || 'Gamut'} Laboratory`;
     const hexHash = colors.map((c) => c.hex.replace('#', '').toLowerCase()).join('-');
     const canonicalSlug = `gen-pal-${hexHash}`;
     const paletteId = canonicalSlug;
@@ -213,7 +180,6 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       metadata: `${colors.length} Colors • ${harmony.toUpperCase()} System`,
     });
 
-    // Also add to active Library Data
     addPalette({
       id: paletteId,
       slug: canonicalSlug,
@@ -225,607 +191,294 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
         hex: c.hex,
         role: i === 0 ? 'Background Anchor' : i === 1 ? 'Primary Dominant' : i === 2 ? 'Accent Focus' : 'Surface / Highlight',
       })),
-      tags: ['generator', harmony, 'custom'],
+      tags: ['generator', harmony, mood],
     });
 
-    showToast('Saved palette to collection', title);
+    showToast('Saved palette to studio collection', title);
   };
 
-  // Share action
-  const handleShare = async () => {
-    const success = await copyToClipboard(window.location.href);
-    if (success) {
-      showToast('Palette URL copied to clipboard', 'Share link ready');
-    }
-  };
+  const currentSlug = `gen-pal-${colors.map((c) => c.hex.replace('#', '').toLowerCase()).join('-')}`;
+  const isCurrentSaved = isSaved(currentSlug);
 
-  // Color Editor change handler
-  const handleColorUpdate = (newHex: string) => {
-    if (activeEditingIndex === null) return;
-    const clean = newHex.toUpperCase();
-    if (/^#[0-9A-F]{6}$/i.test(clean)) {
-      setColors((prev) => {
-        const next = [...prev];
-        next[activeEditingIndex] = {
-          ...next[activeEditingIndex],
-          hex: clean,
-          name: findClosestColorName(clean),
-        };
-        return next;
-      });
-    }
-  };
-
-  const activeColor = activeEditingIndex !== null ? colors[activeEditingIndex] : null;
-
-  const generatorSchema = React.useMemo(() => {
-    return generateWebApplicationSchema({
-      name: 'Mobile Color Palette Generator',
-      description:
-        'Touch-first color palette generator with harmonic constraints, individual swatch locking, OKLCH perception, and instant CSS token export.',
-      url: '/palette-generator',
-      applicationCategory: 'DesignApplication',
-    });
-  }, []);
+  const webAppSchema = generateWebApplicationSchema({
+    name: 'KROMA Generative Color Laboratory',
+    applicationCategory: 'DesignApplication',
+    url: '/palette-generator',
+    description: 'Real-time chromatic engine with spacebar generation, harmonic modes, and instant token export.',
+  });
 
   return (
-    <div className="generator-page-container">
+    <div className="w-full bg-[#171717] text-white min-h-[88vh] flex flex-col justify-between py-6 px-4 sm:px-8">
       <SEOHead
-        title="Mobile Palette Generator | Fast Touch-First Harmonies"
-        description="Generate curated 5-tone color palette systems with harmonic locks, shade adjustments, and multi-format CSS, Tailwind, and JSON token exports."
+        title="Color Generator — Make Something Unexpected | KROMA"
+        description="A generative color instrument. Instant chromatic transitions, tactile lock controls, and harmonic algorithms."
         canonicalPath="/palette-generator"
-        jsonLd={generatorSchema}
-        keywords={['color palette generator', 'palette creator', 'harmonic palette tool', 'design system color tokens']}
+        jsonLd={webAppSchema}
       />
 
-      {/* Top Header Bar */}
-      <header className="generator-top-bar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span className="brand-glyph" style={{ width: 12, height: 12 }} />
-          <div>
-            <h1 style={{ fontSize: '1rem', fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-              Palette Generator
-            </h1>
-            <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>
-              {harmony.toUpperCase()} • {colors.length} SPECIMENS
+      {/* Top: Large Display */}
+      <div className="max-w-7xl mx-auto w-full pt-4 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10">
+        <div>
+          <div className="text-[11.5px] font-sans font-semibold tracking-widest text-[#9E9E9E] uppercase mb-2">
+            LIVE COLOR LABORATORY
+          </div>
+          <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white uppercase leading-[0.9]">
+            MAKE SOMETHING UNEXPECTED.
+          </h1>
+          <div className="flex items-center gap-3 mt-3">
+            <span className="font-mono text-xs text-neutral-400">
+              STARTING SEED: <strong className="text-white">{baseColor || colors[0]?.hex || 'RANDOM'}</strong>
             </span>
+            {baseColor && (
+              <button
+                onClick={() => setBaseColor('')}
+                className="text-[10px] font-mono uppercase text-neutral-500 hover:text-white underline"
+              >
+                CLEAR SEED
+              </button>
+            )}
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {/* Large Interactive Button: [ GENERATE ↻ ] */}
+        <div className="flex items-center gap-3">
           <button
-            className="generator-action-btn"
-            onClick={handleUndo}
-            disabled={historyIndex <= 0}
-            title="Undo (Ctrl+Z)"
-            aria-label="Undo palette generation"
+            onClick={handleGenerate}
+            className="font-sans text-sm sm:text-base font-bold tracking-wider uppercase px-8 py-4 bg-white text-[#171717] rounded-sm hover:bg-neutral-200 active:scale-95 transition-all duration-150 flex items-center gap-3 shadow-lg cursor-pointer"
+            title="Press Spacebar to Generate"
           >
-            <RotateCcw size={14} />
+            <RefreshCw size={16} />
+            <span>GENERATE ↻</span>
           </button>
-          <button
-            className="generator-action-btn"
-            onClick={handleRedo}
-            disabled={historyIndex >= history.length - 1}
-            title="Redo (Ctrl+Y)"
-            aria-label="Redo palette generation"
-          >
-            <RotateCw size={14} />
-          </button>
-          <button
-            className="generator-action-btn"
-            onClick={() => setSettingsOpen(true)}
-            title="Generation Settings & Harmony Mode"
-            aria-label="Palette settings"
-          >
-            <Sliders size={14} />
-          </button>
-          <button
-            className="generator-action-btn"
-            onClick={() => setExportOpen(true)}
-            title="Export & Share Palette"
-            aria-label="Export palette"
-          >
-            <Share2 size={14} />
-          </button>
-          <button
-            className="generator-action-btn"
-            onClick={() => onNavigate({ path: 'contrast-checker', fg: colors[1]?.hex || colors[0]?.hex, bg: colors[0]?.hex })}
-            title="Check Contrast in WCAG Accessibility Checker"
-            aria-label="Check contrast"
-          >
-            <ShieldCheck size={14} color="#3B82F6" />
-          </button>
-          <button
-            className="generator-action-btn primary"
-            onClick={handleSavePalette}
-            title="Save Palette"
-            aria-label="Save palette"
-          >
-            <Bookmark size={14} />
-          </button>
+          <span className="hidden sm:inline font-mono text-[11px] text-neutral-500 uppercase tracking-widest">
+            (OR SPACEBAR)
+          </span>
         </div>
-      </header>
+      </div>
 
-      {/* Main Specimen Visualizer (Fill Viewport) */}
-      <main className="generator-canvas">
-        {colors.map((color, index) => {
+      {/* The Palette Display: 5 Large Color Blocks filling the canvas */}
+      <div
+        className="max-w-7xl mx-auto w-full my-8 flex-1 min-h-[360px] sm:min-h-[460px] flex flex-col sm:flex-row rounded-sm overflow-hidden border border-white/10 shadow-2xl"
+        role="region"
+        aria-label="Generative Color Canvas"
+      >
+        {colors.map((color, idx) => {
           const textColor = getTextColorForBackground(color.hex);
-          const isDarkText = textColor === '#000000';
-          const contrastWhite = getContrastRatio(color.hex, '#FFFFFF');
-          const contrastBlack = getContrastRatio(color.hex, '#000000');
           const isCopied = copiedHex === color.hex;
 
           return (
             <div
-              key={color.id}
-              className="generator-color-strip"
+              key={color.id || idx}
               style={{
                 backgroundColor: color.hex,
-                color: textColor,
+                transition: 'background-color 300ms cubic-bezier(0.16, 1, 0.3, 1)',
               }}
+              className="flex-1 relative flex flex-col justify-between p-4 sm:p-6 cursor-pointer group select-none min-h-[70px] sm:min-h-0"
+              onClick={() => handleCopySingle(color.hex, color.name)}
+              title="Click to copy HEX"
             >
-              {/* Color Metadata Header */}
-              <div className="generator-strip-meta">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span
-                    className="generator-step-badge"
-                    style={{
-                      backgroundColor: isDarkText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.15)',
-                      color: textColor,
-                    }}
-                  >
-                    0{index + 1}
-                  </span>
-                  <span className="generator-color-title" style={{ color: textColor }}>
-                    {color.name}
-                  </span>
-                </div>
+              {/* Lock Button at Top */}
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={(e) => toggleLock(idx, e)}
+                  className="p-2 rounded-xs bg-black/30 hover:bg-black/50 text-white backdrop-blur-md transition-colors"
+                  title={color.locked ? 'Unlock swatch' : 'Lock swatch'}
+                  aria-label={color.locked ? 'Unlock swatch' : 'Lock swatch'}
+                >
+                  {color.locked ? <Lock size={15} className="text-amber-300" /> : <Unlock size={15} className="opacity-60 group-hover:opacity-100" />}
+                </button>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span
-                    className="generator-wcag-badge"
-                    style={{
-                      backgroundColor: isDarkText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.15)',
-                      color: textColor,
-                    }}
-                    title={`WCAG Contrast: ${contrastWhite}:1 on White, ${contrastBlack}:1 on Black`}
-                  >
-                    {contrastWhite >= 4.5 || contrastBlack >= 4.5 ? 'WCAG AA' : 'ACCENT'}
-                  </span>
-                </div>
+                <span
+                  className="font-mono text-[10px] font-bold px-2 py-0.5 rounded-xs bg-black/30 text-white backdrop-blur-md"
+                >
+                  0{idx + 1}
+                </span>
               </div>
 
-              {/* Central HEX Value Tap Area */}
-              <div
-                className="generator-strip-center"
-                onClick={() => handleCopySingle(color.hex, color.name)}
-                title="Tap to copy HEX"
-              >
-                <div className="generator-hex-display" style={{ color: textColor }}>
-                  {color.hex}
-                </div>
-                <div className="generator-copy-pill" style={{ color: textColor, opacity: isCopied ? 1 : 0.8 }}>
-                  {isCopied ? <Check size={12} /> : <Copy size={12} />}
-                  <span>{isCopied ? 'Copied!' : 'Tap to copy'}</span>
-                </div>
-              </div>
-
-              {/* Strip Action Controls (Lock, Edit, Reorder) */}
-              <div className="generator-strip-controls">
-                <div style={{ display: 'flex', gap: '4px' }}>
-                  {index > 0 && (
-                    <button
-                      className="generator-icon-control"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleMove(index, 'up');
-                      }}
-                      style={{ color: textColor, borderColor: isDarkText ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)' }}
-                      title="Move Up"
-                      aria-label="Move color up"
-                    >
-                      <ChevronUp size={14} />
-                    </button>
-                  )}
-                  {index < colors.length - 1 && (
-                    <button
-                      className="generator-icon-control"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleMove(index, 'down');
-                      }}
-                      style={{ color: textColor, borderColor: isDarkText ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)' }}
-                      title="Move Down"
-                      aria-label="Move color down"
-                    >
-                      <ChevronDown size={14} />
-                    </button>
+              {/* Hover / Active Details */}
+              <div className="flex flex-col gap-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-white uppercase tracking-wider">
+                  <span>{color.hex}</span>
+                  {isCopied ? (
+                    <span className="text-emerald-400 text-[10px]">COPIED!</span>
+                  ) : (
+                    <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                   )}
                 </div>
-
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  <button
-                    className="generator-icon-control"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveEditingIndex(index);
-                    }}
-                    style={{ color: textColor, borderColor: isDarkText ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)' }}
-                    title="Edit Color"
-                    aria-label={`Edit ${color.name}`}
-                  >
-                    <Edit2 size={13} />
-                  </button>
-
-                  <button
-                    className={`generator-icon-control ${color.locked ? 'locked' : ''}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleLock(index);
-                    }}
-                    style={{
-                      color: textColor,
-                      borderColor: color.locked ? '#E9C46A' : isDarkText ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)',
-                      backgroundColor: color.locked ? 'rgba(233, 196, 106, 0.25)' : 'transparent',
-                    }}
-                    title={color.locked ? 'Locked (will not regenerate)' : 'Unlocked (will regenerate)'}
-                    aria-label={color.locked ? 'Unlock color' : 'Lock color'}
-                  >
-                    {color.locked ? <Lock size={14} color="#E9C46A" /> : <Unlock size={14} />}
-                  </button>
+                <div className="font-sans text-sm font-bold text-white tracking-tight truncate">
+                  {color.name}
                 </div>
               </div>
             </div>
           );
         })}
-      </main>
+      </div>
 
-      {/* Floating Bottom Generator Command Bar */}
-      <footer className="generator-bottom-bar">
-        <button
-          className="generator-main-btn"
-          onClick={handleGenerate}
-          aria-label="Generate new harmonious palette"
-        >
-          <Sparkles size={18} />
-          <span>Generate Palette</span>
-          <kbd className="generator-kbd-hint">Space</kbd>
-        </button>
-      </footer>
-
-      {/* Color Edit Sheet / Modal */}
-      {activeColor !== null && activeEditingIndex !== null && (
-        <div className="generator-modal-backdrop" onClick={() => setActiveEditingIndex(null)}>
-          <div className="generator-modal-sheet" onClick={(e) => e.stopPropagation()}>
-            <div className="generator-modal-header">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ width: 16, height: 16, borderRadius: 3, backgroundColor: activeColor.hex, border: '1px solid var(--border-medium)' }} />
-                <div>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>{activeColor.name}</h3>
-                  <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>
-                    SLOT 0{activeEditingIndex + 1} • {activeColor.hex}
-                  </span>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setActiveEditingIndex(null)}
-                style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 4 }}
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
-              {/* Custom Color Picker Engine */}
-              <div className="flex flex-col gap-1.5">
-                <CustomColorPicker
-                  color={activeColor.hex}
-                  onChange={(hex) => handleColorUpdate(hex)}
-                  showAlpha={false}
-                  showRecent={true}
-                  showFormatSwitcher={true}
-                  className="w-full border-none shadow-none p-0"
-                />
-              </div>
-
-              {/* Color Code Representations */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <div className="generator-color-spec-box">
-                  <span className="generator-spec-label">RGB</span>
-                  <span className="generator-spec-val">
-                    {(() => {
-                      const rgb = hexToRgb(activeColor.hex);
-                      return rgb ? `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` : '-';
-                    })()}
-                  </span>
-                </div>
-                <div className="generator-color-spec-box">
-                  <span className="generator-spec-label">HSL</span>
-                  <span className="generator-spec-val">
-                    {(() => {
-                      const hsl = hexToHsl(activeColor.hex);
-                      return hsl ? `${hsl.h}°, ${hsl.s}%, ${hsl.l}%` : '-';
-                    })()}
-                  </span>
-                </div>
-              </div>
-
-              <div className="generator-color-spec-box">
-                <span className="generator-spec-label">OKLCH PERCEPTUAL GAMUT</span>
-                <span className="generator-spec-val">{hexToOklch(activeColor.hex)}</span>
-              </div>
-
-              {/* Contrast Assessment */}
-              <div className="generator-color-spec-box">
-                <span className="generator-spec-label">CONTRAST READABILITY</span>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#FFFFFF', border: '1px solid #CCC' }} />
-                    <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
-                      {getContrastRatio(activeColor.hex, '#FFFFFF')}:1 (White)
-                    </span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#111215', border: '1px solid #444' }} />
-                    <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
-                      {getContrastRatio(activeColor.hex, '#111215')}:1 (Obsidian)
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                className="btn-primary"
-                onClick={() => setActiveEditingIndex(null)}
-                style={{ width: '100%', justifyContent: 'center', marginTop: '8px' }}
-              >
-                Done Adjusting
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Settings Modal */}
-      {settingsOpen && (
-        <div className="generator-modal-backdrop" onClick={() => setSettingsOpen(false)}>
-          <div className="generator-modal-sheet" onClick={(e) => e.stopPropagation()}>
-            <div className="generator-modal-header">
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>Generator Configuration</h3>
-              <button
-                onClick={() => setSettingsOpen(false)}
-                style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 4 }}
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '16px' }}>
-              {/* Palette Size */}
-              <div>
-                <label style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
-                  PALETTE SPECIMEN COUNT
-                </label>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  {[4, 5, 6].map((num) => (
-                    <button
-                      key={num}
-                      onClick={() => {
-                        setColorCount(num);
-                        const newColors = generatePalette(num, colors, harmony, baseColor || undefined);
-                        setColors(newColors);
-                        pushToHistory(newColors);
-                      }}
-                      style={{
-                        flex: 1,
-                        padding: '10px',
-                        borderRadius: 'var(--radius-xs)',
-                        border: colorCount === num ? '1px solid var(--accent-gold)' : '1px solid var(--border-medium)',
-                        background: colorCount === num ? 'var(--bg-surface-3)' : 'var(--bg-surface-2)',
-                        color: colorCount === num ? 'var(--text-primary)' : 'var(--text-secondary)',
-                        fontWeight: colorCount === num ? 700 : 500,
-                        fontSize: '0.88rem',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {num} Colors
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Harmony Mode */}
-              <div>
-                <label style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
-                  COLOR HARMONY ALGORITHM
-                </label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                  {[
-                    { id: 'curated', label: 'Curated Balance' },
-                    { id: 'analogous', label: 'Analogous' },
-                    { id: 'complementary', label: 'Complementary' },
-                    { id: 'triadic', label: 'Triadic' },
-                    { id: 'splitComplementary', label: 'Split Comp.' },
-                    { id: 'monochromatic', label: 'Monochrome' },
-                  ].map((h) => (
-                    <button
-                      key={h.id}
-                      onClick={() => {
-                        setHarmony(h.id as HarmonyMode);
-                      }}
-                      style={{
-                        padding: '10px 12px',
-                        borderRadius: 'var(--radius-xs)',
-                        border: harmony === h.id ? '1px solid var(--accent-gold)' : '1px solid var(--border-medium)',
-                        background: harmony === h.id ? 'var(--bg-surface-3)' : 'var(--bg-surface-2)',
-                        color: harmony === h.id ? 'var(--text-primary)' : 'var(--text-secondary)',
-                        fontWeight: harmony === h.id ? 700 : 500,
-                        fontSize: '0.82rem',
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {h.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Base Color Mode */}
-              <div>
-                <label style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
-                  BASE ANCHOR COLOR (OPTIONAL)
-                </label>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <ColorSwatchPicker
-                    value={baseColor || '#1D4ED8'}
-                    onChange={(hex) => setBaseColor(hex)}
-                    showLabel={false}
-                    size="lg"
-                  />
-                  <input
-                    type="text"
-                    placeholder="e.g. #1D4ED8"
-                    value={baseColor}
-                    onChange={(e) => setBaseColor(e.target.value)}
-                    style={{
-                      flex: 1,
-                      background: 'var(--bg-surface-2)',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      padding: '8px 12px',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.88rem',
-                      color: 'var(--text-primary)',
-                    }}
-                  />
-                  {baseColor && (
-                    <button
-                      className="btn-secondary"
-                      onClick={() => setBaseColor('')}
-                      style={{ padding: '0 10px', fontSize: '0.75rem' }}
-                    >
-                      Clear
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <button
-                className="btn-primary"
-                onClick={() => {
-                  setSettingsOpen(false);
-                  handleGenerate();
-                }}
-                style={{ width: '100%', justifyContent: 'center', marginTop: '8px' }}
-              >
-                Apply &amp; Generate
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Export & Share Modal */}
-      {exportOpen && (
-        <div className="generator-modal-backdrop" onClick={() => setExportOpen(false)}>
-          <div className="generator-modal-sheet" onClick={(e) => e.stopPropagation()}>
-            <div className="generator-modal-header">
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>Export &amp; Share Palette</h3>
-              <button
-                onClick={() => setExportOpen(false)}
-                style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 4 }}
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
-              {/* Shareable Link */}
-              <div>
-                <label style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px' }}>
-                  SHAREABLE PALETTE LINK
-                </label>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <input
-                    type="text"
-                    readOnly
-                    value={window.location.href}
-                    style={{
-                      flex: 1,
-                      background: 'var(--bg-surface-2)',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      padding: '8px 12px',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.78rem',
-                      color: 'var(--text-secondary)',
-                    }}
-                  />
-                  <button className="btn-secondary" onClick={handleShare} style={{ whiteSpace: 'nowrap' }}>
-                    <Share2 size={13} />
-                    <span>Copy</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Export Formats */}
-              <div>
-                <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
-                  {(['hex', 'css', 'tailwind', 'json'] as const).map((fmt) => (
-                    <button
-                      key={fmt}
-                      onClick={() => setExportFormat(fmt)}
-                      style={{
-                        padding: '6px 10px',
-                        borderRadius: 'var(--radius-xs)',
-                        border: exportFormat === fmt ? '1px solid var(--accent-gold)' : '1px solid var(--border-subtle)',
-                        background: exportFormat === fmt ? 'var(--bg-surface-3)' : 'var(--bg-surface-2)',
-                        color: exportFormat === fmt ? 'var(--text-primary)' : 'var(--text-secondary)',
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.72rem',
-                        textTransform: 'uppercase',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {fmt}
-                    </button>
-                  ))}
-                </div>
-
-                <textarea
-                  readOnly
-                  rows={6}
-                  value={formatPaletteExport(colors, exportFormat)}
-                  style={{
-                    width: '100%',
-                    background: 'var(--bg-surface-2)',
-                    border: '1px solid var(--border-medium)',
-                    borderRadius: 'var(--radius-xs)',
-                    padding: '12px',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.78rem',
-                    color: 'var(--text-primary)',
-                    resize: 'none',
+      {/* Minimal Controls Bar: HARMONY · MOOD · COUNT · ACTIONS */}
+      <div className="max-w-7xl mx-auto w-full pt-6 border-t border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="flex flex-wrap items-center gap-6">
+          {/* Harmony Filter */}
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[11px] text-neutral-400 uppercase tracking-wider">HARMONY:</span>
+            <div className="flex items-center gap-1">
+              {(['curated', 'complementary', 'analogous', 'triadic', 'splitComplementary'] as HarmonyMode[]).map((h) => (
+                <button
+                  key={h}
+                  onClick={() => {
+                    setHarmony(h);
+                    handleGenerate();
                   }}
-                />
-              </div>
+                  className={`font-sans text-xs font-semibold uppercase px-2.5 py-1 rounded-xs transition-colors ${
+                    harmony === h ? 'bg-white text-[#171717]' : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {h === 'splitComplementary' ? 'SPLIT' : h.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Mood Filter */}
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[11px] text-neutral-400 uppercase tracking-wider">MOOD:</span>
+            <div className="flex items-center gap-1">
+              {(['energetic', 'calm', 'dark', 'vivid'] as MoodMode[]).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => {
+                    setMood(m);
+                    handleGenerate();
+                  }}
+                  className={`font-sans text-xs font-semibold uppercase px-2.5 py-1 rounded-xs transition-colors ${
+                    mood === m ? 'bg-white text-[#171717]' : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {m.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Count Filter */}
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[11px] text-neutral-400 uppercase tracking-wider">COUNT:</span>
+            <div className="flex items-center gap-1">
+              {[3, 4, 5].map((cnt) => (
+                <button
+                  key={cnt}
+                  onClick={() => {
+                    setColorCount(cnt);
+                    const newPal = generatePalette(cnt, colors, harmony, baseColor || undefined);
+                    setColors(newPal);
+                    pushToHistory(newPal);
+                  }}
+                  className={`font-sans text-xs font-semibold uppercase px-2.5 py-1 rounded-xs transition-colors ${
+                    colorCount === cnt ? 'bg-white text-[#171717]' : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {cnt}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Action Controls: SAVE · EXPORT · UNDO · REDO */}
+        <div className="flex items-center gap-3 self-end lg:self-auto">
+          <button
+            onClick={handleUndo}
+            disabled={historyIndex <= 0}
+            className="p-2 text-neutral-400 hover:text-white disabled:opacity-30 transition-colors"
+            title="Undo"
+          >
+            <RotateCcw size={16} />
+          </button>
+          <button
+            onClick={handleRedo}
+            disabled={historyIndex >= history.length - 1}
+            className="p-2 text-neutral-400 hover:text-white disabled:opacity-30 transition-colors"
+            title="Redo"
+          >
+            <RotateCw size={16} />
+          </button>
+          <button
+            onClick={() => setExportOpen(true)}
+            className="font-sans text-xs font-bold uppercase tracking-wider px-3.5 py-2 border border-neutral-700 hover:border-white text-white rounded-xs transition-colors flex items-center gap-1.5"
+          >
+            <Code size={13} />
+            <span>EXPORT</span>
+          </button>
+          <button
+            onClick={handleSavePalette}
+            className={`font-sans text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xs border transition-colors flex items-center gap-1.5 ${
+              isCurrentSaved
+                ? 'bg-white text-[#171717] border-white'
+                : 'border-neutral-700 hover:border-white text-white'
+            }`}
+          >
+            <Bookmark size={13} fill={isCurrentSaved ? 'currentColor' : 'none'} />
+            <span>{isCurrentSaved ? 'SAVED' : 'SAVE'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Export Modal */}
+      {exportOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setExportOpen(false)}>
+          <div className="bg-[#1C1E24] border border-white/10 rounded-sm w-full max-w-lg p-6 flex flex-col gap-4 text-white" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <h3 className="font-sans text-lg font-bold uppercase tracking-tight">EXPORT PALETTE TOKENS</h3>
+              <button onClick={() => setExportOpen(false)} className="text-neutral-400 hover:text-white">
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="flex gap-2">
+              {(['css', 'hex', 'tailwind', 'json'] as const).map((fmt) => (
+                <button
+                  key={fmt}
+                  onClick={() => setExportFormat(fmt)}
+                  className={`font-mono text-xs font-bold uppercase px-3 py-1.5 rounded-xs transition-colors ${
+                    exportFormat === fmt ? 'bg-white text-[#171717]' : 'bg-neutral-800 text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {fmt}
+                </button>
+              ))}
+            </div>
+
+            <textarea
+              readOnly
+              rows={8}
+              value={formatPaletteExport(colors, exportFormat)}
+              className="w-full bg-[#111216] border border-neutral-800 rounded-xs p-3 font-mono text-xs text-neutral-200 select-all"
+            />
+
+            <div className="flex items-center justify-between gap-3 pt-2">
+              <button
+                onClick={async () => {
+                  await copyToClipboard(window.location.href);
+                  showToast('Palette URL copied to clipboard', 'Share link ready');
+                }}
+                className="font-sans text-xs font-bold uppercase tracking-wider px-4 py-2.5 border border-neutral-700 hover:border-white text-white rounded-xs transition-colors flex items-center gap-1.5"
+              >
+                <Share2 size={13} />
+                <span>SHARE URL</span>
+              </button>
 
               <button
-                className="btn-primary"
                 onClick={async () => {
                   const code = formatPaletteExport(colors, exportFormat);
-                  const success = await copyToClipboard(code);
-                  if (success) {
-                    showToast(`Copied ${exportFormat.toUpperCase()} tokens`, 'Palette exported');
+                  const ok = await copyToClipboard(code);
+                  if (ok) {
+                    showToast(`Copied ${exportFormat.toUpperCase()} tokens`, 'Tokens copied');
                     setExportOpen(false);
                   }
                 }}
-                style={{ width: '100%', justifyContent: 'center' }}
+                className="font-sans text-xs font-bold uppercase tracking-wider px-5 py-2.5 bg-white text-[#171717] hover:bg-neutral-200 rounded-xs transition-colors flex items-center gap-1.5"
               >
-                <Copy size={14} />
-                <span>Copy {exportFormat.toUpperCase()} Code</span>
+                <Copy size={13} />
+                <span>COPY CODE</span>
               </button>
             </div>
           </div>

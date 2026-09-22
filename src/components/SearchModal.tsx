@@ -228,7 +228,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
             ref={inputRef}
             type="text"
             className="search-dialog-input"
-            placeholder="Search colors, hex (#BFA3F0), palettes, patterns, collections, creators..."
+            placeholder="Search by color name, HEX code, or mood..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -247,28 +247,27 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
             </div>
           )}
 
-          {/* Quick Suggestions when empty */}
+          {/* Quick Suggestions when empty: Color pills with actual colors */}
           {!rawQ && (
-            <div className="p-4 flex flex-col gap-2">
-              <span className="text-xs font-sans text-[var(--text-tertiary)] font-semibold tracking-tight">
-                Popular Searches &amp; Coordinates
+            <div className="p-4 flex flex-col gap-3">
+              <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
+                POPULAR CHROMATIC SEARCHES
               </span>
-              <div className="flex flex-wrap gap-1.5">
-                {['#1D4ED8', 'Color Name Finder', '#E63946', 'Contrast Checker', 'Swiss Editorial', 'Luxury', 'Dots Pattern', 'Elena Voss'].map((term) => (
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { name: 'TERRACOTTA', hex: '#E07A5F' },
+                  { name: 'SAGE', hex: '#81B29A' },
+                  { name: 'ELECTRIC BLUE', hex: '#00AEEF' },
+                  { name: 'WARM NEUTRALS', hex: '#D4A373' },
+                  { name: 'CYBERPUNK', hex: '#F72585' },
+                ].map((pill) => (
                   <button
-                    key={term}
-                    onClick={() => {
-                      if (term === 'Color Name Finder') {
-                        handleSelect({ path: 'color-name-finder' });
-                      } else if (term === 'Contrast Checker') {
-                        handleSelect({ path: 'contrast-checker' });
-                      } else {
-                        setQuery(term);
-                      }
-                    }}
-                    className="filter-pill text-xs px-2.5 py-1"
+                    key={pill.name}
+                    onClick={() => setQuery(pill.name.toLowerCase())}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 bg-white dark:bg-[#1C1E24] text-xs font-sans font-semibold tracking-wider uppercase text-neutral-800 dark:text-neutral-200 transition-colors"
                   >
-                    {term}
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: pill.hex }} />
+                    <span>{pill.name}</span>
                   </button>
                 ))}
               </div>

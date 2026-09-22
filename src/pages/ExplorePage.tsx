@@ -87,85 +87,52 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
   const newPalettes = useMemo(() => sortNewestPalettes(palettes).slice(0, 4), [palettes]);
 
   return (
-    <div className="catalog-container w-full max-w-7xl mx-auto flex flex-col gap-10">
+    <div className="kroma-page">
       <SEOHead
-        title="Explore Color Systems, Palettes &amp; Harmonies"
+        title="Explore Color Systems, Palettes & Harmonies | KROMA"
         description="Discover curated digital color palettes, trending chromatic systems, daily color specimens, patterns, and design collections."
         canonicalPath="/explore"
       />
 
-      {/* Hero Header */}
-      <PageHeader
-        breadcrumbs={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Explore', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-        sectionLabel="Curated spectrum hub"
-        title="Explore & Discover Color"
-        description="Discover calibrated palettes, color theories, daily specimens, and generative design tokens across curated taxonomies."
-        actions={
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Shuffle size={13} className="text-pink-400" />}
-              onClick={() => onNavigate({ path: 'random' })}
-              title="Surprise me with a random specimen"
-            >
-              Random Specimen
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<TrendingUp size={13} className="text-amber-400" />}
-              onClick={() => onNavigate({ path: 'trending' })}
-            >
-              Trending
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<Clock size={13} className="text-emerald-400" />}
-              onClick={() => onNavigate({ path: 'new' })}
-            >
-              New Releases
-            </Button>
-          </div>
-        }
-      />
+      {/* Editorial Studio Hero */}
+      <header className="kroma-hero">
+        <div className="kroma-label">SPECTRUM HUB</div>
+        <h1 className="kroma-headline">EXPLORE & DISCOVER.</h1>
+        <p className="kroma-lead">
+          Calibrated palettes, living chromatic systems, daily specimens, and generative design tokens curated for modern interfaces.
+        </p>
+      </header>
 
       {/* Daily Specimen Highlights Banner */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
         {/* Color of the Day Card */}
-        <div className="p-4 sm:p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between gap-4">
+        <div className="p-6 bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm flex flex-col justify-between gap-4">
           <div className="flex items-center justify-between">
-            <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
-              Color of the day • {dailyColor.dateString}
+            <span className="font-sans text-[11px] font-semibold tracking-wider uppercase text-neutral-400">
+              COLOR OF THE DAY • {dailyColor.dateString}
             </span>
             <Link
               to={{ path: 'color-of-the-day' }}
               onNavigate={onNavigate}
-              className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-mono"
+              className="text-xs text-neutral-900 dark:text-neutral-100 font-semibold hover:underline flex items-center gap-1 font-sans uppercase tracking-wider"
             >
-              <span>Inspect Specimen</span>
-              <ArrowRight size={12} />
+              <span>INSPECT ↗</span>
             </Link>
           </div>
 
           <div className="flex items-center gap-4">
             <div
-              className="w-16 h-16 rounded-sm border border-[var(--border-subtle)] shadow-inner flex-shrink-0"
+              className="w-16 h-16 rounded-sm border border-black/5 shadow-inner flex-shrink-0"
               style={{ backgroundColor: dailyColor.color.hex }}
             />
             <div className="min-w-0">
-              <h3 className="text-lg font-bold text-[var(--text-primary)] truncate">
+              <h3 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight truncate">
                 {dailyColor.color.name}
               </h3>
-              <div className="font-mono text-xs text-[var(--text-secondary)] font-bold">
+              <div className="font-mono text-xs text-neutral-500 font-bold">
                 {dailyColor.color.hex} • {dailyColor.color.oklch}
               </div>
-              <p className="text-xs text-[var(--text-secondary)] line-clamp-1 mt-1">
+              <p className="text-xs text-neutral-500 line-clamp-1 mt-1 font-sans">
                 {dailyColor.color.description}
               </p>
             </div>
@@ -173,32 +140,31 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
         </div>
 
         {/* Palette of the Day Card */}
-        <div className="p-4 sm:p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between gap-4">
+        <div className="p-6 bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm flex flex-col justify-between gap-4">
           <div className="flex items-center justify-between">
-            <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
-              Palette of the day • {dailyPalette.dateString}
+            <span className="font-sans text-[11px] font-semibold tracking-wider uppercase text-neutral-400">
+              PALETTE OF THE DAY • {dailyPalette.dateString}
             </span>
             <Link
               to={{ path: 'palette-of-the-day' }}
               onNavigate={onNavigate}
-              className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-mono"
+              className="text-xs text-neutral-900 dark:text-neutral-100 font-semibold hover:underline flex items-center gap-1 font-sans uppercase tracking-wider"
             >
-              <span>Full System</span>
-              <ArrowRight size={12} />
+              <span>FULL SYSTEM ↗</span>
             </Link>
           </div>
 
           <div>
-            <div className="h-10 rounded-sm overflow-hidden flex mb-2.5 border border-[var(--border-subtle)]">
+            <div className="h-12 rounded-sm overflow-hidden flex mb-3 border border-black/5">
               {dailyPalette.palette.colors.map((c, i) => (
                 <div key={i} className="flex-1" style={{ backgroundColor: c.hex }} title={c.name} />
               ))}
             </div>
             <div className="flex items-baseline justify-between gap-2">
-              <h3 className="text-sm font-bold text-[var(--text-primary)] truncate">
+              <h3 className="text-sm font-bold text-neutral-900 dark:text-white truncate">
                 {dailyPalette.palette.title}
               </h3>
-              <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">
+              <span className="text-[10px] font-mono text-neutral-400 uppercase">
                 {dailyPalette.palette.category}
               </span>
             </div>

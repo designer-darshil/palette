@@ -34,6 +34,7 @@ const BrandKitPage = lazy(() => import('./pages/BrandKitPage').then(m => ({ defa
 const RampsStudioPage = lazy(() => import('./pages/RampsStudioPage').then(m => ({ default: m.RampsStudioPage })));
 const AntigravityStudioPage = lazy(() => import('./pages/AntigravityStudioPage').then(m => ({ default: m.AntigravityStudioPage })));
 const MeshGradientStudioPage = lazy(() => import('./pages/MeshGradientStudioPage').then(m => ({ default: m.MeshGradientStudioPage })));
+const CreateStudioGatewayPage = lazy(() => import('./pages/CreateStudioGatewayPage').then(m => ({ default: m.CreateStudioGatewayPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 const AdminHubPage = lazy(() => import('./pages/admin/AdminHubPage').then(m => ({ default: m.AdminHubPage })));
 const MaintenancePage = lazy(() => import('./pages/MaintenancePage').then(m => ({ default: m.MaintenancePage })));
@@ -911,7 +912,7 @@ export const App: React.FC = () => {
       case 'ramps':
         return <RampsStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'create':
-        return <RampsStudioPage onNavigate={handleNavigate} initialParams={currentRoute as any} />;
+        return <CreateStudioGatewayPage onNavigate={handleNavigate} />;
       case 'about':
         return <AboutPage onNavigate={handleNavigate} />;
       case 'search':

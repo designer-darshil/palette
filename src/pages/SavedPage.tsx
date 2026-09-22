@@ -1,39 +1,44 @@
-import React from 'react';
-import { Trash2, Copy, Bookmark, Download, ExternalLink, ArrowRight } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Trash2, Copy, Bookmark, Check, ArrowUpRight, ArrowLeft } from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved, SavedItem } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
-import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
-import { EmptyState } from '../components/common/EmptyState';
-import { SpecimenCardBase } from '../components/common/SpecimenCardBase';
 
 interface SavedPageProps {
   onNavigate: (route: RouteType) => void;
 }
 
+type FilterType = 'all' | 'recent' | 'warm' | 'cool' | 'neutral';
+
 export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
   const { savedItems, removeItem, clearAll } = useSaved();
   const { showToast } = useToast();
+  const [filter, setFilter] = useState<FilterType>('all');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const handleCopyPreview = async (item: SavedItem) => {
-    let textToCopy = item.preview;
-    if (item.type === 'gradient') {
-      textToCopy = `background: ${item.preview};`;
-    }
-    const success = await copyToClipboard(textToCopy);
-    if (success) {
-      showToast('Copied to clipboard', item.title);
-    }
-  };
+  const filteredItems = useMemo(() => {
+    if (filter === 'all') return savedItems;
+    if (filter === 'recent') return [...savedItems].reverse();
+    return savedItems.filter((item) => {
+      const meta = (item.metadata || '').toLowerCase();
+      const title = item.title.toLowerCase();
+      if (filter === 'warm') return meta.includes('warm') || meta.includes('red') || meta.includes('orange') || meta.includes('yellow') || title.includes('warm') || title.includes('gold');
+      if (filter === 'cool') return meta.includes('cool') || meta.includes('blue') || meta.includes('cyan') || meta.includes('teal') || title.includes('cool') || title.includes('slate');
+      if (filter === 'neutral') return meta.includes('neutral') || meta.includes('grey') || meta.includes('earth') || meta.includes('minimal') || title.includes('neutral');
+      return true;
+    });
+  }, [savedItems, filter]);
 
-  const handleExportJson = async () => {
-    const dataStr = JSON.stringify(savedItems, null, 2);
-    const success = await copyToClipboard(dataStr);
-    if (success) {
-      showToast('Exported saved workspace to clipboard', `${savedItems.length} items`);
+  const handleCopy = async (item: SavedItem, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const text = item.type === 'gradient' ? `background: ${item.preview};` : item.preview;
+    const ok = await copyToClipboard(text);
+    if (ok) {
+      setCopiedId(item.id);
+      showToast(`Copied ${item.title}`, text);
+      setTimeout(() => setCopiedId(null), 1500);
     }
   };
 
@@ -50,143 +55,154 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="saved-page w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="kroma-page">
       <SEOHead
-        title="Saved Color Specimens | Curator Workspace"
-        description="Your personal library of bookmarked colors, palette systems, harmonies, and gradient tokens."
+        title="Saved Colors — A Little Color Archive | KROMA"
+        description="Your personal color drawer. Bookmarked pigments, palettes, and gradient specimens."
         canonicalPath="/saved"
         noindex={true}
         nofollow={true}
       />
 
-      <PageHeader
-        breadcrumbs={[
-          { label: 'Home', to: { path: 'home' } },
-          { label: 'Saved Library', isCurrent: true },
-        ]}
-        onNavigate={onNavigate}
-        sectionLabel="Curator workspace"
-        title={`Saved Color Specimens (${savedItems.length})`}
-        description="Your personal library of bookmarked colors, palette systems, harmonies, and gradient tokens."
-        actions={
-          savedItems.length > 0 ? (
-            <div className="flex items-center gap-2 flex-wrap">
-              <Button
-                variant="secondary"
-                size="sm"
-                iconLeft={<Download size={14} />}
-                onClick={handleExportJson}
-              >
-                Export JSON
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                iconLeft={<Trash2 size={14} className="text-red-400" />}
-                onClick={() => {
-                  if (window.confirm('Clear all saved items?')) {
-                    clearAll();
-                    showToast('Cleared saved workspace');
-                  }
-                }}
-                className="text-red-400 hover:text-red-300"
-              >
-                Clear All
-              </Button>
-            </div>
-          ) : undefined
-        }
-      />
+      {/* Top Editorial Hero */}
+      <header className="kroma-hero flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <div className="kroma-label">SAVED</div>
+          <h1 className="kroma-headline">A LITTLE COLOR ARCHIVE.</h1>
+          <p className="kroma-lead">
+            A collection of precious things. Bookmarked specimens, custom balance studies, and shades that stopped your scroll.
+          </p>
+        </div>
 
-      {savedItems.length === 0 ? (
-        <EmptyState
-          icon={<Bookmark size={36} />}
-          title="No Saved Specimens Yet"
-          description="Click the bookmark icon on any color card, palette system, harmony combo, or gradient to save it here for fast reference and export."
-          actionLabel="Explore Colors"
-          onAction={() => onNavigate({ path: 'colors' })}
-        />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {savedItems.map((item) => (
-            <SpecimenCardBase
-              key={item.id}
-              className="p-4 flex flex-col gap-3 justify-between"
-              onClick={() => handleOpenItem(item)}
+        {savedItems.length > 0 && (
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                if (window.confirm('Clear all saved colors from your drawer?')) {
+                  clearAll();
+                  showToast('Cleared saved archive');
+                }
+              }}
+              className="font-sans text-xs font-semibold tracking-wider uppercase px-4 py-2 border border-neutral-300 dark:border-neutral-700 hover:border-red-500 text-neutral-600 dark:text-neutral-400 hover:text-red-500 rounded-sm transition-colors"
             >
-              {/* Preview banner */}
+              CLEAR DRAWER
+            </button>
+          </div>
+        )}
+      </header>
+
+      {/* Simple Typographic Filters */}
+      {savedItems.length > 0 && (
+        <div className="kroma-filter-bar mb-8">
+          {(['all', 'recent', 'warm', 'cool', 'neutral'] as FilterType[]).map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`kroma-filter-btn ${filter === f ? 'kroma-filter-btn--active' : ''}`}
+            >
+              {f.toUpperCase()} {f === 'all' && `(${savedItems.length})`}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* The Color Swatch Wall */}
+      {filteredItems.length > 0 ? (
+        <div className="kroma-color-grid mb-16">
+          {filteredItems.map((item) => {
+            const isCopied = copiedId === item.id;
+            const isPalette = item.type === 'palette';
+            const colorsList = isPalette ? item.preview.split(',') : [];
+
+            return (
               <div
-                className="h-24 rounded-[var(--radius-xs)] overflow-hidden border border-[var(--border-subtle)] cursor-pointer"
-                style={{
-                  background:
-                    item.type === 'gradient'
-                      ? item.preview
-                      : item.preview.includes(',')
-                      ? undefined
-                      : item.preview,
-                  display: item.preview.includes(',') ? 'flex' : 'block',
+                key={item.id}
+                className="kroma-color-tile"
+                onClick={() => handleOpenItem(item)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleOpenItem(item);
                 }}
               >
-                {item.preview.includes(',') &&
-                  item.preview.split(',').map((hex, i) => (
-                    <div key={i} style={{ flex: 1, backgroundColor: hex }} />
-                  ))}
-              </div>
+                {/* Large Color Field */}
+                {isPalette ? (
+                  <div className="kroma-color-tile__swatch flex overflow-hidden">
+                    {colorsList.map((c, i) => (
+                      <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.trim() }} />
+                    ))}
+                    <span className="kroma-color-tile__copy-badge">
+                      <span>VIEW PALETTE</span>
+                      <ArrowUpRight size={11} />
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    className="kroma-color-tile__swatch"
+                    style={{
+                      background: item.type === 'gradient' ? item.preview : item.preview,
+                    }}
+                    onClick={(e) => handleCopy(item, e)}
+                  >
+                    <span className="kroma-color-tile__copy-badge">
+                      {isCopied ? (
+                        <>
+                          <Check size={12} className="text-emerald-400" />
+                          <span>COPIED!</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>COPY HEX</span>
+                          <ArrowUpRight size={11} />
+                        </>
+                      )}
+                    </span>
+                  </div>
+                )}
 
-              <div className="flex justify-between items-start">
-                <div className="min-w-0 pr-2">
-                  <span className="font-sans text-[11px] font-semibold text-[var(--text-tertiary)]">
-                    {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+                {/* Info: Name & HEX */}
+                <div className="kroma-color-tile__info">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="kroma-color-tile__name">{item.title}</span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeItem(item.id);
+                        showToast('Removed from archive', item.title);
+                      }}
+                      className="text-neutral-400 hover:text-red-500 transition-colors p-1"
+                      title="Remove from saved"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                  <span className="kroma-color-tile__hex">
+                    {isPalette ? `${colorsList.length} SHADES` : item.preview}
                   </span>
-                  <h3 className="font-sans text-sm font-bold text-[var(--text-primary)] hover:text-[var(--color-primary)] truncate mt-0.5">
-                    {item.title}
-                  </h3>
-                  {item.metadata && (
-                    <div className="font-mono text-xs text-[var(--text-secondary)] mt-0.5 truncate">
-                      {item.metadata}
-                    </div>
-                  )}
                 </div>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeItem(item.id);
-                    showToast('Removed item', item.title);
-                  }}
-                  aria-label="Remove item"
-                  className="p-1 text-[var(--text-tertiary)] hover:text-red-400 transition-colors"
-                >
-                  <Trash2 size={15} />
-                </button>
               </div>
-
-              <div className="color-card-footer mt-auto pt-2 border-t border-[var(--border-subtle)] flex items-center justify-between">
-                <button
-                  className="color-card-hex-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCopyPreview(item);
-                  }}
-                  aria-label="Copy values"
-                >
-                  <Copy size={11} />
-                  <span>Copy Values</span>
-                </button>
-
-                <button
-                  className="card-icon-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleOpenItem(item);
-                  }}
-                  title="View Detail"
-                >
-                  <ExternalLink size={14} />
-                </button>
-              </div>
-            </SpecimenCardBase>
-          ))}
+            );
+          })}
+        </div>
+      ) : (
+        /* Artistic Empty State */
+        <div className="py-24 px-6 text-center max-w-xl mx-auto border border-dashed border-neutral-200 dark:border-neutral-800 rounded-sm my-8">
+          <div className="w-12 h-12 mx-auto mb-6 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-400">
+            <Bookmark size={20} />
+          </div>
+          <h2 className="font-sans text-3xl font-bold uppercase tracking-tight text-neutral-900 dark:text-white mb-3">
+            YOUR DRAWER IS EMPTY.
+          </h2>
+          <p className="font-sans text-sm text-neutral-500 max-w-md mx-auto mb-8 leading-relaxed">
+            Find a color you love and save it. Click the bookmark icon on any specimen or palette to assemble your personal drawer.
+          </p>
+          <button
+            onClick={() => onNavigate({ path: 'colors' })}
+            className="font-sans text-xs font-bold tracking-wider uppercase px-6 py-3 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-sm hover:opacity-90 transition-opacity inline-flex items-center gap-2"
+          >
+            <span>START EXPLORING</span>
+            <ArrowUpRight size={13} />
+          </button>
         </div>
       )}
     </div>

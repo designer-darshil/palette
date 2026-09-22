@@ -1,68 +1,73 @@
 import React from 'react';
-import { ArrowLeft, Palette, Layers } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { RouteType } from '../types';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Button } from '../components/common/Button';
 
 interface NotFoundPageProps {
   requestedUrl?: string;
   onNavigate: (route: RouteType) => void;
 }
 
-export const NotFoundPage: React.FC<NotFoundPageProps> = ({ requestedUrl, onNavigate }) => {
+export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
   return (
-    <div className="w-full max-w-xl mx-auto my-16 p-8 sm:p-12 text-center flex flex-col items-center bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-lg shadow-sm">
+    <div className="w-full min-h-[70vh] flex items-center justify-center py-20 px-6">
       <SEOHead
-        title="404 — Specimen Not Found | KROMA"
-        description="The requested color specimen, palette, harmony, or gradient does not exist in the curated catalog."
+        title="404 — This Color Doesn't Exist | KROMA"
+        description="Or maybe it does, but we haven't found it yet. Explore KROMA color specimens and palettes."
         canonicalPath="/404"
         noindex={true}
         nofollow={true}
       />
 
-      <span className="text-xs font-medium text-[var(--accent-ruby)] bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-xs mb-4">
-        404 · Specimen not cataloged
-      </span>
+      <div className="max-w-xl text-center flex flex-col items-center">
+        {/* Tiny rocking rainbow roller mark */}
+        <div className="kroma-404-mark mb-8 select-none" aria-hidden="true">
+          <div className="w-12 h-6 rounded-t-sm flex overflow-hidden shadow-sm mx-auto">
+            <span className="flex-1 bg-[#FF3B30]" />
+            <span className="flex-1 bg-[#FF9500]" />
+            <span className="flex-1 bg-[#FFD60A]" />
+            <span className="flex-1 bg-[#34C759]" />
+            <span className="flex-1 bg-[#00AEEF]" />
+            <span className="flex-1 bg-[#7B2CBF]" />
+          </div>
+          <div className="w-1.5 h-6 bg-neutral-400 mx-auto rounded-b-xs mt-0.5" />
+        </div>
 
-      <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--text-primary)] mb-2">
-        Requested Resource Unavailable
-      </h1>
+        {/* Large Headline */}
+        <div className="kroma-label mb-2">SPECTRUM ANOMALY · 404</div>
+        <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase leading-[0.95] mb-4">
+          THIS COLOR DOESN'T EXIST.
+        </h1>
 
-      <p className="text-sm text-[var(--text-secondary)] leading-relaxed max-w-md mb-8">
-        {requestedUrl ? (
-          <>
-            The specimen at <code className="font-mono text-[var(--text-primary)] bg-[var(--bg-surface-2)] px-1.5 py-0.5 rounded-xs">{requestedUrl}</code> is not cataloged in the library or has been moved.
-          </>
-        ) : (
-          'The requested color specimen, palette, harmony, or gradient does not exist in the curated catalog.'
-        )}
-      </p>
+        {/* Subtitle */}
+        <p className="kroma-lead text-center mb-10 max-w-md mx-auto">
+          Or maybe it does, but we haven't found it yet.
+        </p>
 
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        <Button
-          variant="primary"
-          size="md"
-          iconLeft={<Palette size={15} />}
-          onClick={() => onNavigate({ path: 'colors' })}
-        >
-          Browse Colors
-        </Button>
-        <Button
-          variant="secondary"
-          size="md"
-          iconLeft={<Layers size={15} />}
-          onClick={() => onNavigate({ path: 'palettes' })}
-        >
-          Browse Palettes
-        </Button>
-        <Button
-          variant="ghost"
-          size="md"
-          iconLeft={<ArrowLeft size={15} />}
-          onClick={() => onNavigate({ path: 'home' })}
-        >
-          Return Home
-        </Button>
+        {/* Three simple text links */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 font-sans text-xs font-bold tracking-wider uppercase">
+          <button
+            onClick={() => onNavigate({ path: 'home' })}
+            className="text-neutral-900 dark:text-white hover:opacity-60 transition-opacity flex items-center gap-1"
+          >
+            <span>TAKE ME HOME</span>
+            <ArrowUpRight size={14} />
+          </button>
+          <button
+            onClick={() => onNavigate({ path: 'colors' })}
+            className="text-neutral-900 dark:text-white hover:opacity-60 transition-opacity flex items-center gap-1"
+          >
+            <span>EXPLORE COLORS</span>
+            <ArrowUpRight size={14} />
+          </button>
+          <button
+            onClick={() => onNavigate({ path: 'palette-generator' })}
+            className="text-neutral-900 dark:text-white hover:opacity-60 transition-opacity flex items-center gap-1"
+          >
+            <span>GENERATE A PALETTE</span>
+            <ArrowUpRight size={14} />
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1364,6 +1364,7 @@ body.nav-open {
   margin-top: 2px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -2617,11 +2618,13 @@ body.nav-open {
   outline: none;
   border: none;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .studio-slider-number-input::-webkit-outer-spin-button,
 .studio-slider-number-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 

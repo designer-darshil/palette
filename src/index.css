@@ -1588,121 +1588,222 @@ body.nav-open {
   color: var(--accent-gold);
 }
 
-/* Palette Card */
+/* ─── Kroma Palette Card (Color-First Editorial Object) ──────── */
 .palette-card {
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  background-color: var(--bg-surface-1, #F8F8F8);
+  border: 1px solid rgba(23, 23, 23, 0.08);
+  border-radius: 4px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms ease, border-color 200ms ease;
+  cursor: pointer;
+  position: relative;
+}
+
+[data-theme="dark"] .palette-card,
+:root:not([data-theme="light"]) .palette-card {
+  background-color: #141518;
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .palette-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-specimen);
+  transform: translateY(-3px);
+  border-color: rgba(23, 23, 23, 0.20);
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.08);
 }
 
+[data-theme="dark"] .palette-card:hover,
+:root:not([data-theme="light"]) .palette-card:hover {
+  border-color: rgba(255, 255, 255, 0.20);
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45);
+}
+
+/* Majority of Card: Edge-to-Edge Color Composition */
 .palette-swatches-strip {
-  height: 140px;
+  height: 220px;
   display: flex;
   width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .palette-swatches-strip {
+    height: 180px;
+  }
 }
 
 .palette-swatch-item {
-  flex: 1;
   height: 100%;
   position: relative;
   cursor: pointer;
-  transition: flex 220ms ease;
+  transition: flex 220ms cubic-bezier(0.22, 1, 0.36, 1);
   display: flex;
   align-items: flex-end;
-  padding: 8px;
+  justify-content: center;
+  padding: 10px 4px;
+  outline: none;
 }
 
-.palette-swatch-item:hover {
-  flex: 1.6;
+.palette-swatch-item:hover,
+.palette-swatch-item:focus-visible {
+  flex-grow: 2.2 !important;
 }
 
+/* Minimal Copy Confirmation & Hex Label */
 .palette-swatch-pop {
   opacity: 0;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  transform: translateY(4px);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
   font-weight: 600;
-  padding: 2px 4px;
+  letter-spacing: 0.04em;
+  padding: 4px 7px;
   border-radius: 2px;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.85);
   color: #FFFFFF;
-  transition: opacity var(--transition-quick);
+  transition: opacity 180ms ease, transform 180ms ease, background-color 140ms ease;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.palette-swatch-item:hover .palette-swatch-pop {
+.palette-swatch-item:hover .palette-swatch-pop,
+.palette-swatch-item:focus-visible .palette-swatch-pop {
   opacity: 1;
+  transform: translateY(0);
 }
 
+.palette-swatch-pop.copied {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  background: #171717;
+  color: #34C759;
+}
+
+/* Quiet, Editorial Information & Actions Container */
 .palette-card-body {
-  padding: 16px;
+  padding: 14px 16px;
+  background-color: var(--bg-surface-1, #F8F8F8);
+  border-top: 1px solid rgba(23, 23, 23, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+[data-theme="dark"] .palette-card-body,
+:root:not([data-theme="light"]) .palette-card-body {
+  background-color: #141518;
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.palette-card-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  flex: 1;
+  gap: 3px;
+  min-width: 0;
 }
 
 .palette-card-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  margin: 0;
+  padding: 0;
+  line-height: 1.25;
 }
 
-.palette-card-title a:hover {
+.palette-card-title-link {
+  font-family: var(--font-sans, 'General Sans', sans-serif);
+  font-size: 14.5px;
+  font-weight: 550;
+  color: #171717;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 140ms ease;
+}
+
+.palette-card-title-link:hover {
+  color: #000000;
   text-decoration: underline;
 }
 
-.palette-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
+[data-theme="dark"] .palette-card-title-link,
+:root:not([data-theme="light"]) .palette-card-title-link {
+  color: #FFFFFF;
 }
 
-.palette-color-hex-list {
+[data-theme="dark"] .palette-card-title-link:hover,
+:root:not([data-theme="light"]) .palette-card-title-link:hover {
+  color: #ECECEC;
+}
+
+.palette-card-meta {
+  font-family: var(--font-sans, 'General Sans', sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #707070;
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 4px;
 }
 
-.palette-mini-hex-pill {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  background: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle);
-  padding: 2px 6px;
-  border-radius: 2px;
-  display: inline-flex;
+[data-theme="dark"] .palette-card-meta,
+:root:not([data-theme="light"]) .palette-card-meta {
+  color: #8E8E93;
+}
+
+/* Subtle Action Controls */
+.palette-card-actions {
+  display: flex;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;
+}
+
+.palette-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #707070;
   cursor: pointer;
-  transition: all var(--transition-quick);
+  transition: all 160ms ease;
+  padding: 0;
 }
 
-.palette-mini-hex-pill:hover {
-  color: var(--text-primary);
-  border-color: var(--border-medium);
+.palette-action-btn:hover {
+  color: #171717;
+  background: rgba(23, 23, 23, 0.06);
+  border-color: rgba(23, 23, 23, 0.08);
 }
 
-.palette-mini-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
+[data-theme="dark"] .palette-action-btn,
+:root:not([data-theme="light"]) .palette-action-btn {
+  color: #8E8E93;
+}
+
+[data-theme="dark"] .palette-action-btn:hover,
+:root:not([data-theme="light"]) .palette-action-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.palette-action-btn.saved {
+  color: #FF9500;
 }
 
 /* Redesigned Two-Color Combo Specimen Card */

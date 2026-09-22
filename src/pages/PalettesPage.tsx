@@ -3,7 +3,8 @@ import { RouteType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useSaved } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
-import { Search, Loader2, ArrowUpRight, Bookmark } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
+import { PaletteCard } from '../components/PaletteCard';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
 
@@ -190,61 +191,13 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
       ) : (
         <>
           <div className="kroma-palettes-gallery">
-            {displayedPalettes.map((palette, idx) => {
-              const formattedIdx = String(idx + 1).padStart(2, '0');
-              const saved = isSaved(palette.id);
-
-              return (
-                <div
-                  key={palette.id}
-                  className="kroma-palette-strip"
-                  onClick={() => onNavigate({ path: 'palette-detail', slug: palette.slug })}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') onNavigate({ path: 'palette-detail', slug: palette.slug });
-                  }}
-                >
-                  {/* Oversized Solid Color Blocks: 4-6 colors edge-to-edge */}
-                  <div className="kroma-palette-strip__colors">
-                    {palette.colors.map((c, i) => (
-                      <div
-                        key={i}
-                        className="kroma-palette-strip__color-bar"
-                        style={{ backgroundColor: c.hex }}
-                        title={`${c.name} (${c.hex})`}
-                      />
-                    ))}
-                    <span className="kroma-palette-strip__hover-cta">
-                      <span>VIEW PALETTE</span>
-                      <ArrowUpRight size={13} />
-                    </span>
-                  </div>
-
-                  {/* Under each strip: PALETTE 01 / TITLE / COUNT COLORS */}
-                  <div className="kroma-palette-strip__meta">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="kroma-palette-strip__num">
-                        PALETTE {formattedIdx} · {palette.category?.toUpperCase() || 'STUDIO'}
-                      </div>
-                      <button
-                        className="p-1 text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
-                        onClick={(e) => handleToggleSave(palette, e)}
-                        title={saved ? 'Saved' : 'Save palette'}
-                      >
-                        <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-                      </button>
-                    </div>
-                    <div className="kroma-palette-strip__title">
-                      {palette.title}
-                    </div>
-                    <div className="font-mono text-[11px] text-neutral-400 dark:text-neutral-500 tracking-wider">
-                      {palette.colors.length} COLORS
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {displayedPalettes.map((palette) => (
+              <PaletteCard
+                key={palette.id}
+                palette={palette}
+                onNavigate={onNavigate}
+              />
+            ))}
           </div>
 
           {/* Infinite Scroll Sentinel */}

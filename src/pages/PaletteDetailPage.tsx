@@ -30,6 +30,7 @@ import { findClosestColorName } from '../utils/paletteGenerator';
 import { NotFoundPage } from './NotFoundPage';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generatePaletteSchema } from '../utils/schemaGenerator';
+import { PaletteCard } from '../components/PaletteCard';
 
 interface PaletteDetailPageProps {
   slug: string;
@@ -421,42 +422,8 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {relatedStudies.map((rel, i) => (
-              <div
-                key={rel.id}
-                className="kroma-palette-strip"
-                onClick={() => onNavigate({ path: 'palette-detail', slug: rel.slug })}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') onNavigate({ path: 'palette-detail', slug: rel.slug });
-                }}
-              >
-                <div className="kroma-palette-strip__colors">
-                  {rel.colors.map((c, ci) => (
-                    <div
-                      key={ci}
-                      className="kroma-palette-strip__color-bar"
-                      style={{ backgroundColor: c.hex }}
-                    />
-                  ))}
-                  <span className="kroma-palette-strip__hover-cta">
-                    <span>VIEW STUDY</span>
-                    <ArrowUpRight size={13} />
-                  </span>
-                </div>
-                <div className="kroma-palette-strip__meta">
-                  <div className="kroma-palette-strip__num">
-                    STUDY 0{i + 1} · {rel.category?.toUpperCase() || 'SYSTEM'}
-                  </div>
-                  <div className="kroma-palette-strip__title">
-                    {rel.title}
-                  </div>
-                  <div className="font-mono text-[11px] text-neutral-400">
-                    {rel.colors.length} COLORS
-                  </div>
-                </div>
-              </div>
+            {relatedStudies.map((rel) => (
+              <PaletteCard key={rel.id} palette={rel} onNavigate={onNavigate} />
             ))}
           </div>
         </section>

@@ -794,11 +794,11 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
           {/* Right: CSS Code Snippet & Direct Actions */}
           <div className="pattern-detail-box">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-xs text-neutral-500 uppercase">CSS Surface Declaration</span>
+            <div className="pattern-declaration-header">
+              <span className="pattern-declaration-title">CSS Surface Declaration</span>
               <button
                 type="button"
-                className="pattern-toolbar-btn text-xs py-1"
+                className="pattern-toolbar-btn text-xs py-1 shrink-0"
                 onClick={handleCopyCss}
               >
                 {copiedCss ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
@@ -810,7 +810,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               <code>{cssCode}</code>
             </pre>
 
-            <div className="flex items-center gap-3 pt-2">
+            <div className="pattern-declaration-actions">
               <button
                 type="button"
                 className="pattern-toolbar-btn pattern-toolbar-btn--accent flex-1 justify-center py-2"

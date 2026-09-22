@@ -98,6 +98,12 @@ export const DEFAULT_BRAND_KIT: BrandKitItem = {
 /**
  * Find optimal contrasting color against a given background that satisfies minRatio.
  */
+import { adjustColorForContrast, getSmartForeground } from './oklchColorSystem';
+
+/**
+ * Find optimal contrasting color against a given background that satisfies minRatio using OKLCH.
+ * Preserves hue and chroma, adjusting lightness first.
+ */
 export function findOptimalContrastColor(
   bgHex: string,
   preferredHex: string,
@@ -109,35 +115,23 @@ export function findOptimalContrastColor(
     return { color: preferredHex, ratio: initialRatio };
   }
 
+  // 1. OKLCH Perceptual Adjustment (preserves exact hue and chroma, adjusts lightness first)
+  const oklchAdj = adjustColorForContrast(preferredHex, bgHex, minRatio);
+  if (oklchAdj.ratio >= minRatio) {
+    return { color: oklchAdj.accessibleHex, ratio: oklchAdj.ratio };
+  }
+
+  // 2. Smart foreground selection (#171717 or #F8F8F8)
+  const smartFg = getSmartForeground(bgHex, minRatio);
+  if (smartFg.ratio >= minRatio) {
+    return { color: smartFg.color, ratio: smartFg.ratio };
+  }
+
+  // Fallback
   const whiteRatio = getContrastRatio('#FFFFFF', bgHex);
   const blackRatio = getContrastRatio('#000000', bgHex);
-  const preferLight = whiteRatio >= blackRatio;
-
-  const candidates: { color: string; ratio: number; diff: number }[] = [];
-
-  // 1. Check curated neutral tones
-  const neutrals = preferLight
-    ? isMuted
-      ? ['#94A3B8', '#CBD5E1', '#E2E8F0']
-      : ['#FFFFFF', '#F8FAFC', '#F1F5F9']
-    : isMuted
-    ? ['#64748B', '#475569', '#334155']
-    : ['#0F172A', '#000000', '#1E293B'];
-
-  for (const n of neutrals) {
-    const r = getContrastRatio(n, bgHex);
-    if (r >= minRatio) {
-      candidates.push({ color: n, ratio: r, diff: Math.abs(r - minRatio) });
-    }
-  }
-
-  if (candidates.length > 0) {
-    candidates.sort((a, b) => (isMuted ? a.diff - b.diff : b.ratio - a.ratio));
-    return { color: candidates[0].color, ratio: candidates[0].ratio };
-  }
-
-  const fallback = preferLight ? '#FFFFFF' : '#000000';
-  return { color: fallback, ratio: getContrastRatio(fallback, bgHex) };
+  const fallback = whiteRatio >= blackRatio ? '#FFFFFF' : '#000000';
+  return { color: fallback, ratio: Math.max(whiteRatio, blackRatio) };
 }
 
 /**

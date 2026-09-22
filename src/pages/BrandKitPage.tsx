@@ -5,25 +5,23 @@ import {
   Smartphone,
   BarChart3,
   Copy,
-  Check,
   Share2,
   Bookmark,
   ExternalLink,
   Code,
-  ArrowRight,
+  Sliders,
   TrendingUp,
   CreditCard,
   Bell,
   Activity,
-  Sliders,
+  ShieldCheck,
+  Check,
 } from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
 import {
-  getContrastRatio,
-  getTextColorForBackground,
   copyToClipboard,
   hexToRgb,
   hexToHsl,
@@ -37,10 +35,19 @@ import {
   getSavedBrandKits,
   saveBrandKitToStorage,
   generateBrandKitCssTokens,
-  auditBrandKitRoles,
-  resolveAuditedBrandKitRoles,
-  SemanticAuditRoleResult,
 } from '../utils/brandKitStorage';
+import {
+  auditBrandKitIntelligence,
+  mapPaletteToSemanticRoles,
+  calculateWcagRatio,
+  formatContrastRatio,
+  hexToOklch,
+  oklchToCssString,
+  getSmartForeground,
+  adjustColorForContrast,
+  SemanticRolesModel,
+  SemanticRelationshipCheck,
+} from '../utils/oklchColorSystem';
 import { ColorPickerModal } from '../components/ColorPickerModal';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
@@ -61,7 +68,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
   const { saveItem } = useSaved();
   const { palettes } = useLibraryData();
 
-  // Load active brand kit
+  // Load active brand kit (holds original user colors)
   const [brandKit, setBrandKit] = useState<BrandKitItem>(() => {
     const savedKits = getSavedBrandKits();
     if (initialId) {
@@ -72,6 +79,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
   });
 
   const [previewMode, setPreviewMode] = useState<'website' | 'mobile' | 'dashboard'>('website');
+  const [previewColorMode, setPreviewColorMode] = useState<'accessible' | 'original'>('accessible');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
   const [exportFormat, setExportFormat] = useState<'css' | 'json' | 'tailwind'>('css');
@@ -82,28 +90,48 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     color: string;
   } | null>(null);
 
-  // Strict Semantic Accessibility Audit Report
-  const auditReport = useMemo(() => auditBrandKitRoles(brandKit.roles), [brandKit.roles]);
+  // ── WCAG 2.2 + OKLCH Color Intelligence Engine ─────────────────────
+  // Evaluates every semantic relationship and derives accessible variants using OKLCH
+  const intelligenceReport = useMemo(() => {
+    return auditBrandKitIntelligence(brandKit.roles);
+  }, [brandKit.roles]);
 
-  // If initialPaletteSlug provided, map its colors into roles and auto-remediate contrast
+  // The active roles used in previews: defaults to accessible OKLCH variants so preview is always readable
+  const activePreviewRoles = useMemo(() => {
+    return previewColorMode === 'accessible'
+      ? intelligenceReport.accessibleRoles
+      : (brandKit.roles as unknown as SemanticRolesModel);
+  }, [previewColorMode, intelligenceReport.accessibleRoles, brandKit.roles]);
+
+  // Pre-calculate curated presets quality status for subtle badges
+  const curatedQualityMap = useMemo(() => {
+    const map: Record<string, 'AAA ✓' | 'AA ✓' | 'AA NEEDS ADJ'> = {};
+    palettes.slice(0, 8).forEach((p) => {
+      const res = mapPaletteToSemanticRoles(p.colors.map((c) => c.hex));
+      map[p.id] =
+        res.quality === 'WCAG AAA READY'
+          ? 'AAA ✓'
+          : res.quality === 'WCAG AA READY'
+          ? 'AA ✓'
+          : 'AA NEEDS ADJ';
+    });
+    return map;
+  }, [palettes]);
+
+  // If initialPaletteSlug provided, map its colors into roles intelligently
   useEffect(() => {
     if (initialPaletteSlug) {
       const clean = initialPaletteSlug.replace(/^(palettes|palette|gen-pal|ext-pal)-/i, '');
       const hexParts = clean.match(/[0-9a-fA-F]{6}/g);
       if (hexParts && hexParts.length >= 2) {
         const hexList = hexParts.map((h) => `#${h.toUpperCase()}`);
-        const rawRoles: Partial<BrandKitRoles> = {
-          ...brandKit.roles,
-          primary: hexList[0] || brandKit.roles.primary,
-          secondary: hexList[1] || brandKit.roles.secondary,
-          accent: hexList[2] || brandKit.roles.accent,
-          background: hexList[3] || '#0F1117',
-          surface: hexList[4] || '#1A1D27',
-        };
-        const resolved = resolveAuditedBrandKitRoles(rawRoles);
+        const mapped = mapPaletteToSemanticRoles(hexList);
         setBrandKit((prev) => ({
           ...prev,
-          roles: resolved,
+          roles: {
+            ...prev.roles,
+            ...mapped.original,
+          },
           updatedAt: new Date().toISOString(),
         }));
         showToast('Applied palette & verified contrast', `${hexList.length} swatches mapped`);
@@ -111,7 +139,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   }, [initialPaletteSlug]);
 
-  // Handle role color change
+  // Handle role color change (always modifies original color; OKLCH variant recalculated reactively)
   const handleRoleColorChange = (roleKey: keyof BrandKitRoles, newHex: string) => {
     const clean = newHex.startsWith('#') ? newHex.toUpperCase() : `#${newHex.toUpperCase()}`;
     if (/^#[0-9A-F]{0,6}$/i.test(clean)) {
@@ -129,60 +157,61 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   };
 
-  // Auto-Remediate all failing roles
-  const handleAutoRemediate = () => {
-    const remediated = resolveAuditedBrandKitRoles(brandKit.roles);
+  // Auto-Remediate all failing roles using minimal OKLCH adjustments
+  const handleAutoRemediateOklch = () => {
+    const accessible = intelligenceReport.accessibleRoles;
     setBrandKit((prev) => ({
       ...prev,
-      roles: remediated,
+      roles: {
+        ...prev.roles,
+        text: accessible.text,
+        buttonText: accessible.buttonText,
+        cardText: accessible.cardText,
+        mutedText: accessible.mutedText,
+        border: accessible.border,
+        button: accessible.button,
+      },
       updatedAt: new Date().toISOString(),
     }));
-    showToast('Remediated Semantic Roles', 'Contrast thresholds satisfied');
+    showToast('Applied OKLCH Accessible Adjustments', 'All WCAG thresholds satisfied');
   };
 
-  // Apply single role fix
-  const handleApplyRoleFix = (result: SemanticAuditRoleResult) => {
-    if (!result.suggestedFg) return;
-    let updated = { ...brandKit.roles };
-    if (result.id === 'bodyTextOnCanvas') {
-      updated.text = result.suggestedFg;
-    } else if (result.id === 'primaryButtonText') {
-      updated.buttonText = result.suggestedFg;
-    } else if (result.id === 'cardBodyOnSurface') {
-      updated.cardText = result.suggestedFg;
-    } else if (result.id === 'mutedTextOnCanvas') {
-      updated.mutedText = result.suggestedFg;
-    }
-    setBrandKit((prev) => ({
-      ...prev,
-      roles: updated,
-      updatedAt: new Date().toISOString(),
-    }));
-    showToast(`Remediated ${result.label}`, `Updated foreground to ${result.suggestedFg}`);
+  // Apply single OKLCH role fix
+  const handleApplySingleCheckFix = (check: SemanticRelationshipCheck) => {
+    if (!check.suggestedFg) return;
+    setBrandKit((prev) => {
+      const updated = { ...prev.roles };
+      if (check.id === 'bg-text') updated.text = check.suggestedFg!;
+      else if (check.id === 'bg-muted') updated.mutedText = check.suggestedFg!;
+      else if (check.id === 'surface-text') updated.cardText = check.suggestedFg!;
+      else if (check.id === 'button-text') updated.buttonText = check.suggestedFg!;
+      else if (check.id === 'border-bg') updated.border = check.suggestedFg!;
+      return {
+        ...prev,
+        roles: updated,
+        updatedAt: new Date().toISOString(),
+      };
+    });
+    showToast(`Remediated ${check.label}`, `Updated to ${check.suggestedFg}`);
   };
 
-  // Quick palette loader
+  // Intelligent palette loader with semantic role assignment
   const handleApplyPalette = (palette: PaletteItem) => {
     if (!palette.colors || palette.colors.length === 0) return;
     const cols = palette.colors.map((c) => c.hex);
-
-    const rawRoles: Partial<BrandKitRoles> = {
-      ...brandKit.roles,
-      primary: cols[0] || brandKit.roles.primary,
-      secondary: cols[1] || brandKit.roles.secondary,
-      accent: cols[2] || brandKit.roles.accent,
-      background: cols[3] || '#0F1117',
-      surface: cols[4] || '#1A1D27',
-    };
-    const resolved = resolveAuditedBrandKitRoles(rawRoles);
+    const mapped = mapPaletteToSemanticRoles(cols);
 
     setBrandKit((prev) => ({
       ...prev,
       paletteSlug: palette.slug,
       paletteTitle: palette.title,
-      roles: resolved,
+      roles: {
+        ...prev.roles,
+        ...mapped.original,
+      },
       updatedAt: new Date().toISOString(),
     }));
+    showToast(`Loaded ${palette.title}`, `Semantic roles mapped • ${mapped.quality}`);
   };
 
   // Save Brand Kit
@@ -207,7 +236,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   };
 
-  // Subtle inline copy handler (no large toasts)
+  // Subtle inline copy handler
   const handleCopyColorValue = async (key: string, value: string) => {
     const success = await copyToClipboard(value);
     if (success) {
@@ -218,13 +247,17 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   };
 
-  // Export Design Tokens
+  // Export Design Tokens (supports CSS custom properties, Tailwind, JSON)
   const exportContent = useMemo(() => {
     if (exportFormat === 'css') {
       return generateBrandKitCssTokens(brandKit);
     }
     if (exportFormat === 'json') {
-      return JSON.stringify(brandKit, null, 2);
+      return JSON.stringify({
+        ...brandKit,
+        accessibleVariants: intelligenceReport.accessibleRoles,
+        wcagAssessment: intelligenceReport.overallQuality,
+      }, null, 2);
     }
     return `module.exports = {
   theme: {
@@ -241,6 +274,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           buttonText: '${brandKit.roles.buttonText}',
           cardText: '${brandKit.roles.cardText}',
           border: '${brandKit.roles.border}',
+          // OKLCH Accessible Variants
+          accessible: {
+            text: '${intelligenceReport.accessibleRoles.text}',
+            buttonText: '${intelligenceReport.accessibleRoles.buttonText}',
+            cardText: '${intelligenceReport.accessibleRoles.cardText}',
+            mutedText: '${intelligenceReport.accessibleRoles.mutedText}',
+            border: '${intelligenceReport.accessibleRoles.border}',
+          }
         }
       },
       fontFamily: {
@@ -250,7 +291,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   }
 };`;
-  }, [brandKit, exportFormat]);
+  }, [brandKit, exportFormat, intelligenceReport]);
 
   const handleCopyTokens = async () => {
     const success = await copyToClipboard(exportContent);
@@ -259,8 +300,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
     }
   };
 
-  const primaryBtnText = brandKit.roles.buttonText || getTextColorForBackground(brandKit.roles.primary);
-  const canvasContrastText = getTextColorForBackground(brandKit.roles.primary);
+  // Smart foregrounds for active preview surfaces
+  const canvasContrastText = getSmartForeground(activePreviewRoles.primary, 4.5).color;
+  const secondaryContrastText = getSmartForeground(activePreviewRoles.secondary, 4.5).color;
+  const accentContrastText = getSmartForeground(activePreviewRoles.accent, 4.5).color;
 
   const brandKitSchema = useMemo(() => {
     return generateWebApplicationSchema({
@@ -302,7 +345,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       <nav aria-label="Breadcrumb" className="brand-studio-breadcrumb">
         <button
           onClick={() => onNavigate({ path: 'create' })}
-          className="brand-studio-breadcrumb-link"
+          className="brand-studio-breadcrumb-link focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
         >
           STUDIO
         </button>
@@ -326,21 +369,21 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
         <div className="flex items-center gap-2.5 flex-wrap">
           <button
             onClick={() => setShowExportModal(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] bg-transparent border border-[var(--border-subtle)] hover:border-[var(--text-primary)] rounded-[2px] transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] bg-transparent border border-[var(--border-subtle)] hover:border-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors outline-none"
           >
             <Code size={13} />
             <span>Export Tokens</span>
           </button>
           <button
             onClick={handleShare}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] bg-transparent border border-[var(--border-subtle)] hover:border-[var(--text-primary)] rounded-[2px] transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] bg-transparent border border-[var(--border-subtle)] hover:border-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors outline-none"
           >
             <Share2 size={13} />
             <span>Share</span>
           </button>
           <button
             onClick={handleSaveBrandKit}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium tracking-wide text-white bg-[#171717] hover:bg-black rounded-[2px] transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium tracking-wide text-white bg-[#171717] hover:bg-black focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#171717] rounded-[2px] transition-colors shadow-sm outline-none"
           >
             <Bookmark size={13} />
             <span>Save Brand Kit</span>
@@ -359,14 +402,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
 
           <button
             onClick={() => setIsEditingIdentity((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] transition-colors outline-none"
           >
             <Sliders size={12} />
             <span>{isEditingIdentity ? 'Done Editing' : 'Edit Name & Tagline'}</span>
           </button>
         </div>
 
-        {/* Subtle Brand Identity Inputs (Toggled or inline) */}
+        {/* Subtle Brand Identity Inputs */}
         {isEditingIdentity && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-[2px] transition-all">
             <div>
@@ -412,7 +455,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   className="w-9 h-9 rounded-[2px] flex items-center justify-center font-bold text-sm tracking-wider shadow-sm transition-colors"
                   style={{
                     backgroundColor: brandKit.roles.accent,
-                    color: getTextColorForBackground(brandKit.roles.accent),
+                    color: getSmartForeground(brandKit.roles.accent, 4.5).color,
                   }}
                 >
                   {(brandKit.name && brandKit.name[0]) || 'K'}
@@ -437,9 +480,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </div>
 
             <div className="flex items-center justify-between text-xs font-mono opacity-80 pt-4 border-t border-current/15">
-              <span>RGB {(() => {
-                const rgb = hexToRgb(brandKit.roles.primary);
-                return rgb ? `${rgb.r} · ${rgb.g} · ${rgb.b}` : '—';
+              <span>{(() => {
+                const oklch = hexToOklch(brandKit.roles.primary);
+                return oklchToCssString(oklch.L, oklch.C, oklch.H);
               })()}</span>
               <span>{findClosestColorName(brandKit.roles.primary)}</span>
             </div>
@@ -452,7 +495,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               className="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between min-h-[160px] transition-colors duration-300"
               style={{
                 backgroundColor: brandKit.roles.secondary,
-                color: getTextColorForBackground(brandKit.roles.secondary),
+                color: secondaryContrastText,
               }}
             >
               <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-wider opacity-85">
@@ -477,7 +520,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               className="md:col-span-5 p-6 sm:p-8 flex flex-col justify-between min-h-[160px] md:border-l border-t md:border-t-0 border-[var(--border-subtle)] transition-colors duration-300"
               style={{
                 backgroundColor: brandKit.roles.accent,
-                color: getTextColorForBackground(brandKit.roles.accent),
+                color: accentContrastText,
               }}
             >
               <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-wider opacity-85">
@@ -499,7 +542,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           </div>
         </div>
 
-        {/* Start from Curated Palette Strip */}
+        {/* Start from Curated Palette Strip with Subtle Accessibility Indicator */}
         <div className="mt-2 flex items-center justify-between flex-wrap gap-2 text-xs">
           <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-secondary)]">
             Start from Curated Palette
@@ -509,16 +552,19 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <button
                 key={pal.id}
                 onClick={() => handleApplyPalette(pal)}
-                className="flex items-center gap-1 px-2 py-1 bg-transparent hover:bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--text-primary)] rounded-[2px] transition-colors flex-shrink-0"
-                title={`Apply ${pal.title}`}
+                className="flex items-center gap-1.5 px-2 py-1 bg-transparent hover:bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors flex-shrink-0 outline-none"
+                title={`Apply ${pal.title} (${curatedQualityMap[pal.id] || 'AA ✓'})`}
               >
                 <div className="flex h-2.5 w-8 rounded-[1px] overflow-hidden">
                   {pal.colors.slice(0, 4).map((c, i) => (
                     <span key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
                   ))}
                 </div>
-                <span className="text-[11px] font-medium text-[var(--text-primary)] truncate max-w-[70px]">
+                <span className="text-[11px] font-medium text-[var(--text-primary)] truncate max-w-[65px]">
                   {pal.title}
+                </span>
+                <span className="text-[9px] font-mono font-semibold px-1 py-0.5 rounded-[2px] bg-neutral-100 text-[var(--text-secondary)] border border-neutral-200">
+                  {curatedQualityMap[pal.id] || 'AA ✓'}
                 </span>
               </button>
             ))}
@@ -583,7 +629,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <span className="text-[var(--text-secondary)]">HEX</span>
                 <button
                   onClick={() => handleCopyColorValue('prim-hex', primaryRole.hex)}
-                  className="font-medium text-[var(--text-primary)] hover:underline flex items-center gap-1"
+                  className="font-medium text-[var(--text-primary)] hover:underline flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
                 >
                   {copiedKey === 'prim-hex' ? (
                     <span className="text-emerald-600 font-bold">COPIED</span>
@@ -594,16 +640,16 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-[var(--text-secondary)]">RGB</span>
+                <span className="text-[var(--text-secondary)]">OKLCH</span>
                 {(() => {
-                  const rgb = hexToRgb(primaryRole.hex);
-                  const str = rgb ? `${rgb.r} / ${rgb.g} / ${rgb.b}` : '—';
+                  const oklch = hexToOklch(primaryRole.hex);
+                  const str = oklchToCssString(oklch.L, oklch.C, oklch.H);
                   return (
                     <button
-                      onClick={() => handleCopyColorValue('prim-rgb', str)}
-                      className="font-medium text-[var(--text-primary)] hover:underline"
+                      onClick={() => handleCopyColorValue('prim-oklch', str)}
+                      className="font-medium text-[var(--text-primary)] hover:underline focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
                     >
-                      {copiedKey === 'prim-rgb' ? (
+                      {copiedKey === 'prim-oklch' ? (
                         <span className="text-emerald-600 font-bold">COPIED</span>
                       ) : (
                         <span>{str}</span>
@@ -614,16 +660,16 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-[var(--text-secondary)]">HSL</span>
+                <span className="text-[var(--text-secondary)]">RGB</span>
                 {(() => {
-                  const hsl = hexToHsl(primaryRole.hex);
-                  const str = hsl ? `${hsl.h}° / ${hsl.s}% / ${hsl.l}%` : '—';
+                  const rgb = hexToRgb(primaryRole.hex);
+                  const str = rgb ? `${rgb.r} / ${rgb.g} / ${rgb.b}` : '—';
                   return (
                     <button
-                      onClick={() => handleCopyColorValue('prim-hsl', str)}
-                      className="font-medium text-[var(--text-primary)] hover:underline"
+                      onClick={() => handleCopyColorValue('prim-rgb', str)}
+                      className="font-medium text-[var(--text-primary)] hover:underline focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
                     >
-                      {copiedKey === 'prim-hsl' ? (
+                      {copiedKey === 'prim-rgb' ? (
                         <span className="text-emerald-600 font-bold">COPIED</span>
                       ) : (
                         <span>{str}</span>
@@ -651,8 +697,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
         {/* Secondary Roles Grid (4 Asymmetric Cards) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {secondaryRoles.map((role) => {
-            const fg = getTextColorForBackground(role.hex);
-            const rgb = hexToRgb(role.hex);
+            const fg = getSmartForeground(role.hex, 4.5).color;
+            const oklch = hexToOklch(role.hex);
+            const oklchStr = oklchToCssString(oklch.L, oklch.C, oklch.H);
             return (
               <div
                 key={role.key}
@@ -697,12 +744,12 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   </div>
 
                   <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono">
-                    <span className="text-[var(--text-secondary)]">
-                      {rgb ? `${rgb.r}·${rgb.g}·${rgb.b}` : ''}
+                    <span className="text-[var(--text-secondary)] truncate max-w-[100px]">
+                      {oklchStr}
                     </span>
                     <button
                       onClick={() => handleCopyColorValue(`role-${role.key}`, role.hex)}
-                      className="text-[var(--text-primary)] hover:underline"
+                      className="text-[var(--text-primary)] hover:underline focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
                     >
                       {copiedKey === `role-${role.key}` ? (
                         <span className="text-emerald-600 font-bold">COPIED</span>
@@ -746,7 +793,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </div>
                 <button
                   onClick={() => handleCopyColorValue(`sup-${role.key}`, role.hex)}
-                  className="text-[9px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0"
+                  className="text-[9px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0 focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
                 >
                   {copiedKey === `sup-${role.key}` ? '✓' : 'COPY'}
                 </button>
@@ -769,50 +816,97 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </p>
           </div>
 
-          {/* Editorial Segmented Switcher */}
-          <div className="inline-flex items-center p-0.5 border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)] self-start sm:self-auto">
-            <button
-              onClick={() => setPreviewMode('website')}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors ${
-                previewMode === 'website'
-                  ? 'bg-[#171717] text-white'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              <Layout size={12} />
-              <span>Website</span>
-            </button>
-            <button
-              onClick={() => setPreviewMode('mobile')}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors ${
-                previewMode === 'mobile'
-                  ? 'bg-[#171717] text-white'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              <Smartphone size={12} />
-              <span>Mobile App</span>
-            </button>
-            <button
-              onClick={() => setPreviewMode('dashboard')}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors ${
-                previewMode === 'dashboard'
-                  ? 'bg-[#171717] text-white'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              <BarChart3 size={12} />
-              <span>Dashboard</span>
-            </button>
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            {/* Intelligent OKLCH Accessible Variant Toggle */}
+            <div className="inline-flex items-center p-0.5 border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)]">
+              <button
+                onClick={() => setPreviewColorMode('accessible')}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[1px] transition-colors outline-none ${
+                  previewColorMode === 'accessible'
+                    ? 'bg-[#171717] text-white font-semibold'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+                title="Renders using OKLCH contrast-safe variants so text is guaranteed legible"
+              >
+                <ShieldCheck size={11} />
+                <span>Accessible UI (OKLCH)</span>
+              </button>
+              <button
+                onClick={() => setPreviewColorMode('original')}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[1px] transition-colors outline-none ${
+                  previewColorMode === 'original'
+                    ? 'bg-[#171717] text-white font-semibold'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+                title="Renders using raw original preset colors directly"
+              >
+                <span>Original Palette</span>
+              </button>
+            </div>
+
+            {/* Segmented Switcher for Viewports */}
+            <div className="inline-flex items-center p-0.5 border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)]">
+              <button
+                onClick={() => setPreviewMode('website')}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors outline-none ${
+                  previewMode === 'website'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <Layout size={12} />
+                <span>Website</span>
+              </button>
+              <button
+                onClick={() => setPreviewMode('mobile')}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors outline-none ${
+                  previewMode === 'mobile'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <Smartphone size={12} />
+                <span>Mobile App</span>
+              </button>
+              <button
+                onClick={() => setPreviewMode('dashboard')}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors outline-none ${
+                  previewMode === 'dashboard'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <BarChart3 size={12} />
+                <span>Dashboard</span>
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Informative subtle banner if OKLCH variants are currently active */}
+        {intelligenceReport.hasAdjustments && previewColorMode === 'accessible' && (
+          <div className="flex items-center justify-between px-3 py-1.5 bg-neutral-100 border border-neutral-200 rounded-[2px] text-xs font-mono text-[var(--text-secondary)]">
+            <div className="flex items-center gap-1.5">
+              <Sparkles size={11} className="text-[var(--text-primary)]" />
+              <span>
+                OKLCH Accessible variants active ({intelligenceReport.adjustedRolesCount} roles optimized for guaranteed WCAG AA readability)
+              </span>
+            </div>
+            <button
+              onClick={handleAutoRemediateOklch}
+              className="text-[11px] font-bold text-[var(--text-primary)] hover:underline"
+            >
+              Apply to Kit →
+            </button>
+          </div>
+        )}
 
         {/* Realistic Viewport Container */}
         <div
           className="w-full rounded-[2px] border border-[var(--border-subtle)] overflow-hidden shadow-sm transition-all duration-300"
           style={{
-            backgroundColor: brandKit.roles.background,
-            color: brandKit.roles.text,
+            backgroundColor: activePreviewRoles.background,
+            color: activePreviewRoles.text,
             fontFamily: brandKit.typography.bodyFont,
           }}
         >
@@ -823,16 +917,16 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <header
                 className="px-6 py-3.5 flex items-center justify-between border-b gap-3"
                 style={{
-                  backgroundColor: brandKit.roles.surface,
-                  borderColor: brandKit.roles.border,
+                  backgroundColor: activePreviewRoles.surface,
+                  borderColor: activePreviewRoles.border,
                 }}
               >
                 <div className="flex items-center gap-2.5">
                   <span
                     className="w-5 h-5 rounded-[2px] flex items-center justify-center font-bold text-[11px]"
                     style={{
-                      backgroundColor: brandKit.roles.primary,
-                      color: primaryBtnText,
+                      backgroundColor: activePreviewRoles.button,
+                      color: activePreviewRoles.buttonText,
                     }}
                   >
                     {brandKit.name[0] || 'K'}
@@ -854,8 +948,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <button
                   className="px-3 py-1.5 rounded-[2px] text-xs font-medium tracking-wide transition-opacity hover:opacity-90"
                   style={{
-                    backgroundColor: brandKit.roles.primary,
-                    color: primaryBtnText,
+                    backgroundColor: activePreviewRoles.button,
+                    color: activePreviewRoles.buttonText,
                   }}
                 >
                   Explore Studio →
@@ -867,9 +961,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <span
                   className="px-2.5 py-1 rounded-[2px] text-[10px] font-mono uppercase tracking-widest"
                   style={{
-                    backgroundColor: brandKit.roles.surface,
-                    color: brandKit.roles.accent,
-                    border: `1px solid ${brandKit.roles.border}`,
+                    backgroundColor: activePreviewRoles.surface,
+                    color: activePreviewRoles.accent,
+                    border: `1px solid ${activePreviewRoles.border}`,
                   }}
                 >
                   ✦ {brandKit.tagline || 'Visual Design Platform'}
@@ -879,7 +973,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   className="text-2xl sm:text-4xl font-semibold tracking-tight leading-[1.1]"
                   style={{
                     fontFamily: brandKit.typography.headingFont,
-                    color: brandKit.roles.text,
+                    color: activePreviewRoles.text,
                   }}
                 >
                   Intelligent Architecture for Modern Digital Craft
@@ -887,7 +981,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
 
                 <p
                   className="text-xs sm:text-sm max-w-md leading-relaxed"
-                  style={{ color: brandKit.roles.mutedText }}
+                  style={{ color: activePreviewRoles.mutedText }}
                 >
                   Scalable token foundations, real-time perceptual color analysis, and high-fidelity interface systems.
                 </p>
@@ -896,8 +990,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   <button
                     className="px-4 py-2 rounded-[2px] text-xs font-medium tracking-wide shadow-sm"
                     style={{
-                      backgroundColor: brandKit.roles.primary,
-                      color: primaryBtnText,
+                      backgroundColor: activePreviewRoles.button,
+                      color: activePreviewRoles.buttonText,
                     }}
                   >
                     Primary Action
@@ -905,9 +999,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   <button
                     className="px-4 py-2 rounded-[2px] text-xs font-medium tracking-wide border transition-colors"
                     style={{
-                      backgroundColor: brandKit.roles.surface,
-                      color: brandKit.roles.text,
-                      borderColor: brandKit.roles.border,
+                      backgroundColor: activePreviewRoles.surface,
+                      color: activePreviewRoles.text,
+                      borderColor: activePreviewRoles.border,
                     }}
                   >
                     Documentation
@@ -919,8 +1013,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <div
                 className="p-6 grid grid-cols-1 md:grid-cols-3 gap-3 border-t"
                 style={{
-                  backgroundColor: brandKit.roles.surface,
-                  borderColor: brandKit.roles.border,
+                  backgroundColor: activePreviewRoles.surface,
+                  borderColor: activePreviewRoles.border,
                 }}
               >
                 {[
@@ -932,26 +1026,26 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     key={i}
                     className="p-3.5 rounded-[2px] border flex flex-col gap-1.5"
                     style={{
-                      backgroundColor: brandKit.roles.background,
-                      borderColor: brandKit.roles.border,
+                      backgroundColor: activePreviewRoles.background,
+                      borderColor: activePreviewRoles.border,
                     }}
                   >
                     <div
                       className="w-6 h-6 rounded-[2px] flex items-center justify-center text-[10px] font-bold"
                       style={{
-                        backgroundColor: i === 0 ? brandKit.roles.primary : i === 1 ? brandKit.roles.secondary : brandKit.roles.accent,
-                        color: i === 2 ? getTextColorForBackground(brandKit.roles.accent) : '#FFFFFF',
+                        backgroundColor: i === 0 ? activePreviewRoles.primary : i === 1 ? activePreviewRoles.secondary : activePreviewRoles.accent,
+                        color: i === 2 ? getSmartForeground(activePreviewRoles.accent, 4.5).color : '#FFFFFF',
                       }}
                     >
                       0{i + 1}
                     </div>
                     <h4
                       className="text-xs font-semibold"
-                      style={{ fontFamily: brandKit.typography.headingFont, color: brandKit.roles.cardText || brandKit.roles.text }}
+                      style={{ fontFamily: brandKit.typography.headingFont, color: activePreviewRoles.cardText }}
                     >
                       {card.title}
                     </h4>
-                    <p className="text-[11px] leading-relaxed" style={{ color: brandKit.roles.mutedText }}>
+                    <p className="text-[11px] leading-relaxed" style={{ color: activePreviewRoles.mutedText }}>
                       {card.desc}
                     </p>
                   </div>
@@ -966,15 +1060,15 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <div
                 className="w-full max-w-xs rounded-xl border p-4 flex flex-col gap-4 shadow-md"
                 style={{
-                  backgroundColor: brandKit.roles.surface,
-                  borderColor: brandKit.roles.border,
+                  backgroundColor: activePreviewRoles.surface,
+                  borderColor: activePreviewRoles.border,
                 }}
               >
-                <div className="flex items-center justify-between pb-2 border-b" style={{ borderColor: brandKit.roles.border }}>
+                <div className="flex items-center justify-between pb-2 border-b" style={{ borderColor: activePreviewRoles.border }}>
                   <div className="flex items-center gap-2">
                     <div
                       className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px]"
-                      style={{ backgroundColor: brandKit.roles.primary, color: primaryBtnText }}
+                      style={{ backgroundColor: activePreviewRoles.button, color: activePreviewRoles.buttonText }}
                     >
                       {brandKit.name[0] || 'K'}
                     </div>
@@ -982,15 +1076,15 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       {brandKit.name}
                     </span>
                   </div>
-                  <Bell size={13} style={{ color: brandKit.roles.mutedText }} />
+                  <Bell size={13} style={{ color: activePreviewRoles.mutedText }} />
                 </div>
 
                 <div
                   className="p-4 rounded-lg border flex flex-col gap-1.5"
                   style={{
-                    backgroundColor: brandKit.roles.primary,
-                    color: primaryBtnText,
-                    borderColor: brandKit.roles.secondary,
+                    backgroundColor: activePreviewRoles.button,
+                    color: activePreviewRoles.buttonText,
+                    borderColor: activePreviewRoles.secondary,
                   }}
                 >
                   <span className="text-[9px] uppercase font-mono tracking-wider opacity-85">
@@ -1003,7 +1097,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     <span>+12.4% this cycle</span>
                     <span
                       className="px-1.5 py-0.5 rounded-[2px] font-bold text-[9px]"
-                      style={{ backgroundColor: brandKit.roles.accent, color: getTextColorForBackground(brandKit.roles.accent) }}
+                      style={{
+                        backgroundColor: activePreviewRoles.accent,
+                        color: getSmartForeground(activePreviewRoles.accent, 4.5).color,
+                      }}
                     >
                       VERIFIED
                     </span>
@@ -1011,7 +1108,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <span className="text-[9px] font-mono uppercase" style={{ color: brandKit.roles.mutedText }}>
+                  <span className="text-[9px] font-mono uppercase" style={{ color: activePreviewRoles.mutedText }}>
                     Recent Transactions
                   </span>
                   {[
@@ -1022,13 +1119,13 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       key={i}
                       className="p-2 rounded border flex items-center justify-between text-xs"
                       style={{
-                        backgroundColor: brandKit.roles.background,
-                        borderColor: brandKit.roles.border,
+                        backgroundColor: activePreviewRoles.background,
+                        borderColor: activePreviewRoles.border,
                       }}
                     >
                       <div>
                         <div className="font-medium text-[11px]">{item.name}</div>
-                        <div className="text-[9px]" style={{ color: brandKit.roles.mutedText }}>{item.time}</div>
+                        <div className="text-[9px]" style={{ color: activePreviewRoles.mutedText }}>{item.time}</div>
                       </div>
                       <span className="font-mono text-[11px] font-semibold">{item.val}</span>
                     </div>
@@ -1038,8 +1135,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <button
                   className="w-full py-2 rounded font-medium text-xs shadow-sm"
                   style={{
-                    backgroundColor: brandKit.roles.primary,
-                    color: primaryBtnText,
+                    backgroundColor: activePreviewRoles.button,
+                    color: activePreviewRoles.buttonText,
                   }}
                 >
                   Confirm Action
@@ -1051,18 +1148,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           {previewMode === 'dashboard' && (
             /* DASHBOARD VIEWPORT */
             <div className="p-6 sm:p-8 flex flex-col gap-5 min-h-[460px] sm:min-h-[520px]">
-              <div className="flex items-center justify-between pb-3 border-b" style={{ borderColor: brandKit.roles.border }}>
+              <div className="flex items-center justify-between pb-3 border-b" style={{ borderColor: activePreviewRoles.border }}>
                 <div>
                   <h3 className="text-sm font-semibold" style={{ fontFamily: brandKit.typography.headingFont }}>
                     {brandKit.name} Telemetry
                   </h3>
-                  <p className="text-[11px]" style={{ color: brandKit.roles.mutedText }}>
+                  <p className="text-[11px]" style={{ color: activePreviewRoles.mutedText }}>
                     Continuous cross-gamut color synchronization.
                   </p>
                 </div>
                 <button
                   className="px-3 py-1 rounded-[2px] text-xs font-medium shadow-sm"
-                  style={{ backgroundColor: brandKit.roles.primary, color: primaryBtnText }}
+                  style={{ backgroundColor: activePreviewRoles.button, color: activePreviewRoles.buttonText }}
                 >
                   Generate Report
                 </button>
@@ -1078,13 +1175,13 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     key={idx}
                     className="p-3 rounded-[2px] border flex flex-col gap-1"
                     style={{
-                      backgroundColor: brandKit.roles.surface,
-                      borderColor: brandKit.roles.border,
+                      backgroundColor: activePreviewRoles.surface,
+                      borderColor: activePreviewRoles.border,
                     }}
                   >
-                    <div className="flex items-center justify-between text-[11px]" style={{ color: brandKit.roles.mutedText }}>
+                    <div className="flex items-center justify-between text-[11px]" style={{ color: activePreviewRoles.mutedText }}>
                       <span>{m.label}</span>
-                      <m.icon size={13} style={{ color: brandKit.roles.accent }} />
+                      <m.icon size={13} style={{ color: activePreviewRoles.accent }} />
                     </div>
                     <div className="text-lg font-semibold" style={{ fontFamily: brandKit.typography.headingFont }}>
                       {m.value}
@@ -1099,14 +1196,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <div
                 className="rounded-[2px] border overflow-x-auto"
                 style={{
-                  backgroundColor: brandKit.roles.surface,
-                  borderColor: brandKit.roles.border,
+                  backgroundColor: activePreviewRoles.surface,
+                  borderColor: activePreviewRoles.border,
                 }}
               >
                 <table className="w-full text-left text-[11px] min-w-[360px]">
                   <thead
                     className="border-b font-mono text-[9px] uppercase"
-                    style={{ borderColor: brandKit.roles.border, color: brandKit.roles.mutedText }}
+                    style={{ borderColor: activePreviewRoles.border, color: activePreviewRoles.mutedText }}
                   >
                     <tr>
                       <th className="p-2.5">Gamut Role</th>
@@ -1114,11 +1211,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       <th className="p-2.5 text-right">WCAG Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y" style={{ borderColor: brandKit.roles.border }}>
+                  <tbody className="divide-y" style={{ borderColor: activePreviewRoles.border }}>
                     {[
-                      { role: 'Canvas Background', ratio: '14.2:1', status: 'PASS' },
-                      { role: 'Primary Action', ratio: '8.4:1', status: 'PASS' },
-                      { role: 'Accent Highlight', ratio: '4.8:1', status: 'ACTIVE' },
+                      { role: 'Canvas Background', ratio: '14.2:1', status: 'AA PASS' },
+                      { role: 'Primary Action', ratio: '8.4:1', status: 'AAA PASS' },
+                      { role: 'Accent Highlight', ratio: '4.8:1', status: 'AA PASS' },
                     ].map((row, i) => (
                       <tr key={i}>
                         <td className="p-2.5 font-medium">{row.role}</td>
@@ -1127,8 +1224,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                           <span
                             className="px-2 py-0.5 rounded-[2px] font-mono font-bold text-[9px]"
                             style={{
-                              backgroundColor: i === 2 ? brandKit.roles.accent : brandKit.roles.primary,
-                              color: i === 2 ? getTextColorForBackground(brandKit.roles.accent) : primaryBtnText,
+                              backgroundColor: i === 2 ? activePreviewRoles.accent : activePreviewRoles.button,
+                              color: i === 2 ? getSmartForeground(activePreviewRoles.accent, 4.5).color : activePreviewRoles.buttonText,
                             }}
                           >
                             {row.status}
@@ -1164,7 +1261,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             { key: 'surface', label: 'SURFACE', hex: brandKit.roles.surface, flex: '2' },
             { key: 'background', label: 'CANVAS', hex: brandKit.roles.background, flex: '2' },
           ].map((seg) => {
-            const fg = getTextColorForBackground(seg.hex);
+            const fg = getSmartForeground(seg.hex, 4.5).color;
             return (
               <div
                 key={seg.key}
@@ -1214,7 +1311,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               </p>
             </div>
 
-            {/* Font Pair Controls (Preserved) */}
+            {/* Font Pair Controls */}
             <div className="flex flex-col gap-2 pt-2">
               <div>
                 <label className="text-[10px] font-mono text-[var(--text-secondary)] uppercase block mb-1">
@@ -1228,7 +1325,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       typography: { ...brandKit.typography, headingFont: e.target.value },
                     })
                   }
-                  className="w-full bg-transparent border border-[var(--border-subtle)] rounded-[2px] px-2.5 py-1.5 text-xs text-[var(--text-primary)] font-medium outline-none"
+                  className="w-full bg-transparent border border-[var(--border-subtle)] rounded-[2px] px-2.5 py-1.5 text-xs text-[var(--text-primary)] font-medium outline-none focus-visible:ring-1 focus-visible:ring-[#171717]"
                 >
                   {FONT_OPTIONS.map((f) => (
                     <option key={f.name} value={f.value}>
@@ -1281,7 +1378,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             <div
               className="aspect-square p-5 flex flex-col justify-between transition-colors duration-300"
               style={{
-                backgroundColor: brandKit.roles.primary,
+                backgroundColor: activePreviewRoles.primary,
                 color: canvasContrastText,
               }}
             >
@@ -1289,8 +1386,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <span
                   className="w-6 h-6 rounded-[2px] flex items-center justify-center font-bold text-xs"
                   style={{
-                    backgroundColor: brandKit.roles.accent,
-                    color: getTextColorForBackground(brandKit.roles.accent),
+                    backgroundColor: activePreviewRoles.accent,
+                    color: getSmartForeground(activePreviewRoles.accent, 4.5).color,
                   }}
                 >
                   {brandKit.name[0] || 'K'}
@@ -1329,21 +1426,21 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             <div
               className="aspect-square p-4 flex flex-col justify-between transition-colors duration-300"
               style={{
-                backgroundColor: brandKit.roles.background,
-                color: brandKit.roles.text,
+                backgroundColor: activePreviewRoles.background,
+                color: activePreviewRoles.text,
               }}
             >
               <div
                 className="p-2 rounded-[2px] border flex items-center justify-between text-[10px]"
                 style={{
-                  backgroundColor: brandKit.roles.surface,
-                  borderColor: brandKit.roles.border,
+                  backgroundColor: activePreviewRoles.surface,
+                  borderColor: activePreviewRoles.border,
                 }}
               >
                 <span className="font-semibold">{brandKit.name}</span>
                 <span
                   className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: brandKit.roles.accent }}
+                  style={{ backgroundColor: activePreviewRoles.accent }}
                 />
               </div>
 
@@ -1351,7 +1448,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <span className="text-sm font-semibold block leading-snug">
                   Precision digital interface.
                 </span>
-                <span className="text-[11px] block mt-1" style={{ color: brandKit.roles.mutedText }}>
+                <span className="text-[11px] block mt-1" style={{ color: activePreviewRoles.mutedText }}>
                   Structured around tonal surfaces.
                 </span>
               </div>
@@ -1359,8 +1456,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <button
                 className="w-full py-1.5 rounded-[2px] text-[11px] font-medium"
                 style={{
-                  backgroundColor: brandKit.roles.primary,
-                  color: primaryBtnText,
+                  backgroundColor: activePreviewRoles.button,
+                  color: activePreviewRoles.buttonText,
                 }}
               >
                 Get Started
@@ -1381,8 +1478,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             <div
               className="aspect-square p-5 flex flex-col justify-between transition-colors duration-300"
               style={{
-                backgroundColor: brandKit.roles.accent,
-                color: getTextColorForBackground(brandKit.roles.accent),
+                backgroundColor: activePreviewRoles.accent,
+                color: getSmartForeground(activePreviewRoles.accent, 4.5).color,
               }}
             >
               <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-85">
@@ -1418,9 +1515,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             <div
               className="aspect-square p-5 flex flex-col justify-between border-b transition-colors duration-300"
               style={{
-                backgroundColor: brandKit.roles.surface,
-                color: brandKit.roles.cardText || brandKit.roles.text,
-                borderColor: brandKit.roles.border,
+                backgroundColor: activePreviewRoles.surface,
+                color: activePreviewRoles.cardText,
+                borderColor: activePreviewRoles.border,
               }}
             >
               <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-75">
@@ -1431,8 +1528,8 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <div
                 className="w-12 h-12 rounded-[2px] flex items-center justify-center font-bold text-lg mx-auto shadow-sm"
                 style={{
-                  backgroundColor: brandKit.roles.primary,
-                  color: primaryBtnText,
+                  backgroundColor: activePreviewRoles.button,
+                  color: activePreviewRoles.buttonText,
                 }}
               >
                 {brandKit.name[0] || 'K'}
@@ -1443,7 +1540,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   {brandKit.name} Goods
                 </span>
                 <span className="text-[10px] opacity-75 block font-mono">
-                  {brandKit.roles.border}
+                  {activePreviewRoles.border}
                 </span>
               </div>
             </div>
@@ -1459,38 +1556,50 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
         </div>
       </section>
 
-      {/* ── 09: Contrast & Accessibility + Color Details ─────────── */}
+      {/* ── 09: WCAG 2.2 + OKLCH Contrast Audit & Tokens ─────────── */}
       <section aria-labelledby="accessibility-heading" className="flex flex-col gap-6">
         <div>
           <span id="accessibility-heading" className="brand-studio-section-label">
-            07 — ACCESSIBILITY & TOKENS
+            07 — WCAG 2.2 + OKLCH AUDIT & TOKENS
           </span>
-          <h2 className="brand-studio-section-title">Contrast Audit & Design Tokens</h2>
+          <h2 className="brand-studio-section-title">Contrast Verification & Semantic Tokens</h2>
           <p className="brand-studio-section-desc">
-            WCAG AA/AAA verification across critical touchpoints and precise token values.
+            Exact WCAG 2.2 verification across every actual UI combination. When contrast fails, OKLCH adjusts lightness while strictly preserving hue and chroma.
           </p>
         </div>
 
-        {/* Compact Contrast Audit Strip */}
+        {/* Semantic Contrast Audit Strip */}
         <div className="border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)] p-4 sm:p-5 flex flex-col gap-4 shadow-sm">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <span className="text-xs font-semibold text-[var(--text-primary)]">
-                WCAG Semantic Audit
+                WCAG 2.2 Semantic Report
+              </span>
+              <span
+                className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-[2px] border ${
+                  intelligenceReport.overallQuality === 'WCAG AAA READY'
+                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                    : intelligenceReport.overallQuality === 'WCAG AA READY'
+                    ? 'bg-blue-50 text-blue-800 border-blue-300'
+                    : 'bg-amber-50 text-amber-800 border-amber-300'
+                }`}
+              >
+                STATUS: {intelligenceReport.overallQuality}
               </span>
               <span className="text-xs text-[var(--text-secondary)]">
-                ({auditReport.passingCount} of {auditReport.totalCount} pass AA)
+                ({intelligenceReport.passingChecks} of {intelligenceReport.totalChecks} pass AA)
               </span>
             </div>
 
             <div className="flex items-center gap-2">
-              {!auditReport.overallPass && (
+              {intelligenceReport.overallQuality === 'WCAG AA NEEDS ADJUSTMENT' && (
                 <button
-                  onClick={handleAutoRemediate}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-white bg-[#171717] hover:bg-black rounded-[2px] transition-colors"
+                  onClick={handleAutoRemediateOklch}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-white bg-[#171717] hover:bg-black focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors outline-none"
+                  title="Applies minimal OKLCH adjustments that preserve hue & chroma while satisfying contrast"
                 >
                   <Sparkles size={11} />
-                  <span>Auto-Remediate</span>
+                  <span>Auto-Remediate (OKLCH)</span>
                 </button>
               )}
               <button
@@ -1501,7 +1610,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     bg: brandKit.roles.background,
                   })
                 }
-                className="inline-flex items-center gap-1 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="inline-flex items-center gap-1 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] transition-colors outline-none"
               >
                 <span>Contrast Checker</span>
                 <ExternalLink size={10} />
@@ -1509,53 +1618,69 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {auditReport.results.map((item) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {intelligenceReport.checks.map((check) => (
               <div
-                key={item.id}
-                className="p-3 border border-[var(--border-subtle)] rounded-[2px] flex flex-col justify-between gap-2"
+                key={check.id}
+                className="p-3 border border-[var(--border-subtle)] rounded-[2px] flex flex-col justify-between gap-2.5 bg-[var(--bg-canvas)]"
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-medium text-[var(--text-primary)] truncate">
-                    {item.label}
+                <div className="flex items-center justify-between gap-1">
+                  <span className="text-[11px] font-semibold text-[var(--text-primary)] truncate">
+                    {check.label}
                   </span>
                   <span
-                    className={`text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-[2px] ${
-                      item.pass
+                    className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-[2px] flex items-center gap-1 ${
+                      check.isCompliant
                         ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                         : 'bg-rose-50 text-rose-700 border border-rose-200'
                     }`}
                   >
-                    {item.pass ? '✓ PASS' : '✕ FAILS'}
+                    {check.isCompliant ? '✓ PASS' : '✕ FAIL'}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="text-[var(--text-secondary)]">Ratio</span>
+                  <span className="text-[var(--text-secondary)]">Contrast Ratio</span>
                   <span className="font-semibold text-[var(--text-primary)]">
-                    {item.ratio}:1
+                    {check.rating.formattedRatio}:1
                   </span>
                 </div>
 
-                {!item.pass && item.suggestedFg && (
-                  <button
-                    onClick={() => handleApplyRoleFix(item)}
-                    className="w-full py-1 bg-rose-600 hover:bg-rose-700 text-white text-[10px] font-medium rounded-[2px] transition-colors mt-1"
-                  >
-                    Apply Fix ({item.suggestedFg})
-                  </button>
+                <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-secondary)] pt-1 border-t border-[var(--border-subtle)]">
+                  <span>Normal Text: {check.rating.normalTextAA ? 'AA ✓' : 'AA ✕'}</span>
+                  <span>Large: {check.rating.largeTextAA ? 'AA ✓' : 'AA ✕'}</span>
+                  <span>AAA: {check.rating.normalTextAAA ? 'AAA ✓' : 'AAA ✕'}</span>
+                </div>
+
+                {!check.isCompliant && check.suggestedFg && (
+                  <div className="flex items-center justify-between pt-1.5 border-t border-rose-100 text-[10px] font-mono">
+                    <span className="text-rose-800">
+                      OKLCH: <strong>{check.suggestedFg}</strong> ({formatContrastRatio(check.suggestedRatio || 4.5)}:1)
+                    </span>
+                    <button
+                      onClick={() => handleApplySingleCheckFix(check)}
+                      className="px-2 py-0.5 bg-[#171717] hover:bg-black text-white rounded-[2px] font-medium transition-colors"
+                    >
+                      Apply
+                    </button>
+                  </div>
                 )}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Detailed Color Values Table */}
+        {/* Detailed Color Values & OKLCH Coordinates Table */}
         <div className="border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)] overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-[var(--border-subtle)] flex items-center justify-between">
-            <span className="text-xs font-semibold text-[var(--text-primary)]">
-              Color Token Values
-            </span>
+          <div className="p-4 border-b border-[var(--border-subtle)] flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <span className="text-xs font-semibold text-[var(--text-primary)] block">
+                Color Tokens & OKLCH Accessible Variants
+              </span>
+              <span className="text-[11px] text-[var(--text-secondary)]">
+                Original preset colors are preserved. Accessible variants provide UI-safe alternatives.
+              </span>
+            </div>
             <span className="text-[11px] font-mono text-[var(--text-secondary)]">
               Click value to copy
             </span>
@@ -1565,11 +1690,12 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             <table className="w-full text-left text-xs">
               <thead className="bg-[var(--bg-surface-2)] border-b border-[var(--border-subtle)] text-[10px] font-mono uppercase text-[var(--text-secondary)]">
                 <tr>
-                  <th className="py-2.5 px-4">Role</th>
-                  <th className="py-2.5 px-4">Swatch</th>
+                  <th className="py-2.5 px-4">Semantic Role</th>
+                  <th className="py-2.5 px-4">Original</th>
                   <th className="py-2.5 px-4">HEX</th>
-                  <th className="py-2.5 px-4">RGB</th>
-                  <th className="py-2.5 px-4">HSL</th>
+                  <th className="py-2.5 px-4">OKLCH Value</th>
+                  <th className="py-2.5 px-4">Accessible Variant</th>
+                  <th className="py-2.5 px-4">Status</th>
                   <th className="py-2.5 px-4 text-right">Action</th>
                 </tr>
               </thead>
@@ -1579,10 +1705,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   ...secondaryRoles,
                   ...supportingRoles,
                 ].map((row) => {
-                  const rgb = hexToRgb(row.hex);
-                  const hsl = hexToHsl(row.hex);
-                  const rgbStr = rgb ? `${rgb.r} / ${rgb.g} / ${rgb.b}` : '—';
-                  const hslStr = hsl ? `${hsl.h}° / ${hsl.s}% / ${hsl.l}%` : '—';
+                  const oklch = hexToOklch(row.hex);
+                  const oklchStr = oklchToCssString(oklch.L, oklch.C, oklch.H);
+                  const accessibleHex = intelligenceReport.accessibleRoles[row.key as keyof SemanticRolesModel] || row.hex;
+                  const isAdjusted = accessibleHex.toUpperCase() !== row.hex.toUpperCase();
+                  const targetBg = row.key === 'buttonText' ? brandKit.roles.primary : row.key === 'cardText' ? brandKit.roles.surface : brandKit.roles.background;
+                  const currentRatio = calculateWcagRatio(row.hex, targetBg);
+                  const passAA = currentRatio >= 4.5;
+
                   return (
                     <tr key={row.key} className="hover:bg-[var(--bg-surface-2)] transition-colors">
                       <td className="py-2.5 px-4 font-medium text-[var(--text-primary)]">
@@ -1598,15 +1728,36 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                         {row.hex}
                       </td>
                       <td className="py-2.5 px-4 font-mono text-[var(--text-secondary)]">
-                        {rgbStr}
+                        {oklchStr}
                       </td>
-                      <td className="py-2.5 px-4 font-mono text-[var(--text-secondary)]">
-                        {hslStr}
+                      <td className="py-2.5 px-4 font-mono">
+                        {isAdjusted ? (
+                          <span className="inline-flex items-center gap-1.5 text-blue-700 font-semibold bg-blue-50 px-1.5 py-0.5 rounded-[2px] border border-blue-200">
+                            <span
+                              className="w-2.5 h-2.5 rounded-[1px] border border-black/20"
+                              style={{ backgroundColor: accessibleHex }}
+                            />
+                            <span>{accessibleHex} (OKLCH)</span>
+                          </span>
+                        ) : (
+                          <span className="text-[var(--text-secondary)]">Identical</span>
+                        )}
+                      </td>
+                      <td className="py-2.5 px-4 font-mono">
+                        <span
+                          className={`px-1.5 py-0.5 rounded-[2px] text-[10px] font-bold ${
+                            passAA
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : 'bg-amber-50 text-amber-700 border border-amber-200'
+                          }`}
+                        >
+                          {passAA ? 'AA PASS' : 'AA ADJUSTED'}
+                        </span>
                       </td>
                       <td className="py-2.5 px-4 text-right">
                         <button
                           onClick={() => handleCopyColorValue(`table-${row.key}`, row.hex)}
-                          className="text-[11px] font-mono text-[var(--text-primary)] hover:underline"
+                          className="text-[11px] font-mono text-[var(--text-primary)] hover:underline focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
                         >
                           {copiedKey === `table-${row.key}` ? (
                             <span className="text-emerald-600 font-bold">COPIED</span>
@@ -1627,19 +1778,19 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 10: Final Action Bar ─────────────────────────────────── */}
       <footer className="pt-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="text-xs text-[var(--text-secondary)]">
-          Kroma Brand Kit Studio • {brandKit.name}
+          Kroma Brand Kit Studio • {brandKit.name} • {intelligenceReport.overallQuality}
         </div>
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setShowExportModal(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--text-primary)] rounded-[2px] transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors outline-none"
           >
             <Code size={13} />
             <span>Export Tokens</span>
           </button>
           <button
             onClick={handleSaveBrandKit}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium tracking-wide text-white bg-[#171717] hover:bg-black rounded-[2px] transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium tracking-wide text-white bg-[#171717] hover:bg-black focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#171717] rounded-[2px] transition-colors shadow-sm outline-none"
           >
             <Bookmark size={13} />
             <span>Save Brand Kit</span>
@@ -1657,7 +1808,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               </span>
               <button
                 onClick={() => setShowExportModal(false)}
-                className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
                 aria-label="Close modal"
               >
                 ✕
@@ -1669,7 +1820,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <button
                   key={fmt}
                   onClick={() => setExportFormat(fmt)}
-                  className={`px-3 py-1 text-xs font-medium uppercase tracking-wider rounded-[2px] transition-colors ${
+                  className={`px-3 py-1 text-xs font-medium uppercase tracking-wider rounded-[2px] transition-colors outline-none ${
                     exportFormat === fmt
                       ? 'bg-[#171717] text-white'
                       : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -1687,13 +1838,13 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[var(--border-subtle)]">
               <button
                 onClick={() => setShowExportModal(false)}
-                className="px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
               >
                 Close
               </button>
               <button
                 onClick={handleCopyTokens}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium bg-[#171717] hover:bg-black text-white rounded-[2px] transition-colors shadow-sm"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium bg-[#171717] hover:bg-black text-white rounded-[2px] transition-colors shadow-sm outline-none"
               >
                 <Copy size={13} />
                 <span>Copy Tokens</span>

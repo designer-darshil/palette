@@ -1,5 +1,4 @@
 import React from 'react';
-import { ChevronRight } from 'lucide-react';
 import { RouteType } from '../../types';
 import { Link } from './Link';
 
@@ -21,75 +20,133 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, onNavigate, cla
   return (
     <nav
       aria-label="Breadcrumb"
-      className={`breadcrumbs-nav ${className}`}
+      className={`kroma-breadcrumbs ${className}`}
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-        fontSize: '0.78rem',
-        fontFamily: 'var(--font-mono)',
-        color: 'var(--text-tertiary)',
-        marginBottom: '20px',
-        flexWrap: 'wrap',
+        background: 'transparent',
+        padding: 0,
+        margin: '0 0 14px 0',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
       }}
     >
-      <ol
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          listStyle: 'none',
-          padding: 0,
-          margin: 0,
-          flexWrap: 'wrap',
-        }}
-      >
+      <style>{`
+        .kroma-breadcrumbs__list {
+          display: flex;
+          align-items: center;
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 0.02em;
+          line-height: 1.4;
+          text-transform: uppercase;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
+
+        .kroma-breadcrumbs__item {
+          display: inline-flex;
+          align-items: center;
+          min-width: 0;
+        }
+
+        .kroma-breadcrumbs__link {
+          color: #707070;
+          text-decoration: none;
+          opacity: 0.8;
+          transition: color 200ms ease-out, opacity 200ms ease-out;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 220px;
+        }
+
+        [data-theme="dark"] .kroma-breadcrumbs__link,
+        :root:not([data-theme="light"]) .kroma-breadcrumbs__link {
+          color: #9E9E9E;
+        }
+
+        .kroma-breadcrumbs__link:hover {
+          color: #171717;
+          opacity: 1;
+        }
+
+        [data-theme="dark"] .kroma-breadcrumbs__link:hover,
+        :root:not([data-theme="light"]) .kroma-breadcrumbs__link:hover {
+          color: #FFFFFF;
+        }
+
+        .kroma-breadcrumbs__separator {
+          margin: 0 8px;
+          color: #A0A0A0;
+          font-weight: 400;
+          user-select: none;
+          flex-shrink: 0;
+        }
+
+        [data-theme="dark"] .kroma-breadcrumbs__separator,
+        :root:not([data-theme="light"]) .kroma-breadcrumbs__separator {
+          color: #666666;
+        }
+
+        .kroma-breadcrumbs__current {
+          color: #171717;
+          font-weight: 500;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 280px;
+          cursor: default;
+        }
+
+        [data-theme="dark"] .kroma-breadcrumbs__current,
+        :root:not([data-theme="light"]) .kroma-breadcrumbs__current {
+          color: #F8F8F8;
+        }
+
+        @media (max-width: 640px) {
+          .kroma-breadcrumbs__link {
+            max-width: 120px;
+          }
+          .kroma-breadcrumbs__current {
+            max-width: 160px;
+          }
+        }
+      `}</style>
+
+      <ol className="kroma-breadcrumbs__list">
         {items.map((item, index) => {
           const isLast = index === items.length - 1 || item.isCurrent;
+          const displayLabel = item.label.toUpperCase();
 
           return (
-            <li
-              key={index}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-              }}
-            >
+            <li key={index} className="kroma-breadcrumbs__item">
               {index > 0 && (
-                <ChevronRight
-                  size={11}
-                  style={{ opacity: 0.5, flexShrink: 0, color: 'var(--text-tertiary)' }}
-                  aria-hidden="true"
-                />
+                <span className="kroma-breadcrumbs__separator" aria-hidden="true">
+                  /
+                </span>
               )}
 
               {isLast || !item.to ? (
                 <span
+                  className="kroma-breadcrumbs__current"
                   aria-current="page"
-                  style={{
-                    color: 'var(--text-primary)',
-                    fontWeight: 600,
-                    maxWidth: '240px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
+                  title={item.label}
                 >
-                  {item.label}
+                  {displayLabel}
                 </span>
               ) : (
                 <Link
                   to={item.to}
                   onNavigate={onNavigate}
-                  style={{
-                    color: 'var(--text-secondary)',
-                    textDecoration: 'none',
-                    transition: 'color var(--transition-quick)',
-                  }}
-                  className="hover:text-[var(--text-primary)]"
+                  className="kroma-breadcrumbs__link"
+                  title={item.label}
                 >
-                  {item.label}
+                  {displayLabel}
                 </Link>
               )}
             </li>

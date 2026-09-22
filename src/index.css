@@ -3,6 +3,7 @@
 @import './styles/inner-pages.css';
 @import './styles/studio.css';
 @import './styles/explore.css';
+@import './styles/pattern-studio.css';
 
 @tailwind base;
 @tailwind components;

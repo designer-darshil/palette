@@ -1,28 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useMaintenance } from '../../context/MaintenanceContext';
 import { useAdminAuth } from '../../context/AdminAuthContext';
-import { MAINTENANCE_PRESETS, MaintenancePreset } from '../../types/maintenance';
+import { MAINTENANCE_PRESETS } from '../../types/maintenance';
 import { MaintenancePage } from '../MaintenancePage';
 import { KromaButton } from '../../components/common/KromaButton';
 import { KromaInput } from '../../components/common/KromaInput';
 import {
-  ShieldAlert,
   Power,
-  Clock,
-  Calendar,
   AlertTriangle,
-  CheckCircle2,
-  Sparkles,
   Eye,
-  RefreshCw,
-  ExternalLink,
-  Sliders,
-  History,
-  Activity,
   Copy,
   Check,
-  Radio,
-  FileText,
+  ShieldCheck,
+  Globe,
+  Lock,
+  Unlock,
 } from 'lucide-react';
 
 export const AdminMaintenancePage: React.FC = () => {
@@ -34,12 +26,9 @@ export const AdminMaintenancePage: React.FC = () => {
     remainingTime,
     updateMaintenance,
     toggleMaintenance,
-    applyPreset,
-    refresh,
-    systemHealth,
   } = useMaintenance();
 
-  const { isSuperAdmin, currentUser, activityLogs } = useAdminAuth();
+  const { isSuperAdmin, currentUser } = useAdminAuth();
 
   // Local form state for editing configuration
   const [formData, setFormData] = useState({
@@ -57,11 +46,9 @@ export const AdminMaintenancePage: React.FC = () => {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
-  // Confirmation Modals
-  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
+  // Confirmation & Preview modals
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [pendingAction, setPendingAction] = useState<'enable' | 'disable' | null>(null);
-
-  // Preview Modal
   const [showPreviewModal, setShowPreviewModal] = useState(false);
 
   // Sync form state when remote/store state changes, provided no unsaved changes
@@ -85,10 +72,9 @@ export const AdminMaintenancePage: React.FC = () => {
     setSaveSuccess(false);
   };
 
-  const handleApplyPreset = (preset: MaintenancePreset) => {
+  const handleApplyPreset = (preset: typeof MAINTENANCE_PRESETS[number]) => {
     const now = new Date();
     const end = new Date(now.getTime() + preset.defaultDurationMinutes * 60 * 1000);
-
     const startIso = now.toISOString().slice(0, 16);
     const endIso = end.toISOString().slice(0, 16);
 
@@ -99,7 +85,7 @@ export const AdminMaintenancePage: React.FC = () => {
       scheduledEnd: endIso,
       estimatedReturn: endIso,
       showCountdown: true,
-      supportUrl: state.supportUrl || 'mailto:support@kroma.design',
+      supportUrl: state.supportUrl || '',
     });
     setHasUnsavedChanges(true);
   };
@@ -161,691 +147,366 @@ export const AdminMaintenancePage: React.FC = () => {
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
-  // Filter maintenance related logs
-  const maintenanceLogs = activityLogs.filter(
-    (log) =>
-      log.action.toLowerCase().includes('maintenance') ||
-      log.details.toLowerCase().includes('maintenance')
-  );
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', maxWidth: '1200px' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#E63946', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>
-              SYSTEM CONTROLS
-            </span>
-            <span style={{ color: 'var(--border-strong)' }}>•</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
-              PUBLIC ROUTE GUARD
-            </span>
-          </div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
-            Maintenance Mode &amp; Access Controls
-          </h1>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px', maxWidth: '700px' }}>
-            Temporarily restrict public library and creative studio access during upgrades while preserving full administrator control.
-          </p>
-        </div>
-
-        {/* Quick Top Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <KromaButton
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={refresh}
-            iconLeft={<RefreshCw size={13} />}
-            style={{ fontSize: '0.75rem', padding: '6px 12px' }}
-            title="Force refresh state from server"
-          >
-            Sync
-          </KromaButton>
-
-          <KromaButton
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => setShowPreviewModal(true)}
-            iconLeft={<Eye size={13} />}
-            style={{ fontSize: '0.75rem', padding: '6px 12px' }}
-          >
-            Preview Screen
-          </KromaButton>
-        </div>
+    <div className="flex flex-col gap-10 max-w-2xl">
+      {/* ── Page Header ── */}
+      <div>
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-text-primary leading-tight">
+          Maintenance &amp; Access Controls
+        </h1>
+        <p className="text-sm text-text-secondary mt-2 max-w-lg leading-relaxed">
+          Manage system maintenance states, configure public route guard behavior, and inspect administrator access rules.
+        </p>
       </div>
 
-      {/* ─── LIVE STATUS HERO CARD ─── */}
-      <div
-        style={{
-          background: isActive
-            ? 'linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, var(--bg-surface-1) 100%)'
-            : status === 'scheduled'
-            ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, var(--bg-surface-1) 100%)'
-            : 'var(--bg-surface-1)',
-          border: `1px solid ${isActive ? '#EF4444' : status === 'scheduled' ? '#F59E0B' : 'var(--border-medium)'}`,
-          borderRadius: 'var(--radius-md)',
-          padding: '24px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-          boxShadow: 'var(--shadow-subtle)',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div
-              style={{
-                width: '44px',
-                height: '44px',
-                borderRadius: '50%',
-                background: isActive ? '#EF4444' : status === 'scheduled' ? '#F59E0B' : '#10B981',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#FFFFFF',
-                boxShadow: `0 0 20px ${isActive ? 'rgba(239, 68, 68, 0.4)' : status === 'scheduled' ? 'rgba(245, 158, 11, 0.4)' : 'rgba(16, 185, 129, 0.4)'}`,
-              }}
-            >
-              <Power size={22} />
+      {/* ── Status & Primary Action ── */}
+      <section className="pb-8 border-b border-border-subtle">
+        <div className="flex items-start justify-between gap-6 flex-wrap">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-tertiary mb-2">
+              SYSTEM STATUS
+            </div>
+            <div className="flex items-center gap-2.5">
+              <span
+                className={`w-2 h-2 rounded-full shrink-0 ${
+                  isActive ? 'bg-kroma-red' : 'bg-kroma-green'
+                }`}
+              />
+              <span className="text-lg font-bold text-text-primary tracking-tight">
+                {isActive
+                  ? isEndingSoon
+                    ? 'Maintenance Active — Ending Soon'
+                    : 'Maintenance Active'
+                  : status === 'scheduled'
+                  ? 'Scheduled'
+                  : 'Online — Public Accessible'}
+              </span>
             </div>
 
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    color: isActive ? '#EF4444' : status === 'scheduled' ? '#F59E0B' : '#10B981',
-                  }}
-                >
-                  {isActive
-                    ? isEndingSoon
-                      ? '● ACTIVE (ENDING SOON)'
-                      : '● ACTIVE (PUBLIC SITE RESTRICTED)'
-                    : status === 'scheduled'
-                    ? '● SCHEDULED MAINTENANCE'
-                    : '● PUBLIC SITE ONLINE'}
-                </span>
+            {/* Remaining time */}
+            {isActive && remainingTime && !remainingTime.isExpired && (
+              <div className="text-xs text-text-tertiary font-mono mt-1.5">
+                {remainingTime.hours}h {remainingTime.minutes}m {remainingTime.seconds}s remaining
               </div>
-              <h2 style={{ fontSize: '1.3rem', fontWeight: 800, margin: '2px 0 0 0' }}>
-                {isActive
-                  ? 'Maintenance Mode is currently ACTIVE'
-                  : status === 'scheduled'
-                  ? 'Maintenance window is SCHEDULED'
-                  : 'Public Website & Studios are OPERATIONAL'}
-              </h2>
+            )}
+
+            {/* Last changed info */}
+            <div className="text-xs text-text-tertiary mt-2">
+              Last modified {new Date(state.lastChangedTimestamp || state.updatedAt).toLocaleString()}
+              {state.updatedBy && ` by ${state.updatedBy}`}
             </div>
           </div>
 
-          {/* Toggle Control Button */}
+          {/* Toggle Button */}
           {isSuperAdmin ? (
-            <div>
+            <div className="shrink-0">
               {isActive ? (
                 <KromaButton
-                  type="button"
                   variant="filled"
-                  size="sm"
+                  size="md"
                   onClick={() => handleToggleClick(false)}
                   iconLeft={<Power size={15} />}
-                  style={{
-                    background: '#10B981',
-                    color: '#FFFFFF',
-                    borderColor: '#10B981',
-                    padding: '10px 20px',
-                    fontWeight: 700,
-                    fontSize: '0.85rem',
-                    boxShadow: '0 4px 14px rgba(16, 185, 129, 0.3)',
-                  }}
+                  className="!bg-kroma-green !border-kroma-green !text-white"
                 >
-                  Disable Maintenance (Go Live)
+                  Restore Public Site
                 </KromaButton>
               ) : (
                 <KromaButton
-                  type="button"
                   variant="filled"
-                  size="sm"
+                  size="md"
                   onClick={() => handleToggleClick(true)}
                   iconLeft={<Power size={15} />}
-                  style={{
-                    background: '#EF4444',
-                    color: '#FFFFFF',
-                    borderColor: '#EF4444',
-                    padding: '10px 20px',
-                    fontWeight: 700,
-                    fontSize: '0.85rem',
-                    boxShadow: '0 4px 14px rgba(239, 68, 68, 0.3)',
-                  }}
+                  className="!bg-kroma-red !border-kroma-red !text-white"
                 >
-                  Enable Maintenance Now
+                  Enable Maintenance
                 </KromaButton>
               )}
             </div>
           ) : (
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)', fontStyle: 'italic' }}>
-              Super Admin role required to toggle maintenance
+            <div className="text-xs text-text-tertiary italic">
+              Super Admin role required to toggle
             </div>
           )}
         </div>
+      </section>
 
-        {/* Status Meta Bar */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            gap: '12px',
-            paddingTop: '16px',
-            borderTop: '1px solid var(--border-subtle)',
-          }}
-        >
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>
-              Last Changed
-            </div>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
-              {new Date(state.lastChangedTimestamp || state.updatedAt).toLocaleString()}
-            </div>
-          </div>
+      {/* ── Access Controls & Route Guard ── */}
+      <section className="flex flex-col gap-4 pb-8 border-b border-border-subtle">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-tertiary">
+          ACCESS CONTROLS &amp; ROUTE GUARD
+        </div>
 
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>
-              Changed By
-            </div>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
-              {state.updatedBy || 'Super Admin'}
-            </div>
-          </div>
-
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>
-              Countdown Clock
-            </div>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: state.showCountdown ? '#10B981' : 'var(--text-tertiary)', marginTop: '2px' }}>
-              {state.showCountdown ? 'Visible to visitors' : 'Hidden'}
-            </div>
-          </div>
-
-          {remainingTime && !remainingTime.isExpired && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Public Traffic Guard */}
+          <div className="p-3.5 bg-surface-2 border border-border-subtle rounded-xs flex flex-col justify-between">
             <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>
-                Remaining Window
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs font-mono font-medium text-text-primary flex items-center gap-1.5">
+                  <Globe size={13} className="text-text-tertiary" />
+                  Public Traffic Guard
+                </span>
+                <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded-xs uppercase tracking-wider font-semibold ${
+                  isActive
+                    ? 'bg-kroma-red/10 text-kroma-red border border-kroma-red/20'
+                    : 'bg-kroma-green/10 text-kroma-green border border-kroma-green/20'
+                }`}>
+                  {isActive ? 'Restricted' : 'Open'}
+                </span>
               </div>
-              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: isEndingSoon ? '#F59E0B' : 'var(--color-primary)', marginTop: '2px', fontFamily: 'var(--font-mono)' }}>
-                {remainingTime.hours}h {remainingTime.minutes}m {remainingTime.seconds}s
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ─── TWO COLUMN WORKSPACE ─── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 340px)', gap: '24px', alignItems: 'start' }}>
-        {/* Left Column: Schedule & Configuration */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* Section: Maintenance Message Presets */}
-          <div className="admin-card" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-              <Sparkles size={16} color="var(--color-primary)" />
-              <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: 0 }}>Message &amp; Duration Presets</h3>
-            </div>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '14px' }}>
-              Select a preset to automatically populate title, explanation, and estimated time window.
-            </p>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px' }}>
-              {MAINTENANCE_PRESETS.map((p) => (
-                <KromaButton
-                  key={p.id}
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleApplyPreset(p)}
-                  className="!h-auto !p-2.5 !flex-col !items-start !text-left"
-                >
-                  <div style={{ fontWeight: 700, fontSize: '0.8rem', color: 'var(--text-primary)' }}>{p.name}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>{p.tagline}</div>
-                </KromaButton>
-              ))}
+              <p className="text-xs text-text-tertiary leading-relaxed">
+                {isActive
+                  ? 'All public endpoints redirect to maintenance holding screen.'
+                  : 'Public library, palettes, and studio surfaces are open to all visitors.'}
+              </p>
             </div>
           </div>
 
-          {/* Section: Scheduling & Automated Expiration */}
-          <div className="admin-card" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-              <Clock size={16} color="#3B82F6" />
-              <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: 0 }}>Scheduled Window &amp; Auto-Expiration</h3>
+          {/* Admin Bypass Rule */}
+          <div className="p-3.5 bg-surface-2 border border-border-subtle rounded-xs flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs font-mono font-medium text-text-primary flex items-center gap-1.5">
+                  <ShieldCheck size={13} className="text-text-tertiary" />
+                  Admin Route Bypass
+                </span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-xs uppercase tracking-wider font-semibold bg-surface-3 text-text-primary border border-border-subtle">
+                  Always Active
+                </span>
+              </div>
+              <p className="text-xs text-text-tertiary leading-relaxed">
+                <span className="font-mono text-[11px]">/admin/*</span> routes remain accessible for authenticated staff.
+              </p>
             </div>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
-              Set start and end times. The system will automatically activate maintenance at the start time and automatically restore the public website at the end time.
-            </p>
+          </div>
+        </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
-              <div>
-                <label className="admin-form-label" style={{ fontSize: '0.75rem', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
-                  Scheduled Start Time (Optional)
-                </label>
-                <input
-                  type="datetime-local"
-                  value={formData.scheduledStart}
-                  onChange={(e) => handleInputChange('scheduledStart', e.target.value)}
-                  className="admin-input"
-                  style={{ width: '100%', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}
-                />
-              </div>
-
-              <div>
-                <label className="admin-form-label" style={{ fontSize: '0.75rem', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
-                  Scheduled End / Auto-Expiration Time
-                </label>
-                <input
-                  type="datetime-local"
-                  value={formData.scheduledEnd}
-                  onChange={(e) => handleInputChange('scheduledEnd', e.target.value)}
-                  className="admin-input"
-                  style={{ width: '100%', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}
-                />
-              </div>
-            </div>
-
-            {/* Visual Schedule Timeline Bar */}
-            {formData.scheduledStart && formData.scheduledEnd && (
-              <div
-                style={{
-                  background: 'var(--bg-surface-2)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-sm)',
-                  padding: '12px 16px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                  <span>START: {new Date(formData.scheduledStart).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                  <span>{isActive ? '● IN PROGRESS' : 'TIMELINE PREVIEW'}</span>
-                  <span>END: {new Date(formData.scheduledEnd).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                </div>
-
-                <div style={{ width: '100%', height: '6px', background: 'var(--bg-surface-3)', borderRadius: '3px', position: 'relative', overflow: 'hidden' }}>
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: isActive ? '50%' : '100%',
-                      background: isActive ? '#EF4444' : '#3B82F6',
-                      borderRadius: '3px',
-                    }}
-                  />
-                </div>
-              </div>
+        {/* Current Authorization Status */}
+        <div className="flex items-center justify-between px-3.5 py-2.5 bg-surface-2 border border-border-subtle rounded-xs text-xs">
+          <div className="flex items-center gap-2 text-text-secondary truncate">
+            {isSuperAdmin ? (
+              <Unlock size={13} className="text-kroma-green shrink-0" />
+            ) : (
+              <Lock size={13} className="text-kroma-orange shrink-0" />
             )}
+            <span className="truncate">
+              Signed in as <span className="font-mono text-text-primary font-medium">{currentUser?.email || 'Staff'}</span>
+            </span>
+          </div>
+          <span className="text-[11px] font-mono text-text-tertiary shrink-0 ml-3">
+            {isSuperAdmin ? 'Full Edit & Toggle' : 'View Only'}
+          </span>
+        </div>
+      </section>
+
+      {/* ── Configuration ── */}
+      <section className="flex flex-col gap-6">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-tertiary mb-3">
+            PRESETS
           </div>
 
-          {/* Section: Visitor Page Content Editor */}
-          <div className="admin-card" style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-              <FileText size={16} color="var(--color-primary)" />
-              <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: 0 }}>Public Maintenance Page Content</h3>
-            </div>
+          {/* Presets */}
+          <div className="flex flex-wrap gap-1.5 mb-6">
+            {MAINTENANCE_PRESETS.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => handleApplyPreset(p)}
+                className="px-2.5 py-1.5 text-xs text-text-secondary hover:text-text-primary bg-surface-2 hover:bg-surface-3 border border-border-subtle rounded-xs transition-colors"
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+        </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <KromaInput
-                label="Headline Title"
-                type="text"
-                value={formData.title}
-                onChange={(e) => handleInputChange('title', e.target.value)}
-                placeholder="We'll be back shortly"
-                variant="surface"
+        {/* Form Fields */}
+        <div className="flex flex-col gap-5">
+          <KromaInput
+            label="Headline Title"
+            type="text"
+            value={formData.title}
+            onChange={(e) => handleInputChange('title', e.target.value)}
+            placeholder="We'll be back shortly"
+            variant="surface"
+          />
+
+          <div className="flex flex-col gap-1.5">
+            <label className="block text-xs font-mono font-medium text-text-secondary uppercase tracking-wider select-none">
+              Message
+            </label>
+            <textarea
+              value={formData.message}
+              onChange={(e) => handleInputChange('message', e.target.value)}
+              rows={3}
+              placeholder="Explain what is happening and when normal operations will resume..."
+              className="w-full px-3.5 py-2.5 text-sm bg-surface-2 border border-border-medium text-text-primary placeholder:text-text-tertiary rounded-xs focus:outline-none focus:border-text-primary focus:ring-1 focus:ring-text-primary/20 resize-vertical"
+            />
+          </div>
+
+          <KromaInput
+            label="Support URL / Email"
+            type="text"
+            value={formData.supportUrl}
+            onChange={(e) => handleInputChange('supportUrl', e.target.value)}
+            placeholder="mailto:support@kroma.design"
+            variant="surface"
+            className="font-mono"
+          />
+        </div>
+
+        {/* Schedule */}
+        <div className="pt-4 border-t border-border-subtle">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-tertiary mb-3">
+            SCHEDULE
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label className="block text-xs font-mono font-medium text-text-secondary uppercase tracking-wider select-none">
+                Start Time
+              </label>
+              <input
+                type="datetime-local"
+                value={formData.scheduledStart}
+                onChange={(e) => handleInputChange('scheduledStart', e.target.value)}
+                className="w-full px-3 py-2 text-sm font-mono bg-surface-2 border border-border-medium text-text-primary rounded-xs focus:outline-none focus:border-text-primary"
               />
-
-              <div>
-                <label className="admin-form-label" style={{ fontSize: '0.75rem', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
-                  Detailed Message for Visitors
-                </label>
-                <textarea
-                  value={formData.message}
-                  onChange={(e) => handleInputChange('message', e.target.value)}
-                  rows={3}
-                  placeholder="Explain what is happening and when normal operations will resume..."
-                  className="admin-input"
-                  style={{ width: '100%', fontSize: '0.82rem', resize: 'vertical' }}
-                />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <KromaInput
-                  label="Support URL / Email"
-                  type="text"
-                  value={formData.supportUrl}
-                  onChange={(e) => handleInputChange('supportUrl', e.target.value)}
-                  placeholder="mailto:support@kroma.design"
-                  variant="surface"
-                  className="font-mono"
-                />
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingTop: '22px' }}>
-                  <input
-                    type="checkbox"
-                    id="chk-countdown"
-                    checked={formData.showCountdown}
-                    onChange={(e) => handleInputChange('showCountdown', e.target.checked)}
-                    style={{ width: '16px', height: '16px', accentColor: 'var(--color-primary)' }}
-                  />
-                  <label htmlFor="chk-countdown" style={{ fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' }}>
-                    Show live countdown clock on maintenance page
-                  </label>
-                </div>
-              </div>
-
-              {/* Save / Discard Bar */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingTop: '16px',
-                  borderTop: '1px solid var(--border-subtle)',
-                  marginTop: '4px',
-                }}
-              >
-                <div style={{ fontSize: '0.75rem', color: hasUnsavedChanges ? '#F59E0B' : 'var(--text-tertiary)' }}>
-                  {hasUnsavedChanges ? '● Unsaved configuration changes' : saveSuccess ? '✓ Configuration saved successfully' : 'Configuration synced'}
-                </div>
-
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  {hasUnsavedChanges && (
-                    <KromaButton
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={handleDiscardChanges}
-                      style={{ fontSize: '0.78rem', padding: '6px 12px' }}
-                    >
-                      Discard
-                    </KromaButton>
-                  )}
-
-                  <KromaButton
-                    type="button"
-                    variant="filled"
-                    size="sm"
-                    onClick={handleSaveChanges}
-                    disabled={!hasUnsavedChanges || isSaving || !isSuperAdmin}
-                    isLoading={isSaving}
-                    style={{
-                      fontSize: '0.78rem',
-                      padding: '6px 16px',
-                    }}
-                  >
-                    {isSaving ? 'Saving...' : 'Save Configuration'}
-                  </KromaButton>
-                </div>
-              </div>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="block text-xs font-mono font-medium text-text-secondary uppercase tracking-wider select-none">
+                End Time
+              </label>
+              <input
+                type="datetime-local"
+                value={formData.scheduledEnd}
+                onChange={(e) => handleInputChange('scheduledEnd', e.target.value)}
+                className="w-full px-3 py-2 text-sm font-mono bg-surface-2 border border-border-medium text-text-primary rounded-xs focus:outline-none focus:border-text-primary"
+              />
             </div>
           </div>
+
+          <label className="flex items-center gap-2.5 mt-4 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={formData.showCountdown}
+              onChange={(e) => handleInputChange('showCountdown', e.target.checked)}
+              className="w-4 h-4 rounded-xs accent-kroma-red"
+            />
+            <span className="text-sm text-text-secondary">
+              Show live countdown on maintenance page
+            </span>
+          </label>
         </div>
+      </section>
 
-        {/* Right Column: System Health & Audit History */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* Live System Health Snapshot */}
-          <div className="admin-card" style={{ padding: '18px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-              <Activity size={15} color="#10B981" />
-              <h3 style={{ fontSize: '0.88rem', fontWeight: 700, margin: 0 }}>System Diagnostic Health</h3>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Storage Persistence:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: systemHealth.storageConnectivity === 'connected' ? '#10B981' : '#EF4444' }}>
-                  ● {systemHealth.storageConnectivity.toUpperCase()}
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Adapter Mode:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                  {systemHealth.storageAdapter}
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Public Route Guard:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: '#10B981' }}>
-                  ACTIVE (ENFORCED)
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Admin Bypass Protocol:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-primary)' }}>
-                  ENABLED (/admin/*)
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Protected Library:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                  {systemHealth.librarySpecimens.toLocaleString()} specimens
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Share / Preview Card */}
-          <div className="admin-card" style={{ padding: '18px' }}>
-            <h4 style={{ fontSize: '0.82rem', fontWeight: 700, marginBottom: '8px' }}>Preview &amp; Share</h4>
-            <p style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
-              Inspect the public maintenance screen or copy the authorized visitor preview link.
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <KromaButton
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setShowPreviewModal(true)}
-                iconLeft={<Eye size={13} />}
-                className="!w-full !justify-center"
-                style={{ fontSize: '0.75rem' }}
-              >
-                Open Screen Modal Preview
-              </KromaButton>
-
-              <KromaButton
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={handleCopyPreviewLink}
-                iconLeft={copiedLink ? <Check size={13} color="#10B981" /> : <Copy size={13} />}
-                className="!w-full !justify-center"
-                style={{ fontSize: '0.75rem' }}
-              >
-                {copiedLink ? 'Copied Preview URL' : 'Copy Preview Link'}
-              </KromaButton>
-            </div>
-          </div>
-
-          {/* Maintenance Audit History */}
-          <div className="admin-card" style={{ padding: '18px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-              <History size={15} color="var(--text-secondary)" />
-              <h3 style={{ fontSize: '0.88rem', fontWeight: 700, margin: 0 }}>Maintenance Audit Log</h3>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '280px', overflowY: 'auto' }}>
-              {maintenanceLogs.length === 0 ? (
-                <div style={{ fontSize: '0.74rem', color: 'var(--text-tertiary)', fontStyle: 'italic', padding: '8px 0' }}>
-                  No recent maintenance changes logged.
-                </div>
-              ) : (
-                maintenanceLogs.slice(0, 10).map((log) => (
-                  <div
-                    key={log.id}
-                    style={{
-                      padding: '8px 10px',
-                      background: 'var(--bg-surface-2)',
-                      borderRadius: 'var(--radius-xs)',
-                      border: '1px solid var(--border-subtle)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', fontWeight: 700 }}>
-                      <span style={{ color: log.action.includes('Enabled') ? '#EF4444' : log.action.includes('Disabled') ? '#10B981' : 'var(--text-primary)' }}>
-                        {log.action}
-                      </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', fontSize: '0.65rem' }}>
-                        {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '0.68rem', color: 'var(--text-secondary)' }}>{log.details}</div>
-                    <div style={{ fontSize: '0.62rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>by {log.userEmail}</div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ─── CONFIRMATION MODAL ─── */}
-      {showConfirmModal && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 9999,
-            background: 'rgba(0, 0, 0, 0.75)',
-            backdropFilter: 'blur(8px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '16px',
-          }}
+      {/* ── Preview & Bypass Link ── */}
+      <section className="flex items-center gap-3 pt-6 border-t border-border-subtle">
+        <KromaButton
+          variant="outline"
+          size="sm"
+          onClick={() => setShowPreviewModal(true)}
+          iconLeft={<Eye size={14} />}
         >
-          <div
-            className="admin-card"
-            style={{
-              maxWidth: '460px',
-              width: '100%',
-              padding: '24px',
-              border: `1px solid ${pendingAction === 'enable' ? '#EF4444' : '#10B981'}`,
-              boxShadow: 'var(--shadow-elevated)',
-            }}
+          Preview Screen
+        </KromaButton>
+        <KromaButton
+          variant="outline"
+          size="sm"
+          onClick={handleCopyPreviewLink}
+          iconLeft={copiedLink ? <Check size={14} className="text-kroma-green" /> : <Copy size={14} />}
+        >
+          {copiedLink ? 'Copied' : 'Copy Preview Link'}
+        </KromaButton>
+      </section>
+
+      {/* ── Save / Discard Bar ── */}
+      <section className="flex items-center justify-between pt-6 border-t border-border-subtle">
+        <div className="text-xs text-text-tertiary">
+          {hasUnsavedChanges
+            ? <span className="text-kroma-orange font-medium">● Unsaved changes</span>
+            : saveSuccess
+            ? <span className="text-kroma-green font-medium">✓ Saved</span>
+            : 'Configuration synced'}
+        </div>
+        <div className="flex gap-2">
+          {hasUnsavedChanges && (
+            <KromaButton variant="outline" size="sm" onClick={handleDiscardChanges}>
+              Discard
+            </KromaButton>
+          )}
+          <KromaButton
+            variant="filled"
+            size="sm"
+            onClick={handleSaveChanges}
+            disabled={!hasUnsavedChanges || isSaving || !isSuperAdmin}
+            isLoading={isSaving}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-              <div
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
-                  background: pendingAction === 'enable' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: pendingAction === 'enable' ? '#EF4444' : '#10B981',
-                }}
-              >
-                <AlertTriangle size={18} />
-              </div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0 }}>
+            {isSaving ? 'Saving...' : 'Save Changes'}
+          </KromaButton>
+        </div>
+      </section>
+
+      {/* ── Confirmation Modal ── */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-surface-1 border border-border-medium rounded-xs max-w-md w-full p-6 shadow-lg">
+            <div className="flex items-center gap-3 mb-4">
+              <AlertTriangle
+                size={20}
+                className={pendingAction === 'enable' ? 'text-kroma-red' : 'text-kroma-green'}
+              />
+              <h3 className="text-lg font-bold text-text-primary">
                 {pendingAction === 'enable' ? 'Enable Maintenance Mode?' : 'Disable Maintenance Mode?'}
               </h3>
             </div>
 
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '20px' }}>
+            <p className="text-sm text-text-secondary leading-relaxed mb-6">
               {pendingAction === 'enable'
-                ? 'This will immediately hide the public PaletteParadise experience, library catalogs, and creative studios from normal visitors. Admin access will remain available at /admin.'
-                : 'This will immediately restore full public access to all color specimens, palettes, harmonies, and creative studios across the global site.'}
+                ? 'This will immediately hide the public website from visitors. Admin access at /admin will remain available.'
+                : 'This will immediately restore full public access to the website.'}
             </p>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <div className="flex justify-end gap-2">
               <KromaButton
-                type="button"
                 variant="outline"
                 size="sm"
                 onClick={() => setShowConfirmModal(false)}
-                style={{ fontSize: '0.8rem', padding: '8px 16px' }}
               >
                 Cancel
               </KromaButton>
-
               <KromaButton
-                type="button"
                 variant="filled"
                 size="sm"
                 onClick={handleConfirmToggle}
-                style={{
-                  background: pendingAction === 'enable' ? '#EF4444' : '#10B981',
-                  color: '#FFFFFF',
-                  borderColor: pendingAction === 'enable' ? '#EF4444' : '#10B981',
-                  padding: '8px 18px',
-                  fontWeight: 700,
-                  fontSize: '0.8rem',
-                }}
+                className={
+                  pendingAction === 'enable'
+                    ? '!bg-kroma-red !border-kroma-red !text-white'
+                    : '!bg-kroma-green !border-kroma-green !text-white'
+                }
               >
-                {pendingAction === 'enable' ? 'Yes, Enable Maintenance' : 'Yes, Restore Public Site'}
+                {pendingAction === 'enable' ? 'Enable Maintenance' : 'Restore Public Site'}
               </KromaButton>
             </div>
           </div>
         </div>
       )}
 
-      {/* ─── PREVIEW MODAL ─── */}
+      {/* ── Preview Modal ── */}
       {showPreviewModal && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 9999,
-            background: 'rgba(0, 0, 0, 0.85)',
-            backdropFilter: 'blur(12px)',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {/* Preview Header */}
-          <div
-            style={{
-              padding: '12px 24px',
-              background: 'var(--bg-surface-1)',
-              borderBottom: '1px solid var(--border-medium)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span className="font-mono text-xs font-bold text-amber-400 uppercase tracking-wider">
-                [ VISITOR SCREEN PREVIEW ]
-              </span>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)' }}>
-                This is exactly what public visitors will see when maintenance is active.
-              </span>
-            </div>
-
+        <div className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex flex-col">
+          <div className="shrink-0 flex items-center justify-between px-5 py-3 bg-surface-1 border-b border-border-medium">
+            <span className="text-xs font-mono font-semibold text-kroma-orange uppercase tracking-wider">
+              Visitor Preview
+            </span>
             <KromaButton
-              type="button"
               variant="filled"
               size="sm"
               onClick={() => setShowPreviewModal(false)}
-              style={{ fontSize: '0.75rem', padding: '6px 14px' }}
             >
               Close Preview
             </KromaButton>
           </div>
-
-          {/* Embedded Maintenance Page Preview */}
-          <div style={{ flex: 1, overflowY: 'auto' }}>
+          <div className="flex-1 overflow-y-auto">
             <MaintenancePage
               isPreview={true}
               onExitPreview={() => setShowPreviewModal(false)}

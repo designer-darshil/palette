@@ -415,15 +415,23 @@ function parseUrlToRoute(): RouteType {
     return { path: 'gradients' };
   }
 
+  // 10. Admin & Auth routes (Audit & normalize legacy signup/register to /admin)
+  if (s0 === 'signup' || s0 === 'register' || s0 === 'create-account') {
+    return { path: 'admin', tab: 'dashboard' };
+  }
+
   if (s0 === 'admin') {
-    const rawTab = segments[1] || 'dashboard';
+    const rawTab = segments[1];
     let tab = rawTab;
     if (rawTab === 'harmonies') tab = 'combos';
     if (rawTab === 'network') tab = 'relationships';
     if (rawTab === 'data-health') tab = 'validation';
     if (rawTab === 'roles') tab = 'users';
     if (rawTab === 'settings') tab = 'security';
-    return { path: 'admin', tab, returnTo: searchParams.get('returnTo') || undefined };
+    if (rawTab === 'signup' || rawTab === 'register' || rawTab === 'create-account' || rawTab === 'login') {
+      tab = 'dashboard';
+    }
+    return { path: 'admin', tab: tab || undefined, returnTo: searchParams.get('returnTo') || undefined };
   }
 
   if (s0 === 'saved') {

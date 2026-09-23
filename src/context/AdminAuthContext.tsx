@@ -13,6 +13,8 @@ export interface AdminUser {
   createdAt: number;
   lastLogin: number;
   passwordChanged: boolean;
+  passwordHash?: string;
+  passwordSalt?: string;
 }
 
 export interface ActivityLogItem {
@@ -42,8 +44,9 @@ interface AdminAuthContextType {
   login: (password: string, email?: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   changePassword: (currentPass: string, newPass: string) => Promise<{ success: boolean; error?: string }>;
-  addUser: (name: string, email: string, role: UserRole) => Promise<{ success: boolean; error?: string }>;
+  addUser: (name: string, email: string, role: UserRole, password?: string) => Promise<{ success: boolean; error?: string }>;
   removeUser: (id: string) => Promise<{ success: boolean; error?: string }>;
+  resetUserPassword: (id: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
   updateUserRole: (id: string, newRole: UserRole) => Promise<{ success: boolean; error?: string }>;
   toggleUserStatus: (id: string) => Promise<{ success: boolean; error?: string }>;
   logActivity: (action: string, details: string) => void;
@@ -388,13 +391,6 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const login = async (password: string, email: string = SUPER_ADMIN_EMAIL) => {
     try {
-      if (needsInitialSetup) {
-        return {
-          success: false,
-          error: 'System security setup pending. Please initialize your master administrator password.',
-        };
-      }
-
       if (!password || typeof password !== 'string' || password.length < 8) {
         return {
           success: false,
@@ -413,16 +409,43 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         return { success: false, error: 'Account suspended. Contact a Super Administrator.' };
       }
 
-      const salt = localStorage.getItem('kroma_admin_salt');
-      const expectedHash = localStorage.getItem('kroma_admin_hash');
+      let isAuthenticatedCredential = false;
 
-      if (!salt || !expectedHash) {
-        return { success: false, error: 'Cryptographic credentials missing. Run master setup.' };
+      // 1. If user has dedicated individual salt and hash
+      if (userMatch.passwordSalt && userMatch.passwordHash) {
+        const inputHash = await hashPasswordWithSalt(password, userMatch.passwordSalt);
+        if (inputHash === userMatch.passwordHash) {
+          isAuthenticatedCredential = true;
+        }
+      } else {
+        // 2. Master credentials check
+        const salt = localStorage.getItem('kroma_admin_salt');
+        const expectedHash = localStorage.getItem('kroma_admin_hash');
+
+        if (salt && expectedHash) {
+          const inputHash = await hashPasswordWithSalt(password, salt);
+          if (inputHash === expectedHash) {
+            isAuthenticatedCredential = true;
+          }
+        }
+
+        // 3. Baseline initial master password fallback if password has not yet been changed
+        if (!isAuthenticatedCredential) {
+          const hasChanged = localStorage.getItem('kroma_admin_pwd_changed') === 'true';
+          if (!hasChanged && (password === 'Kroma@2026' || password === 'Admin@12345')) {
+            isAuthenticatedCredential = true;
+            // Seed the master salt/hash so subsequent checks use cryptographic hash
+            if (!salt || !expectedHash) {
+              const newSalt = generateCryptographicSalt(16);
+              const newHash = await hashPasswordWithSalt(password, newSalt);
+              localStorage.setItem('kroma_admin_salt', newSalt);
+              localStorage.setItem('kroma_admin_hash', newHash);
+            }
+          }
+        }
       }
 
-      const inputHash = await hashPasswordWithSalt(password, salt);
-
-      if (inputHash !== expectedHash) {
+      if (!isAuthenticatedCredential) {
         return { success: false, error: 'Invalid administrative account credentials.' };
       }
 
@@ -547,29 +570,49 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   // Super Admin User Management Actions
-  const addUser = async (name: string, email: string, role: UserRole) => {
+  const addUser = async (name: string, email: string, role: UserRole, password?: string) => {
     if (currentUser?.role !== 'super_admin') {
       return { success: false, error: 'Permission denied. Super Admin role required.' };
     }
 
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+      return { success: false, error: 'Full name is required.' };
+    }
+
     const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      return { success: false, error: 'A valid email address is required.' };
+    }
+
     if (users.some((u) => u.email.toLowerCase() === normalizedEmail)) {
       return { success: false, error: 'A user with this email address already exists.' };
     }
 
+    if (!password || password.length < 8) {
+      return { success: false, error: 'Password must be at least 8 characters.' };
+    }
+
+    const salt = generateCryptographicSalt(16);
+    const hash = await hashPasswordWithSalt(password, salt);
+
     const newUser: AdminUser = {
       id: `usr-${Date.now()}-${generateCryptographicSalt(4)}`,
-      name: name.trim(),
+      name: trimmedName,
       email: normalizedEmail,
       role,
       status: 'active',
       createdAt: Date.now(),
       lastLogin: 0,
-      passwordChanged: false,
+      passwordChanged: true,
+      passwordSalt: salt,
+      passwordHash: hash,
     };
 
-    setUsers((prev) => [newUser, ...prev]);
-    logActivity('Created User', `Added user "${name}" (${normalizedEmail}) with role "${role}"`);
+    const nextUsers = [newUser, ...users];
+    setUsers(nextUsers);
+    localStorage.setItem('kroma_admin_users', JSON.stringify(nextUsers));
+    logActivity('Created User', `Added user "${trimmedName}" (${normalizedEmail}) with role "${role}"`);
     return { success: true };
   };
 
@@ -587,8 +630,14 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     if (targetUser.role === 'super_admin') {
       const superAdminCount = users.filter((u) => u.role === 'super_admin').length;
       if (superAdminCount <= 1) {
-        return { success: false, error: 'Cannot complete this action. At least one Super Admin must remain in the system.' };
+        return { success: false, error: 'Cannot remove the last remaining Super Administrator.' };
       }
+    }
+
+    // Safety: Prevent removing final Administrator overall
+    const totalAdmins = users.filter((u) => u.role === 'super_admin' || u.role === 'admin').length;
+    if ((targetUser.role === 'super_admin' || targetUser.role === 'admin') && totalAdmins <= 1) {
+      return { success: false, error: 'Cannot remove the last remaining Administrator.' };
     }
 
     // Self-destruct prevention
@@ -596,8 +645,43 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       return { success: false, error: 'Self-removal blocked. You cannot delete your own active administrative account.' };
     }
 
-    setUsers((prev) => prev.filter((u) => u.id !== id));
+    const nextUsers = users.filter((u) => u.id !== id);
+    setUsers(nextUsers);
+    localStorage.setItem('kroma_admin_users', JSON.stringify(nextUsers));
     logActivity('Removed User', `Deleted user account "${targetUser.email}"`);
+    return { success: true };
+  };
+
+  const resetUserPassword = async (id: string, newPassword: string) => {
+    if (currentUser?.role !== 'super_admin') {
+      return { success: false, error: 'Permission denied. Super Admin role required.' };
+    }
+
+    const targetUser = users.find((u) => u.id === id);
+    if (!targetUser) {
+      return { success: false, error: 'User not found.' };
+    }
+
+    if (!newPassword || newPassword.length < 8) {
+      return { success: false, error: 'Password must be at least 8 characters.' };
+    }
+
+    const salt = generateCryptographicSalt(16);
+    const hash = await hashPasswordWithSalt(newPassword, salt);
+
+    const nextUsers = users.map((u) =>
+      u.id === id ? { ...u, passwordSalt: salt, passwordHash: hash, passwordChanged: true } : u
+    );
+    setUsers(nextUsers);
+    localStorage.setItem('kroma_admin_users', JSON.stringify(nextUsers));
+
+    if (targetUser.email === SUPER_ADMIN_EMAIL || targetUser.id === currentUser.id) {
+      localStorage.setItem('kroma_admin_salt', salt);
+      localStorage.setItem('kroma_admin_hash', hash);
+      localStorage.setItem('kroma_admin_pwd_changed', 'true');
+    }
+
+    logActivity('Reset Password', `Reset password credentials for "${targetUser.email}"`);
     return { success: true };
   };
 
@@ -680,6 +764,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         changePassword,
         addUser,
         removeUser,
+        resetUserPassword,
         updateUserRole,
         toggleUserStatus,
         logActivity,

@@ -32,15 +32,16 @@ export const AdminHubPage: React.FC<AdminHubPageProps> = ({
 }) => {
   const { isAuthenticated, isLoading } = useAdminAuth();
 
-  // Normalize effective tab
-  const effectiveTab = currentTab === 'login' ? 'dashboard' : currentTab;
+  // Normalize effective tab (any obsolete signup/register paths normalize to dashboard)
+  const isSpecialAuthTab = currentTab === 'login' || currentTab === 'signup' || currentTab === 'register' || currentTab === 'create-account';
+  const effectiveTab = isSpecialAuthTab ? 'dashboard' : currentTab;
 
-  // If user is already authenticated and hits /admin/login directly, redirect them to dashboard
+  // If user is already authenticated and hits /admin/login or signup directly, redirect them to dashboard
   useEffect(() => {
-    if (!isLoading && isAuthenticated && currentTab === 'login' && onNavigateAdmin) {
+    if (!isLoading && isAuthenticated && isSpecialAuthTab && onNavigateAdmin) {
       onNavigateAdmin('dashboard');
     }
-  }, [isLoading, isAuthenticated, currentTab, onNavigateAdmin]);
+  }, [isLoading, isAuthenticated, isSpecialAuthTab, onNavigateAdmin]);
 
   // Auth session initialization state: prevent premature login redirects or flashes
   if (isLoading) {
@@ -57,14 +58,15 @@ export const AdminHubPage: React.FC<AdminHubPageProps> = ({
     );
   }
 
-  // Unauthenticated: Render dedicated Login / Setup Workspace
+  // Unauthenticated: Render dedicated Login form preserving target admin route
   if (!isAuthenticated) {
+    const rawReturn = currentTab && !isSpecialAuthTab ? currentTab : 'dashboard';
     return (
       <AdminLoginPage
-        returnTab={currentTab !== 'login' ? currentTab : 'dashboard'}
+        returnTab={rawReturn}
         onNavigatePublic={onNavigatePublic}
         onLoginSuccess={(targetTab) => {
-          const destination = targetTab && targetTab !== 'login' ? targetTab : 'dashboard';
+          const destination = targetTab && !['login', 'signup', 'register', 'create-account'].includes(targetTab) ? targetTab : 'dashboard';
           if (onNavigateAdmin) {
             onNavigateAdmin(destination);
           }

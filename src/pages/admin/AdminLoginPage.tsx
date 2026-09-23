@@ -17,58 +17,16 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
   onNavigatePublic,
   onLoginSuccess,
 }) => {
-  const { login, needsInitialSetup, setupInitialMasterPassword } = useAdminAuth();
+  const { login } = useAdminAuth();
   const [email, setEmail] = useState('darshilbhuva4322@gmail.com');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // Mode: if system needs setup, defaults to setup; otherwise standard sign in
-  const [isSetupMode, setIsSetupMode] = useState(needsInitialSetup);
-
-  const validation = validateAdminPassword(password);
-  const hasMinLength = validation.checks.hasMinLength;
-  const passwordsMatch = password.length > 0 && password === confirmPassword;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
-    if (isSetupMode) {
-      if (!hasMinLength) {
-        setError('Password must be at least 8 characters.');
-        return;
-      }
-      if (!passwordsMatch) {
-        setError('Passwords do not match.');
-        return;
-      }
-
-      setLoading(true);
-      try {
-        const setupRes = await setupInitialMasterPassword(password);
-        if (!setupRes.success) {
-          setError(setupRes.error || 'Unable to set up your password. Please try again.');
-          setLoading(false);
-          return;
-        }
-
-        const loginRes = await login(password, email);
-        setLoading(false);
-        if (loginRes.success) {
-          onLoginSuccess(returnTab);
-        } else {
-          setError(loginRes.error || 'Setup completed, please sign in.');
-        }
-      } catch {
-        setLoading(false);
-        setError('Unable to set up your password. Please try again.');
-      }
-      return;
-    }
 
     if (password.length < PASSWORD_POLICY.minLength) {
       setError('Password must be at least 8 characters.');
@@ -94,7 +52,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
   return (
     <div className="admin-login-wrapper min-h-[100dvh] w-full flex flex-col lg:flex-row bg-[#F8F8F8] dark:bg-[#090A0C] text-[#171717] dark:text-[#F8F8F8]">
       <SEOHead
-        title={isSetupMode ? 'Set Password | Kroma Admin Studio' : 'Sign In | Kroma Admin Studio'}
+        title="Sign In | Kroma Admin Studio"
         description="Restricted administrative studio for Kroma Color Operations."
         canonicalPath="/admin"
         noindex={true}
@@ -103,7 +61,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
 
       {/* LEFT: Architectural Kroma Color Study Composition */}
       <section
-        className="relative lg:w-1/2 min-h-[280px] lg:min-h-[100dvh] p-6 lg:p-14 flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-black/10 dark:border-white/10"
+        className="relative max-md:hidden lg:w-1/2 min-h-[280px] lg:min-h-[100dvh] p-6 lg:p-14 flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-black/10 dark:border-white/10"
         style={{ backgroundColor: '#111216' }}
         aria-label="Kroma Color Study"
       >
@@ -224,12 +182,10 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               Kroma Admin Studio
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
-              {isSetupMode ? 'Set Password' : 'Sign In'}
+              Sign In
             </h1>
             <p className="text-sm text-[#707070] dark:text-[#9DA3AF] mt-2 leading-relaxed">
-              {isSetupMode
-                ? 'Create a secure password for your Kroma admin account.'
-                : 'Authenticate with verified administrative credentials to enter the workspace.'}
+              Authenticate with verified administrative credentials to enter the workspace.
             </p>
           </div>
 
@@ -260,7 +216,6 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
                 required
                 autoComplete="email"
                 value={email}
-                disabled={isSetupMode && needsInitialSetup}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3.5 py-2.5 bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs text-sm text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8] transition-colors"
                 placeholder="admin@kroma.design"
@@ -274,7 +229,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
                   htmlFor="admin-password"
                   className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] uppercase tracking-wider"
                 >
-                  {isSetupMode ? 'New Password' : 'Password'}
+                  Password
                 </label>
               </div>
               <div className="relative flex items-center">
@@ -282,11 +237,11 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
                   id="admin-password"
                   type={showPassword ? 'text' : 'password'}
                   required
-                  autoComplete={isSetupMode ? 'new-password' : 'current-password'}
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-3.5 py-2.5 pr-10 bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs text-sm text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8] transition-colors"
-                  placeholder={isSetupMode ? 'At least 8 characters' : 'Enter password'}
+                  placeholder="Enter password"
                 />
                 <button
                   type="button"
@@ -299,99 +254,20 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               </div>
             </div>
 
-            {/* Set Password Mode: Confirm Password & 8-Char Live Indicator */}
-            {isSetupMode && (
-              <>
-                <div>
-                  <label
-                    htmlFor="admin-confirm-password"
-                    className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1.5 uppercase tracking-wider"
-                  >
-                    Confirm Password
-                  </label>
-                  <div className="relative flex items-center">
-                    <input
-                      id="admin-confirm-password"
-                      type={showConfirmPassword ? 'text' : 'password'}
-                      required
-                      autoComplete="new-password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full px-3.5 py-2.5 pr-10 bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs text-sm text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8] transition-colors"
-                      placeholder="Repeat new password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
-                      className="absolute right-3 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8] transition-colors p-1"
-                    >
-                      {showConfirmPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Live Policy Validation Indicator */}
-                <div className="p-3 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs space-y-1.5 font-mono">
-                  <div
-                    className={`flex items-center gap-2 transition-colors ${
-                      hasMinLength ? 'text-[#34C759]' : 'text-[#707070] dark:text-[#9DA3AF]'
-                    }`}
-                  >
-                    <Check size={13} className={hasMinLength ? 'opacity-100' : 'opacity-30'} />
-                    <span>8 characters minimum</span>
-                  </div>
-
-                  {confirmPassword.length > 0 && (
-                    <div
-                      className={`flex items-center gap-2 transition-colors ${
-                        passwordsMatch ? 'text-[#34C759]' : 'text-[#FF3B30]'
-                      }`}
-                    >
-                      <Check size={13} className={passwordsMatch ? 'opacity-100' : 'opacity-30'} />
-                      <span>{passwordsMatch ? 'Passwords match' : 'Passwords must match'}</span>
-                    </div>
-                  )}
-                </div>
-              </>
-            )}
-
             {/* Action Button */}
             <div className="pt-2">
               <KromaButton
                 type="submit"
-                disabled={loading || (isSetupMode && (!hasMinLength || !passwordsMatch))}
+                disabled={loading}
                 isLoading={loading}
                 variant="filled"
                 size="md"
                 className="w-full"
               >
-                {loading
-                  ? 'Processing...'
-                  : isSetupMode
-                  ? 'Set Password'
-                  : 'Sign In'}
+                {loading ? 'Signing in...' : 'Sign In'}
               </KromaButton>
             </div>
           </form>
-
-          {/* Toggle between Sign In and Set Password if not strictly forced by first-time setup */}
-          {!needsInitialSetup && (
-            <div className="text-center mt-6 pt-5 border-t border-black/10 dark:border-white/10">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsSetupMode(!isSetupMode);
-                  setError(null);
-                  setPassword('');
-                  setConfirmPassword('');
-                }}
-                className="text-xs font-mono text-[#707070] dark:text-[#9DA3AF] hover:text-[#171717] dark:hover:text-[#F8F8F8] transition-colors underline-offset-4 hover:underline"
-              >
-                {isSetupMode ? 'Already have password? Sign In' : 'Reset / Set Admin Password'}
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Footer System Info */}

@@ -84,13 +84,22 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
     }
   }, [selectedImage, colorCount]);
 
-  // File upload handler
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+  const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
 
-    if (!file.type.startsWith('image/')) {
-      showToast('Invalid file format', 'Please upload a JPG, PNG, or WEBP image.');
+  const validateAndProcessFile = (file: File) => {
+    if (file.type === 'image/svg+xml') {
+      showToast('SVG not supported', 'Please upload a bitmap image (JPG, PNG, WEBP, or AVIF) for palette extraction.');
+      return;
+    }
+
+    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+      showToast('Invalid file format', 'Please upload a valid JPG, PNG, WEBP, or AVIF image.');
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      showToast('File too large', 'Image size exceeds maximum allowed limit of 10MB.');
       return;
     }
 
@@ -102,7 +111,19 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
         setImageTitle(file.name.replace(/\.[^/.]+$/, ''));
       }
     };
+    reader.onerror = () => {
+      showToast('File read error', 'Failed to read image file.');
+    };
     reader.readAsDataURL(file);
+  };
+
+  // File upload handler
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    validateAndProcessFile(file);
+    // Reset file input so re-selecting same file triggers change
+    e.target.value = '';
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -119,18 +140,10 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target?.result) {
-          const dataUrl = event.target.result as string;
-          setSelectedImage(dataUrl);
-          setImageTitle(file.name.replace(/\.[^/.]+$/, ''));
-        }
-      };
-      reader.readAsDataURL(file);
+    if (file) {
+      validateAndProcessFile(file);
     } else {
-      showToast('Invalid file dropped', 'Please drop a JPG, PNG, or WEBP image.');
+      showToast('Invalid file dropped', 'Please drop a JPG, PNG, WEBP, or AVIF image.');
     }
   };
 

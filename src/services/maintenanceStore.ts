@@ -239,11 +239,27 @@ class MaintenanceStoreService {
     // 2. Persist to shared backend endpoint
     if (typeof window !== 'undefined') {
       try {
+        const sessionRaw = sessionStorage.getItem('kroma_admin_session');
+        let authToken = '';
+        if (sessionRaw) {
+          try {
+            const parsed = JSON.parse(sessionRaw);
+            if (parsed?.signature) {
+              authToken = `Bearer ${parsed.signature}`;
+            }
+          } catch {}
+        }
+
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        if (authToken) {
+          headers['Authorization'] = authToken;
+        }
+
         const response = await fetch('/api/maintenance', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers,
           body: JSON.stringify(nextState),
         });
 

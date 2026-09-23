@@ -25,7 +25,7 @@ function devMaintenancePlugin() {
         if (url === '/api/maintenance') {
           res.setHeader('Access-Control-Allow-Origin', '*');
           res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-          res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+          res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
           res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
           if (req.method === 'OPTIONS') {
@@ -34,6 +34,13 @@ function devMaintenancePlugin() {
           }
 
           if (req.method === 'POST') {
+            const authHeader = req.headers['authorization'];
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+              res.statusCode = 401;
+              res.end(JSON.stringify({ error: 'Unauthorized', message: 'Bearer authorization token required' }));
+              return;
+            }
+
             let body = '';
             req.on('data', (chunk: any) => { body += chunk; });
             req.on('end', () => {

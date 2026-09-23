@@ -69,6 +69,16 @@ export async function extractColorsFromImage(
 
     img.onload = () => {
       try {
+        if (!img.naturalWidth || !img.naturalHeight || img.naturalWidth <= 0 || img.naturalHeight <= 0) {
+          reject(new Error('Invalid image dimensions.'));
+          return;
+        }
+
+        if (img.naturalWidth > 16384 || img.naturalHeight > 16384) {
+          reject(new Error('Image dimensions exceed maximum safe processing size (16,384px).'));
+          return;
+        }
+
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         if (!ctx) {
@@ -78,8 +88,8 @@ export async function extractColorsFromImage(
 
         // Scale down to max 200px for lightning-fast sub-second processing
         const maxDim = 200;
-        let width = img.width;
-        let height = img.height;
+        let width = img.naturalWidth;
+        let height = img.naturalHeight;
         if (width > height) {
           if (width > maxDim) {
             height = Math.round((height * maxDim) / width);

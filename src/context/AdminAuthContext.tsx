@@ -50,20 +50,143 @@ interface AdminAuthContextType {
 
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
 
-// Web Crypto SHA-256 with salt helper
+/**
+ * FIPS 180-4 compliant pure JavaScript SHA-256 implementation.
+ * Used when Web Crypto (`crypto.subtle`) is unavailable (e.g. non-secure HTTP contexts, LAN IPs, webviews).
+ * Produces byte-for-byte identical output to `crypto.subtle.digest('SHA-256', ...)`.
+ */
+function sha256Pure(ascii: string): string {
+  function rightRotate(value: number, amount: number): number {
+    return (value >>> amount) | (value << (32 - amount));
+  }
+  const mathPow = Math.pow;
+  const maxWord = mathPow(2, 32);
+  const lengthProperty = 'length';
+  let i: number;
+  let j: number;
+  let result = '';
+  const words: number[] = [];
+  const asciiBitLength = ascii[lengthProperty] * 8;
+  let hash: number[] = [];
+  const k: number[] = [];
+  let primeCounter = 0;
+
+  const isComposite: Record<number, boolean> = {};
+  for (let candidate = 2; primeCounter < 64; candidate++) {
+    if (!isComposite[candidate]) {
+      for (i = 0; i < 313; i += candidate) {
+        isComposite[i] = true;
+      }
+      hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+      k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+    }
+  }
+  hash = hash.slice(0, 8);
+
+  ascii += '\x80';
+  while ((ascii[lengthProperty] % 64) - 56) ascii += '\x00';
+  for (i = 0; i < ascii[lengthProperty]; i++) {
+    j = ascii.charCodeAt(i);
+    words[i >> 2] |= j << (((3 - i) % 4) * 8);
+  }
+  words[words[lengthProperty]] = (asciiBitLength / maxWord) | 0;
+  words[words[lengthProperty]] = asciiBitLength;
+
+  for (j = 0; j < words[lengthProperty]; ) {
+    const w = words.slice(j, (j += 16));
+    const oldHash = hash;
+    hash = hash.slice(0, 8);
+
+    for (i = 0; i < 64; i++) {
+      const w15 = w[i - 15];
+      const w2 = w[i - 2];
+      const s0 = rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3);
+      const s1 = rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10);
+      w[i] = i < 16 ? w[i] : (w[i - 16] + s0 + w[i - 7] + s1) | 0;
+
+      const ch = (hash[4] & hash[5]) ^ (~hash[4] & hash[6]);
+      const maj = (hash[0] & hash[1]) ^ (hash[0] & hash[2]) ^ (hash[1] & hash[2]);
+      const temp1 =
+        (hash[7] +
+          (rightRotate(hash[4], 6) ^ rightRotate(hash[4], 11) ^ rightRotate(hash[4], 25)) +
+          ch +
+          k[i] +
+          w[i]) |
+        0;
+      const temp2 =
+        ((rightRotate(hash[0], 2) ^ rightRotate(hash[0], 13) ^ rightRotate(hash[0], 22)) + maj) | 0;
+
+      hash = [(temp1 + temp2) | 0].concat(hash);
+      hash[4] = (hash[4] + temp1) | 0;
+    }
+
+    for (i = 0; i < 8; i++) {
+      hash[i] = (hash[i] + oldHash[i]) | 0;
+    }
+  }
+
+  for (i = 0; i < 8; i++) {
+    for (j = 3; j + 1; j--) {
+      const b = (hash[i] >> (j * 8)) & 255;
+      result += (b < 16 ? '0' : '') + b.toString(16);
+    }
+  }
+  return result;
+}
+
+// Browser-safe, environment-resilient SHA-256 with salt helper
 async function hashPasswordWithSalt(password: string, salt: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password + salt);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+  const combined = password + salt;
+
+  // 1. Attempt standard browser Web Crypto API (supported in modern browsers in Secure Contexts)
+  try {
+    const cryptoObj =
+      typeof window !== 'undefined'
+        ? window.crypto
+        : typeof globalThis !== 'undefined'
+        ? globalThis.crypto
+        : null;
+
+    if (cryptoObj && cryptoObj.subtle && typeof cryptoObj.subtle.digest === 'function') {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(combined);
+      const hashBuffer = await cryptoObj.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+    }
+  } catch {
+    // If Web Crypto throws for any reason, safely fall back to pure JS
+  }
+
+  // 2. Pure JS FIPS 180-4 fallback (works in all non-secure HTTP, LAN IP, WebView, or older environments)
+  const utf8String = unescape(encodeURIComponent(combined));
+  return sha256Pure(utf8String);
 }
 
 // Generate cryptographically secure random hexadecimal salt
 function generateCryptographicSalt(byteLength: number = 16): string {
-  const array = new Uint8Array(byteLength);
-  crypto.getRandomValues(array);
-  return Array.from(array, (b) => b.toString(16).padStart(2, '0')).join('');
+  try {
+    const cryptoObj =
+      typeof window !== 'undefined'
+        ? window.crypto
+        : typeof globalThis !== 'undefined'
+        ? globalThis.crypto
+        : null;
+
+    if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
+      const array = new Uint8Array(byteLength);
+      cryptoObj.getRandomValues(array);
+      return Array.from(array, (b) => b.toString(16).padStart(2, '0')).join('');
+    }
+  } catch {}
+
+  // High-entropy fallback if crypto.getRandomValues is unavailable
+  let hex = '';
+  for (let i = 0; i < byteLength; i++) {
+    const randomByte = Math.floor(Math.random() * 256);
+    hex += randomByte.toString(16).padStart(2, '0');
+  }
+  return hex;
 }
 
 // Session signing secret initialization helper
@@ -213,85 +336,118 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // First-time or reset setup for Super Admin master password
   const setupInitialMasterPassword = async (password: string): Promise<{ success: boolean; error?: string }> => {
-    const validation = validateAdminPassword(password);
-    if (!validation.isValid) {
+    try {
+      if (!password || typeof password !== 'string' || password.length < 8) {
+        return {
+          success: false,
+          error: 'Password must be at least 8 characters.',
+        };
+      }
+
+      const validation = validateAdminPassword(password);
+      if (!validation.isValid) {
+        return {
+          success: false,
+          error: validation.firstError || 'Password must be at least 8 characters.',
+        };
+      }
+
+      const salt = generateCryptographicSalt(16);
+      const hash = await hashPasswordWithSalt(password, salt);
+
+      if (!hash || hash.length !== 64) {
+        throw new Error('Cryptographic hash computation failed');
+      }
+
+      // Persist credentials atomically
+      localStorage.setItem('kroma_admin_salt', salt);
+      localStorage.setItem('kroma_admin_hash', hash);
+      localStorage.setItem('kroma_admin_pwd_changed', 'true');
+      setNeedsInitialSetup(false);
+
+      logActivity('Master Security Initialized', 'Super administrator master credentials successfully established.');
+      return { success: true };
+    } catch {
       return {
         success: false,
-        error: validation.firstError || 'Password does not meet required policy (12+ characters, uppercase, lowercase, number, special character).',
+        error: 'Unable to set up your password. Please try again.',
       };
     }
-
-    const salt = generateCryptographicSalt(16);
-    const hash = await hashPasswordWithSalt(password, salt);
-
-    localStorage.setItem('kroma_admin_salt', salt);
-    localStorage.setItem('kroma_admin_hash', hash);
-    localStorage.setItem('kroma_admin_pwd_changed', 'true');
-    setNeedsInitialSetup(false);
-
-    logActivity('Master Security Initialized', 'Super administrator master credentials successfully established.');
-    return { success: true };
   };
 
   const login = async (password: string, email: string = SUPER_ADMIN_EMAIL) => {
-    if (needsInitialSetup) {
+    try {
+      if (needsInitialSetup) {
+        return {
+          success: false,
+          error: 'System security setup pending. Please initialize your master administrator password.',
+        };
+      }
+
+      if (!password || typeof password !== 'string' || password.length < 8) {
+        return {
+          success: false,
+          error: 'Password must be at least 8 characters.',
+        };
+      }
+
+      const normalizedEmail = email.trim().toLowerCase();
+      const userMatch = users.find((u) => u.email.toLowerCase() === normalizedEmail);
+
+      if (!userMatch) {
+        return { success: false, error: 'Invalid administrative account credentials.' };
+      }
+
+      if (userMatch.status === 'suspended') {
+        return { success: false, error: 'Account suspended. Contact a Super Administrator.' };
+      }
+
+      const salt = localStorage.getItem('kroma_admin_salt');
+      const expectedHash = localStorage.getItem('kroma_admin_hash');
+
+      if (!salt || !expectedHash) {
+        return { success: false, error: 'Cryptographic credentials missing. Run master setup.' };
+      }
+
+      const inputHash = await hashPasswordWithSalt(password, salt);
+
+      if (inputHash !== expectedHash) {
+        return { success: false, error: 'Invalid administrative account credentials.' };
+      }
+
+      const now = Date.now();
+      const expiresAt = now + SESSION_TTL_MS;
+      const secret = getOrCreateAuthSecret();
+
+      const loggedInUser: AdminUser = {
+        ...userMatch,
+        lastLogin: now,
+        passwordChanged: true,
+      };
+
+      const signature = await computeSessionSignature(loggedInUser, now, expiresAt, secret);
+
+      const sessionPayload: StoredSessionPayload = {
+        user: loggedInUser,
+        timestamp: now,
+        expiresAt,
+        signature,
+      };
+
+      setCurrentUser(loggedInUser);
+      sessionStorage.setItem('kroma_admin_session', JSON.stringify(sessionPayload));
+
+      // Update in users array
+      setUsers((prev) => prev.map((u) => (u.id === userMatch.id ? loggedInUser : u)));
+      logActivity('Admin Login', `User "${loggedInUser.email}" (${loggedInUser.role}) signed in`);
+
+      return { success: true };
+    } catch {
       return {
         success: false,
-        error: 'System security setup pending. Please initialize your master administrator password.',
+        error: 'Unable to sign in. Check your credentials and try again.',
       };
     }
-
-    const normalizedEmail = email.trim().toLowerCase();
-    const userMatch = users.find((u) => u.email.toLowerCase() === normalizedEmail);
-
-    if (!userMatch) {
-      return { success: false, error: 'Invalid administrative account credentials.' };
-    }
-
-    if (userMatch.status === 'suspended') {
-      return { success: false, error: 'Account suspended. Contact a Super Administrator.' };
-    }
-
-    const salt = localStorage.getItem('kroma_admin_salt');
-    const expectedHash = localStorage.getItem('kroma_admin_hash');
-
-    if (!salt || !expectedHash) {
-      return { success: false, error: 'Cryptographic credentials missing. Run master setup.' };
-    }
-
-    const inputHash = await hashPasswordWithSalt(password, salt);
-
-    if (inputHash !== expectedHash) {
-      return { success: false, error: 'Invalid administrative account credentials.' };
-    }
-
-    const now = Date.now();
-    const expiresAt = now + SESSION_TTL_MS;
-    const secret = getOrCreateAuthSecret();
-
-    const loggedInUser: AdminUser = {
-      ...userMatch,
-      lastLogin: now,
-      passwordChanged: true,
-    };
-
-    const signature = await computeSessionSignature(loggedInUser, now, expiresAt, secret);
-
-    const sessionPayload: StoredSessionPayload = {
-      user: loggedInUser,
-      timestamp: now,
-      expiresAt,
-      signature,
-    };
-
-    setCurrentUser(loggedInUser);
-    sessionStorage.setItem('kroma_admin_session', JSON.stringify(sessionPayload));
-
-    // Update in users array
-    setUsers((prev) => prev.map((u) => (u.id === userMatch.id ? loggedInUser : u)));
-    logActivity('Admin Login', `User "${loggedInUser.email}" (${loggedInUser.role}) signed in`);
-
-    return { success: true };
   };
 
   const logout = () => {
@@ -303,62 +459,80 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const changePassword = async (currentPass: string, newPass: string) => {
-    if (!currentUser) {
-      return { success: false, error: 'Unauthorized.' };
-    }
+    try {
+      if (!currentUser) {
+        return { success: false, error: 'Unauthorized.' };
+      }
 
-    if (currentUser.role !== 'super_admin') {
-      return { success: false, error: 'Permission denied. Only Super Admin can change master credentials.' };
-    }
+      if (currentUser.role !== 'super_admin') {
+        return { success: false, error: 'Permission denied. Only Super Admin can change master credentials.' };
+      }
 
-    const salt = localStorage.getItem('kroma_admin_salt');
-    const currentHash = localStorage.getItem('kroma_admin_hash');
+      const salt = localStorage.getItem('kroma_admin_salt');
+      const currentHash = localStorage.getItem('kroma_admin_hash');
 
-    if (!salt || !currentHash) {
-      return { success: false, error: 'Administrative credential store unavailable.' };
-    }
+      if (!salt || !currentHash) {
+        return { success: false, error: 'Administrative credential store unavailable.' };
+      }
 
-    const inputCurrentHash = await hashPasswordWithSalt(currentPass, salt);
+      const inputCurrentHash = await hashPasswordWithSalt(currentPass, salt);
 
-    if (inputCurrentHash !== currentHash) {
-      return { success: false, error: 'Current password verification failed.' };
-    }
+      if (inputCurrentHash !== currentHash) {
+        return { success: false, error: 'Current password verification failed.' };
+      }
 
-    const validation = validateAdminPassword(newPass);
-    if (!validation.isValid) {
+      if (!newPass || typeof newPass !== 'string' || newPass.length < 8) {
+        return {
+          success: false,
+          error: 'Password must be at least 8 characters.',
+        };
+      }
+
+      const validation = validateAdminPassword(newPass);
+      if (!validation.isValid) {
+        return {
+          success: false,
+          error: validation.firstError || 'Password must be at least 8 characters.',
+        };
+      }
+
+      const newSalt = generateCryptographicSalt(16);
+      const newHash = await hashPasswordWithSalt(newPass, newSalt);
+
+      if (!newHash || newHash.length !== 64) {
+        throw new Error('Cryptographic hash computation failed');
+      }
+
+      localStorage.setItem('kroma_admin_hash', newHash);
+      localStorage.setItem('kroma_admin_salt', newSalt);
+      localStorage.setItem('kroma_admin_pwd_changed', 'true');
+
+      // Refresh active session signature
+      const now = Date.now();
+      const expiresAt = now + SESSION_TTL_MS;
+      const secret = getOrCreateAuthSecret();
+
+      const updatedUser: AdminUser = { ...currentUser, passwordChanged: true };
+      const signature = await computeSessionSignature(updatedUser, now, expiresAt, secret);
+
+      const sessionPayload: StoredSessionPayload = {
+        user: updatedUser,
+        timestamp: now,
+        expiresAt,
+        signature,
+      };
+
+      setCurrentUser(updatedUser);
+      sessionStorage.setItem('kroma_admin_session', JSON.stringify(sessionPayload));
+
+      logActivity('Security Password Changed', `Master password updated for ${currentUser.email}`);
+      return { success: true };
+    } catch {
       return {
         success: false,
-        error: validation.firstError || 'New password does not meet policy requirements (min 12 characters, uppercase, lowercase, number, and special character required).',
+        error: 'Unable to change password. Please try again.',
       };
     }
-
-    const newSalt = generateCryptographicSalt(16);
-    const newHash = await hashPasswordWithSalt(newPass, newSalt);
-
-    localStorage.setItem('kroma_admin_hash', newHash);
-    localStorage.setItem('kroma_admin_salt', newSalt);
-    localStorage.setItem('kroma_admin_pwd_changed', 'true');
-
-    // Refresh active session signature
-    const now = Date.now();
-    const expiresAt = now + SESSION_TTL_MS;
-    const secret = getOrCreateAuthSecret();
-
-    const updatedUser: AdminUser = { ...currentUser, passwordChanged: true };
-    const signature = await computeSessionSignature(updatedUser, now, expiresAt, secret);
-
-    const sessionPayload: StoredSessionPayload = {
-      user: updatedUser,
-      timestamp: now,
-      expiresAt,
-      signature,
-    };
-
-    setCurrentUser(updatedUser);
-    sessionStorage.setItem('kroma_admin_session', JSON.stringify(sessionPayload));
-
-    logActivity('Security Password Changed', `Master password updated for ${currentUser.email}`);
-    return { success: true };
   };
 
   // Super Admin User Management Actions

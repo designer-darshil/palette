@@ -276,7 +276,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
   const cycleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
   /* Route active matching rules matching previous commit */
-  const isExploreActive = currentRoute.path === 'explore' || currentRoute.path === 'random';
+  const isExploreActive = currentRoute.path === 'explore' || currentRoute.path === 'random' || currentRoute.path === 'search';
   const isColorsActive =
     currentRoute.path === 'colors' ||
     currentRoute.path === 'color-detail' ||
@@ -826,43 +826,55 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                   onNavigate={handleNav}
                   className={`kroma-mobile-menu__item ${currentRoute.path === 'explore' ? 'kroma-mobile-menu__item--active' : ''}`}
                 >
-                  <Compass size={16} className="text-red-500" />
+                  <Compass size={16} className="text-kroma-red" />
                   <span>Explore Spectrum</span>
                 </Link>
                 <Link
                   to={{ path: 'colors' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'colors' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`kroma-mobile-menu__item ${isColorsActive ? 'kroma-mobile-menu__item--active' : ''}`}
                 >
-                  <Palette size={16} className="text-amber-500" />
+                  <Palette size={16} className="text-kroma-orange" />
                   <span>Color Specimens</span>
                 </Link>
                 <Link
                   to={{ path: 'palettes' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'palettes' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`kroma-mobile-menu__item ${isPalettesActive ? 'kroma-mobile-menu__item--active' : ''}`}
                 >
-                  <Layers size={16} className="text-yellow-500" />
+                  <Layers size={16} className="text-kroma-yellow" />
                   <span>Palette Systems</span>
                 </Link>
                 <Link
                   to={{ path: 'patterns' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'patterns' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`kroma-mobile-menu__item ${isPatternsActive ? 'kroma-mobile-menu__item--active' : ''}`}
                 >
-                  <Grid size={16} className="text-emerald-500" />
+                  <Grid size={16} className="text-kroma-green" />
                   <span>Generative Patterns</span>
                 </Link>
-                <Link to={{ path: 'trending' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <TrendingUp size={16} className="text-cyan-500" />
+                <Link
+                  to={{ path: 'trending' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${currentRoute.path === 'trending' ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <TrendingUp size={16} className="text-kroma-blue" />
                   <span>Trending Specimens</span>
                 </Link>
-                <Link to={{ path: 'new' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <Clock size={16} className="text-blue-500" />
+                <Link
+                  to={{ path: 'new' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${currentRoute.path === 'new' ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <Clock size={16} className="text-kroma-yellow" />
                   <span>New Releases</span>
                 </Link>
-                <Link to={{ path: 'random' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <Shuffle size={16} className="text-purple-500" />
+                <Link
+                  to={{ path: 'random' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${currentRoute.path === 'random' ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <Shuffle size={16} className="text-kroma-purple" />
                   <span>Random Discovery</span>
                 </Link>
               </div>
@@ -890,16 +902,28 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             <div className="kroma-mobile-menu__section">
               <div className="kroma-mobile-menu__section-title">Community &amp; Play</div>
               <div className="kroma-mobile-menu__section-links">
-                <Link to={{ path: 'collections' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <Layers size={16} className="text-blue-500" />
+                <Link
+                  to={{ path: 'collections' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${currentRoute.path === 'collections' || currentRoute.path === 'collection-detail' ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <Layers size={16} className="text-kroma-blue" />
                   <span>Curated Collections</span>
                 </Link>
-                <Link to={{ path: 'creators' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <Users size={16} className="text-emerald-500" />
+                <Link
+                  to={{ path: 'creators' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${currentRoute.path === 'creators' || currentRoute.path === 'creator-detail' ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <Users size={16} className="text-kroma-green" />
                   <span>Designers &amp; Colorists</span>
                 </Link>
-                <Link to={{ path: 'play' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <Gamepad2 size={16} className="text-pink-500" />
+                <Link
+                  to={{ path: 'play' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${currentRoute.path.startsWith('play') ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <Gamepad2 size={16} className="text-kroma-red" />
                   <span>Sensory Play &amp; Games</span>
                 </Link>
               </div>
@@ -909,16 +933,28 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             <div className="kroma-mobile-menu__section">
               <div className="kroma-mobile-menu__section-title">Workspace &amp; Reference</div>
               <div className="kroma-mobile-menu__section-links">
-                <Link to={{ path: 'saved' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <Bookmark size={16} className="text-purple-500" />
+                <Link
+                  to={{ path: 'saved' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${isSavedActive ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <Bookmark size={16} className="text-kroma-purple" />
                   <span>Curator Workspace ({savedItems.length})</span>
                 </Link>
-                <Link to={{ path: 'about' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <Compass size={16} className="text-rose-500" />
+                <Link
+                  to={{ path: 'about' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${isAboutActive ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <Compass size={16} className="text-kroma-red" />
                   <span>About Kroma</span>
                 </Link>
-                <Link to={{ path: 'api-docs' }} onNavigate={handleNav} className="kroma-mobile-menu__item">
-                  <Code size={16} className="text-gray-400" />
+                <Link
+                  to={{ path: 'api-docs' }}
+                  onNavigate={handleNav}
+                  className={`kroma-mobile-menu__item ${currentRoute.path === 'api-docs' ? 'kroma-mobile-menu__item--active' : ''}`}
+                >
+                  <Code size={16} className="text-text-tertiary" />
                   <span>Developer API &amp; Tokens</span>
                 </Link>
               </div>

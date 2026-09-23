@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GeneratedPaletteResult } from '../../utils/rampsEngine';
 import { Terminal, Copy, Check, ExternalLink, Play, BookOpen } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface RampsApiDocsProps {
   paletteResult: GeneratedPaletteResult;
@@ -127,46 +128,52 @@ export const RampsApiDocs: React.FC<RampsApiDocsProps> = ({ paletteResult }) => 
               <span>Terminal Query</span>
             </h3>
             <div className="flex items-center gap-1 bg-[var(--bg-surface-2)] p-0.5 rounded-xs border border-[var(--border-subtle)]">
-              <button
-                type="button"
+              <KromaButton
+                size="sm"
+                variant={apiFormat === 'json' ? 'filled' : 'ghost'}
                 onClick={() => setApiFormat('json')}
-                className={`px-2 py-0.5 rounded-xs text-[10px] font-mono cursor-pointer ${apiFormat === 'json' ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold' : 'text-[var(--text-tertiary)]'}`}
+                className="text-[10px] font-mono h-6 px-2"
               >
                 JSON
-              </button>
-              <button
-                type="button"
+              </KromaButton>
+              <KromaButton
+                size="sm"
+                variant={apiFormat === 'text' ? 'filled' : 'ghost'}
                 onClick={() => setApiFormat('text')}
-                className={`px-2 py-0.5 rounded-xs text-[10px] font-mono cursor-pointer ${apiFormat === 'text' ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold' : 'text-[var(--text-tertiary)]'}`}
+                className="text-[10px] font-mono h-6 px-2"
               >
                 Text
-              </button>
+              </KromaButton>
             </div>
           </div>
 
           {/* Curl Command Box */}
           <div className="relative p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] font-mono text-[10px] text-[var(--text-secondary)] break-all max-w-full overflow-hidden">
             <code>{curlCommand}</code>
-            <button
-              type="button"
-              onClick={handleCopyCurl}
-              className="absolute top-1.5 right-1.5 p-1 rounded-xs bg-[var(--bg-surface-3)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-              title="Copy curl command"
-            >
-              {copiedCurl ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
-            </button>
+            <div className="absolute top-1.5 right-1.5">
+              <KromaButton
+                size="icon"
+                variant="ghost"
+                onClick={handleCopyCurl}
+                title="Copy curl command"
+                aria-label="Copy curl command"
+                className="h-6 w-6"
+                iconLeft={copiedCurl ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
+              />
+            </div>
           </div>
 
-          <button
-            type="button"
+          <KromaButton
+            variant="filled"
+            size="sm"
             onClick={handleTestEndpoint}
             disabled={isLoadingApi}
-            className="btn-secondary w-full justify-center"
-            style={{ padding: '6px 10px', fontSize: '0.75rem' }}
+            isLoading={isLoadingApi}
+            iconLeft={<Play size={11} className="text-emerald-400 flex-shrink-0" />}
+            className="w-full justify-center"
           >
-            <Play size={11} className="text-emerald-400 flex-shrink-0" />
             <span>{isLoadingApi ? 'Evaluating Response...' : 'Execute Request in Browser'}</span>
-          </button>
+          </KromaButton>
 
           {/* Response Box */}
           {apiOutput && (

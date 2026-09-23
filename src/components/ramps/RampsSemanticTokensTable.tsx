@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SemanticToken, RampsWcag } from '../../utils/rampsEngine';
-import { Code, Check, Copy } from 'lucide-react';
+import { Code, Copy, Check } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface RampsSemanticTokensTableProps {
   tokens: SemanticToken[];
@@ -46,18 +47,15 @@ export const RampsSemanticTokensTable: React.FC<RampsSemanticTokensTableProps> =
         {/* Category Filter Tabs */}
         <div className="flex items-center gap-1 bg-[var(--bg-surface-2)] p-1 rounded-xs border border-[var(--border-subtle)] overflow-x-auto">
           {categories.map((cat) => (
-            <button
+            <KromaButton
               key={cat}
-              type="button"
+              variant={activeCategory === cat ? 'filled' : 'ghost'}
+              size="sm"
               onClick={() => setActiveCategory(cat)}
-              className={`px-2.5 py-1 rounded-xs text-xs font-mono font-medium capitalize transition-all whitespace-nowrap cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] ${
-                activeCategory === cat
-                  ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold shadow-2xs'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
+              className="capitalize font-mono"
             >
               {cat}
-            </button>
+            </KromaButton>
           ))}
         </div>
       </div>
@@ -91,19 +89,16 @@ export const RampsSemanticTokensTable: React.FC<RampsSemanticTokensTableProps> =
                 >
                   {/* Token Name & Copy Action */}
                   <td className="py-2.5 px-4">
-                    <button
-                      type="button"
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
                       onClick={() => handleCopy(token.name)}
-                      className="group flex items-center gap-1.5 text-left font-bold text-[var(--text-primary)] hover:text-[var(--color-primary-text)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-xs"
+                      className="group font-bold text-[var(--text-primary)] hover:text-[var(--color-primary-text)]"
                       title="Click to copy CSS variable syntax"
+                      iconRight={isCopied ? <Check size={12} className="text-emerald-400" /> : <Copy size={11} className="opacity-0 group-hover:opacity-100 text-[var(--text-tertiary)]" />}
                     >
                       <span>--{token.name}</span>
-                      {isCopied ? (
-                        <Check size={12} className="text-emerald-400" />
-                      ) : (
-                        <Copy size={11} className="opacity-0 group-hover:opacity-100 text-[var(--text-tertiary)]" />
-                      )}
-                    </button>
+                    </KromaButton>
                   </td>
 
                   {/* Light Theme Step */}

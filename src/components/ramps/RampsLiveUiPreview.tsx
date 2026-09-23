@@ -16,6 +16,7 @@ import {
   Sliders,
   Sparkles,
 } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface RampsLiveUiPreviewProps {
   paletteResult: GeneratedPaletteResult;
@@ -53,30 +54,34 @@ export const RampsLiveUiPreview: React.FC<RampsLiveUiPreviewProps> = ({ paletteR
 
         {/* Preview Theme Selector */}
         <div className="flex items-center gap-1 bg-[var(--bg-surface-2)] p-1 rounded-lg border border-[var(--border-subtle)]">
-          <button
+          <KromaButton
             type="button"
+            variant={previewTheme === 'light' ? 'filled' : 'ghost'}
+            size="sm"
             onClick={() => setPreviewTheme('light')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-mono font-medium transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-mono font-medium min-h-[30px] ${
               previewTheme === 'light'
-                ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-xs'
+                ? 'shadow-xs'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
+            iconLeft={<Sun size={13} className="text-amber-400" />}
           >
-            <Sun size={13} className="text-amber-400" />
             <span>Light Preview</span>
-          </button>
-          <button
+          </KromaButton>
+          <KromaButton
             type="button"
+            variant={previewTheme === 'dark' ? 'filled' : 'ghost'}
+            size="sm"
             onClick={() => setPreviewTheme('dark')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-mono font-medium transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-mono font-medium min-h-[30px] ${
               previewTheme === 'dark'
-                ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] shadow-xs'
+                ? 'shadow-xs'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
+            iconLeft={<Moon size={13} />}
           >
-            <Moon size={13} />
             <span>Dark Preview</span>
-          </button>
+          </KromaButton>
         </div>
       </div>
 
@@ -117,11 +122,13 @@ export const RampsLiveUiPreview: React.FC<RampsLiveUiPreviewProps> = ({ paletteR
             {/* Navigation Tabs */}
             <div className="hidden sm:flex items-center gap-1 text-xs font-mono ml-4">
               {(['overview', 'analytics', 'settings'] as const).map((tab) => (
-                <button
+                <KromaButton
                   key={tab}
                   type="button"
+                  variant={activeTab === tab ? 'filled' : 'ghost'}
+                  size="sm"
                   onClick={() => setActiveTab(tab)}
-                  className="px-3 py-1 rounded transition-colors capitalize"
+                  className="px-3 py-1 rounded capitalize min-h-[28px]"
                   style={{
                     backgroundColor: activeTab === tab ? 'var(--bg-muted)' : 'transparent',
                     color: activeTab === tab ? 'var(--text-primary)' : 'var(--text-secondary)',
@@ -129,7 +136,7 @@ export const RampsLiveUiPreview: React.FC<RampsLiveUiPreviewProps> = ({ paletteR
                   }}
                 >
                   {tab}
-                </button>
+                </KromaButton>
               ))}
             </div>
           </div>
@@ -255,58 +262,68 @@ export const RampsLiveUiPreview: React.FC<RampsLiveUiPreviewProps> = ({ paletteR
             {/* Button Hierarchy Matrix */}
             <div className="flex flex-wrap items-center gap-2.5">
               {/* Primary Brand Button */}
-              <button
+              <KromaButton
                 type="button"
-                className="px-4 py-2 rounded-md font-mono text-xs font-bold transition-all shadow-xs active:scale-95"
+                variant="filled"
+                size="sm"
+                className="font-mono text-xs font-bold"
                 style={{
                   backgroundColor: 'var(--bg-brand)',
                   color: 'var(--text-on-brand)',
                 }}
               >
                 Primary Brand CTA
-              </button>
+              </KromaButton>
 
               {/* Secondary Accent Button */}
-              <button
+              <KromaButton
                 type="button"
-                className="px-4 py-2 rounded-md font-mono text-xs font-bold transition-all shadow-xs active:scale-95"
+                variant="filled"
+                size="sm"
+                className="font-mono text-xs font-bold"
                 style={{
                   backgroundColor: 'var(--bg-accent)',
                   color: 'var(--text-on-accent)',
                 }}
               >
                 Secondary Accent
-              </button>
+              </KromaButton>
 
               {/* Tertiary Button */}
-              <button
+              <KromaButton
                 type="button"
-                className="px-4 py-2 rounded-md font-mono text-xs font-bold transition-all shadow-xs active:scale-95"
+                variant="filled"
+                size="sm"
+                className="font-mono text-xs font-bold"
                 style={{
                   backgroundColor: 'var(--bg-tertiary)',
                   color: 'var(--text-on-tertiary)',
                 }}
               >
                 Tertiary Action
-              </button>
+              </KromaButton>
 
               {/* Destructive Button */}
-              <button
+              <KromaButton
                 type="button"
-                className="px-3.5 py-2 rounded-md font-mono text-xs font-bold transition-all shadow-xs active:scale-95"
+                variant="filled"
+                size="sm"
+                className="font-mono text-xs font-bold"
                 style={{
                   backgroundColor: 'var(--bg-error)',
                   color: 'var(--text-on-error)',
                 }}
               >
                 Destructive
-              </button>
+              </KromaButton>
 
               {/* Disabled Button */}
-              <button
+              <KromaButton
                 type="button"
                 disabled
-                className="px-3.5 py-2 rounded-md font-mono text-xs font-medium cursor-not-allowed border"
+                variant="outline"
+                size="sm"
+                className="font-mono text-xs font-medium cursor-not-allowed"
                 style={{
                   backgroundColor: 'var(--bg-muted)',
                   color: 'var(--text-disabled)',
@@ -314,7 +331,7 @@ export const RampsLiveUiPreview: React.FC<RampsLiveUiPreviewProps> = ({ paletteR
                 }}
               >
                 Disabled Action
-              </button>
+              </KromaButton>
             </div>
 
             {/* Form Input States */}

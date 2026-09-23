@@ -7,6 +7,7 @@ import {
   STEP_KEYS,
 } from '../../utils/rampsEngine';
 import { Check, Copy, Activity } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface RampsInstrumentCanvasProps {
   paletteResult: GeneratedPaletteResult;
@@ -50,13 +51,15 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
         {rampEntries.map(([rampKey, ramp]) => {
           const isSelected = rampKey === activeRampKey;
           return (
-            <button
+            <KromaButton
               key={rampKey}
               type="button"
+              variant={isSelected ? 'filled' : 'ghost'}
+              size="sm"
               onClick={() => onSelectRampKey(rampKey)}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-xs text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-xs text-xs font-semibold whitespace-nowrap min-h-[30px] ${
                 isSelected
-                  ? 'bg-[var(--bg-surface-2)] text-[var(--text-primary)] shadow-xs'
+                  ? 'shadow-xs'
                   : 'text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
               }`}
             >
@@ -65,7 +68,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                 style={{ backgroundColor: ramp.steps['500']?.hex }}
               />
               <span>{ramp.label}</span>
-            </button>
+            </KromaButton>
           );
         })}
       </div>
@@ -102,13 +105,17 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                     {stepKey}
                   </span>
 
-                  <button
+                  <KromaButton
                     type="button"
+                    variant="ghost"
+                    size="icon"
                     onClick={(e) => handleCopy(formattedVal, e)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-xs bg-black/60 text-white self-center text-[10px] font-mono flex items-center gap-1 cursor-pointer"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-xs bg-black/60 text-white self-center text-[10px] font-mono flex items-center gap-1 w-6 h-6 min-h-[24px]"
+                    title="Copy value"
+                    aria-label="Copy value"
                   >
                     {copiedHex === formattedVal ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
-                  </button>
+                  </KromaButton>
 
                   <span
                     className="font-mono text-[8px] self-end opacity-0 group-hover:opacity-100 transition-opacity"
@@ -158,15 +165,16 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                 </div>
               </div>
             </div>
-            <button
+            <KromaButton
               type="button"
+              variant="filled"
+              size="sm"
               onClick={(e) => handleCopy(activeStop.hex, e)}
-              className="studio-topbar-accent-btn"
-              style={{ padding: '4px 8px', fontSize: '11px', flexShrink: 0 }}
+              className="studio-topbar-accent-btn min-h-[28px] px-2 py-1 text-[11px] flex-shrink-0"
+              iconLeft={copiedHex === activeStop.hex ? <Check size={11} /> : <Copy size={11} />}
             >
-              {copiedHex === activeStop.hex ? <Check size={11} /> : <Copy size={11} />}
               <span>{copiedHex === activeStop.hex ? 'Copied' : activeStop.hex}</span>
-            </button>
+            </KromaButton>
           </div>
         )}
 
@@ -181,18 +189,20 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
             </div>
             <div className="flex items-center gap-1">
               {(['l', 'c', 'h'] as const).map((tab) => (
-                <button
+                <KromaButton
                   key={tab}
                   type="button"
+                  variant={activeCurveTab === tab ? 'filled' : 'ghost'}
+                  size="sm"
                   onClick={() => setActiveCurveTab(tab)}
-                  className={`px-2 py-0.5 rounded-xs font-mono text-[9px] font-semibold transition-colors cursor-pointer ${
+                  className={`px-2 py-0.5 rounded-xs font-mono text-[9px] font-semibold min-h-[24px] ${
                     activeCurveTab === tab
-                      ? 'bg-[var(--bg-surface-2)] text-[var(--color-primary)]'
+                      ? 'text-[var(--color-primary)]'
                       : 'text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
                   }`}
                 >
                   {tab === 'l' ? 'Lightness' : tab === 'c' ? 'Chroma' : 'Hue'}
-                </button>
+                </KromaButton>
               ))}
             </div>
           </div>

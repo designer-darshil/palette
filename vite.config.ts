@@ -89,6 +89,7 @@ function devMaintenancePlugin() {
 }
 
 export default defineConfig({
+  base: '/',
   plugins: [react(), devMaintenancePlugin()],
   server: {
     port: 5173,

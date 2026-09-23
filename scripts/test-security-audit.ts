@@ -99,12 +99,23 @@ async function runSecurityAuditTests() {
   const vercelConfig = JSON.parse(vercelContent);
   assert(Array.isArray(vercelConfig.headers), 'vercel.json contains headers configuration');
   
-  const headerKeys = vercelConfig.headers[0].headers.map((h: any) => h.key);
+  const allHeaders = vercelConfig.headers.flatMap((entry: any) => entry.headers || []);
+  const headerKeys = allHeaders.map((h: any) => h.key);
   assert(headerKeys.includes('X-Content-Type-Options'), 'X-Content-Type-Options: nosniff header configured');
   assert(headerKeys.includes('X-Frame-Options'), 'X-Frame-Options: DENY header configured');
   assert(headerKeys.includes('Strict-Transport-Security'), 'HSTS Strict-Transport-Security configured');
   assert(headerKeys.includes('Content-Security-Policy'), 'Content-Security-Policy configured');
   assert(headerKeys.includes('Permissions-Policy'), 'Permissions-Policy configured');
+
+  // Verify SPA rewrite rule does NOT intercept /assets/*.js
+  const rewriteSource = vercelConfig.rewrites?.[0]?.source || '';
+  const rewriteRegex = new RegExp(`^${rewriteSource}$`);
+  assert(!rewriteRegex.test('/assets/HomePage-123.js'), 'Vercel SPA rewrite does NOT intercept /assets/*.js chunks');
+  assert(!rewriteRegex.test('/assets/index-456.css'), 'Vercel SPA rewrite does NOT intercept /assets/*.css stylesheets');
+  assert(!rewriteRegex.test('/api/maintenance'), 'Vercel SPA rewrite does NOT intercept /api/* routes');
+  assert(rewriteRegex.test('/explore'), 'Vercel SPA rewrite properly matches application route /explore');
+  assert(rewriteRegex.test('/mesh'), 'Vercel SPA rewrite properly matches application route /mesh');
+  assert(rewriteRegex.test('/admin'), 'Vercel SPA rewrite properly matches application route /admin');
 
   console.log('\n========================================');
   console.log(`Security Audit Results: ${passed} Passed, ${failed} Failed`);

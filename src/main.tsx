@@ -15,6 +15,41 @@ import './index.css';
 initAnalytics();
 
 // ─────────────────────────────────────────────────────────────
+// Dynamic Module Preload Error Recovery
+// When a new production version is deployed, clients with an open
+// session might request stale/superseded chunk hashes. This recovers
+// gracefully by refreshing once to load the latest HTML and chunk map.
+// ─────────────────────────────────────────────────────────────
+if (typeof window !== 'undefined') {
+  window.addEventListener('vite:preloadError', (event) => {
+    event.preventDefault();
+    const lastReload = sessionStorage.getItem('kroma_chunk_reload');
+    const now = Date.now();
+    if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
+      sessionStorage.setItem('kroma_chunk_reload', now.toString());
+      window.location.reload();
+    }
+  });
+
+  window.addEventListener('unhandledrejection', (event) => {
+    const errorMsg = event.reason?.message || '';
+    if (
+      errorMsg.includes('Failed to fetch dynamically imported module') ||
+      errorMsg.includes('Expected a JavaScript-or-Wasm module script') ||
+      errorMsg.includes('error loading dynamically imported module')
+    ) {
+      event.preventDefault();
+      const lastReload = sessionStorage.getItem('kroma_chunk_reload');
+      const now = Date.now();
+      if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
+        sessionStorage.setItem('kroma_chunk_reload', now.toString());
+        window.location.reload();
+      }
+    }
+  });
+}
+
+// ─────────────────────────────────────────────────────────────
 // Root Shell
 // The boot loader is parsed and painted on Frame 0 via index.html
 // with inline critical CSS at z-index 99999.

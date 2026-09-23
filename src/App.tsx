@@ -7,6 +7,8 @@ import { SearchModal } from './components/SearchModal';
 import { RainbowPaintRollerPreloader } from './components/common/RainbowPaintRollerPreloader';
 import { generateFullRampsSystem, normalizeHex, isValidHex, RampsScope, RampsScheme, RampsWcag, RampsNotation, RampsVividness } from './utils/rampsEngine';
 import { deserializeAntigravityConfig, serializeAntigravityConfig, generateMotionTokens, generateCssExport, generateJsExport, generateFramerMotionExport, describeMotion } from './utils/antigravityEngine';
+import { deserializeSpringsConfig, serializeSpringsConfig, generateCssSpringExport, generateJsSpringExport, generateFramerMotionSpringExport, generateDtcgSpringTokens, calculateSpringMetrics } from './utils/springsEngine';
+import { SpringsStudioPage } from './pages/SpringsStudioPage';
 import { deserializeMeshConfig, serializeMeshConfig, generateMeshCss, generateMeshSvg, generateMeshTokensJson } from './utils/meshEngine';
 import { CURATED_COLORS } from './data/colors';
 import { CURATED_PALETTES } from './data/palettes';
@@ -110,22 +112,21 @@ function parseUrlToRoute(): RouteType {
     };
   }
 
-  // API Endpoint Route Handler (GET /api/antigravity)
-  if (path === 'api/antigravity' || (s0 === 'api' && s1 === 'antigravity')) {
+  // API Endpoint Route Handler (GET /api/springs or legacy /api/antigravity)
+  if (
+    path === 'api/springs' ||
+    (s0 === 'api' && s1 === 'springs') ||
+    path === 'api/antigravity' ||
+    (s0 === 'api' && s1 === 'antigravity')
+  ) {
     return {
-      path: 'api-antigravity',
+      path: 'api-springs',
       p: searchParams.get('p') || undefined,
       o: searchParams.get('o') || undefined,
-      gx: searchParams.get('gx') || undefined,
-      gy: searchParams.get('gy') || undefined,
-      vx: searchParams.get('vx') || undefined,
-      vy: searchParams.get('vy') || undefined,
+      k: searchParams.get('k') || undefined,
+      c: searchParams.get('c') || undefined,
       m: searchParams.get('m') || undefined,
-      r: searchParams.get('r') || undefined,
-      f: searchParams.get('f') || undefined,
-      d: searchParams.get('d') || undefined,
-      av: searchParams.get('av') || undefined,
-      ts: searchParams.get('ts') || undefined,
+      mode: searchParams.get('mode') || undefined,
       format: searchParams.get('format') || 'json',
     };
   }
@@ -177,31 +178,28 @@ function parseUrlToRoute(): RouteType {
     };
   }
 
-  // Antigravity Studio Dedicated Routes
+  // Springs Studio Dedicated Routes (with antigravity redirect)
   if (
+    s0 === 'springs' ||
+    s0 === 'spring' ||
     s0 === 'antigravity' ||
     s0 === 'physics' ||
     s0 === 'motion' ||
     s0 === 'gravity'
   ) {
     return {
-      path: 'antigravity',
+      path: 'springs',
       p: searchParams.get('p') || undefined,
       o: searchParams.get('o') || undefined,
-      gx: searchParams.get('gx') || undefined,
-      gy: searchParams.get('gy') || undefined,
-      vx: searchParams.get('vx') || undefined,
-      vy: searchParams.get('vy') || undefined,
+      k: searchParams.get('k') || undefined,
+      c: searchParams.get('c') || undefined,
       m: searchParams.get('m') || undefined,
-      r: searchParams.get('r') || undefined,
+      mode: searchParams.get('mode') || undefined,
+      tens: searchParams.get('tens') || undefined,
       f: searchParams.get('f') || undefined,
-      d: searchParams.get('d') || undefined,
-      av: searchParams.get('av') || undefined,
       ts: searchParams.get('ts') || undefined,
-      tr: searchParams.get('tr') || undefined,
-      vv: searchParams.get('vv') || undefined,
       grid: searchParams.get('grid') || undefined,
-      sr: searchParams.get('sr') || undefined,
+      trail: searchParams.get('trail') || undefined,
     };
   }
 
@@ -346,7 +344,7 @@ function parseUrlToRoute(): RouteType {
       };
     }
     if (s1 === 'mesh') return { path: 'mesh' };
-    if (s1 === 'physics' || s1 === 'antigravity') return { path: 'antigravity' };
+    if (s1 === 'physics' || s1 === 'antigravity' || s1 === 'springs') return { path: 'springs' };
     if (s1 === 'image') return { path: 'extract-from-image' };
     return {
       path: 'create',
@@ -559,38 +557,33 @@ function routeToUrl(route: RouteType): string {
         const qs = params.toString();
         return qs ? `/api/palette?${qs}` : '/api/palette';
       }
+    case 'springs':
     case 'antigravity':
       {
         const params = new URLSearchParams();
         if (route.p) params.set('p', route.p);
         if (route.o && route.o !== 'circle') params.set('o', route.o);
-        if (route.gx && route.gx !== '0') params.set('gx', route.gx);
-        if (route.gy && route.gy !== '-2') params.set('gy', route.gy);
-        if (route.vx && route.vx !== '25') params.set('vx', route.vx);
-        if (route.vy && route.vy !== '0') params.set('vy', route.vy);
+        if (route.k && route.k !== '220') params.set('k', route.k);
+        if (route.c && route.c !== '14') params.set('c', route.c);
         if (route.m && route.m !== '1') params.set('m', route.m);
-        if (route.r && route.r !== '0.6') params.set('r', route.r);
-        if (route.f && route.f !== '0.08') params.set('f', route.f);
-        if (route.d && route.d !== '0.02') params.set('d', route.d);
-        if (route.av && route.av !== '12') params.set('av', route.av);
-        if (route.ts && route.ts !== '1') params.set('ts', route.ts);
-        if (route.tr === '0') params.set('tr', '0');
-        if (route.vv === '1') params.set('vv', '1');
-        if (route.grid === '1') params.set('grid', '1');
-        if (route.sr === '1') params.set('sr', '1');
+        if (route.mode && route.mode !== 'single') params.set('mode', route.mode);
+        if (route.f && route.f !== '0.04') params.set('f', route.f);
         const qs = params.toString();
-        return qs ? `/antigravity?${qs}` : '/antigravity';
+        return qs ? `/springs?${qs}` : '/springs';
       }
+    case 'api-springs':
     case 'api-antigravity':
       {
         const params = new URLSearchParams();
         if (route.p) params.set('p', route.p);
         if (route.o) params.set('o', route.o);
-        if (route.gy) params.set('gy', route.gy);
-        if (route.gx) params.set('gx', route.gx);
+        if (route.k) params.set('k', route.k);
+        if (route.c) params.set('c', route.c);
+        if (route.m) params.set('m', route.m);
+        if (route.mode) params.set('mode', route.mode);
         if (route.format) params.set('format', route.format);
         const qs = params.toString();
-        return qs ? `/api/antigravity?${qs}` : '/api/antigravity';
+        return qs ? `/api/springs?${qs}` : '/api/springs';
       }
     case 'mesh':
       {
@@ -741,36 +734,47 @@ export const App: React.FC = () => {
     );
   }
 
-  // API Route for Antigravity motion tokens & code exports
-  if (currentRoute.path === 'api-antigravity') {
-    const config = deserializeAntigravityConfig(currentRoute);
-    const qs = serializeAntigravityConfig(config);
-    const sourceUrl = `https://kroma.design/antigravity?${qs}`;
-    const tokens = generateMotionTokens(config);
-    const description = describeMotion(config);
+  // API Route for Springs motion tokens & code exports (supports legacy api-antigravity)
+  if (currentRoute.path === 'api-springs' || currentRoute.path === 'api-antigravity') {
+    const searchParams = new URLSearchParams();
+    if (currentRoute.p) searchParams.set('p', currentRoute.p);
+    if (currentRoute.o) searchParams.set('o', currentRoute.o);
+    if (currentRoute.k) searchParams.set('k', currentRoute.k);
+    if (currentRoute.c) searchParams.set('c', currentRoute.c);
+    if (currentRoute.m) searchParams.set('m', currentRoute.m);
+    if (currentRoute.mode) searchParams.set('mode', currentRoute.mode);
+
+    const config = deserializeSpringsConfig(searchParams);
+    const qs = serializeSpringsConfig(config);
+    const sourceUrl = `https://kroma.design/springs?${qs}`;
+    const metrics = calculateSpringMetrics(config.stiffness, config.damping, config.mass);
+    const tokens = generateDtcgSpringTokens(config);
 
     const isText = currentRoute.format === 'text';
     let outputString = '';
     if (isText) {
-      outputString = `ANTIGRAVITY STUDIO — GENERATED MOTION SPECIFICATION\n`;
+      outputString = `SPRINGS STUDIO — GENERATED MOTION SPECIFICATION\n`;
       outputString += `Source: ${sourceUrl}\n\n`;
-      outputString += `Behavior: ${description}\n`;
-      outputString += `Object: ${config.object}\n`;
-      outputString += `Gravity: gx=${config.gravityX} m/s², gy=${config.gravityY} m/s²\n`;
-      outputString += `Velocity: vx=${config.velocityX} px/s, vy=${config.velocityY} px/s\n`;
-      outputString += `Mass: ${config.mass} kg, Restitution: ${config.restitution}, Damping: ${config.damping}, Friction: ${config.friction}\n`;
+      outputString += `Architecture: ${config.mode.toUpperCase()} SPRING\n`;
+      outputString += `Object Shape: ${config.object}\n`;
+      outputString += `Stiffness (k): ${config.stiffness} N/m\n`;
+      outputString += `Damping (c): ${config.damping} N·s/m\n`;
+      outputString += `Mass (m): ${config.mass} kg\n`;
+      outputString += `Natural Frequency (ω₀): ${metrics.omega0} rad/s\n`;
+      outputString += `Damping Ratio (ζ): ${metrics.zeta} (${metrics.regime})\n`;
+      outputString += `Period (T): ${metrics.periodMs} ms\n`;
     } else {
       outputString = JSON.stringify(
         {
-          version: '1.0',
-          tool: 'antigravity',
+          version: '2.0',
+          tool: 'springs',
           source: sourceUrl,
           config,
+          metrics,
           tokens,
-          css: generateCssExport(config, sourceUrl),
-          javascript: generateJsExport(config, sourceUrl),
-          react: generateFramerMotionExport(config, sourceUrl),
-          description,
+          css: generateCssSpringExport(config, sourceUrl),
+          javascript: generateJsSpringExport(config, sourceUrl),
+          react: generateFramerMotionSpringExport(config),
         },
         null,
         2
@@ -920,8 +924,9 @@ export const App: React.FC = () => {
         return <AboutPage onNavigate={handleNavigate} />;
       case 'search':
         return <ExplorePage onNavigate={handleNavigate} initialMood={currentRoute.q} />;
+      case 'springs':
       case 'antigravity':
-        return <AntigravityStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
+        return <SpringsStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'mesh':
         return <MeshGradientStudioPage onNavigate={handleNavigate} initialParams={currentRoute} />;
       case 'palette-generator':
@@ -971,7 +976,7 @@ export const App: React.FC = () => {
     }
   };
 
-  const isStudioView = ['ramps', 'create', 'antigravity', 'mesh', 'pattern-studio'].includes(currentRoute.path);
+  const isStudioView = ['create', 'mesh', 'pattern-studio'].includes(currentRoute.path);
 
   useEffect(() => {
     if (currentRoute.path === 'search') {

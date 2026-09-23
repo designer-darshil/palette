@@ -214,8 +214,10 @@ export type RouteType =
   | { path: 'live' }
   | { path: 'ramps'; b?: string; a?: string; a2?: string; m?: string; s?: string; c?: string; f?: string; v?: string; xr?: string; xt?: string }
   | { path: 'api-palette'; b?: string; a?: string; a2?: string; m?: string; s?: string; c?: string; f?: string; v?: string; xr?: string; xt?: string; format?: string }
-  | { path: 'antigravity'; p?: string; o?: string; gx?: string; gy?: string; vx?: string; vy?: string; m?: string; r?: string; f?: string; d?: string; av?: string; ts?: string; tr?: string; vv?: string; grid?: string; sr?: string }
-  | { path: 'api-antigravity'; p?: string; o?: string; gx?: string; gy?: string; vx?: string; vy?: string; m?: string; r?: string; f?: string; d?: string; av?: string; ts?: string; format?: string }
+  | { path: 'antigravity'; p?: string; o?: string; gx?: string; gy?: string; vx?: string; vy?: string; m?: string; r?: string; f?: string; d?: string; av?: string; ts?: string; tr?: string; vv?: string; grid?: string; sr?: string; k?: string; c?: string; mode?: string }
+  | { path: 'api-antigravity'; p?: string; o?: string; gx?: string; gy?: string; vx?: string; vy?: string; m?: string; r?: string; f?: string; d?: string; av?: string; ts?: string; format?: string; k?: string; c?: string; mode?: string }
+  | { path: 'springs'; p?: string; o?: string; k?: string; c?: string; m?: string; mode?: string; tens?: string; f?: string; ts?: string; grid?: string; trail?: string }
+  | { path: 'api-springs'; p?: string; o?: string; k?: string; c?: string; m?: string; mode?: string; format?: string }
   | { path: 'mesh'; p?: string; s?: string; sf?: string; in?: string; bl?: string; gr?: string; rot?: string; sc?: string; bg?: string; scol?: string; pts?: string }
   | { path: 'api-mesh'; p?: string; s?: string; sf?: string; in?: string; bl?: string; gr?: string; rot?: string; sc?: string; bg?: string; scol?: string; pts?: string; format?: string }
   | { path: 'palette-generator'; colors?: string }

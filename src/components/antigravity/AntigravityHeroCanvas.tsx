@@ -12,6 +12,7 @@ import {
   Sparkles,
   Compass,
 } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface AntigravityHeroCanvasProps {
   config: AntigravityConfig;
@@ -286,23 +287,25 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
 
         {/* Compact Canvas HUD */}
         <div className="studio-canvas-hud">
-          <button
-            type="button"
+          <KromaButton
+            size="icon"
+            variant="ghost"
             onClick={() => setIsPlaying(!isPlaying)}
             className="studio-canvas-hud-btn"
             title={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isPlaying ? <Pause size={12} /> : <Play size={12} className="text-emerald-400" />}
-          </button>
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+            iconLeft={isPlaying ? <Pause size={12} /> : <Play size={12} className="text-emerald-400" />}
+          />
 
-          <button
-            type="button"
+          <KromaButton
+            size="icon"
+            variant="ghost"
             onClick={handleReset}
             className="studio-canvas-hud-btn"
             title="Reset position"
-          >
-            <RotateCcw size={12} />
-          </button>
+            aria-label="Reset position"
+            iconLeft={<RotateCcw size={12} />}
+          />
 
           <div className="studio-canvas-hud-divider" />
 

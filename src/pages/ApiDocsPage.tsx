@@ -82,21 +82,21 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
               GET
             </span>
             <span className="font-mono text-sm font-bold text-[var(--text-primary)]">
-              /api/antigravity
+              /api/springs
             </span>
           </div>
           <Button
             variant="secondary"
             size="sm"
-            iconLeft={copiedEndpoint === 'Antigravity API URL' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-            onClick={() => handleCopy('https://kroma.design/api/antigravity?p=editorial-float', 'Antigravity API URL')}
+            iconLeft={copiedEndpoint === 'Springs API URL' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+            onClick={() => handleCopy('https://kroma.design/api/springs?p=bouncy', 'Springs API URL')}
           >
             Copy URL
           </Button>
         </div>
 
         <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-          Serializes physics parameters (gravity, mass, velocity, restitution, damping) into W3C Design Tokens Community Group (DTCG) motion specifications and Framer Motion code.
+          Serializes spring physics parameters (stiffness, damping, mass, mode) into W3C Design Tokens Community Group (DTCG) motion specifications and Framer Motion code. (Legacy <code className="text-[11px] font-mono bg-black/5 dark:bg-white/10 px-1 py-0.5 rounded-xs">/api/antigravity</code> is supported).
         </p>
       </section>
 

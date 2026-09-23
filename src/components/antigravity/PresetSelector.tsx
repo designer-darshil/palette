@@ -1,6 +1,7 @@
 import React from 'react';
 import { ANTIGRAVITY_PRESETS } from '../../utils/antigravityEngine';
-import { Sparkles, Check } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface PresetSelectorProps {
   activePreset: string | null;
@@ -25,34 +26,37 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
           const isSelected = activePreset === preset.id;
 
           return (
-            <button
+            <KromaButton
               key={preset.id}
-              type="button"
+              variant={isSelected ? 'filled' : 'ghost'}
+              size="sm"
               onClick={() => onSelectPreset(preset.id)}
-              className={`px-3.5 py-2 rounded-xs text-xs font-mono whitespace-nowrap flex items-center gap-2 transition-all cursor-pointer border select-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] ${
+              className={`font-mono whitespace-nowrap gap-2 ${
                 isSelected
                   ? 'bg-[var(--bg-surface-2)] shadow-xs font-bold'
-                  : 'bg-[var(--bg-surface-1)] border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] hover:border-[var(--border-medium)]'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
               style={{
                 borderColor: isSelected ? 'var(--color-primary)' : undefined,
                 color: isSelected ? 'var(--text-primary)' : undefined,
                 boxShadow: isSelected ? '0 0 0 1px var(--color-primary)' : undefined,
               }}
+              iconLeft={
+                isSelected ? (
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: 'var(--color-primary)' }}
+                  />
+                ) : (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-tertiary)] flex-shrink-0 opacity-40" />
+                )
+              }
             >
-              {isSelected ? (
-                <span
-                  className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: 'var(--color-primary)' }}
-                />
-              ) : (
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-tertiary)] flex-shrink-0 opacity-40" />
-              )}
               <span>{preset.name}</span>
               <span className="text-[10px] text-[var(--text-tertiary)] opacity-80">
                 {preset.config.gravityY !== undefined ? `(gy: ${preset.config.gravityY > 0 ? `+${preset.config.gravityY}` : preset.config.gravityY})` : ''}
               </span>
-            </button>
+            </KromaButton>
           );
         })}
       </div>

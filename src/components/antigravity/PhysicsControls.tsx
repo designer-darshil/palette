@@ -7,11 +7,11 @@ import {
   Sliders,
   ChevronDown,
   ChevronUp,
-  Eye,
   Layers,
   Compass,
   Sparkles,
 } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface PhysicsControlsProps {
   config: AntigravityConfig;
@@ -59,94 +59,104 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
           {objects.map((obj) => {
             const isSelected = config.object === obj.id;
             return (
-              <button
+              <KromaButton
                 key={obj.id}
-                type="button"
+                variant={isSelected ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => onChange({ object: obj.id, preset: null })}
-                className={`py-2 px-2.5 rounded-xs text-xs font-mono transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer border select-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] ${
+                className={`text-center flex items-center justify-center gap-1.5 font-mono ${
                   isSelected
                     ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                    : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)]'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
                 style={{
                   borderColor: isSelected ? 'var(--color-primary)' : undefined,
                 }}
+                iconLeft={<span>{obj.icon}</span>}
               >
-                <span>{obj.icon}</span>
                 <span className="truncate">{obj.label}</span>
-              </button>
+              </KromaButton>
             );
           })}
         </div>
       </div>
 
-      {/* 2. Primary Physics Parameters (Forces & Key Properties) */}
-      <div className="flex flex-col gap-5">
+      {/* 2. Core Physics Sliders */}
+      <div className="flex flex-col gap-5 p-4 sm:p-5 rounded-xs bg-[var(--bg-surface-1)] border border-[var(--border-subtle)]">
         <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-2">
-          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-2">
+          <label className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
             <Sliders size={14} style={{ color: 'var(--color-primary-text)' }} />
-            <span>Core Forces &amp; Kinematics</span>
-          </h3>
-          <span className="text-[11px] text-[var(--text-tertiary)] hidden sm:inline">
-            Direct parameter manipulation
+            <span>Core Force &amp; Mass Vector Inputs</span>
+          </label>
+          <span className="text-[10px] text-[var(--text-tertiary)] font-mono">
+            Interactive Continuous Space
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-          {/* Gravity Y */}
+          {/* Gravity Y Slider */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-[var(--text-primary)]">Vertical Gravity (gy)</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-semibold text-[var(--text-primary)]">Vertical Gravity (gy)</span>
+                <span className="text-[10px] text-[var(--text-tertiary)]">px/s²</span>
+              </div>
               <span className="font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
-                {config.gravityY > 0 ? `+${config.gravityY.toFixed(1)}` : config.gravityY.toFixed(1)} m/s²
+                {config.gravityY > 0 ? `+${config.gravityY}` : config.gravityY}
               </span>
             </div>
             <input
               type="range"
-              min={-20}
-              max={20}
-              step={0.2}
+              min={-1500}
+              max={2500}
+              step={20}
               value={config.gravityY}
               onChange={(e) => onChange({ gravityY: parseFloat(e.target.value), preset: null })}
-              className="w-full studio-slider"
+              className="w-full accent-[var(--color-primary)] cursor-pointer h-2 bg-[var(--bg-surface-3)] rounded-full appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               aria-label="Vertical Gravity"
             />
-            <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
-              <span>-20 (Buoyant Lift)</span>
+            <div className="flex justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+              <span>-1500 (Upward / Float)</span>
               <span>0 (Zero-G)</span>
-              <span>+20 (Heavy Down)</span>
+              <span>+2500 (Heavy)</span>
             </div>
           </div>
 
-          {/* Gravity X */}
+          {/* Gravity X Slider (Lateral wind/drift) */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-[var(--text-primary)]">Horizontal Gravity (gx)</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-semibold text-[var(--text-primary)]">Horizontal Gravity / Drift (gx)</span>
+                <span className="text-[10px] text-[var(--text-tertiary)]">px/s²</span>
+              </div>
               <span className="font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
-                {config.gravityX > 0 ? `+${config.gravityX.toFixed(1)}` : config.gravityX.toFixed(1)} m/s²
+                {config.gravityX > 0 ? `+${config.gravityX}` : config.gravityX}
               </span>
             </div>
             <input
               type="range"
-              min={-20}
-              max={20}
-              step={0.2}
+              min={-1000}
+              max={1000}
+              step={20}
               value={config.gravityX}
               onChange={(e) => onChange({ gravityX: parseFloat(e.target.value), preset: null })}
-              className="w-full studio-slider"
+              className="w-full accent-[var(--color-primary)] cursor-pointer h-2 bg-[var(--bg-surface-3)] rounded-full appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               aria-label="Horizontal Gravity"
             />
-            <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
-              <span>-20 (West Drift)</span>
-              <span>0 (None)</span>
-              <span>+20 (East Drift)</span>
+            <div className="flex justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+              <span>-1000 (Left)</span>
+              <span>0 (Center)</span>
+              <span>+1000 (Right)</span>
             </div>
           </div>
 
-          {/* Bounce / Restitution */}
+          {/* Restitution (Bounce) */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-[var(--text-primary)]">Bounce Elasticity (r)</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-semibold text-[var(--text-primary)]">Restitution / Elasticity (e)</span>
+                <span className="text-[10px] text-[var(--text-tertiary)]">0.0 – 1.0</span>
+              </div>
               <span className="font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
                 {(config.restitution * 100).toFixed(0)}%
               </span>
@@ -154,24 +164,27 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <input
               type="range"
               min={0}
-              max={1}
+              max={1.0}
               step={0.02}
               value={config.restitution}
               onChange={(e) => onChange({ restitution: parseFloat(e.target.value), preset: null })}
-              className="w-full studio-slider"
-              aria-label="Bounce Elasticity"
+              className="w-full accent-[var(--color-primary)] cursor-pointer h-2 bg-[var(--bg-surface-3)] rounded-full appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+              aria-label="Restitution"
             />
-            <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
-              <span>0% (Dead Impact)</span>
-              <span>50%</span>
+            <div className="flex justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+              <span>0% (Lead / Inelastic)</span>
+              <span>75% (Tennis ball)</span>
               <span>100% (Elastic)</span>
             </div>
           </div>
 
-          {/* Inertial Mass */}
+          {/* Mass */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-[var(--text-primary)]">Inertial Mass (m)</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-semibold text-[var(--text-primary)]">Inertial Mass (m)</span>
+                <span className="text-[10px] text-[var(--text-tertiary)]">kg</span>
+              </div>
               <span className="font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
                 {config.mass.toFixed(1)} kg
               </span>
@@ -179,14 +192,14 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <input
               type="range"
               min={0.1}
-              max={10}
+              max={10.0}
               step={0.1}
               value={config.mass}
               onChange={(e) => onChange({ mass: parseFloat(e.target.value), preset: null })}
-              className="w-full studio-slider"
+              className="w-full accent-[var(--color-primary)] cursor-pointer h-2 bg-[var(--bg-surface-3)] rounded-full appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               aria-label="Inertial Mass"
             />
-            <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+            <div className="flex justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
               <span>0.1 kg (Feather)</span>
               <span>1.0 kg</span>
               <span>10.0 kg (Dense)</span>
@@ -197,18 +210,19 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
 
       {/* 3. Progressive Disclosure: Advanced Physics & Visualization */}
       <div className="flex flex-col border border-[var(--border-subtle)] rounded-xs overflow-hidden bg-[var(--bg-surface-2)]">
-        <button
-          type="button"
+        <KromaButton
+          variant="ghost"
           onClick={() => setAdvancedOpen(!advancedOpen)}
-          className="w-full px-4 py-3 flex items-center justify-between text-xs font-mono font-bold text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer select-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+          className="w-full px-4 py-3 flex items-center justify-between text-xs font-mono font-bold text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)] transition-colors cursor-pointer select-none rounded-none"
           aria-expanded={advancedOpen}
-        >
-          <div className="flex items-center gap-2">
-            <Compass size={15} style={{ color: 'var(--color-primary-text)' }} />
-            <span>Advanced Physics &amp; Stage Overlays</span>
-          </div>
-          {advancedOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-        </button>
+          iconLeft={
+            <div className="flex items-center gap-2">
+              <Compass size={15} style={{ color: 'var(--color-primary-text)' }} />
+              <span>Advanced Physics &amp; Stage Overlays</span>
+            </div>
+          }
+          iconRight={advancedOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        />
 
         {advancedOpen && (
           <div className="p-4 sm:p-5 flex flex-col gap-6 bg-[var(--bg-surface-1)] border-t border-[var(--border-subtle)]">

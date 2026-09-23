@@ -15,6 +15,7 @@ import {
 import { AntigravityCodeExport } from './AntigravityCodeExport';
 import { AntigravityApiDocs } from './AntigravityApiDocs';
 import { Sliders, Grid, Code, FileText, Compass, Feather, ArrowDown, Sparkles } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface AntigravityInspectorProps {
   config: AntigravityConfig;
@@ -161,25 +162,25 @@ export const AntigravityInspector: React.FC<AntigravityInspectorProps> = ({
               if (p.id.includes('bounce') || p.id.includes('hyper')) icon = <Sparkles size={16} className="text-pink-400" />;
 
               return (
-                <button
+                <KromaButton
                   key={p.id}
-                  type="button"
+                  variant={isSelected ? 'filled' : 'ghost'}
                   onClick={() => onSelectPreset(p.id)}
-                  className={`flex flex-col items-center gap-1.5 p-3 rounded-sm border transition-all cursor-pointer ${
+                  className={`flex flex-col items-center gap-1.5 p-3 rounded-sm border transition-all h-auto ${
                     isSelected
                       ? 'bg-[var(--color-primary-subtle)] border-[var(--color-primary)] ring-1 ring-[var(--color-primary)]'
                       : 'bg-[var(--bg-surface-2)] border-[var(--border-subtle)] hover:border-[var(--border-medium)]'
                   }`}
                   title={p.description}
+                  iconLeft={icon}
                 >
-                  {icon}
                   <span className={`font-mono text-[10px] font-bold ${isSelected ? 'text-[var(--color-primary)]' : 'text-[var(--text-primary)]'}`}>
                     {p.name}
                   </span>
                   <span className="font-mono text-[9px] text-[var(--text-tertiary)]">
                     G:{p.config.gravityY ?? 0} · M:{p.config.mass ?? 1}
                   </span>
-                </button>
+                </KromaButton>
               );
             })}
           </div>

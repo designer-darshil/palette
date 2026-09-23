@@ -4,15 +4,14 @@ import {
   Plus,
   Edit2,
   Trash2,
-  AlertCircle,
+  Copy,
   Check,
   Eye,
-  Filter,
-  Layers,
+  X,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
-  X,
+  LayoutGrid,
+  List,
 } from 'lucide-react';
 import { ColorItem } from '../../types';
 import { useAdminAuth } from '../../context/AdminAuthContext';
@@ -25,29 +24,34 @@ import {
   getContrastRatio,
   getTextColorForBackground,
   hexToOklch,
+  copyToClipboard,
 } from '../../utils/colorUtils';
 
 export const AdminColorsPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
   const { colors, addColor, updateColor, deleteColor } = useLibraryData();
+
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFamily, setSelectedFamily] = useState('all');
   const [selectedTone, setSelectedTone] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 20;
+  const pageSize = viewMode === 'grid' ? 18 : 25;
 
-  // Editor Modal State
+  // Modals
+  const [inspectColor, setInspectColor] = useState<ColorItem | null>(null);
   const [editingColor, setEditingColor] = useState<ColorItem | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [copiedHex, setCopiedHex] = useState<string | null>(null);
 
   // Form State
   const [formName, setFormName] = useState('');
-  const [formHex, setFormHex] = useState('#3B82F6');
+  const [formHex, setFormHex] = useState('#34C759');
   const [formFamily, setFormFamily] = useState('cool');
-  const [formHueGroup, setFormHueGroup] = useState('blue');
+  const [formHueGroup, setFormHueGroup] = useState('green');
   const [formTone, setFormTone] = useState('medium');
   const [formDescription, setFormDescription] = useState('');
-  const [formTags, setFormTags] = useState('interface, primary, digital');
+  const [formTags, setFormTags] = useState('digital, primary, specimen');
 
   const filteredColors = useMemo(() => {
     return colors.filter((c) => {
@@ -75,27 +79,26 @@ export const AdminColorsPage: React.FC = () => {
   const contrastBlack = getContrastRatio(formHex, '#000000');
   const bestTextColor = getTextColorForBackground(formHex);
   const calculatedRgb = hexToRgb(formHex);
-  const rgbString = calculatedRgb ? `rgb(${calculatedRgb.r}, ${calculatedRgb.g}, ${calculatedRgb.b})` : 'rgb(0, 0, 0)';
+  const rgbString = calculatedRgb ? `${calculatedRgb.r} / ${calculatedRgb.g} / ${calculatedRgb.b}` : '0 / 0 / 0';
   const calculatedHsl = hexToHsl(formHex);
   const hslString = calculatedHsl ? `hsl(${calculatedHsl.h}, ${calculatedHsl.s}%, ${calculatedHsl.l}%)` : 'hsl(0, 0%, 0%)';
   const oklchString = hexToOklch(formHex);
 
-  // Duplicate warning
-  const duplicateMatch = useMemo(() => {
-    return colors.find(
-      (c) => c.hex.toUpperCase() === formHex.toUpperCase() && c.id !== editingColor?.id
-    );
-  }, [colors, formHex, editingColor]);
+  const handleCopy = async (hex: string) => {
+    await copyToClipboard(hex);
+    setCopiedHex(hex);
+    setTimeout(() => setCopiedHex(null), 1800);
+  };
 
   const handleOpenCreate = () => {
     setIsCreating(true);
     setEditingColor(null);
     setFormName('New Specimen');
-    setFormHex('#3B82F6');
+    setFormHex('#34C759');
     setFormFamily('cool');
-    setFormHueGroup('blue');
+    setFormHueGroup('green');
     setFormTone('medium');
-    setFormDescription('A calibrated color specimen for digital applications.');
+    setFormDescription('Calibrated chromatic color specimen for digital applications.');
     setFormTags('digital, primary, specimen');
   };
 
@@ -113,7 +116,6 @@ export const AdminColorsPage: React.FC = () => {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-
     const tagArray = formTags.split(',').map((t) => t.trim()).filter(Boolean);
     const slug = formName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -123,7 +125,7 @@ export const AdminColorsPage: React.FC = () => {
         slug,
         name: formName,
         hex: formHex.toUpperCase(),
-        rgb: rgbString,
+        rgb: `rgb(${rgbString.replace(/ \/ /g, ', ')})`,
         hsl: hslString,
         oklch: oklchString,
         family: formFamily,
@@ -146,7 +148,6 @@ export const AdminColorsPage: React.FC = () => {
         ],
         shades: [],
       };
-
       addColor(newColor);
       logActivity('Created Color', `Added specimen "${formName}" (${formHex.toUpperCase()})`);
     } else if (editingColor) {
@@ -154,7 +155,7 @@ export const AdminColorsPage: React.FC = () => {
         ...editingColor,
         name: formName,
         hex: formHex.toUpperCase(),
-        rgb: rgbString,
+        rgb: `rgb(${rgbString.replace(/ \/ /g, ', ')})`,
         hsl: hslString,
         oklch: oklchString,
         family: formFamily,
@@ -175,22 +176,22 @@ export const AdminColorsPage: React.FC = () => {
   };
 
   const handleDelete = (id: string, name: string) => {
-    if (confirm(`Are you sure you want to remove specimen "${name}"?`)) {
+    if (confirm(`Remove specimen "${name}" from master library?`)) {
       deleteColor(id);
       logActivity('Deleted Color', `Removed specimen "${name}"`);
     }
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
-            Color Specimen Library
+          <h1 className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+            Color Specimen Archive
           </h1>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-            Manage {colors.length.toLocaleString()} master colors across OKLCH, HSL, and sRGB gamuts.
+          <p className="text-xs text-[#707070] dark:text-[#9DA3AF] mt-1 font-mono">
+            {colors.length.toLocaleString()} calibrated specimens across OKLCH, HSL, and sRGB gamuts.
           </p>
         </div>
 
@@ -198,46 +199,26 @@ export const AdminColorsPage: React.FC = () => {
           onClick={handleOpenCreate}
           variant="filled"
           size="sm"
-          iconLeft={<Plus size={15} />}
+          iconLeft={<Plus size={14} />}
         >
           New Color Specimen
         </KromaButton>
       </div>
 
-      {/* Filter Bar */}
-      <div
-        style={{
-          background: 'var(--bg-surface-1)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-sm)',
-          padding: '12px 16px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '12px',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <Search size={14} color="var(--text-tertiary)" style={{ position: 'absolute', left: 10 }} />
+      {/* Filter & View Switcher Bar */}
+      <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="relative flex items-center">
+            <Search size={14} className="absolute left-2.5 text-[#707070]" />
             <input
               type="text"
-              placeholder="Search name, hex, slug..."
+              placeholder="Search name, HEX, slug..."
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              style={{
-                background: 'var(--bg-surface-2)',
-                border: '1px solid var(--border-medium)',
-                borderRadius: 'var(--radius-xs)',
-                padding: '6px 12px 6px 32px',
-                fontSize: '0.82rem',
-                color: 'var(--text-primary)',
-                width: '240px',
-              }}
+              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
             />
           </div>
 
@@ -247,14 +228,7 @@ export const AdminColorsPage: React.FC = () => {
               setSelectedFamily(e.target.value);
               setCurrentPage(1);
             }}
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-medium)',
-              borderRadius: 'var(--radius-xs)',
-              padding: '6px 10px',
-              fontSize: '0.8rem',
-              color: 'var(--text-primary)',
-            }}
+            className="px-2.5 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
           >
             <option value="all">All Families</option>
             <option value="warm">Warm</option>
@@ -272,14 +246,7 @@ export const AdminColorsPage: React.FC = () => {
               setSelectedTone(e.target.value);
               setCurrentPage(1);
             }}
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-medium)',
-              borderRadius: 'var(--radius-xs)',
-              padding: '6px 10px',
-              fontSize: '0.8rem',
-              color: 'var(--text-primary)',
-            }}
+            className="px-2.5 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
           >
             <option value="all">All Tones</option>
             <option value="light">Light</option>
@@ -289,268 +256,430 @@ export const AdminColorsPage: React.FC = () => {
           </select>
         </div>
 
-        <div style={{ fontSize: '0.78rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-          {filteredColors.length.toLocaleString()} SPECIMENS MATCHED
+        {/* View Mode Toggle & Count */}
+        <div className="flex items-center gap-3">
+          <span className="text-[11px] font-mono text-[#707070] dark:text-[#9DA3AF]">
+            {filteredColors.length.toLocaleString()} SPECIMENS
+          </span>
+
+          <div className="flex bg-black/[0.04] dark:bg-white/[0.06] p-0.5 rounded-xs gap-0.5">
+            <button
+              type="button"
+              onClick={() => setViewMode('grid')}
+              aria-label="Visual Archive Grid"
+              className={`p-1 rounded-xs transition-colors ${
+                viewMode === 'grid'
+                  ? 'bg-white dark:bg-[#181A20] text-[#171717] dark:text-[#F8F8F8] shadow-xs'
+                  : 'text-[#707070]'
+              }`}
+            >
+              <LayoutGrid size={14} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('table')}
+              aria-label="Editorial Data Table"
+              className={`p-1 rounded-xs transition-colors ${
+                viewMode === 'table'
+                  ? 'bg-white dark:bg-[#181A20] text-[#171717] dark:text-[#F8F8F8] shadow-xs'
+                  : 'text-[#707070]'
+              }`}
+            >
+              <List size={14} />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Dense Table */}
-      <div
-        className="admin-table-container"
-        style={{
-          background: 'var(--bg-surface-1)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-sm)',
-        }}
-      >
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.82rem' }}>
-          <thead>
-            <tr style={{ background: 'var(--bg-surface-2)', borderBottom: '1px solid var(--border-subtle)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>
-              <th style={{ padding: '10px 14px' }}>SWATCH</th>
-              <th style={{ padding: '10px 14px' }}>NAME</th>
-              <th style={{ padding: '10px 14px' }}>HEX</th>
-              <th style={{ padding: '10px 14px' }}>FAMILY</th>
-              <th style={{ padding: '10px 14px' }}>SPECTRUM</th>
-              <th style={{ padding: '10px 14px' }}>TONE</th>
-              <th style={{ padding: '10px 14px' }}>WCAG CONTRAST</th>
-              <th style={{ padding: '10px 14px', textAlign: 'right' }}>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedColors.map((color) => (
-              <tr
+      {/* CONTENT: HYBRID VISUAL ARCHIVE OR EDITORIAL DATA TABLE */}
+      {viewMode === 'grid' ? (
+        /* VISUAL COLOR ARCHIVE */
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+          {paginatedColors.map((color) => {
+            const rgb = hexToRgb(color.hex);
+            const rgbDisplay = rgb ? `${rgb.r} / ${rgb.g} / ${rgb.b}` : color.rgb;
+
+            return (
+              <div
                 key={color.id}
-                style={{
-                  borderBottom: '1px solid var(--border-subtle)',
-                  transition: 'background 100ms ease',
-                }}
+                className="bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs overflow-hidden flex flex-col justify-between"
               >
-                <td style={{ padding: '10px 14px' }}>
-                  <div
+                {/* Large Prominent Color Field */}
+                <div
+                  className="w-full h-28 cursor-pointer relative group flex items-end p-2 transition-transform duration-200"
+                  style={{ backgroundColor: color.hex }}
+                  onClick={() => setInspectColor(color)}
+                >
+                  <span
+                    className="font-mono text-[9px] px-1.5 py-0.5 rounded-xs backdrop-blur-md font-semibold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{
-                      width: '28px',
-                      height: '24px',
-                      borderRadius: '3px',
-                      backgroundColor: color.hex,
-                      border: '1px solid var(--border-subtle)',
+                      backgroundColor: color.bestTextColor === '#FFFFFF' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)',
+                      color: color.bestTextColor,
                     }}
-                  />
-                </td>
-                <td style={{ padding: '10px 14px', fontWeight: 600 }}>{color.name}</td>
-                <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)' }}>{color.hex}</td>
-                <td style={{ padding: '10px 14px', textTransform: 'capitalize' }}>{color.family}</td>
-                <td style={{ padding: '10px 14px', textTransform: 'capitalize' }}>{color.hueGroup}</td>
-                <td style={{ padding: '10px 14px', textTransform: 'capitalize' }}>{color.tone}</td>
-                <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
-                  W: {color.contrastWithWhite}:1 | B: {color.contrastWithBlack}:1
-                </td>
-                <td style={{ padding: '10px 14px', textAlign: 'right' }}>
-                  <div style={{ display: 'inline-flex', gap: '6px' }}>
-                    <KromaButton
-                      variant="outline"
-                      size="icon"
-                      onClick={() => handleOpenEdit(color)}
-                      className="!w-7 !h-7 !p-0 text-[var(--text-secondary)]"
-                      title="Edit Color"
-                    >
-                      <Edit2 size={12} />
-                    </KromaButton>
-                    <KromaButton
-                      variant="outline"
-                      size="icon"
-                      onClick={() => handleDelete(color.id, color.name)}
-                      className="!w-7 !h-7 !p-0 text-red-400 hover:text-red-500"
-                      title="Delete Color"
-                    >
-                      <Trash2 size={12} />
-                    </KromaButton>
+                  >
+                    Inspect
+                  </span>
+                </div>
+
+                {/* Data & Real Metadata */}
+                <div className="p-3 flex flex-col gap-2">
+                  <div>
+                    <h3 className="text-xs font-bold text-[#171717] dark:text-[#F8F8F8] truncate">
+                      {color.name}
+                    </h3>
+                    <div className="flex justify-between items-center font-mono text-[11px] mt-0.5 text-[#171717] dark:text-[#F8F8F8]">
+                      <span className="font-semibold">{color.hex}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleCopy(color.hex)}
+                        title="Copy HEX"
+                        className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8] transition-colors"
+                      >
+                        {copiedHex === color.hex ? <Check size={11} className="text-[#34C759]" /> : <Copy size={11} />}
+                      </button>
+                    </div>
                   </div>
-                </td>
+
+                  <div className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] space-y-0.5 pt-1.5 border-t border-black/5 dark:border-white/5">
+                    <div className="flex justify-between">
+                      <span>RGB</span>
+                      <span className="truncate">{rgbDisplay}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>CONTRAST</span>
+                      <span>W {color.contrastWithWhite}:1</span>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center justify-between pt-1 border-t border-black/5 dark:border-white/5">
+                    <button
+                      type="button"
+                      onClick={() => setInspectColor(color)}
+                      className="text-[10.5px] font-mono text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                    >
+                      VIEW
+                    </button>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(color)}
+                        aria-label="Edit"
+                        className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                      >
+                        <Edit2 size={11} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(color.id, color.name)}
+                        aria-label="Delete"
+                        className="p-1 text-[#707070] hover:text-[#FF3B30]"
+                      >
+                        <Trash2 size={11} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        /* EDITORIAL DATA TABLE */
+        <div className="admin-table-container">
+          <table className="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF]">
+                <th className="py-2.5 px-4 font-semibold">SWATCH</th>
+                <th className="py-2.5 px-4 font-semibold">SPECIMEN NAME</th>
+                <th className="py-2.5 px-4 font-semibold">HEX</th>
+                <th className="py-2.5 px-4 font-semibold">RGB</th>
+                <th className="py-2.5 px-4 font-semibold">SPECTRUM</th>
+                <th className="py-2.5 px-4 font-semibold">TONE</th>
+                <th className="py-2.5 px-4 font-semibold">WCAG CONTRAST</th>
+                <th className="py-2.5 px-4 font-semibold text-right">ACTIONS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-black/5 dark:divide-white/5">
+              {paginatedColors.map((color) => {
+                const rgb = hexToRgb(color.hex);
+                const rgbDisplay = rgb ? `${rgb.r} / ${rgb.g} / ${rgb.b}` : color.rgb;
 
-        {/* Pagination Bar */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '12px 16px',
-            borderTop: '1px solid var(--border-subtle)',
-            background: 'var(--bg-surface-1)',
-            fontSize: '0.78rem',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          <div>
-            PAGE {currentPage} OF {totalPages}
-          </div>
+                return (
+                  <tr
+                    key={color.id}
+                    className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                  >
+                    <td className="py-2 px-4">
+                      <div
+                        className="w-7 h-5 rounded-xs border border-black/15 dark:border-white/15 cursor-pointer"
+                        style={{ backgroundColor: color.hex }}
+                        onClick={() => setInspectColor(color)}
+                      />
+                    </td>
+                    <td className="py-2 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
+                      {color.name}
+                    </td>
+                    <td className="py-2 px-4 font-mono font-medium">{color.hex}</td>
+                    <td className="py-2 px-4 font-mono text-[#707070] dark:text-[#9DA3AF]">{rgbDisplay}</td>
+                    <td className="py-2 px-4 capitalize">{color.hueGroup}</td>
+                    <td className="py-2 px-4 capitalize">{color.tone}</td>
+                    <td className="py-2 px-4 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                      W: {color.contrastWithWhite}:1 | B: {color.contrastWithBlack}:1
+                    </td>
+                    <td className="py-2 px-4 text-right">
+                      <div className="inline-flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(color.hex)}
+                          title="Copy HEX"
+                          className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                        >
+                          <Copy size={12} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEdit(color)}
+                          title="Edit"
+                          className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                        >
+                          <Edit2 size={12} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(color.id, color.name)}
+                          title="Delete"
+                          className="p-1 text-[#707070] hover:text-[#FF3B30]"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <KromaButton
-              variant="outline"
-              size="sm"
-              disabled={currentPage <= 1}
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              iconLeft={<ChevronLeft size={13} />}
-              style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-            >
-              Prev
-            </KromaButton>
-            <KromaButton
-              variant="outline"
-              size="sm"
-              disabled={currentPage >= totalPages}
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              iconRight={<ChevronRight size={13} />}
-              style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-            >
-              Next
-            </KromaButton>
-          </div>
+      {/* Pagination Bar */}
+      <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex justify-between items-center text-xs font-mono text-[#707070] dark:text-[#9DA3AF]">
+        <div>
+          PAGE {currentPage} OF {totalPages}
+        </div>
+        <div className="flex gap-2">
+          <KromaButton
+            variant="outline"
+            size="sm"
+            disabled={currentPage <= 1}
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            iconLeft={<ChevronLeft size={13} />}
+            className="!py-1 !px-2.5 !text-xs"
+          >
+            Prev
+          </KromaButton>
+          <KromaButton
+            variant="outline"
+            size="sm"
+            disabled={currentPage >= totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            iconRight={<ChevronRight size={13} />}
+            className="!py-1 !px-2.5 !text-xs"
+          >
+            Next
+          </KromaButton>
         </div>
       </div>
 
-      {/* Create / Edit Modal */}
-      {(editingColor || isCreating) && (
-        <div className="modal-backdrop" onClick={() => { setEditingColor(null); setIsCreating(false); }}>
+      {/* Inspect Color Modal */}
+      {inspectColor && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          onClick={() => setInspectColor(null)}
+        >
           <div
-            className="search-dialog-card"
-            style={{ maxWidth: '640px', padding: '28px' }}
+            className="bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs p-6 max-w-md w-full flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 800 }}>
-                {isCreating ? 'Create Color Specimen' : `Edit Specimen: ${editingColor?.name}`}
-              </h2>
-              <KromaButton
-                variant="ghost"
-                size="icon"
-                onClick={() => { setEditingColor(null); setIsCreating(false); }}
-                className="!w-7 !h-7 !p-0 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
-                aria-label="Close modal"
+            <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
+              <div>
+                <h2 className="text-base font-bold">{inspectColor.name}</h2>
+                <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
+                  Slug: {inspectColor.slug}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setInspectColor(null)}
+                aria-label="Close"
+                className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
               >
                 <X size={16} />
-              </KromaButton>
+              </button>
             </div>
 
-            {duplicateMatch && (
-              <div
+            {/* Specimen Field Swatch */}
+            <div
+              className="w-full h-32 rounded-xs flex items-end p-3 border border-black/10 dark:border-white/10"
+              style={{ backgroundColor: inspectColor.hex }}
+            >
+              <span
+                className="font-mono text-xs font-bold px-2 py-0.5 rounded-xs"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  background: 'rgba(233, 196, 106, 0.15)',
-                  border: '1px solid rgba(233, 196, 106, 0.3)',
-                  borderRadius: 'var(--radius-xs)',
-                  padding: '10px 12px',
-                  color: '#E9C46A',
-                  fontSize: '0.78rem',
-                  marginBottom: '16px',
+                  backgroundColor: inspectColor.bestTextColor === '#FFFFFF' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)',
+                  color: inspectColor.bestTextColor,
                 }}
               >
-                <AlertCircle size={15} style={{ flexShrink: 0 }} />
-                <span>
-                  <strong>Duplicate Notice:</strong> Hex {formHex} already exists as &ldquo;{duplicateMatch.name}&rdquo;.
-                </span>
-              </div>
-            )}
+                {inspectColor.hex}
+              </span>
+            </div>
 
-            <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {/* Live Color Preview Stage */}
+            <div className="space-y-2 font-mono text-xs">
+              <div className="flex justify-between py-1 border-b border-black/5 dark:border-white/5">
+                <span className="text-[#707070]">RGB</span>
+                <span>{inspectColor.rgb}</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-black/5 dark:border-white/5">
+                <span className="text-[#707070]">HSL</span>
+                <span>{inspectColor.hsl}</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-black/5 dark:border-white/5">
+                <span className="text-[#707070]">OKLCH</span>
+                <span>{inspectColor.oklch}</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-black/5 dark:border-white/5">
+                <span className="text-[#707070]">CONTRAST (WHITE)</span>
+                <span>{inspectColor.contrastWithWhite}:1</span>
+              </div>
+              <div className="flex justify-between py-1 border-b border-black/5 dark:border-white/5">
+                <span className="text-[#707070]">CONTRAST (BLACK)</span>
+                <span>{inspectColor.contrastWithBlack}:1</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-[#707070] dark:text-[#9DA3AF] leading-relaxed">
+              {inspectColor.description}
+            </p>
+
+            <div className="flex justify-between pt-2 border-t border-black/10 dark:border-white/10">
+              <KromaButton
+                variant="outline"
+                size="sm"
+                onClick={() => handleCopy(inspectColor.hex)}
+                iconLeft={copiedHex === inspectColor.hex ? <Check size={12} /> : <Copy size={12} />}
+              >
+                {copiedHex === inspectColor.hex ? 'Copied' : 'Copy HEX'}
+              </KromaButton>
+              <KromaButton
+                variant="filled"
+                size="sm"
+                onClick={() => setInspectColor(null)}
+              >
+                Done
+              </KromaButton>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create / Edit Specimen Modal */}
+      {(isCreating || editingColor) && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          onClick={() => {
+            setIsCreating(false);
+            setEditingColor(null);
+          }}
+        >
+          <div
+            className="bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs p-6 max-w-lg w-full flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
+              <h2 className="text-base font-bold">
+                {isCreating ? 'Create Color Specimen' : `Edit Specimen: ${editingColor?.name}`}
+              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsCreating(false);
+                  setEditingColor(null);
+                }}
+                aria-label="Close"
+                className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Live Specimen Preview Bar */}
+            <div
+              className="w-full h-20 rounded-xs flex items-center justify-between p-4 border border-black/10 dark:border-white/10"
+              style={{ backgroundColor: formHex }}
+            >
               <div
+                className="font-mono text-xs font-bold px-2 py-0.5 rounded-xs"
                 style={{
-                  height: '110px',
-                  backgroundColor: formHex,
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--border-medium)',
-                  padding: '16px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
+                  backgroundColor: bestTextColor === '#FFFFFF' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)',
                   color: bestTextColor,
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
-                    LIVE PREVIEW
-                  </span>
-                  <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
-                    {oklchString}
-                  </span>
-                </div>
-                <div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>{formName || 'Untitled'}</div>
-                  <div style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
-                    {formHex} • {rgbString}
-                  </div>
-                </div>
+                {formHex.toUpperCase()}
               </div>
 
-              {/* Form Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div
+                className="text-xs font-mono px-2 py-0.5 rounded-xs"
+                style={{
+                  backgroundColor: bestTextColor === '#FFFFFF' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)',
+                  color: bestTextColor,
+                }}
+              >
+                W {contrastWhite}:1 | B {contrastBlack}:1
+              </div>
+            </div>
+
+            <form onSubmit={handleSave} className="flex flex-col gap-4 text-xs font-mono">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px', textTransform: 'uppercase' }}>
-                    Color Name
-                  </label>
+                  <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Name</label>
                   <input
                     type="text"
                     required
                     value={formName}
                     onChange={(e) => setFormName(e.target.value)}
-                    style={{
-                      width: '100%',
-                      background: 'var(--bg-surface-2)',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      padding: '8px 10px',
-                      color: 'var(--text-primary)',
-                      fontSize: '0.85rem',
-                    }}
+                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-sm font-sans"
+                    placeholder="e.g. Cobalt Cyan"
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px', textTransform: 'uppercase' }}>
-                    HEX Code
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formHex}
-                    onChange={(e) => setFormHex(e.target.value)}
-                    style={{
-                      width: '100%',
-                      background: 'var(--bg-surface-2)',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      padding: '8px 10px',
-                      color: 'var(--text-primary)',
-                      fontSize: '0.85rem',
-                      fontFamily: 'var(--font-mono)',
-                    }}
-                  />
+                  <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">HEX Code</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      required
+                      value={formHex}
+                      onChange={(e) => setFormHex(e.target.value)}
+                      className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-sm font-mono uppercase"
+                    />
+                    <input
+                      type="color"
+                      value={formHex}
+                      onChange={(e) => setFormHex(e.target.value)}
+                      className="w-10 h-9 p-0.5 border border-black/15 dark:border-white/15 rounded-xs cursor-pointer bg-transparent"
+                    />
+                  </div>
                 </div>
+              </div>
 
+              <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px', textTransform: 'uppercase' }}>
-                    Family
-                  </label>
+                  <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Family</label>
                   <select
                     value={formFamily}
                     onChange={(e) => setFormFamily(e.target.value)}
-                    style={{
-                      width: '100%',
-                      background: 'var(--bg-surface-2)',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      padding: '8px 10px',
-                      color: 'var(--text-primary)',
-                      fontSize: '0.85rem',
-                    }}
+                    className="w-full px-2 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs"
                   >
                     <option value="warm">Warm</option>
                     <option value="cool">Cool</option>
@@ -563,21 +692,37 @@ export const AdminColorsPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px', textTransform: 'uppercase' }}>
-                    Tone
-                  </label>
+                  <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Spectrum</label>
+                  <select
+                    value={formHueGroup}
+                    onChange={(e) => setFormHueGroup(e.target.value)}
+                    className="w-full px-2 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs"
+                  >
+                    <option value="red">Red</option>
+                    <option value="orange">Orange</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="green">Green</option>
+                    <option value="teal">Teal</option>
+                    <option value="cyan">Cyan</option>
+                    <option value="blue">Blue</option>
+                    <option value="indigo">Indigo</option>
+                    <option value="purple">Purple</option>
+                    <option value="pink">Pink</option>
+                    <option value="brown">Brown</option>
+                    <option value="beige">Beige</option>
+                    <option value="cream">Cream</option>
+                    <option value="gray">Gray</option>
+                    <option value="white">White</option>
+                    <option value="black">Black</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Tone</label>
                   <select
                     value={formTone}
                     onChange={(e) => setFormTone(e.target.value)}
-                    style={{
-                      width: '100%',
-                      background: 'var(--bg-surface-2)',
-                      border: '1px solid var(--border-medium)',
-                      borderRadius: 'var(--radius-xs)',
-                      padding: '8px 10px',
-                      color: 'var(--text-primary)',
-                      fontSize: '0.85rem',
-                    }}
+                    className="w-full px-2 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs"
                   >
                     <option value="light">Light</option>
                     <option value="medium">Medium</option>
@@ -588,48 +733,33 @@ export const AdminColorsPage: React.FC = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px', textTransform: 'uppercase' }}>
-                  Tags (Comma separated)
-                </label>
+                <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Description</label>
+                <textarea
+                  rows={2}
+                  value={formDescription}
+                  onChange={(e) => setFormDescription(e.target.value)}
+                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs font-sans"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Tags (comma separated)</label>
                 <input
                   type="text"
                   value={formTags}
                   onChange={(e) => setFormTags(e.target.value)}
-                  style={{
-                    width: '100%',
-                    background: 'var(--bg-surface-2)',
-                    border: '1px solid var(--border-medium)',
-                    borderRadius: 'var(--radius-xs)',
-                    padding: '8px 10px',
-                    color: 'var(--text-primary)',
-                    fontSize: '0.85rem',
-                  }}
+                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs"
                 />
               </div>
 
-              {/* Calculated WCAG Health Strip */}
-              <div
-                style={{
-                  background: 'var(--bg-surface-2)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-xs)',
-                  padding: '10px 14px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  fontSize: '0.78rem',
-                  fontFamily: 'var(--font-mono)',
-                }}
-              >
-                <div>Contrast On White: <strong>{contrastWhite}:1</strong> ({contrastWhite >= 4.5 ? 'AA Pass' : 'Fail'})</div>
-                <div>Contrast On Black: <strong>{contrastBlack}:1</strong> ({contrastBlack >= 4.5 ? 'AA Pass' : 'Fail'})</div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+              <div className="flex justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
                 <KromaButton
-                  type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() => { setEditingColor(null); setIsCreating(false); }}
+                  onClick={() => {
+                    setIsCreating(false);
+                    setEditingColor(null);
+                  }}
                 >
                   Cancel
                 </KromaButton>
@@ -638,7 +768,7 @@ export const AdminColorsPage: React.FC = () => {
                   variant="filled"
                   size="sm"
                 >
-                  {isCreating ? 'Create Color' : 'Save Changes'}
+                  {isCreating ? 'Create Specimen' : 'Save Changes'}
                 </KromaButton>
               </div>
             </form>

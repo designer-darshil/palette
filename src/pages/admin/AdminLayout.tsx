@@ -3,20 +3,22 @@ import {
   LayoutDashboard,
   Palette,
   Layers,
-  Wand2,
   Sparkles,
+  Wand2,
   FolderTree,
   Network,
   UploadCloud,
   CheckCircle2,
   ShieldCheck,
+  Power,
   LogOut,
   ArrowLeft,
   Sun,
   Moon,
   Menu,
   X,
-  Power,
+  Grid,
+  BookmarkCheck,
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -42,43 +44,52 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   const { isActive: isMaintenanceActive, status: maintenanceStatus } = useMaintenance();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  const navItems = [
-    { section: 'OVERVIEW', items: [{ id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard }] },
+  const navGroups = [
     {
-      section: 'CONTENT LIBRARY',
+      label: 'OVERVIEW',
       items: [
-        { id: 'colors', label: 'Color Specimens', icon: Palette },
-        { id: 'palettes', label: 'Palette Systems', icon: Layers },
-        { id: 'combos', label: 'Harmonies / Combos', icon: Wand2 },
-        { id: 'gradients', label: 'CSS Gradients', icon: Sparkles },
+        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, dotColor: '#FF3B30' },
       ],
     },
     {
-      section: 'ORGANIZATION',
+      label: 'CONTENT',
       items: [
-        { id: 'categories', label: 'Categories & Moods', icon: FolderTree },
-        { id: 'relationships', label: 'Resource Network', icon: Network },
+        { id: 'colors', label: 'Colors', icon: Palette, dotColor: '#34C759' },
+        { id: 'palettes', label: 'Palettes', icon: Layers, dotColor: '#FFD60A' },
+        { id: 'patterns', label: 'Patterns', icon: Grid, dotColor: '#00AEEF' },
+        { id: 'collections', label: 'Collections', icon: BookmarkCheck, dotColor: '#7B2CBF' },
+        { id: 'combos', label: 'Harmonies', icon: Wand2, dotColor: '#FF9500' },
+        { id: 'gradients', label: 'Gradients', icon: Sparkles, dotColor: '#00AEEF' },
       ],
     },
     {
-      section: 'DATA OPERATIONS',
+      label: 'TAXONOMY & NETWORK',
       items: [
-        { id: 'import', label: 'Batch Import (JSON/CSV)', icon: UploadCloud },
-        { id: 'validation', label: 'Data Health & Audit', icon: CheckCircle2 },
+        { id: 'categories', label: 'Categories', icon: FolderTree, dotColor: '#707070' },
+        { id: 'relationships', label: 'Resource Network', icon: Network, dotColor: '#707070' },
       ],
     },
     {
-      section: 'SYSTEM & SECURITY',
+      label: 'OPERATIONS',
+      items: [
+        { id: 'import', label: 'Batch Import', icon: UploadCloud, dotColor: '#707070' },
+        { id: 'validation', label: 'Data Health', icon: CheckCircle2, dotColor: '#34C759' },
+      ],
+    },
+    {
+      label: 'SYSTEM',
       items: [
         {
           id: 'maintenance',
-          label: 'Maintenance Mode',
+          label: 'Maintenance',
           icon: Power,
-          badge: isMaintenanceActive ? 'ACTIVE' : undefined,
-          statusDot: isMaintenanceActive ? '#EF4444' : maintenanceStatus === 'scheduled' ? '#F59E0B' : '#10B981',
+          dotColor: isMaintenanceActive ? '#FF3B30' : maintenanceStatus === 'scheduled' ? '#FF9500' : '#34C759',
+          badge: isMaintenanceActive ? 'LOCK' : undefined,
         },
-        ...(isSuperAdmin ? [{ id: 'users', label: 'User & Role Access', icon: ShieldCheck }] : []),
-        { id: 'security', label: 'Security & Password', icon: ShieldCheck },
+        ...(isSuperAdmin
+          ? [{ id: 'users', label: 'Staff & Roles', icon: ShieldCheck, dotColor: '#707070' }]
+          : []),
+        { id: 'security', label: 'Security', icon: ShieldCheck, dotColor: '#707070' },
       ],
     },
   ];
@@ -88,40 +99,49 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     setMobileSidebarOpen(false);
   };
 
+  // Find active item info for breadcrumb
+  let activeLabel = 'Dashboard';
+  let activeSection = 'OVERVIEW';
+  for (const group of navGroups) {
+    const found = group.items.find((i) => i.id === currentTab);
+    if (found) {
+      activeLabel = found.label;
+      activeSection = group.label;
+      break;
+    }
+  }
+
   return (
     <div className="admin-layout-wrapper">
       {/* Mobile Top App Bar */}
-      <header className="admin-mobile-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <header className="admin-mobile-header" aria-label="Admin Navigation Header">
+        <div className="flex items-center gap-2.5">
           <KromaButton
             variant="outline"
             size="icon"
             onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-            aria-label="Toggle Admin Sidebar"
-            className="!w-8 !h-8 !p-1"
+            aria-label="Toggle Navigation Rail"
+            className="!w-8 !h-8 !min-h-[32px] !p-1"
           >
-            {mobileSidebarOpen ? <X size={18} /> : <Menu size={18} />}
+            {mobileSidebarOpen ? <X size={16} /> : <Menu size={16} />}
           </KromaButton>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span className="brand-glyph" style={{ width: 10, height: 10 }} />
-            <span style={{ fontWeight: 800, fontSize: '0.88rem', letterSpacing: '0.04em' }}>KROMA ADMIN</span>
+          <div className="flex items-center gap-2 font-mono text-xs font-bold tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-[#FF3B30]" />
+            <span>KROMA ADMIN</span>
           </div>
         </div>
 
-        <KromaButton
-          variant="ghost"
-          size="sm"
-          onClick={() => onNavigatePublic({ path: 'home' })}
-          title="Return to Public Library"
-          iconLeft={<ArrowLeft size={13} />}
-          style={{
-            color: 'var(--text-secondary)',
-            fontSize: '0.75rem',
-            fontFamily: 'var(--font-mono)',
-          }}
-        >
-          Public
-        </KromaButton>
+        <div className="flex items-center gap-2">
+          <KromaButton
+            variant="ghost"
+            size="sm"
+            onClick={() => onNavigatePublic({ path: 'home' })}
+            iconLeft={<ArrowLeft size={13} />}
+            className="!text-xs !py-1 !px-2.5"
+          >
+            Public
+          </KromaButton>
+        </div>
       </header>
 
       {/* Backdrop for Mobile Drawer */}
@@ -129,84 +149,92 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         <div
           className="admin-sidebar-backdrop"
           onClick={() => setMobileSidebarOpen(false)}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar */}
+      {/* Compact Studio Navigation Rail (240px) */}
       <aside
         className={`admin-sidebar ${mobileSidebarOpen ? 'open' : ''}`}
+        aria-label="Studio Rail"
       >
-        <div>
+        <div className="flex flex-col">
           {/* Brand Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', paddingBottom: '14px', borderBottom: '1px solid var(--border-subtle)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="brand-glyph" style={{ width: 10, height: 10 }} />
-              <span style={{ fontWeight: 800, fontSize: '0.95rem', letterSpacing: '0.05em' }}>KROMA ADMIN</span>
+          <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-black/10 dark:border-white/10">
+            <div className="flex items-center gap-2.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF3B30] shrink-0" />
+              <div>
+                <div className="font-bold text-xs tracking-wider uppercase">KROMA</div>
+                <div className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] tracking-widest">
+                  OPERATIONS
+                </div>
+              </div>
             </div>
 
-            <KromaButton
-              variant="ghost"
-              size="sm"
-              onClick={() => onNavigatePublic({ path: 'home' })}
-              title="Return to Public Library"
-              iconLeft={<ArrowLeft size={13} />}
-              style={{
-                color: 'var(--text-tertiary)',
-                fontSize: '0.72rem',
-                fontFamily: 'var(--font-mono)',
-              }}
-            >
-              Public
-            </KromaButton>
+            <span className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] px-1.5 py-0.5 rounded-xs border border-black/10 dark:border-white/10">
+              v2.4
+            </span>
           </div>
 
-          {/* User Badge */}
+          {/* User Account Capsule */}
           {currentUser && (
-            <div
-              style={{
-                background: 'var(--bg-surface-2)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 'var(--radius-xs)',
-                padding: '10px',
-                marginBottom: '18px',
-              }}
-            >
-              <div style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <div className="mb-4 p-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs">
+              <div className="text-[11px] font-mono text-[#171717] dark:text-[#F8F8F8] truncate font-medium">
                 {currentUser.email}
               </div>
-              <div style={{ display: 'inline-block', marginTop: '4px', background: 'rgba(230, 57, 70, 0.15)', color: '#E63946', fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 700, padding: '2px 6px', borderRadius: '3px', textTransform: 'uppercase' }}>
-                {currentUser.role.replace('_', ' ')}
+              <div className="flex items-center gap-1.5 mt-1">
+                <span
+                  className="inline-block w-1.5 h-1.5 rounded-full"
+                  style={{ backgroundColor: currentUser.role === 'super_admin' ? '#FF3B30' : '#34C759' }}
+                />
+                <span className="text-[9.5px] font-mono uppercase tracking-wider text-[#707070] dark:text-[#9DA3AF]">
+                  {currentUser.role.replace('_', ' ')}
+                </span>
               </div>
             </div>
           )}
 
-          {/* Navigation Items */}
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {navItems.map((group) => (
-              <div key={group.section}>
-                <div style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px', paddingLeft: '8px' }}>
-                  {group.section}
+          {/* Navigation Groups */}
+          <nav className="flex flex-col gap-4">
+            {navGroups.map((group) => (
+              <div key={group.label} className="flex flex-col">
+                <div className="text-[10px] font-mono uppercase tracking-[0.12em] text-[#707070] dark:text-[#9DA3AF] px-2 mb-1 font-semibold">
+                  {group.label}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <div className="flex flex-col gap-0.5">
                   {group.items.map((item) => {
                     const Icon = item.icon;
                     const isActive = currentTab === item.id;
                     return (
-                      <KromaButton
+                      <button
                         key={item.id}
-                        variant={isActive ? 'filled' : 'ghost'}
-                        size="sm"
+                        type="button"
                         onClick={() => handleTabClick(item.id)}
-                        iconLeft={<Icon size={15} color={isActive ? '#E9C46A' : 'currentColor'} />}
-                        className="!w-full !justify-start !text-left !px-2.5 !py-2 !text-[0.82rem] !rounded-[var(--radius-xs)] whitespace-nowrap"
-                        style={{
-                          background: isActive ? 'var(--bg-surface-3)' : 'transparent',
-                          color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
-                          fontWeight: isActive ? 600 : 400,
-                        }}
+                        className={`group relative flex items-center justify-between px-2.5 py-1.5 rounded-xs text-xs font-medium transition-colors text-left ${
+                          isActive
+                            ? 'text-[#171717] dark:text-[#F8F8F8] bg-black/[0.06] dark:bg-white/[0.08] font-semibold'
+                            : 'text-[#707070] dark:text-[#9DA3AF] hover:text-[#171717] dark:hover:text-[#F8F8F8] hover:bg-black/[0.03] dark:hover:bg-white/[0.04]'
+                        }`}
                       >
-                        {item.label}
-                      </KromaButton>
+                        {/* Subtle Active Accent Rule */}
+                        {isActive && (
+                          <span
+                            className="absolute left-0 top-1.5 bottom-1.5 w-[2px] rounded-full"
+                            style={{ backgroundColor: item.dotColor }}
+                          />
+                        )}
+
+                        <div className="flex items-center gap-2 pl-0.5">
+                          <Icon size={14} className={isActive ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'} />
+                          <span>{item.label}</span>
+                        </div>
+
+                        {item.badge && (
+                          <span className="font-mono text-[9px] uppercase tracking-wider px-1 py-0.2 bg-[#FF3B30]/15 text-[#FF3B30] rounded-xs font-bold">
+                            {item.badge}
+                          </span>
+                        )}
+                      </button>
                     );
                   })}
                 </div>
@@ -215,56 +243,93 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           </nav>
         </div>
 
-        {/* Footer Actions */}
-        <div style={{ paddingTop: '16px', borderTop: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '20px' }}>
+        {/* Studio Rail Bottom Utilities */}
+        <div className="pt-3 mt-4 border-t border-black/10 dark:border-white/10 flex flex-col gap-2">
           {/* Theme Quick Switcher */}
-          <div style={{ display: 'flex', background: 'var(--bg-surface-2)', borderRadius: 'var(--radius-xs)', padding: '2px', gap: '2px' }}>
-            <KromaButton
-              variant={theme === 'light' ? 'filled' : 'ghost'}
-              size="sm"
+          <div className="flex bg-black/[0.04] dark:bg-white/[0.06] p-0.5 rounded-xs gap-0.5">
+            <button
+              type="button"
               onClick={() => setTheme('light')}
-              iconLeft={<Sun size={12} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />}
-              className="flex-1 !justify-center !py-1 !px-1.5 !text-[0.72rem] font-mono font-semibold !rounded-[2px]"
-              style={{
-                background: theme === 'light' ? 'var(--bg-surface-3)' : 'transparent',
-                color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-tertiary)',
-              }}
-              title="Light Theme"
+              className={`flex-1 flex items-center justify-center gap-1 py-1 px-1.5 text-[10.5px] font-mono rounded-xs transition-colors ${
+                theme === 'light'
+                  ? 'bg-white text-[#171717] shadow-xs font-semibold'
+                  : 'text-[#707070] hover:text-[#171717]'
+              }`}
             >
-              Light
-            </KromaButton>
-            <KromaButton
-              variant={theme === 'dark' ? 'filled' : 'ghost'}
-              size="sm"
+              <Sun size={11} />
+              <span>Light</span>
+            </button>
+            <button
+              type="button"
               onClick={() => setTheme('dark')}
-              iconLeft={<Moon size={12} />}
-              className="flex-1 !justify-center !py-1 !px-1.5 !text-[0.72rem] font-mono font-semibold !rounded-[2px]"
-              style={{
-                background: theme === 'dark' ? 'var(--bg-surface-3)' : 'transparent',
-                color: theme === 'dark' ? 'var(--text-primary)' : 'var(--text-tertiary)',
-              }}
-              title="Dark Theme"
+              className={`flex-1 flex items-center justify-center gap-1 py-1 px-1.5 text-[10.5px] font-mono rounded-xs transition-colors ${
+                theme === 'dark'
+                  ? 'bg-[#181A20] text-[#F8F8F8] shadow-xs font-semibold'
+                  : 'text-[#9DA3AF] hover:text-[#F8F8F8]'
+              }`}
             >
-              Dark
-            </KromaButton>
+              <Moon size={11} />
+              <span>Dark</span>
+            </button>
           </div>
 
+          {/* Sign Out Button */}
           <KromaButton
             variant="outline"
             size="sm"
             onClick={logout}
             iconLeft={<LogOut size={13} />}
-            className="!w-full !justify-center !text-[0.78rem] text-[var(--text-secondary)] whitespace-nowrap"
+            className="!w-full !justify-center !text-xs !py-1.5 !min-h-[32px] text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
           >
             Sign Out
           </KromaButton>
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="admin-main-stage">
-        {children}
-      </main>
+      {/* Main Workspace Stage */}
+      <div className="flex-1 flex flex-col min-w-0 h-[100dvh] overflow-hidden">
+        {/* Compact Workspace Header */}
+        <header className="shrink-0 flex items-center justify-between px-6 lg:px-8 py-3.5 border-b border-black/10 dark:border-white/10 bg-white/70 dark:bg-[#111216]/70 backdrop-blur-md z-10">
+          {/* Breadcrumb / Title */}
+          <div className="flex items-center gap-2 font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
+            <span>ADMIN</span>
+            <span className="opacity-40">/</span>
+            <span>{activeSection}</span>
+            <span className="opacity-40">/</span>
+            <span className="text-[#171717] dark:text-[#F8F8F8] font-semibold">{activeLabel}</span>
+          </div>
+
+          {/* Header Quick Actions & Telemetry */}
+          <div className="flex items-center gap-3">
+            {/* System Status Pill */}
+            <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-xs font-mono text-[11px]">
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: isMaintenanceActive ? '#FF3B30' : '#34C759' }}
+              />
+              <span className="text-[#707070] dark:text-[#9DA3AF]">
+                {isMaintenanceActive ? 'LOCKDOWN' : 'SYSTEM ONLINE'}
+              </span>
+            </div>
+
+            {/* Public Link */}
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              onClick={() => onNavigatePublic({ path: 'home' })}
+              iconLeft={<ArrowLeft size={13} />}
+              className="!text-xs !py-1.5 !px-3 !min-h-[32px] text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+            >
+              Public Library
+            </KromaButton>
+          </div>
+        </header>
+
+        {/* Scrollable Stage Content */}
+        <main className="admin-main-stage">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };

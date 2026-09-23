@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Plus, Trash2, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Trash2, Eye, X, Copy, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GradientItem } from '../../types';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
 import { KromaButton } from '../../components/common/KromaButton';
+import { copyToClipboard } from '../../utils/colorUtils';
 
 export const AdminGradientsPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
@@ -12,6 +13,9 @@ export const AdminGradientsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 15;
+
+  const [inspectGradient, setInspectGradient] = useState<GradientItem | null>(null);
+  const [copiedCss, setCopiedCss] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     return gradients.filter((g) => {
@@ -37,35 +41,35 @@ export const AdminGradientsPage: React.FC = () => {
     }
   };
 
+  const handleCopyCss = async (gradient: GradientItem) => {
+    await copyToClipboard(gradient.css);
+    setCopiedCss(gradient.id);
+    setTimeout(() => setCopiedCss(null), 1800);
+  };
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+    <div className="flex flex-col gap-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
+          <h1 className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
             CSS Gradient Library
           </h1>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-            Manage {gradients.length.toLocaleString()} continuous multi-stop CSS gradient specimens.
+          <p className="text-xs text-[#707070] dark:text-[#9DA3AF] mt-1 font-mono">
+            {gradients.length.toLocaleString()} continuous multi-stop CSS gradient specimens.
           </p>
+        </div>
+
+        <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
+          {filtered.length.toLocaleString()} GRADIENTS MATCHED
         </div>
       </div>
 
-      <div
-        style={{
-          background: 'var(--bg-surface-1)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-sm)',
-          padding: '12px 16px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '12px',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <Search size={14} color="var(--text-tertiary)" style={{ position: 'absolute', left: 10 }} />
+      {/* Filter Bar */}
+      <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="relative flex items-center">
+            <Search size={14} className="absolute left-2.5 text-[#707070]" />
             <input
               type="text"
               placeholder="Search gradients..."
@@ -74,15 +78,7 @@ export const AdminGradientsPage: React.FC = () => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              style={{
-                background: 'var(--bg-surface-2)',
-                border: '1px solid var(--border-medium)',
-                borderRadius: 'var(--radius-xs)',
-                padding: '6px 12px 6px 32px',
-                fontSize: '0.82rem',
-                color: 'var(--text-primary)',
-                width: '240px',
-              }}
+              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
             />
           </div>
 
@@ -92,16 +88,9 @@ export const AdminGradientsPage: React.FC = () => {
               setSelectedCategory(e.target.value);
               setCurrentPage(1);
             }}
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-medium)',
-              borderRadius: 'var(--radius-xs)',
-              padding: '6px 10px',
-              fontSize: '0.8rem',
-              color: 'var(--text-primary)',
-            }}
+            className="px-2.5 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
           >
-            <option value="all">All Categories</option>
+            <option value="all">All Atmospheres</option>
             <option value="atmospheric">Atmospheric</option>
             <option value="sunset">Sunset</option>
             <option value="holographic">Holographic</option>
@@ -110,103 +99,162 @@ export const AdminGradientsPage: React.FC = () => {
             <option value="editorial-metal">Editorial Metal</option>
           </select>
         </div>
-
-        <div style={{ fontSize: '0.78rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-          {filtered.length.toLocaleString()} GRADIENTS MATCHED
-        </div>
       </div>
 
-      <div
-        className="admin-table-container"
-        style={{
-          background: 'var(--bg-surface-1)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-sm)',
-        }}
-      >
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.82rem' }}>
+      {/* Editorial Table */}
+      <div className="admin-table-container">
+        <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr style={{ background: 'var(--bg-surface-2)', borderBottom: '1px solid var(--border-subtle)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>
-              <th style={{ padding: '10px 14px' }}>PREVIEW</th>
-              <th style={{ padding: '10px 14px' }}>TITLE</th>
-              <th style={{ padding: '10px 14px' }}>CATEGORY</th>
-              <th style={{ padding: '10px 14px' }}>STOPS</th>
-              <th style={{ padding: '10px 14px', textAlign: 'right' }}>ACTIONS</th>
+            <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF]">
+              <th className="py-2.5 px-4 font-semibold">PREVIEW STRIP</th>
+              <th className="py-2.5 px-4 font-semibold">SPECIMEN TITLE</th>
+              <th className="py-2.5 px-4 font-semibold">CATEGORY</th>
+              <th className="py-2.5 px-4 font-semibold">STOPS SEQUENCE</th>
+              <th className="py-2.5 px-4 font-semibold text-right">ACTIONS</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-black/5 dark:divide-white/5">
             {paginated.map((g) => (
-              <tr key={g.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                <td style={{ padding: '10px 14px' }}>
+              <tr
+                key={g.id}
+                className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+              >
+                <td className="py-2.5 px-4">
                   <div
-                    style={{
-                      width: '60px',
-                      height: '24px',
-                      borderRadius: '3px',
-                      background: g.css,
-                      border: '1px solid var(--border-subtle)',
-                    }}
+                    className="w-24 h-5 rounded-xs border border-black/10 dark:border-white/10 cursor-pointer"
+                    style={{ background: g.css }}
+                    onClick={() => setInspectGradient(g)}
                   />
                 </td>
-                <td style={{ padding: '10px 14px', fontWeight: 600 }}>{g.title}</td>
-                <td style={{ padding: '10px 14px', textTransform: 'capitalize' }}>{g.category}</td>
-                <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                <td className="py-2.5 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
+                  {g.title}
+                </td>
+                <td className="py-2.5 px-4 capitalize font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                  {g.category}
+                </td>
+                <td className="py-2.5 px-4 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
                   {g.stops.map((s) => s.color).join(' → ')}
                 </td>
-                <td style={{ padding: '10px 14px', textAlign: 'right' }}>
-                  <KromaButton
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleDelete(g.id, g.title)}
-                    className="!w-7 !h-7 !p-0 text-red-400 hover:text-red-500"
-                    title="Delete Gradient"
-                  >
-                    <Trash2 size={12} />
-                  </KromaButton>
+                <td className="py-2.5 px-4 text-right">
+                  <div className="inline-flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => handleCopyCss(g)}
+                      title="Copy CSS"
+                      className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                    >
+                      {copiedCss === g.id ? <Check size={12} className="text-[#34C759]" /> : <Copy size={12} />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setInspectGradient(g)}
+                      title="Inspect"
+                      className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                    >
+                      <Eye size={12} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(g.id, g.title)}
+                      title="Delete"
+                      className="p-1 text-[#707070] hover:text-[#FF3B30]"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '12px 16px',
-            borderTop: '1px solid var(--border-subtle)',
-            background: 'var(--bg-surface-1)',
-            fontSize: '0.78rem',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          <div>PAGE {currentPage} OF {totalPages}</div>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <KromaButton
-              variant="outline"
-              size="sm"
-              disabled={currentPage <= 1}
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              iconLeft={<ChevronLeft size={13} />}
-              style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-            >
-              Prev
-            </KromaButton>
-            <KromaButton
-              variant="outline"
-              size="sm"
-              disabled={currentPage >= totalPages}
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              iconRight={<ChevronRight size={13} />}
-              style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-            >
-              Next
-            </KromaButton>
-          </div>
+      {/* Pagination Bar */}
+      <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex justify-between items-center text-xs font-mono text-[#707070] dark:text-[#9DA3AF]">
+        <div>
+          PAGE {currentPage} OF {totalPages}
+        </div>
+        <div className="flex gap-2">
+          <KromaButton
+            variant="outline"
+            size="sm"
+            disabled={currentPage <= 1}
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            iconLeft={<ChevronLeft size={13} />}
+            className="!py-1 !px-2.5 !text-xs"
+          >
+            Prev
+          </KromaButton>
+          <KromaButton
+            variant="outline"
+            size="sm"
+            disabled={currentPage >= totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            iconRight={<ChevronRight size={13} />}
+            className="!py-1 !px-2.5 !text-xs"
+          >
+            Next
+          </KromaButton>
         </div>
       </div>
+
+      {/* Inspect Gradient Modal */}
+      {inspectGradient && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          onClick={() => setInspectGradient(null)}
+        >
+          <div
+            className="bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs p-6 max-w-md w-full flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
+              <div>
+                <h2 className="text-base font-bold">{inspectGradient.title}</h2>
+                <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
+                  {inspectGradient.category} · Slug: {inspectGradient.slug}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setInspectGradient(null)}
+                aria-label="Close"
+                className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Gradient Strip */}
+            <div
+              className="w-full h-28 rounded-xs border border-black/10 dark:border-white/10"
+              style={{ background: inspectGradient.css }}
+            />
+
+            <div className="p-3 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs font-mono text-xs break-all">
+              {inspectGradient.css}
+            </div>
+
+            <div className="flex justify-between pt-2 border-t border-black/10 dark:border-white/10">
+              <KromaButton
+                variant="outline"
+                size="sm"
+                onClick={() => handleCopyCss(inspectGradient)}
+                iconLeft={copiedCss === inspectGradient.id ? <Check size={12} /> : <Copy size={12} />}
+              >
+                {copiedCss === inspectGradient.id ? 'Copied' : 'Copy CSS'}
+              </KromaButton>
+              <KromaButton
+                variant="filled"
+                size="sm"
+                onClick={() => setInspectGradient(null)}
+              >
+                Done
+              </KromaButton>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

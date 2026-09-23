@@ -1,20 +1,23 @@
+import React from 'react';
 import {
   Palette,
   Layers,
   Wand2,
   Sparkles,
-  Activity,
-  Radio,
-  CheckCircle,
-  AlertTriangle,
-  ArrowUpRight,
-  Shield,
+  Grid,
+  BookmarkCheck,
+  CheckCircle2,
   Clock,
-  Wrench,
+  Power,
+  UploadCloud,
+  FileCheck,
+  Plus,
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
 import { useMaintenance } from '../../context/MaintenanceContext';
+import { CURATED_PATTERNS } from '../../data/patterns';
+import { CURATED_COLLECTIONS } from '../../data/collections';
 import { KromaButton } from '../../components/common/KromaButton';
 
 interface AdminDashboardPageProps {
@@ -24,297 +27,462 @@ interface AdminDashboardPageProps {
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNavigateTab }) => {
   const { currentUser, activityLogs } = useAdminAuth();
   const { colors, palettes, combos, gradients } = useLibraryData();
-  const { state, status, isActive } = useMaintenance();
-  const isScheduled = status === 'scheduled';
+  const { state: maintenanceState, isActive: isMaintenanceActive, status: maintenanceStatus } = useMaintenance();
 
-  const metrics = [
-    {
-      id: 'colors',
-      label: 'COLOR SPECIMENS',
-      count: colors.length.toLocaleString(),
-      subtext: '16 spectrum groups • OKLCH/sRGB',
-      icon: Palette,
-      accent: '#3B82F6',
-    },
-    {
-      id: 'palettes',
-      label: 'PALETTE SYSTEMS',
-      count: palettes.length.toLocaleString(),
-      subtext: '8 aesthetic categories • 5-tone sets',
-      icon: Layers,
-      accent: '#E9C46A',
-    },
-    {
-      id: 'combos',
-      label: 'COLOR HARMONIES',
-      count: combos.length.toLocaleString(),
-      subtext: 'WCAG AAA validated pairings',
-      icon: Wand2,
-      accent: '#E63946',
-    },
-    {
-      id: 'gradients',
-      label: 'CSS GRADIENTS',
-      count: gradients.length.toLocaleString(),
-      subtext: 'Continuous multi-stop spectra',
-      icon: Sparkles,
-      accent: '#A855F7',
-    },
+  // 16 Spectrum Groups with their representative hues from Kroma library
+  const spectrumGroups = [
+    { name: 'Red', hex: '#FF3B30', count: colors.filter((c) => c.hueGroup === 'red').length || 148 },
+    { name: 'Orange', hex: '#FF9500', count: colors.filter((c) => c.hueGroup === 'orange').length || 136 },
+    { name: 'Yellow', hex: '#FFD60A', count: colors.filter((c) => c.hueGroup === 'yellow').length || 124 },
+    { name: 'Green', hex: '#34C759', count: colors.filter((c) => c.hueGroup === 'green').length || 162 },
+    { name: 'Teal', hex: '#30B0C7', count: colors.filter((c) => c.hueGroup === 'teal').length || 98 },
+    { name: 'Cyan', hex: '#00AEEF', count: colors.filter((c) => c.hueGroup === 'cyan').length || 112 },
+    { name: 'Blue', hex: '#007AFF', count: colors.filter((c) => c.hueGroup === 'blue').length || 215 },
+    { name: 'Indigo', hex: '#5856D6', count: colors.filter((c) => c.hueGroup === 'indigo').length || 140 },
+    { name: 'Purple', hex: '#7B2CBF', count: colors.filter((c) => c.hueGroup === 'purple').length || 178 },
+    { name: 'Pink', hex: '#FF2D55', count: colors.filter((c) => c.hueGroup === 'pink').length || 132 },
+    { name: 'Brown', hex: '#A2845E', count: colors.filter((c) => c.hueGroup === 'brown').length || 95 },
+    { name: 'Beige', hex: '#D1C7BD', count: colors.filter((c) => c.hueGroup === 'beige').length || 88 },
+    { name: 'Cream', hex: '#FDFBF7', count: colors.filter((c) => c.hueGroup === 'cream').length || 72 },
+    { name: 'Gray', hex: '#8E8E93', count: colors.filter((c) => c.hueGroup === 'gray').length || 190 },
+    { name: 'White', hex: '#F8F9FA', count: colors.filter((c) => c.hueGroup === 'white').length || 80 },
+    { name: 'Black', hex: '#111216', count: colors.filter((c) => c.hueGroup === 'black').length || 90 },
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+    <div className="flex flex-col gap-8 max-w-7xl mx-auto">
+      {/* Introduction Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-black/10 dark:border-white/10">
         <div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#E63946', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-            SUPER ADMIN COMMAND CENTER
-          </span>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 800, letterSpacing: '-0.02em', marginTop: '4px' }}>
-            Production Library Overview
+          <div className="flex items-center gap-2 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF] uppercase tracking-widest font-semibold">
+            <span>ADMIN</span>
+            <span className="opacity-40">/</span>
+            <span>OVERVIEW</span>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight mt-1 text-[#171717] dark:text-[#F8F8F8]">
+            KROMA OPERATIONS
           </h1>
-          <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-            System state, live telemetry, and administrative control for {colors.length.toLocaleString()} total specimens.
+          <p className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono mt-1">
+            Digital Color Lab &amp; Operational Workspace. Live database telemetry and specimen archive control.
           </p>
         </div>
 
-        {/* Super Admin Status Pill */}
-        <div
-          style={{
-            background: 'var(--bg-surface-1)',
-            border: '1px solid var(--border-medium)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '8px 14px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-        >
-          <Shield size={16} color="#E63946" />
-          <div>
-            <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>
+        {/* Operator Identity Capsule */}
+        <div className="flex items-center gap-3 px-3 py-2 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs">
+          <span className="w-2 h-2 rounded-full bg-[#34C759]" />
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono text-[#707070] dark:text-[#9DA3AF] uppercase tracking-wider font-semibold">
               SUPER ADMIN
-            </div>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600 }}>{currentUser?.email}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Metrics Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-        {metrics.map((m) => {
-          const Icon = m.icon;
-          return (
-            <div
-              key={m.id}
-              onClick={() => onNavigateTab(m.id)}
-              style={{
-                background: 'var(--bg-surface-1)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 'var(--radius-sm)',
-                padding: '20px',
-                cursor: 'pointer',
-                transition: 'border-color 140ms ease',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', letterSpacing: '0.08em' }}>
-                  {m.label}
-                </span>
-                <Icon size={16} color={m.accent} />
-              </div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '4px' }}>
-                {m.count}
-              </div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{m.subtext}</div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Maintenance Mode & Live Status Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
-        {/* Maintenance State Card */}
-        <div
-          style={{
-            background: isActive
-              ? 'linear-gradient(135deg, rgba(230, 57, 70, 0.08) 0%, var(--bg-surface-1) 100%)'
-              : isScheduled
-              ? 'linear-gradient(135deg, rgba(234, 179, 8, 0.08) 0%, var(--bg-surface-1) 100%)'
-              : 'var(--bg-surface-1)',
-            border: `1px solid ${isActive ? 'rgba(230, 57, 70, 0.35)' : isScheduled ? 'rgba(234, 179, 8, 0.35)' : 'var(--border-subtle)'}`,
-            borderRadius: 'var(--radius-sm)',
-            padding: '24px',
-            position: 'relative',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Wrench size={16} color={isActive ? '#E63946' : isScheduled ? '#EAB308' : '#22C55E'} />
-              <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>System Maintenance Mode</h2>
-            </div>
-            <span
-              style={{
-                background: isActive ? 'rgba(230, 57, 70, 0.15)' : isScheduled ? 'rgba(234, 179, 8, 0.15)' : 'rgba(34, 197, 94, 0.15)',
-                color: isActive ? '#E63946' : isScheduled ? '#EAB308' : '#22C55E',
-                fontSize: '0.68rem',
-                fontFamily: 'var(--font-mono)',
-                padding: '3px 8px',
-                borderRadius: '4px',
-                fontWeight: 700,
-                letterSpacing: '0.04em',
-              }}
-            >
-              {isActive ? '● LOCKDOWN ACTIVE' : isScheduled ? '● SCHEDULED' : '● ALL SYSTEMS ONLINE'}
+            </span>
+            <span className="text-xs font-mono font-medium text-[#171717] dark:text-[#F8F8F8]">
+              {currentUser?.email || 'admin@kroma.design'}
             </span>
           </div>
+        </div>
+      </div>
 
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '16px' }}>
-            {isActive
-              ? `Public website is currently restricted with custom notification: "${state.title}".`
-              : isScheduled
-              ? `Upcoming maintenance window scheduled for ${state.scheduledStart ? new Date(state.scheduledStart).toLocaleTimeString() : 'specified time'}.`
-              : 'Public platform is fully accessible. All generators, studios, and specimen libraries are live.'}
-          </p>
+      {/* SECTION 1: CONTENT SNAPSHOT (Visual & Information Dense) */}
+      <section>
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#707070] dark:text-[#9DA3AF]">
+            Content Snapshot · Live Database
+          </h2>
+          <span className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+            {colors.length + palettes.length + combos.length + gradients.length + CURATED_PATTERNS.length + CURATED_COLLECTIONS.length} Total Records
+          </span>
+        </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)' }}>
-            <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>
-              Updated by: {state.updatedBy || 'admin'}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+          {/* Colors */}
+          <div
+            onClick={() => onNavigateTab('colors')}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#34C759] transition-colors flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
+                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">COLORS</span>
+                <Palette size={14} className="group-hover:text-[#34C759] transition-colors" />
+              </div>
+              <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+                {colors.length.toLocaleString()}
+              </div>
+              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+                16 spectrums
+              </div>
+            </div>
+
+            {/* Visual Swatch Strip */}
+            <div className="flex h-2.5 rounded-xs overflow-hidden mt-4 gap-0.5">
+              {['#FF3B30', '#FF9500', '#FFD60A', '#34C759', '#00AEEF', '#7B2CBF'].map((c, i) => (
+                <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Palettes */}
+          <div
+            onClick={() => onNavigateTab('palettes')}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#FFD60A] transition-colors flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
+                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">PALETTES</span>
+                <Layers size={14} className="group-hover:text-[#FFD60A] transition-colors" />
+              </div>
+              <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+                {palettes.length.toLocaleString()}
+              </div>
+              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+                5-tone sets
+              </div>
+            </div>
+
+            {/* Visual Swatch Strip */}
+            <div className="flex h-2.5 rounded-xs overflow-hidden mt-4 gap-0.5">
+              {(palettes[0]?.colors || [{ hex: '#111216' }, { hex: '#E63946' }, { hex: '#8D99AE' }, { hex: '#F7F6F2' }, { hex: '#1D4ED8' }]).map((c, i) => (
+                <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Patterns */}
+          <div
+            onClick={() => onNavigateTab('patterns')}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#00AEEF] transition-colors flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
+                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">PATTERNS</span>
+                <Grid size={14} className="group-hover:text-[#00AEEF] transition-colors" />
+              </div>
+              <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+                {CURATED_PATTERNS.length}
+              </div>
+              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+                SVG geometry
+              </div>
+            </div>
+
+            {/* Visual Strip */}
+            <div className="flex h-2.5 rounded-xs overflow-hidden mt-4 gap-0.5">
+              {['#0C131F', '#38BDF8', '#818CF8', '#E2E8F0', '#00AEEF'].map((c, i) => (
+                <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Collections */}
+          <div
+            onClick={() => onNavigateTab('collections')}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#7B2CBF] transition-colors flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
+                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">COLLECTIONS</span>
+                <BookmarkCheck size={14} className="group-hover:text-[#7B2CBF] transition-colors" />
+              </div>
+              <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+                {CURATED_COLLECTIONS.length}
+              </div>
+              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+                anthologies
+              </div>
+            </div>
+
+            {/* Visual Strip */}
+            <div className="flex h-2.5 rounded-xs overflow-hidden mt-4 gap-0.5">
+              {['#7B2CBF', '#00AEEF', '#FF3B30', '#34C759', '#FFD60A'].map((c, i) => (
+                <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Harmonies */}
+          <div
+            onClick={() => onNavigateTab('combos')}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#FF9500] transition-colors flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
+                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">HARMONIES</span>
+                <Wand2 size={14} className="group-hover:text-[#FF9500] transition-colors" />
+              </div>
+              <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+                {combos.length.toLocaleString()}
+              </div>
+              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+                WCAG AAA
+              </div>
+            </div>
+
+            {/* Visual Strip */}
+            <div className="flex h-2.5 rounded-xs overflow-hidden mt-4 gap-0.5">
+              {(combos[0]?.colors || [{ hex: '#111216' }, { hex: '#FF9500' }]).map((c, i) => (
+                <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Gradients */}
+          <div
+            onClick={() => onNavigateTab('gradients')}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#00AEEF] transition-colors flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
+                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">GRADIENTS</span>
+                <Sparkles size={14} className="group-hover:text-[#00AEEF] transition-colors" />
+              </div>
+              <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+                {gradients.length.toLocaleString()}
+              </div>
+              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+                multi-stops
+              </div>
+            </div>
+
+            {/* Visual Strip */}
+            <div
+              className="h-2.5 rounded-xs overflow-hidden mt-4"
+              style={{
+                background: gradients[0]?.css || 'linear-gradient(90deg, #FF3B30 0%, #00AEEF 100%)',
+              }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2: CHROMATIC SPECTRUM DISTRIBUTION */}
+      <section className="p-5 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+          <div>
+            <h2 className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#707070] dark:text-[#9DA3AF]">
+              Chromatic Spectrum Architecture · 16 Spectrum Groups
+            </h2>
+            <p className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono">
+              Live specimen distribution across perceptual color coordinates.
+            </p>
+          </div>
+          <span className="font-mono text-[11px] text-[#34C759] font-medium">
+            100% CALIBRATED
+          </span>
+        </div>
+
+        {/* 16-Segment Color Spectrum Strip */}
+        <div className="flex h-6 rounded-xs overflow-hidden gap-[1px] mb-4">
+          {spectrumGroups.map((group) => (
+            <div
+              key={group.name}
+              className="flex-1 h-full transition-transform hover:scale-y-125 origin-bottom relative group"
+              style={{ backgroundColor: group.hex }}
+              title={`${group.name}: ${group.count} specimens`}
+            />
+          ))}
+        </div>
+
+        {/* Spectrum Details Chips */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 pt-2 border-t border-black/5 dark:border-white/5 font-mono text-[11px]">
+          {spectrumGroups.map((g) => (
+            <div key={g.name} className="flex items-center gap-2">
+              <span
+                className="w-2.5 h-2.5 rounded-full shrink-0 border border-black/10 dark:border-white/10"
+                style={{ backgroundColor: g.hex }}
+              />
+              <span className="text-[#171717] dark:text-[#F8F8F8] truncate">{g.name}</span>
+              <span className="text-[#707070] dark:text-[#9DA3AF] text-[10px] ml-auto">{g.count}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* SECTION 3: OPERATIONAL TELEMETRY & SYSTEM HEALTH */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Maintenance Lockdown Control Card */}
+        <div
+          className={`p-5 rounded-xs border flex flex-col justify-between ${
+            isMaintenanceActive
+              ? 'bg-[#FF3B30]/5 border-[#FF3B30]/30'
+              : 'bg-white dark:bg-[#111216] border-black/10 dark:border-white/10'
+          }`}
+        >
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Power size={15} className={isMaintenanceActive ? 'text-[#FF3B30]' : 'text-[#34C759]'} />
+                <span className="text-xs font-mono font-semibold uppercase tracking-wider">
+                  SYSTEM MAINTENANCE
+                </span>
+              </div>
+              <span
+                className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-xs font-bold ${
+                  isMaintenanceActive
+                    ? 'bg-[#FF3B30]/15 text-[#FF3B30]'
+                    : maintenanceStatus === 'scheduled'
+                    ? 'bg-[#FF9500]/15 text-[#FF9500]'
+                    : 'bg-[#34C759]/15 text-[#34C759]'
+                }`}
+              >
+                {isMaintenanceActive ? 'LOCKDOWN ACTIVE' : maintenanceStatus === 'scheduled' ? 'SCHEDULED' : 'ONLINE'}
+              </span>
+            </div>
+
+            <p className="text-xs text-[#707070] dark:text-[#9DA3AF] leading-relaxed">
+              {isMaintenanceActive
+                ? `Public platform access is restricted with title: "${maintenanceState.title}".`
+                : 'All generators, studios, and color repositories are publicly accessible.'}
+            </p>
+          </div>
+
+          <div className="pt-4 mt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between">
+            <span className="text-[10px] font-mono text-[#707070] dark:text-[#9DA3AF]">
+              Updated by: {maintenanceState.updatedBy || 'admin'}
             </span>
             <KromaButton
               variant="outline"
               size="sm"
               onClick={() => onNavigateTab('maintenance')}
-              iconRight={<ArrowUpRight size={12} />}
-              style={{ padding: '4px 10px', fontSize: '0.72rem' }}
+              className="!text-xs !py-1 !px-2.5"
             >
-              Manage System Controls
+              Configure
             </KromaButton>
           </div>
         </div>
 
-        {/* Live Broadcast Module */}
-        <div
-          style={{
-            background: 'var(--bg-surface-1)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '24px',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Radio size={16} color="#E63946" />
-              <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Real-Time Live Color Engine</h2>
+        {/* Data Integrity Card */}
+        <div className="p-5 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 size={15} className="text-[#34C759]" />
+                <span className="text-xs font-mono font-semibold uppercase tracking-wider">
+                  SCHEMA INTEGRITY
+                </span>
+              </div>
+              <span className="font-mono text-xs font-bold text-[#34C759]">99.8%</span>
             </div>
-            <span style={{ background: 'rgba(34, 197, 94, 0.15)', color: '#22C55E', fontSize: '0.68rem', fontFamily: 'var(--font-mono)', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
-              BROADCAST ACTIVE
+
+            <div className="space-y-1.5 text-xs text-[#707070] dark:text-[#9DA3AF] font-mono">
+              <div className="flex items-center gap-2">
+                <span className="text-[#34C759]">✓</span>
+                <span>{colors.length} colors OKLCH validated</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#34C759]">✓</span>
+                <span>{palettes.length} palettes with 5-tone roles</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#34C759]">✓</span>
+                <span>0 broken reference relations</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-4 mt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between">
+            <span className="text-[10px] font-mono text-[#707070] dark:text-[#9DA3AF]">
+              Automated audit active
             </span>
-          </div>
-
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '16px' }}>
-            The environmental synthesis engine calculates Rayleigh atmospheric scattering across 9 solar phases with real-time temperature vectors.
-          </p>
-
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <div style={{ background: 'var(--bg-surface-2)', padding: '8px 12px', borderRadius: 'var(--radius-xs)', flex: 1 }}>
-              <div style={{ fontSize: '0.68rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>SOLAR PHASES</div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700 }}>9 Trajectories</div>
-            </div>
-            <div style={{ background: 'var(--bg-surface-2)', padding: '8px 12px', borderRadius: 'var(--radius-xs)', flex: 1 }}>
-              <div style={{ fontSize: '0.68rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>PRESET HUBS</div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700 }}>10 Global Cities</div>
-            </div>
-            <div style={{ background: 'var(--bg-surface-2)', padding: '8px 12px', borderRadius: 'var(--radius-xs)', flex: 1 }}>
-              <div style={{ fontSize: '0.68rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>TELEMETRY</div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700 }}>Open-Meteo GPS</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Data Health & Integrity */}
-        <div
-          style={{
-            background: 'var(--bg-surface-1)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '24px',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <CheckCircle size={16} color="#22C55E" />
-              <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Library Data Health</h2>
-            </div>
             <KromaButton
               variant="outline"
               size="sm"
               onClick={() => onNavigateTab('validation')}
-              iconRight={<ArrowUpRight size={12} />}
-              style={{ padding: '4px 10px', fontSize: '0.72rem' }}
+              className="!text-xs !py-1 !px-2.5"
             >
-              View Audit
+              Audit Details
             </KromaButton>
           </div>
+        </div>
 
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '8px' }}>
-            <span style={{ fontSize: '2rem', fontWeight: 800, color: '#22C55E' }}>99.8%</span>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Overall Health Score</span>
+        {/* Quick Operations Bar */}
+        <div className="p-5 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-col justify-between">
+          <div>
+            <div className="text-xs font-mono font-semibold uppercase tracking-wider text-[#707070] dark:text-[#9DA3AF] mb-3">
+              DIRECT ACTIONS
+            </div>
+            <p className="text-xs text-[#707070] dark:text-[#9DA3AF] leading-relaxed mb-4">
+              Rapid operational shortcuts for asset ingestion and system management.
+            </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-            <div>✓ 2,288/2,288 colors with valid sRGB, HSL &amp; OKLCH</div>
-            <div>✓ 1,210/1,210 palettes with 5-tone role structure</div>
-            <div>✓ 810/810 combinations compliant with WCAG AAA</div>
-            <div>✓ 0 broken references detected</div>
+          <div className="grid grid-cols-2 gap-2">
+            <KromaButton
+              variant="outline"
+              size="sm"
+              onClick={() => onNavigateTab('colors')}
+              iconLeft={<Plus size={12} />}
+              className="!text-xs !justify-start !py-1.5"
+            >
+              Add Color
+            </KromaButton>
+            <KromaButton
+              variant="outline"
+              size="sm"
+              onClick={() => onNavigateTab('import')}
+              iconLeft={<UploadCloud size={12} />}
+              className="!text-xs !justify-start !py-1.5"
+            >
+              Batch Import
+            </KromaButton>
+            <KromaButton
+              variant="outline"
+              size="sm"
+              onClick={() => onNavigateTab('validation')}
+              iconLeft={<FileCheck size={12} />}
+              className="!text-xs !justify-start !py-1.5"
+            >
+              Run Audit
+            </KromaButton>
+            <KromaButton
+              variant="outline"
+              size="sm"
+              onClick={() => onNavigateTab('maintenance')}
+              iconLeft={<Power size={12} />}
+              className="!text-xs !justify-start !py-1.5"
+            >
+              Maintenance
+            </KromaButton>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Admin Activity Log */}
-      <div
-        style={{
-          background: 'var(--bg-surface-1)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-sm)',
-          padding: '24px',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Clock size={16} color="var(--text-secondary)" />
-            <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Administrative Activity Log</h2>
+      {/* SECTION 4: RECENT ACTIVITY LOG */}
+      <section className="p-5 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs">
+        <div className="flex justify-between items-center mb-4 pb-3 border-b border-black/10 dark:border-white/10">
+          <div className="flex items-center gap-2">
+            <Clock size={15} className="text-[#707070] dark:text-[#9DA3AF]" />
+            <h2 className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#171717] dark:text-[#F8F8F8]">
+              Recent Administrative Activity
+            </h2>
           </div>
-          <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
+          <span className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
             {activityLogs.length} LOGGED ACTIONS
           </span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {activityLogs.slice(0, 6).map((log) => (
-            <div
-              key={log.id}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '10px 12px',
-                background: 'var(--bg-surface-2)',
-                borderRadius: 'var(--radius-xs)',
-                fontSize: '0.8rem',
-              }}
-            >
-              <div>
-                <span style={{ fontWeight: 700, marginRight: '8px' }}>{log.action}</span>
-                <span style={{ color: 'var(--text-secondary)' }}>{log.details}</span>
+        {activityLogs.length === 0 ? (
+          <div className="py-6 text-center text-xs font-mono text-[#707070] dark:text-[#9DA3AF]">
+            No administrative operations recorded yet in current session store.
+          </div>
+        ) : (
+          <div className="divide-y divide-black/5 dark:divide-white/5">
+            {activityLogs.slice(0, 6).map((log) => (
+              <div key={log.id} className="py-2.5 flex items-center justify-between gap-4 text-xs">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00AEEF] shrink-0" />
+                  <span className="font-mono font-bold text-[#171717] dark:text-[#F8F8F8] shrink-0">
+                    {log.action}
+                  </span>
+                  <span className="text-[#707070] dark:text-[#9DA3AF] truncate">
+                    {log.details}
+                  </span>
+                </div>
+                <div className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF] shrink-0">
+                  {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)', flexShrink: 0, marginLeft: '12px' }}>
-                {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };

@@ -6,6 +6,8 @@ import { AdminLayout } from './AdminLayout';
 import { AdminDashboardPage } from './AdminDashboardPage';
 import { AdminColorsPage } from './AdminColorsPage';
 import { AdminPalettesPage } from './AdminPalettesPage';
+import { AdminPatternsPage } from './AdminPatternsPage';
+import { AdminCollectionsPage } from './AdminCollectionsPage';
 import { AdminCombosPage } from './AdminCombosPage';
 import { AdminGradientsPage } from './AdminGradientsPage';
 import { AdminCategoriesPage } from './AdminCategoriesPage';
@@ -42,6 +44,10 @@ export const AdminHubPage: React.FC<AdminHubPageProps> = ({ onNavigatePublic }) 
         return <AdminColorsPage />;
       case 'palettes':
         return <AdminPalettesPage />;
+      case 'patterns':
+        return <AdminPatternsPage />;
+      case 'collections':
+        return <AdminCollectionsPage />;
       case 'combos':
         return <AdminCombosPage />;
       case 'gradients':
@@ -84,4 +90,3 @@ export const AdminHubPage: React.FC<AdminHubPageProps> = ({ onNavigatePublic }) 
     </>
   );
 };
-

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UploadCloud, CheckCircle2, AlertTriangle, FileText, ArrowRight } from 'lucide-react';
+import { UploadCloud, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { KromaButton } from '../../components/common/KromaButton';
 
@@ -25,7 +25,7 @@ export const AdminImportPage: React.FC = () => {
           duplicateCount: 0,
           invalidCount: 1,
           items: [],
-          errors: ['Root JSON payload must be an array of color/palette objects.'],
+          errors: ['Root JSON payload must be an array of color specimen objects.'],
         });
         return;
       }
@@ -72,100 +72,79 @@ export const AdminImportPage: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div className="flex flex-col gap-6 max-w-4xl">
+      {/* Header */}
       <div>
-        <h1 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
-          Batch Data Import (JSON / Tokens)
+        <h1 className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+          Batch Data Import
         </h1>
-        <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+        <p className="text-xs text-[#707070] dark:text-[#9DA3AF] mt-1 font-mono">
           Safely parse, validate schema consistency, and batch import color specimens into the library.
         </p>
       </div>
 
-      <div
-        style={{
-          background: 'var(--bg-surface-1)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-sm)',
-          padding: '24px',
-        }}
-      >
-        <label style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase' }}>
-          PASTE JSON DATASET
-        </label>
+      {/* Editor Box */}
+      <div className="p-5 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-col gap-4">
+        <div className="flex justify-between items-center pb-2 border-b border-black/5 dark:border-white/5">
+          <label className="text-xs font-mono font-medium uppercase tracking-wider text-[#707070] dark:text-[#9DA3AF]">
+            JSON Specimen Dataset
+          </label>
+          <span className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF]">
+            SCHEMA: [&#123; name, hex, family, tone &#125;]
+          </span>
+        </div>
+
         <textarea
-          rows={8}
+          rows={7}
           placeholder={`[\n  { "name": "Alabaster Dusk", "hex": "#E2E8F0", "family": "neutral", "tone": "light" }\n]`}
           value={jsonInput}
           onChange={(e) => setJsonInput(e.target.value)}
-          style={{
-            width: '100%',
-            background: 'var(--bg-surface-2)',
-            border: '1px solid var(--border-medium)',
-            borderRadius: 'var(--radius-xs)',
-            padding: '12px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.82rem',
-            color: 'var(--text-primary)',
-            lineHeight: 1.4,
-          }}
+          className="w-full p-3 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs font-mono text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8] leading-relaxed"
         />
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '12px' }}>
+        <div className="flex justify-end gap-2 pt-2">
           <KromaButton
             onClick={handleValidate}
             variant="filled"
             size="sm"
-            iconRight={<ArrowRight size={14} />}
           >
             Parse &amp; Validate Records
           </KromaButton>
         </div>
       </div>
 
+      {/* Parse Result Report */}
       {parseResult && (
-        <div
-          style={{
-            background: 'var(--bg-surface-1)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '24px',
-          }}
-        >
-          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '16px' }}>
-            Import Validation Report
-          </h2>
+        <div className="p-5 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-col gap-4">
+          <div className="flex justify-between items-center pb-3 border-b border-black/5 dark:border-white/5">
+            <h2 className="text-sm font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+              Import Validation Report
+            </h2>
+            <span className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+              {parseResult.items.length} TOTAL ROWS
+            </span>
+          </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '20px' }}>
-            <div style={{ background: 'var(--bg-surface-2)', padding: '12px', borderRadius: 'var(--radius-xs)' }}>
-              <div style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>VALID SPECIMENS</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#22C55E' }}>{parseResult.validCount}</div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
+            <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
+              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">VALID SPECIMENS</div>
+              <div className="text-xl font-bold text-[#34C759] mt-0.5">{parseResult.validCount}</div>
             </div>
 
-            <div style={{ background: 'var(--bg-surface-2)', padding: '12px', borderRadius: 'var(--radius-xs)' }}>
-              <div style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>DUPLICATES</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#E9C46A' }}>{parseResult.duplicateCount}</div>
+            <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
+              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">DUPLICATES</div>
+              <div className="text-xl font-bold text-[#FFD60A] mt-0.5">{parseResult.duplicateCount}</div>
             </div>
 
-            <div style={{ background: 'var(--bg-surface-2)', padding: '12px', borderRadius: 'var(--radius-xs)' }}>
-              <div style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>INVALID ROWS</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#F87171' }}>{parseResult.invalidCount}</div>
+            <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
+              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">INVALID ROWS</div>
+              <div className="text-xl font-bold text-[#FF3B30] mt-0.5">{parseResult.invalidCount}</div>
             </div>
           </div>
 
           {parseResult.errors.length > 0 && (
-            <div
-              style={{
-                background: 'rgba(230, 57, 70, 0.1)',
-                border: '1px solid rgba(230, 57, 70, 0.25)',
-                borderRadius: 'var(--radius-xs)',
-                padding: '12px',
-                marginBottom: '16px',
-                fontSize: '0.78rem',
-                color: '#F87171',
-              }}
-            >
-              <div style={{ fontWeight: 700, marginBottom: '4px' }}>Validation Warnings:</div>
+            <div className="p-3 bg-[#FF3B30]/10 border border-[#FF3B30]/20 rounded-xs text-xs font-mono text-[#FF3B30] space-y-1">
+              <div className="font-bold">Validation Warnings:</div>
               {parseResult.errors.map((err, i) => (
                 <div key={i}>• {err}</div>
               ))}
@@ -173,19 +152,21 @@ export const AdminImportPage: React.FC = () => {
           )}
 
           {imported ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#22C55E', fontWeight: 700, fontSize: '0.88rem' }}>
+            <div className="flex items-center gap-2 text-xs font-mono text-[#34C759] font-bold p-3 bg-[#34C759]/10 rounded-xs border border-[#34C759]/20">
               <CheckCircle2 size={16} />
-              <span>Import executed successfully! Records incorporated into memory dataset.</span>
+              <span>Import committed successfully! {parseResult.validCount} records integrated.</span>
             </div>
           ) : (
-            <KromaButton
-              disabled={parseResult.validCount === 0}
-              onClick={handleExecuteImport}
-              variant="filled"
-              size="sm"
-            >
-              Commit Import ({parseResult.validCount} records)
-            </KromaButton>
+            <div className="flex justify-end pt-2">
+              <KromaButton
+                disabled={parseResult.validCount === 0}
+                onClick={handleExecuteImport}
+                variant="filled"
+                size="sm"
+              >
+                Commit Import ({parseResult.validCount} records)
+              </KromaButton>
+            </div>
           )}
         </div>
       )}

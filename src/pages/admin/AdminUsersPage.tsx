@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   Ban,
   AlertCircle,
+  X,
 } from 'lucide-react';
 import { useAdminAuth, UserRole, AdminUser } from '../../context/AdminAuthContext';
 import { KromaButton } from '../../components/common/KromaButton';
@@ -21,7 +22,7 @@ export const AdminUsersPage: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
 
-  // Modal States
+  // Modals
   const [showAddModal, setShowAddModal] = useState(false);
   const [newName, setNewName] = useState('');
   const [newEmail, setNewEmail] = useState('');
@@ -31,7 +32,6 @@ export const AdminUsersPage: React.FC = () => {
   const [targetNewRole, setTargetNewRole] = useState<UserRole>('admin');
 
   const [removeTarget, setRemoveTarget] = useState<AdminUser | null>(null);
-
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const filteredUsers = useMemo(() => {
@@ -86,10 +86,10 @@ export const AdminUsersPage: React.FC = () => {
 
   if (!isSuperAdmin) {
     return (
-      <div style={{ padding: '32px', textAlign: 'center', background: 'var(--bg-surface-1)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-        <ShieldAlert size={36} color="#F87171" style={{ margin: '0 auto 12px auto' }} />
-        <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '6px' }}>Access Restricted</h2>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+      <div className="p-8 text-center bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs max-w-md mx-auto">
+        <ShieldAlert size={32} className="text-[#FF3B30] mx-auto mb-3" />
+        <h2 className="text-base font-bold mb-1">Access Restricted</h2>
+        <p className="text-xs text-[#707070] dark:text-[#9DA3AF]">
           User &amp; role administration is exclusively restricted to the Super Administrator.
         </p>
       </div>
@@ -97,18 +97,15 @@ export const AdminUsersPage: React.FC = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#E63946', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-            SUPER ADMIN RBAC CONTROLS
-          </span>
-          <h1 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', marginTop: '2px' }}>
-            User &amp; Access Role Management
+          <h1 className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
+            Staff &amp; Role Management
           </h1>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-            Manage staff accounts, assign administrative privileges, and protect system integrity.
+          <p className="text-xs text-[#707070] dark:text-[#9DA3AF] mt-1 font-mono">
+            RBAC permission control, administrative provisioning, and access policies.
           </p>
         </div>
 
@@ -118,74 +115,43 @@ export const AdminUsersPage: React.FC = () => {
           size="sm"
           iconLeft={<UserPlus size={14} />}
         >
-          Provision New User
+          Add Staff Member
         </KromaButton>
       </div>
 
+      {/* Feedback Banner */}
       {feedback && (
         <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: feedback.type === 'success' ? 'rgba(34, 197, 94, 0.12)' : 'rgba(230, 57, 70, 0.12)',
-            border: `1px solid ${feedback.type === 'success' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(230, 57, 70, 0.3)'}`,
-            borderRadius: 'var(--radius-xs)',
-            padding: '10px 14px',
-            color: feedback.type === 'success' ? '#22C55E' : '#F87171',
-            fontSize: '0.82rem',
-          }}
+          role="alert"
+          className={`flex items-center gap-2 px-3.5 py-2.5 text-xs rounded-xs font-mono border ${
+            feedback.type === 'success'
+              ? 'bg-[#34C759]/10 text-[#34C759] border-[#34C759]/20'
+              : 'bg-[#FF3B30]/10 text-[#FF3B30] border-[#FF3B30]/20'
+          }`}
         >
-          {feedback.type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
+          {feedback.type === 'success' ? <CheckCircle2 size={14} className="shrink-0" /> : <AlertCircle size={14} className="shrink-0" />}
           <span>{feedback.text}</span>
         </div>
       )}
 
       {/* Filter Bar */}
-      <div
-        style={{
-          background: 'var(--bg-surface-1)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-sm)',
-          padding: '12px 16px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '12px',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <Search size={14} color="var(--text-tertiary)" style={{ position: 'absolute', left: 10 }} />
+      <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="relative flex items-center">
+            <Search size={14} className="absolute left-2.5 text-[#707070]" />
             <input
               type="text"
               placeholder="Search user name or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                background: 'var(--bg-surface-2)',
-                border: '1px solid var(--border-medium)',
-                borderRadius: 'var(--radius-xs)',
-                padding: '6px 12px 6px 32px',
-                fontSize: '0.82rem',
-                color: 'var(--text-primary)',
-                width: '240px',
-              }}
+              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
             />
           </div>
 
           <select
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-medium)',
-              borderRadius: 'var(--radius-xs)',
-              padding: '6px 10px',
-              fontSize: '0.8rem',
-              color: 'var(--text-primary)',
-            }}
+            className="px-2.5 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
           >
             <option value="all">All Roles</option>
             <option value="super_admin">Super Admin</option>
@@ -196,14 +162,7 @@ export const AdminUsersPage: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-medium)',
-              borderRadius: 'var(--radius-xs)',
-              padding: '6px 10px',
-              fontSize: '0.8rem',
-              color: 'var(--text-primary)',
-            }}
+            className="px-2.5 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
           >
             <option value="all">All Statuses</option>
             <option value="active">Active</option>
@@ -211,123 +170,97 @@ export const AdminUsersPage: React.FC = () => {
           </select>
         </div>
 
-        <div style={{ fontSize: '0.78rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-          {filteredUsers.length} USERS CONFIGURED
+        <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
+          {filteredUsers.length} STAFF ACCOUNTS
         </div>
       </div>
 
-      {/* Users Table */}
-      <div
-        className="admin-table-container"
-        style={{
-          background: 'var(--bg-surface-1)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-sm)',
-        }}
-      >
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.82rem' }}>
+      {/* Editorial Table */}
+      <div className="admin-table-container">
+        <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr style={{ background: 'var(--bg-surface-2)', borderBottom: '1px solid var(--border-subtle)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>
-              <th style={{ padding: '10px 14px' }}>NAME</th>
-              <th style={{ padding: '10px 14px' }}>EMAIL</th>
-              <th style={{ padding: '10px 14px' }}>AUTHORIZATION ROLE</th>
-              <th style={{ padding: '10px 14px' }}>STATUS</th>
-              <th style={{ padding: '10px 14px' }}>CREATED</th>
-              <th style={{ padding: '10px 14px', textAlign: 'right' }}>ACTIONS</th>
+            <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF]">
+              <th className="py-2.5 px-4 font-semibold">USER</th>
+              <th className="py-2.5 px-4 font-semibold">EMAIL</th>
+              <th className="py-2.5 px-4 font-semibold">ROLE</th>
+              <th className="py-2.5 px-4 font-semibold">STATUS</th>
+              <th className="py-2.5 px-4 font-semibold">CREATED</th>
+              <th className="py-2.5 px-4 font-semibold text-right">ACTIONS</th>
             </tr>
           </thead>
-          <tbody>
-            {filteredUsers.map((u) => (
-              <tr key={u.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                <td style={{ padding: '12px 14px', fontWeight: 600 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>{u.name}</span>
-                    {u.id === currentUser?.id && (
-                      <span style={{ fontSize: '0.65rem', background: 'var(--bg-surface-3)', padding: '1px 5px', borderRadius: '3px', color: 'var(--text-tertiary)' }}>
-                        YOU
-                      </span>
-                    )}
-                  </div>
+          <tbody className="divide-y divide-black/5 dark:divide-white/5">
+            {filteredUsers.map((user) => (
+              <tr
+                key={user.id}
+                className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+              >
+                <td className="py-2.5 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
+                  {user.name}
+                  {user.id === currentUser?.id && (
+                    <span className="ml-2 font-mono text-[9px] uppercase px-1 py-0.2 bg-[#FF3B30]/15 text-[#FF3B30] rounded-xs font-bold">
+                      YOU
+                    </span>
+                  )}
                 </td>
-                <td style={{ padding: '12px 14px', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>{u.email}</td>
-                <td style={{ padding: '12px 14px' }}>
+                <td className="py-2.5 px-4 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                  {user.email}
+                </td>
+                <td className="py-2.5 px-4 font-mono text-[11px] uppercase">
                   <span
-                    style={{
-                      display: 'inline-block',
-                      fontSize: '0.68rem',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 700,
-                      padding: '2px 8px',
-                      borderRadius: '4px',
-                      textTransform: 'uppercase',
-                      background:
-                        u.role === 'super_admin'
-                          ? 'rgba(230, 57, 70, 0.15)'
-                          : u.role === 'admin'
-                          ? 'rgba(59, 130, 246, 0.15)'
-                          : 'var(--bg-surface-3)',
-                      color:
-                        u.role === 'super_admin'
-                          ? '#E63946'
-                          : u.role === 'admin'
-                          ? '#3B82F6'
-                          : 'var(--text-secondary)',
-                    }}
+                    className="font-bold"
+                    style={{ color: user.role === 'super_admin' ? '#FF3B30' : '#00AEEF' }}
                   >
-                    {u.role.replace('_', ' ')}
+                    {user.role.replace('_', ' ')}
                   </span>
                 </td>
-                <td style={{ padding: '12px 14px' }}>
+                <td className="py-2.5 px-4">
                   <span
-                    style={{
-                      fontSize: '0.72rem',
-                      color: u.status === 'active' ? '#22C55E' : '#F87171',
-                      fontWeight: 600,
-                      textTransform: 'capitalize',
-                    }}
+                    className={`inline-flex items-center gap-1 font-mono text-[10.5px] uppercase font-bold px-1.5 py-0.5 rounded-xs ${
+                      user.status === 'active'
+                        ? 'bg-[#34C759]/10 text-[#34C759]'
+                        : 'bg-[#FF3B30]/10 text-[#FF3B30]'
+                    }`}
                   >
-                    {u.status}
+                    <span className={`w-1.5 h-1.5 rounded-full ${user.status === 'active' ? 'bg-[#34C759]' : 'bg-[#FF3B30]'}`} />
+                    {user.status}
                   </span>
                 </td>
-                <td style={{ padding: '12px 14px', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-secondary)' }}>
-                  {new Date(u.createdAt).toLocaleDateString()}
+                <td className="py-2.5 px-4 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                  {new Date(user.createdAt).toLocaleDateString()}
                 </td>
-                <td style={{ padding: '12px 14px', textAlign: 'right' }}>
-                  <div style={{ display: 'inline-flex', gap: '6px' }}>
-                    <KromaButton
-                      variant="outline"
-                      size="sm"
+                <td className="py-2.5 px-4 text-right">
+                  <div className="inline-flex items-center gap-1">
+                    <button
+                      type="button"
                       onClick={() => {
-                        setRoleChangeTarget(u);
-                        setTargetNewRole(u.role);
+                        setRoleChangeTarget(user);
+                        setTargetNewRole(user.role);
                       }}
-                      style={{ padding: '3px 8px', fontSize: '0.72rem' }}
-                      title="Modify Role"
+                      title="Change Role"
+                      className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
                     >
-                      Role
-                    </KromaButton>
-
-                    <KromaButton
-                      variant="outline"
-                      size="sm"
-                      onClick={() => toggleUserStatus(u.id)}
-                      disabled={u.id === currentUser?.id}
-                      style={{ padding: '3px 8px', fontSize: '0.72rem' }}
-                      title={u.status === 'active' ? 'Suspend Account' : 'Reactivate Account'}
-                    >
-                      {u.status === 'active' ? <Ban size={12} /> : <CheckCircle2 size={12} color="#22C55E" />}
-                    </KromaButton>
-
-                    <KromaButton
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setRemoveTarget(u)}
-                      disabled={u.id === currentUser?.id}
-                      className="!w-7 !h-7 !p-0 text-red-400 hover:text-red-500 disabled:opacity-40 disabled:cursor-not-allowed"
-                      title="Remove Account"
-                    >
-                      <Trash2 size={12} />
-                    </KromaButton>
+                      <Edit2 size={12} />
+                    </button>
+                    {user.id !== currentUser?.id && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => toggleUserStatus(user.id)}
+                          title={user.status === 'active' ? 'Suspend User' : 'Activate User'}
+                          className="p-1 text-[#707070] hover:text-[#FF9500]"
+                        >
+                          <Ban size={12} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setRemoveTarget(user)}
+                          title="Remove User"
+                          className="p-1 text-[#707070] hover:text-[#FF3B30]"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </>
+                    )}
                   </div>
                 </td>
               </tr>
@@ -338,82 +271,78 @@ export const AdminUsersPage: React.FC = () => {
 
       {/* Add User Modal */}
       {showAddModal && (
-        <div className="modal-backdrop" onClick={() => setShowAddModal(false)}>
-          <div className="search-dialog-card" style={{ maxWidth: '480px', padding: '24px' }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '16px' }}>Provision New User</h2>
-            <form onSubmit={handleAddSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          onClick={() => setShowAddModal(false)}
+        >
+          <div
+            className="bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs p-6 max-w-md w-full flex flex-col gap-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
+              <h2 className="text-base font-bold">Add Staff Account</h2>
+              <button
+                type="button"
+                onClick={() => setShowAddModal(false)}
+                aria-label="Close"
+                className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddSubmit} className="flex flex-col gap-4 text-xs font-mono">
               <div>
-                <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px' }}>
-                  FULL NAME
-                </label>
+                <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Full Name</label>
                 <input
                   type="text"
                   required
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  style={{
-                    width: '100%',
-                    background: 'var(--bg-surface-2)',
-                    border: '1px solid var(--border-medium)',
-                    borderRadius: 'var(--radius-xs)',
-                    padding: '8px 10px',
-                    color: 'var(--text-primary)',
-                    fontSize: '0.85rem',
-                  }}
+                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-sm font-sans"
+                  placeholder="e.g. Kenji Sato"
                 />
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px' }}>
-                  EMAIL ADDRESS
-                </label>
+                <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Email Address</label>
                 <input
                   type="email"
                   required
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
-                  style={{
-                    width: '100%',
-                    background: 'var(--bg-surface-2)',
-                    border: '1px solid var(--border-medium)',
-                    borderRadius: 'var(--radius-xs)',
-                    padding: '8px 10px',
-                    color: 'var(--text-primary)',
-                    fontSize: '0.85rem',
-                    fontFamily: 'var(--font-mono)',
-                  }}
+                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs font-mono"
+                  placeholder="name@kroma.design"
                 />
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', marginBottom: '4px' }}>
-                  ROLE ASSIGNMENT
-                </label>
+                <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Role</label>
                 <select
                   value={newRole}
                   onChange={(e) => setNewRole(e.target.value as UserRole)}
-                  style={{
-                    width: '100%',
-                    background: 'var(--bg-surface-2)',
-                    border: '1px solid var(--border-medium)',
-                    borderRadius: 'var(--radius-xs)',
-                    padding: '8px 10px',
-                    color: 'var(--text-primary)',
-                    fontSize: '0.85rem',
-                  }}
+                  className="w-full px-2.5 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs"
                 >
-                  <option value="user">User (Public Access)</option>
-                  <option value="admin">Admin (Content Management)</option>
-                  <option value="super_admin">Super Admin (Full Administrative Authority)</option>
+                  <option value="admin">Admin (Library management &amp; editing)</option>
+                  <option value="super_admin">Super Admin (Full system control)</option>
+                  <option value="user">User (Read-only administrative review)</option>
                 </select>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '10px' }}>
-                <KromaButton type="button" variant="outline" size="sm" onClick={() => setShowAddModal(false)}>
+              <div className="flex justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
+                <KromaButton
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAddModal(false)}
+                >
                   Cancel
                 </KromaButton>
-                <KromaButton type="submit" variant="filled" size="sm">
-                  Create User
+                <KromaButton
+                  type="submit"
+                  variant="filled"
+                  size="sm"
+                >
+                  Provision Account
                 </KromaButton>
               </div>
             </form>
@@ -421,75 +350,103 @@ export const AdminUsersPage: React.FC = () => {
         </div>
       )}
 
-      {/* Role Change Confirmation Modal */}
+      {/* Role Change Modal */}
       {roleChangeTarget && (
-        <div className="modal-backdrop" onClick={() => setRoleChangeTarget(null)}>
-          <div className="search-dialog-card" style={{ maxWidth: '460px', padding: '24px' }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '12px' }}>
-              Modify Access Role: {roleChangeTarget.name}
-            </h2>
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
-              Changing permissions for <code style={{ fontFamily: 'var(--font-mono)' }}>{roleChangeTarget.email}</code>.
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          onClick={() => setRoleChangeTarget(null)}
+        >
+          <div
+            className="bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs p-6 max-w-sm w-full flex flex-col gap-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
+              <h2 className="text-base font-bold">Update Role</h2>
+              <button
+                type="button"
+                onClick={() => setRoleChangeTarget(null)}
+                aria-label="Close"
+                className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <p className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono">
+              Adjust authorization for <strong className="text-[#171717] dark:text-[#F8F8F8]">{roleChangeTarget.email}</strong>.
             </p>
 
             <select
               value={targetNewRole}
               onChange={(e) => setTargetNewRole(e.target.value as UserRole)}
-              style={{
-                width: '100%',
-                background: 'var(--bg-surface-2)',
-                border: '1px solid var(--border-medium)',
-                borderRadius: 'var(--radius-xs)',
-                padding: '8px 10px',
-                color: 'var(--text-primary)',
-                fontSize: '0.85rem',
-                marginBottom: '20px',
-              }}
+              className="w-full px-2.5 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs font-mono"
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
               <option value="super_admin">Super Admin</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
             </select>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <KromaButton type="button" variant="outline" size="sm" onClick={() => setRoleChangeTarget(null)}>
+            <div className="flex justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
+              <KromaButton
+                variant="outline"
+                size="sm"
+                onClick={() => setRoleChangeTarget(null)}
+              >
                 Cancel
               </KromaButton>
-              <KromaButton type="button" variant="filled" size="sm" onClick={handleConfirmRoleChange}>
-                Confirm Role Update
+              <KromaButton
+                variant="filled"
+                size="sm"
+                onClick={handleConfirmRoleChange}
+              >
+                Save Role
               </KromaButton>
             </div>
           </div>
         </div>
       )}
 
-      {/* Remove User Confirmation Modal */}
+      {/* Remove User Modal */}
       {removeTarget && (
-        <div className="modal-backdrop" onClick={() => setRemoveTarget(null)}>
-          <div className="search-dialog-card" style={{ maxWidth: '440px', padding: '24px' }} onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#F87171', marginBottom: '12px' }}>
-              Confirm Account Removal
-            </h2>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '20px', lineHeight: 1.5 }}>
-              Are you sure you want to delete access for <strong>{removeTarget.name}</strong> ({removeTarget.email})? This action cannot be undone.
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          onClick={() => setRemoveTarget(null)}
+        >
+          <div
+            className="bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs p-6 max-w-sm w-full flex flex-col gap-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
+              <h2 className="text-base font-bold text-[#FF3B30]">Remove Account</h2>
+              <button
+                type="button"
+                onClick={() => setRemoveTarget(null)}
+                aria-label="Close"
+                className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <p className="text-xs text-[#707070] dark:text-[#9DA3AF] leading-relaxed">
+              Are you sure you want to remove <strong className="text-[#171717] dark:text-[#F8F8F8]">{removeTarget.email}</strong>? They will permanently lose access to the administrative workspace.
             </p>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <KromaButton type="button" variant="outline" size="sm" onClick={() => setRemoveTarget(null)}>
+            <div className="flex justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
+              <KromaButton
+                variant="outline"
+                size="sm"
+                onClick={() => setRemoveTarget(null)}
+              >
                 Cancel
               </KromaButton>
               <KromaButton
-                type="button"
                 variant="filled"
                 size="sm"
                 onClick={handleConfirmRemove}
-                style={{
-                  background: '#E63946',
-                  color: '#FFFFFF',
-                  borderColor: '#E63946',
-                }}
+                className="!bg-[#FF3B30] !text-white hover:opacity-90"
               >
-                Permanently Remove
+                Remove
               </KromaButton>
             </div>
           </div>

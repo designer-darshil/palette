@@ -703,6 +703,13 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  // Automatically open search modal on search route
+  useEffect(() => {
+    if (currentRoute.path === 'search') {
+      setSearchOpen(true);
+    }
+  }, [currentRoute.path]);
+
   const handleNavigate = (route: RouteType) => {
     const newUrl = routeToUrl(route);
     if (window.location.pathname + window.location.search !== newUrl) {
@@ -991,12 +998,6 @@ export const App: React.FC = () => {
   };
 
   const isStudioView = ['create', 'mesh', 'pattern-studio'].includes(currentRoute.path);
-
-  useEffect(() => {
-    if (currentRoute.path === 'search') {
-      setSearchOpen(true);
-    }
-  }, [currentRoute.path]);
 
   return (
     <div className="app-container">

@@ -46,7 +46,7 @@ export const PaletteMatchGamePage: React.FC<PaletteMatchGamePageProps> = ({ onNa
   };
 
   return (
-    <div className="detail-container w-full max-w-2xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 sm:gap-8">
       <SEOHead
         title="Palette Match — Color Order &amp; Harmony Game"
         description="Arrange scrambled color swatches into their intended harmonic progression."

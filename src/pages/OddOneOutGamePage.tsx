@@ -54,7 +54,7 @@ export const OddOneOutGamePage: React.FC<OddOneOutGamePageProps> = ({ onNavigate
   const gridCols = round.gridSize === 9 ? 'grid-cols-3' : round.gridSize === 16 ? 'grid-cols-4' : 'grid-cols-5';
 
   return (
-    <div className="detail-container w-full max-w-xl mx-auto flex flex-col gap-6">
+    <div className="w-full max-w-xl mx-auto flex flex-col gap-6">
       <SEOHead
         title="Odd One Out — Perceptual Color Acuity Game"
         description="Spot the subtly altered color tile in the grid before your streak ends. Test your optical acuity."

@@ -438,7 +438,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
 
   return (
     <div
-      className={`kroma-custom-picker flex flex-col gap-3 p-3 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md shadow-xl select-none text-[var(--text-primary)] ${className}`}
+      className={`flex flex-col gap-3 p-3 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md shadow-xl select-none text-[var(--text-primary)] ${className}`}
       style={{
         width: '248px',
         maxWidth: '100%',

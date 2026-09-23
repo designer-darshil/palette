@@ -59,11 +59,11 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
       />
 
       {/* Workspace Tabs */}
-      <div className="filter-pills flex flex-wrap gap-1.5 border-b border-[var(--border-subtle)] pb-3">
+      <div className="flex flex-wrap gap-1.5 border-b border-[var(--border-subtle)] pb-3">
         <KromaButton
           size="sm"
           variant={activeTab === 'saved' ? 'filled' : 'ghost'}
-          className={`filter-pill text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'saved' ? 'active' : ''}`}
+          className={`text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'saved' ? 'active' : ''}`}
           onClick={() => setActiveTab('saved')}
           iconLeft={<Bookmark size={13} />}
         >
@@ -72,7 +72,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
         <KromaButton
           size="sm"
           variant={activeTab === 'collections' ? 'filled' : 'ghost'}
-          className={`filter-pill text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
+          className={`text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
           onClick={() => setActiveTab('collections')}
           iconLeft={<Layers size={13} />}
         >
@@ -81,7 +81,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
         <KromaButton
           size="sm"
           variant={activeTab === 'liked' ? 'filled' : 'ghost'}
-          className={`filter-pill text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'liked' ? 'active' : ''}`}
+          className={`text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'liked' ? 'active' : ''}`}
           onClick={() => setActiveTab('liked')}
           iconLeft={<Heart size={13} />}
         >
@@ -90,7 +90,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
         <KromaButton
           size="sm"
           variant={activeTab === 'remixes' ? 'filled' : 'ghost'}
-          className={`filter-pill text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'remixes' ? 'active' : ''}`}
+          className={`text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'remixes' ? 'active' : ''}`}
           onClick={() => setActiveTab('remixes')}
           iconLeft={<Wand2 size={13} />}
         >

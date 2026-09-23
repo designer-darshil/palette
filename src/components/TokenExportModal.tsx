@@ -77,7 +77,7 @@ export const TokenExportModal: React.FC<TokenExportModalProps> = ({
         </div>
 
         {/* Format Selector Pills */}
-        <div className="filter-pills flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5">
           <KromaButton
             type="button"
             variant={format === 'css' ? 'filled' : 'subtle'}

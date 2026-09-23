@@ -120,18 +120,18 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
       />
 
       {/* Responsive Filter Panel */}
-      <div className="filter-panel">
-        <div className="filter-group w-full min-w-0">
-          <span className="filter-group-label">
+      <div className="flex items-center justify-between gap-3 mb-8 flex-wrap bg-[var(--bg-surface-1)] p-3 px-4 rounded-md border border-[var(--border-subtle)] w-full min-w-0 max-w-full overflow-hidden max-md:flex-col max-md:items-stretch max-md:p-3 max-md:gap-2.5 max-md:mb-6">
+        <div className="flex items-center gap-2 w-full min-w-0 max-w-full flex-wrap">
+          <span className="text-[0.72rem] text-[var(--text-tertiary)] font-mono font-semibold uppercase tracking-[0.05em] shrink-0 mr-1">
             ATMOSPHERE:
           </span>
-          <div className="filter-options filter-options--scroll flex-1">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 max-w-full min-w-0 flex-nowrap overscroll-x-contain flex-1">
             {categories.map((cat) => (
               <KromaButton
                 key={cat}
                 size="sm"
                 variant={selectedCategory === cat ? 'filled' : 'ghost'}
-                className={`filter-option ${selectedCategory === cat ? 'active' : ''}`}
+                className={`py-1.5 px-3 text-[0.78rem] font-semibold uppercase tracking-[0.06em] rounded-sm whitespace-nowrap shrink-0 ${selectedCategory === cat ? 'bg-[var(--text-primary)] text-[var(--text-inverse)] font-bold' : 'text-[var(--text-secondary)] bg-[var(--bg-surface-2)] border border-transparent hover:text-[var(--text-primary)] hover:border-[var(--border-medium)]'}`}
                 onClick={() => setSelectedCategory(cat)}
               >
                 {cat}
@@ -140,11 +140,11 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        <div className="filter-search mt-1">
+        <div className="relative flex items-center w-auto min-w-[200px] max-w-full max-md:w-full max-md:min-w-0 mt-1">
           <Search size={14} color="#9DA3AF" style={{ position: 'absolute', left: 10 }} />
           <input
             type="text"
-            className="filter-search-input"
+            className="bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-sm py-1.5 px-3 text-[0.85rem] text-[var(--text-primary)] w-full min-w-0 focus:border-[var(--border-strong)] focus:outline-none"
             style={{ paddingLeft: '32px' }}
             placeholder="Filter gradients, hex..."
             value={searchQuery}
@@ -171,7 +171,7 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
         />
       ) : (
         <>
-          <div className="specimen-grid-gradients">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
             {displayedGradients.map((gradient) => (
               <GradientCard key={gradient.id} gradient={gradient} onNavigate={onNavigate} />
             ))}

@@ -51,11 +51,11 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
         title="Trending in PaletteParadise"
         description="Ranked by creator saves, active token exports, remixes, and community engagement."
         actions={
-          <div className="filter-pills flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1.5">
             <KromaButton
               size="sm"
               variant={activeTab === 'palettes' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'palettes' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'palettes' ? 'active' : ''}`}
               onClick={() => setActiveTab('palettes')}
             >
               Palettes ({trendingPalettes.length})
@@ -63,7 +63,7 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
             <KromaButton
               size="sm"
               variant={activeTab === 'colors' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'colors' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'colors' ? 'active' : ''}`}
               onClick={() => setActiveTab('colors')}
             >
               Colors ({trendingColors.length})
@@ -71,7 +71,7 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
             <KromaButton
               size="sm"
               variant={activeTab === 'gradients' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'gradients' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'gradients' ? 'active' : ''}`}
               onClick={() => setActiveTab('gradients')}
             >
               Gradients ({gradients.length})
@@ -79,7 +79,7 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
             <KromaButton
               size="sm"
               variant={activeTab === 'collections' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
               onClick={() => setActiveTab('collections')}
             >
               Collections ({trendingCollections.length})
@@ -87,7 +87,7 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
             <KromaButton
               size="sm"
               variant={activeTab === 'creators' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'creators' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'creators' ? 'active' : ''}`}
               onClick={() => setActiveTab('creators')}
             >
               Creators ({trendingCreators.length})
@@ -124,7 +124,7 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
 
       {/* Render Active Tab Content */}
       {activeTab === 'palettes' && (
-        <div className="specimen-grid-palettes">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
           {trendingPalettes.map((p) => (
             <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
           ))}
@@ -132,7 +132,7 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
       )}
 
       {activeTab === 'colors' && (
-        <div className="specimen-grid-colors">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4 sm:gap-5">
           {trendingColors.slice(0, 48).map((c) => (
             <ColorCard key={c.id} color={c} onNavigate={onNavigate} />
           ))}
@@ -140,7 +140,7 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
       )}
 
       {activeTab === 'gradients' && (
-        <div className="specimen-grid-gradients">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
           {gradients.slice(0, 24).map((g) => (
             <GradientCard key={g.id} gradient={g} onNavigate={onNavigate} />
           ))}

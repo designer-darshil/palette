@@ -136,7 +136,7 @@ export const ColorSwatchPicker: React.FC<ColorSwatchPickerProps> = ({
         type="button"
         onClick={handleToggle}
         disabled={disabled}
-        className={`color-swatch-trigger inline-flex items-center gap-2 p-1 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs transition-all cursor-pointer select-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] ${
+        className={`inline-flex items-center gap-2 p-1 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs transition-all cursor-pointer select-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] ${
           isOpen ? 'ring-1 ring-[var(--color-primary)] border-[var(--color-primary)]' : ''
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
         title={label || `Color: ${cleanHex}`}

@@ -75,7 +75,7 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
         {/* Top Bar: Brand & Admin Preview Indicator */}
         <header className="w-full max-w-4xl mx-auto flex items-center justify-between z-10">
           <div className="flex items-center gap-3">
-            <span className="brand-glyph w-3.5 h-3.5" />
+            <span className="w-3.5 h-3.5 rounded-[3px] bg-gradient-to-br from-[#FF3B30] via-[#00AEEF] to-[#34C759] inline-block shrink-0" />
             <span className="font-mono text-xs font-extrabold tracking-[0.18em] uppercase">
               KROMA / PALETTEPARADISE
             </span>

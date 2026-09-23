@@ -28,25 +28,24 @@ export const StudioIntro: React.FC<StudioIntroProps> = ({
   hasCopiedShare = false,
 }) => {
   return (
-    <div className="page-header" style={{ marginBottom: '28px', paddingBottom: '20px' }}>
+    <div className="mb-7 pb-5 border-b border-[var(--border-subtle)]">
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span className="page-category-label" style={{ marginBottom: 0 }}>
+            <span className="text-xs font-semibold text-[var(--text-tertiary)] tracking-tight">
               {category}
             </span>
             <span className="text-[var(--text-tertiary)]">•</span>
             <span
-              className="text-[11px] font-mono uppercase font-semibold"
-              style={{ color: 'var(--color-primary-text)' }}
+              className="text-[11px] font-mono uppercase font-semibold text-[var(--color-primary-text)]"
             >
               {badge}
             </span>
           </div>
-          <h1 className="page-title" style={{ fontSize: '2.2rem', marginBottom: '6px' }}>
+          <h1 className="text-2xl sm:text-3xl lg:text-[2.2rem] font-bold tracking-[-0.03em] text-[var(--text-primary)] mb-1.5 leading-tight">
             {title}
           </h1>
-          <p className="page-description" style={{ fontSize: '0.95rem', maxWidth: '720px' }}>
+          <p className="text-sm md:text-[0.95rem] text-[var(--text-secondary)] leading-relaxed max-w-[720px]">
             {description}
           </p>
         </div>

@@ -55,7 +55,7 @@ export const ColorOfTheDayPage: React.FC<ColorOfTheDayPageProps> = ({ onNavigate
   };
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-8">
       <SEOHead
         title={`Color of the Day: ${color.name} (${color.hex}) — ${dateString}`}
         description={`Today's curated master color specimen: ${color.name} (${color.hex}). Calibrated ${color.family} pigment tone with OKLCH coordinates ${color.oklch}.`}
@@ -164,7 +164,7 @@ export const ColorOfTheDayPage: React.FC<ColorOfTheDayPageProps> = ({ onNavigate
           <h2 className="text-lg font-bold text-[var(--text-primary)]">
             Palettes Utilizing Today's Color
           </h2>
-          <div className="specimen-grid-palettes">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
             {featuringPalettes.map((p) => (
               <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
             ))}
@@ -177,7 +177,7 @@ export const ColorOfTheDayPage: React.FC<ColorOfTheDayPageProps> = ({ onNavigate
         <h2 className="text-lg font-bold text-[var(--text-primary)]">
           Adjacent Pigments &amp; Similar Gamuts
         </h2>
-        <div className="specimen-grid-colors">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4 sm:gap-5">
           {similarColors.map(({ color: sc }) => (
             <ColorCard key={sc.id} color={sc} onNavigate={onNavigate} />
           ))}

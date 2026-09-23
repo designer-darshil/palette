@@ -149,7 +149,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
     .slice(0, 2);
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
       <SEOHead
         title={`${combo.title} — ${combo.harmonyType} Color Pairing`}
         description={`${combo.description} Chromatic pairing featuring ${combo.colors.map((c) => `${c.name} (${c.hex})`).join(' and ')} with ${combo.contrastScore} contrast ratio.`}
@@ -214,7 +214,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
       />
 
       {/* Hero Hierarchy Stage — High Impact 2-Color Specimen Showcase */}
-      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
+      <section className="rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
         <div className="min-h-[260px] flex flex-col sm:flex-row w-full">
           {/* Focal Color 1 */}
           <div
@@ -318,7 +318,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
 
 
       {/* Relational Balance Breakdown with Color Links */}
-      <section className="contrast-assessment-box">
+      <section className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-6 flex flex-col gap-5">
         <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
           Visual Balance &amp; Role Allocation
         </h2>
@@ -326,7 +326,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
           {combo.colors.map((c, idx) => {
             const colorSlug = findMatchingColorSlug(c.hex);
             return (
-              <div key={idx} className="detail-spec-card">
+              <div key={idx} className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-sm p-4 flex flex-col gap-1.5">
                 <div
                   style={{
                     height: '56px',
@@ -391,7 +391,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
               Related {combo.harmonyType} Harmonies
             </h2>
           </div>
-          <div className="specimen-grid-combos">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(380px,1fr))] gap-4 sm:gap-6">
             {relatedCombos.map((cb) => (
               <ComboCard key={cb.id} combo={cb} onNavigate={onNavigate} />
             ))}
@@ -407,7 +407,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
               Palette Systems Sharing this Gamut
             </h2>
           </div>
-          <div className="specimen-grid-palettes">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
             {relatedPalettes.map((p) => (
               <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
             ))}

@@ -214,21 +214,24 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-[200] bg-[#040507]/80 backdrop-blur-md flex items-start justify-center pt-[100px] px-4"
+      onClick={onClose}
+    >
       <div
-        className="search-dialog-card"
+        className="w-full max-w-[620px] max-h-[calc(100vh-40px)] max-h-[calc(100dvh-40px)] bg-[var(--bg-surface-1)] border border-[var(--border-strong)] rounded-[var(--radius-md)] shadow-[var(--shadow-elevated)] overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label="Search Library"
         onKeyDown={handleKeyDown}
       >
-        <div className="search-dialog-header">
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-[var(--border-subtle)]">
           <Search size={18} color="#9DA3AF" />
           <input
             ref={inputRef}
             type="text"
-            className="search-dialog-input"
+            className="flex-1 bg-transparent border-none text-[1.1rem] text-[var(--text-primary)] outline-none focus:outline-none focus:ring-0 placeholder:text-[#9DA3AF]"
             placeholder="Search by color name, HEX code, or mood..."
             value={query}
             onChange={(e) => {
@@ -248,7 +251,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           </KromaButton>
         </div>
 
-        <div className="search-dialog-results">
+        <div className="max-h-[380px] overflow-y-auto p-3 flex flex-col gap-1">
           {rawQ && allResults.length === 0 && (
             <div style={{ padding: '24px', textAlign: 'center', color: '#9DA3AF', fontSize: '0.9rem' }}>
               No specimens found matching &ldquo;{query}&rdquo;

@@ -72,7 +72,7 @@ export const ColorRelationshipsPage: React.FC<ColorRelationshipsPageProps> = ({ 
   }, [palettes, color.hex]);
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
       <SEOHead
         title={`${color.name} (${color.hex}) — Harmonic Color Relationships &amp; Theory`}
         description={`Interactive relational map for ${color.name} (${color.hex}). Analyze complementary, analogous, triadic, tetradic, and split-harmonic color coordinates.`}
@@ -121,7 +121,7 @@ export const ColorRelationshipsPage: React.FC<ColorRelationshipsPageProps> = ({ 
           <h2 className="text-lg font-bold text-[var(--text-primary)]">
             Palette Systems Featuring {color.name}
           </h2>
-          <div className="specimen-grid-palettes">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
             {relatedPalettes.map((p) => (
               <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
             ))}

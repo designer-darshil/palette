@@ -138,7 +138,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
   ).slice(0, 2);
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 sm:gap-8">
       <SEOHead
         title={`${baseGradient.title} — ${baseGradient.category.toUpperCase()} CSS Gradient`}
         description={`CSS gradient specimen ${baseGradient.title} featuring ${baseGradient.stops.length} color stops (${baseGradient.stops.map((s) => s.color).join(', ')}). Copy pure CSS background rule.`}
@@ -189,7 +189,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
       />
 
       {/* Hero Gradient Stage */}
-      <section className="detail-hero-specimen rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
+      <section className="rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
         <div
           className="h-60 sm:h-80 p-5 sm:p-8 flex flex-col justify-between relative shadow-inner"
           style={{ background: computedCss }}
@@ -211,7 +211,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
 
           <div>
             <h1
-              className="specimen-title-huge"
+              className="text-[1.8rem] sm:text-[2.8rem] font-extrabold tracking-[-0.03em] leading-[1.1]"
               style={{
                 color: '#FFFFFF',
                 textShadow: '0 2px 8px rgba(0,0,0,0.6)',
@@ -236,7 +236,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
 
       {/* Angle & Live Adjuster */}
       {baseGradient.type === 'linear' && (
-        <section className="contrast-assessment-box">
+        <section className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-6 flex flex-col gap-5">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
@@ -289,7 +289,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
           {baseGradient.stops.map((stop, idx) => {
             const slug = findMatchingColorSlug(stop.color);
             return (
-              <div key={idx} className="detail-spec-card">
+              <div key={idx} className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-sm p-4 flex flex-col gap-1.5">
                 <div
                   style={{
                     height: '40px',
@@ -335,7 +335,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
       </section>
 
       {/* CSS Code Specimen */}
-      <section className="contrast-assessment-box">
+      <section className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md p-6 flex flex-col gap-5">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h2 style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
@@ -381,7 +381,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
               Palette Systems with Matching Vibrancy
             </h2>
           </div>
-          <div className="specimen-grid-palettes">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
             {relatedPalettes.map((p) => (
               <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
             ))}
@@ -396,7 +396,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
               Color Harmonies in this Aesthetic
             </h2>
           </div>
-          <div className="specimen-grid-combos">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(380px,1fr))] gap-4 sm:gap-6">
             {relatedCombos.map((cb) => (
               <ComboCard key={cb.id} combo={cb} onNavigate={onNavigate} />
             ))}
@@ -412,7 +412,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
               Related {baseGradient.category.toUpperCase()} Gradients
             </h2>
           </div>
-          <div className="specimen-grid-gradients">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
             {relatedGradients.map((g) => (
               <GradientCard key={g.id} gradient={g} onNavigate={onNavigate} />
             ))}

@@ -29,12 +29,15 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="toast-container" aria-live="polite" aria-atomic="true">
+      <div className="fixed bottom-6 right-6 z-[300] flex flex-col gap-2 pointer-events-none" aria-live="polite" aria-atomic="true">
         {toasts.map((toast) => (
-          <div key={toast.id} className="toast-pill">
+          <div
+            key={toast.id}
+            className="bg-[var(--bg-surface-1)] border border-[var(--border-strong)] shadow-[var(--shadow-elevated)] px-4 py-2.5 rounded-[var(--radius-sm)] flex items-center gap-2.5 animate-[toastIn_180ms_cubic-bezier(0.16,1,0.3,1)_forwards] pointer-events-auto"
+          >
             {toast.colorPreview ? (
               <span
-                className="toast-color-dot"
+                className="w-3.5 h-3.5 rounded-full border border-white/20 shrink-0"
                 style={{
                   background: toast.colorPreview.includes('gradient')
                     ? toast.colorPreview
@@ -42,13 +45,13 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                 }}
               />
             ) : (
-              <span className="toast-icon-wrap">
+              <span className="text-[var(--text-primary)] flex items-center">
                 <Check size={14} strokeWidth={2.5} />
               </span>
             )}
-            <div className="toast-content">
-              <span className="toast-message">{toast.message}</span>
-              {toast.subtext && <span className="toast-subtext">{toast.subtext}</span>}
+            <div className="flex flex-col">
+              <span className="text-[0.85rem] font-semibold text-[var(--text-primary)]">{toast.message}</span>
+              {toast.subtext && <span className="font-mono text-[0.72rem] text-[var(--text-secondary)]">{toast.subtext}</span>}
             </div>
           </div>
         ))}

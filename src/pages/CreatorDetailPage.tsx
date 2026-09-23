@@ -50,7 +50,7 @@ export const CreatorDetailPage: React.FC<CreatorDetailPageProps> = ({ username, 
   }, [creator]);
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-8">
       <SEOHead
         title={`${creator.name} (@${creator.username}) — Designer Portfolio`}
         description={creator.bio}
@@ -164,7 +164,7 @@ export const CreatorDetailPage: React.FC<CreatorDetailPageProps> = ({ username, 
         <h2 className="text-lg font-bold text-[var(--text-primary)]">
           Palette Systems ({creatorPalettes.length > 0 ? creatorPalettes.length : creator.paletteCount})
         </h2>
-        <div className="specimen-grid-palettes">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
           {(creatorPalettes.length > 0 ? creatorPalettes : palettes.slice(0, 4)).map((p) => (
             <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
           ))}

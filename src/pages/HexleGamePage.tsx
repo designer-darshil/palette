@@ -46,7 +46,7 @@ export const HexleGamePage: React.FC<HexleGamePageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="detail-container w-full max-w-3xl mx-auto flex flex-col gap-6 sm:gap-8">
+    <div className="w-full max-w-3xl mx-auto flex flex-col gap-6 sm:gap-8">
       <SEOHead
         title="Hexle — Daily Color Hex Guessing Game"
         description="Guess the 6-character hexadecimal code of today's target specimen with channel-by-channel feedback."

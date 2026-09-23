@@ -1,6 +1,4 @@
 @import './styles/preloader.css';
-@import './styles/inner-pages.css';
-@import './styles/studio.css';
 
 @tailwind base;
 @tailwind components;
@@ -181,36 +179,17 @@ body,
 }
 
 /* Reusable Kroma Scroll Utilities */
-.kroma-scroll,
 .scrollbar-thin {
   scrollbar-width: thin;
   scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
   -webkit-overflow-scrolling: touch;
 }
 
-.kroma-scroll-y {
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
-  -webkit-overflow-scrolling: touch;
-}
-
-.kroma-scroll-x {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
-  -webkit-overflow-scrolling: touch;
-}
-
-.kroma-scroll-none,
 .scrollbar-none {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
 
-.kroma-scroll-none::-webkit-scrollbar,
 .scrollbar-none::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
@@ -259,7 +238,6 @@ html {
 }
 
 body {
-  min-height: 100vh;
   min-height: 100dvh;
   background-color: var(--bg-canvas);
   color: var(--text-primary);
@@ -293,7 +271,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* Layout Containers */
 .app-container {
-  min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -314,7 +291,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   margin: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  height: calc(100vh - var(--header-height));
+  height: calc(100dvh - var(--header-height));
   height: calc(100dvh - var(--header-height));
   overflow: hidden;
 }
@@ -494,61 +471,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: inline-flex;
   align-items: center;
 }
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-header__dropdown-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 2px;
-  background: transparent;
-  border: none;
-  font-family: var(--font-sans);
-  font-size: 13.5px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: #171717;
-  opacity: 0.72;
-  cursor: pointer;
-  transition: opacity 160ms ease, color 160ms ease;
-  user-select: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-[data-theme="dark"] .kroma-header__dropdown-btn,
-:root:not([data-theme="light"]) .kroma-header__dropdown-btn {
-  color: #FFFFFF;
-  opacity: 0.72;
-}
-
-.kroma-header__dropdown-btn:hover,
-.kroma-header__dropdown-btn[aria-expanded="true"] {
-  opacity: 1;
-}
-
-.kroma-header__dropdown-btn--active {
-  opacity: 1;
-  font-weight: 600;
-}
-
-.kroma-header__dropdown-chevron {
-  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0.6;
-}
-
-.kroma-header__dropdown-btn:hover .kroma-header__dropdown-chevron,
-.kroma-header__dropdown-btn[aria-expanded="true"] .kroma-header__dropdown-chevron {
-  opacity: 1;
-}
-*/
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-header__dropdown-btn[aria-expanded="true"] .kroma-header__dropdown-chevron {
-  transform: rotate(180deg);
-}
-*/
 
 .kroma-header__dropdown-menu {
   position: absolute;
@@ -842,45 +764,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   flex-shrink: 0;
 }
 
-/* Direct Search Button: Icon Only */
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-header__search-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  border-radius: 50%;
-  background: transparent;
-  border: 1px solid rgba(23, 23, 23, 0.08);
-  color: #171717;
-  opacity: 0.8;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 160ms ease, border-color 160ms ease, opacity 160ms ease, transform 160ms ease;
-}
-
-[data-theme="dark"] .kroma-header__search-btn,
-:root:not([data-theme="light"]) .kroma-header__search-btn {
-  border-color: rgba(255, 255, 255, 0.12);
-  color: #FFFFFF;
-}
-
-.kroma-header__search-btn:hover {
-  opacity: 1;
-  background: rgba(23, 23, 23, 0.05);
-  border-color: rgba(23, 23, 23, 0.16);
-  transform: translateY(-0.5px);
-}
-
-[data-theme="dark"] .kroma-header__search-btn:hover,
-:root:not([data-theme="light"]) .kroma-header__search-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-*/
-
 /* Saved & About Action Links */
 .kroma-header__action-link {
   position: relative;
@@ -930,80 +813,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   justify-content: center;
 }
 
-/* Theme Toggle Button */
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-header__theme-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: transparent;
-  border: 1px solid rgba(23, 23, 23, 0.08);
-  color: #171717;
-  opacity: 0.75;
-  cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease, opacity 160ms ease, transform 160ms ease;
-}
-
-[data-theme="dark"] .kroma-header__theme-btn,
-:root:not([data-theme="light"]) .kroma-header__theme-btn {
-  border-color: rgba(255, 255, 255, 0.12);
-  color: #FFFFFF;
-}
-
-.kroma-header__theme-btn:hover {
-  opacity: 1;
-  background: rgba(23, 23, 23, 0.05);
-  transform: scale(1.05);
-}
-
-[data-theme="dark"] .kroma-header__theme-btn:hover,
-:root:not([data-theme="light"]) .kroma-header__theme-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-*/
-
 /* Mobile Actions (Hidden on desktop) */
 .kroma-header__mobile-actions {
   display: none;
   align-items: center;
   gap: 8px;
 }
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-header__mobile-search-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-}
-*/
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-header__mobile-menu-btn {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  padding: 0;
-}
-*/
 
 .kroma-header__menu-bar {
   width: 20px;
@@ -1040,10 +855,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .kroma-header__center {
     display: none;
   }
-  /* UNUSED CSS — verified no project usage Migrated to KromaButton
-  .kroma-header__search-btn,
-  .kroma-header__theme-btn
-  */
   .kroma-header__action-link {
     display: none;
   }
@@ -1097,21 +908,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   justify-content: space-between;
   flex-shrink: 0;
 }
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-mobile-menu__close-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: transparent;
-  border: none;
-  color: var(--text-primary);
-  cursor: pointer;
-}
-*/
 
 /* Quick Search at Top of Mobile Menu */
 .kroma-mobile-menu__search-bar {
@@ -1197,8 +993,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   background-color: var(--bg-surface-2, rgba(0, 0, 0, 0.04));
   color: var(--link-color, var(--text-primary));
 }
-
-
 @keyframes kromaMenuSlide {
   from {
     opacity: 0;
@@ -1218,26 +1012,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   flex-direction: column;
   gap: 14px;
 }
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-mobile-menu__theme-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 11px;
-  border-radius: 12px;
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-medium);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-*/
-
 .kroma-mobile-menu__meta {
   display: flex;
   align-items: center;
@@ -1271,996 +1045,15 @@ body.nav-open {
 }
 
 .nav-open #root,
-.nav-open .app,
 .nav-open .app-container,
-.nav-open .studio-shell,
 .nav-open .studio-workspace {
   overflow: hidden !important;
 }
-
-
-
-/* ─── Brand Glyph Utility (used across hero/footer/admin) ──── */
-
-.brand-glyph {
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-  background: linear-gradient(135deg, #FF3B30 0%, #00AEEF 50%, #34C759 100%);
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-/* Page Header & Editorial Titles */
-.page-header {
-  margin-bottom: 28px;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 20px;
-}
-
-.page-category-label {
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--text-tertiary);
-  margin-bottom: 8px;
-  display: block;
-}
-
-.page-title {
-  font-size: 2.4rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.page-description {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  max-width: 680px;
-  line-height: 1.6;
-}
-
-/* Filter Panel & Controls Bar */
-.filter-panel,
-.filter-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
-  background: var(--bg-surface-1);
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  .filter-panel,
-  .filter-bar {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 12px;
-    gap: 10px;
-    margin-bottom: 24px;
-  }
-}
-
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  max-width: 100%;
-  flex-wrap: wrap;
-}
-
-.filter-group-label {
-  font-size: 0.72rem;
-  color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  flex-shrink: 0;
-  margin-right: 4px;
-}
-
-.filter-options,
-.filter-pills {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  overflow-x: auto;
-  padding-bottom: 2px;
-  max-width: 100%;
-  min-width: 0;
-  -webkit-overflow-scrolling: touch;
-  /* UNUSED CSS — superseded by global Kroma custom scroll system
-  scrollbar-width: thin;
-  */
-}
-
-.filter-options--scroll {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  /* UNUSED CSS — superseded by global Kroma custom scroll system
-  scrollbar-width: thin;
-  */
-}
-
-.filter-option,
-.filter-pill {
-  padding: 6px 12px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border-radius: var(--radius-xs);
-  color: var(--text-secondary);
-  background: var(--bg-surface-2);
-  border: 1px solid transparent;
-  transition: all var(--transition-quick);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.filter-option:hover,
-.filter-pill:hover {
-  color: var(--text-primary);
-  border-color: var(--border-medium);
-}
-
-.filter-option.active,
-.filter-pill.active {
-  background: var(--text-primary);
-  color: var(--text-inverse);
-  font-weight: 700;
-}
-
-.filter-search {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: auto;
-  min-width: 200px;
-  max-width: 100%;
-}
-
-.filter-search-input {
-  background: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xs);
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  color: var(--text-primary);
-  width: 100%;
-  min-width: 0;
-  transition: border var(--transition-quick);
-}
-
-@media (max-width: 768px) {
-  .filter-search {
-    width: 100%;
-    min-width: 0;
-  }
-  .filter-search-input {
-    width: 100%;
-    min-width: 0;
-  }
-}
-
-.filter-search-input:focus {
-  border-color: var(--border-strong);
-  outline: none;
-}
-
-/* Specimen Grid Systems */
-.specimen-grid-colors {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.specimen-grid-palettes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 24px;
-}
-
-.specimen-grid-combos {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 24px;
-}
-
-.specimen-grid-gradients {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 24px;
-}
-
-@media (max-width: 640px) {
-  .specimen-grid-colors,
-  .specimen-grid-palettes,
-  .specimen-grid-combos,
-  .specimen-grid-gradients {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-/*
-UNUSED CSS — verified no project usage after Tailwind migration
-Original: Legacy Card Design System (.color-card, .palette-card, .combo-specimen-card, .gradient-card)
-Migrated to: src/components/common/KromaCard.tsx and Tailwind utility tokens
-
-/ * Color Card Specimen * /
-.color-card {
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
-  position: relative;
-}
-
-.color-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-specimen);
-  will-change: transform;
-}
-
-.color-card-swatch {
-  height: 160px;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 12px;
-  transition: opacity var(--transition-quick);
-}
-
-.color-card-swatch-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: #FFFFFF;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: opacity var(--transition-quick);
-}
-
-.color-card-swatch:hover .color-card-swatch-overlay {
-  opacity: 1;
-}
-
-.color-card-body {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
-.color-card-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.color-card-name {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
-}
-
-.color-card-name a:hover {
-  text-decoration: underline;
-}
-
-.color-card-hex-btn {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  padding: 3px 6px;
-  background: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xs);
-  transition: all var(--transition-quick);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.color-card-hex-btn:hover {
-  background: var(--bg-surface-3);
-  color: var(--text-primary);
-  border-color: var(--border-medium);
-}
-
-.color-card-desc {
-  font-size: 0.82rem;
-  color: var(--text-tertiary);
-  line-height: 1.4;
-  margin-top: 2px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.color-card-footer {
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid var(--border-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.75rem;
-}
-
-.color-card-family-tag {
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-tertiary);
-}
-
-.card-action-icons {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.card-icon-btn {
-  padding: 4px;
-  color: var(--text-tertiary);
-  border-radius: 3px;
-  transition: all var(--transition-quick);
-}
-
-.card-icon-btn:hover {
-  color: var(--text-primary);
-  background: var(--bg-surface-3);
-}
-
-.card-icon-btn.saved {
-  color: var(--accent-gold);
-}
-
-/ * ─── Kroma Palette Card (Color-First Editorial Object) ──────── * /
-.palette-card {
-  background-color: var(--bg-surface-1, #F8F8F8);
-  border: 1px solid rgba(23, 23, 23, 0.08);
-  border-radius: 4px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  color: var(--text-primary);
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms ease, border-color 200ms ease;
-  cursor: pointer;
-  position: relative;
-}
-
-[data-theme="dark"] .palette-card,
-:root:not([data-theme="light"]) .palette-card {
-  background-color: #141518;
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.palette-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(23, 23, 23, 0.20);
-  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] .palette-card:hover,
-:root:not([data-theme="light"]) .palette-card:hover {
-  border-color: rgba(255, 255, 255, 0.20);
-  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45);
-}
-
-/ * Majority of Card: Edge-to-Edge Color Composition * /
-.palette-swatches-strip {
-  height: 220px;
-  display: flex;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-}
-
-@media (max-width: 640px) {
-  .palette-swatches-strip {
-    height: 180px;
-  }
-}
-
-.palette-swatch-item {
-  height: 100%;
-  position: relative;
-  cursor: pointer;
-  transition: flex 220ms cubic-bezier(0.22, 1, 0.36, 1);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 10px 4px;
-  outline: none;
-}
-
-.palette-swatch-item:hover,
-.palette-swatch-item:focus-visible {
-  flex-grow: 2.2 !important;
-}
-
-/ * Minimal Copy Confirmation & Hex Label * /
-.palette-swatch-pop {
-  opacity: 0;
-  transform: translateY(4px);
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 4px 7px;
-  border-radius: 2px;
-  background: rgba(0, 0, 0, 0.85);
-  color: #FFFFFF;
-  transition: opacity 180ms ease, transform 180ms ease, background-color 140ms ease;
-  pointer-events: none;
-  white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.palette-swatch-item:hover .palette-swatch-pop,
-.palette-swatch-item:focus-visible .palette-swatch-pop {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.palette-swatch-pop.copied {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  background: #171717;
-  color: #34C759;
-}
-
-/ * Quiet, Editorial Information & Actions Container * /
-.palette-card-body {
-  padding: 14px 16px;
-  background-color: var(--bg-surface-1, #F8F8F8);
-  border-top: 1px solid rgba(23, 23, 23, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-[data-theme="dark"] .palette-card-body,
-:root:not([data-theme="light"]) .palette-card-body {
-  background-color: #141518;
-  border-top-color: rgba(255, 255, 255, 0.08);
-}
-
-.palette-card-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.palette-card-title {
-  margin: 0;
-  padding: 0;
-  line-height: 1.25;
-}
-
-.palette-card-title-link {
-  font-family: var(--font-sans, 'General Sans', sans-serif);
-  font-size: 14.5px;
-  font-weight: 550;
-  color: #171717;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 140ms ease;
-}
-
-.palette-card-title-link:hover {
-  color: #000000;
-  text-decoration: underline;
-}
-
-[data-theme="dark"] .palette-card-title-link,
-:root:not([data-theme="light"]) .palette-card-title-link {
-  color: #FFFFFF;
-}
-
-[data-theme="dark"] .palette-card-title-link:hover,
-:root:not([data-theme="light"]) .palette-card-title-link:hover {
-  color: #ECECEC;
-}
-
-.palette-card-meta {
-  font-family: var(--font-sans, 'General Sans', sans-serif);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #707070;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-[data-theme="dark"] .palette-card-meta,
-:root:not([data-theme="light"]) .palette-card-meta {
-  color: #8E8E93;
-}
-
-/ * Subtle Action Controls * /
-.palette-card-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.palette-action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 3px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: #707070;
-  cursor: pointer;
-  transition: all 160ms ease;
-  padding: 0;
-}
-
-.palette-action-btn:hover {
-  color: #171717;
-  background: rgba(23, 23, 23, 0.06);
-  border-color: rgba(23, 23, 23, 0.08);
-}
-
-[data-theme="dark"] .palette-action-btn,
-:root:not([data-theme="light"]) .palette-action-btn {
-  color: #8E8E93;
-}
-
-[data-theme="dark"] .palette-action-btn:hover,
-:root:not([data-theme="light"]) .palette-action-btn:hover {
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.palette-action-btn.saved {
-  color: #FF9500;
-}
-
-/ * Redesigned Two-Color Combo Specimen Card * /
-.combo-specimen-card {
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  transition: transform var(--transition-quick), border-color var(--transition-quick), box-shadow var(--transition-quick);
-}
-
-.combo-specimen-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-specimen);
-}
-
-.combo-two-color-stage {
-  height: 160px;
-  display: flex;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-
-.combo-color-half {
-  flex: 1;
-  height: 100%;
-  transition: opacity var(--transition-quick);
-}
-
-.combo-color-half:hover {
-  opacity: 0.92;
-}
-
-.combo-card-content {
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-surface-1);
-}
-
-.combo-hex-names-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.combo-color-col {
-  display: flex;
-  flex-direction: column;
-  max-width: 48%;
-}
-
-.combo-color-col.left {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.combo-color-col.right {
-  align-items: flex-end;
-  text-align: right;
-}
-
-.combo-hex-btn {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  background: transparent;
-  border: none;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  transition: color var(--transition-quick);
-}
-
-.combo-hex-btn:hover {
-  color: var(--accent-gold);
-}
-
-.combo-color-name {
-  font-size: 0.72rem;
-  color: var(--text-tertiary);
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  display: inline-block;
-}
-
-.combo-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.combo-relationship-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.combo-arrow-icon {
-  color: var(--text-tertiary);
-  transition: transform var(--transition-quick), color var(--transition-quick);
-}
-
-.combo-specimen-card:hover .combo-arrow-icon {
-  transform: translateX(2px);
-  color: var(--text-primary);
-}
-
-/ * Gradient Card * /
-.gradient-card {
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
-}
-
-.gradient-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-specimen);
-}
-
-.gradient-preview-area {
-  height: 170px;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 12px;
-}
-
-.gradient-code-banner {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  background: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle);
-  padding: 8px 12px;
-  border-radius: var(--radius-xs);
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: all var(--transition-quick);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.gradient-code-banner:hover {
-  color: var(--text-primary);
-  border-color: var(--border-medium);
-}
-*/
-
-/*
-UNUSED CSS — superseded by Global Kroma Button System (src/components/common/KromaButton.tsx)
-Old purple #BFA3F0 button styles preserved in comments per project unused-CSS guidelines.
-
-.btn-primary {
-  background: var(--color-primary);
-  background-color: #BFA3F0;
-  color: var(--color-primary-contrast);
-  padding: 12px 22px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  border-radius: var(--radius-xs);
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  transition: all var(--transition-quick);
-}
-
-.btn-primary:hover {
-  background: var(--color-primary-hover);
-  background-color: #D1BFF5;
-  color: #090A0C;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(191, 163, 240, 0.35);
-}
-
-.btn-primary:active {
-  background: var(--color-primary-active);
-  background-color: #AB8AEB;
-  color: #090A0C;
-  transform: translateY(0);
-}
-
-.btn-primary:focus-visible {
-  outline: 2px solid #BFA3F0;
-  outline-offset: 2px;
-}
-
-.btn-primary:disabled,
-.btn-primary[disabled] {
-  opacity: 0.45;
-  cursor: not-allowed;
-  pointer-events: none;
-  transform: none;
-  box-shadow: none;
-}
-
-.btn-secondary {
-  background: var(--bg-surface-2);
-  color: var(--text-primary);
-  border: 1px solid var(--border-medium);
-  padding: 12px 20px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  border-radius: var(--radius-xs);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all var(--transition-quick);
-}
-
-.btn-secondary:hover {
-  background: var(--bg-surface-3);
-  border-color: var(--border-strong);
-}
-
-.btn-studio-primary {
-  background: var(--color-primary);
-  background-color: #BFA3F0;
-  color: var(--color-primary-contrast);
-  padding: 10px 18px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  border-radius: var(--radius-xs);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all var(--transition-quick);
-  border: 1px solid transparent;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-}
-
-.btn-studio-primary:hover {
-  background: var(--color-primary-hover);
-  background-color: #D1BFF5;
-  color: #090A0C;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(191, 163, 240, 0.35);
-}
-
-.btn-studio-primary:active {
-  background: var(--color-primary-active);
-  background-color: #AB8AEB;
-  color: #090A0C;
-  transform: translateY(0);
-}
-
-.btn-studio-primary:focus-visible {
-  outline: 2px solid #BFA3F0;
-  outline-offset: 2px;
-}
-
-.btn-studio-primary:disabled,
-.btn-studio-primary[disabled] {
-  opacity: 0.45;
-  cursor: not-allowed;
-  pointer-events: none;
-  transform: none;
-  box-shadow: none;
-}
-*/
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-/* ─── Modern Global Kroma Button Classes (Home Page Source of Truth) ─── * /
-.btn-primary,
-.btn-studio-primary {
-  background-color: #171717;
-  color: #F8F8F8;
-  padding: 12px 24px;
-  font-family: var(--font-sans);
-  font-size: 13.5px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  border-radius: 9999px;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
-  text-decoration: none;
-  box-sizing: border-box;
-}
-
-:root[data-theme="dark"] .btn-primary,
-:root[data-theme="dark"] .btn-studio-primary,
-.dark .btn-primary,
-.dark .btn-studio-primary {
-  background-color: #F8F8F8;
-  color: #171717;
-}
-
-.btn-primary:hover,
-.btn-studio-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-.btn-primary:active,
-.btn-studio-primary:active {
-  opacity: 0.95;
-  transform: translateY(0);
-}
-
-.btn-secondary {
-  background-color: transparent;
-  color: var(--text-primary);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 12px 24px;
-  font-family: var(--font-sans);
-  font-size: 13.5px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  border-radius: 9999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
-  text-decoration: none;
-  box-sizing: border-box;
-}
-
-:root[data-theme="dark"] .btn-secondary,
-.dark .btn-secondary {
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
-}
-
-.btn-secondary:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.3);
-  transform: translateY(-1px);
-}
-
-:root[data-theme="dark"] .btn-secondary:hover,
-.dark .btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-*/
 
 /* ═══════════════════════════════════════════════════════
    STUDIO WORKSPACE SHELL — Global Responsive Containment
    ═══════════════════════════════════════════════════════ */
 
-.studio-shell,
 .studio-workspace {
   display: flex;
   flex-direction: column;
@@ -2277,7 +1070,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   position: relative;
 }
 
-.studio-content,
 .studio-body {
   flex: 1;
   display: flex;
@@ -2291,19 +1083,10 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
 }
 
 @media (min-width: 1024px) {
-  .studio-body,
-  .studio-content {
+  .studio-body {
     flex-direction: row;
   }
 }
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.studio-button {
-  min-width: 0;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-*/
 
 .studio-heading {
   min-width: 0;
@@ -2320,7 +1103,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
 }
 
 /* — Toolbar — */
-.studio-toolbar,
 .studio-topbar {
   width: 100%;
   max-width: 100%;
@@ -2337,7 +1119,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   flex-shrink: 0;
 }
 
-.studio-toolbar__secondary,
 .studio-topbar-left {
   display: flex;
   align-items: center;
@@ -2408,7 +1189,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   overflow: hidden;
 }
 
-.studio-toolbar__primary,
 .studio-topbar-right {
   display: flex;
   align-items: center;
@@ -2416,111 +1196,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   margin-left: auto;
   flex-shrink: 0;
 }
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.studio-topbar-icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-xs);
-  color: var(--text-secondary);
-  transition: all var(--transition-quick);
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  flex-shrink: 0;
-}
-
-.studio-topbar-icon-btn:hover {
-  color: var(--text-primary);
-  background: var(--bg-surface-2);
-}
-
-.studio-topbar-icon-btn:disabled {
-  opacity: 0.25;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.studio-topbar-icon-btn.active {
-  color: var(--color-primary);
-  background: var(--color-primary-subtle);
-}
-
-.studio-topbar-inspector-toggle {
-  display: none;
-}
-
-@media (max-width: 1023px) {
-  .studio-topbar-inspector-toggle {
-    display: flex;
-  }
-}
-
-.studio-topbar-accent-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
-  border-radius: var(--radius-xs);
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  transition: all var(--transition-quick);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.studio-topbar-accent-btn:hover {
-  background: var(--color-primary-hover);
-  box-shadow: 0 2px 10px rgba(191, 163, 240, 0.3);
-}
-
-.studio-topbar-accent-btn:active {
-  background: var(--color-primary-active);
-}
-
-.studio-topbar-export-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 9px;
-  border-radius: var(--radius-xs);
-  background: var(--bg-surface-2);
-  color: var(--text-primary);
-  font-size: 11px;
-  font-weight: 600;
-  font-family: var(--font-mono);
-  cursor: pointer;
-  border: 1px solid var(--border-subtle);
-  transition: all var(--transition-quick);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.studio-topbar-export-btn:hover {
-  background: var(--bg-surface-3);
-  border-color: var(--border-medium);
-}
-
-@media (max-width: 520px) {
-  .studio-btn-text {
-    display: none;
-  }
-  .studio-topbar-accent-btn,
-  .studio-topbar-export-btn {
-    padding: 5px 7px;
-  }
-}
-*/
-
 /* — Export Dropdown & Items — */
-.export-menu,
 .studio-export-menu {
   position: absolute;
   inset-inline-end: 0;
@@ -2551,7 +1227,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   letter-spacing: 0.05em;
 }
 
-.export-menu-item,
 .studio-export-menu-item {
   width: 100%;
   display: flex;
@@ -2570,7 +1245,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   min-width: 0;
 }
 
-.export-menu-item:hover,
 .studio-export-menu-item:hover {
   background: var(--bg-surface-2);
 }
@@ -2579,7 +1253,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   color: var(--text-secondary);
 }
 
-.export-menu-item:hover .studio-export-menu-icon,
 .studio-export-menu-item:hover .studio-export-menu-icon {
   color: var(--color-primary);
 }
@@ -2679,8 +1352,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   overflow: hidden;
 }
 
-.code-editor,
-.studio-code-container {
+.code-editor {
   width: 100%;
   min-width: 0;
   max-width: 100%;
@@ -2703,9 +1375,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  /* UNUSED CSS — superseded by global Kroma custom scroll system
-  scrollbar-width: thin;
-  */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -2997,35 +1666,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   gap: 2px;
 }
 
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.studio-segmented-btn {
-  padding: 5px 6px;
-  border-radius: var(--radius-xs);
-  font-size: 10px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  transition: all var(--transition-quick);
-  cursor: pointer;
-  color: var(--text-tertiary);
-  background: transparent;
-  border: none;
-  white-space: nowrap;
-}
-
-.studio-segmented-btn:hover {
-  color: var(--text-secondary);
-}
-
-.studio-segmented-btn.active {
-  background: var(--bg-surface-1);
-  color: var(--text-primary);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-}
-*/
-
 /* — Floating Canvas HUD (shared across all studios) — */
 .studio-canvas-hud {
   position: absolute;
@@ -3044,32 +1684,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.studio-canvas-hud-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--bg-surface-2);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-quick);
-  border: none;
-}
-
-.studio-canvas-hud-btn:hover {
-  background: var(--bg-surface-3);
-  color: var(--text-primary);
-}
-
-.studio-canvas-hud-btn.active {
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
-}
-*/
 
 .studio-canvas-hud-divider {
   width: 1px;
@@ -3124,265 +1738,11 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
 .studio-state-dot.playing { background: #34D399; }
 .studio-state-dot.paused { background: #F87171; }
 .studio-state-dot.dragging { background: #FBBF24; animation: pulse 1.5s infinite; }
-
-
-/* Detail Pages Layout */
-.detail-container {
-  max-width: 1080px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.detail-hero-specimen {
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-medium);
-  overflow: hidden;
-  box-shadow: var(--shadow-elevated);
-}
-
-.color-specimen-giant {
-  height: 320px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 32px;
-  position: relative;
-}
-
-@media (max-width: 640px) {
-  .color-specimen-giant {
-    height: 220px;
-    padding: 20px;
-  }
-}
-
-.specimen-title-huge {
-  font-size: 2.8rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-@media (max-width: 640px) {
-  .specimen-title-huge {
-    font-size: 1.8rem;
-  }
-}
-
-.detail-spec-card {
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.detail-spec-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-}
-
-.detail-spec-value {
-  font-family: var(--font-mono);
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  word-break: break-all;
-}
-
-/* Shade Matrix */
-.shade-matrix-row {
-  display: flex;
-  width: 100%;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-  height: 72px;
-}
-
-.shade-step {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 6px;
-  cursor: pointer;
-  transition: flex var(--transition-quick);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-}
-
-.shade-step:hover {
-  flex: 1.5;
-}
-
-/* Contrast Assessment Box */
-.contrast-assessment-box {
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.contrast-test-tile {
-  padding: 20px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 120px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.contrast-score-line {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Global Search Dialog Modal */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(4, 5, 7, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 100px;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-.search-dialog-card {
-  width: 100%;
-  max-width: 620px;
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-elevated);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.search-dialog-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.search-dialog-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  font-size: 1.1rem;
-  color: var(--text-primary);
-  outline: none;
-}
-
-.search-dialog-results {
-  max-height: 380px;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-/* Toast Container */
-.toast-container {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 300;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  pointer-events: none;
-}
-
-.toast-pill {
-  background: var(--bg-surface-1);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-elevated);
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  animation: toastIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  pointer-events: auto;
-}
-
-@keyframes toastIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.toast-color-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  flex-shrink: 0;
-}
-
-.toast-icon-wrap {
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-}
-
-.toast-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.toast-message {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.toast-subtext {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-}
-
 /* ═══════════════════════════════════════════════════════════════
    KROMA FOOTER — Editorial Dark Creative Canvas (#171717)
    ═══════════════════════════════════════════════════════════════ */
 
-.kroma-footer,
-.footer {
+.kroma-footer {
   width: 100%;
   background-color: #171717;
   color: #F8F8F8;
@@ -3459,44 +1819,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   flex-shrink: 0;
   margin-bottom: 8px;
 }
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.kroma-footer__contact-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 26px;
-  border-radius: 9999px;
-  background-color: #F8F8F8;
-  color: #171717;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 180ms ease, background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-}
-
-.kroma-footer__contact-btn:hover {
-  background-color: #FFFFFF;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-}
-
-.kroma-footer__contact-btn:active {
-  transform: translateY(0);
-}
-
-.kroma-footer__contact-icon {
-  transition: transform 180ms ease;
-}
-
-.kroma-footer__contact-btn:hover .kroma-footer__contact-icon {
-  transform: translate(2px, -2px);
-}
-*/
 
 /* ─── 2. 4-Column Navigation Area ──────────────────────────── */
 
@@ -3706,8 +2028,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
 /* ─── Mobile Adaptations (< 768px) ─────────────────────────── */
 
 @media (max-width: 768px) {
-  .kroma-footer,
-  .footer {
+  .kroma-footer {
     padding: 64px 20px 28px 20px;
   }
 
@@ -3728,13 +2049,6 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   .kroma-footer__action-group {
     width: 100%;
   }
-
-  /* UNUSED CSS — verified no project usage Migrated to KromaButton
-  .kroma-footer__contact-btn {
-    width: 100%;
-    justify-content: center;
-  }
-  */
 
   .kroma-footer__nav-grid {
     grid-template-columns: 1fr;
@@ -3769,8 +2083,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
 /* ─── Tablet Adaptations (768px – 1024px) ───────────────────── */
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .kroma-footer,
-  .footer {
+  .kroma-footer {
     padding: 80px 32px 32px 32px;
   }
 
@@ -3798,49 +2111,25 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   }
 }
 
-/* Micro Spin Animation */
-.spin-anim {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* ==========================================================================
-   Comprehensive Responsive & Admin Layout System
+   KROMA COLOR OPERATIONS — ADMIN ARCHITECTURE & DESIGN SYSTEM
+   Editorial • Information-Dense • Digital Color Lab • Precise Tooling
    ========================================================================== */
 
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-/* Button Robustness — Zero Awkward Wrapping * /
-.btn-primary,
-.btn-secondary,
-.detail-back-btn,
-.color-card-hex-btn,
-.combo-hex-btn,
-.saved-nav-btn,
-.search-trigger-btn,
-.filter-pill,
-.palette-mini-hex-pill {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-*/
-
-/* Admin Responsive Architecture */
 .admin-layout-wrapper {
   display: flex;
   min-height: 100vh;
   min-height: 100dvh;
-  background: var(--bg-canvas);
+  background-color: var(--bg-canvas);
   color: var(--text-primary);
+  font-family: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   position: relative;
   width: 100%;
+}
+
+.admin-layout-wrapper *,
+.admin-login-wrapper * {
+  font-family: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .admin-mobile-header {
@@ -3850,29 +2139,35 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   z-index: 90;
   background: var(--bg-surface-1);
   border-bottom: 1px solid var(--border-subtle);
-  padding: 12px 16px;
+  padding: 10px 16px;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
 
+/* Studio Navigation Rail (Compact 240px) */
 .admin-sidebar {
-  width: 260px;
+  width: 240px;
   background: var(--bg-surface-1);
   border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px 16px;
+  padding: 16px 14px;
   flex-shrink: 0;
-  transition: transform var(--transition-smooth);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100vh;
+  height: 100dvh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
 }
 
 .admin-main-stage {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 32px 40px;
+  padding: 24px 32px 48px 32px;
   background: var(--bg-canvas);
   min-width: 0;
 }
@@ -3881,19 +2176,37 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  background: var(--bg-surface-1);
 }
 
 .admin-card {
   background: var(--bg-surface-1);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 .admin-sidebar-backdrop {
   display: none;
 }
 
-@media (max-width: 860px) {
+/* Custom scrollbars for admin table and rail */
+.admin-sidebar::-webkit-scrollbar,
+.admin-main-stage::-webkit-scrollbar,
+.admin-table-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb,
+.admin-main-stage::-webkit-scrollbar-thumb,
+.admin-table-container::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 3px;
+}
+
+@media (max-width: 960px) {
   .admin-layout-wrapper {
     flex-direction: column;
   }
@@ -3908,7 +2221,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
     left: 0;
     bottom: 0;
     z-index: 100;
-    box-shadow: var(--shadow-elevated);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transform: translateX(-100%);
   }
 
@@ -3920,92 +2233,12 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.65);
     backdrop-filter: blur(4px);
     z-index: 99;
   }
 
   .admin-main-stage {
-    padding: 20px 16px 40px 16px;
+    padding: 16px 14px 40px 14px;
   }
-}
-
-/* Modals & Dialogs Constraints */
-.search-dialog-card {
-  max-width: min(640px, calc(100vw - 28px)) !important;
-  max-height: calc(100vh - 40px);
-  max-height: calc(100dvh - 40px);
-  overflow-y: auto;
-}
-
-/* Filter Bar & Header Wrap Fixes */
-@media (max-width: 640px) {
-  .filter-bar {
-    padding: 10px 12px;
-    gap: 10px;
-  }
-
-  .filter-search-input {
-    min-width: 100%;
-    width: 100%;
-  }
-
-  .page-title {
-    font-size: 1.8rem;
-  }
-
-  .page-description {
-    font-size: 0.92rem;
-  }
-
-  .detail-container {
-    padding: 0 4px;
-  }
-}
-
-/* UNUSED CSS — verified no project usage Migrated to KromaButton
-.generator-action-btn.primary {
-  background: var(--bg-surface-3);
-  border-color: var(--accent-gold);
-  color: var(--accent-gold);
-}
-*/
-
-
-/* ===================================================================
-   PaletteParadise Studio Custom Color Picker System
-   =================================================================== */
-.kroma-custom-picker {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-subtle);
-  animation: pickerPopIn 140ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-[data-theme="light"] .kroma-custom-picker {
-  box-shadow: 0 14px 36px -6px rgba(0, 0, 0, 0.14), 0 0 0 1px var(--border-medium);
-}
-
-@keyframes pickerPopIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.color-swatch-trigger {
-  position: relative;
-  transition: all 120ms ease;
-}
-
-.color-swatch-trigger:hover {
-  transform: translateY(-1px);
-}
-
-.color-swatch-trigger:active {
-  transform: translateY(0);
 }

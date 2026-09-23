@@ -726,7 +726,7 @@ export const App: React.FC = () => {
     const outputString = isText ? result.rawPlainText : JSON.stringify(result.rawJson, null, 2);
 
     return (
-      <div style={{ backgroundColor: '#0e0f12', color: '#e5e7eb', minHeight: '100vh', padding: '24px', fontFamily: 'monospace', fontSize: '13px' }}>
+      <div style={{ backgroundColor: '#0e0f12', color: '#e5e7eb', minHeight: '100dvh', padding: '24px', fontFamily: 'monospace', fontSize: '13px' }}>
         <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
           {outputString}
         </pre>
@@ -782,7 +782,7 @@ export const App: React.FC = () => {
     }
 
     return (
-      <div style={{ backgroundColor: '#0e0f12', color: '#e5e7eb', minHeight: '100vh', padding: '24px', fontFamily: 'monospace', fontSize: '13px' }}>
+      <div style={{ backgroundColor: '#0e0f12', color: '#e5e7eb', minHeight: '100dvh', padding: '24px', fontFamily: 'monospace', fontSize: '13px' }}>
         <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
           {outputString}
         </pre>
@@ -808,7 +808,7 @@ export const App: React.FC = () => {
     }
 
     return (
-      <div style={{ backgroundColor: '#0e0f12', color: '#e5e7eb', minHeight: '100vh', padding: '24px', fontFamily: 'monospace', fontSize: '13px' }}>
+      <div style={{ backgroundColor: '#0e0f12', color: '#e5e7eb', minHeight: '100dvh', padding: '24px', fontFamily: 'monospace', fontSize: '13px' }}>
         <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
           {outputString}
         </pre>

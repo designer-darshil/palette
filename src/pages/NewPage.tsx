@@ -53,11 +53,11 @@ export const NewPage: React.FC<NewPageProps> = ({ onNavigate, initialTab = 'pale
         title="New Releases"
         description="Recently formulated and published chromatic systems, design tokens, and collections."
         actions={
-          <div className="filter-pills flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1.5">
             <KromaButton
               size="sm"
               variant={activeTab === 'palettes' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'palettes' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'palettes' ? 'active' : ''}`}
               onClick={() => setActiveTab('palettes')}
             >
               Palettes ({newestPalettes.length})
@@ -65,7 +65,7 @@ export const NewPage: React.FC<NewPageProps> = ({ onNavigate, initialTab = 'pale
             <KromaButton
               size="sm"
               variant={activeTab === 'colors' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'colors' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'colors' ? 'active' : ''}`}
               onClick={() => setActiveTab('colors')}
             >
               Colors ({newestColors.length})
@@ -73,7 +73,7 @@ export const NewPage: React.FC<NewPageProps> = ({ onNavigate, initialTab = 'pale
             <KromaButton
               size="sm"
               variant={activeTab === 'gradients' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'gradients' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'gradients' ? 'active' : ''}`}
               onClick={() => setActiveTab('gradients')}
             >
               Gradients ({newestGradients.length})
@@ -81,7 +81,7 @@ export const NewPage: React.FC<NewPageProps> = ({ onNavigate, initialTab = 'pale
             <KromaButton
               size="sm"
               variant={activeTab === 'collections' ? 'filled' : 'ghost'}
-              className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
+              className={`text-xs px-3 py-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
               onClick={() => setActiveTab('collections')}
             >
               Collections ({newestCollections.length})
@@ -113,7 +113,7 @@ export const NewPage: React.FC<NewPageProps> = ({ onNavigate, initialTab = 'pale
       />
 
       {activeTab === 'palettes' && (
-        <div className="specimen-grid-palettes">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
           {newestPalettes.map((p) => (
             <PaletteCard key={p.id} palette={p} onNavigate={onNavigate} />
           ))}
@@ -121,7 +121,7 @@ export const NewPage: React.FC<NewPageProps> = ({ onNavigate, initialTab = 'pale
       )}
 
       {activeTab === 'colors' && (
-        <div className="specimen-grid-colors">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4 sm:gap-5">
           {newestColors.slice(0, 48).map((c) => (
             <ColorCard key={c.id} color={c} onNavigate={onNavigate} />
           ))}
@@ -129,7 +129,7 @@ export const NewPage: React.FC<NewPageProps> = ({ onNavigate, initialTab = 'pale
       )}
 
       {activeTab === 'gradients' && (
-        <div className="specimen-grid-gradients">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
           {newestGradients.slice(0, 24).map((g) => (
             <GradientCard key={g.id} gradient={g} onNavigate={onNavigate} />
           ))}

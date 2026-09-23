@@ -50,7 +50,7 @@ export const PaletteOfTheDayPage: React.FC<PaletteOfTheDayPageProps> = ({ onNavi
   };
 
   return (
-    <div className="detail-container w-full max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-8">
       <SEOHead
         title={`Palette of the Day: ${palette.title} — ${dateString}`}
         description={`Today's curated color system: ${palette.title}. ${palette.description}`}
@@ -123,7 +123,7 @@ export const PaletteOfTheDayPage: React.FC<PaletteOfTheDayPageProps> = ({ onNavi
         <h2 className="text-lg font-bold text-[var(--text-primary)]">
           Similar Harmonic Systems in Catalog
         </h2>
-        <div className="specimen-grid-palettes">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-4 sm:gap-6">
           {similarPalettes.map(({ palette: sp }) => (
             <PaletteCard key={sp.id} palette={sp} onNavigate={onNavigate} />
           ))}

@@ -38,81 +38,6 @@
   --loader-ferrule: var(--loader-ferrule-dark);
 }
 
-/* ─── Preloader Container ──────────────────────────────────── */
-
-/*
-UNUSED CSS — verified no project usage after Tailwind migration
-
-.rainbow-preloader-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--loader-bg);
-  color: var(--loader-outline);
-  box-shadow: none !important;
-  border: none !important;
-  outline: none !important;
-  user-select: none;
-  -webkit-user-select: none;
-  transition:
-    background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
-    color 240ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-sizing: border-box;
-}
-
-.rainbow-preloader-fullscreen {
-  position: fixed !important;
-  inset: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  z-index: 999999 !important;
-  pointer-events: all;
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity 500ms ease-out,
-    visibility 500ms ease-out,
-    background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
-    color 240ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.rainbow-preloader-inline {
-  position: relative;
-  width: 100%;
-  min-height: 50vh;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 400ms ease-out, visibility 400ms ease-out;
-}
-
-.rainbow-preloader-exit {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  visibility: hidden !important;
-}
-
-/* ─── Base Roller Wrapper: Fixed Center ~45° Signature Tilt ──── * /
-
-.rainbow-roller-wrapper {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 68px;
-  height: 68px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  transform-origin: center center;
-  pointer-events: none;
-}
-
-.rainbow-roller-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
-}
-*/
-
 /* ─── Layer 1: Roller Assembly (Rocking around axle) ───────── */
 
 .roller-assembly {
@@ -217,24 +142,6 @@ UNUSED CSS — verified no project usage after Tailwind migration
 
 /* ─── Responsive Scaling: Desktop 68px, Tablet 58px, Mobile 50px ─ */
 
-/*
-UNUSED CSS — verified no project usage after Tailwind migration
-
-@media (max-width: 1024px) {
-  .rainbow-roller-wrapper {
-    width: 58px;
-    height: 58px;
-  }
-}
-
-@media (max-width: 768px) {
-  .rainbow-roller-wrapper {
-    width: 50px;
-    height: 50px;
-  }
-}
-*/
-
 /* ─── Accessibility: Reduced Motion ────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -247,10 +154,5 @@ UNUSED CSS — verified no project usage after Tailwind migration
 
   .rainbow-roller-wrapper {
     transform: translate(-50%, -50%) rotate(45deg) !important;
-  }
-
-  .rainbow-preloader-fullscreen,
-  .rainbow-preloader-inline {
-    transition: opacity 400ms ease-out, visibility 400ms ease-out !important;
   }
 }

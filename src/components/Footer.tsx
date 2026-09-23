@@ -357,14 +357,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       {/* ─── Accessible Privacy & Terms Modal ─────────────────── */}
       {legalModal && (
         <div
-          className="modal-backdrop"
+          className="fixed inset-0 z-[200] bg-[#040507]/80 backdrop-blur-md flex items-start justify-center pt-[100px] px-4"
           onClick={() => setLegalModal(null)}
           role="dialog"
           aria-modal="true"
           aria-label={legalModal === 'privacy' ? 'Privacy Policy' : 'Terms of Service'}
         >
           <div
-            className="search-dialog-card p-6 max-w-lg mx-4"
+            className="w-full max-w-lg mx-4 bg-[var(--bg-surface-1)] border border-[var(--border-strong)] rounded-[var(--radius-md)] shadow-[var(--shadow-elevated)] overflow-hidden flex flex-col p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-[var(--border-subtle)]">

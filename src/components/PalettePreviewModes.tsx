@@ -23,7 +23,7 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
   const c1Text = getTextColorForBackground(c1);
 
   return (
-    <div className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
+    <div className="p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
       {/* Mode Switcher Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border-subtle)] pb-3">
         <div>
@@ -35,7 +35,7 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
           </p>
         </div>
 
-        <div className="filter-pills flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1">
           <KromaButton
             type="button"
             variant={activeMode === 'ui' ? 'filled' : 'subtle'}

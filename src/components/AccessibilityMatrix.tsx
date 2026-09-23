@@ -16,7 +16,7 @@ export const AccessibilityMatrix: React.FC<AccessibilityMatrixProps> = ({ colors
   const rating = getContrastRating(selectedRatio);
 
   return (
-    <div className="contrast-assessment-box p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
+    <div className="p-4 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
         <div>
           <h3 className="text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]">

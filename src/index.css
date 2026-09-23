@@ -89,6 +89,14 @@
   --kroma-scrollbar-thumb-active: rgba(255, 255, 255, 0.48);
   --kroma-scrollbar-size: 6px;
   --kroma-scrollbar-radius: 9999px;
+
+  /* WCAG AA/AAA Compliant Semantic Operational Tokens (Dark Mode) */
+  --color-text-error: #FF453A;
+  --color-text-warning: #FF9F0A;
+  --color-text-yellow: #FFD60A;
+  --color-text-success: #32D74B;
+  --color-text-info: #0A84FF;
+  --color-text-muted: #9DA3AF;
 }
 
 :root[data-theme="light"],
@@ -132,6 +140,14 @@
   --kroma-scrollbar-thumb: rgba(23, 23, 23, 0.18);
   --kroma-scrollbar-thumb-hover: rgba(23, 23, 23, 0.36);
   --kroma-scrollbar-thumb-active: rgba(23, 23, 23, 0.54);
+
+  /* WCAG AA/AAA Compliant Semantic Operational Tokens (Light Mode) */
+  --color-text-error: #D70015;
+  --color-text-warning: #B35300;
+  --color-text-yellow: #946300;
+  --color-text-success: #1B8738;
+  --color-text-info: #0077A8;
+  --color-text-muted: #595959;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════

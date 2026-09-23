@@ -373,7 +373,7 @@ export const AdminColorsPage: React.FC = () => {
                         type="button"
                         onClick={() => handleDelete(color.id, color.name)}
                         aria-label="Delete"
-                        className="p-1 text-[#707070] hover:text-[#FF3B30]"
+                        className="p-1 text-[#595959] hover:text-[#D70015] dark:hover:text-[#FF453A]"
                       >
                         <Trash2 size={11} />
                       </button>
@@ -449,7 +449,7 @@ export const AdminColorsPage: React.FC = () => {
                           type="button"
                           onClick={() => handleDelete(color.id, color.name)}
                           title="Delete"
-                          className="p-1 text-[#707070] hover:text-[#FF3B30]"
+                          className="p-1 text-[#595959] hover:text-[#D70015] dark:hover:text-[#FF453A]"
                         >
                           <Trash2 size={12} />
                         </button>

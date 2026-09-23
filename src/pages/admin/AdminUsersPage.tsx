@@ -87,9 +87,9 @@ export const AdminUsersPage: React.FC = () => {
   if (!isSuperAdmin) {
     return (
       <div className="p-8 text-center bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs max-w-md mx-auto">
-        <ShieldAlert size={32} className="text-[#FF3B30] mx-auto mb-3" />
+        <ShieldAlert size={32} className="text-[#D70015] dark:text-[#FF453A] mx-auto mb-3" />
         <h2 className="text-base font-bold mb-1">Access Restricted</h2>
-        <p className="text-xs text-[#707070] dark:text-[#9DA3AF]">
+        <p className="text-xs text-[#595959] dark:text-[#9DA3AF]">
           User &amp; role administration is exclusively restricted to the Super Administrator.
         </p>
       </div>
@@ -104,7 +104,7 @@ export const AdminUsersPage: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
             Staff &amp; Role Management
           </h1>
-          <p className="text-xs text-[#707070] dark:text-[#9DA3AF] mt-1 font-mono">
+          <p className="text-xs text-[#595959] dark:text-[#9DA3AF] mt-1 font-mono">
             RBAC permission control, administrative provisioning, and access policies.
           </p>
         </div>
@@ -125,8 +125,8 @@ export const AdminUsersPage: React.FC = () => {
           role="alert"
           className={`flex items-center gap-2 px-3.5 py-2.5 text-xs rounded-xs font-mono border ${
             feedback.type === 'success'
-              ? 'bg-[#34C759]/10 text-[#34C759] border-[#34C759]/20'
-              : 'bg-[#FF3B30]/10 text-[#FF3B30] border-[#FF3B30]/20'
+              ? 'bg-[#1B8738]/10 text-[#1B8738] dark:bg-[#34C759]/10 dark:text-[#34C759] border-[#1B8738]/20 dark:border-[#34C759]/20'
+              : 'bg-[#D70015]/10 text-[#D70015] dark:bg-[#FF453A]/10 dark:text-[#FF453A] border-[#D70015]/20 dark:border-[#FF453A]/20'
           }`}
         >
           {feedback.type === 'success' ? <CheckCircle2 size={14} className="shrink-0" /> : <AlertCircle size={14} className="shrink-0" />}
@@ -197,18 +197,17 @@ export const AdminUsersPage: React.FC = () => {
                 <td className="py-2.5 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
                   {user.name}
                   {user.id === currentUser?.id && (
-                    <span className="ml-2 font-mono text-[9px] uppercase px-1 py-0.2 bg-[#FF3B30]/15 text-[#FF3B30] rounded-xs font-bold">
+                    <span className="ml-2 font-mono text-[9px] uppercase px-1 py-0.2 bg-[#D70015]/15 dark:bg-[#FF453A]/15 text-[#D70015] dark:text-[#FF453A] rounded-xs font-bold">
                       YOU
                     </span>
                   )}
                 </td>
-                <td className="py-2.5 px-4 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                <td className="py-2.5 px-4 font-mono text-[11px] text-[#595959] dark:text-[#9DA3AF]">
                   {user.email}
                 </td>
                 <td className="py-2.5 px-4 font-mono text-[11px] uppercase">
                   <span
-                    className="font-bold"
-                    style={{ color: user.role === 'super_admin' ? '#FF3B30' : '#00AEEF' }}
+                    className={`font-bold ${user.role === 'super_admin' ? 'text-[#D70015] dark:text-[#FF453A]' : 'text-[#0077A8] dark:text-[#00AEEF]'}`}
                   >
                     {user.role.replace('_', ' ')}
                   </span>
@@ -217,15 +216,15 @@ export const AdminUsersPage: React.FC = () => {
                   <span
                     className={`inline-flex items-center gap-1 font-mono text-[10.5px] uppercase font-bold px-1.5 py-0.5 rounded-xs ${
                       user.status === 'active'
-                        ? 'bg-[#34C759]/10 text-[#34C759]'
-                        : 'bg-[#FF3B30]/10 text-[#FF3B30]'
+                        ? 'bg-[#1B8738]/10 text-[#1B8738] dark:bg-[#34C759]/10 dark:text-[#34C759]'
+                        : 'bg-[#D70015]/10 text-[#D70015] dark:bg-[#FF453A]/10 dark:text-[#FF453A]'
                     }`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full ${user.status === 'active' ? 'bg-[#34C759]' : 'bg-[#FF3B30]'}`} />
+                    <span className={`w-1.5 h-1.5 rounded-full ${user.status === 'active' ? 'bg-[#1B8738] dark:bg-[#34C759]' : 'bg-[#D70015] dark:bg-[#FF453A]'}`} />
                     {user.status}
                   </span>
                 </td>
-                <td className="py-2.5 px-4 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                <td className="py-2.5 px-4 font-mono text-[11px] text-[#595959] dark:text-[#9DA3AF]">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td className="py-2.5 px-4 text-right">
@@ -237,7 +236,7 @@ export const AdminUsersPage: React.FC = () => {
                         setTargetNewRole(user.role);
                       }}
                       title="Change Role"
-                      className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                      className="p-1 text-[#595959] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
                     >
                       <Edit2 size={12} />
                     </button>
@@ -247,7 +246,7 @@ export const AdminUsersPage: React.FC = () => {
                           type="button"
                           onClick={() => toggleUserStatus(user.id)}
                           title={user.status === 'active' ? 'Suspend User' : 'Activate User'}
-                          className="p-1 text-[#707070] hover:text-[#FF9500]"
+                          className="p-1 text-[#595959] hover:text-[#B35300] dark:hover:text-[#FF9500]"
                         >
                           <Ban size={12} />
                         </button>
@@ -255,7 +254,7 @@ export const AdminUsersPage: React.FC = () => {
                           type="button"
                           onClick={() => setRemoveTarget(user)}
                           title="Remove User"
-                          className="p-1 text-[#707070] hover:text-[#FF3B30]"
+                          className="p-1 text-[#D70015] dark:text-[#FF453A] hover:bg-[#D70015]/10 rounded-xs"
                         >
                           <Trash2 size={12} />
                         </button>
@@ -417,18 +416,18 @@ export const AdminUsersPage: React.FC = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
-              <h2 className="text-base font-bold text-[#FF3B30]">Remove Account</h2>
+              <h2 className="text-base font-bold text-[#D70015] dark:text-[#FF453A]">Remove Account</h2>
               <button
                 type="button"
                 onClick={() => setRemoveTarget(null)}
                 aria-label="Close"
-                className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                className="text-[#595959] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
               >
                 <X size={16} />
               </button>
             </div>
 
-            <p className="text-xs text-[#707070] dark:text-[#9DA3AF] leading-relaxed">
+            <p className="text-xs text-[#595959] dark:text-[#9DA3AF] leading-relaxed">
               Are you sure you want to remove <strong className="text-[#171717] dark:text-[#F8F8F8]">{removeTarget.email}</strong>? They will permanently lose access to the administrative workspace.
             </p>
 
@@ -444,7 +443,7 @@ export const AdminUsersPage: React.FC = () => {
                 variant="filled"
                 size="sm"
                 onClick={handleConfirmRemove}
-                className="!bg-[#FF3B30] !text-white hover:opacity-90"
+                className="!bg-[#D70015] dark:!bg-[#FF453A] !text-white hover:opacity-90"
               >
                 Remove
               </KromaButton>

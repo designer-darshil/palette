@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 import { UploadCloud, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { useLibraryData } from '../../context/LibraryDataContext';
 import { KromaButton } from '../../components/common/KromaButton';
+import { ColorItem } from '../../types';
+import {
+  hexToRgb,
+  hexToHsl,
+  hexToOklch,
+  hslToHex,
+  getContrastRatio,
+  getTextColorForBackground,
+} from '../../utils/colorUtils';
 
 export const AdminImportPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
+  const { importBatch } = useLibraryData();
   const [jsonInput, setJsonInput] = useState('');
   const [parseResult, setParseResult] = useState<{
     validCount: number;
@@ -67,8 +78,61 @@ export const AdminImportPage: React.FC = () => {
 
   const handleExecuteImport = () => {
     if (!parseResult || parseResult.validCount === 0) return;
+
+    const newColors: ColorItem[] = parseResult.items
+      .filter((item) => item.hex && /^#[0-9A-Fa-f]{6}$/.test(item.hex) && item.name)
+      .map((item, idx) => {
+        const cleanHex = item.hex.toUpperCase();
+        const rgb = hexToRgb(cleanHex);
+        const hsl = hexToHsl(cleanHex);
+        const oklch = hexToOklch(cleanHex);
+        const slug =
+          (item.slug || item.name)
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, '') || `import-${Date.now()}-${idx}`;
+
+        return {
+          id: `c-import-${Date.now()}-${idx}`,
+          slug,
+          name: item.name.trim(),
+          hex: cleanHex,
+          rgb: rgb ? `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` : 'rgb(0, 0, 0)',
+          hsl: hsl ? `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` : 'hsl(0, 0%, 0%)',
+          oklch,
+          family: item.family || 'neutral',
+          hueGroup: item.hueGroup || 'gray',
+          tone: item.tone || 'medium',
+          description: item.description || `Imported specimen: ${item.name}`,
+          usageNotes: 'Batch imported administrative asset.',
+          tags: Array.isArray(item.tags)
+            ? item.tags
+            : typeof item.tags === 'string'
+            ? item.tags.split(',').map((t: string) => t.trim()).filter(Boolean)
+            : ['imported', 'specimen'],
+          contrastWithWhite: getContrastRatio(cleanHex, '#FFFFFF'),
+          contrastWithBlack: getContrastRatio(cleanHex, '#000000'),
+          bestTextColor: getTextColorForBackground(cleanHex),
+          complementaryHex: hslToHex(
+            ((hsl?.h || 0) + 180) % 360,
+            hsl?.s || 50,
+            hsl?.l || 50
+          ),
+          analogousHexes: [
+            hslToHex(((hsl?.h || 0) + 30) % 360, hsl?.s || 50, hsl?.l || 50),
+            hslToHex(((hsl?.h || 0) + 330) % 360, hsl?.s || 50, hsl?.l || 50),
+          ],
+          triadicHexes: [
+            hslToHex(((hsl?.h || 0) + 120) % 360, hsl?.s || 50, hsl?.l || 50),
+            hslToHex(((hsl?.h || 0) + 240) % 360, hsl?.s || 50, hsl?.l || 50),
+          ],
+          shades: [],
+        };
+      });
+
+    importBatch({ colors: newColors });
     setImported(true);
-    logActivity('Batch Import', `Imported ${parseResult.validCount} records into the library`);
+    logActivity('Batch Import', `Imported ${newColors.length} records into the library`);
   };
 
   return (
@@ -103,11 +167,7 @@ export const AdminImportPage: React.FC = () => {
         />
 
         <div className="flex justify-end gap-2 pt-2">
-          <KromaButton
-            onClick={handleValidate}
-            variant="filled"
-            size="sm"
-          >
+          <KromaButton onClick={handleValidate} variant="filled" size="sm">
             Parse &amp; Validate Records
           </KromaButton>
         </div>
@@ -127,23 +187,35 @@ export const AdminImportPage: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
             <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">VALID SPECIMENS</div>
-              <div className="text-xl font-bold text-[#34C759] mt-0.5">{parseResult.validCount}</div>
+              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">
+                VALID SPECIMENS
+              </div>
+              <div className="text-xl font-bold text-[#1B8738] dark:text-[#34C759] mt-0.5">
+                {parseResult.validCount}
+              </div>
             </div>
 
             <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">DUPLICATES</div>
-              <div className="text-xl font-bold text-[#FFD60A] mt-0.5">{parseResult.duplicateCount}</div>
+              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">
+                DUPLICATES
+              </div>
+              <div className="text-xl font-bold text-[#946300] dark:text-[#FFD60A] mt-0.5">
+                {parseResult.duplicateCount}
+              </div>
             </div>
 
             <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">INVALID ROWS</div>
-              <div className="text-xl font-bold text-[#FF3B30] mt-0.5">{parseResult.invalidCount}</div>
+              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">
+                INVALID ROWS
+              </div>
+              <div className="text-xl font-bold text-[#D70015] dark:text-[#FF3B30] mt-0.5">
+                {parseResult.invalidCount}
+              </div>
             </div>
           </div>
 
           {parseResult.errors.length > 0 && (
-            <div className="p-3 bg-[#FF3B30]/10 border border-[#FF3B30]/20 rounded-xs text-xs font-mono text-[#FF3B30] space-y-1">
+            <div className="p-3 bg-[#FF3B30]/10 border border-[#FF3B30]/20 rounded-xs text-xs font-mono text-[#D70015] dark:text-[#FF3B30] space-y-1">
               <div className="font-bold">Validation Warnings:</div>
               {parseResult.errors.map((err, i) => (
                 <div key={i}>• {err}</div>
@@ -152,9 +224,11 @@ export const AdminImportPage: React.FC = () => {
           )}
 
           {imported ? (
-            <div className="flex items-center gap-2 text-xs font-mono text-[#34C759] font-bold p-3 bg-[#34C759]/10 rounded-xs border border-[#34C759]/20">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#1B8738] dark:text-[#34C759] font-bold p-3 bg-[#34C759]/10 rounded-xs border border-[#34C759]/20">
               <CheckCircle2 size={16} />
-              <span>Import committed successfully! {parseResult.validCount} records integrated.</span>
+              <span>
+                Import committed successfully! {parseResult.validCount} records integrated into library.
+              </span>
             </div>
           ) : (
             <div className="flex justify-end pt-2">

@@ -39,6 +39,7 @@ const MeshGradientStudioPage = lazy(() => import('./pages/MeshGradientStudioPage
 const CreateStudioGatewayPage = lazy(() => import('./pages/CreateStudioGatewayPage').then(m => ({ default: m.CreateStudioGatewayPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 const AdminHubPage = lazy(() => import('./pages/admin/AdminHubPage').then(m => ({ default: m.AdminHubPage })));
+import { AdminErrorBoundary } from './pages/admin/AdminErrorBoundary';
 const MaintenancePage = lazy(() => import('./pages/MaintenancePage').then(m => ({ default: m.MaintenancePage })));
 
 // Expanded discovery, curation, studio, utility & play routes
@@ -415,7 +416,14 @@ function parseUrlToRoute(): RouteType {
   }
 
   if (s0 === 'admin') {
-    return { path: 'admin', tab: segments[1] || 'dashboard' };
+    const rawTab = segments[1] || 'dashboard';
+    let tab = rawTab;
+    if (rawTab === 'harmonies') tab = 'combos';
+    if (rawTab === 'network') tab = 'relationships';
+    if (rawTab === 'data-health') tab = 'validation';
+    if (rawTab === 'roles') tab = 'users';
+    if (rawTab === 'settings') tab = 'security';
+    return { path: 'admin', tab, returnTo: searchParams.get('returnTo') || undefined };
   }
 
   if (s0 === 'saved') {
@@ -819,9 +827,15 @@ export const App: React.FC = () => {
   // Admin route renders its own standalone layout (Always accessible, never locked out)
   if (currentRoute.path === 'admin') {
     return (
-      <Suspense fallback={<RainbowPaintRollerPreloader fullscreen={false} />}>
-        <AdminHubPage onNavigatePublic={handleNavigate} />
-      </Suspense>
+      <AdminErrorBoundary onNavigatePublic={handleNavigate}>
+        <Suspense fallback={<RainbowPaintRollerPreloader fullscreen={false} />}>
+          <AdminHubPage
+            currentTab={currentRoute.tab || 'dashboard'}
+            onNavigateAdmin={(tab) => handleNavigate({ path: 'admin', tab })}
+            onNavigatePublic={handleNavigate}
+          />
+        </Suspense>
+      </AdminErrorBoundary>
     );
   }
 

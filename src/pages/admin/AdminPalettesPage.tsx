@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import {
   Search,
+  Plus,
+  Edit2,
   Trash2,
   Eye,
   X,
@@ -19,7 +21,7 @@ import { copyToClipboard } from '../../utils/colorUtils';
 
 export const AdminPalettesPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
-  const { palettes, deletePalette } = useLibraryData();
+  const { palettes, addPalette, updatePalette, deletePalette } = useLibraryData();
 
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,8 +29,26 @@ export const AdminPalettesPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = viewMode === 'grid' ? 12 : 20;
 
+  // Modals & Inspection
   const [inspectPalette, setInspectPalette] = useState<PaletteItem | null>(null);
+  const [editingPalette, setEditingPalette] = useState<PaletteItem | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const [copiedTokens, setCopiedTokens] = useState<string | null>(null);
+
+  // Form State
+  const [formTitle, setFormTitle] = useState('');
+  const [formCategory, setFormCategory] = useState('editorial');
+  const [formDescription, setFormDescription] = useState('');
+  const [formTags, setFormTags] = useState('editorial, harmony, specimen');
+  const [formColors, setFormColors] = useState<
+    Array<{ name: string; hex: string; role: string }>
+  >([
+    { name: 'Tone 1', hex: '#FF3B30', role: 'primary' },
+    { name: 'Tone 2', hex: '#FF9500', role: 'accent' },
+    { name: 'Tone 3', hex: '#FFD60A', role: 'highlight' },
+    { name: 'Tone 4', hex: '#34C759', role: 'secondary' },
+    { name: 'Tone 5', hex: '#00AEEF', role: 'surface' },
+  ]);
 
   const filtered = useMemo(() => {
     return palettes.filter((p) => {
@@ -46,6 +66,83 @@ export const AdminPalettesPage: React.FC = () => {
     const start = (currentPage - 1) * pageSize;
     return filtered.slice(start, start + pageSize);
   }, [filtered, currentPage, pageSize]);
+
+  const handleOpenCreate = () => {
+    setIsCreating(true);
+    setEditingPalette(null);
+    setFormTitle('New Harmonized System');
+    setFormCategory('editorial');
+    setFormDescription('Curated five-tone chromatic palette specification.');
+    setFormTags('editorial, harmony, modernist');
+    setFormColors([
+      { name: 'Anchor Hue', hex: '#FF3B30', role: 'primary' },
+      { name: 'Secondary Hue', hex: '#FF9500', role: 'accent' },
+      { name: 'Highlight', hex: '#FFD60A', role: 'highlight' },
+      { name: 'Harmonic Cool', hex: '#34C759', role: 'secondary' },
+      { name: 'Neutral Base', hex: '#171717', role: 'surface' },
+    ]);
+  };
+
+  const handleOpenEdit = (palette: PaletteItem) => {
+    setIsCreating(false);
+    setEditingPalette(palette);
+    setFormTitle(palette.title);
+    setFormCategory(palette.category);
+    setFormDescription(palette.description || '');
+    setFormTags(palette.tags?.join(', ') || 'editorial, palette');
+    setFormColors(
+      palette.colors.map((c, i) => ({
+        name: c.name || `Tone ${i + 1}`,
+        hex: c.hex,
+        role: c.role || `tone-${i + 1}`,
+      }))
+    );
+  };
+
+  const handleSaveForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    const tagArray = formTags.split(',').map((t) => t.trim()).filter(Boolean);
+    const slug = formTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `palette-${Date.now()}`;
+
+    if (isCreating) {
+      const newPalette: PaletteItem = {
+        id: `pal-custom-${Date.now()}`,
+        slug,
+        title: formTitle,
+        category: formCategory,
+        description: formDescription,
+        tags: tagArray,
+        colors: formColors.map((c, i) => ({
+          name: c.name || `Tone ${i + 1}`,
+          hex: c.hex.toUpperCase(),
+          role: c.role || `tone-${i + 1}`,
+        })),
+        likes: 0,
+        saves: 0,
+        createdAt: new Date().toISOString(),
+      };
+      addPalette(newPalette);
+      logActivity('Created Palette', `Added palette system "${formTitle}"`);
+    } else if (editingPalette) {
+      const updated: PaletteItem = {
+        ...editingPalette,
+        title: formTitle,
+        category: formCategory,
+        description: formDescription,
+        tags: tagArray,
+        colors: formColors.map((c, i) => ({
+          name: c.name || `Tone ${i + 1}`,
+          hex: c.hex.toUpperCase(),
+          role: c.role || `tone-${i + 1}`,
+        })),
+      };
+      updatePalette(updated);
+      logActivity('Updated Palette', `Modified palette system "${formTitle}"`);
+    }
+
+    setIsCreating(false);
+    setEditingPalette(null);
+  };
 
   const handleDelete = (id: string, title: string) => {
     if (confirm(`Remove palette system "${title}"?`)) {
@@ -82,8 +179,15 @@ export const AdminPalettesPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
-          {filtered.length.toLocaleString()} PALETTES MATCHED
+        <div className="flex items-center gap-3">
+          <KromaButton
+            onClick={handleOpenCreate}
+            variant="filled"
+            size="sm"
+            iconLeft={<Plus size={14} />}
+          >
+            New Palette System
+          </KromaButton>
         </div>
       </div>
 
@@ -91,7 +195,7 @@ export const AdminPalettesPage: React.FC = () => {
       <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
           <div className="relative flex items-center">
-            <Search size={14} className="absolute left-2.5 text-[#707070]" />
+            <Search size={14} className="absolute left-2.5 text-[#707070] dark:text-[#9DA3AF]" />
             <input
               type="text"
               placeholder="Search palette title or slug..."
@@ -100,7 +204,7 @@ export const AdminPalettesPage: React.FC = () => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
+              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] dark:placeholder-[#9DA3AF] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
             />
           </div>
 
@@ -134,7 +238,7 @@ export const AdminPalettesPage: React.FC = () => {
               className={`p-1 rounded-xs transition-colors ${
                 viewMode === 'grid'
                   ? 'bg-white dark:bg-[#181A20] text-[#171717] dark:text-[#F8F8F8] shadow-xs'
-                  : 'text-[#707070]'
+                  : 'text-[#707070] dark:text-[#9DA3AF]'
               }`}
             >
               <LayoutGrid size={14} />
@@ -146,7 +250,7 @@ export const AdminPalettesPage: React.FC = () => {
               className={`p-1 rounded-xs transition-colors ${
                 viewMode === 'table'
                   ? 'bg-white dark:bg-[#181A20] text-[#171717] dark:text-[#F8F8F8] shadow-xs'
-                  : 'text-[#707070]'
+                  : 'text-[#707070] dark:text-[#9DA3AF]'
               }`}
             >
               <List size={14} />
@@ -198,7 +302,7 @@ export const AdminPalettesPage: React.FC = () => {
                 {/* Swatches Hex Sequence */}
                 <div className="flex items-center gap-1.5 font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF] overflow-x-auto py-1 border-t border-black/5 dark:border-white/5">
                   {palette.colors.map((c, i) => (
-                    <span key={i} className="flex items-center gap-1">
+                    <span key={i} className="flex items-center gap-1 shrink-0">
                       <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: c.hex }} />
                       <span>{c.hex}</span>
                     </span>
@@ -212,7 +316,7 @@ export const AdminPalettesPage: React.FC = () => {
                     size="sm"
                     onClick={() => handleCopyTokens(palette)}
                     iconLeft={copiedTokens === palette.id ? <Check size={12} /> : <Copy size={12} />}
-                    className="!text-xs !py-1 !px-2 text-[#707070]"
+                    className="!text-xs !py-1 !px-2 text-[#707070] dark:text-[#9DA3AF]"
                   >
                     {copiedTokens === palette.id ? 'Copied' : 'Tokens'}
                   </KromaButton>
@@ -221,9 +325,18 @@ export const AdminPalettesPage: React.FC = () => {
                     <KromaButton
                       variant="ghost"
                       size="sm"
+                      onClick={() => handleOpenEdit(palette)}
+                      iconLeft={<Edit2 size={12} />}
+                      className="!text-xs !py-1 !px-2 text-[#707070] dark:text-[#9DA3AF]"
+                    >
+                      Edit
+                    </KromaButton>
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
                       onClick={() => setInspectPalette(palette)}
                       iconLeft={<Eye size={12} />}
-                      className="!text-xs !py-1 !px-2 text-[#707070]"
+                      className="!text-xs !py-1 !px-2 text-[#707070] dark:text-[#9DA3AF]"
                     >
                       View
                     </KromaButton>
@@ -232,7 +345,7 @@ export const AdminPalettesPage: React.FC = () => {
                       size="sm"
                       onClick={() => handleDelete(palette.id, palette.title)}
                       iconLeft={<Trash2 size={12} />}
-                      className="!text-xs !py-1 !px-2 text-[#FF3B30] hover:bg-[#FF3B30]/10"
+                      className="!text-xs !py-1 !px-2 text-[#D70015] dark:text-[#FF453A] hover:bg-[#FF3B30]/10"
                     >
                       Delete
                     </KromaButton>
@@ -286,15 +399,23 @@ export const AdminPalettesPage: React.FC = () => {
                         type="button"
                         onClick={() => handleCopyTokens(palette)}
                         title="Copy Tokens"
-                        className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                        className="p-1 text-[#707070] dark:text-[#9DA3AF] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
                       >
                         <Copy size={12} />
                       </button>
                       <button
                         type="button"
+                        onClick={() => handleOpenEdit(palette)}
+                        title="Edit Palette"
+                        className="p-1 text-[#707070] dark:text-[#9DA3AF] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                      >
+                        <Edit2 size={12} />
+                      </button>
+                      <button
+                        type="button"
                         onClick={() => setInspectPalette(palette)}
                         title="Inspect"
-                        className="p-1 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                        className="p-1 text-[#707070] dark:text-[#9DA3AF] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
                       >
                         <Eye size={12} />
                       </button>
@@ -302,7 +423,7 @@ export const AdminPalettesPage: React.FC = () => {
                         type="button"
                         onClick={() => handleDelete(palette.id, palette.title)}
                         title="Delete"
-                        className="p-1 text-[#707070] hover:text-[#FF3B30]"
+                        className="p-1 text-[#D70015] dark:text-[#FF453A] hover:opacity-80"
                       >
                         <Trash2 size={12} />
                       </button>
@@ -344,6 +465,194 @@ export const AdminPalettesPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Create / Edit Palette Modal */}
+      {(isCreating || editingPalette) && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+          onClick={() => {
+            setIsCreating(false);
+            setEditingPalette(null);
+          }}
+        >
+          <div
+            className="bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs p-6 max-w-xl w-full flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
+              <h2 className="text-base font-bold text-[#171717] dark:text-[#F8F8F8]">
+                {isCreating ? 'Create Palette System' : `Edit: ${editingPalette?.title}`}
+              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsCreating(false);
+                  setEditingPalette(null);
+                }}
+                className="text-[#707070] dark:text-[#9DA3AF] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Live 5-Tone Preview */}
+            <div className="w-full h-16 flex rounded-xs overflow-hidden border border-black/10 dark:border-white/10">
+              {formColors.map((c, i) => (
+                <div
+                  key={i}
+                  className="flex-1 h-full flex flex-col justify-end p-1 text-center"
+                  style={{ backgroundColor: c.hex }}
+                >
+                  <span className="font-mono text-[9px] font-bold px-0.5 rounded-xs bg-black/50 text-white truncate">
+                    {c.hex}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <form onSubmit={handleSaveForm} className="flex flex-col gap-4">
+              <div>
+                <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
+                  Palette Title
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formTitle}
+                  onChange={(e) => setFormTitle(e.target.value)}
+                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs font-medium text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
+                    Discipline / Category
+                  </label>
+                  <select
+                    value={formCategory}
+                    onChange={(e) => setFormCategory(e.target.value)}
+                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none capitalize"
+                  >
+                    <option value="editorial">Editorial</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="nature">Nature</option>
+                    <option value="architectural">Architectural</option>
+                    <option value="vintage">Vintage</option>
+                    <option value="vibrant">Vibrant</option>
+                    <option value="monochrome">Monochrome</option>
+                    <option value="dark-mode">Dark Mode</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
+                    Tags (Comma Separated)
+                  </label>
+                  <input
+                    type="text"
+                    value={formTags}
+                    onChange={(e) => setFormTags(e.target.value)}
+                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* 5-Color Swatch Configurator */}
+              <div>
+                <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-2 uppercase tracking-wider">
+                  5-Tone Architecture Swatches
+                </label>
+                <div className="space-y-2">
+                  {formColors.map((col, idx) => (
+                    <div
+                      key={idx}
+                      className="p-2 bg-black/[0.02] dark:bg-white/[0.03] border border-black/5 dark:border-white/5 rounded-xs flex items-center gap-2"
+                    >
+                      <input
+                        type="color"
+                        value={col.hex}
+                        onChange={(e) => {
+                          const updated = [...formColors];
+                          updated[idx].hex = e.target.value.toUpperCase();
+                          setFormColors(updated);
+                        }}
+                        className="w-7 h-7 rounded-xs border-0 cursor-pointer bg-transparent"
+                      />
+                      <input
+                        type="text"
+                        value={col.hex}
+                        onChange={(e) => {
+                          const updated = [...formColors];
+                          updated[idx].hex = e.target.value;
+                          setFormColors(updated);
+                        }}
+                        className="w-20 px-2 py-1 bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs font-mono text-xs text-[#171717] dark:text-[#F8F8F8] uppercase"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Tone name"
+                        value={col.name}
+                        onChange={(e) => {
+                          const updated = [...formColors];
+                          updated[idx].name = e.target.value;
+                          setFormColors(updated);
+                        }}
+                        className="flex-1 px-2 py-1 bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8]"
+                      />
+                      <select
+                        value={col.role}
+                        onChange={(e) => {
+                          const updated = [...formColors];
+                          updated[idx].role = e.target.value;
+                          setFormColors(updated);
+                        }}
+                        className="w-24 px-2 py-1 bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8]"
+                      >
+                        <option value="primary">Primary</option>
+                        <option value="secondary">Secondary</option>
+                        <option value="accent">Accent</option>
+                        <option value="highlight">Highlight</option>
+                        <option value="surface">Surface</option>
+                        <option value="border">Border</option>
+                      </select>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
+                  Description
+                </label>
+                <textarea
+                  rows={2}
+                  value={formDescription}
+                  onChange={(e) => setFormDescription(e.target.value)}
+                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
+                <KromaButton
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setIsCreating(false);
+                    setEditingPalette(null);
+                  }}
+                >
+                  Cancel
+                </KromaButton>
+                <KromaButton type="submit" variant="filled" size="sm">
+                  {isCreating ? 'Create Palette' : 'Save Changes'}
+                </KromaButton>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Inspect Palette Modal */}
       {inspectPalette && (
         <div
@@ -356,7 +665,7 @@ export const AdminPalettesPage: React.FC = () => {
           >
             <div className="flex justify-between items-center pb-3 border-b border-black/10 dark:border-white/10">
               <div>
-                <h2 className="text-base font-bold">{inspectPalette.title}</h2>
+                <h2 className="text-base font-bold text-[#171717] dark:text-[#F8F8F8]">{inspectPalette.title}</h2>
                 <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
                   {inspectPalette.category} · Slug: {inspectPalette.slug}
                 </div>
@@ -365,7 +674,7 @@ export const AdminPalettesPage: React.FC = () => {
                 type="button"
                 onClick={() => setInspectPalette(null)}
                 aria-label="Close"
-                className="text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                className="text-[#707070] dark:text-[#9DA3AF] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
               >
                 <X size={16} />
               </button>
@@ -417,13 +726,27 @@ export const AdminPalettesPage: React.FC = () => {
               >
                 {copiedTokens === inspectPalette.id ? 'Copied Tokens' : 'Copy Tokens JSON'}
               </KromaButton>
-              <KromaButton
-                variant="filled"
-                size="sm"
-                onClick={() => setInspectPalette(null)}
-              >
-                Done
-              </KromaButton>
+              <div className="flex gap-2">
+                <KromaButton
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const toEdit = inspectPalette;
+                    setInspectPalette(null);
+                    handleOpenEdit(toEdit);
+                  }}
+                  iconLeft={<Edit2 size={12} />}
+                >
+                  Edit
+                </KromaButton>
+                <KromaButton
+                  variant="filled"
+                  size="sm"
+                  onClick={() => setInspectPalette(null)}
+                >
+                  Done
+                </KromaButton>
+              </div>
             </div>
           </div>
         </div>

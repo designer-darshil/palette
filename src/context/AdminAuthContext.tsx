@@ -34,6 +34,7 @@ interface AdminAuthContextType {
   currentUser: AdminUser | null;
   users: AdminUser[];
   isAuthenticated: boolean;
+  isLoading: boolean;
   isSuperAdmin: boolean;
   needsInitialSetup: boolean;
   setupInitialMasterPassword: (password: string) => Promise<{ success: boolean; error?: string }>;
@@ -253,6 +254,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   });
 
   const [currentUser, setCurrentUser] = useState<AdminUser | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [activityLogs, setActivityLogs] = useState<ActivityLogItem[]>(() => {
     try {
@@ -267,11 +269,15 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const verifyAndRestoreSession = async () => {
       try {
         const raw = sessionStorage.getItem('kroma_admin_session');
-        if (!raw) return;
+        if (!raw) {
+          setIsLoading(false);
+          return;
+        }
 
         const sessionPayload: StoredSessionPayload = JSON.parse(raw);
         if (!sessionPayload || !sessionPayload.user || !sessionPayload.expiresAt) {
           sessionStorage.removeItem('kroma_admin_session');
+          setIsLoading(false);
           return;
         }
 
@@ -279,6 +285,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         const now = Date.now();
         if (now > sessionPayload.expiresAt) {
           sessionStorage.removeItem('kroma_admin_session');
+          setIsLoading(false);
           return;
         }
 
@@ -295,6 +302,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           // DevTools tampering or signature mismatch detected
           console.warn('[Security] Unauthorized session tampering detected. Purging session.');
           sessionStorage.removeItem('kroma_admin_session');
+          setIsLoading(false);
           return;
         }
 
@@ -302,12 +310,15 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         const registered = users.find((u) => u.id === sessionPayload.user.id);
         if (!registered || registered.status !== 'active') {
           sessionStorage.removeItem('kroma_admin_session');
+          setIsLoading(false);
           return;
         }
 
         setCurrentUser(sessionPayload.user);
       } catch {
         sessionStorage.removeItem('kroma_admin_session');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -659,6 +670,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         currentUser,
         users,
         isAuthenticated: !!currentUser,
+        isLoading,
         isSuperAdmin: currentUser?.role === 'super_admin',
         needsInitialSetup,
         setupInitialMasterPassword,

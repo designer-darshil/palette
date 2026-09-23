@@ -7,11 +7,13 @@ import { KromaButton } from '../../components/common/KromaButton';
 import { validateAdminPassword, PASSWORD_POLICY } from '../../utils/passwordPolicy';
 
 interface AdminLoginPageProps {
+  returnTab?: string;
   onNavigatePublic: (route: RouteType) => void;
-  onLoginSuccess: () => void;
+  onLoginSuccess: (returnTab?: string) => void;
 }
 
 export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
+  returnTab,
   onNavigatePublic,
   onLoginSuccess,
 }) => {
@@ -57,7 +59,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
         const loginRes = await login(password, email);
         setLoading(false);
         if (loginRes.success) {
-          onLoginSuccess();
+          onLoginSuccess(returnTab);
         } else {
           setError(loginRes.error || 'Setup completed, please sign in.');
         }
@@ -79,7 +81,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
       setLoading(false);
 
       if (res.success) {
-        onLoginSuccess();
+        onLoginSuccess(returnTab);
       } else {
         setError(res.error || 'Unable to sign in. Check your credentials and try again.');
       }

@@ -75,11 +75,11 @@ export const AdminSecurityPage: React.FC = () => {
       {/* Account Overview Capsule */}
       <div className="p-5 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-col gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xs bg-[#FF3B30]/10 text-[#FF3B30] flex items-center justify-center shrink-0 border border-[#FF3B30]/20">
+          <div className="w-9 h-9 rounded-xs bg-[#D70015]/10 dark:bg-[#FF453A]/10 text-[#D70015] dark:text-[#FF453A] flex items-center justify-center shrink-0 border border-[#D70015]/20 dark:border-[#FF453A]/20">
             <ShieldCheck size={18} />
           </div>
           <div>
-            <div className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase tracking-wider font-semibold">
+            <div className="font-mono text-[10px] text-[#595959] dark:text-[#9DA3AF] uppercase tracking-wider font-semibold">
               SUPER ADMIN IDENTITY
             </div>
             <div className="text-sm font-bold text-[#171717] dark:text-[#F8F8F8]">
@@ -90,14 +90,14 @@ export const AdminSecurityPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-black/5 dark:border-white/5 font-mono text-xs">
           <div className="p-2.5 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-            <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">ROLE STATUS</div>
-            <div className="text-xs font-bold text-[#FF3B30] uppercase mt-0.5">
+            <div className="text-[10px] text-[#595959] dark:text-[#9DA3AF] uppercase">ROLE STATUS</div>
+            <div className="text-xs font-bold text-[#D70015] dark:text-[#FF453A] uppercase mt-0.5">
               {currentUser?.role.replace('_', ' ')}
             </div>
           </div>
           <div className="p-2.5 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-            <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">CRYPTOGRAPHIC SCHEME</div>
-            <div className="text-xs font-bold text-[#34C759] mt-0.5">SHA-256 + 16B Salt</div>
+            <div className="text-[10px] text-[#595959] dark:text-[#9DA3AF] uppercase">CRYPTOGRAPHIC SCHEME</div>
+            <div className="text-xs font-bold text-[#1B8738] dark:text-[#34C759] mt-0.5">SHA-256 + 16B Salt</div>
           </div>
         </div>
       </div>
@@ -105,7 +105,7 @@ export const AdminSecurityPage: React.FC = () => {
       {/* Change Password Form */}
       <div className="p-5 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-col gap-5">
         <div className="flex items-center gap-2 pb-3 border-b border-black/10 dark:border-white/10">
-          <KeyRound size={16} className="text-[#FF9500]" />
+          <KeyRound size={16} className="text-[#B35300] dark:text-[#FF9500]" />
           <h2 className="text-sm font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
             Change Super Admin Password
           </h2>
@@ -117,8 +117,8 @@ export const AdminSecurityPage: React.FC = () => {
             role="alert"
             className={`flex items-center gap-2 px-3.5 py-2.5 text-xs rounded-xs font-mono border ${
               statusMessage.type === 'success'
-                ? 'bg-[#34C759]/10 text-[#34C759] border-[#34C759]/20'
-                : 'bg-[#FF3B30]/10 text-[#FF3B30] border-[#FF3B30]/20'
+                ? 'bg-[#1B8738]/10 text-[#1B8738] dark:bg-[#34C759]/10 dark:text-[#34C759] border-[#1B8738]/20 dark:border-[#34C759]/20'
+                : 'bg-[#D70015]/10 text-[#D70015] dark:bg-[#FF453A]/10 dark:text-[#FF453A] border-[#D70015]/20 dark:border-[#FF453A]/20'
             }`}
           >
             {statusMessage.type === 'success' ? <Check size={14} className="shrink-0" /> : <AlertCircle size={14} className="shrink-0" />}
@@ -206,7 +206,7 @@ export const AdminSecurityPage: React.FC = () => {
           <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs space-y-1.5 font-mono">
             <div
               className={`flex items-center gap-2 transition-colors ${
-                hasMinLength ? 'text-[#34C759]' : 'text-[#707070] dark:text-[#9DA3AF]'
+                hasMinLength ? 'text-[#1B8738] dark:text-[#34C759]' : 'text-[#595959] dark:text-[#9DA3AF]'
               }`}
             >
               <Check size={13} className={hasMinLength ? 'opacity-100' : 'opacity-30'} />
@@ -216,7 +216,7 @@ export const AdminSecurityPage: React.FC = () => {
             {confirmPassword.length > 0 && (
               <div
                 className={`flex items-center gap-2 transition-colors ${
-                  passwordsMatch ? 'text-[#34C759]' : 'text-[#FF3B30]'
+                  passwordsMatch ? 'text-[#1B8738] dark:text-[#34C759]' : 'text-[#D70015] dark:text-[#FF453A]'
                 }`}
               >
                 <Check size={13} className={passwordsMatch ? 'opacity-100' : 'opacity-30'} />

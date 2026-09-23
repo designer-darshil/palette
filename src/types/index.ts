@@ -235,6 +235,6 @@ export type RouteType =
   | { path: 'play-palette-match' }
   | { path: 'profile'; tab?: 'saved' | 'liked' | 'collections' | 'created' | 'remixes' }
   | { path: 'api-docs' }
-  | { path: 'admin'; tab?: string }
+  | { path: 'admin'; tab?: string; returnTo?: string }
   | { path: 'saved' }
   | { path: 'not-found'; requestedUrl?: string };

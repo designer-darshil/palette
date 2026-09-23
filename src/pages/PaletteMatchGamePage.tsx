@@ -100,7 +100,7 @@ export const PaletteMatchGamePage: React.FC<PaletteMatchGamePageProps> = ({ onNa
                 }`}
                 style={{ backgroundColor: hex }}
               >
-                <span className="font-mono text-[10px] font-bold text-white drop-shadow-md truncate">
+                <span className="font-mono text-xs font-bold text-white drop-shadow-md truncate">
                   {hex}
                 </span>
               </button>

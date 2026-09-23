@@ -60,7 +60,7 @@ export const AccessibilityMatrix: React.FC<AccessibilityMatrixProps> = ({ colors
           }}
         >
           <span className="text-2xl font-black">{selectedRatio}:1</span>
-          <span className="text-[10px] font-bold tracking-wider uppercase">
+          <span className="text-xs font-bold tracking-wider uppercase">
             {rating.passAAA ? 'WCAG AAA PASS' : rating.passAA ? 'WCAG AA PASS' : rating.passAALarge ? 'AA LARGE ONLY' : 'FAIL (<3.0:1)'}
           </span>
         </div>
@@ -71,14 +71,14 @@ export const AccessibilityMatrix: React.FC<AccessibilityMatrixProps> = ({ colors
         <table className="w-full text-left border-collapse text-xs font-mono">
           <thead>
             <tr className="border-b border-[var(--border-subtle)]">
-              <th className="p-2 text-[var(--text-tertiary)] font-normal text-[10px]">
+              <th className="p-2 text-[var(--text-tertiary)] font-normal text-xs">
                 FG \ BG
               </th>
               {colors.map((c, i) => (
                 <th key={i} className="p-2 text-center text-[var(--text-primary)]">
                   <div className="flex flex-col items-center gap-1">
                     <span className="w-3 h-3 rounded-xs border border-black/10" style={{ backgroundColor: c.hex }} />
-                    <span className="text-[10px] truncate max-w-[60px]">{c.hex}</span>
+                    <span className="text-xs truncate max-w-[60px]">{c.hex}</span>
                   </div>
                 </th>
               ))}
@@ -89,7 +89,7 @@ export const AccessibilityMatrix: React.FC<AccessibilityMatrixProps> = ({ colors
               <tr key={rIdx} className="border-b border-[var(--border-subtle)]/50 hover:bg-[var(--bg-surface-2)]/30">
                 <td className="p-2 font-bold flex items-center gap-1.5 text-[var(--text-primary)]">
                   <span className="w-3 h-3 rounded-xs border border-black/10" style={{ backgroundColor: fgColor.hex }} />
-                  <span className="text-[11px] truncate max-w-[80px]">{fgColor.hex}</span>
+                  <span className="text-xs truncate max-w-[80px]">{fgColor.hex}</span>
                 </td>
                 {colors.map((bgColor, cIdx) => {
                   if (fgColor.hex.toLowerCase() === bgColor.hex.toLowerCase()) {
@@ -114,7 +114,7 @@ export const AccessibilityMatrix: React.FC<AccessibilityMatrixProps> = ({ colors
                     >
                       <div className="flex flex-col items-center">
                         <span
-                          className={`px-1.5 py-0.5 rounded-2xs text-[10px] font-bold ${
+                          className={`px-1.5 py-0.5 rounded-2xs text-xs font-bold ${
                             ratio >= 7.0
                               ? 'bg-emerald-500/20 text-emerald-400'
                               : ratio >= 4.5

@@ -152,11 +152,11 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
       <header className="mb-8 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
-            <div className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070] dark:text-[#909090] flex items-center gap-2">
+            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090] flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-[1px] bg-[#FF3B30]" />
               <span>COLOUR SHOW</span>
             </div>
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight leading-[0.95] text-[#171717] dark:text-white m-0">
+            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.08] text-[#171717] dark:text-white m-0">
               COLOUR, IN ITS PUREST FORM.
             </h1>
             <p className="font-sans text-sm sm:text-base text-[#707070] dark:text-[#A0A0A0] max-w-xl m-0 mt-1 leading-[1.5]">
@@ -166,7 +166,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
 
           {/* Gamut Counter & Quick Family Bar */}
           <div className="flex flex-col gap-2.5 lg:items-end">
-            <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090]">
               {filteredColors.length} EXHIBITION SPECIMENS
             </span>
             <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 scrollbar-none" role="region" aria-label="Color Gamuts">
@@ -178,7 +178,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                     size="sm"
                     variant={isActive ? 'filled' : 'ghost'}
                     onClick={() => setSelectedFamily(isActive ? 'all' : f.familyKey)}
-                    className="h-7 px-2 font-mono text-[10px] tracking-wider uppercase inline-flex items-center gap-1.5"
+                    className="h-7 px-2.5 font-mono text-xs tracking-wider uppercase inline-flex items-center gap-1.5"
                     title={`Filter ${f.name} gamut`}
                     iconLeft={<span className="w-2 h-2 rounded-[1px] flex-shrink-0" style={{ backgroundColor: f.hex }} />}
                   >
@@ -194,7 +194,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
       {/* ── 02: Editorial Catalogue Controls ────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-[#707070] dark:text-[#909090] mr-1">
+          <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090] mr-1">
             TONE:
           </span>
           {toneFilters.map((tone) => {
@@ -205,7 +205,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                 size="sm"
                 variant={isActive ? 'filled' : 'ghost'}
                 onClick={() => setSelectedTone(tone)}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase px-3 py-1.5"
+                className="font-mono text-xs tracking-wider uppercase px-3 py-1.5"
               >
                 {tone.toUpperCase()}
               </KromaButton>
@@ -217,7 +217,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
               size="sm"
               variant="filled"
               onClick={() => setSelectedFamily('all')}
-              className="font-mono text-[11px] tracking-[0.08em] uppercase px-3 py-1.5 ml-1"
+              className="font-mono text-xs tracking-wider uppercase px-3 py-1.5 ml-1"
               iconRight={<X size={11} />}
             >
               <span>GAMUT: {selectedFamily.toUpperCase()}</span>
@@ -227,10 +227,10 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
 
         {/* Minimal Search Field */}
         <div className="relative min-w-[240px] sm:min-w-[280px]">
-          <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#707070]" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#707070]" />
           <input
             type="text"
-            className="w-full bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] py-1.5 pl-8 pr-3 text-xs font-sans text-[#171717] dark:text-white placeholder-[#707070] focus:outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors"
+            className="w-full bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] py-2 pl-9 pr-3 text-sm font-sans text-[#171717] dark:text-white placeholder-[#707070] focus:outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors"
             placeholder="Search specimen or #HEX..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -295,7 +295,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                     style={{ backgroundColor: color.hex }}
                   >
                     {/* Corner Specimen Index Tag */}
-                    <div className="absolute top-2.5 left-2.5 z-10 font-mono text-[9.5px] font-bold px-1.5 py-0.5 rounded-[1px] bg-black/60 text-white backdrop-blur-xs">
+                    <div className="absolute top-2.5 left-2.5 z-10 font-mono text-xs font-bold px-1.5 py-0.5 rounded-[1px] bg-black/60 text-white backdrop-blur-xs">
                       {specimenNumber}
                     </div>
 
@@ -305,7 +305,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                         size="sm"
                         variant="filled"
                         onClick={(e) => handleCopy(color.hex, color.name, e)}
-                        className="bg-white text-[#171717] font-mono text-[10.5px] font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 shadow-sm"
+                        className="bg-white text-[#171717] font-mono text-xs font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 shadow-sm"
                         title="Click to copy HEX"
                         iconLeft={isCopied ? <Check size={12} className="text-emerald-600" /> : <Copy size={11} />}
                       >
@@ -331,10 +331,10 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                   {/* Technical Exhibition Annotation */}
                   <div className="p-3 bg-[#F8F8F8] dark:bg-[#141518] border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between gap-2">
                     <div className="min-w-0 flex-1">
-                      <div className="font-sans text-xs font-bold text-[#171717] dark:text-white truncate uppercase tracking-tight">
+                      <div className="font-sans text-sm font-bold text-[#171717] dark:text-white truncate uppercase tracking-tight">
                         {color.name}
                       </div>
-                      <div className="font-mono text-[10.5px] text-[#707070] dark:text-[#909090] flex items-center gap-1.5 mt-0.5">
+                      <div className="font-mono text-xs text-[#707070] dark:text-[#909090] flex items-center gap-1.5 mt-0.5">
                         <span>{color.hex}</span>
                         {isAnchorHero && color.rgb && (
                           <span className="hidden sm:inline opacity-70">· {color.rgb}</span>
@@ -362,7 +362,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
           )}
 
           {visibleCount >= filteredColors.length && filteredColors.length > BATCH_SIZE && (
-            <div className="text-center py-10 font-mono text-[10.5px] tracking-widest text-[#707070] uppercase">
+            <div className="text-center py-10 font-mono text-xs tracking-widest text-[#707070] uppercase">
               ARCHIVE BOUNDARY REACHED • {filteredColors.length} CALIBRATED SPECIMENS EXHIBITED
             </div>
           )}

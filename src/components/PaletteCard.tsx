@@ -134,7 +134,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
               }}
             >
               <span
-                className={`font-mono text-[10px] font-semibold tracking-wider text-white bg-black/75 px-1.5 py-0.5 rounded-[2px] shadow-xs transition-all duration-150 ${
+                className={`font-mono text-xs font-semibold tracking-wider text-white bg-black/75 px-1.5 py-0.5 rounded-[2px] shadow-xs transition-all duration-150 ${
                   isCopied
                     ? 'opacity-100 translate-y-0 text-emerald-300'
                     : 'opacity-0 translate-y-1 group-hover/swatch:opacity-100 group-hover/swatch:translate-y-0'
@@ -160,7 +160,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
               {palette.title}
             </Link>
           </h3>
-          <div className="font-mono text-[11px] text-[#707070] dark:text-[#909090] uppercase tracking-wider flex items-center gap-1.5">
+          <div className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase tracking-wider flex items-center gap-1.5">
             <span>{palette.category}</span>
             <span>•</span>
             <span>{palette.colors.length} COLORS</span>

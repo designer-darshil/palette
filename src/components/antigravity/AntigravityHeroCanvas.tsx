@@ -198,7 +198,7 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
         {/* Corner: State */}
         <div className="studio-corner-badge top-right">
           <span className={`studio-state-dot ${simState === 'dragging' ? 'dragging' : isPlaying ? 'playing' : 'paused'}`} />
-          <span className="font-bold text-[var(--text-primary)] uppercase text-[9px]">
+          <span className="font-bold text-[var(--text-primary)] uppercase text-xs">
             {simState === 'dragging' ? 'Drag' : isPlaying ? 'Live' : 'Paused'}
           </span>
         </div>
@@ -252,11 +252,11 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-md bg-[var(--bg-surface-elevated)] border-2 border-[var(--color-primary-border)] shadow-2xl flex flex-col justify-between p-2.5 backdrop-blur-md">
               <div className="flex items-center justify-between">
                 <span className="w-2 h-2 rounded-full bg-[var(--color-primary)]" />
-                <span className="font-mono text-[9px] text-[var(--text-tertiary)]">M:{config.mass}</span>
+                <span className="font-mono text-xs text-[var(--text-tertiary)]">M:{config.mass}</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-mono text-[10px] font-bold text-[var(--text-primary)]">SPECIMEN</span>
-                <span className="font-mono text-[8px] text-[var(--text-tertiary)]">#BFA3F0</span>
+                <span className="font-mono text-xs font-bold text-[var(--text-primary)]">SPECIMEN</span>
+                <span className="font-mono text-xs text-[var(--text-tertiary)]">#BFA3F0</span>
               </div>
               <div className="w-full h-1 bg-[var(--color-primary-subtle)] rounded-full overflow-hidden">
                 <div className="h-full bg-[var(--color-primary)] w-3/4" />
@@ -274,7 +274,7 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
             <div className="w-32 h-14 sm:w-36 sm:h-16 rounded-full bg-[var(--bg-surface-elevated)] border-2 border-[var(--color-primary)] shadow-2xl flex items-center justify-between px-3.5 backdrop-blur-md">
               <span className="w-3 h-3 rounded-full bg-[var(--color-primary)]" />
               <span className="font-mono text-xs font-bold text-[var(--text-primary)]">MOTION</span>
-              <span className="font-mono text-[9px] text-[var(--text-tertiary)]">{Math.round(hudMetrics.speed)}px/s</span>
+              <span className="font-mono text-xs text-[var(--text-tertiary)]">{Math.round(hudMetrics.speed)}px/s</span>
             </div>
           )}
 

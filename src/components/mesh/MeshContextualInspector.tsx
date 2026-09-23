@@ -171,7 +171,7 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                   size="sm"
                   variant="ghost"
                   onClick={() => onDuplicatePoint(selectedPoint.id)}
-                  className="flex-1 py-1.5 px-2 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] text-[10px] font-semibold"
+                  className="flex-1 py-1.5 px-2 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] text-xs font-semibold"
                   iconLeft={<Copy size={11} />}
                 >
                   Duplicate
@@ -182,7 +182,7 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                     size="sm"
                     variant="ghost"
                     onClick={() => onDeletePoint(selectedPoint.id)}
-                    className="py-1.5 px-2.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-rose-950/40 text-rose-400 border border-[var(--border-subtle)] text-[10px] font-semibold"
+                    className="py-1.5 px-2.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-rose-950/40 text-rose-400 border border-[var(--border-subtle)] text-xs font-semibold"
                     iconLeft={<Trash2 size={11} />}
                   >
                     Delete
@@ -219,8 +219,8 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                       />
                     }
                   >
-                    <span className="font-mono text-[10px] font-semibold">Node {idx + 1}</span>
-                    <span className="font-mono text-[9px] text-[var(--text-tertiary)] ml-auto">{pt.color}</span>
+                    <span className="font-mono text-xs font-semibold">Node {idx + 1}</span>
+                    <span className="font-mono text-xs text-[var(--text-tertiary)] ml-auto">{pt.color}</span>
                   </KromaButton>
                 );
               })}
@@ -334,7 +334,7 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                   size="sm"
                   variant="ghost"
                   onClick={() => onGenerateGrid(2, 2)}
-                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center"
+                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-xs font-semibold text-center"
                 >
                   2×2
                 </KromaButton>
@@ -342,7 +342,7 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                   size="sm"
                   variant="ghost"
                   onClick={() => onGenerateGrid(3, 3)}
-                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center"
+                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-xs font-semibold text-center"
                 >
                   3×3
                 </KromaButton>
@@ -350,7 +350,7 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                   size="sm"
                   variant="ghost"
                   onClick={() => onGenerateGrid(4, 4)}
-                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center"
+                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-xs font-semibold text-center"
                 >
                   4×4
                 </KromaButton>
@@ -383,7 +383,7 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                     style={{ background: `linear-gradient(135deg, ${colors.join(', ')})` }}
                   />
                   <div className="w-full px-2 py-1.5 bg-[var(--bg-surface-2)]">
-                    <span className={`font-mono text-[10px] font-bold ${isSelected ? 'text-[var(--color-primary)]' : 'text-[var(--text-primary)]'}`}>
+                    <span className={`font-mono text-xs font-bold ${isSelected ? 'text-[var(--color-primary)]' : 'text-[var(--text-primary)]'}`}>
                       {p.name}
                     </span>
                   </div>

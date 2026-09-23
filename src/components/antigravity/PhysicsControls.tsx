@@ -50,7 +50,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <Layers size={14} style={{ color: 'var(--color-primary-text)' }} />
             <span>Target Object Specimen</span>
           </label>
-          <span className="text-[11px] font-mono text-[var(--text-tertiary)]">
+          <span className="text-xs font-mono text-[var(--text-tertiary)]">
             Active: <strong className="text-[var(--text-primary)]">{config.object}</strong>
           </span>
         </div>
@@ -88,7 +88,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <Sliders size={14} style={{ color: 'var(--color-primary-text)' }} />
             <span>Core Force &amp; Mass Vector Inputs</span>
           </label>
-          <span className="text-[10px] text-[var(--text-tertiary)] font-mono">
+          <span className="text-xs text-[var(--text-tertiary)] font-mono">
             Interactive Continuous Space
           </span>
         </div>
@@ -99,7 +99,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-1.5">
                 <span className="font-semibold text-[var(--text-primary)]">Vertical Gravity (gy)</span>
-                <span className="text-[10px] text-[var(--text-tertiary)]">px/s²</span>
+                <span className="text-xs text-[var(--text-tertiary)]">px/s²</span>
               </div>
               <span className="font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
                 {config.gravityY > 0 ? `+${config.gravityY}` : config.gravityY}
@@ -115,7 +115,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
               className="w-full accent-[var(--color-primary)] cursor-pointer h-2 bg-[var(--bg-surface-3)] rounded-full appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               aria-label="Vertical Gravity"
             />
-            <div className="flex justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+            <div className="flex justify-between text-xs font-mono text-[var(--text-tertiary)]">
               <span>-1500 (Upward / Float)</span>
               <span>0 (Zero-G)</span>
               <span>+2500 (Heavy)</span>
@@ -127,7 +127,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-1.5">
                 <span className="font-semibold text-[var(--text-primary)]">Horizontal Gravity / Drift (gx)</span>
-                <span className="text-[10px] text-[var(--text-tertiary)]">px/s²</span>
+                <span className="text-xs text-[var(--text-tertiary)]">px/s²</span>
               </div>
               <span className="font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
                 {config.gravityX > 0 ? `+${config.gravityX}` : config.gravityX}
@@ -143,7 +143,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
               className="w-full accent-[var(--color-primary)] cursor-pointer h-2 bg-[var(--bg-surface-3)] rounded-full appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               aria-label="Horizontal Gravity"
             />
-            <div className="flex justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+            <div className="flex justify-between text-xs font-mono text-[var(--text-tertiary)]">
               <span>-1000 (Left)</span>
               <span>0 (Center)</span>
               <span>+1000 (Right)</span>
@@ -155,7 +155,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-1.5">
                 <span className="font-semibold text-[var(--text-primary)]">Restitution / Elasticity (e)</span>
-                <span className="text-[10px] text-[var(--text-tertiary)]">0.0 – 1.0</span>
+                <span className="text-xs text-[var(--text-tertiary)]">0.0 – 1.0</span>
               </div>
               <span className="font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
                 {(config.restitution * 100).toFixed(0)}%
@@ -171,7 +171,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
               className="w-full accent-[var(--color-primary)] cursor-pointer h-2 bg-[var(--bg-surface-3)] rounded-full appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               aria-label="Restitution"
             />
-            <div className="flex justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+            <div className="flex justify-between text-xs font-mono text-[var(--text-tertiary)]">
               <span>0% (Lead / Inelastic)</span>
               <span>75% (Tennis ball)</span>
               <span>100% (Elastic)</span>
@@ -183,7 +183,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-1.5">
                 <span className="font-semibold text-[var(--text-primary)]">Inertial Mass (m)</span>
-                <span className="text-[10px] text-[var(--text-tertiary)]">kg</span>
+                <span className="text-xs text-[var(--text-tertiary)]">kg</span>
               </div>
               <span className="font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
                 {config.mass.toFixed(1)} kg
@@ -199,7 +199,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
               className="w-full accent-[var(--color-primary)] cursor-pointer h-2 bg-[var(--bg-surface-3)] rounded-full appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
               aria-label="Inertial Mass"
             />
-            <div className="flex justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+            <div className="flex justify-between text-xs font-mono text-[var(--text-tertiary)]">
               <span>0.1 kg (Feather)</span>
               <span>1.0 kg</span>
               <span>10.0 kg (Dense)</span>
@@ -246,7 +246,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                   className="w-full studio-slider"
                   aria-label="Air Damping"
                 />
-                <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+                <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)]">
                   <span>0% (Vacuum)</span>
                   <span>5% (Atmosphere)</span>
                   <span>20% (Viscous)</span>
@@ -271,7 +271,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                   className="w-full studio-slider"
                   aria-label="Surface Friction"
                 />
-                <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)]">
+                <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)]">
                   <span>0% (Ice)</span>
                   <span>10% (Teflon)</span>
                   <span>100% (Rubber)</span>

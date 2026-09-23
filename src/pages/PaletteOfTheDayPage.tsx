@@ -101,12 +101,12 @@ export const PaletteOfTheDayPage: React.FC<PaletteOfTheDayPageProps> = ({ onNavi
               showToast(`Copied ${c.hex}`, c.name, c.hex);
             }}
           >
-            <span className="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded-xs w-fit bg-black/25 text-white">
+            <span className="font-mono text-xs font-bold px-1.5 py-0.5 rounded-xs w-fit bg-black/25 text-white">
               0{i + 1}
             </span>
             <div className="text-white drop-shadow-md">
               <div className="font-mono text-xs sm:text-sm font-bold">{c.hex}</div>
-              <div className="text-[11px] truncate font-medium opacity-90">{c.name}</div>
+              <div className="text-xs truncate font-medium opacity-90">{c.name}</div>
             </div>
           </div>
         ))}

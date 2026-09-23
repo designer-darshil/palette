@@ -163,7 +163,7 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
               Raster Image Export
             </h3>
           </div>
-          <p className="text-[11px] text-[var(--text-tertiary)] leading-snug">
+          <p className="text-xs text-[var(--text-tertiary)] leading-snug">
             Render canvas directly to lossless PNG or WebP with full resolution scaling.
           </p>
         </div>
@@ -172,7 +172,7 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
         <div className="flex flex-col gap-2 min-w-0">
           {/* Row 1: Resolution Options */}
           <div className="flex flex-col gap-1 min-w-0">
-            <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase font-semibold">Resolution</span>
+            <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase font-semibold">Resolution</span>
             <div className="grid grid-cols-3 gap-1 bg-[var(--bg-surface-2)] p-1 rounded-xs border border-[var(--border-subtle)] min-w-0">
               <KromaButton
                 size="sm"
@@ -181,7 +181,7 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
                   setRasterWidth(1200);
                   setRasterHeight(800);
                 }}
-                className="py-1 text-[11px] font-mono rounded-xs text-center truncate"
+                className="py-1 text-xs font-mono rounded-xs text-center truncate"
               >
                 1200×800
               </KromaButton>
@@ -192,7 +192,7 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
                   setRasterWidth(1920);
                   setRasterHeight(1080);
                 }}
-                className="py-1 text-[11px] font-mono rounded-xs text-center truncate"
+                className="py-1 text-xs font-mono rounded-xs text-center truncate"
               >
                 1080p
               </KromaButton>
@@ -203,7 +203,7 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
                   setRasterWidth(3840);
                   setRasterHeight(2160);
                 }}
-                className="py-1 text-[11px] font-mono rounded-xs text-center truncate"
+                className="py-1 text-xs font-mono rounded-xs text-center truncate"
               >
                 4K UHD
               </KromaButton>
@@ -220,7 +220,7 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
                   size="sm"
                   variant={rasterFormat === fmt ? 'filled' : 'ghost'}
                   onClick={() => setRasterFormat(fmt)}
-                  className="px-2 py-1 text-[11px] font-mono uppercase rounded-xs"
+                  className="px-2 py-1 text-xs font-mono uppercase rounded-xs"
                 >
                   {fmt}
                 </KromaButton>

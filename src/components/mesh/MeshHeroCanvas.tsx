@@ -281,12 +281,12 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
                     }`}
                     style={{ backgroundColor: normColor }}
                   >
-                    <span className="font-mono text-[9px] font-bold text-white drop-shadow-md">
+                    <span className="font-mono text-xs font-bold text-white drop-shadow-md">
                       {idx + 1}
                     </span>
                   </div>
 
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-full mt-1.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-xs bg-black/85 text-white font-mono text-[9px] whitespace-nowrap pointer-events-none z-40 border border-white/10 shadow-lg">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-full mt-1.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-xs bg-black/85 text-white font-mono text-xs whitespace-nowrap pointer-events-none z-40 border border-white/10 shadow-lg">
                     {normColor} ({pt.x}%, {pt.y}%)
                   </div>
                 </div>
@@ -306,7 +306,7 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
             style={{ width: 'auto', borderRadius: 'var(--radius-sm)', padding: '4px 10px', gap: '4px', display: 'flex' }}
             iconLeft={viewMode === 'edit' ? <Edit3 size={12} /> : <Eye size={12} />}
           >
-            <span className="font-mono text-[10px] font-bold">{viewMode === 'edit' ? 'Edit' : 'View'}</span>
+            <span className="font-mono text-xs font-bold">{viewMode === 'edit' ? 'Edit' : 'View'}</span>
           </KromaButton>
 
           <KromaButton

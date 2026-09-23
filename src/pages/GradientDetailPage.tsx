@@ -195,7 +195,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
           style={{ background: computedCss }}
         >
           <div className="flex items-center justify-between gap-2">
-            <span className="font-mono text-[10px] sm:text-xs text-white bg-black/50 px-2 py-0.5 rounded-xs uppercase tracking-wider font-semibold shadow-sm truncate">
+            <span className="font-mono text-xs text-white bg-black/50 px-2 py-0.5 rounded-xs uppercase tracking-wider font-semibold shadow-sm truncate">
               {baseGradient.type.toUpperCase()} • {baseGradient.stops.length} STOPS • {angle}°
             </span>
             <KromaButton

@@ -48,7 +48,7 @@ export class AdminErrorBoundary extends Component<Props, State> {
                 <AlertCircle size={20} />
               </div>
               <div>
-                <div className="font-mono text-[10px] uppercase tracking-wider text-[#FF3B30] font-bold">
+                <div className="font-mono text-xs uppercase tracking-wider text-[#FF3B30] font-bold">
                   STUDIO TELEMETRY ANOMALY
                 </div>
                 <h1 className="text-base font-bold text-[#171717] dark:text-[#F8F8F8] mt-0.5">

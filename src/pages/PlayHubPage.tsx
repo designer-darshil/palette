@@ -39,7 +39,7 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
         >
           {/* Visual Hero: Hexadecimal Chromatic Calibration Matrix */}
           <div className="w-full h-36 bg-[#171717] p-4 flex flex-col justify-between border-b border-black/[0.06] dark:border-white/[0.06] select-none">
-            <div className="flex items-center justify-between font-mono text-[10px] text-white/50 uppercase tracking-wider">
+            <div className="flex items-center justify-between font-mono text-xs text-white/50 uppercase tracking-wider">
               <span>RGB CHANNEL MATRIX</span>
               <span>G-01</span>
             </div>
@@ -54,14 +54,14 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
                 </div>
               ))}
             </div>
-            <div className="font-mono text-[10px] text-amber-400/90 text-center tracking-wider">
+            <div className="font-mono text-xs text-amber-400/90 text-center tracking-wider">
               INPUT: # _ _ _ _ _ _
             </div>
           </div>
 
           <div className="p-5 flex flex-col gap-2 flex-1 justify-between bg-[#F8F8F8] dark:bg-[#141518]">
             <div>
-              <div className="font-mono text-[10px] font-semibold text-[var(--accent-gold)] uppercase tracking-wider mb-1">
+              <div className="font-mono text-xs font-semibold text-[var(--accent-gold)] uppercase tracking-wider mb-1">
                 DAILY COLOR PUZZLE
               </div>
               <h2 className="font-sans text-xl font-bold text-[#171717] dark:text-white tracking-tight m-0 mb-2">
@@ -87,7 +87,7 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
         >
           {/* Visual Hero: Delta-E Acuity Grid */}
           <div className="w-full h-36 bg-[#171717] p-4 flex flex-col justify-between border-b border-black/[0.06] dark:border-white/[0.06] select-none">
-            <div className="flex items-center justify-between font-mono text-[10px] text-white/50 uppercase tracking-wider">
+            <div className="flex items-center justify-between font-mono text-xs text-white/50 uppercase tracking-wider">
               <span>DELTA-E DIFFERENTIAL</span>
               <span>G-02</span>
             </div>
@@ -104,14 +104,14 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
                 />
               ))}
             </div>
-            <div className="font-mono text-[10px] text-emerald-400/90 text-center tracking-wider">
+            <div className="font-mono text-xs text-emerald-400/90 text-center tracking-wider">
               THRESHOLD ΔE &lt; 2.5
             </div>
           </div>
 
           <div className="p-5 flex flex-col gap-2 flex-1 justify-between bg-[#F8F8F8] dark:bg-[#141518]">
             <div>
-              <div className="font-mono text-[10px] font-semibold text-emerald-500 uppercase tracking-wider mb-1">
+              <div className="font-mono text-xs font-semibold text-emerald-500 uppercase tracking-wider mb-1">
                 PERCEPTUAL ACUITY
               </div>
               <h2 className="font-sans text-xl font-bold text-[#171717] dark:text-white tracking-tight m-0 mb-2">
@@ -137,7 +137,7 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
         >
           {/* Visual Hero: Scrambled Chromatic Spectrum Flow */}
           <div className="w-full h-36 bg-[#171717] p-4 flex flex-col justify-between border-b border-black/[0.06] dark:border-white/[0.06] select-none">
-            <div className="flex items-center justify-between font-mono text-[10px] text-white/50 uppercase tracking-wider">
+            <div className="flex items-center justify-between font-mono text-xs text-white/50 uppercase tracking-wider">
               <span>HARMONIC SEQUENCE</span>
               <span>G-03</span>
             </div>
@@ -150,14 +150,14 @@ export const PlayHubPage: React.FC<PlayHubPageProps> = ({ onNavigate }) => {
                 />
               ))}
             </div>
-            <div className="font-mono text-[10px] text-pink-400/90 text-center tracking-wider">
+            <div className="font-mono text-xs text-pink-400/90 text-center tracking-wider">
               DRAG &amp; ARRANGE HARMONIES
             </div>
           </div>
 
           <div className="p-5 flex flex-col gap-2 flex-1 justify-between bg-[#F8F8F8] dark:bg-[#141518]">
             <div>
-              <div className="font-mono text-[10px] font-semibold text-pink-500 uppercase tracking-wider mb-1">
+              <div className="font-mono text-xs font-semibold text-pink-500 uppercase tracking-wider mb-1">
                 HARMONIC ORDER
               </div>
               <h2 className="font-sans text-xl font-bold text-[#171717] dark:text-white tracking-tight m-0 mb-2">

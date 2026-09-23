@@ -258,7 +258,7 @@ export const AdminColorsPage: React.FC = () => {
 
         {/* View Mode Toggle & Count */}
         <div className="flex items-center gap-3">
-          <span className="text-[11px] font-mono text-[#707070] dark:text-[#9DA3AF]">
+          <span className="text-xs font-mono text-[#707070] dark:text-[#9DA3AF]">
             {filteredColors.length.toLocaleString()} SPECIMENS
           </span>
 
@@ -311,7 +311,7 @@ export const AdminColorsPage: React.FC = () => {
                   onClick={() => setInspectColor(color)}
                 >
                   <span
-                    className="font-mono text-[9px] px-1.5 py-0.5 rounded-xs backdrop-blur-md font-semibold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="font-mono text-xs px-1.5 py-0.5 rounded-xs backdrop-blur-md font-semibold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{
                       backgroundColor: color.bestTextColor === '#FFFFFF' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)',
                       color: color.bestTextColor,
@@ -327,7 +327,7 @@ export const AdminColorsPage: React.FC = () => {
                     <h3 className="text-xs font-bold text-[#171717] dark:text-[#F8F8F8] truncate">
                       {color.name}
                     </h3>
-                    <div className="flex justify-between items-center font-mono text-[11px] mt-0.5 text-[#171717] dark:text-[#F8F8F8]">
+                    <div className="flex justify-between items-center font-mono text-xs mt-0.5 text-[#171717] dark:text-[#F8F8F8]">
                       <span className="font-semibold">{color.hex}</span>
                       <button
                         type="button"
@@ -340,7 +340,7 @@ export const AdminColorsPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] space-y-0.5 pt-1.5 border-t border-black/5 dark:border-white/5">
+                  <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF] space-y-0.5 pt-1.5 border-t border-black/5 dark:border-white/5">
                     <div className="flex justify-between">
                       <span>RGB</span>
                       <span className="truncate">{rgbDisplay}</span>
@@ -356,7 +356,7 @@ export const AdminColorsPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setInspectColor(color)}
-                      className="text-[10.5px] font-mono text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
+                      className="text-xs font-mono text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8]"
                     >
                       VIEW
                     </button>
@@ -389,7 +389,7 @@ export const AdminColorsPage: React.FC = () => {
         <div className="admin-table-container">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF]">
+              <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
                 <th className="py-2.5 px-4 font-semibold">SWATCH</th>
                 <th className="py-2.5 px-4 font-semibold">SPECIMEN NAME</th>
                 <th className="py-2.5 px-4 font-semibold">HEX</th>
@@ -424,7 +424,7 @@ export const AdminColorsPage: React.FC = () => {
                     <td className="py-2 px-4 font-mono text-[#707070] dark:text-[#9DA3AF]">{rgbDisplay}</td>
                     <td className="py-2 px-4 capitalize">{color.hueGroup}</td>
                     <td className="py-2 px-4 capitalize">{color.tone}</td>
-                    <td className="py-2 px-4 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                    <td className="py-2 px-4 font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
                       W: {color.contrastWithWhite}:1 | B: {color.contrastWithBlack}:1
                     </td>
                     <td className="py-2 px-4 text-right">

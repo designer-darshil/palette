@@ -67,7 +67,7 @@ export const RampsSemanticTokensTable: React.FC<RampsSemanticTokensTableProps> =
       >
         <table className="w-full text-left border-collapse min-w-[680px]">
           <thead>
-            <tr className="border-b border-[var(--border-subtle)] bg-[var(--bg-surface-2)]/60 text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider">
+            <tr className="border-b border-[var(--border-subtle)] bg-[var(--bg-surface-2)]/60 text-xs font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider">
               <th className="py-2.5 px-4">Token Identifier</th>
               <th className="py-2.5 px-4">Light Theme</th>
               <th className="py-2.5 px-4">Dark Theme</th>
@@ -110,7 +110,7 @@ export const RampsSemanticTokensTable: React.FC<RampsSemanticTokensTableProps> =
                       />
                       <div className="flex items-center gap-1.5">
                         <span className="text-[var(--text-primary)] font-bold">{token.lightStep}</span>
-                        <span className="text-[10px] text-[var(--text-tertiary)] uppercase">{token.lightHex}</span>
+                        <span className="text-xs text-[var(--text-tertiary)] uppercase">{token.lightHex}</span>
                       </div>
                     </div>
                   </td>
@@ -124,7 +124,7 @@ export const RampsSemanticTokensTable: React.FC<RampsSemanticTokensTableProps> =
                       />
                       <div className="flex items-center gap-1.5">
                         <span className="text-[var(--text-primary)] font-bold">{token.darkStep}</span>
-                        <span className="text-[10px] text-[var(--text-tertiary)] uppercase">{token.darkHex}</span>
+                        <span className="text-xs text-[var(--text-tertiary)] uppercase">{token.darkHex}</span>
                       </div>
                     </div>
                   </td>
@@ -136,17 +136,17 @@ export const RampsSemanticTokensTable: React.FC<RampsSemanticTokensTableProps> =
                         <span className="font-bold text-[var(--text-primary)]">
                           {token.contrastRatio.light}:1 L / {token.contrastRatio.dark}:1 D
                         </span>
-                        <span className="text-[9px] px-1.5 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+                        <span className="text-xs px-1.5 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
                           {wcagLevel}
                         </span>
                       </div>
                     ) : (
-                      <span className="text-[10px] text-[var(--text-tertiary)]">N/A (Structural)</span>
+                      <span className="text-xs text-[var(--text-tertiary)]">N/A (Structural)</span>
                     )}
                   </td>
 
                   {/* Role */}
-                  <td className="py-2.5 px-4 text-[11px] text-[var(--text-secondary)] font-sans">
+                  <td className="py-2.5 px-4 text-xs text-[var(--text-secondary)] font-sans">
                     {token.role}
                   </td>
                 </tr>

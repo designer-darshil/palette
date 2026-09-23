@@ -351,7 +351,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
       />
 
       {/* ── 1. Minimal Editorial Breadcrumb ─────────────────────── */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-sans text-[11.5px] font-medium tracking-wider uppercase mb-6">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-sans text-xs font-medium tracking-wider uppercase mb-6">
         <KromaButton
           variant="ghost"
           size="sm"
@@ -375,7 +375,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
       {/* ── 2. Compact Editorial Intro ─────────────────────────── */}
       <header className="mb-8 flex flex-col gap-2">
-        <div className="font-mono text-[11px] font-semibold tracking-widest uppercase text-kroma-muted dark:text-[#8E8E93] flex items-center gap-2 flex-wrap">
+        <div className="font-mono text-xs font-semibold tracking-widest uppercase text-kroma-muted dark:text-[#8E8E93] flex items-center gap-2 flex-wrap">
           <span className="w-1.5 h-1.5 rounded-xs bg-[#BFA3F0]" />
           <span>STUDIO / GENERATIVE COLOR</span>
           <span className="text-[var(--text-tertiary)]">•</span>
@@ -390,7 +390,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
           )}
         </div>
 
-        <h1 className="font-sans font-medium text-[clamp(40px,7vw,92px)] leading-[0.88] tracking-[-0.06em] text-kroma-text dark:text-white uppercase select-none my-0">
+        <h1 className="font-sans font-bold text-[clamp(40px,7vw,92px)] leading-[1.05] tracking-tight text-kroma-text dark:text-white uppercase select-none my-0">
           MESH GRADIENT
         </h1>
 
@@ -403,7 +403,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
       <section className="w-full mb-8" aria-label="Mesh Gradient Canvas">
         <div className="w-full bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/10 rounded-sm overflow-hidden flex flex-col shadow-xs">
           {/* Top Artboard Utility Header */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-black/[0.08] dark:border-white/[0.08] font-sans text-[11px] tracking-widest uppercase flex-wrap gap-2">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-black/[0.08] dark:border-white/[0.08] font-sans text-xs tracking-widest uppercase flex-wrap gap-2">
             <div className="flex items-center gap-2">
               <span className="font-bold text-kroma-text dark:text-white">MESH / {String(config.points.length).padStart(2, '0')}</span>
               <span className="text-black/25 dark:text-white/25 font-light">•</span>
@@ -420,9 +420,9 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-kroma-green inline-block" />
-              <span className="font-mono text-[10px] font-bold text-[#34C759] tracking-wider uppercase">LIVE</span>
+              <span className="font-mono text-xs font-bold text-[#34C759] tracking-wider uppercase">LIVE</span>
               <span className="text-black/25 dark:text-white/25 font-light">•</span>
-              <span className="font-mono text-[10px] text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase">SEED #{config.seed}</span>
+              <span className="font-mono text-xs text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase">SEED #{config.seed}</span>
             </div>
           </div>
 
@@ -450,7 +450,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 variant={viewMode === 'edit' ? 'filled' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode(viewMode === 'edit' ? 'preview' : 'edit')}
-                className={`px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase rounded-xs transition-colors h-auto ${
+                className={`px-2.5 py-1.5 font-sans text-xs font-semibold tracking-wider uppercase rounded-xs transition-colors h-auto ${
                   viewMode === 'edit'
                     ? 'text-kroma-text dark:text-white bg-black/[0.08] dark:bg-white/[0.12]'
                     : 'text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/[0.08]'
@@ -466,7 +466,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 variant={showGridLines ? 'filled' : 'ghost'}
                 size="sm"
                 onClick={() => setShowGridLines(!showGridLines)}
-                className={`px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase rounded-xs transition-colors h-auto ${
+                className={`px-2.5 py-1.5 font-sans text-xs font-semibold tracking-wider uppercase rounded-xs transition-colors h-auto ${
                   showGridLines
                     ? 'text-kroma-text dark:text-white bg-black/[0.08] dark:bg-white/[0.12]'
                     : 'text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/[0.08]'
@@ -483,7 +483,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 size="sm"
                 onClick={handleRandomize}
                 iconLeft={<Sparkles size={11} className={isGenerating ? 'animate-spin' : ''} />}
-                className="px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
+                className="px-2.5 py-1.5 font-sans text-xs font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
                 title="Generate fresh random gradient mesh"
               >
                 RANDOMIZE
@@ -496,7 +496,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 size="sm"
                 onClick={() => handleAddPoint(50, 50)}
                 iconLeft={<Plus size={11} />}
-                className="px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
+                className="px-2.5 py-1.5 font-sans text-xs font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
                 title="Add new color node to center"
               >
                 ADD NODE
@@ -504,7 +504,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
             </div>
 
             <div className="flex items-center gap-1 flex-wrap">
-              <span className="font-mono text-[10.5px] text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase mr-1">
+              <span className="font-mono text-xs text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase mr-1">
                 {config.points.length} NODES · {config.rows}×{config.columns} LATTICE
               </span>
 
@@ -516,7 +516,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 size="icon"
                 onClick={handleUndo}
                 disabled={historyIndex <= 0}
-                className="p-1.5 font-sans text-[11px] text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed h-auto w-auto min-h-0"
+                className="p-1.5 font-sans text-xs text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed h-auto w-auto min-h-0"
                 aria-label="Undo"
                 title="Undo"
               >
@@ -528,7 +528,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 size="icon"
                 onClick={handleRedo}
                 disabled={historyIndex >= history.length - 1}
-                className="p-1.5 font-sans text-[11px] text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed h-auto w-auto min-h-0"
+                className="p-1.5 font-sans text-xs text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed h-auto w-auto min-h-0"
                 aria-label="Redo"
                 title="Redo"
               >
@@ -542,7 +542,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 size="sm"
                 onClick={handleShareUrl}
                 iconLeft={<Share2 size={11} />}
-                className="px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
+                className="px-2.5 py-1.5 font-sans text-xs font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
                 title="Copy shareable URL"
               >
                 {hasCopiedShare ? 'COPIED' : 'SHARE'}
@@ -555,7 +555,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 size="sm"
                 onClick={handleSaveGradient}
                 iconLeft={<Bookmark size={11} />}
-                className="px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-text dark:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
+                className="px-2.5 py-1.5 font-sans text-xs font-semibold tracking-wider uppercase text-kroma-text dark:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
                 title="Save to Studio Library"
               >
                 {isCurrentSaved ? 'SAVED' : 'SAVE'}
@@ -567,7 +567,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
       {/* ── 4. Interactive Node Swatch Rail ─────────────────────── */}
       <div className="flex items-center gap-2.5 flex-wrap px-4 py-3 bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm mb-12" aria-label="Color Nodes Rail">
-        <span className="font-mono text-[10.5px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider mr-1">
+        <span className="font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider mr-1">
           ACTIVE NODES:
         </span>
 
@@ -598,7 +598,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 />
               </div>
 
-              <span className="font-mono text-[11px] font-medium text-kroma-text dark:text-white uppercase">{pt.color}</span>
+              <span className="font-mono text-xs font-medium text-kroma-text dark:text-white uppercase">{pt.color}</span>
 
               {config.points.length > 2 && (
                 <KromaButton
@@ -628,7 +628,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               Atmospheric diffusion, falloff curvature, optical grain, and spatial transformations.
             </p>
           </div>
-          <span className="font-mono text-[11px] text-[var(--text-tertiary)] uppercase tracking-wider">
+          <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider">
             OPTICAL ENGINE
           </span>
         </div>
@@ -636,14 +636,14 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Column A: Atmosphere & Blend */}
           <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-4">
-            <div className="flex items-center justify-between font-mono text-[11px] font-bold text-kroma-text dark:text-white tracking-wider uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2.5">
+            <div className="flex items-center justify-between font-mono text-xs font-bold text-kroma-text dark:text-white tracking-wider uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2.5">
               <span>ATMOSPHERE &amp; BLEND</span>
               <Sliders size={12} />
             </div>
 
             {/* Softness */}
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between font-mono text-[10.5px] uppercase">
+              <div className="flex items-center justify-between font-mono text-xs uppercase">
                 <span className="text-kroma-muted dark:text-[#8E8E93] font-semibold">SOFTNESS</span>
                 <span className="text-kroma-text dark:text-white font-bold">{config.softness.toFixed(1)}×</span>
               </div>
@@ -660,7 +660,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
             {/* Intensity */}
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between font-mono text-[10.5px] uppercase">
+              <div className="flex items-center justify-between font-mono text-xs uppercase">
                 <span className="text-kroma-muted dark:text-[#8E8E93] font-semibold">INTENSITY</span>
                 <span className="text-kroma-text dark:text-white font-bold">{config.intensity.toFixed(1)}×</span>
               </div>
@@ -677,7 +677,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
             {/* Optical Grain */}
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between font-mono text-[10.5px] uppercase">
+              <div className="flex items-center justify-between font-mono text-xs uppercase">
                 <span className="text-kroma-muted dark:text-[#8E8E93] font-semibold">ORGANIC GRAIN</span>
                 <span className="text-kroma-text dark:text-white font-bold">{config.grain}%</span>
               </div>
@@ -694,7 +694,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
             {/* Optical Blur */}
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between font-mono text-[10.5px] uppercase">
+              <div className="flex items-center justify-between font-mono text-xs uppercase">
                 <span className="text-kroma-muted dark:text-[#8E8E93] font-semibold">GAUSSIAN BLUR</span>
                 <span className="text-kroma-text dark:text-white font-bold">{config.blur}px</span>
               </div>
@@ -712,14 +712,14 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
           {/* Column B: Spatial Geometry & Background */}
           <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-4">
-            <div className="flex items-center justify-between font-mono text-[11px] font-bold text-kroma-text dark:text-white tracking-wider uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2.5">
+            <div className="flex items-center justify-between font-mono text-xs font-bold text-kroma-text dark:text-white tracking-wider uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2.5">
               <span>KINEMATICS &amp; CANVAS</span>
               <Maximize2 size={12} />
             </div>
 
             {/* Rotation */}
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between font-mono text-[10.5px] uppercase">
+              <div className="flex items-center justify-between font-mono text-xs uppercase">
                 <span className="text-kroma-muted dark:text-[#8E8E93] font-semibold">FIELD ROTATION</span>
                 <span className="text-kroma-text dark:text-white font-bold">{config.rotation}°</span>
               </div>
@@ -736,7 +736,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
             {/* Scale */}
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between font-mono text-[10.5px] uppercase">
+              <div className="flex items-center justify-between font-mono text-xs uppercase">
                 <span className="text-kroma-muted dark:text-[#8E8E93] font-semibold">CANVAS SCALE</span>
                 <span className="text-kroma-text dark:text-white font-bold">{config.scale.toFixed(1)}×</span>
               </div>
@@ -753,7 +753,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
             {/* Background Mode */}
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between font-mono text-[10.5px] uppercase">
+              <div className="flex items-center justify-between font-mono text-xs uppercase">
                 <span className="text-kroma-muted dark:text-[#8E8E93] font-semibold">BASE CANVAS</span>
                 <span className="text-kroma-text dark:text-white font-bold uppercase">{config.background}</span>
               </div>
@@ -764,7 +764,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                     variant={config.background === bg ? 'filled' : 'ghost'}
                     size="sm"
                     onClick={() => handleConfigChange({ background: bg })}
-                    className={`flex-1 py-1.5 font-mono text-[11px] uppercase tracking-wider rounded-xs border transition-colors h-auto ${
+                    className={`flex-1 py-1.5 font-mono text-xs uppercase tracking-wider rounded-xs border transition-colors h-auto ${
                       config.background === bg
                         ? 'border-[#171717] dark:border-white font-bold bg-[#171717] text-white dark:bg-white dark:text-[#171717]'
                         : 'border-transparent text-[#707070] hover:text-[#171717] dark:hover:text-white bg-black/5 dark:bg-white/5'
@@ -778,7 +778,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
             {config.background === 'solid' && (
               <div className="flex items-center justify-between pt-1">
-                <span className="font-mono text-[11px] text-[#707070] uppercase">SOLID HEX</span>
+                <span className="font-mono text-xs text-[#707070] uppercase">SOLID HEX</span>
                 <input
                   type="text"
                   value={config.solidColor}
@@ -796,7 +796,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
           {/* Column C: Node Inspector & Grid Matrix */}
           <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-4">
-            <div className="flex items-center justify-between font-mono text-[11px] font-bold text-kroma-text dark:text-white tracking-wider uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2.5">
+            <div className="flex items-center justify-between font-mono text-xs font-bold text-kroma-text dark:text-white tracking-wider uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2.5">
               <span>SELECTED NODE SPECS</span>
               <Layers size={12} />
             </div>
@@ -819,7 +819,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                     <span className="font-sans text-xs font-bold text-[#171717] dark:text-white uppercase tracking-wider">
                       {findClosestColorName(selectedPoint.color)}
                     </span>
-                    <span className="font-mono text-[11px] text-[#707070]">
+                    <span className="font-mono text-xs text-[#707070]">
                       {selectedPoint.color} · ({selectedPoint.x}%, {selectedPoint.y}%)
                     </span>
                   </div>
@@ -827,7 +827,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
                 {/* Node Influence / Radius Slider */}
                 <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between font-mono text-[10.5px] uppercase">
+                  <div className="flex items-center justify-between font-mono text-xs uppercase">
                     <span className="text-kroma-muted dark:text-[#8E8E93] font-semibold">NODE INFLUENCE</span>
                     <span className="text-kroma-text dark:text-white font-bold">{(selectedPoint.influence || 1.0).toFixed(1)}×</span>
                   </div>
@@ -844,7 +844,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
                 {/* Lattice Matrix Generation */}
                 <div className="pt-2 border-t border-black/5 dark:border-white/5 flex flex-col gap-2">
-                  <span className="font-mono text-[10.5px] text-[#707070] uppercase font-bold">
+                  <span className="font-mono text-xs text-[#707070] uppercase font-bold">
                     GENERATE REGULAR LATTICE:
                   </span>
                   <div className="flex gap-2">
@@ -858,7 +858,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                         variant="outline"
                         size="sm"
                         onClick={() => handleGenerateGrid(g.r, g.c)}
-                        className="flex-1 py-1 font-mono text-[11px] uppercase rounded-xs h-auto"
+                        className="flex-1 py-1 font-mono text-xs uppercase rounded-xs h-auto"
                       >
                         {g.label}
                       </KromaButton>
@@ -884,7 +884,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               Curated master color fields balancing organic temperature, lightness, and atmospheric depth.
             </p>
           </div>
-          <span className="font-mono text-[11px] text-[var(--text-tertiary)] uppercase tracking-wider">
+          <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider">
             {MESH_PRESETS.length} COMPOSITIONS
           </span>
         </div>
@@ -912,9 +912,9 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                   style={{ background: bgCss }}
                 />
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93]">0{idx + 1}</span>
-                  <span className="font-sans text-[11px] font-bold uppercase tracking-tight text-kroma-text dark:text-white truncate">{p.name}</span>
-                  <span className="font-sans text-[9.5px] text-kroma-muted dark:text-[#8E8E93] truncate">{p.tagline}</span>
+                  <span className="font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93]">0{idx + 1}</span>
+                  <span className="font-sans text-xs font-bold uppercase tracking-tight text-kroma-text dark:text-white truncate">{p.name}</span>
+                  <span className="font-sans text-xs text-kroma-muted dark:text-[#8E8E93] truncate">{p.tagline}</span>
                 </div>
               </div>
             );
@@ -931,7 +931,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               Archival color study, typographic contrast verification, and photometric analysis.
             </p>
           </div>
-          <span className="font-mono text-[11px] text-[var(--text-tertiary)] uppercase tracking-wider">
+          <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider">
             ARCHIVE / 04
           </span>
         </div>
@@ -940,17 +940,17 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
           {/* Top Archive Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-black/[0.08] dark:border-white/[0.08] flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-[11px] font-bold text-[#171717] dark:text-white uppercase tracking-wider">
+              <span className="font-mono text-xs font-bold text-[#171717] dark:text-white uppercase tracking-wider">
                 SPECIMEN Nº {String(selectedPointIndex + 1 || 1).padStart(2, '0')}
               </span>
               <span className="text-black/25 dark:text-white/25 font-light">•</span>
-              <span className="font-sans text-[11px] text-[#707070] uppercase tracking-wider">
+              <span className="font-sans text-xs text-[#707070] uppercase tracking-wider">
                 {specimenName}
               </span>
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="font-mono text-[10.5px] text-[#707070] tracking-wider uppercase">
+              <span className="font-mono text-xs text-[#707070] tracking-wider uppercase">
                 {config.points.length} ACTIVE SPECIMEN NODES
               </span>
             </div>
@@ -966,7 +966,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                   variant={isSelected ? 'filled' : 'ghost'}
                   size="sm"
                   onClick={() => setSelectedPointId(pt.id)}
-                  className={`inline-flex items-center gap-2 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider rounded-xs border transition-all whitespace-nowrap cursor-pointer h-auto ${
+                  className={`inline-flex items-center gap-2 px-2.5 py-1 font-mono text-xs font-semibold uppercase tracking-wider rounded-xs border transition-all whitespace-nowrap cursor-pointer h-auto ${
                     isSelected
                       ? 'border-kroma-text dark:border-white bg-black/[0.07] dark:bg-white/[0.1] text-kroma-text dark:text-white'
                       : 'border-transparent text-kroma-muted dark:text-[#8E8E93] hover:text-kroma-text dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
@@ -993,7 +993,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 color: bestTextColor,
               }}
             >
-              <div className="flex items-center justify-between font-mono text-[10.5px] uppercase tracking-wider font-semibold opacity-90 gap-2 flex-wrap">
+              <div className="flex items-center justify-between font-mono text-xs uppercase tracking-wider font-semibold opacity-90 gap-2 flex-wrap">
                 <span className="px-2 py-0.5 rounded-xs bg-black/25 backdrop-blur-xs text-white border border-white/15 shadow-xs">
                   NODE 0{selectedPointIndex + 1 || 1} • X: {activeSpecimen.x}% Y: {activeSpecimen.y}%
                 </span>
@@ -1037,7 +1037,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                       setTimeout(() => setCopiedSpecimenHex(null), 1200);
                     }}
                     iconLeft={<Copy size={11} />}
-                    className={`px-3 py-1.5 bg-black/30 hover:bg-black/45 backdrop-blur-xs text-white border border-white/25 rounded-xs font-mono text-[11px] font-bold tracking-wider uppercase cursor-pointer transition-all shadow-xs active:scale-95 h-auto ${
+                    className={`px-3 py-1.5 bg-black/30 hover:bg-black/45 backdrop-blur-xs text-white border border-white/25 rounded-xs font-mono text-xs font-bold tracking-wider uppercase cursor-pointer transition-all shadow-xs active:scale-95 h-auto ${
                       copiedSpecimenHex === activeSpecimen.color ? 'bg-[#34C759]! border-[#34C759]!' : ''
                     }`}
                   >
@@ -1052,11 +1052,11 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               {/* Typographic Study */}
               <div className="p-6 border-b border-black/[0.08] dark:border-white/[0.08] flex flex-col gap-4">
                 <div className="flex items-center justify-between flex-wrap gap-2">
-                  <span className="font-mono text-[10px] font-bold text-[#707070] uppercase tracking-wider">
+                  <span className="font-mono text-xs font-bold text-[#707070] uppercase tracking-wider">
                     TYPOGRAPHIC SPECIMEN • GENERAL SANS
                   </span>
                   <span
-                    className="font-mono text-[10.5px] font-bold uppercase tracking-wider"
+                    className="font-mono text-xs font-bold uppercase tracking-wider"
                     style={{ color: activeSpecimen.color }}
                   >
                     PRIMARY SPECIMEN
@@ -1074,7 +1074,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                     <span className="font-sans text-sm font-bold tracking-tight uppercase text-[#171717] dark:text-white">
                       {specimenName}
                     </span>
-                    <span className="font-mono text-[11px] text-[#707070]">
+                    <span className="font-mono text-xs text-[#707070]">
                       KROMA CALIBRATED ARCHIVE SPECIMEN
                     </span>
                   </div>
@@ -1093,59 +1093,59 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
               {/* Technical Color Record Grid */}
               <div className="p-6 flex flex-col gap-4 flex-1 justify-between">
-                <span className="font-mono text-[10px] font-bold text-[#707070] uppercase tracking-wider">
+                <span className="font-mono text-xs font-bold text-[#707070] uppercase tracking-wider">
                   TECHNICAL COLOR RECORD
                 </span>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-black/[0.08] dark:bg-white/[0.08] border border-black/[0.08] dark:border-white/[0.08] rounded-xs overflow-hidden">
                   <div className="bg-kroma-bg dark:bg-[#141518] p-3 flex flex-col gap-1 min-w-0">
-                    <span className="font-mono text-[9px] font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">HEX VALUE</span>
-                    <span className="font-mono text-[11.5px] font-bold text-kroma-text dark:text-white truncate">{activeSpecimen.color}</span>
+                    <span className="font-mono text-xs font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">HEX VALUE</span>
+                    <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">{activeSpecimen.color}</span>
                   </div>
 
                   <div className="bg-kroma-bg dark:bg-[#141518] p-3 flex flex-col gap-1 min-w-0">
-                    <span className="font-mono text-[9px] font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">RGB CHANNELS</span>
-                    <span className="font-mono text-[11.5px] font-bold text-kroma-text dark:text-white truncate">
+                    <span className="font-mono text-xs font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">RGB CHANNELS</span>
+                    <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">
                       {specimenRgb ? `${specimenRgb.r} · ${specimenRgb.g} · ${specimenRgb.b}` : '—'}
                     </span>
                   </div>
 
                   <div className="bg-kroma-bg dark:bg-[#141518] p-3 flex flex-col gap-1 min-w-0">
-                    <span className="font-mono text-[9px] font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">HSL SPECS</span>
-                    <span className="font-mono text-[11.5px] font-bold text-kroma-text dark:text-white truncate">
+                    <span className="font-mono text-xs font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">HSL SPECS</span>
+                    <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">
                       {specimenHsl ? `${specimenHsl.h}° · ${specimenHsl.s}% · ${specimenHsl.l}%` : '—'}
                     </span>
                   </div>
 
                   <div className="bg-kroma-bg dark:bg-[#141518] p-3 flex flex-col gap-1 min-w-0">
-                    <span className="font-mono text-[9px] font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">OKLCH PERCEPTUAL</span>
-                    <span className="font-mono text-[11.5px] font-bold text-kroma-text dark:text-white truncate" title={specimenOklch}>
+                    <span className="font-mono text-xs font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">OKLCH PERCEPTUAL</span>
+                    <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate" title={specimenOklch}>
                       {specimenOklch}
                     </span>
                   </div>
 
                   <div className="bg-kroma-bg dark:bg-[#141518] p-3 flex flex-col gap-1 min-w-0">
-                    <span className="font-mono text-[9px] font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">PHOTOMETRIC LUMINANCE</span>
-                    <span className="font-mono text-[11.5px] font-bold text-kroma-text dark:text-white truncate">{specimenLum}</span>
+                    <span className="font-mono text-xs font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">PHOTOMETRIC LUMINANCE</span>
+                    <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">{specimenLum}</span>
                   </div>
 
                   <div className="bg-kroma-bg dark:bg-[#141518] p-3 flex flex-col gap-1 min-w-0">
-                    <span className="font-mono text-[9px] font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">WCAG COMPLIANCE</span>
-                    <span className="font-mono text-[11.5px] font-bold text-[#34C759] truncate">
+                    <span className="font-mono text-xs font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">WCAG COMPLIANCE</span>
+                    <span className="font-mono text-xs font-bold text-[#34C759] truncate">
                       {wcagRating}
                     </span>
                   </div>
 
                   <div className="bg-kroma-bg dark:bg-[#141518] p-3 flex flex-col gap-1 min-w-0">
-                    <span className="font-mono text-[9px] font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">CONTRAST (WHITE / BLACK)</span>
-                    <span className="font-mono text-[11.5px] font-bold text-kroma-text dark:text-white truncate">
+                    <span className="font-mono text-xs font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">CONTRAST (WHITE / BLACK)</span>
+                    <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">
                       {contrastWhite}:1 / {contrastBlack}:1
                     </span>
                   </div>
 
                   <div className="bg-kroma-bg dark:bg-[#141518] p-3 flex flex-col gap-1 min-w-0">
-                    <span className="font-mono text-[9px] font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">RECOMMENDED FOREGROUND</span>
-                    <span className="font-mono text-[11.5px] font-bold text-kroma-text dark:text-white truncate">
+                    <span className="font-mono text-xs font-semibold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider truncate">RECOMMENDED FOREGROUND</span>
+                    <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">
                       {bestTextColor === '#FFFFFF' ? '#FFFFFF (PURE WHITE)' : '#090A0C (PURE BLACK)'}
                     </span>
                   </div>
@@ -1160,7 +1160,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                       className="w-7 h-7 rounded-xs border border-black/15 cursor-pointer bg-transparent"
                       title="Adjust specimen color"
                     />
-                    <span className="font-mono text-[11px] text-[#707070] uppercase">
+                    <span className="font-mono text-xs text-[#707070] uppercase">
                       CALIBRATE TONE
                     </span>
                   </div>
@@ -1193,7 +1193,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               Real-time generative projection across editorial, UI product, and architectural surfaces.
             </p>
           </div>
-          <span className="font-mono text-[11px] text-[var(--text-tertiary)] uppercase tracking-wider">
+          <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider">
             LIVE PREVIEW
           </span>
         </div>
@@ -1212,20 +1212,20 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
             >
               <div className="border border-white/30 p-4 w-4/5 h-4/5 flex flex-col justify-between text-white drop-shadow-sm">
                 <div>
-                  <span className="font-mono text-[10px] font-bold tracking-widest uppercase">
+                  <span className="font-mono text-xs font-bold tracking-widest uppercase">
                     KROMA MONOGRAPH • VOL. 04
                   </span>
                   <div className="font-sans text-xl font-extrabold tracking-tight mt-1">
                     ATMOSPHERICS
                   </div>
                 </div>
-                <div className="font-mono text-[10px] flex justify-between">
+                <div className="font-mono text-xs flex justify-between">
                   <span>SEED #{config.seed}</span>
                   <span>2026 EDITION</span>
                 </div>
               </div>
             </div>
-            <div className="px-3.5 py-3 font-mono text-[11px] font-bold text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase border-t border-black/[0.06] dark:border-white/[0.06]">
+            <div className="px-3.5 py-3 font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase border-t border-black/[0.06] dark:border-white/[0.06]">
               SURFACE 01 — EDITORIAL COVER
             </div>
           </div>
@@ -1242,22 +1242,22 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               }}
             >
               <div className="w-3/4 h-[85%] rounded-2xl bg-black/45 backdrop-blur-md border border-white/20 p-4 flex flex-col justify-between text-white">
-                <div className="flex justify-between items-center font-mono text-[10px] opacity-80">
+                <div className="flex justify-between items-center font-mono text-xs opacity-80">
                   <span>9:41 AM</span>
                   <span>5G • 100%</span>
                 </div>
                 <div className="text-center my-auto">
                   <div className="font-sans text-2xl font-bold tracking-tight">KROMA</div>
-                  <div className="font-mono text-[11px] opacity-75 mt-1">
+                  <div className="font-mono text-xs opacity-75 mt-1">
                     {config.preset ? config.preset.toUpperCase() : `SEED #${config.seed}`}
                   </div>
                 </div>
-                <div className="font-mono text-[9px] text-center opacity-60">
+                <div className="font-mono text-xs text-center opacity-60">
                   SWIPE UP TO UNLOCK
                 </div>
               </div>
             </div>
-            <div className="px-3.5 py-3 font-mono text-[11px] font-bold text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase border-t border-black/[0.06] dark:border-white/[0.06]">
+            <div className="px-3.5 py-3 font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase border-t border-black/[0.06] dark:border-white/[0.06]">
               SURFACE 02 — DIGITAL INTERFACE
             </div>
           </div>
@@ -1276,15 +1276,15 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               <div className="w-[82%] h-[70%] rounded-md bg-white text-kroma-text p-4 shadow-xl flex flex-col justify-between">
                 <div className="flex justify-between items-start">
                   <span className="font-sans text-xs font-black tracking-wider">KROMA LAB</span>
-                  <span className="font-mono text-[9px] text-[#707070]">#4829-SPEC</span>
+                  <span className="font-mono text-xs text-[#707070]">#4829-SPEC</span>
                 </div>
-                <div className="font-mono text-[10px] text-[#707070] flex flex-col gap-0.5">
+                <div className="font-mono text-xs text-[#707070] flex flex-col gap-0.5">
                   <span className="font-bold text-[#171717]">CHROMATIC EMITTER</span>
                   <span>{config.points.length} RADIAL MATRIX STEPS</span>
                 </div>
               </div>
             </div>
-            <div className="px-3.5 py-3 font-mono text-[11px] font-bold text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase border-t border-black/[0.06] dark:border-white/[0.06]">
+            <div className="px-3.5 py-3 font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] tracking-wider uppercase border-t border-black/[0.06] dark:border-white/[0.06]">
               SURFACE 03 — BRAND IDENTITY
             </div>
           </div>
@@ -1300,7 +1300,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               Production-ready radial CSS declaration, standalone SVG vector, DTCG tokens, and LLM prompt.
             </p>
           </div>
-          <span className="font-mono text-[11px] text-[var(--text-tertiary)] uppercase tracking-wider">
+          <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider">
             TOKENS &amp; CODE
           </span>
         </div>
@@ -1322,7 +1322,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 size="sm"
                 onClick={() => setActiveExportTab(t.id)}
                 iconLeft={t.icon}
-                className={`px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase border rounded-xs transition-colors cursor-pointer h-auto ${
+                className={`px-3.5 py-1.5 font-mono text-xs font-semibold uppercase border rounded-xs transition-colors cursor-pointer h-auto ${
                   activeExportTab === t.id
                     ? 'bg-kroma-text! text-white! border-kroma-text! dark:bg-white! dark:text-kroma-text! dark:border-white!'
                     : 'border-black/15 dark:border-white/15 bg-transparent text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white'
@@ -1334,7 +1334,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
           </div>
 
           {/* Code Viewer Block */}
-          <pre className="font-mono text-[11.5px] bg-black/[0.03] dark:bg-white/[0.04] p-3.5 rounded-xs overflow-x-auto overflow-y-auto whitespace-pre-wrap break-words text-kroma-text dark:text-[#E0E0E0] max-h-40 w-full max-w-full min-w-0 box-border border border-black/5 dark:border-white/5">
+          <pre className="font-mono text-xs bg-black/[0.03] dark:bg-white/[0.04] p-3.5 rounded-xs overflow-x-auto overflow-y-auto whitespace-pre-wrap break-words text-kroma-text dark:text-[#E0E0E0] max-h-40 w-full max-w-full min-w-0 box-border border border-black/5 dark:border-white/5">
             <code>{exportCodes[activeExportTab]}</code>
           </pre>
 
@@ -1345,7 +1345,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               size="md"
               onClick={() => handleCopyExport(activeExportTab)}
               iconLeft={copiedCodeFormat === activeExportTab ? <Check size={13} /> : <Copy size={13} />}
-              className="rounded-xs px-6 py-2.5 font-sans text-[13px] font-semibold tracking-wider uppercase active:scale-98"
+              className="rounded-xs px-6 py-2.5 font-sans text-sm font-semibold tracking-wider uppercase active:scale-98"
             >
               {copiedCodeFormat === activeExportTab ? 'COPIED TO CLIPBOARD' : 'COPY CODE'}
             </KromaButton>

@@ -115,7 +115,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               Kroma Color Operations
             </span>
           </div>
-          <span className="font-mono text-[11px] text-white/40 tracking-wider">
+          <span className="font-mono text-xs text-white/40 tracking-wider">
             STUDY · 06 SPECTRUM
           </span>
         </div>
@@ -127,7 +127,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               className="h-28 lg:h-36 rounded-xs transition-transform duration-300 motion-reduce:transform-none hover:scale-[1.02]"
               style={{ backgroundColor: '#FF3B30' }}
             />
-            <div className="flex justify-between font-mono text-[10px] text-white/60">
+            <div className="flex justify-between font-mono text-xs text-white/60">
               <span>RED</span>
               <span>#FF3B30</span>
             </div>
@@ -138,7 +138,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               className="h-28 lg:h-36 rounded-xs transition-transform duration-300 motion-reduce:transform-none hover:scale-[1.02]"
               style={{ backgroundColor: '#FF9500' }}
             />
-            <div className="flex justify-between font-mono text-[10px] text-white/60">
+            <div className="flex justify-between font-mono text-xs text-white/60">
               <span>ORANGE</span>
               <span>#FF9500</span>
             </div>
@@ -149,7 +149,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               className="h-28 lg:h-36 rounded-xs transition-transform duration-300 motion-reduce:transform-none hover:scale-[1.02]"
               style={{ backgroundColor: '#FFD60A' }}
             />
-            <div className="flex justify-between font-mono text-[10px] text-white/60">
+            <div className="flex justify-between font-mono text-xs text-white/60">
               <span>YELLOW</span>
               <span>#FFD60A</span>
             </div>
@@ -160,7 +160,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               className="h-28 lg:h-36 rounded-xs transition-transform duration-300 motion-reduce:transform-none hover:scale-[1.02]"
               style={{ backgroundColor: '#34C759' }}
             />
-            <div className="flex justify-between font-mono text-[10px] text-white/60">
+            <div className="flex justify-between font-mono text-xs text-white/60">
               <span>GREEN</span>
               <span>#34C759</span>
             </div>
@@ -171,7 +171,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               className="h-28 lg:h-36 rounded-xs transition-transform duration-300 motion-reduce:transform-none hover:scale-[1.02]"
               style={{ backgroundColor: '#00AEEF' }}
             />
-            <div className="flex justify-between font-mono text-[10px] text-white/60">
+            <div className="flex justify-between font-mono text-xs text-white/60">
               <span>BLUE</span>
               <span>#00AEEF</span>
             </div>
@@ -182,7 +182,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               className="h-28 lg:h-36 rounded-xs transition-transform duration-300 motion-reduce:transform-none hover:scale-[1.02]"
               style={{ backgroundColor: '#7B2CBF' }}
             />
-            <div className="flex justify-between font-mono text-[10px] text-white/60">
+            <div className="flex justify-between font-mono text-xs text-white/60">
               <span>PURPLE</span>
               <span>#7B2CBF</span>
             </div>
@@ -190,7 +190,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
         </div>
 
         {/* Footer Technical Note */}
-        <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center text-white/50 text-[11px] font-mono gap-2 pt-4 border-t border-white/10">
+        <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center text-white/50 text-xs font-mono gap-2 pt-4 border-t border-white/10">
           <span>CHROMATIC SPECIMEN WORKSPACE</span>
           <span>CALIBRATED SRGB / OKLCH GAMUT</span>
         </div>
@@ -220,7 +220,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
         <div className="w-full max-w-[400px] mx-auto my-auto">
           {/* Header */}
           <div className="mb-8">
-            <div className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-[#707070] dark:text-[#9DA3AF] mb-1.5">
+            <div className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#707070] dark:text-[#9DA3AF] mb-1.5">
               Kroma Admin Studio
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
@@ -395,7 +395,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
         </div>
 
         {/* Footer System Info */}
-        <div className="text-center text-[11px] font-mono text-[#707070] dark:text-[#9DA3AF] mt-10">
+        <div className="text-center text-xs font-mono text-[#707070] dark:text-[#9DA3AF] mt-10">
           KROMA COLOR OPERATIONS · INTERNAL SYSTEM v2.4
         </div>
       </section>

@@ -153,7 +153,7 @@ export const AdminImportPage: React.FC = () => {
           <label className="text-xs font-mono font-medium uppercase tracking-wider text-[#707070] dark:text-[#9DA3AF]">
             JSON Specimen Dataset
           </label>
-          <span className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF]">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
             SCHEMA: [&#123; name, hex, family, tone &#125;]
           </span>
         </div>
@@ -180,14 +180,14 @@ export const AdminImportPage: React.FC = () => {
             <h2 className="text-sm font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
               Import Validation Report
             </h2>
-            <span className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+            <span className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
               {parseResult.items.length} TOTAL ROWS
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
             <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] uppercase">
                 VALID SPECIMENS
               </div>
               <div className="text-xl font-bold text-[#1B8738] dark:text-[#34C759] mt-0.5">
@@ -196,7 +196,7 @@ export const AdminImportPage: React.FC = () => {
             </div>
 
             <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] uppercase">
                 DUPLICATES
               </div>
               <div className="text-xl font-bold text-[#946300] dark:text-[#FFD60A] mt-0.5">
@@ -205,7 +205,7 @@ export const AdminImportPage: React.FC = () => {
             </div>
 
             <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-              <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] uppercase">
                 INVALID ROWS
               </div>
               <div className="text-xl font-bold text-[#D70015] dark:text-[#FF3B30] mt-0.5">

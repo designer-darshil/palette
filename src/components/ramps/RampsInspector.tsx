@@ -95,22 +95,22 @@ export const RampsInspector: React.FC<RampsInspectorProps> = ({
               </StudioControlRow>
 
               <StudioControlRow label="OKLCH">
-                <div className="font-mono text-[11px] bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs p-2 text-[var(--text-primary)] break-all select-all">
+                <div className="font-mono text-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs p-2 text-[var(--text-primary)] break-all select-all">
                   {activeStop.oklch}
                 </div>
               </StudioControlRow>
 
               <div className="grid grid-cols-3 gap-1.5">
                 <div className="bg-[var(--bg-surface-2)] rounded-xs p-1.5 flex flex-col items-center">
-                  <span className="text-[9px] text-[var(--text-tertiary)]">L</span>
+                  <span className="text-xs text-[var(--text-tertiary)] font-semibold">L</span>
                   <span className="font-mono text-xs font-bold text-[var(--text-primary)]">{(activeStop.lightness * 100).toFixed(1)}%</span>
                 </div>
                 <div className="bg-[var(--bg-surface-2)] rounded-xs p-1.5 flex flex-col items-center">
-                  <span className="text-[9px] text-[var(--text-tertiary)]">C</span>
+                  <span className="text-xs text-[var(--text-tertiary)] font-semibold">C</span>
                   <span className="font-mono text-xs font-bold text-[var(--text-primary)]">{activeStop.chroma.toFixed(3)}</span>
                 </div>
                 <div className="bg-[var(--bg-surface-2)] rounded-xs p-1.5 flex flex-col items-center">
-                  <span className="text-[9px] text-[var(--text-tertiary)]">H</span>
+                  <span className="text-xs text-[var(--text-tertiary)] font-semibold">H</span>
                   <span className="font-mono text-xs font-bold text-[var(--text-primary)]">{activeStop.hue.toFixed(0)}°</span>
                 </div>
               </div>

@@ -356,7 +356,7 @@ export const RampsLiveUiPreview: React.FC<RampsLiveUiPreviewProps> = ({ paletteR
                     }}
                   />
                 </div>
-                <span className="text-[11px]" style={{ color: 'var(--text-tertiary)' }}>
+                <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
                   Focus ring uses <code className="font-mono">var(--ring-focus)</code>
                 </span>
               </div>
@@ -377,7 +377,7 @@ export const RampsLiveUiPreview: React.FC<RampsLiveUiPreviewProps> = ({ paletteR
                     color: 'var(--text-primary)',
                   }}
                 />
-                <span className="text-[11px] flex items-center gap-1 font-mono" style={{ color: 'var(--text-error)' }}>
+                <span className="text-xs flex items-center gap-1 font-mono" style={{ color: 'var(--text-error)' }}>
                   <XCircle size={12} />
                   <span>Validation error: cluster authentication token expired.</span>
                 </span>

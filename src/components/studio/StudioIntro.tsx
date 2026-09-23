@@ -37,7 +37,7 @@ export const StudioIntro: React.FC<StudioIntroProps> = ({
             </span>
             <span className="text-[var(--text-tertiary)]">•</span>
             <span
-              className="text-[11px] font-mono uppercase font-semibold text-[var(--color-primary-text)]"
+              className="text-xs font-mono uppercase font-semibold text-[var(--color-primary-text)]"
             >
               {badge}
             </span>

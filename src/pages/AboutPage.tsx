@@ -134,7 +134,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       {/* Core Architectural Pillars */}
       <section className="about-pillars flex flex-col gap-8">
         <div className="flex flex-col gap-2 max-w-xl">
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">ARCHITECTURE &amp; SCIENCE</span>
+          <span className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">ARCHITECTURE &amp; SCIENCE</span>
           <h2 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0">
             Engineered for precision and play.
           </h2>
@@ -157,7 +157,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                       {pillar.index}
                     </span>
                     <span
-                      className="font-mono text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[2px] border"
+                      className="font-mono text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[2px] border"
                       style={{
                         color: pillar.color,
                         borderColor: `${pillar.color}40`,

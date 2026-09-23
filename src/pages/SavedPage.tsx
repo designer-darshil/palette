@@ -67,7 +67,7 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
 
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
-        <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+        <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold">SAVED ARCHIVE</span>
@@ -91,8 +91,8 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
 
       {/* Hero */}
       <header className="mb-14">
-        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">PERSONAL ARCHIVE</span>
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
+        <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">PERSONAL ARCHIVE</span>
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
           A LITTLE COLOR<br />
           ARCHIVE.
         </h1>
@@ -161,13 +161,13 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
                     <div className="font-sans text-xs font-bold uppercase tracking-wider text-[#171717] dark:text-white truncate mb-0.5">
                       {item.title}
                     </div>
-                    <div className="font-mono text-[11px] text-[#707070] dark:text-[#909090] flex items-center justify-between">
+                    <div className="font-mono text-xs text-[#707070] dark:text-[#909090] flex items-center justify-between">
                       <span className="truncate">{item.preview.split(',')[0]}</span>
                       <KromaButton
                         size="sm"
                         variant="ghost"
                         onClick={(e) => handleCopy(item, e)}
-                        className="text-[10px] uppercase font-semibold tracking-wider hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                        className="text-xs uppercase font-semibold tracking-wider hover:text-[#171717] dark:hover:text-white p-0 h-auto"
                         title="Copy HEX"
                       >
                         {isCopied ? 'COPIED' : 'COPY'}
@@ -176,7 +176,7 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
                   </div>
 
                   {/* Quick Delete & Type Tag */}
-                  <div className="pt-2 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-[10px] font-mono text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+                  <div className="pt-2 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs font-mono text-[#707070] dark:text-[#909090] uppercase tracking-wider">
                     <span>{item.type}</span>
                     <KromaButton
                       size="icon"

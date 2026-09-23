@@ -36,8 +36,8 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, onNavigate, cla
           list-style: none;
           padding: 0;
           margin: 0;
-          font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-          font-size: 12px;
+          font-family: var(--font-sans, 'General Sans', sans-serif);
+          font-size: 13px;
           font-weight: 500;
           letter-spacing: 0.02em;
           line-height: 1.4;

@@ -345,7 +345,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       />
 
       {/* ── 01: Minimal Editorial Breadcrumb ─────────────────────── */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] text-text-secondary mb-8">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-xs text-text-secondary mb-8">
         <KromaButton
           variant="ghost"
           size="sm"
@@ -361,7 +361,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 02: Intro Header ──────────────────────────────────────── */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[var(--border-subtle)]">
         <div>
-          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">BRAND KIT</span>
+          <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">BRAND KIT</span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-[var(--text-primary)] leading-[1.08] m-0">
             Your brand, in color.
           </h1>
@@ -406,7 +406,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       <section aria-labelledby="canvas-heading" className="flex flex-col gap-3">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <span id="canvas-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary !mb-0 block">
+            <span id="canvas-heading" className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary !mb-0 block">
               01 — BRAND IDENTITY CANVAS
             </span>
           </div>
@@ -426,7 +426,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
         {isEditingIdentity && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-[2px] transition-all">
             <div>
-              <label className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
+              <label className="text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
                 Brand Name
               </label>
               <input
@@ -438,7 +438,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               />
             </div>
             <div>
-              <label className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
+              <label className="text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
                 Tagline / Statement
               </label>
               <input
@@ -478,7 +478,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </span>
               </div>
 
-              <span className="text-[11px] font-mono uppercase tracking-wider opacity-75">
+              <span className="text-xs font-mono uppercase tracking-wider opacity-75">
                 PRIMARY • {brandKit.roles.primary}
               </span>
             </div>
@@ -511,7 +511,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 color: secondaryContrastText,
               }}
             >
-              <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-wider opacity-85">
+              <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider opacity-85">
                 <span>02 — SECONDARY FIELD</span>
                 <span>{brandKit.roles.secondary}</span>
               </div>
@@ -523,7 +523,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   Grounding surfaces, complementary textures, and visual structure.
                 </span>
               </div>
-              <div className="text-[10px] font-mono opacity-75">
+              <div className="text-xs font-mono opacity-75">
                 {findClosestColorName(brandKit.roles.secondary)}
               </div>
             </div>
@@ -536,7 +536,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 color: accentContrastText,
               }}
             >
-              <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-wider opacity-85">
+              <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider opacity-85">
                 <span>03 — ACCENT FIELD</span>
                 <span>{brandKit.roles.accent}</span>
               </div>
@@ -548,7 +548,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   Action triggers, focal highlights, and editorial emphasis.
                 </span>
               </div>
-              <div className="text-[10px] font-mono opacity-75">
+              <div className="text-xs font-mono opacity-75">
                 {findClosestColorName(brandKit.roles.accent)}
               </div>
             </div>
@@ -557,7 +557,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
 
         {/* Start from Curated Palette Strip with Subtle Accessibility Indicator */}
         <div className="mt-2 flex items-center justify-between flex-wrap gap-2 text-xs">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-secondary)]">
+          <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)]">
             Start from Curated Palette
           </span>
           <div className="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full">
@@ -575,10 +575,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     <span key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
                   ))}
                 </div>
-                <span className="text-[11px] font-medium text-[var(--text-primary)] truncate max-w-[65px]">
+                <span className="text-xs font-medium text-[var(--text-primary)] truncate max-w-[65px]">
                   {pal.title}
                 </span>
-                <span className="text-[9px] font-mono font-semibold px-1 py-0.5 rounded-[2px] bg-neutral-100 text-[var(--text-secondary)] border border-neutral-200">
+                <span className="text-xs font-mono font-semibold px-1 py-0.5 rounded-[2px] bg-neutral-100 text-[var(--text-secondary)] border border-neutral-200">
                   {curatedQualityMap[pal.id] || 'AA ✓'}
                 </span>
               </KromaButton>
@@ -590,7 +590,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 04: Color System (Asymmetric Hierarchy) ─────────────── */}
       <section aria-labelledby="color-system-heading" className="flex flex-col gap-4">
         <div>
-          <span id="color-system-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
+          <span id="color-system-heading" className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             02 — COLOR SYSTEM
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Hierarchy & Semantic Roles</h2>
@@ -631,7 +631,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           {/* Primary Role Info & Values */}
           <div className="w-full md:w-2/5 flex flex-col justify-between gap-4 py-1">
             <div>
-              <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-secondary)]">
+              <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)]">
                 Core Identity Tone
               </span>
               <h3 className="text-lg font-semibold text-[var(--text-primary)] mt-1">
@@ -711,7 +711,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 showLabel={false}
                 size="md"
               />
-              <span className="text-[11px] text-[var(--text-secondary)]">
+              <span className="text-xs text-[var(--text-secondary)]">
                 Interactive swatch picker
               </span>
             </div>
@@ -736,7 +736,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   onClick={() => setPickerTarget({ key: role.key, label: role.label, color: role.hex })}
                   title={`Edit ${role.label}`}
                 >
-                  <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-85">
+                  <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider opacity-85">
                     <span>{role.roleId}</span>
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity inline-flex items-center gap-1">
                       <span>Edit</span>
@@ -745,7 +745,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   </div>
                   <div>
                     <span className="text-lg font-semibold tracking-tight block">{role.hex}</span>
-                    <span className="text-[10px] opacity-80 block truncate">
+                    <span className="text-xs opacity-80 block truncate">
                       {findClosestColorName(role.hex)}
                     </span>
                   </div>
@@ -765,12 +765,12 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                         size="sm"
                       />
                     </div>
-                    <p className="text-[11px] text-[var(--text-secondary)] mt-1 leading-normal line-clamp-2">
+                    <p className="text-xs text-[var(--text-secondary)] mt-1 leading-normal line-clamp-2">
                       {role.desc}
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono">
+                  <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)] text-xs font-mono">
                     <span className="text-[var(--text-secondary)] truncate max-w-[100px]">
                       {oklchStr}
                     </span>
@@ -778,7 +778,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={() => handleCopyColorValue(`role-${role.key}`, role.hex)}
-                      className="text-[var(--text-primary)] hover:underline p-0 h-auto font-mono text-[10px]"
+                      className="text-[var(--text-primary)] hover:underline p-0 h-auto font-mono text-xs"
                     >
                       {copiedKey === `role-${role.key}` ? (
                         <span className="text-emerald-600 font-bold">COPIED</span>
@@ -795,7 +795,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
 
         {/* Supporting UI Roles Strip */}
         <div className="border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)] p-4">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-3">
+          <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-3">
             Supporting UI & Contrast Roles
           </span>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -812,10 +812,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     size="sm"
                   />
                   <div className="min-w-0">
-                    <div className="text-[11px] font-medium text-[var(--text-primary)] truncate">
+                    <div className="text-xs font-medium text-[var(--text-primary)] truncate">
                       {role.label}
                     </div>
-                    <div className="text-[10px] font-mono text-[var(--text-secondary)]">
+                    <div className="text-xs font-mono text-[var(--text-secondary)]">
                       {role.hex}
                     </div>
                   </div>
@@ -824,7 +824,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => handleCopyColorValue(`sup-${role.key}`, role.hex)}
-                  className="text-[9px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0 p-0 h-auto"
+                  className="text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0 p-0 h-auto"
                 >
                   {copiedKey === `sup-${role.key}` ? '✓' : 'COPY'}
                 </KromaButton>
@@ -838,7 +838,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       <section aria-labelledby="live-preview-heading" className="flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <span id="live-preview-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
+            <span id="live-preview-heading" className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
               03 — LIVE BRAND PREVIEW
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Real-World Surface Proof</h2>
@@ -855,7 +855,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 size="sm"
                 onClick={() => setPreviewColorMode('accessible')}
                 iconLeft={<ShieldCheck size={11} />}
-                className={`px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[1px] transition-colors h-auto ${
+                className={`px-2.5 py-1 text-xs font-mono uppercase tracking-wider rounded-[1px] transition-colors h-auto ${
                   previewColorMode === 'accessible'
                     ? 'bg-[#171717] text-white font-semibold'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -868,7 +868,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 variant={previewColorMode === 'original' ? 'filled' : 'ghost'}
                 size="sm"
                 onClick={() => setPreviewColorMode('original')}
-                className={`px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[1px] transition-colors h-auto ${
+                className={`px-2.5 py-1 text-xs font-mono uppercase tracking-wider rounded-[1px] transition-colors h-auto ${
                   previewColorMode === 'original'
                     ? 'bg-[#171717] text-white font-semibold'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -938,7 +938,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               size="sm"
               onClick={handleAutoRemediateOklch}
               iconRight={<ArrowRight size={11} />}
-              className="text-[11px] font-bold text-[var(--text-primary)] hover:underline inline-flex items-center gap-1 p-0 h-auto"
+              className="text-xs font-bold text-[var(--text-primary)] hover:underline inline-flex items-center gap-1 p-0 h-auto"
             >
               Apply to Kit
             </KromaButton>
@@ -967,7 +967,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               >
                 <div className="flex items-center gap-2.5">
                   <span
-                    className="w-5 h-5 rounded-[2px] flex items-center justify-center font-bold text-[11px]"
+                    className="w-5 h-5 rounded-[2px] flex items-center justify-center font-bold text-xs"
                     style={{
                       backgroundColor: activePreviewRoles.button,
                       color: activePreviewRoles.buttonText,
@@ -1006,7 +1006,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               {/* Web Hero Section */}
               <div className="p-8 sm:p-14 flex flex-col items-center text-center gap-4 max-w-xl mx-auto my-auto w-full">
                 <span
-                  className="px-2.5 py-1 rounded-[2px] text-[10px] font-mono uppercase tracking-widest"
+                  className="px-2.5 py-1 rounded-[2px] text-xs font-mono uppercase tracking-widest"
                   style={{
                     backgroundColor: activePreviewRoles.surface,
                     color: activePreviewRoles.accent,
@@ -1082,7 +1082,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     }}
                   >
                     <div
-                      className="w-6 h-6 rounded-[2px] flex items-center justify-center text-[10px] font-bold"
+                      className="w-6 h-6 rounded-[2px] flex items-center justify-center text-xs font-bold"
                       style={{
                         backgroundColor: i === 0 ? activePreviewRoles.primary : i === 1 ? activePreviewRoles.secondary : activePreviewRoles.accent,
                         color: i === 2 ? getSmartForeground(activePreviewRoles.accent, 4.5).color : '#FFFFFF',
@@ -1096,7 +1096,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     >
                       {card.title}
                     </h4>
-                    <p className="text-[11px] leading-relaxed" style={{ color: activePreviewRoles.mutedText }}>
+                    <p className="text-xs leading-relaxed" style={{ color: activePreviewRoles.mutedText }}>
                       {card.desc}
                     </p>
                   </div>
@@ -1118,7 +1118,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <div className="flex items-center justify-between pb-2 border-b" style={{ borderColor: activePreviewRoles.border }}>
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px]"
+                      className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs"
                       style={{ backgroundColor: activePreviewRoles.button, color: activePreviewRoles.buttonText }}
                     >
                       {brandKit.name[0] || 'K'}
@@ -1138,16 +1138,16 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     borderColor: activePreviewRoles.secondary,
                   }}
                 >
-                  <span className="text-[9px] uppercase font-mono tracking-wider opacity-85">
+                  <span className="text-xs uppercase font-mono tracking-wider opacity-85">
                     Active Workspace Balance
                   </span>
                   <div className="text-xl font-semibold" style={{ fontFamily: brandKit.typography.headingFont }}>
                     $148,200.00
                   </div>
-                  <div className="flex items-center justify-between text-[10px] pt-1">
+                  <div className="flex items-center justify-between text-xs pt-1">
                     <span>+12.4% this cycle</span>
                     <span
-                      className="px-1.5 py-0.5 rounded-[2px] font-bold text-[9px]"
+                      className="px-1.5 py-0.5 rounded-[2px] font-bold text-xs"
                       style={{
                         backgroundColor: activePreviewRoles.accent,
                         color: getSmartForeground(activePreviewRoles.accent, 4.5).color,
@@ -1159,7 +1159,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <span className="text-[9px] font-mono uppercase" style={{ color: activePreviewRoles.mutedText }}>
+                  <span className="text-xs font-mono uppercase" style={{ color: activePreviewRoles.mutedText }}>
                     Recent Transactions
                   </span>
                   {[
@@ -1175,10 +1175,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       }}
                     >
                       <div>
-                        <div className="font-medium text-[11px]">{item.name}</div>
-                        <div className="text-[9px]" style={{ color: activePreviewRoles.mutedText }}>{item.time}</div>
+                        <div className="font-medium text-xs">{item.name}</div>
+                        <div className="text-xs" style={{ color: activePreviewRoles.mutedText }}>{item.time}</div>
                       </div>
-                      <span className="font-mono text-[11px] font-semibold">{item.val}</span>
+                      <span className="font-mono text-xs font-semibold">{item.val}</span>
                     </div>
                   ))}
                 </div>
@@ -1206,7 +1206,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   <h3 className="text-sm font-semibold" style={{ fontFamily: brandKit.typography.headingFont }}>
                     {brandKit.name} Telemetry
                   </h3>
-                  <p className="text-[11px]" style={{ color: activePreviewRoles.mutedText }}>
+                  <p className="text-xs" style={{ color: activePreviewRoles.mutedText }}>
                     Continuous cross-gamut color synchronization.
                   </p>
                 </div>
@@ -1234,14 +1234,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       borderColor: activePreviewRoles.border,
                     }}
                   >
-                    <div className="flex items-center justify-between text-[11px]" style={{ color: activePreviewRoles.mutedText }}>
+                    <div className="flex items-center justify-between text-xs" style={{ color: activePreviewRoles.mutedText }}>
                       <span>{m.label}</span>
                       <m.icon size={13} style={{ color: activePreviewRoles.accent }} />
                     </div>
                     <div className="text-lg font-semibold" style={{ fontFamily: brandKit.typography.headingFont }}>
                       {m.value}
                     </div>
-                    <div className="text-[10px] font-mono text-emerald-500 font-semibold">
+                    <div className="text-xs font-mono text-emerald-500 font-semibold">
                       {m.change} vs cycle
                     </div>
                   </div>
@@ -1255,9 +1255,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   borderColor: activePreviewRoles.border,
                 }}
               >
-                <table className="w-full text-left text-[11px] min-w-[360px]">
+                <table className="w-full text-left text-xs min-w-[360px]">
                   <thead
-                    className="border-b font-mono text-[9px] uppercase"
+                    className="border-b font-mono text-xs uppercase"
                     style={{ borderColor: activePreviewRoles.border, color: activePreviewRoles.mutedText }}
                   >
                     <tr>
@@ -1277,7 +1277,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                         <td className="p-2.5 font-mono">{row.ratio}</td>
                         <td className="p-2.5 text-right">
                           <span
-                            className="px-2 py-0.5 rounded-[2px] font-mono font-bold text-[9px]"
+                            className="px-2 py-0.5 rounded-[2px] font-mono font-bold text-xs"
                             style={{
                               backgroundColor: i === 2 ? activePreviewRoles.accent : activePreviewRoles.button,
                               color: i === 2 ? getSmartForeground(activePreviewRoles.accent, 4.5).color : activePreviewRoles.buttonText,
@@ -1299,7 +1299,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 06: Color Relationship ───────────────────────────────── */}
       <section aria-labelledby="relationship-heading" className="flex flex-col gap-3">
         <div>
-          <span id="relationship-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
+          <span id="relationship-heading" className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             04 — COLOR RELATIONSHIP
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Harmonic Flow & Proportions</h2>
@@ -1327,10 +1327,10 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   color: fg,
                 }}
               >
-                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold opacity-90 truncate">
+                <span className="text-xs font-mono uppercase tracking-wider font-semibold opacity-90 truncate">
                   {seg.label}
                 </span>
-                <span className="text-[11px] font-mono truncate">
+                <span className="text-xs font-mono truncate">
                   {seg.hex}
                 </span>
               </div>
@@ -1342,7 +1342,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 07: Typography Preview ───────────────────────────────── */}
       <section aria-labelledby="typography-heading" className="flex flex-col gap-4">
         <div>
-          <span id="typography-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
+          <span id="typography-heading" className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             05 — TYPOGRAPHY SYSTEM
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Restrained Typographic Scale</h2>
@@ -1369,7 +1369,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             {/* Font Pair Controls */}
             <div className="flex flex-col gap-2 pt-2">
               <div>
-                <label className="text-[10px] font-mono text-[var(--text-secondary)] uppercase block mb-1">
+                <label className="text-xs font-mono text-[var(--text-secondary)] uppercase block mb-1">
                   Heading Family
                 </label>
                 <select
@@ -1395,7 +1395,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           {/* Type Samples Right */}
           <div className="w-full md:w-2/3 flex flex-col gap-6 md:border-l border-[var(--border-subtle)] md:pl-8">
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-1.5">
+              <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-1.5">
                 Display Headline
               </span>
               <h3 className="text-2xl sm:text-3xl font-semibold text-[var(--text-primary)] tracking-tight leading-tight m-0">
@@ -1404,7 +1404,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </div>
 
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-1.5">
+              <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] block mb-1.5">
                 Editorial Body Copy
               </span>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed m-0 max-w-xl">
@@ -1418,7 +1418,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 08: Brand In Use ─────────────────────────────────────── */}
       <section aria-labelledby="brand-in-use-heading" className="flex flex-col gap-4">
         <div>
-          <span id="brand-in-use-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
+          <span id="brand-in-use-heading" className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             06 — BRAND IN USE
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Touchpoint Versatility</h2>
@@ -1447,7 +1447,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 >
                   {brandKit.name[0] || 'K'}
                 </span>
-                <span className="text-[10px] font-mono uppercase tracking-widest opacity-75">
+                <span className="text-xs font-mono uppercase tracking-widest opacity-75">
                   EDITORIAL
                 </span>
               </div>
@@ -1461,7 +1461,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </span>
               </div>
 
-              <div className="flex items-center justify-between text-[10px] font-mono opacity-80 pt-2 border-t border-current/20">
+              <div className="flex items-center justify-between text-xs font-mono opacity-80 pt-2 border-t border-current/20">
                 <span>01 — SOCIAL</span>
                 <span>KROMA STUDIO</span>
               </div>
@@ -1470,7 +1470,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <span className="text-xs font-medium text-[var(--text-primary)] block">
                 Social Feed Card
               </span>
-              <span className="text-[11px] text-[var(--text-secondary)]">
+              <span className="text-xs text-[var(--text-secondary)]">
                 Square format for Instagram and editorial releases.
               </span>
             </div>
@@ -1486,7 +1486,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               }}
             >
               <div
-                className="p-2 rounded-[2px] border flex items-center justify-between text-[10px]"
+                className="p-2 rounded-[2px] border flex items-center justify-between text-xs"
                 style={{
                   backgroundColor: activePreviewRoles.surface,
                   borderColor: activePreviewRoles.border,
@@ -1503,7 +1503,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <span className="text-sm font-semibold block leading-snug">
                   Precision digital interface.
                 </span>
-                <span className="text-[11px] block mt-1" style={{ color: activePreviewRoles.mutedText }}>
+                <span className="text-xs block mt-1" style={{ color: activePreviewRoles.mutedText }}>
                   Structured around tonal surfaces.
                 </span>
               </div>
@@ -1511,7 +1511,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <KromaButton
                 variant="filled"
                 size="sm"
-                className="w-full py-1.5 rounded-[2px] text-[11px] font-medium"
+                className="w-full py-1.5 rounded-[2px] text-xs font-medium"
                 style={{
                   backgroundColor: activePreviewRoles.button,
                   color: activePreviewRoles.buttonText,
@@ -1524,7 +1524,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <span className="text-xs font-medium text-[var(--text-primary)] block">
                 Web Interface Fragment
               </span>
-              <span className="text-[11px] text-[var(--text-secondary)]">
+              <span className="text-xs text-[var(--text-secondary)]">
                 Responsive web and landing page component.
               </span>
             </div>
@@ -1539,7 +1539,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 color: getSmartForeground(activePreviewRoles.accent, 4.5).color,
               }}
             >
-              <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-85">
+              <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider opacity-85">
                 <span>LIMITED RUN</span>
                 <span>VOL. 04</span>
               </div>
@@ -1553,7 +1553,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </span>
               </div>
 
-              <span className="text-[10px] font-mono uppercase tracking-widest pt-2 border-t border-current/20">
+              <span className="text-xs font-mono uppercase tracking-widest pt-2 border-t border-current/20">
                 03 — CAMPAIGN
               </span>
             </div>
@@ -1561,7 +1561,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <span className="text-xs font-medium text-[var(--text-primary)] block">
                 Campaign Banner
               </span>
-              <span className="text-[11px] text-[var(--text-secondary)]">
+              <span className="text-xs text-[var(--text-secondary)]">
                 Promotional surface with high chromatic contrast.
               </span>
             </div>
@@ -1577,7 +1577,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 borderColor: activePreviewRoles.border,
               }}
             >
-              <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-75">
+              <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider opacity-75">
                 <span>PACKAGING</span>
                 <span>GRADE 01</span>
               </div>
@@ -1596,7 +1596,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <span className="text-xs font-medium block">
                   {brandKit.name} Goods
                 </span>
-                <span className="text-[10px] opacity-75 block font-mono">
+                <span className="text-xs opacity-75 block font-mono">
                   {activePreviewRoles.border}
                 </span>
               </div>
@@ -1605,7 +1605,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <span className="text-xs font-medium text-[var(--text-primary)] block">
                 Product Packaging
               </span>
-              <span className="text-[11px] text-[var(--text-secondary)]">
+              <span className="text-xs text-[var(--text-secondary)]">
                 Physical stationery and minimal tactile hardware.
               </span>
             </div>
@@ -1616,7 +1616,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 09: WCAG 2.2 + OKLCH Contrast Audit & Tokens ─────────── */}
       <section aria-labelledby="accessibility-heading" className="flex flex-col gap-6">
         <div>
-          <span id="accessibility-heading" className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
+          <span id="accessibility-heading" className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">
             07 — WCAG 2.2 + OKLCH AUDIT & TOKENS
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-text-primary uppercase m-0 mb-2">Contrast Verification & Semantic Tokens</h2>
@@ -1633,7 +1633,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 WCAG 2.2 Semantic Report
               </span>
               <span
-                className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-[2px] border ${
+                className={`text-xs font-mono font-bold px-2 py-0.5 rounded-[2px] border ${
                   intelligenceReport.overallQuality === 'WCAG AAA READY'
                     ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
                     : intelligenceReport.overallQuality === 'WCAG AA READY'
@@ -1686,11 +1686,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 className="p-3 border border-[var(--border-subtle)] rounded-[2px] flex flex-col justify-between gap-2.5 bg-[var(--bg-canvas)]"
               >
                 <div className="flex items-center justify-between gap-1">
-                  <span className="text-[11px] font-semibold text-[var(--text-primary)] truncate">
+                  <span className="text-xs font-semibold text-[var(--text-primary)] truncate">
                     {check.label}
                   </span>
                   <span
-                    className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-[2px] flex items-center gap-1 ${
+                    className={`text-xs font-mono font-bold px-1.5 py-0.5 rounded-[2px] flex items-center gap-1 ${
                       check.isCompliant
                         ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                         : 'bg-rose-50 text-rose-700 border border-rose-200'
@@ -1707,14 +1707,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-secondary)] pt-1 border-t border-[var(--border-subtle)]">
+                <div className="flex items-center justify-between text-xs font-mono text-[var(--text-secondary)] pt-1 border-t border-[var(--border-subtle)]">
                   <span>Normal Text: {check.rating.normalTextAA ? 'AA ✓' : 'AA ✕'}</span>
                   <span>Large: {check.rating.largeTextAA ? 'AA ✓' : 'AA ✕'}</span>
                   <span>AAA: {check.rating.normalTextAAA ? 'AAA ✓' : 'AAA ✕'}</span>
                 </div>
 
                 {!check.isCompliant && check.suggestedFg && (
-                  <div className="flex items-center justify-between pt-1.5 border-t border-rose-100 text-[10px] font-mono">
+                  <div className="flex items-center justify-between pt-1.5 border-t border-rose-100 text-xs font-mono">
                     <span className="text-rose-800">
                       OKLCH: <strong>{check.suggestedFg}</strong> ({formatContrastRatio(check.suggestedRatio || 4.5)}:1)
                     </span>
@@ -1722,7 +1722,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       variant="filled"
                       size="sm"
                       onClick={() => handleApplySingleCheckFix(check)}
-                      className="!px-2 !py-0.5 !text-[10px] !rounded-[2px] font-medium"
+                      className="!px-2 !py-0.5 !text-xs !rounded-[2px] font-medium"
                     >
                       Apply
                     </KromaButton>
@@ -1740,18 +1740,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <span className="text-xs font-semibold text-[var(--text-primary)] block">
                 Color Tokens & OKLCH Accessible Variants
               </span>
-              <span className="text-[11px] text-[var(--text-secondary)]">
+              <span className="text-xs text-[var(--text-secondary)]">
                 Original preset colors are preserved. Accessible variants provide UI-safe alternatives.
               </span>
             </div>
-            <span className="text-[11px] font-mono text-[var(--text-secondary)]">
+            <span className="text-xs font-mono text-[var(--text-secondary)]">
               Click value to copy
             </span>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[var(--bg-surface-2)] border-b border-[var(--border-subtle)] text-[10px] font-mono uppercase text-[var(--text-secondary)]">
+              <thead className="bg-[var(--bg-surface-2)] border-b border-[var(--border-subtle)] text-xs font-mono uppercase text-[var(--text-secondary)]">
                 <tr>
                   <th className="py-2.5 px-4">Semantic Role</th>
                   <th className="py-2.5 px-4">Original</th>
@@ -1808,7 +1808,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       </td>
                       <td className="py-2.5 px-4 font-mono">
                         <span
-                          className={`px-1.5 py-0.5 rounded-[2px] text-[10px] font-bold ${
+                          className={`px-1.5 py-0.5 rounded-[2px] text-xs font-bold ${
                             passAA
                               ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                               : 'bg-amber-50 text-amber-700 border border-amber-200'
@@ -1822,7 +1822,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                           variant="ghost"
                           size="sm"
                           onClick={() => handleCopyColorValue(`table-${row.key}`, row.hex)}
-                          className="!p-0 !min-h-0 text-[11px] font-mono text-[var(--text-primary)] hover:underline"
+                          className="!p-0 !min-h-0 text-xs font-mono text-[var(--text-primary)] hover:underline"
                         >
                           {copiedKey === `table-${row.key}` ? (
                             <span className="text-emerald-600 font-bold">COPIED</span>

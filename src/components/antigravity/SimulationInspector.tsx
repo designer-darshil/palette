@@ -28,7 +28,7 @@ export const SimulationInspector: React.FC<SimulationInspectorProps> = ({ config
           <span>Motion Telemetry &amp; Kinematics</span>
         </h3>
         <span
-          className="font-mono text-[10px] px-2 py-0.5 rounded-xs border font-bold uppercase"
+          className="font-mono text-xs px-2 py-0.5 rounded-xs border font-bold uppercase"
           style={{
             backgroundColor: 'var(--color-primary-subtle)',
             color: 'var(--color-primary-text)',
@@ -42,28 +42,28 @@ export const SimulationInspector: React.FC<SimulationInspectorProps> = ({ config
       {/* Metric Cards Grid */}
       <div className="grid grid-cols-2 xs:grid-cols-4 gap-2">
         <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex flex-col gap-0.5">
-          <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">Position (X, Y)</span>
+          <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase">Position (X, Y)</span>
           <span className="text-xs font-mono font-bold text-[var(--text-primary)]">
             {telemetry.x}px, {telemetry.y}px
           </span>
         </div>
 
         <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex flex-col gap-0.5">
-          <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">Velocity Vector</span>
+          <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase">Velocity Vector</span>
           <span className="text-xs font-mono font-bold" style={{ color: 'var(--color-primary-text)' }}>
             {telemetry.vx} / {telemetry.vy} px/s
           </span>
         </div>
 
         <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex flex-col gap-0.5">
-          <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">Kinetic Energy</span>
+          <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase">Kinetic Energy</span>
           <span className="text-xs font-mono font-bold text-amber-400">
             {kineticEnergy} J
           </span>
         </div>
 
         <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] flex flex-col gap-0.5">
-          <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">State</span>
+          <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase">State</span>
           <span className="text-xs font-mono font-bold text-emerald-400 uppercase">
             {telemetry.state}
           </span>

@@ -141,8 +141,8 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
 
       {/* Editorial Hero */}
       <header className="border-b border-border-subtle pb-8 md:pb-12 mb-8 md:mb-12">
-        <div className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4">PALETTE LIBRARY</div>
-        <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight leading-[0.95] text-[#171717] dark:text-white m-0">
+        <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-secondary mb-4">PALETTE LIBRARY</div>
+        <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.08] text-[#171717] dark:text-white m-0">
           COLORS THAT BELONG TOGETHER.
         </h1>
         <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
@@ -158,7 +158,7 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
               key={tab.id}
               size="sm"
               variant={activeFilter === tab.id ? 'filled' : 'ghost'}
-              className="font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2"
+              className="font-mono text-xs tracking-wider uppercase px-4 py-2"
               onClick={() => setActiveFilter(tab.id)}
             >
               {tab.label} {tab.id === 'all' && `(${palettes.length})`}
@@ -170,7 +170,7 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
           <input
             type="text"
-            className="w-full bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm py-2 pl-9 pr-4 text-xs font-sans text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:border-neutral-900 dark:focus:border-neutral-100 transition-colors"
+            className="w-full bg-white dark:bg-[#15171C] border border-neutral-200 dark:border-neutral-800 rounded-sm py-2 pl-9 pr-4 text-sm font-sans text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:border-neutral-900 dark:focus:border-neutral-100 transition-colors"
             placeholder="Search palettes or colors..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -218,7 +218,7 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
           )}
 
           {visibleCount >= filteredPalettes.length && filteredPalettes.length > BATCH_SIZE && (
-            <div className="text-center py-12 text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
+            <div className="text-center py-12 text-xs font-mono tracking-widest text-neutral-400 uppercase">
               END OF PALETTE ARCHIVE • {filteredPalettes.length} SYSTEMS DISPLAYED
             </div>
           )}

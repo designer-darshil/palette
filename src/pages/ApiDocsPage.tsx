@@ -48,7 +48,7 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
       <section className="p-5 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-lg flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-xs font-mono text-[10px] font-bold bg-emerald-500/20 text-emerald-400">
+            <span className="px-2 py-0.5 rounded-xs font-mono text-xs font-bold bg-emerald-500/20 text-emerald-400">
               GET
             </span>
             <span className="font-mono text-sm font-bold text-[var(--text-primary)]">
@@ -78,7 +78,7 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
       <section className="p-5 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-lg flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-xs font-mono text-[10px] font-bold bg-emerald-500/20 text-emerald-400">
+            <span className="px-2 py-0.5 rounded-xs font-mono text-xs font-bold bg-emerald-500/20 text-emerald-400">
               GET
             </span>
             <span className="font-mono text-sm font-bold text-[var(--text-primary)]">
@@ -96,7 +96,7 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
         </div>
 
         <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-          Serializes spring physics parameters (stiffness, damping, mass, mode) into W3C Design Tokens Community Group (DTCG) motion specifications and Framer Motion code. (Legacy <code className="text-[11px] font-mono bg-black/5 dark:bg-white/10 px-1 py-0.5 rounded-xs">/api/antigravity</code> is supported).
+          Serializes spring physics parameters (stiffness, damping, mass, mode) into W3C Design Tokens Community Group (DTCG) motion specifications and Framer Motion code. (Legacy <code className="text-xs font-mono bg-black/5 dark:bg-white/10 px-1 py-0.5 rounded-xs">/api/antigravity</code> is supported).
         </p>
       </section>
 
@@ -104,7 +104,7 @@ export const ApiDocsPage: React.FC<ApiDocsPageProps> = ({ onNavigate }) => {
       <section className="p-5 sm:p-6 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-lg flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-xs font-mono text-[10px] font-bold bg-emerald-500/20 text-emerald-400">
+            <span className="px-2 py-0.5 rounded-xs font-mono text-xs font-bold bg-emerald-500/20 text-emerald-400">
               GET
             </span>
             <span className="font-mono text-sm font-bold text-[var(--text-primary)]">

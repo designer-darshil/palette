@@ -354,7 +354,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                               {res.name}
                             </span>
                           </div>
-                          <span className="font-mono text-[11px] text-[var(--text-secondary)]">
+                          <span className="font-mono text-xs text-[var(--text-secondary)]">
                             {res.hex}
                           </span>
                         </div>
@@ -376,7 +376,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                   onClick={() => handleCopy(currentHex, 'hex', 'HEX')}
                   className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group"
                 >
-                  <span className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase block">
+                  <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase block">
                     HEX
                   </span>
                   <div className="font-mono text-xs font-bold text-[var(--text-primary)] mt-0.5 flex items-center justify-between">
@@ -392,7 +392,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                   }}
                   className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group"
                 >
-                  <span className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase block">
+                  <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase block">
                     RGB
                   </span>
                   <div className="font-mono text-xs font-bold text-[var(--text-primary)] mt-0.5 flex items-center justify-between">
@@ -413,7 +413,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                   }}
                   className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group"
                 >
-                  <span className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase block">
+                  <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase block">
                     HSL
                   </span>
                   <div className="font-mono text-xs font-bold text-[var(--text-primary)] mt-0.5 flex items-center justify-between">
@@ -431,7 +431,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                   onClick={() => handleCopy(hexToOklch(currentHex), 'oklch', 'OKLCH')}
                   className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group"
                 >
-                  <span className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase block">
+                  <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase block">
                     OKLCH
                   </span>
                   <div className="font-mono text-xs font-bold text-[var(--text-primary)] mt-0.5 flex items-center justify-between">
@@ -588,7 +588,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                 <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
                   CLOSEST NEIGHBORING COLOR SPECIMENS
                 </span>
-                <span className="font-mono text-[11px] text-[var(--text-secondary)]">
+                <span className="font-mono text-xs text-[var(--text-secondary)]">
                   Calculated via Perceptual Distance
                 </span>
               </div>
@@ -609,18 +609,18 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                         <div className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-gold)] transition-colors">
                           {match.name}
                         </div>
-                        <div className="font-mono text-[11px] text-[var(--text-secondary)] mt-0.5">
+                        <div className="font-mono text-xs text-[var(--text-secondary)] mt-0.5">
                           {match.hex} • {match.source}
                         </div>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <div className="text-right font-mono text-[11px]">
+                      <div className="text-right font-mono text-xs">
                         <span className="text-[var(--text-primary)] font-bold">
                           {match.matchPercentage}%
                         </span>
-                        <span className="text-[var(--text-tertiary)] block text-[10px]">
+                        <span className="text-[var(--text-tertiary)] block text-xs">
                           ΔE {match.deltaE}
                         </span>
                       </div>
@@ -678,14 +678,14 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                     <div className="text-xs font-bold text-[var(--text-primary)] truncate">
                       {color.matchedName}
                     </div>
-                    <div className="font-mono text-[11px] text-[var(--text-secondary)] mt-0.5 flex items-center justify-between">
+                    <div className="font-mono text-xs text-[var(--text-secondary)] mt-0.5 flex items-center justify-between">
                       <span>{color.originalHex}</span>
                       <span className="text-[var(--accent-gold)] font-bold">
                         {color.matchPercentage}%
                       </span>
                     </div>
                     {color.role && (
-                      <span className="text-[10px] font-mono text-[var(--text-tertiary)] block mt-1">
+                      <span className="text-xs font-mono text-[var(--text-tertiary)] block mt-1">
                         Role: {color.role}
                       </span>
                     )}

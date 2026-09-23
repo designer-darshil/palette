@@ -38,7 +38,7 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ creator, onNavigate })
                 <ShieldCheck size={13} className="text-[var(--accent-gold)] flex-shrink-0" />
               )}
             </div>
-            <div className="font-mono text-[11px] text-[#707070] dark:text-[#909090] truncate">
+            <div className="font-mono text-xs text-[#707070] dark:text-[#909090] truncate">
               @{creator.username}
             </div>
           </div>
@@ -53,7 +53,7 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ creator, onNavigate })
           {creator.specialties.slice(0, 3).map((spec, i) => (
             <span
               key={i}
-              className="text-[10px] font-mono px-2 py-0.5 rounded-[2px] bg-black/5 dark:bg-white/10 text-[#707070] dark:text-[#A0A0A0]"
+              className="text-xs font-mono px-2 py-0.5 rounded-[2px] bg-black/5 dark:bg-white/10 text-[#707070] dark:text-[#A0A0A0]"
             >
               {spec}
             </span>
@@ -62,7 +62,7 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ creator, onNavigate })
       </div>
 
       {/* Stats and Action Footer */}
-      <div className="pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-[#707070] dark:text-[#909090]">
+      <div className="pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs font-mono text-[#707070] dark:text-[#909090]">
         <div className="flex items-center gap-3">
           <span title={`${creator.paletteCount} Palettes`} className="flex items-center gap-1">
             <Palette size={11} />

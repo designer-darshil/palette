@@ -205,7 +205,7 @@ export const AdminCollectionsPage: React.FC = () => {
                     <h3 className="text-sm font-bold text-[#171717] dark:text-[#F8F8F8]">
                       {col.title}
                     </h3>
-                    <span className="font-mono text-[9px] uppercase px-1.5 py-0.5 rounded-xs bg-black/[0.04] dark:bg-white/[0.06] text-[#707070] dark:text-[#9DA3AF]">
+                    <span className="font-mono text-xs uppercase px-1.5 py-0.5 rounded-xs bg-black/[0.04] dark:bg-white/[0.06] text-[#707070] dark:text-[#9DA3AF] font-bold">
                       {col.visibility}
                     </span>
                   </div>
@@ -215,7 +215,7 @@ export const AdminCollectionsPage: React.FC = () => {
                 </div>
 
                 {/* Metadata */}
-                <div className="flex items-center justify-between text-[11px] font-mono text-[#707070] dark:text-[#9DA3AF] pt-2 border-t border-black/5 dark:border-white/5">
+                <div className="flex items-center justify-between text-xs font-mono text-[#707070] dark:text-[#9DA3AF] pt-2 border-t border-black/5 dark:border-white/5">
                   <span>{col.items.length} SPECIMENS</span>
                   <span>BY {col.creator.name}</span>
                 </div>
@@ -225,7 +225,7 @@ export const AdminCollectionsPage: React.FC = () => {
                   {col.tags.slice(0, 4).map((tag) => (
                     <span
                       key={tag}
-                      className="text-[9.5px] font-mono px-1.5 py-0.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.04] text-[#707070] dark:text-[#9DA3AF]"
+                      className="text-xs font-mono px-1.5 py-0.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.04] text-[#707070] dark:text-[#9DA3AF]"
                     >
                       #{tag}
                     </span>
@@ -429,7 +429,7 @@ export const AdminCollectionsPage: React.FC = () => {
                     <span className="w-2.5 h-2.5 rounded-full bg-[#00AEEF]" />
                     <span className="font-bold text-[#171717] dark:text-[#F8F8F8]">{item.title}</span>
                   </div>
-                  <span className="text-[#707070] dark:text-[#9DA3AF] text-[10.5px]">
+                  <span className="text-[#707070] dark:text-[#9DA3AF] text-xs">
                     {item.metadata}
                   </span>
                 </div>

@@ -138,16 +138,16 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
 
       <div className="min-h-screen min-h-[100dvh] w-full flex flex-col justify-between bg-[#F8F8F8] dark:bg-[#090A0C] text-[#171717] dark:text-[#F8F8F8] p-5 sm:p-8 lg:p-12 font-sans relative overflow-x-hidden selection:bg-[#171717] selection:text-white dark:selection:bg-[#F8F8F8] dark:selection:text-[#171717]">
         {/* Subtle Architectural Corner Crosshairs */}
-        <div className="absolute top-3 left-3 text-[10px] font-mono text-black/20 dark:text-white/20 select-none pointer-events-none">
+        <div className="absolute top-3 left-3 text-xs font-mono text-black/20 dark:text-white/20 select-none pointer-events-none">
           +
         </div>
-        <div className="absolute top-3 right-3 text-[10px] font-mono text-black/20 dark:text-white/20 select-none pointer-events-none">
+        <div className="absolute top-3 right-3 text-xs font-mono text-black/20 dark:text-white/20 select-none pointer-events-none">
           +
         </div>
-        <div className="absolute bottom-3 left-3 text-[10px] font-mono text-black/20 dark:text-white/20 select-none pointer-events-none">
+        <div className="absolute bottom-3 left-3 text-xs font-mono text-black/20 dark:text-white/20 select-none pointer-events-none">
           +
         </div>
-        <div className="absolute bottom-3 right-3 text-[10px] font-mono text-black/20 dark:text-white/20 select-none pointer-events-none">
+        <div className="absolute bottom-3 right-3 text-xs font-mono text-black/20 dark:text-white/20 select-none pointer-events-none">
           +
         </div>
 
@@ -158,19 +158,19 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
               KROMA
             </span>
             <span className="h-3 w-[1px] bg-black/20 dark:bg-white/20" />
-            <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#595959] dark:text-[#9DA3AF] hidden sm:inline">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#595959] dark:text-[#9DA3AF] hidden sm:inline">
               COLOR LABORATORY
             </span>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
             {isPreview ? (
-              <span className="px-2 py-0.5 rounded-xs bg-[#B35300]/10 border border-[#B35300]/30 text-[#B35300] dark:text-[#FF9500] font-mono text-[10px] font-bold tracking-wider uppercase flex items-center gap-1.5">
+              <span className="px-2 py-0.5 rounded-xs bg-[#B35300]/10 border border-[#B35300]/30 text-[#B35300] dark:text-[#FF9500] font-mono text-xs font-bold tracking-wider uppercase flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#B35300] dark:bg-[#FF9500] animate-pulse" />
                 ADMIN PREVIEW
               </span>
             ) : (
-              <div className="flex items-center gap-1.5 font-mono text-[10.5px] tracking-wider uppercase text-[#595959] dark:text-[#9DA3AF]">
+              <div className="flex items-center gap-1.5 font-mono text-xs tracking-wider uppercase text-[#595959] dark:text-[#9DA3AF]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#B35300] dark:bg-[#FF9500] animate-pulse" />
                 <span>STUDIO RECALIBRATION</span>
               </div>
@@ -182,7 +182,7 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
                 size="sm"
                 iconRight={<ArrowRight size={12} />}
                 onClick={onNavigateAdmin || (() => { window.location.href = '/admin'; })}
-                className="!text-[11px] !py-1 !px-2.5"
+                className="!text-xs !py-1 !px-2.5"
               >
                 Admin Hub
               </KromaButton>
@@ -193,7 +193,7 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
                 variant="filled"
                 size="sm"
                 onClick={onExitPreview}
-                className="!text-[11px] !py-1 !px-2.5"
+                className="!text-xs !py-1 !px-2.5"
               >
                 Exit Preview
               </KromaButton>
@@ -207,12 +207,12 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
           {/* Left Anchor: Typographic & Technical Directive */}
           <div className="lg:col-span-5 flex flex-col items-start text-left">
             {/* Small Editorial Eyebrow */}
-            <div className="font-mono text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-[#595959] dark:text-[#9DA3AF] mb-3">
+            <div className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-[#595959] dark:text-[#9DA3AF] mb-3">
               COLOR STUDIO // TEMPORARILY OFFLINE
             </div>
 
             {/* Main Headline in General Sans */}
-            <h1 className="font-sans font-extrabold tracking-tight text-[clamp(2.4rem,5.5vw,4.6rem)] leading-[0.96] text-[#171717] dark:text-[#F8F8F8] uppercase mb-5">
+            <h1 className="font-sans font-extrabold tracking-tight text-[clamp(2.4rem,5.5vw,4.6rem)] leading-[1.05] text-[#171717] dark:text-[#F8F8F8] uppercase mb-5">
               WE'RE<br />
               RECALIBRATING<br />
               THE COLOR SPACE.
@@ -233,13 +233,13 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
             {/* Real Status Information (No fake countdowns or percentages) */}
             <div className="font-mono text-xs text-[#595959] dark:text-[#9DA3AF] mb-6 flex flex-col gap-1 border-t border-black/5 dark:border-white/5 pt-4 w-full max-w-md">
               <div className="flex items-center justify-between">
-                <span className="uppercase tracking-wider text-[10.5px]">ESTIMATED WINDOW:</span>
+                <span className="uppercase tracking-wider text-xs">ESTIMATED WINDOW:</span>
                 <span className="font-semibold text-[#171717] dark:text-[#F8F8F8]">
                   {formattedReturnTime ? formattedReturnTime : 'THE STUDIO WILL RETURN SHORTLY'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="uppercase tracking-wider text-[10.5px]">CORE ENGINE:</span>
+                <span className="uppercase tracking-wider text-xs">CORE ENGINE:</span>
                 <span className="font-semibold text-[#1B8738] dark:text-[#34C759]">ALL SPECIMENS INTACT</span>
               </div>
             </div>
@@ -278,7 +278,7 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
             <div className="relative p-4 sm:p-6 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs shadow-xs overflow-hidden">
               
               {/* Technical Specimen Header */}
-              <div className="flex items-center justify-between pb-3 mb-4 border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] uppercase tracking-wider text-[#595959] dark:text-[#9DA3AF]">
+              <div className="flex items-center justify-between pb-3 mb-4 border-b border-black/10 dark:border-white/10 font-mono text-xs uppercase tracking-wider text-[#595959] dark:text-[#9DA3AF]">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#171717] dark:bg-[#F8F8F8]" />
                   <span>SPECIMEN CALIBRATION // 01</span>
@@ -326,16 +326,16 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
                       }}
                     >
                       {/* Top Specimen Index */}
-                      <span className="font-mono text-[9px] sm:text-[10px] font-bold text-white/90 drop-shadow-xs">
+                      <span className="font-mono text-xs font-bold text-white/90 drop-shadow-xs">
                         {specimen.index}
                       </span>
 
                       {/* Bottom Wavelength λ label */}
                       <div className="flex flex-col">
-                        <span className="font-mono text-[8px] sm:text-[9.5px] font-bold text-white/95 truncate">
+                        <span className="font-mono text-xs font-bold text-white/95 truncate">
                           {specimen.hex}
                         </span>
-                        <span className="font-mono text-[8px] text-white/75 hidden sm:inline">
+                        <span className="font-mono text-xs text-white/75 hidden sm:inline">
                           {specimen.wavelength}
                         </span>
                       </div>
@@ -345,7 +345,7 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
               </div>
 
               {/* Active Probe Readout Area */}
-              <div className="mt-4 pt-3 border-t border-black/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between font-mono text-[11px] gap-2">
+              <div className="mt-4 pt-3 border-t border-black/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between font-mono text-xs gap-2">
                 <div className="flex items-center gap-2">
                   <span
                     className="w-3.5 h-3.5 rounded-xs border border-black/10 dark:border-white/10 shrink-0"
@@ -359,7 +359,7 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 text-[#595959] dark:text-[#9DA3AF] text-[10.5px]">
+                <div className="flex items-center gap-3 text-[#595959] dark:text-[#9DA3AF] text-xs">
                   <span>{activeSpecimen.oklch}</span>
                   <span className="hidden md:inline">λ {activeSpecimen.wavelength}</span>
                   <span className="px-1.5 py-0.5 rounded-xs bg-black/[0.04] dark:bg-white/[0.05] font-semibold text-[#171717] dark:text-[#F8F8F8]">
@@ -369,14 +369,14 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
               </div>
 
               {/* Corner crosshairs on the specimen card */}
-              <span className="absolute top-1 left-1.5 text-[8px] font-mono text-black/30 dark:text-white/30">+</span>
-              <span className="absolute top-1 right-1.5 text-[8px] font-mono text-black/30 dark:text-white/30">+</span>
-              <span className="absolute bottom-1 left-1.5 text-[8px] font-mono text-black/30 dark:text-white/30">+</span>
-              <span className="absolute bottom-1 right-1.5 text-[8px] font-mono text-black/30 dark:text-white/30">+</span>
+              <span className="absolute top-1 left-1.5 text-xs font-mono text-black/30 dark:text-white/30">+</span>
+              <span className="absolute top-1 right-1.5 text-xs font-mono text-black/30 dark:text-white/30">+</span>
+              <span className="absolute bottom-1 left-1.5 text-xs font-mono text-black/30 dark:text-white/30">+</span>
+              <span className="absolute bottom-1 right-1.5 text-xs font-mono text-black/30 dark:text-white/30">+</span>
             </div>
 
             {/* Specimen Subtitle Note */}
-            <div className="flex items-center justify-between font-mono text-[10px] text-[#595959] dark:text-[#9DA3AF] px-1">
+            <div className="flex items-center justify-between font-mono text-xs text-[#595959] dark:text-[#9DA3AF] px-1">
               <span>CHROMATIC ANCHOR SPECTRUM // 6-PHASE HARMONIC ARRAY</span>
               <span>CALIBRATION CYCLE: CONTINUOUS</span>
             </div>
@@ -384,7 +384,7 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
         </main>
 
         {/* ─── Minimal Technical Footer ─── */}
-        <footer className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between text-[10.5px] font-mono text-[#595959] dark:text-[#9DA3AF] pt-4 border-t border-black/10 dark:border-white/10 gap-2 z-10">
+        <footer className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs font-mono text-[#595959] dark:text-[#9DA3AF] pt-4 border-t border-black/10 dark:border-white/10 gap-2 z-10">
           <div className="flex items-center gap-3 flex-wrap">
             <span>01 / COLOR ENGINE: RECALIBRATING</span>
             <span className="text-black/20 dark:text-white/20">•</span>

@@ -35,7 +35,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="max-w-3xl">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-[-0.03em] text-[var(--text-primary)] mb-2.5">
+          <h1 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-[1.1] text-[var(--text-primary)] mb-2.5 break-words">
             {title}
           </h1>
           {description && (

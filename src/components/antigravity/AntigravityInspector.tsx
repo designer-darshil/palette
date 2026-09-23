@@ -125,7 +125,7 @@ export const AntigravityInspector: React.FC<AntigravityInspectorProps> = ({
           {/* Overlays */}
           <StudioInspectorSection title="Overlays">
             <div className="flex items-center justify-between py-1">
-              <label className="text-[11px] font-semibold text-[var(--text-secondary)]">
+              <label className="text-xs font-semibold text-[var(--text-secondary)]">
                 Trajectory
               </label>
               <input
@@ -137,7 +137,7 @@ export const AntigravityInspector: React.FC<AntigravityInspectorProps> = ({
             </div>
 
             <div className="flex items-center justify-between py-1">
-              <label className="text-[11px] font-semibold text-[var(--text-secondary)]">
+              <label className="text-xs font-semibold text-[var(--text-secondary)]">
                 Velocity Vector
               </label>
               <input
@@ -174,10 +174,10 @@ export const AntigravityInspector: React.FC<AntigravityInspectorProps> = ({
                   title={p.description}
                   iconLeft={icon}
                 >
-                  <span className={`font-mono text-[10px] font-bold ${isSelected ? 'text-[var(--color-primary)]' : 'text-[var(--text-primary)]'}`}>
+                  <span className={`font-mono text-xs font-bold ${isSelected ? 'text-[var(--color-primary)]' : 'text-[var(--text-primary)]'}`}>
                     {p.name}
                   </span>
-                  <span className="font-mono text-[9px] text-[var(--text-tertiary)]">
+                  <span className="font-mono text-xs text-[var(--text-tertiary)]">
                     G:{p.config.gravityY ?? 0} · M:{p.config.mass ?? 1}
                   </span>
                 </KromaButton>

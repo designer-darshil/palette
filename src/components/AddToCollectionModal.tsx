@@ -78,7 +78,7 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({
           />
           <div className="min-w-0">
             <div className="font-bold text-xs text-[var(--text-primary)] truncate">{item.title}</div>
-            <div className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase">{item.type}</div>
+            <div className="font-mono text-xs text-[var(--text-tertiary)] uppercase">{item.type}</div>
           </div>
         </div>
 
@@ -96,7 +96,7 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({
               >
                 <div className="min-w-0 text-left">
                   <div className="text-xs font-bold text-[var(--text-primary)] truncate">{col.title}</div>
-                  <div className="text-[10px] text-[var(--text-tertiary)] font-mono font-normal">{col.items.length} items</div>
+                  <div className="text-xs text-[var(--text-tertiary)] font-mono font-normal">{col.items.length} items</div>
                 </div>
                 {alreadyIn ? (
                   <Check size={14} className="text-emerald-400 flex-shrink-0" />

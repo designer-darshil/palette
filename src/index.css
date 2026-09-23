@@ -56,16 +56,16 @@
   --header-height: 68px;
   --header-height-mobile: 58px;
 
-  /* Standardized Typography Scale */
-  --text-2xs: 0.65rem;
-  --text-xs: 0.72rem;
-  --text-sm: 0.8rem;
-  --text-base: 0.875rem;
-  --text-md: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
+  /* Standardized Typography Scale (12px Minimum for Meaningful Content) */
+  --text-2xs: 0.75rem;    /* 12px minimum */
+  --text-xs: 0.8125rem;   /* 13px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-md: 1.125rem;    /* 18px */
+  --text-lg: 1.25rem;     /* 20px */
+  --text-xl: 1.5rem;      /* 24px */
+  --text-2xl: 1.875rem;   /* 30px */
+  --text-3xl: 2.25rem;    /* 36px */
 
   --bg-navbar: rgba(9, 10, 12, 0.88);
   --bg-navbar-solid: #090A0C;
@@ -596,7 +596,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 /* Section Header / Category Label */
 .kroma-header__dropdown-category {
   font-family: var(--font-sans, 'General Sans', sans-serif);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -677,7 +677,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .kroma-header__dropdown-desc {
   font-family: var(--font-sans, 'General Sans', sans-serif);
-  font-size: 11.5px;
+  font-size: 13px;
   color: #707070;
   line-height: 1.4;
   margin-top: 2px;
@@ -717,7 +717,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .kroma-header__dropdown-featured-tag {
   font-family: var(--font-mono, monospace);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -741,7 +741,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .kroma-header__dropdown-featured-desc {
   font-family: var(--font-sans, 'General Sans', sans-serif);
-  font-size: 11.5px;
+  font-size: 13px;
   color: #707070;
   line-height: 1.45;
   margin: 0 0 16px 0;
@@ -847,10 +847,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .kroma-header__badge {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   line-height: 1;
-  padding: 2px 5px;
+  padding: 2.5px 6px;
   border-radius: 9999px;
   background: #7B2CBF;
   color: #FFFFFF;
@@ -997,7 +997,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .kroma-mobile-menu__section-title {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1064,7 +1064,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   justify-content: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-tertiary);
   letter-spacing: 0.04em;
 }
@@ -1192,7 +1192,7 @@ body.nav-open {
 
 .studio-topbar-doc {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
@@ -1266,7 +1266,7 @@ body.nav-open {
 .studio-export-menu-header {
   padding: 6px 10px 4px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-tertiary);
   text-transform: uppercase;
@@ -1283,7 +1283,7 @@ body.nav-open {
   border-radius: var(--radius-xs);
   text-align: left;
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: 13.5px;
   cursor: pointer;
   transition: background var(--transition-quick);
   background: transparent;
@@ -1305,7 +1305,7 @@ body.nav-open {
 
 .studio-export-menu-sublabel {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-tertiary);
 }
 
@@ -1439,7 +1439,7 @@ body.nav-open {
   align-items: center;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-tertiary);
   flex-shrink: 0;
   z-index: 10;
@@ -1480,7 +1480,7 @@ body.nav-open {
   align-items: center;
   gap: 4px;
   padding: 7px 9px;
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text-tertiary);
   white-space: nowrap;
@@ -1540,7 +1540,7 @@ body.nav-open {
 }
 
 .studio-section-title {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text-secondary);
   letter-spacing: 0.01em;
@@ -1551,7 +1551,7 @@ body.nav-open {
 
 .studio-section-badge {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   padding: 1px 5px;
   background: var(--bg-surface-2);
   color: var(--text-tertiary);
@@ -1592,14 +1592,14 @@ body.nav-open {
 }
 
 .studio-control-label {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text-secondary);
 }
 
 .studio-control-sublabel {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-tertiary);
 }
 
@@ -1680,7 +1680,7 @@ body.nav-open {
   width: 100%;
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-primary);
   text-align: right;
   outline: none;
@@ -1698,7 +1698,7 @@ body.nav-open {
 
 .studio-slider-unit {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 12px;
   color: var(--text-tertiary);
   margin-left: 2px;
 }
@@ -1740,7 +1740,7 @@ body.nav-open {
 
 .studio-canvas-hud-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-secondary);
   display: flex;
   align-items: center;
@@ -1764,7 +1764,7 @@ body.nav-open {
   padding: 3px 8px;
   border-radius: var(--radius-xs);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-secondary);
   pointer-events: none;
   opacity: 0.85;
@@ -2016,7 +2016,7 @@ body.nav-open {
   padding-top: 24px;
   border-top: 1px solid rgba(248, 248, 248, 0.12);
   font-family: var(--font-sans);
-  font-size: 11.5px;
+  font-size: 13px;
   color: #777777;
   flex-wrap: wrap;
   opacity: 0;
@@ -2068,7 +2068,7 @@ body.nav-open {
 
 .kroma-footer__legal-sep {
   opacity: 0.5;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 /* ─── Mobile Adaptations (< 768px) ─────────────────────────── */

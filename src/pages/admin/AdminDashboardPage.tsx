@@ -54,7 +54,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
       {/* Introduction Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-black/10 dark:border-white/10">
         <div>
-          <div className="flex items-center gap-2 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF] uppercase tracking-widest font-semibold">
+          <div className="flex items-center gap-2 font-mono text-xs text-[#707070] dark:text-[#9DA3AF] uppercase tracking-widest font-semibold">
             <span>ADMIN</span>
             <span className="opacity-40">/</span>
             <span>OVERVIEW</span>
@@ -71,7 +71,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
         <div className="flex items-center gap-3 px-3 py-2 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs">
           <span className="w-2 h-2 rounded-full bg-[#34C759]" />
           <div className="flex flex-col">
-            <span className="text-[10px] font-mono text-[#707070] dark:text-[#9DA3AF] uppercase tracking-wider font-semibold">
+            <span className="text-xs font-mono text-[#707070] dark:text-[#9DA3AF] uppercase tracking-wider font-semibold">
               SUPER ADMIN
             </span>
             <span className="text-xs font-mono font-medium text-[#171717] dark:text-[#F8F8F8]">
@@ -87,7 +87,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           <h2 className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#707070] dark:text-[#9DA3AF]">
             Content Snapshot · Live Database
           </h2>
-          <span className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
             {colors.length + palettes.length + combos.length + gradients.length + CURATED_PATTERNS.length + CURATED_COLLECTIONS.length} Total Records
           </span>
         </div>
@@ -100,13 +100,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
-                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">COLORS</span>
+                <span className="text-xs font-mono uppercase tracking-wider font-semibold">COLORS</span>
                 <Palette size={14} className="group-hover:text-[#34C759] transition-colors" />
               </div>
               <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
                 {colors.length.toLocaleString()}
               </div>
-              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
                 16 spectrums
               </div>
             </div>
@@ -126,13 +126,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
-                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">PALETTES</span>
+                <span className="text-xs font-mono uppercase tracking-wider font-semibold">PALETTES</span>
                 <Layers size={14} className="group-hover:text-[#FFD60A] transition-colors" />
               </div>
               <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
                 {palettes.length.toLocaleString()}
               </div>
-              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
                 5-tone sets
               </div>
             </div>
@@ -152,13 +152,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
-                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">PATTERNS</span>
+                <span className="text-xs font-mono uppercase tracking-wider font-semibold">PATTERNS</span>
                 <Grid size={14} className="group-hover:text-[#00AEEF] transition-colors" />
               </div>
               <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
                 {CURATED_PATTERNS.length}
               </div>
-              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
                 SVG geometry
               </div>
             </div>
@@ -178,13 +178,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
-                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">COLLECTIONS</span>
+                <span className="text-xs font-mono uppercase tracking-wider font-semibold">COLLECTIONS</span>
                 <BookmarkCheck size={14} className="group-hover:text-[#7B2CBF] transition-colors" />
               </div>
               <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
                 {CURATED_COLLECTIONS.length}
               </div>
-              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
                 anthologies
               </div>
             </div>
@@ -204,13 +204,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
-                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">HARMONIES</span>
+                <span className="text-xs font-mono uppercase tracking-wider font-semibold">HARMONIES</span>
                 <Wand2 size={14} className="group-hover:text-[#FF9500] transition-colors" />
               </div>
               <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
                 {combos.length.toLocaleString()}
               </div>
-              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
                 WCAG AAA
               </div>
             </div>
@@ -230,13 +230,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
-                <span className="text-[10px] font-mono uppercase tracking-wider font-semibold">GRADIENTS</span>
+                <span className="text-xs font-mono uppercase tracking-wider font-semibold">GRADIENTS</span>
                 <Sparkles size={14} className="group-hover:text-[#00AEEF] transition-colors" />
               </div>
               <div className="text-2xl font-bold tracking-tight text-[#171717] dark:text-[#F8F8F8]">
                 {gradients.length.toLocaleString()}
               </div>
-              <div className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
+              <div className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono mt-0.5">
                 multi-stops
               </div>
             </div>
@@ -259,11 +259,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
             <h2 className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#707070] dark:text-[#9DA3AF]">
               Chromatic Spectrum Architecture · 16 Spectrum Groups
             </h2>
-            <p className="text-[11px] text-[#707070] dark:text-[#9DA3AF] font-mono">
+            <p className="text-xs text-[#707070] dark:text-[#9DA3AF] font-mono">
               Live specimen distribution across perceptual color coordinates.
             </p>
           </div>
-          <span className="font-mono text-[11px] text-[#34C759] font-medium">
+          <span className="font-mono text-xs text-[#34C759] font-medium">
             100% CALIBRATED
           </span>
         </div>
@@ -281,7 +281,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
         </div>
 
         {/* Spectrum Details Chips */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 pt-2 border-t border-black/5 dark:border-white/5 font-mono text-[11px]">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 pt-2 border-t border-black/5 dark:border-white/5 font-mono text-xs">
           {spectrumGroups.map((g) => (
             <div key={g.name} className="flex items-center gap-2">
               <span
@@ -289,7 +289,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 style={{ backgroundColor: g.hex }}
               />
               <span className="text-[#171717] dark:text-[#F8F8F8] truncate">{g.name}</span>
-              <span className="text-[#707070] dark:text-[#9DA3AF] text-[10px] ml-auto">{g.count}</span>
+              <span className="text-[#707070] dark:text-[#9DA3AF] text-xs ml-auto">{g.count}</span>
             </div>
           ))}
         </div>
@@ -314,7 +314,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 </span>
               </div>
               <span
-                className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-xs font-bold ${
+                className={`font-mono text-xs uppercase tracking-wider px-2 py-0.5 rounded-xs font-bold ${
                   isMaintenanceActive
                     ? 'bg-[#FF3B30]/15 text-[#FF3B30]'
                     : maintenanceStatus === 'scheduled'
@@ -334,7 +334,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           </div>
 
           <div className="pt-4 mt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between">
-            <span className="text-[10px] font-mono text-[#707070] dark:text-[#9DA3AF]">
+            <span className="text-xs font-mono text-[#707070] dark:text-[#9DA3AF]">
               Updated by: {maintenanceState.updatedBy || 'admin'}
             </span>
             <KromaButton
@@ -378,7 +378,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
           </div>
 
           <div className="pt-4 mt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between">
-            <span className="text-[10px] font-mono text-[#707070] dark:text-[#9DA3AF]">
+            <span className="text-xs font-mono text-[#707070] dark:text-[#9DA3AF]">
               Automated audit active
             </span>
             <KromaButton
@@ -453,7 +453,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
               Recent Administrative Activity
             </h2>
           </div>
-          <span className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
             {activityLogs.length} LOGGED ACTIONS
           </span>
         </div>
@@ -475,7 +475,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                     {log.details}
                   </span>
                 </div>
-                <div className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF] shrink-0">
+                <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF] shrink-0">
                   {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>

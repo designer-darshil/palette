@@ -119,19 +119,19 @@ export const ColorOfTheDayPage: React.FC<ColorOfTheDayPageProps> = ({ onNavigate
             </h3>
             <div className="grid grid-cols-2 gap-3 font-mono text-xs">
               <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)]">
-                <span className="text-[10px] text-[var(--text-tertiary)] block">WCAG Contrast White</span>
+                <span className="text-xs text-[var(--text-tertiary)] block">WCAG Contrast White</span>
                 <span className="font-bold text-[var(--text-primary)]">{access.contrastWithWhite}:1</span>
               </div>
               <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)]">
-                <span className="text-[10px] text-[var(--text-tertiary)] block">WCAG Contrast Black</span>
+                <span className="text-xs text-[var(--text-tertiary)] block">WCAG Contrast Black</span>
                 <span className="font-bold text-[var(--text-primary)]">{access.contrastWithBlack}:1</span>
               </div>
               <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)]">
-                <span className="text-[10px] text-[var(--text-tertiary)] block">Temperature</span>
+                <span className="text-xs text-[var(--text-tertiary)] block">Temperature</span>
                 <span className="font-bold text-[var(--text-primary)]">{temp.classification} ({temp.kelvin}K)</span>
               </div>
               <div className="p-2.5 rounded-xs bg-[var(--bg-surface-2)]">
-                <span className="text-[10px] text-[var(--text-tertiary)] block">Color Family</span>
+                <span className="text-xs text-[var(--text-tertiary)] block">Color Family</span>
                 <span className="font-bold text-[var(--text-primary)]">{color.family}</span>
               </div>
             </div>

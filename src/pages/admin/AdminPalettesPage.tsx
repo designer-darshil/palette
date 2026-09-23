@@ -289,18 +289,18 @@ export const AdminPalettesPage: React.FC = () => {
                     <h3 className="text-sm font-bold text-[#171717] dark:text-[#F8F8F8]">
                       {palette.title}
                     </h3>
-                    <div className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF] mt-0.5 capitalize">
+                    <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF] mt-0.5 capitalize">
                       {palette.category} · 5 COLORS
                     </div>
                   </div>
 
-                  <span className="font-mono text-[10px] uppercase px-1.5 py-0.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.04] text-[#707070] dark:text-[#9DA3AF]">
+                  <span className="font-mono text-xs uppercase px-1.5 py-0.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.04] text-[#707070] dark:text-[#9DA3AF]">
                     #{palette.slug}
                   </span>
                 </div>
 
                 {/* Swatches Hex Sequence */}
-                <div className="flex items-center gap-1.5 font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF] overflow-x-auto py-1 border-t border-black/5 dark:border-white/5">
+                <div className="flex items-center gap-1.5 font-mono text-xs text-[#707070] dark:text-[#9DA3AF] overflow-x-auto py-1 border-t border-black/5 dark:border-white/5">
                   {palette.colors.map((c, i) => (
                     <span key={i} className="flex items-center gap-1 shrink-0">
                       <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: c.hex }} />
@@ -360,7 +360,7 @@ export const AdminPalettesPage: React.FC = () => {
         <div className="admin-table-container">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF]">
+              <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
                 <th className="py-2.5 px-4 font-semibold">SPECTRUM COMPOSITION</th>
                 <th className="py-2.5 px-4 font-semibold">PALETTE TITLE</th>
                 <th className="py-2.5 px-4 font-semibold">DISCIPLINE</th>
@@ -387,10 +387,10 @@ export const AdminPalettesPage: React.FC = () => {
                   <td className="py-2 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
                     {palette.title}
                   </td>
-                  <td className="py-2 px-4 capitalize font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                  <td className="py-2 px-4 capitalize font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
                     {palette.category}
                   </td>
-                  <td className="py-2 px-4 font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                  <td className="py-2 px-4 font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
                     {palette.colors.map((c) => c.hex).join(' · ')}
                   </td>
                   <td className="py-2 px-4 text-right">
@@ -502,7 +502,7 @@ export const AdminPalettesPage: React.FC = () => {
                   className="flex-1 h-full flex flex-col justify-end p-1 text-center"
                   style={{ backgroundColor: c.hex }}
                 >
-                  <span className="font-mono text-[9px] font-bold px-0.5 rounded-xs bg-black/50 text-white truncate">
+                  <span className="font-mono text-xs font-bold px-0.5 rounded-xs bg-black/50 text-white truncate">
                     {c.hex}
                   </span>
                 </div>
@@ -688,7 +688,7 @@ export const AdminPalettesPage: React.FC = () => {
                   className="flex-1 h-full flex flex-col justify-end p-2"
                   style={{ backgroundColor: c.hex }}
                 >
-                  <span className="font-mono text-[9px] font-bold px-1 rounded-xs bg-black/40 text-white truncate text-center">
+                  <span className="font-mono text-xs font-bold px-1 rounded-xs bg-black/40 text-white truncate text-center">
                     {c.hex}
                   </span>
                 </div>
@@ -709,7 +709,7 @@ export const AdminPalettesPage: React.FC = () => {
                       <span className="w-3 h-3 rounded-full" style={{ backgroundColor: c.hex }} />
                       <span className="font-bold text-[#171717] dark:text-[#F8F8F8]">{c.name}</span>
                     </div>
-                    <span className="text-[#707070] dark:text-[#9DA3AF] uppercase text-[10px]">
+                    <span className="text-[#707070] dark:text-[#9DA3AF] uppercase text-xs">
                       {c.role || `Tone ${i + 1}`} · {c.hex}
                     </span>
                   </div>

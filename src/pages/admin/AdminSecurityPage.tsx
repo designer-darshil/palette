@@ -79,7 +79,7 @@ export const AdminSecurityPage: React.FC = () => {
             <ShieldCheck size={18} />
           </div>
           <div>
-            <div className="font-mono text-[10px] text-[#595959] dark:text-[#9DA3AF] uppercase tracking-wider font-semibold">
+            <div className="font-mono text-xs text-[#595959] dark:text-[#9DA3AF] uppercase tracking-wider font-semibold">
               SUPER ADMIN IDENTITY
             </div>
             <div className="text-sm font-bold text-[#171717] dark:text-[#F8F8F8]">
@@ -90,13 +90,13 @@ export const AdminSecurityPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-black/5 dark:border-white/5 font-mono text-xs">
           <div className="p-2.5 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-            <div className="text-[10px] text-[#595959] dark:text-[#9DA3AF] uppercase">ROLE STATUS</div>
+            <div className="text-xs text-[#595959] dark:text-[#9DA3AF] uppercase">ROLE STATUS</div>
             <div className="text-xs font-bold text-[#D70015] dark:text-[#FF453A] uppercase mt-0.5">
               {currentUser?.role.replace('_', ' ')}
             </div>
           </div>
           <div className="p-2.5 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-            <div className="text-[10px] text-[#595959] dark:text-[#9DA3AF] uppercase">CRYPTOGRAPHIC SCHEME</div>
+            <div className="text-xs text-[#595959] dark:text-[#9DA3AF] uppercase">CRYPTOGRAPHIC SCHEME</div>
             <div className="text-xs font-bold text-[#1B8738] dark:text-[#34C759] mt-0.5">SHA-256 + 16B Salt</div>
           </div>
         </div>

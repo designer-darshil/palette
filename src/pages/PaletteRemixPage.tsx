@@ -89,7 +89,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
 
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
-        <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+        <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
           <span>/</span>
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'palettes' })}>PALETTES</span>
@@ -124,8 +124,8 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
 
       {/* Header */}
       <header className="mb-12">
-        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">PARAMETRIC CALIBRATION</span>
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
+        <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">PARAMETRIC CALIBRATION</span>
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
           REMIX:<br />
           {originalPalette.title}
         </h1>
@@ -137,7 +137,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
       {/* Comparative Color Strips */}
       <section className="mb-14 flex flex-col gap-6">
         <div>
-          <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider mb-2">
+          <div className="flex items-center justify-between font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider mb-2">
             <span>ORIGINAL SPECIMEN</span>
             <span>{originalPalette.colors.length} COLORS</span>
           </div>
@@ -149,7 +149,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
         </div>
 
         <div>
-          <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-primary)] uppercase tracking-wider mb-2 font-bold">
+          <div className="flex items-center justify-between font-mono text-xs text-[var(--text-primary)] uppercase tracking-wider mb-2 font-bold">
             <span>ACTIVE REMIX CALIBRATION</span>
             <span>LIVE PREVIEW</span>
           </div>
@@ -157,7 +157,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
             {remixedColors.map((c, i) => (
               <div
                 key={i}
-                className="flex-1 h-full flex flex-col justify-end p-2 text-white font-mono text-[11px] font-bold drop-shadow-md"
+                className="flex-1 h-full flex flex-col justify-end p-2 text-white font-mono text-xs font-bold drop-shadow-md"
                 style={{ backgroundColor: c.hex }}
               >
                 <span className="truncate">{c.name}</span>

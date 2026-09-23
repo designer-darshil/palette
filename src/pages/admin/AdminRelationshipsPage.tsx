@@ -79,10 +79,10 @@ export const AdminRelationshipsPage: React.FC = () => {
           {/* Calculated Harmonies */}
           <div className="p-4 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs flex flex-col justify-between">
             <div>
-              <div className="text-[10px] text-[#946300] dark:text-[#FFD60A] font-bold uppercase tracking-wider mb-2">
+              <div className="text-xs text-[#946300] dark:text-[#FFD60A] font-bold uppercase tracking-wider mb-2">
                 MATHEMATICAL HARMONIES
               </div>
-              <div className="space-y-1.5 text-[11px]">
+              <div className="space-y-1.5 text-xs">
                 <div className="flex justify-between py-1 border-b border-black/5 dark:border-white/5">
                   <span className="text-[#595959] dark:text-[#9DA3AF]">Complementary</span>
                   <span className="font-bold">{selectedColor.complementaryHex}</span>
@@ -97,7 +97,7 @@ export const AdminRelationshipsPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="text-[10px] text-[#595959] dark:text-[#9DA3AF] pt-2 mt-2 border-t border-black/5 dark:border-white/5">
+            <div className="text-xs text-[#595959] dark:text-[#9DA3AF] pt-2 mt-2 border-t border-black/5 dark:border-white/5">
               Derived on-the-fly from OKLCH polar coords
             </div>
           </div>
@@ -105,13 +105,13 @@ export const AdminRelationshipsPage: React.FC = () => {
           {/* Connected Palettes */}
           <div className="p-4 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs flex flex-col justify-between">
             <div>
-              <div className="text-[10px] text-[#0077A8] dark:text-[#00AEEF] font-bold uppercase tracking-wider mb-2">
+              <div className="text-xs text-[#0077A8] dark:text-[#00AEEF] font-bold uppercase tracking-wider mb-2">
                 CONNECTED PALETTES ({relatedPalettes.length})
               </div>
               {relatedPalettes.length === 0 ? (
                 <div className="text-[#595959] dark:text-[#9DA3AF] py-2">No direct palette assignments</div>
               ) : (
-                <div className="space-y-1 text-[11px]">
+                <div className="space-y-1 text-xs">
                   {relatedPalettes.map((p) => (
                     <div key={p.id} className="truncate py-0.5">
                       • {p.title}
@@ -120,7 +120,7 @@ export const AdminRelationshipsPage: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="text-[10px] text-[#595959] dark:text-[#9DA3AF] pt-2 mt-2 border-t border-black/5 dark:border-white/5">
+            <div className="text-xs text-[#595959] dark:text-[#9DA3AF] pt-2 mt-2 border-t border-black/5 dark:border-white/5">
               Active library sets
             </div>
           </div>
@@ -128,13 +128,13 @@ export const AdminRelationshipsPage: React.FC = () => {
           {/* Connected Combos */}
           <div className="p-4 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs flex flex-col justify-between">
             <div>
-              <div className="text-[10px] text-[#D70015] dark:text-[#FF453A] font-bold uppercase tracking-wider mb-2">
+              <div className="text-xs text-[#D70015] dark:text-[#FF453A] font-bold uppercase tracking-wider mb-2">
                 CONNECTED COMBOS ({relatedCombos.length})
               </div>
               {relatedCombos.length === 0 ? (
                 <div className="text-[#595959] dark:text-[#9DA3AF] py-2">No direct combo pairings</div>
               ) : (
-                <div className="space-y-1 text-[11px]">
+                <div className="space-y-1 text-xs">
                   {relatedCombos.map((cb) => (
                     <div key={cb.id} className="truncate py-0.5">
                       • {cb.title}
@@ -143,7 +143,7 @@ export const AdminRelationshipsPage: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="text-[10px] text-[#595959] dark:text-[#9DA3AF] pt-2 mt-2 border-t border-black/5 dark:border-white/5">
+            <div className="text-xs text-[#595959] dark:text-[#9DA3AF] pt-2 mt-2 border-t border-black/5 dark:border-white/5">
               Relational harmony pairs
             </div>
           </div>

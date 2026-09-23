@@ -96,7 +96,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                   title={`${activeRamp.label} ${stepKey}: ${formattedVal}`}
                 >
                   <span
-                    className="font-mono text-[9px] sm:text-[10px] font-bold px-1 py-0.5 rounded-xs w-fit"
+                    className="font-mono text-xs font-bold px-1 py-0.5 rounded-xs w-fit"
                     style={{
                       backgroundColor: c.contrastWithWhite < 4.5 ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.65)',
                       color: c.contrastWithWhite < 4.5 ? '#FFFFFF' : '#000000',
@@ -110,7 +110,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                     variant="ghost"
                     size="icon"
                     onClick={(e) => handleCopy(formattedVal, e)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-xs bg-black/60 text-white self-center text-[10px] font-mono flex items-center gap-1 w-6 h-6 min-h-[24px]"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-xs bg-black/60 text-white self-center text-xs font-mono flex items-center gap-1 w-6 h-6 min-h-[24px]"
                     title="Copy value"
                     aria-label="Copy value"
                   >
@@ -118,7 +118,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                   </KromaButton>
 
                   <span
-                    className="font-mono text-[8px] self-end opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="font-mono text-xs self-end opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ color: c.contrastWithWhite < 4.5 ? '#FFFFFF' : '#000000' }}
                   >
                     {c.contrastWithWhite.toFixed(1)}:1
@@ -129,7 +129,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
           </div>
 
           {/* Scale Legend */}
-          <div className="flex justify-between items-center px-1 text-[10px] font-mono text-[var(--text-tertiary)]">
+          <div className="flex justify-between items-center px-1 text-xs font-mono text-[var(--text-tertiary)]">
             <span>50 · Tint</span>
             <span className="hidden sm:inline">500 · Anchor</span>
             <span>950 · Shade</span>
@@ -154,9 +154,9 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                   <span className="font-semibold text-xs text-[var(--text-primary)] whitespace-nowrap">
                     {activeRamp.label}-{stepKeyStr}
                   </span>
-                  <span className="font-mono text-[10px] text-[var(--text-tertiary)] truncate">{activeStop.oklch}</span>
+                  <span className="font-mono text-xs text-[var(--text-tertiary)] truncate">{activeStop.oklch}</span>
                 </div>
-                <div className="flex items-center gap-2 mt-0.5 font-mono text-[10px] text-[var(--text-secondary)] flex-wrap">
+                <div className="flex items-center gap-2 mt-0.5 font-mono text-xs text-[var(--text-secondary)] flex-wrap">
                   <span>W:{activeStop.contrastWithWhite.toFixed(1)}</span>
                   <span>B:{activeStop.contrastWithBlack.toFixed(1)}</span>
                   <span>L:{(activeStop.lightness * 100).toFixed(0)}%</span>
@@ -170,7 +170,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
               variant="filled"
               size="sm"
               onClick={(e) => handleCopy(activeStop.hex, e)}
-              className="studio-topbar-accent-btn min-h-[28px] px-2 py-1 text-[11px] flex-shrink-0"
+              className="studio-topbar-accent-btn min-h-[28px] px-2 py-1 text-xs flex-shrink-0"
               iconLeft={copiedHex === activeStop.hex ? <Check size={11} /> : <Copy size={11} />}
             >
               <span>{copiedHex === activeStop.hex ? 'Copied' : activeStop.hex}</span>
@@ -183,7 +183,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Activity size={12} className="text-[var(--color-primary)]" />
-              <span className="text-[11px] font-semibold text-[var(--text-secondary)]">
+              <span className="text-xs font-semibold text-[var(--text-secondary)]">
                 OKLCH Perceptual Curve
               </span>
             </div>
@@ -195,7 +195,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                   variant={activeCurveTab === tab ? 'filled' : 'ghost'}
                   size="sm"
                   onClick={() => setActiveCurveTab(tab)}
-                  className={`px-2 py-0.5 rounded-xs font-mono text-[9px] font-semibold min-h-[24px] ${
+                  className={`px-2 py-0.5 rounded-xs font-mono text-xs font-semibold min-h-[24px] ${
                     activeCurveTab === tab
                       ? 'text-[var(--color-primary)]'
                       : 'text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
@@ -266,7 +266,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
         {/* Sibling Ramps Grid — compact */}
         <div className="flex flex-col gap-2 mt-2">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold text-[var(--text-secondary)]">
+            <span className="text-xs font-semibold text-[var(--text-secondary)]">
               All Ramps ({rampEntries.length})
             </span>
           </div>
@@ -282,7 +282,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                     isSelected ? 'bg-[var(--bg-surface-1)]' : 'hover:bg-[var(--bg-surface-1)]/50'
                   }`}
                 >
-                  <span className={`font-mono text-[10px] w-16 truncate ${isSelected ? 'font-bold text-[var(--text-primary)]' : 'text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]'}`}>
+                  <span className={`font-mono text-xs w-16 truncate ${isSelected ? 'font-bold text-[var(--text-primary)]' : 'text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]'}`}>
                     {ramp.label}
                   </span>
                   <div className="flex-1 h-5 rounded-xs overflow-hidden flex">

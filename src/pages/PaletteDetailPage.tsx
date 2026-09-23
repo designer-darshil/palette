@@ -192,20 +192,20 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         </KromaButton>
 
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="font-sans text-[11px] font-semibold tracking-wider uppercase text-neutral-400">
+          <span className="font-sans text-xs font-semibold tracking-wider uppercase text-neutral-400">
             {palette.category?.toUpperCase() || 'EDITORIAL STUDY'}
           </span>
           {palette.tags?.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 rounded-xs"
+              className="text-xs font-mono tracking-wider uppercase px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 rounded-xs"
             >
               #{tag}
             </span>
           ))}
         </div>
 
-        <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase leading-[0.95] mb-4">
+        <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase leading-[1.08] mb-4">
           {palette.title}
         </h1>
 
@@ -217,7 +217,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       {/* Composition: Proportional Color Composition */}
       {/* One color 40% (dominant), two colors 20%, two colors 10% (accents) */}
       <section className="mt-4 mb-8" aria-label="Physical Color Composition">
-        <div className="font-mono text-[11px] tracking-wider uppercase text-neutral-400 mb-2 flex justify-between items-center">
+        <div className="font-mono text-xs font-semibold tracking-wider uppercase text-neutral-400 mb-2 flex justify-between items-center">
           <span>PROPORTIONAL COLOR STUDY (40% DOMINANT / 20% SECONDARY / 10% ACCENT)</span>
           <span>CLICK ANY FIELD TO INSPECT</span>
         </div>
@@ -249,7 +249,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
                 }}
               >
                 <div className="flex justify-between items-start">
-                  <span className="font-mono text-[10px] sm:text-xs font-bold px-1.5 py-0.5 rounded-xs bg-black/40 text-white backdrop-blur-sm">
+                  <span className="font-mono text-xs font-bold px-1.5 py-0.5 rounded-xs bg-black/40 text-white backdrop-blur-sm">
                     {weight}%
                   </span>
                   {isSelected && (
@@ -261,7 +261,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
                   <div className="font-sans text-xs sm:text-sm font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] truncate">
                     {color.name}
                   </div>
-                  <div className="font-mono text-[10px] sm:text-xs text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  <div className="font-mono text-xs font-semibold text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                     {color.hex}
                   </div>
                 </div>
@@ -281,10 +281,10 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
             />
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-xs bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 font-semibold">
+                <span className="font-mono text-xs font-semibold tracking-wider uppercase px-2 py-0.5 rounded-xs bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300">
                   {selectedColorIndex === 0 ? 'DOMINANT (40%)' : selectedColorIndex < 3 ? 'SECONDARY (20%)' : 'ACCENT (10%)'}
                 </span>
-                <span className="font-mono text-[11px] text-neutral-400">
+                <span className="font-mono text-xs text-neutral-400">
                   SWATCH 0{selectedColorIndex + 1} OF 0{palette.colors.length}
                 </span>
               </div>
@@ -300,25 +300,25 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           {/* Technical Readout Data: RGB, HSL, Contrast */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 py-4 border-y lg:border-y-0 lg:border-l border-neutral-200 dark:border-neutral-800 lg:pl-8">
             <div>
-              <div className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mb-1">HEX</div>
+              <div className="font-mono text-xs font-semibold text-neutral-400 tracking-wider uppercase mb-1">HEX</div>
               <div className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {currentColor.hex}
               </div>
             </div>
             <div>
-              <div className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mb-1">RGB</div>
+              <div className="font-mono text-xs font-semibold text-neutral-400 tracking-wider uppercase mb-1">RGB</div>
               <div className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {rgb ? `${rgb.r}, ${rgb.g}, ${rgb.b}` : '—'}
               </div>
             </div>
             <div>
-              <div className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mb-1">HSL</div>
+              <div className="font-mono text-xs font-semibold text-neutral-400 tracking-wider uppercase mb-1">HSL</div>
               <div className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {hsl ? `${Math.round(hsl.h * 360)}°, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%` : '—'}
               </div>
             </div>
             <div>
-              <div className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mb-1">CONTRAST (LIGHT)</div>
+              <div className="font-mono text-xs font-semibold text-neutral-400 tracking-wider uppercase mb-1">CONTRAST (LIGHT)</div>
               <div className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
                 {contrastOnWhite}:1 ({contrastRatingWhite.label.split(' ')[0]})
               </div>
@@ -413,7 +413,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
         <section className="mb-16">
           <div className="flex items-baseline justify-between mb-6">
             <div>
-              <div className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-1">RELATED PALETTES</div>
+              <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-secondary mb-1">RELATED PALETTES</div>
               <h2 className="font-sans text-2xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase">
                 MORE COLOR STUDIES
               </h2>

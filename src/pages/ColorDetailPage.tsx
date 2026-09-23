@@ -175,12 +175,12 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {/* ── 01: Compact Editorial Header ────────────────────────────── */}
       <header className="pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
         {/* Editorial Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-wider text-[#707070] dark:text-[#909090] mb-3">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] mb-3">
           <KromaButton
             variant="ghost"
             size="sm"
             onClick={() => onNavigate({ path: 'colors' })}
-            className="hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0 font-mono text-[10.5px] uppercase tracking-wider text-[#707070] dark:text-[#909090] h-auto"
+            className="hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0 font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] h-auto"
           >
             COLOURS
           </KromaButton>
@@ -192,11 +192,11 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
 
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
-            <div className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070] dark:text-[#909090] mb-1.5 flex items-center gap-2">
+            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090] mb-1.5 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-[1px] bg-[#00AEEF]" />
               <span>INSPECT SPECIMEN • Nº {color.id.toUpperCase()}</span>
             </div>
-            <h1 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight leading-[0.96] text-[#171717] dark:text-white m-0">
+            <h1 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight leading-[1.08] text-[#171717] dark:text-white m-0">
               INSPECT SPECIMENS
             </h1>
             <p className="font-sans text-sm sm:text-base text-[#707070] dark:text-[#A0A0A0] max-w-xl m-0 mt-2 leading-[1.5]">
@@ -289,7 +289,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
               size="sm"
               iconLeft={<Copy size={12} />}
               onClick={() => handleCopyValue(color.hex, 'HEX')}
-              className="bg-black/35 hover:bg-black/55 text-white font-mono text-[11px] font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 backdrop-blur-xs transition-transform hover:scale-105 cursor-pointer shadow-xs border-0"
+              className="bg-black/35 hover:bg-black/55 text-white font-mono text-xs font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 backdrop-blur-xs transition-transform hover:scale-105 cursor-pointer shadow-xs border-0"
               title="Click to copy HEX"
             >
               COPY HEX
@@ -298,10 +298,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
 
           {/* Bottom Title & Dominant Callout */}
           <div>
-            <span className="font-mono text-[11px] uppercase tracking-widest opacity-85 block mb-1">
+            <span className="font-mono text-xs font-semibold uppercase tracking-wider opacity-85 block mb-1">
               CANONICAL PIGMENT STUDY
             </span>
-            <h2 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight leading-none m-0 drop-shadow-xs">
+            <h2 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-none m-0 drop-shadow-xs">
               {color.name}
             </h2>
             <div className="font-mono text-xl sm:text-2xl font-bold mt-2 opacity-95 tracking-wide drop-shadow-xs">
@@ -314,10 +314,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {/* ── 03: Technical Specification Ledger (Print Specification Sheet) ─ */}
       <section aria-label="Technical Specifications Ledger" className="flex flex-col gap-3">
         <div className="flex items-baseline justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
             01 — TECHNICAL SPECIFICATION LEDGER
           </span>
-          <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase">
             CALIBRATED COLOR VALUES • CLICK VALUE TO COPY
           </span>
         </div>
@@ -335,7 +335,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                 if (e.key === 'Enter') handleCopyValue(spec.value, spec.format);
               }}
             >
-              <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+              <div className="flex items-center justify-between font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090]">
                 <span>{spec.label}</span>
                 <Copy size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
@@ -350,10 +350,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {/* ── 04: Authentic Typography Specimen Sheet ─────────────────── */}
       <section aria-label="Typography Specimen Sheet" className="flex flex-col gap-4">
         <div className="flex items-baseline justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
             02 — TYPOGRAPHY SPECIMEN SHEET
           </span>
-          <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase">
             GENERAL SANS SPECIMEN RENDERED IN {color.name.toUpperCase()}
           </span>
         </div>
@@ -365,7 +365,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
             style={{ backgroundColor: '#FFFFFF' }}
           >
             <div>
-              <div className="flex items-center justify-between font-mono text-[10px] uppercase text-[#707070] mb-4 pb-2 border-b border-black/[0.08]">
+              <div className="flex items-center justify-between font-mono text-xs uppercase text-[#707070] mb-4 pb-2 border-b border-black/[0.08]">
                 <span>ON WHITE CANVAS (#FFFFFF)</span>
                 <span className="font-bold text-[#171717]">WCAG {practicalUi.onWhiteRatio}:1 · {practicalUi.onWhiteRating.label}</span>
               </div>
@@ -385,7 +385,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                 Harmonic resonance calibrated against pure architectural daylight.
               </p>
             </div>
-            <div className="font-mono text-[10px] text-[#707070] pt-3 border-t border-black/[0.06] flex items-center justify-between">
+            <div className="font-mono text-xs text-[#707070] pt-3 border-t border-black/[0.06] flex items-center justify-between">
               <span>CONTRAST EVALUATION</span>
               <span>{practicalUi.onWhiteRating.passAA ? 'PASSES WCAG AA' : 'REQUIRES ADJUSTMENT'}</span>
             </div>
@@ -397,7 +397,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
             style={{ backgroundColor: '#111215' }}
           >
             <div>
-              <div className="flex items-center justify-between font-mono text-[10px] uppercase text-[#909090] mb-4 pb-2 border-b border-white/[0.08]">
+              <div className="flex items-center justify-between font-mono text-xs uppercase text-[#909090] mb-4 pb-2 border-b border-white/[0.08]">
                 <span>ON DARK CANVAS (#111215)</span>
                 <span className="font-bold text-white">WCAG {practicalUi.onBlackRatio}:1 · {practicalUi.onBlackRating.label}</span>
               </div>
@@ -417,7 +417,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                 Chromatically stable luminance balanced for deep OLED interface surfaces.
               </p>
             </div>
-            <div className="font-mono text-[10px] text-[#909090] pt-3 border-t border-white/[0.06] flex items-center justify-between">
+            <div className="font-mono text-xs text-[#909090] pt-3 border-t border-white/[0.06] flex items-center justify-between">
               <span>CONTRAST EVALUATION</span>
               <span>{practicalUi.onBlackRating.passAA ? 'PASSES WCAG AA' : 'REQUIRES ADJUSTMENT'}</span>
             </div>
@@ -428,10 +428,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {/* ── 05: Visual Colour Relationships (Actual Color Fields) ──── */}
       <section aria-label="Visual Colour Relationships" className="flex flex-col gap-4">
         <div className="flex items-baseline justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
             03 — CALCULATED RELATIONAL HARMONIES
           </span>
-          <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase">
             MATHEMATICAL COLOR WHEEL
           </span>
         </div>
@@ -451,12 +451,12 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
               role="button"
               tabIndex={0}
             >
-              <span className="font-mono text-[10px] font-bold text-white bg-black/50 px-1.5 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="font-mono text-xs font-bold text-white bg-black/50 px-1.5 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity">
                 {calculatedHarmonies.complementary}
               </span>
             </div>
             <div className="p-3">
-              <span className="font-mono text-[9.5px] uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
                 COMPLEMENTARY (180°)
               </span>
               <div className="font-sans text-xs font-bold text-[#171717] dark:text-white uppercase truncate mt-0.5">
@@ -482,14 +482,14 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                   role="button"
                   tabIndex={0}
                 >
-                  <span className="font-mono text-[9px] font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
+                  <span className="font-mono text-xs font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
                     {hex}
                   </span>
                 </div>
               ))}
             </div>
             <div className="p-3">
-              <span className="font-mono text-[9.5px] uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
                 ANALOGOUS (±30°)
               </span>
               <div className="font-sans text-xs font-bold text-[#171717] dark:text-white uppercase truncate mt-0.5">
@@ -515,14 +515,14 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                   role="button"
                   tabIndex={0}
                 >
-                  <span className="font-mono text-[9px] font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
+                  <span className="font-mono text-xs font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
                     {hex}
                   </span>
                 </div>
               ))}
             </div>
             <div className="p-3">
-              <span className="font-mono text-[9.5px] uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
                 TRIADIC (±120°)
               </span>
               <div className="font-sans text-xs font-bold text-[#171717] dark:text-white uppercase truncate mt-0.5">
@@ -548,14 +548,14 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                   role="button"
                   tabIndex={0}
                 >
-                  <span className="font-mono text-[9px] font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
+                  <span className="font-mono text-xs font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
                     {hex}
                   </span>
                 </div>
               ))}
             </div>
             <div className="p-3">
-              <span className="font-mono text-[9.5px] uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
                 SPLIT COMPLEMENTARY
               </span>
               <div className="font-sans text-xs font-bold text-[#171717] dark:text-white uppercase truncate mt-0.5">
@@ -569,10 +569,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {/* ── 06: Tonal Step Matrix (100–950) ─────────────────────────── */}
       <section aria-label="Tonal Step Matrix" className="flex flex-col gap-3">
         <div className="flex items-baseline justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
             04 — TONAL STEP MATRIX (100–950)
           </span>
-          <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase">
             CLICK STEP TO COPY HEX
           </span>
         </div>
@@ -592,8 +592,8 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                 role="button"
                 tabIndex={0}
               >
-                <span className="font-mono text-[10px] font-bold opacity-80">{shade.level}</span>
-                <span className="font-mono text-[10.5px] font-bold truncate">{shade.hex}</span>
+                <span className="font-mono text-xs font-bold opacity-80">{shade.level}</span>
+                <span className="font-mono text-xs font-bold truncate">{shade.hex}</span>
               </div>
             ))}
           </div>
@@ -604,7 +604,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {relatedPalettes.length > 0 && (
         <section aria-label="Related Palette Systems" className="flex flex-col gap-4">
           <div className="flex items-baseline justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               PALETTE SYSTEMS FEATURING {color.name.toUpperCase()}
             </span>
             <KromaButton
@@ -628,7 +628,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {relatedCombos.length > 0 && (
         <section aria-label="Related Color Combos" className="flex flex-col gap-4">
           <div className="flex items-baseline justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               TWO-COLOR RELATIONS IN THIS GAMUT
             </span>
             <KromaButton
@@ -652,7 +652,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {relatedGradients.length > 0 && (
         <section aria-label="Related Gradients" className="flex flex-col gap-4">
           <div className="flex items-baseline justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               CURATED GRADIENTS IN THIS COLORWAY
             </span>
             <KromaButton
@@ -676,7 +676,7 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       {relatedColors.length > 0 && (
         <section aria-label="Related Specimens" className="flex flex-col gap-4">
           <div className="flex items-baseline justify-between border-b border-black/[0.08] dark:border-white/[0.08] pb-3">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               RELATED {color.family.toUpperCase()} SPECIMENS
             </span>
             <KromaButton

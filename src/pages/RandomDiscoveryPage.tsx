@@ -77,7 +77,7 @@ export const RandomDiscoveryPage: React.FC<RandomDiscoveryPageProps> = ({ onNavi
         {randomPalette && (
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
+              <span className="font-sans text-xs font-semibold text-[var(--accent-gold)]">
                 Random palette system
               </span>
               <Link
@@ -97,7 +97,7 @@ export const RandomDiscoveryPage: React.FC<RandomDiscoveryPageProps> = ({ onNavi
         {randomColor && (
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
+              <span className="font-sans text-xs font-semibold text-[var(--accent-gold)]">
                 Random master color
               </span>
               <Link
@@ -117,7 +117,7 @@ export const RandomDiscoveryPage: React.FC<RandomDiscoveryPageProps> = ({ onNavi
         {randomGradient && (
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-sans text-[11px] font-semibold text-[var(--accent-gold)]">
+              <span className="font-sans text-xs font-semibold text-[var(--accent-gold)]">
                 Random CSS gradient
               </span>
               <Link

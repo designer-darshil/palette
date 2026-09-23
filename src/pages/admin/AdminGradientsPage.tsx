@@ -231,7 +231,7 @@ export const AdminGradientsPage: React.FC = () => {
       <div className="admin-table-container">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] text-[#595959] dark:text-[#9DA3AF]">
+            <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-xs text-[#595959] dark:text-[#9DA3AF]">
               <th className="py-2.5 px-4 font-semibold">PREVIEW STRIP</th>
               <th className="py-2.5 px-4 font-semibold">SPECIMEN TITLE</th>
               <th className="py-2.5 px-4 font-semibold">CATEGORY</th>
@@ -255,10 +255,10 @@ export const AdminGradientsPage: React.FC = () => {
                 <td className="py-2.5 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
                   {g.title}
                 </td>
-                <td className="py-2.5 px-4 capitalize font-mono text-[11px] text-[#595959] dark:text-[#9DA3AF]">
+                <td className="py-2.5 px-4 capitalize font-mono text-xs text-[#595959] dark:text-[#9DA3AF]">
                   {g.category}
                 </td>
-                <td className="py-2.5 px-4 font-mono text-[11px] text-[#595959] dark:text-[#9DA3AF]">
+                <td className="py-2.5 px-4 font-mono text-xs text-[#595959] dark:text-[#9DA3AF]">
                   {g.stops.map((s) => s.color).join(' → ')}
                 </td>
                 <td className="py-2.5 px-4 text-right">
@@ -363,7 +363,7 @@ export const AdminGradientsPage: React.FC = () => {
 
             <form onSubmit={handleSave} className="flex flex-col gap-4 text-xs font-mono">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                   GRADIENT SPECIMEN TITLE
                 </label>
                 <input
@@ -378,7 +378,7 @@ export const AdminGradientsPage: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                  <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                     ATMOSPHERE CATEGORY
                   </label>
                   <select
@@ -395,7 +395,7 @@ export const AdminGradientsPage: React.FC = () => {
                   </select>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                  <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                     ANGLE ({formData.angle}°)
                   </label>
                   <input
@@ -412,7 +412,7 @@ export const AdminGradientsPage: React.FC = () => {
 
               {/* Live Preview Strip */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                   LIVE SPECIMEN PREVIEW
                 </label>
                 <div
@@ -424,14 +424,14 @@ export const AdminGradientsPage: React.FC = () => {
               {/* Multi-stop Editor */}
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
-                  <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                  <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                     GRADIENT STOPS ({formData.stops.length})
                   </label>
                   {formData.stops.length < 6 && (
                     <button
                       type="button"
                       onClick={addStop}
-                      className="text-[11px] text-[#0077A8] dark:text-[#00AEEF] hover:underline font-bold"
+                      className="text-xs text-[#0077A8] dark:text-[#00AEEF] hover:underline font-bold"
                     >
                       + Add Stop
                     </button>
@@ -454,19 +454,19 @@ export const AdminGradientsPage: React.FC = () => {
                         type="text"
                         value={stop.color}
                         onChange={(e) => updateStop(idx, e.target.value)}
-                        className="w-24 px-2 py-1 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs font-mono uppercase text-[11px]"
+                        className="w-24 px-2 py-1 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs font-mono uppercase text-xs"
                       />
                       <div className="flex items-center gap-1.5 flex-1">
-                        <span className="text-[10px] text-[#595959] dark:text-[#9DA3AF]">Pos:</span>
+                        <span className="text-xs text-[#595959] dark:text-[#9DA3AF]">Pos:</span>
                         <input
                           type="number"
                           min="0"
                           max="100"
                           value={stop.position}
                           onChange={(e) => updateStop(idx, stop.color, Number(e.target.value))}
-                          className="w-16 px-2 py-1 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs font-mono text-[11px]"
+                          className="w-16 px-2 py-1 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs font-mono text-xs"
                         />
-                        <span className="text-[10px] text-[#595959] dark:text-[#9DA3AF]">%</span>
+                        <span className="text-xs text-[#595959] dark:text-[#9DA3AF]">%</span>
                       </div>
                       {formData.stops.length > 2 && (
                         <button
@@ -486,18 +486,18 @@ export const AdminGradientsPage: React.FC = () => {
               {/* Generated CSS display */}
               <div className="flex flex-col gap-1.5">
                 <div className="flex justify-between items-center">
-                  <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                  <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                     GENERATED CSS
                   </label>
                   <button
                     type="button"
                     onClick={() => handleCopyCss(currentPreviewCss, 'form-css')}
-                    className="text-[10px] text-[#0077A8] dark:text-[#00AEEF] hover:underline"
+                    className="text-xs text-[#0077A8] dark:text-[#00AEEF] hover:underline"
                   >
                     {copiedCss === 'form-css' ? 'Copied' : 'Copy'}
                   </button>
                 </div>
-                <div className="p-2.5 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-[11px] font-mono break-all text-[#171717] dark:text-[#F8F8F8]">
+                <div className="p-2.5 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs font-mono break-all text-[#171717] dark:text-[#F8F8F8]">
                   {currentPreviewCss}
                 </div>
               </div>
@@ -560,7 +560,7 @@ export const AdminGradientsPage: React.FC = () => {
               {inspectGradient.css}
             </div>
 
-            <div className="space-y-1 font-mono text-[11px]">
+            <div className="space-y-1 font-mono text-xs">
               {inspectGradient.stops.map((s, idx) => (
                 <div key={idx} className="flex justify-between items-center p-1.5 bg-black/[0.02] dark:bg-white/[0.03] rounded-xs">
                   <div className="flex items-center gap-2">

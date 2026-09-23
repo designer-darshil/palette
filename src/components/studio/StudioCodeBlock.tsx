@@ -59,7 +59,7 @@ export const StudioCodeBlock = <T extends string>({
             <span className="studio-heading">{title}</span>
           </h3>
           {description && (
-            <p className="text-[11px] text-[var(--text-tertiary)] mt-0.5 leading-snug break-words">
+            <p className="text-xs text-[var(--text-tertiary)] mt-0.5 leading-snug break-words">
               {description}
             </p>
           )}
@@ -106,7 +106,7 @@ export const StudioCodeBlock = <T extends string>({
                 variant={activeTab === tab.id ? 'filled' : 'ghost'}
                 size="sm"
                 onClick={() => onTabChange(tab.id)}
-                className={`code-tab min-h-[28px] px-2.5 py-1 text-[11px] font-mono normal-case font-medium ${
+                className={`code-tab min-h-[28px] px-2.5 py-1 text-xs font-mono normal-case font-medium ${
                   activeTab === tab.id
                     ? 'font-bold shadow-2xs'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -118,7 +118,7 @@ export const StudioCodeBlock = <T extends string>({
             ))}
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-mono text-[var(--text-tertiary)] pl-2 flex-shrink-0">
+          <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-[var(--text-tertiary)] pl-2 flex-shrink-0">
             <span>{code.split('\n').length}L</span>
             <span>•</span>
             <span className="uppercase">{language}</span>
@@ -128,7 +128,7 @@ export const StudioCodeBlock = <T extends string>({
         {/* Code Content Viewport (Strictly isolated horizontal scroll) */}
         <div className="code-editor relative p-3 max-h-[380px] bg-[var(--bg-surface-1)]">
           <pre
-            className="font-mono text-[11px] leading-relaxed text-[var(--text-primary)] selection:bg-[var(--color-primary)] selection:text-[var(--color-primary-contrast)] m-0"
+            className="font-mono text-xs leading-relaxed text-[var(--text-primary)] selection:bg-[var(--color-primary)] selection:text-[var(--color-primary-contrast)] m-0"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
             <code>{code}</code>

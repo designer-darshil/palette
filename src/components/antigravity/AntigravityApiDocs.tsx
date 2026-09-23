@@ -77,7 +77,7 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
             <Terminal size={15} className="text-[var(--text-secondary)] flex-shrink-0" />
             <span>Developer Motion API &amp; Contract</span>
           </h2>
-          <p className="text-[11px] text-[var(--text-tertiary)] mt-0.5 leading-snug">
+          <p className="text-xs text-[var(--text-tertiary)] mt-0.5 leading-snug">
             Deterministic HTTP endpoint accessible by agents, scripts, and CI pipelines without JavaScript execution.
           </p>
         </div>
@@ -105,7 +105,7 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
             <h3 className="text-xs font-bold font-mono text-[var(--text-primary)]">
               GET /api/antigravity
             </h3>
-            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+            <span className="text-xs font-mono px-1.5 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
               200 OK · Deterministic
             </span>
           </div>
@@ -113,26 +113,26 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
           <div className="overflow-x-auto max-w-full -mx-1 px-1">
             <table className="w-full text-left border-collapse min-w-[360px]">
               <thead>
-                <tr className="border-b border-[var(--border-subtle)] text-[9px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider">
+                <tr className="border-b border-[var(--border-subtle)] text-xs font-mono text-[var(--text-tertiary)] uppercase tracking-wider">
                   <th className="py-1.5 pr-2">Query Key</th>
                   <th className="py-1.5 px-2">Type</th>
                   <th className="py-1.5 px-2">Default</th>
                   <th className="py-1.5 pl-2">Description</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[var(--border-subtle)] text-[11px] font-mono">
+              <tbody className="divide-y divide-[var(--border-subtle)] text-xs font-mono">
                 {params.map((p) => (
                   <tr key={p.param} className="hover:bg-[var(--bg-surface-2)]/40 transition-colors">
                     <td className="py-2 pr-2 font-bold text-[var(--text-primary)]">
                       {p.param}
                     </td>
-                    <td className="py-2 px-2 text-[10px] text-[var(--text-tertiary)]">
+                    <td className="py-2 px-2 text-xs text-[var(--text-tertiary)]">
                       {p.type}
                     </td>
-                    <td className="py-2 px-2 text-[10px] text-[var(--text-secondary)]">
+                    <td className="py-2 px-2 text-xs text-[var(--text-secondary)]">
                       {p.default}
                     </td>
-                    <td className="py-2 pl-2 text-[10px] font-sans text-[var(--text-secondary)] leading-tight">
+                    <td className="py-2 pl-2 text-xs font-sans text-[var(--text-secondary)] leading-tight">
                       {p.desc}
                     </td>
                   </tr>
@@ -156,7 +156,7 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
                 size="sm"
                 variant={apiFormat === 'json' ? 'filled' : 'ghost'}
                 onClick={() => setApiFormat('json')}
-                className="text-[10px] font-mono h-6 px-2"
+                className="text-xs font-mono h-6 px-2"
               >
                 JSON
               </KromaButton>
@@ -164,7 +164,7 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
                 size="sm"
                 variant={apiFormat === 'text' ? 'filled' : 'ghost'}
                 onClick={() => setApiFormat('text')}
-                className="text-[10px] font-mono h-6 px-2"
+                className="text-xs font-mono h-6 px-2"
               >
                 Text
               </KromaButton>
@@ -172,7 +172,7 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
           </div>
 
           {/* Curl Command Box */}
-          <div className="relative p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] font-mono text-[10px] text-[var(--text-secondary)] break-all max-w-full overflow-hidden">
+          <div className="relative p-2.5 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] font-mono text-xs text-[var(--text-secondary)] break-all max-w-full overflow-hidden">
             <code>{curlCommand}</code>
             <div className="absolute top-1.5 right-1.5">
               <KromaButton
@@ -201,7 +201,7 @@ export const AntigravityApiDocs: React.FC<AntigravityApiDocsProps> = ({ config }
 
           {/* Response Box */}
           {apiOutput && (
-            <div className="max-h-48 overflow-y-auto p-2.5 rounded-xs bg-[var(--bg-canvas)] border border-[var(--border-subtle)] font-mono text-[10px] text-[var(--text-secondary)] leading-relaxed max-w-full overflow-x-auto">
+            <div className="max-h-48 overflow-y-auto p-2.5 rounded-xs bg-[var(--bg-canvas)] border border-[var(--border-subtle)] font-mono text-xs text-[var(--text-secondary)] leading-relaxed max-w-full overflow-x-auto">
               <pre className="whitespace-pre">{apiOutput}</pre>
             </div>
           )}

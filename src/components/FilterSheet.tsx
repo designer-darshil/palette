@@ -46,7 +46,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
         {/* Categories */}
         {categoriesList.length > 0 && (
           <div>
-            <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase font-semibold mb-2 block">
+            <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase font-semibold mb-2 block">
               Category
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -82,7 +82,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
 
         {/* Mood */}
         <div>
-          <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase font-semibold mb-2 block">
+          <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase font-semibold mb-2 block">
             Mood & Atmosphere
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -108,7 +108,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
 
         {/* Character */}
         <div>
-          <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase font-semibold mb-2 block">
+          <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase font-semibold mb-2 block">
             Gamut Character
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -134,7 +134,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
 
         {/* Season */}
         <div>
-          <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase font-semibold mb-2 block">
+          <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase font-semibold mb-2 block">
             Seasonal Palette
           </span>
           <div className="flex flex-wrap gap-1.5">

@@ -165,13 +165,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
               <span className="w-2.5 h-2.5 rounded-full bg-[#FF3B30] shrink-0" />
               <div>
                 <div className="font-bold text-xs tracking-wider uppercase">KROMA</div>
-                <div className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] tracking-widest">
+                <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF] tracking-widest">
                   OPERATIONS
                 </div>
               </div>
             </div>
 
-            <span className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] px-1.5 py-0.5 rounded-xs border border-black/10 dark:border-white/10">
+            <span className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF] px-1.5 py-0.5 rounded-xs border border-black/10 dark:border-white/10">
               v2.4
             </span>
           </div>
@@ -179,7 +179,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           {/* User Account Capsule */}
           {currentUser && (
             <div className="mb-4 p-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs">
-              <div className="text-[11px] font-mono text-[#171717] dark:text-[#F8F8F8] truncate font-medium">
+              <div className="text-xs font-mono text-[#171717] dark:text-[#F8F8F8] truncate font-medium">
                 {currentUser.email}
               </div>
               <div className="flex items-center gap-1.5 mt-1">
@@ -187,7 +187,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                   className="inline-block w-1.5 h-1.5 rounded-full"
                   style={{ backgroundColor: currentUser.role === 'super_admin' ? '#FF3B30' : '#34C759' }}
                 />
-                <span className="text-[9.5px] font-mono uppercase tracking-wider text-[#707070] dark:text-[#9DA3AF]">
+                <span className="text-xs font-mono uppercase tracking-wider text-[#707070] dark:text-[#9DA3AF]">
                   {currentUser.role.replace('_', ' ')}
                 </span>
               </div>
@@ -198,7 +198,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           <nav className="flex flex-col gap-4">
             {navGroups.map((group) => (
               <div key={group.label} className="flex flex-col">
-                <div className="text-[10px] font-mono uppercase tracking-[0.12em] text-[#707070] dark:text-[#9DA3AF] px-2 mb-1 font-semibold">
+                <div className="text-xs font-mono uppercase tracking-[0.12em] text-[#707070] dark:text-[#9DA3AF] px-2 mb-1 font-semibold">
                   {group.label}
                 </div>
                 <div className="flex flex-col gap-0.5">
@@ -230,7 +230,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                         </div>
 
                         {item.badge && (
-                          <span className="font-mono text-[9px] uppercase tracking-wider px-1 py-0.2 bg-[#FF3B30]/15 text-[#FF3B30] rounded-xs font-bold">
+                          <span className="font-mono text-xs uppercase tracking-wider px-1 py-0.2 bg-[#FF3B30]/15 text-[#FF3B30] rounded-xs font-bold">
                             {item.badge}
                           </span>
                         )}
@@ -250,7 +250,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             <button
               type="button"
               onClick={() => setTheme('light')}
-              className={`flex-1 flex items-center justify-center gap-1 py-1 px-1.5 text-[10.5px] font-mono rounded-xs transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-1 py-1 px-1.5 text-xs font-mono rounded-xs transition-colors ${
                 theme === 'light'
                   ? 'bg-white text-[#171717] shadow-xs font-semibold'
                   : 'text-[#707070] hover:text-[#171717]'
@@ -262,7 +262,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             <button
               type="button"
               onClick={() => setTheme('dark')}
-              className={`flex-1 flex items-center justify-center gap-1 py-1 px-1.5 text-[10.5px] font-mono rounded-xs transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-1 py-1 px-1.5 text-xs font-mono rounded-xs transition-colors ${
                 theme === 'dark'
                   ? 'bg-[#181A20] text-[#F8F8F8] shadow-xs font-semibold'
                   : 'text-[#9DA3AF] hover:text-[#F8F8F8]'
@@ -302,7 +302,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           {/* Header Quick Actions & Telemetry */}
           <div className="flex items-center gap-3">
             {/* System Status Pill */}
-            <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-xs font-mono text-[11px]">
+            <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 bg-black/[0.04] dark:bg-white/[0.06] rounded-xs font-mono text-xs">
               <span
                 className="w-1.5 h-1.5 rounded-full"
                 style={{ backgroundColor: isMaintenanceActive ? '#FF3B30' : '#34C759' }}

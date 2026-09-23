@@ -229,7 +229,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
 
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
-        <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+        <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold">IMAGE → PALETTE</span>
@@ -266,7 +266,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
       {/* Preset Reference Images or Drop Image */}
       <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          <span className="font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider whitespace-nowrap mr-2">
+          <span className="font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider whitespace-nowrap mr-2">
             PRESETS:
           </span>
           {IMAGE_PRESETS.map((p) => {
@@ -351,12 +351,12 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                   }`}
                   style={{ backgroundColor: swatch.hex }}
                 >
-                  <span className="font-mono text-[9px] font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  <span className="font-mono text-xs font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                     0{idx + 1}
                   </span>
                 </div>
 
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-2 pointer-events-none bg-black/90 text-white px-2.5 py-1 rounded-xs font-mono text-[10px] tracking-wider uppercase whitespace-nowrap shadow-lg">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-2 pointer-events-none bg-black/90 text-white px-2.5 py-1 rounded-xs font-mono text-xs tracking-wider uppercase whitespace-nowrap shadow-lg">
                   {swatch.name} • {swatch.hex}
                 </div>
               </div>
@@ -373,7 +373,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
 
       {/* EXTRACTED COLORS (Proportional Canvas underneath) */}
       <section className="mt-8 mb-16">
-        <div className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-secondary)] mb-3 flex items-center justify-between">
+        <div className="font-mono text-xs uppercase tracking-wider text-[var(--text-secondary)] mb-3 flex items-center justify-between">
           <span>EXTRACTED COLORS ({swatches.length})</span>
           <span>CLICK TO COPY HEX</span>
         </div>
@@ -396,8 +396,8 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                 style={{ backgroundColor: swatch.hex }}
               >
                 <div className="flex items-center justify-between text-white drop-shadow-md">
-                  <span className="font-mono text-[11px] font-bold">0{idx + 1}</span>
-                  <span className="font-mono text-[10px] uppercase tracking-wider bg-black/30 px-1.5 py-0.5 rounded-xs">
+                  <span className="font-mono text-xs font-bold">0{idx + 1}</span>
+                  <span className="font-mono text-xs uppercase tracking-wider bg-black/30 px-1.5 py-0.5 rounded-xs">
                     {Math.round(swatch.frequency)}%
                   </span>
                 </div>
@@ -408,7 +408,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                   </span>
                   <span className="font-mono text-xs font-bold flex items-center justify-between">
                     <span>{swatch.hex}</span>
-                    <span className="text-[10px] font-mono opacity-0 hover:opacity-100 uppercase tracking-wider">
+                    <span className="text-xs font-mono opacity-0 hover:opacity-100 uppercase tracking-wider">
                       {isCopied ? 'COPIED' : 'COPY'}
                     </span>
                   </span>

@@ -267,12 +267,12 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
         {/* ─── 1. Page Opening & Compact Editorial Intro ───────────── */}
         <section className="flex flex-col gap-3">
           {/* Breadcrumb Navigation */}
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] text-[#707070] uppercase tracking-wider">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-xs text-[#707070] uppercase tracking-wider">
             <KromaButton
               variant="ghost"
               size="sm"
               onClick={() => onNavigate({ path: 'home' })}
-              className="hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer p-0 h-auto font-mono text-[11px] text-[#707070] uppercase tracking-wider"
+              className="hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer p-0 h-auto font-mono text-xs text-[#707070] uppercase tracking-wider"
             >
               HOME
             </KromaButton>
@@ -281,7 +281,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
               variant="ghost"
               size="sm"
               onClick={() => onNavigate({ path: 'create' })}
-              className="hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer p-0 h-auto font-mono text-[11px] text-[#707070] uppercase tracking-wider"
+              className="hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer p-0 h-auto font-mono text-xs text-[#707070] uppercase tracking-wider"
             >
               STUDIO
             </KromaButton>
@@ -292,16 +292,16 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
           {/* Compact Headline */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-black/[0.08] dark:border-white/[0.08] pb-4">
             <div>
-              <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider block mb-1">
+              <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider block mb-1">
                 SPRINGS · PHYSICS & INTERACTION LAB
               </span>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#171717] dark:text-white leading-none uppercase">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#171717] dark:text-white leading-[1.05] uppercase">
                 LET COLOR <br className="hidden sm:inline" />
                 <span className="text-[#707070] dark:text-[#888888] font-normal">BOUNCE.</span>
               </h1>
             </div>
 
-            <p className="max-w-md text-xs sm:text-[13px] text-[#707070] dark:text-[#A0A0A0] leading-relaxed">
+            <p className="max-w-md text-xs sm:text-sm text-[#707070] dark:text-[#A0A0A0] leading-relaxed">
               A playful physics laboratory for exploring spring motion, elasticity, weight, tension,
               and tactile interaction through real-time harmonic simulation.
             </p>
@@ -314,10 +314,10 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717] dark:text-white font-bold">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#171717] dark:text-white font-bold">
                 PHYSICS ARTBOARD
               </span>
-              <span className="font-mono text-[10px] text-[#707070] uppercase">
+              <span className="font-mono text-xs text-[#707070] uppercase">
                 ({config.mode.toUpperCase()} MODE · k={config.stiffness} N/m)
               </span>
             </div>
@@ -329,7 +329,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 size="sm"
                 iconLeft={isPlaying ? <Pause size={12} /> : <Play size={12} />}
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="px-2.5 py-1 text-[11px] font-mono rounded-xs bg-white dark:bg-[#202020] text-[#171717] dark:text-white h-auto"
+                className="px-2.5 py-1 text-xs font-mono rounded-xs bg-white dark:bg-[#202020] text-[#171717] dark:text-white h-auto"
               >
                 {isPlaying ? 'PAUSE' : 'PLAY'}
               </KromaButton>
@@ -337,7 +337,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 variant={config.showSpringLine ? 'filled' : 'outline'}
                 size="sm"
                 onClick={() => handleConfigChange({ showSpringLine: !config.showSpringLine })}
-                className={`px-2.5 py-1 text-[11px] font-mono rounded-xs h-auto ${
+                className={`px-2.5 py-1 text-xs font-mono rounded-xs h-auto ${
                   config.showSpringLine
                     ? 'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-bold'
                     : 'text-[#707070]'
@@ -349,7 +349,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 variant={config.showTrails ? 'filled' : 'outline'}
                 size="sm"
                 onClick={() => handleConfigChange({ showTrails: !config.showTrails })}
-                className={`px-2.5 py-1 text-[11px] font-mono rounded-xs h-auto ${
+                className={`px-2.5 py-1 text-xs font-mono rounded-xs h-auto ${
                   config.showTrails
                     ? 'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-bold'
                     : 'text-[#707070]'
@@ -495,7 +495,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                     touchAction: 'none',
                   }}
                 >
-                  <span className="font-mono text-[9px] font-bold text-white drop-shadow-xs select-none pointer-events-none">
+                  <span className="font-mono text-xs font-bold text-white drop-shadow-xs select-none pointer-events-none">
                     {node.label ? node.label.split(' ')[0] : ''}
                   </span>
                 </div>
@@ -503,12 +503,12 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
             })}
 
             {/* Corner Badges */}
-            <div className="absolute top-3 left-3 bg-white/80 dark:bg-black/80 backdrop-blur-xs border border-black/10 dark:border-white/10 px-2.5 py-1 rounded-xs font-mono text-[10px] text-[#707070] dark:text-[#909090] flex items-center gap-1.5 pointer-events-none">
+            <div className="absolute top-3 left-3 bg-white/80 dark:bg-black/80 backdrop-blur-xs border border-black/10 dark:border-white/10 px-2.5 py-1 rounded-xs font-mono text-xs text-[#707070] dark:text-[#909090] flex items-center gap-1.5 pointer-events-none">
               <Activity size={12} className="text-emerald-500" />
               <span>{metrics.regime.toUpperCase()} · ζ={metrics.zeta}</span>
             </div>
 
-            <div className="absolute bottom-3 right-3 bg-white/80 dark:bg-black/80 backdrop-blur-xs border border-black/10 dark:border-white/10 px-2.5 py-1 rounded-xs font-mono text-[10px] text-[#707070] dark:text-[#909090] pointer-events-none">
+            <div className="absolute bottom-3 right-3 bg-white/80 dark:bg-black/80 backdrop-blur-xs border border-black/10 dark:border-white/10 px-2.5 py-1 rounded-xs font-mono text-xs text-[#707070] dark:text-[#909090] pointer-events-none">
               <span>DRAG TO PULL · CLICK TO IMPULSE</span>
             </div>
           </div>
@@ -574,7 +574,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
 
           {/* Mode Selector */}
           <div className="flex flex-col gap-2">
-            <span className="font-mono text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
               SPRING ARCHITECTURE MODE
             </span>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-xs">
@@ -597,10 +597,10 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                       : 'border-black/[0.08] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 bg-transparent text-[#171717] dark:text-white'
                   }`}
                 >
-                  <span className="font-bold text-[11px] uppercase">
+                  <span className="font-bold text-xs uppercase">
                     {m.name}
                   </span>
-                  <span className="text-[10px] text-[#707070] dark:text-[#888888] leading-tight font-normal">
+                  <span className="text-xs text-[#707070] dark:text-[#888888] leading-tight font-normal">
                     {m.desc}
                   </span>
                 </KromaButton>
@@ -613,7 +613,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
             {/* Stiffness (k) */}
             <div className="flex flex-col gap-2 font-mono text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+                <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                   STIFFNESS (k)
                 </span>
                 <span className="font-bold text-[#171717] dark:text-white">
@@ -629,7 +629,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 onChange={(e) => handleConfigChange({ stiffness: parseFloat(e.target.value) })}
                 className="w-full accent-[#171717] dark:accent-white cursor-pointer"
               />
-              <span className="text-[9.5px] text-[#707070] dark:text-[#888888]">
+              <span className="text-xs text-[#707070] dark:text-[#888888]">
                 Restoring force magnitude per unit displacement
               </span>
             </div>
@@ -637,7 +637,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
             {/* Damping (c) */}
             <div className="flex flex-col gap-2 font-mono text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+                <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                   DAMPING (c)
                 </span>
                 <span className="font-bold text-[#171717] dark:text-white">
@@ -653,7 +653,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 onChange={(e) => handleConfigChange({ damping: parseFloat(e.target.value) })}
                 className="w-full accent-[#171717] dark:accent-white cursor-pointer"
               />
-              <span className="text-[9.5px] text-[#707070] dark:text-[#888888]">
+              <span className="text-xs text-[#707070] dark:text-[#888888]">
                 Viscous drag opposing oscillation velocity
               </span>
             </div>
@@ -661,7 +661,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
             {/* Mass (m) */}
             <div className="flex flex-col gap-2 font-mono text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+                <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                   MASS (m)
                 </span>
                 <span className="font-bold text-[#171717] dark:text-white">
@@ -677,7 +677,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 onChange={(e) => handleConfigChange({ mass: parseFloat(e.target.value) })}
                 className="w-full accent-[#171717] dark:accent-white cursor-pointer"
               />
-              <span className="text-[9.5px] text-[#707070] dark:text-[#888888]">
+              <span className="text-xs text-[#707070] dark:text-[#888888]">
                 Inertial resistance to acceleration
               </span>
             </div>
@@ -685,7 +685,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
             {/* Friction & Time Scale */}
             <div className="flex flex-col gap-2 font-mono text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+                <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                   SURFACE FRICTION
                 </span>
                 <span className="font-bold text-[#171717] dark:text-white">
@@ -701,7 +701,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 onChange={(e) => handleConfigChange({ friction: parseFloat(e.target.value) })}
                 className="w-full accent-[#171717] dark:accent-white cursor-pointer"
               />
-              <span className="text-[9.5px] text-[#707070] dark:text-[#888888]">
+              <span className="text-xs text-[#707070] dark:text-[#888888]">
                 Surface boundary resistance
               </span>
             </div>
@@ -711,7 +711,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-black/[0.06] dark:border-white/[0.06] font-mono text-xs">
             {/* Color swatches */}
             <div className="flex items-center gap-2">
-              <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+              <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                 MATERIAL COLOR:
               </span>
               <div className="flex items-center gap-1.5">
@@ -734,7 +734,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
 
             {/* Object shape */}
             <div className="flex items-center gap-2">
-              <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+              <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                 GEOMETRY:
               </span>
               <div className="flex items-center gap-1 bg-black/[0.04] dark:bg-white/[0.04] p-1 rounded-xs">
@@ -744,7 +744,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                     variant={config.object === shp ? 'filled' : 'ghost'}
                     size="sm"
                     onClick={() => handleConfigChange({ object: shp })}
-                    className={`px-2 py-0.5 rounded-xs uppercase font-semibold text-[10px] h-auto min-h-0 border-0 ${
+                    className={`px-2 py-0.5 rounded-xs uppercase font-semibold text-xs h-auto min-h-0 border-0 ${
                       config.object === shp
                         ? 'bg-white dark:bg-[#252525] text-[#171717] dark:text-white font-bold shadow-xs'
                         : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -761,10 +761,10 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
         {/* ─── 4. SPRING PRESETS (WITH MINI MOTION PREVIEWS) ────────── */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+            <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
               CURATED PHYSICAL PRESETS
             </span>
-            <span className="font-mono text-[10px] text-[#707070] dark:text-[#888888]">
+            <span className="font-mono text-xs text-[#707070] dark:text-[#888888]">
               ONE-CLICK TUNED HARMONICS
             </span>
           </div>
@@ -793,7 +793,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                       {preset.name}
                     </span>
                     {isSelected && (
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold">
+                      <span className="text-xs px-1.5 py-0.2 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold">
                         ACTIVE
                       </span>
                     )}
@@ -810,11 +810,11 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                     />
                   </div>
 
-                  <p className="text-[11px] text-[#707070] dark:text-[#888888] leading-snug line-clamp-2">
+                  <p className="text-xs text-[#707070] dark:text-[#888888] leading-snug line-clamp-2">
                     {preset.description}
                   </p>
 
-                  <div className="flex items-center justify-between font-mono text-[9.5px] text-[#707070] dark:text-[#909090] pt-1 border-t border-black/[0.06] dark:border-white/[0.06]">
+                  <div className="flex items-center justify-between font-mono text-xs text-[#707070] dark:text-[#909090] pt-1 border-t border-black/[0.06] dark:border-white/[0.06]">
                     <span>k: {preset.config.stiffness}</span>
                     <span>c: {preset.config.damping}</span>
                     <span>m: {preset.config.mass}kg</span>
@@ -828,10 +828,10 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
         {/* ─── 5. SPRING EXPERIMENTS GALLERY ───────────────────────── */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+            <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
               SPRING EXPERIMENTS · KINETIC PHENOMENA
             </span>
-            <span className="font-mono text-[10px] text-[#707070] dark:text-[#888888]">
+            <span className="font-mono text-xs text-[#707070] dark:text-[#888888]">
               MODAL RIG EXPERIMENTS
             </span>
           </div>
@@ -888,7 +888,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 className="p-3.5 rounded-sm border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] hover:border-black/20 dark:hover:border-white/20 transition-all cursor-pointer flex flex-col justify-between gap-2.5 group shadow-2xs"
               >
                 <div className="flex items-center justify-between font-mono">
-                  <span className="text-[10px] text-[#707070] dark:text-[#888888] uppercase">
+                  <span className="text-xs text-[#707070] dark:text-[#888888] uppercase">
                     {exp.tag}
                   </span>
                   <span
@@ -901,12 +901,12 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                   <h4 className="font-mono text-xs font-bold text-[#171717] dark:text-white uppercase group-hover:text-emerald-500 transition-colors">
                     {exp.title}
                   </h4>
-                  <p className="text-[11px] text-[#707070] dark:text-[#888888] leading-snug mt-1">
+                  <p className="text-xs text-[#707070] dark:text-[#888888] leading-snug mt-1">
                     {exp.desc}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between font-mono text-[9.5px] text-[#707070] dark:text-[#909090] pt-1.5 border-t border-black/[0.06] dark:border-white/[0.06]">
+                <div className="flex items-center justify-between font-mono text-xs text-[#707070] dark:text-[#909090] pt-1.5 border-t border-black/[0.06] dark:border-white/[0.06]">
                   <span>k={exp.k} · c={exp.c}</span>
                   <span className="text-[#171717] dark:text-white font-semibold">APPLY →</span>
                 </div>
@@ -919,7 +919,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
         <section className="p-5 sm:p-6 rounded-sm border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] flex flex-col gap-4 font-mono">
           <div className="flex items-center justify-between border-b border-black/[0.06] dark:border-white/[0.06] pb-3">
             <div>
-              <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090] block">
+              <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090] block">
                 MATHEMATICAL MODEL & SCIENTIFIC DATA
               </span>
               <h3 className="text-base font-bold text-[#171717] dark:text-white uppercase">
@@ -933,42 +933,42 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
             <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-              <span className="text-[9px] text-[#707070] dark:text-[#888888] uppercase block">NATURAL FREQ (ω₀)</span>
+              <span className="text-xs text-[#707070] dark:text-[#888888] uppercase block">NATURAL FREQ (ω₀)</span>
               <span className="font-bold text-[#171717] dark:text-white text-sm">
                 {metrics.omega0} rad/s
               </span>
             </div>
 
             <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-              <span className="text-[9px] text-[#707070] dark:text-[#888888] uppercase block">DAMPING RATIO (ζ)</span>
+              <span className="text-xs text-[#707070] dark:text-[#888888] uppercase block">DAMPING RATIO (ζ)</span>
               <span className="font-bold text-[#171717] dark:text-white text-sm">
                 {metrics.zeta}
               </span>
             </div>
 
             <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-              <span className="text-[9px] text-[#707070] dark:text-[#888888] uppercase block">DAMPED FREQ (ω_d)</span>
+              <span className="text-xs text-[#707070] dark:text-[#888888] uppercase block">DAMPED FREQ (ω_d)</span>
               <span className="font-bold text-[#171717] dark:text-white text-sm">
                 {metrics.omegaD} rad/s
               </span>
             </div>
 
             <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-              <span className="text-[9px] text-[#707070] dark:text-[#888888] uppercase block">PERIOD (T)</span>
+              <span className="text-xs text-[#707070] dark:text-[#888888] uppercase block">PERIOD (T)</span>
               <span className="font-bold text-[#171717] dark:text-white text-sm">
                 {metrics.periodMs} ms
               </span>
             </div>
 
             <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-              <span className="text-[9px] text-[#707070] dark:text-[#888888] uppercase block">SETTLING TIME</span>
+              <span className="text-xs text-[#707070] dark:text-[#888888] uppercase block">SETTLING TIME</span>
               <span className="font-bold text-[#171717] dark:text-white text-sm">
                 ~{metrics.settlingTimeSec} s
               </span>
             </div>
 
             <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-              <span className="text-[9px] text-[#707070] dark:text-[#888888] uppercase block">MASS RATIO</span>
+              <span className="text-xs text-[#707070] dark:text-[#888888] uppercase block">MASS RATIO</span>
               <span className="font-bold text-[#171717] dark:text-white text-sm">
                 {config.mass} kg
               </span>
@@ -1001,7 +1001,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                   variant={activeCodeTab === tab.id ? 'filled' : 'ghost'}
                   size="sm"
                   onClick={() => setActiveCodeTab(tab.id)}
-                  className={`px-2.5 py-1 rounded-xs transition-colors text-[10.5px] uppercase font-semibold h-auto min-h-0 border-0 ${
+                  className={`px-2.5 py-1 rounded-xs transition-colors text-xs uppercase font-semibold h-auto min-h-0 border-0 ${
                     activeCodeTab === tab.id
                       ? 'bg-white dark:bg-[#202020] text-[#171717] dark:text-white font-bold shadow-xs'
                       : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -1034,7 +1034,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
         {/* ─── 8. CREATE ANOTHER EXPERIMENT CALLOUT ─────────────────── */}
         <section className="p-6 sm:p-8 rounded-sm border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex flex-col gap-1 max-w-lg">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               MOTION EXPERIMENTATION COMPLETE
             </span>
             <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-[#171717] dark:text-white">

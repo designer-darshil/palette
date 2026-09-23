@@ -223,7 +223,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
             onClick={() => handleCopySingleHex(focal1.hex, focal1.name)}
             title={`Click to copy ${focal1.name} (${focal1.hex})`}
           >
-            <span className="font-mono text-[10px] sm:text-xs font-bold text-white bg-black/45 px-2 py-0.5 rounded-xs w-fit uppercase tracking-wider shadow-sm">
+            <span className="font-mono text-xs font-bold text-white bg-black/45 px-2 py-0.5 rounded-xs w-fit uppercase tracking-wider shadow-sm">
               {focal1.role || 'Primary / Dominant'}
             </span>
 

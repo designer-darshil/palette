@@ -255,11 +255,11 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-14 items-center">
           {/* Editorial Headline & Discovery Navigation */}
           <div className="flex flex-col gap-4">
-            <div className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070] dark:text-[#909090] flex items-center gap-2">
+            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090] flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-[1px] bg-[#00AEEF]" />
               <span>EXPLORE</span>
             </div>
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-[68px] font-extrabold tracking-[-0.035em] leading-[0.94] text-[#171717] dark:text-white m-0 uppercase">
+            <h1 className="font-sans text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.05] text-[#171717] dark:text-white m-0 uppercase">
               DISCOVER THE<br />
               WORLD OF COLOUR.
             </h1>
@@ -341,9 +341,9 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                 if (e.key === 'Enter') handleCopySingleHex(dailyColor.color.hex, dailyColor.color.name);
               }}
             >
-              <div className="flex items-center justify-between font-mono text-[9.5px] uppercase tracking-wider opacity-90">
+              <div className="flex items-center justify-between font-mono text-xs uppercase tracking-wider opacity-90">
                 <span>FEATURED SPECIMEN</span>
-                <span className="px-1 py-0.5 rounded-[1px] bg-black/30 backdrop-blur-xs text-white">
+                <span className="px-1.5 py-0.5 rounded-[1px] bg-black/30 backdrop-blur-xs text-white">
                   {copiedColor === dailyColor.color.hex ? 'COPIED' : dailyColor.color.hex}
                 </span>
               </div>
@@ -351,7 +351,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                 <div className="font-sans text-xl sm:text-2xl font-extrabold uppercase tracking-tight leading-none drop-shadow-xs">
                   {dailyColor.color.name}
                 </div>
-                <div className="font-mono text-[11px] opacity-85 mt-1">
+                <div className="font-mono text-xs opacity-85 mt-1">
                   {dailyColor.color.family.toUpperCase()} GAMUT
                 </div>
               </div>
@@ -385,8 +385,8 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                 role="button"
                 tabIndex={0}
               >
-                <span className="font-mono text-[8.5px] text-white/90 drop-shadow-xs">01</span>
-                <span className="font-mono text-[9px] font-bold text-white drop-shadow-xs truncate">
+                <span className="font-mono text-xs text-white/90 drop-shadow-xs">01</span>
+                <span className="font-mono text-xs font-bold text-white drop-shadow-xs truncate">
                   {trendingPalettes[0].colors[0]?.hex}
                 </span>
               </div>
@@ -401,11 +401,11 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                 role="button"
                 tabIndex={0}
               >
-                <div className="flex items-center justify-between font-mono text-[8.5px] text-white/90 drop-shadow-xs">
+                <div className="flex items-center justify-between font-mono text-xs text-white/90 drop-shadow-xs">
                   <span>02</span>
-                  <span className="truncate max-w-[65px] uppercase">{trendingPalettes[0].colors[1].name}</span>
+                  <span className="truncate max-w-[70px] uppercase">{trendingPalettes[0].colors[1].name}</span>
                 </div>
-                <span className="font-mono text-[9px] font-bold text-white drop-shadow-xs">
+                <span className="font-mono text-xs font-bold text-white drop-shadow-xs">
                   {trendingPalettes[0].colors[1].hex}
                 </span>
               </div>
@@ -418,7 +418,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       <section id="daily-specimen-section" className="mb-16 sm:mb-24">
         <div className="flex items-end justify-between mb-8 gap-5 flex-wrap">
           <div className="flex flex-col gap-1.5">
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
               <span>01</span>
               <span>•</span>
               <span>DAILY SPECIMEN</span>
@@ -453,7 +453,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
               }
             }}
           >
-            <span className="bg-black/85 text-white font-mono text-[11px] font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+            <span className="bg-black/85 text-white font-mono text-xs font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
               <span>INSPECT SPECIMEN</span>
               <ArrowUpRight size={13} />
             </span>
@@ -462,7 +462,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
           {/* Color Intelligence & Minimal Specs */}
           <div className="p-5 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
             <div>
-              <div className="font-mono text-[10px] font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-[0.06em] mb-2">
+              <div className="font-mono text-xs font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-wider mb-2">
                 COLOR OF THE DAY • {dailyColor.dateString}
               </div>
               <h3 className="font-sans text-3xl sm:text-4xl font-extrabold tracking-[-0.02em] leading-[1.05] text-[#171717] dark:text-white m-0 mb-3 uppercase">
@@ -475,16 +475,16 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
 
             <div className="grid grid-cols-2 gap-4 py-4 border-y border-black/[0.08] dark:border-white/[0.08] mb-4">
               <div className="flex flex-col gap-0.5">
-                <span className="font-mono text-[10px] font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-[0.06em]">HEX</span>
-                <span className="font-mono text-[13px] font-semibold text-[#171717] dark:text-white">{dailyColor.color.hex}</span>
+                <span className="font-mono text-xs font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-wider">HEX</span>
+                <span className="font-mono text-sm font-semibold text-[#171717] dark:text-white">{dailyColor.color.hex}</span>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="font-mono text-[10px] font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-[0.06em]">OKLCH</span>
-                <span className="font-mono text-[13px] font-semibold text-[#171717] dark:text-white">{dailyColor.color.oklch}</span>
+                <span className="font-mono text-xs font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-wider">OKLCH</span>
+                <span className="font-mono text-sm font-semibold text-[#171717] dark:text-white">{dailyColor.color.oklch}</span>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="font-mono text-[10px] font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-[0.06em]">RGB</span>
-                <span className="font-mono text-[13px] font-semibold text-[#171717] dark:text-white">
+                <span className="font-mono text-xs font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-wider">RGB</span>
+                <span className="font-mono text-sm font-semibold text-[#171717] dark:text-white">
                   {(() => {
                     const rgb = hexToRgb(dailyColor.color.hex);
                     return rgb ? `${rgb.r}, ${rgb.g}, ${rgb.b}` : '—';
@@ -492,8 +492,8 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                 </span>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="font-mono text-[10px] font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-[0.06em]">FAMILY</span>
-                <span className="font-mono text-[13px] font-semibold text-[#171717] dark:text-white">
+                <span className="font-mono text-xs font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-wider">FAMILY</span>
+                <span className="font-mono text-sm font-semibold text-[#171717] dark:text-white">
                   {dailyColor.color.family || 'SPECTRUM'}
                 </span>
               </div>
@@ -531,7 +531,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       <section className="mb-16 sm:mb-24">
         <div className="flex items-end justify-between mb-8 gap-5 flex-wrap">
           <div className="flex flex-col gap-1.5">
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
               <span>02</span>
               <span>•</span>
               <span>SYSTEM STUDY</span>
@@ -570,7 +570,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                     }
                   }}
                 >
-                  <span className={`opacity-0 group-hover/bar:opacity-100 font-mono text-[11px] font-semibold py-1 px-2 bg-black/85 text-white rounded-[2px] transition-opacity pointer-events-none whitespace-nowrap ${isCopied ? '!opacity-100' : ''}`}>
+                  <span className={`opacity-0 group-hover/bar:opacity-100 font-mono text-xs font-semibold py-1 px-2.5 bg-black/85 text-white rounded-[2px] transition-opacity pointer-events-none whitespace-nowrap ${isCopied ? '!opacity-100' : ''}`}>
                     {isCopied ? 'COPIED' : c.hex}
                   </span>
                 </div>
@@ -581,7 +581,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
           {/* Palette Spread Meta & Actions */}
           <div className="p-5 sm:p-7 flex items-center justify-between gap-5 flex-wrap">
             <div className="flex flex-col gap-1">
-              <span className="font-mono text-[11px] font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-[0.06em]">
+              <span className="font-mono text-xs font-semibold uppercase text-[#707070] dark:text-[#8E8E93] tracking-wider">
                 {dailyPalette.palette.category} • {dailyPalette.palette.colors.length} TONES • SYSTEM
               </span>
               <h3 className="font-sans text-[22px] font-bold tracking-[-0.015em] text-[#171717] dark:text-white m-0">
@@ -632,7 +632,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       <section className="mb-16 sm:mb-24">
         <div className="flex items-end justify-between mb-8 gap-5 flex-wrap">
           <div className="flex flex-col gap-1.5">
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
               <span>03</span>
               <span>•</span>
               <span>CURATED DISCOVERY</span>
@@ -668,7 +668,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
               </div>
               <div className="p-3.5 sm:px-4 flex items-center justify-between gap-2.5">
                 <span className="font-sans text-sm font-semibold text-[#171717] dark:text-white truncate">{palette.title}</span>
-                <span className="font-mono text-[11px] text-[#707070] shrink-0">
+                <span className="font-mono text-xs text-[#707070] shrink-0">
                   {palette.colors.length} TONES
                 </span>
               </div>
@@ -681,7 +681,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       <section id="mood-stories-section" className="mb-16 sm:mb-24">
         <div className="flex items-end justify-between mb-8 gap-5 flex-wrap">
           <div className="flex flex-col gap-1.5">
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
               <span>04</span>
               <span>•</span>
               <span>MOOD &amp; EMOTION</span>
@@ -706,7 +706,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
               }}
             >
               <div className="flex items-center justify-between">
-                <span className="font-sans text-[13.5px] font-semibold tracking-[0.04em] uppercase text-[#171717] dark:text-white">{mood.label}</span>
+                <span className="font-sans text-sm font-semibold tracking-wide uppercase text-[#171717] dark:text-white">{mood.label}</span>
                 <ArrowUpRight size={13} className="text-[#707070] group-hover/mood:text-[#171717] dark:group-hover/mood:text-white transition-all group-hover/mood:translate-x-0.5 group-hover/mood:-translate-y-0.5" />
               </div>
               <div className="flex h-12 w-full rounded-[2px] overflow-hidden">
@@ -727,7 +727,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       <section className="mb-16 sm:mb-24">
         <div className="flex items-end justify-between mb-8 gap-5 flex-wrap">
           <div className="flex flex-col gap-1.5">
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
               <span>05</span>
               <span>•</span>
               <span>CHROMATIC SPECTRUM</span>
@@ -755,8 +755,8 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                 className="w-full h-2 rounded-[1px]"
                 style={{ backgroundColor: spec.hex }}
               />
-              <span className="font-sans text-[13.5px] font-semibold text-[#171717] dark:text-white tracking-[0.02em]">{spec.name}</span>
-              <span className="font-mono text-[11px] text-[#707070]">{spec.hex}</span>
+              <span className="font-sans text-sm font-semibold text-[#171717] dark:text-white tracking-[0.02em]">{spec.name}</span>
+              <span className="font-mono text-xs text-[#707070]">{spec.hex}</span>
             </div>
           ))}
         </div>
@@ -766,7 +766,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       <section className="mb-16 sm:mb-24" ref={archiveRef} id="archive">
         <div className="flex items-end justify-between mb-8 gap-5 flex-wrap">
           <div className="flex flex-col gap-1.5">
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
               <span>06</span>
               <span>•</span>
               <span>COMPLETE COLLECTION</span>
@@ -788,7 +788,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                   key={tab}
                   variant="ghost"
                   size="sm"
-                  className={`py-1.5 font-sans text-[12.5px] tracking-[0.06em] uppercase whitespace-nowrap h-auto ${
+                  className={`py-1.5 font-sans text-[13px] tracking-wider uppercase whitespace-nowrap h-auto ${
                     isActive ? 'text-[#171717] dark:text-white font-bold' : 'text-[#707070] dark:text-[#8E8E93] font-medium hover:text-[#171717] dark:hover:text-white'
                   }`}
                   onClick={() => setActiveTab(tab)}
@@ -804,7 +804,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
             <Search size={14} className="absolute left-1 top-1/2 -translate-y-1/2 text-[#707070] pointer-events-none" />
             <input
               type="text"
-              className="w-full bg-transparent border-0 border-b border-black/15 dark:border-white/15 py-2 pr-3 pl-7 font-sans text-[12.5px] text-[#171717] dark:text-white outline-none focus:border-[#171717] dark:focus:border-white transition-colors placeholder:text-neutral-400"
+              className="w-full bg-transparent border-0 border-b border-black/15 dark:border-white/15 py-2 pr-3 pl-7 font-sans text-sm text-[#171717] dark:text-white outline-none focus:border-[#171717] dark:focus:border-white transition-colors placeholder:text-neutral-400"
               placeholder="SEARCH BY NAME, HEX, OR MOOD..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -855,7 +855,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
             )}
 
             {visibleCount >= filteredPalettes.length && filteredPalettes.length > BATCH_SIZE && (
-              <div className="text-center py-12 text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
+              <div className="text-center py-12 text-xs font-mono tracking-widest text-neutral-400 uppercase">
                 END OF PALETTE ARCHIVE • {filteredPalettes.length} SYSTEMS DISPLAYED
               </div>
             )}

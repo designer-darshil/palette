@@ -58,7 +58,7 @@ export const AdminValidationPage: React.FC = () => {
               Automated Integrity Report
             </h2>
           </div>
-          <span className="font-mono text-[10.5px] uppercase font-bold px-2 py-0.5 rounded-xs bg-[#34C759]/10 text-[#34C759]">
+          <span className="font-mono text-xs uppercase font-bold px-2 py-0.5 rounded-xs bg-[#34C759]/10 text-[#34C759]">
             ALL AUDITS PASSING
           </span>
         </div>
@@ -66,19 +66,19 @@ export const AdminValidationPage: React.FC = () => {
         {/* Audit Metrics */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs">
           <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-            <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">HEALTH SCORE</div>
+            <div className="text-xs text-[#707070] dark:text-[#9DA3AF] uppercase">HEALTH SCORE</div>
             <div className="text-xl font-bold text-[#34C759] mt-0.5">99.8%</div>
           </div>
           <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-            <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">CORRUPTED ROWS</div>
+            <div className="text-xs text-[#707070] dark:text-[#9DA3AF] uppercase">CORRUPTED ROWS</div>
             <div className="text-xl font-bold text-[#171717] dark:text-[#F8F8F8] mt-0.5">0</div>
           </div>
           <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-            <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">BROKEN REFS</div>
+            <div className="text-xs text-[#707070] dark:text-[#9DA3AF] uppercase">BROKEN REFS</div>
             <div className="text-xl font-bold text-[#171717] dark:text-[#F8F8F8] mt-0.5">0</div>
           </div>
           <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xs">
-            <div className="text-[10px] text-[#707070] dark:text-[#9DA3AF] uppercase">SCHEMA COMPLIANCE</div>
+            <div className="text-xs text-[#707070] dark:text-[#9DA3AF] uppercase">SCHEMA COMPLIANCE</div>
             <div className="text-xl font-bold text-[#34C759] mt-0.5">100%</div>
           </div>
         </div>
@@ -97,7 +97,7 @@ export const AdminValidationPage: React.FC = () => {
                 </span>
               </div>
 
-              <div className="flex items-center gap-4 text-[11px]">
+              <div className="flex items-center gap-4 text-xs">
                 <span className="text-[#707070] dark:text-[#9DA3AF]">{c.count}</span>
                 <span className="text-[#34C759] font-bold">{c.status}</span>
               </div>

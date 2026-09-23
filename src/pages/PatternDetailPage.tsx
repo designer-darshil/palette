@@ -202,7 +202,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
       {/* ─── 01. TOP AREA: MINIMAL SPECIMEN HEADER ─────────────────── */}
       <header className="flex flex-col gap-3 pt-3">
         {/* Breadcrumb Navigation */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] text-[#707070] uppercase tracking-wider">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-xs text-[#707070] uppercase tracking-wider">
           <Link to={{ path: 'home' }} onNavigate={onNavigate} className="hover:text-[#171717] dark:hover:text-white transition-colors">
             HOME
           </Link>
@@ -273,7 +273,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
       {/* ─── 02. MAIN PATTERN CANVAS: HUGE VISUAL HERO (70–90% VIEWPORT) ── */}
       <section className="flex flex-col gap-3">
         {/* Canvas Toolbar & Metric Readout */}
-        <div className="flex items-center justify-between font-mono text-[10.5px] text-[#707070] uppercase">
+        <div className="flex items-center justify-between font-mono text-xs text-[#707070] uppercase">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#34C759] animate-pulse" />
             <span className="font-semibold tracking-wider text-[#171717] dark:text-white">
@@ -292,7 +292,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
                   variant={zoomMultiplier === z ? 'filled' : 'ghost'}
                   size="sm"
                   onClick={() => setZoomMultiplier(z)}
-                  className={`px-2 py-0.5 rounded-[2px] text-[10px] font-semibold transition-colors cursor-pointer h-auto min-h-0 border-0 ${
+                  className={`px-2 py-0.5 rounded-[2px] text-xs font-semibold transition-colors cursor-pointer h-auto min-h-0 border-0 ${
                     zoomMultiplier === z
                       ? 'bg-[#171717] text-white dark:bg-white dark:text-[#171717]'
                       : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -327,7 +327,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
           />
 
           {/* Floating Subtle Coordinate Pill */}
-          <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] bg-black/80 text-white backdrop-blur-md border border-white/15 font-mono text-[10.5px]">
+          <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] bg-black/80 text-white backdrop-blur-md border border-white/15 font-mono text-xs">
             <span className="font-semibold text-[#00AEEF]">{pattern.type.toUpperCase()}</span>
             <span>•</span>
             <span>SCALE {effectiveScale}PX</span>
@@ -352,7 +352,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
       {/* ─── 03. COMPACT CREATIVE INSTRUMENT CONTROLS ──────────────── */}
       <section className="p-4 sm:p-6 rounded-[4px] border border-black/[0.08] dark:border-white/[0.08] bg-[#F8F8F8] dark:bg-[#141518] flex flex-col gap-4">
         <div className="flex items-center justify-between border-b border-black/[0.06] dark:border-white/[0.06] pb-3">
-          <div className="flex items-center gap-2 font-mono text-[11px] font-semibold text-[#171717] dark:text-white uppercase tracking-wider">
+          <div className="flex items-center gap-2 font-mono text-xs font-semibold text-[#171717] dark:text-white uppercase tracking-wider">
             <SlidersHorizontal size={13} className="text-[#00AEEF]" />
             <span>CREATIVE INSTRUMENT CONTROLS</span>
           </div>
@@ -442,7 +442,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
 
       {/* ─── 04. COLOR STRIP SPECIMEN ─────────────────────────────── */}
       <section className="flex flex-col gap-2.5">
-        <div className="flex items-baseline justify-between font-mono text-[10.5px] text-[#707070] uppercase">
+        <div className="flex items-baseline justify-between font-mono text-xs text-[#707070] uppercase">
           <span className="font-semibold tracking-[0.14em]">
             CALIBRATED CHROMATIC SYSTEM
           </span>
@@ -459,16 +459,16 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
               className="group/swatch flex-1 h-full p-2.5 sm:p-3 flex flex-col justify-between cursor-pointer transition-[flex] duration-200 hover:flex-[1.4] relative"
               title={`Click to copy ${hex}`}
             >
-              <span className="font-mono text-[9px] font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px] w-fit">
+              <span className="font-mono text-xs font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px] w-fit">
                 0{i + 1}
               </span>
 
               <div className="flex items-baseline justify-between">
-                <span className="font-mono text-[11px] sm:text-xs font-bold text-white drop-shadow-sm truncate">
+                <span className="font-mono text-xs font-bold text-white drop-shadow-sm truncate">
                   {hex}
                 </span>
                 {copiedHex === hex && (
-                  <span className="font-mono text-[9px] font-bold text-[#34C759] bg-black/80 px-1.5 py-0.5 rounded-[2px]">
+                  <span className="font-mono text-xs font-bold text-[#34C759] bg-black/80 px-1.5 py-0.5 rounded-[2px]">
                     COPIED
                   </span>
                 )}
@@ -482,44 +482,44 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-t border-black/[0.08] dark:border-white/[0.08] pt-8">
         {/* Left Column: Architectural Metadata */}
         <div className="lg:col-span-6 flex flex-col gap-4">
-          <div className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070]">
+          <div className="font-mono text-xs font-semibold tracking-[0.14em] uppercase text-[#707070]">
             PATTERN SPECIFICATION
           </div>
 
           <div className="grid grid-cols-2 gap-y-3.5 gap-x-6 font-mono text-xs border-y border-black/[0.06] dark:border-white/[0.06] py-4">
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#707070] uppercase">PATTERN ID</span>
+              <span className="text-xs text-[#707070] uppercase">PATTERN ID</span>
               <span className="font-bold text-[#171717] dark:text-white uppercase">{pattern.id}</span>
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#707070] uppercase">CATEGORY</span>
+              <span className="text-xs text-[#707070] uppercase">CATEGORY</span>
               <span className="font-bold text-[#171717] dark:text-white uppercase">{pattern.category}</span>
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#707070] uppercase">FAMILY TYPE</span>
+              <span className="text-xs text-[#707070] uppercase">FAMILY TYPE</span>
               <span className="font-bold text-[#171717] dark:text-white uppercase">{pattern.type}</span>
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#707070] uppercase">REPEAT SYSTEM</span>
+              <span className="text-xs text-[#707070] uppercase">REPEAT SYSTEM</span>
               <span className="font-bold text-[#171717] dark:text-white uppercase">UserSpaceOnUse</span>
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#707070] uppercase">TILE RESOLUTION</span>
+              <span className="text-xs text-[#707070] uppercase">TILE RESOLUTION</span>
               <span className="font-bold text-[#171717] dark:text-white">{effectiveScale * 2}px × {effectiveScale * 2}px</span>
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] text-[#707070] uppercase">CHROMATIC COUNT</span>
+              <span className="text-xs text-[#707070] uppercase">CHROMATIC COUNT</span>
               <span className="font-bold text-[#171717] dark:text-white">{pattern.palette.length} Colors</span>
             </div>
           </div>
 
           {pattern.creator && (
-            <div className="font-mono text-[11px] text-[#707070] uppercase">
+            <div className="font-mono text-xs text-[#707070] uppercase">
               CURATED BY <span className="font-bold text-[#171717] dark:text-white">{pattern.creator.name}</span> (@{pattern.creator.username})
             </div>
           )}
@@ -528,7 +528,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
         {/* Right Column: Narrative Notes & Intent */}
         <div className="lg:col-span-6 flex flex-col gap-3 justify-between">
           <div className="flex flex-col gap-2">
-            <div className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070]">
+            <div className="font-mono text-xs font-semibold tracking-[0.14em] uppercase text-[#707070]">
               DESIGN INTENT & SURFACE NOTES
             </div>
             <p className="font-sans text-xs sm:text-sm text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0">
@@ -538,7 +538,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
               {pattern.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2 py-0.5 rounded-[2px] bg-black/[0.04] dark:bg-white/[0.06] font-mono text-[10px] text-[#707070] uppercase"
+                  className="px-2 py-0.5 rounded-[2px] bg-black/[0.04] dark:bg-white/[0.06] font-mono text-xs text-[#707070] uppercase"
                 >
                   #{tag}
                 </span>
@@ -581,7 +581,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
       <section className="flex flex-col gap-3 rounded-[4px] border border-black/[0.08] dark:border-white/[0.08] bg-[#F8F8F8] dark:bg-[#141518] p-5 sm:p-6 min-w-0 max-w-full">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070]">
+            <span className="font-mono text-xs font-semibold tracking-[0.14em] uppercase text-[#707070]">
               CODE SPECIMEN
             </span>
             <h2 className="font-sans text-lg sm:text-xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0">
@@ -633,7 +633,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
         <section className="flex flex-col gap-4 border-t border-black/[0.08] dark:border-white/[0.08] pt-8">
           <div className="flex items-baseline justify-between">
             <div>
-              <span className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070]">
+              <span className="font-mono text-xs font-semibold tracking-[0.14em] uppercase text-[#707070]">
                 MORE PATTERNS
               </span>
               <h2 className="font-sans text-xl sm:text-2xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0">
@@ -681,13 +681,13 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
                       className="w-full h-full transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/rel:scale-105"
                       dangerouslySetInnerHTML={{ __html: previewSvg }}
                     />
-                    <span className="absolute top-2 right-2 font-mono text-[8.5px] uppercase font-bold px-1.5 py-0.5 rounded-[2px] bg-black/75 text-white backdrop-blur-xs">
+                    <span className="absolute top-2 right-2 font-mono text-xs uppercase font-bold px-1.5 py-0.5 rounded-[2px] bg-black/75 text-white backdrop-blur-xs">
                       {pat.type}
                     </span>
                   </div>
 
                   <div className="p-3 flex flex-col justify-between gap-1">
-                    <span className="font-mono text-[9px] text-[#707070] uppercase truncate">
+                    <span className="font-mono text-xs text-[#707070] uppercase truncate">
                       {pat.category} • {pat.scale}PX
                     </span>
                     <div className="flex items-center justify-between gap-2">

@@ -115,7 +115,7 @@ export const CreatorDetailPage: React.FC<CreatorDetailPageProps> = ({ username, 
 
         {/* Specialties */}
         <div className="flex flex-col sm:items-end gap-2 self-start md:self-auto">
-          <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase font-semibold">
+          <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase font-semibold">
             Specialties
           </span>
           <div className="flex flex-wrap gap-1.5 justify-start md:justify-end">

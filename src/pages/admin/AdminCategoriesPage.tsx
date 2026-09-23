@@ -97,11 +97,11 @@ export const AdminCategoriesPage: React.FC = () => {
                   <h2 className="text-sm font-bold text-[#171717] dark:text-[#F8F8F8]">
                     {tax.title}
                   </h2>
-                  <div className="font-mono text-[11px] text-[#707070] dark:text-[#9DA3AF]">
+                  <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
                     {tax.subtitle}
                   </div>
                 </div>
-                <span className="font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] px-1.5 py-0.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.04]">
+                <span className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF] px-1.5 py-0.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.04]">
                   {tax.count}
                 </span>
               </div>
@@ -111,7 +111,7 @@ export const AdminCategoriesPage: React.FC = () => {
                 {tax.items.map((item) => (
                   <span
                     key={item.name}
-                    className="inline-flex items-center gap-1.5 px-2 py-1 bg-black/[0.02] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs font-mono text-[11px] text-[#171717] dark:text-[#F8F8F8]"
+                    className="inline-flex items-center gap-1.5 px-2 py-1 bg-black/[0.02] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs font-mono text-xs text-[#171717] dark:text-[#F8F8F8]"
                   >
                     <span
                       className="w-2 h-2 rounded-full shrink-0"
@@ -123,7 +123,7 @@ export const AdminCategoriesPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-4 mt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between text-[10px] font-mono text-[#707070] dark:text-[#9DA3AF]">
+            <div className="pt-4 mt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between text-xs font-mono text-[#707070] dark:text-[#9DA3AF]">
               <span>ACTIVE TAXONOMY ENTITIES: {tax.items.length}</span>
               <span>100% UNIFORM SCHEMA</span>
             </div>

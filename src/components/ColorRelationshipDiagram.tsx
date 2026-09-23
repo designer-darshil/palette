@@ -153,7 +153,7 @@ export const ColorRelationshipDiagram: React.FC<ColorRelationshipDiagramProps> =
             })}
           </svg>
 
-          <span className="font-mono text-[10px] text-[var(--text-tertiary)] uppercase mt-2">
+          <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase mt-2">
             Chromatic Angular Coordinate Map
           </span>
         </div>
@@ -190,7 +190,7 @@ export const ColorRelationshipDiagram: React.FC<ColorRelationshipDiagramProps> =
             {/* Metrics Breakdown */}
             <div className="grid grid-cols-2 gap-2.5 pt-2">
               <div className="p-2 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-xs">
-                <span className="text-[var(--text-tertiary)] block text-[10px] font-mono">
+                <span className="text-[var(--text-tertiary)] block text-xs font-mono">
                   HSL Coordinates
                 </span>
                 <span className="font-mono font-bold text-[var(--text-primary)]">
@@ -198,7 +198,7 @@ export const ColorRelationshipDiagram: React.FC<ColorRelationshipDiagramProps> =
                 </span>
               </div>
               <div className="p-2 rounded-xs bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-xs">
-                <span className="text-[var(--text-tertiary)] block text-[10px] font-mono">
+                <span className="text-[var(--text-tertiary)] block text-xs font-mono">
                   Color Temperature
                 </span>
                 <span className="font-mono font-bold text-[var(--text-primary)]">

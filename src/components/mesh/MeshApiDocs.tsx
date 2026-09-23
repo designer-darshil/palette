@@ -38,13 +38,13 @@ export const MeshApiDocs: React.FC<MeshApiDocsProps> = ({ config }) => {
             <Terminal size={15} style={{ color: 'var(--color-primary-text)' }} className="flex-shrink-0" />
             <span className="truncate">Developer API &amp; Contract</span>
           </h2>
-          <p className="text-[11px] text-[var(--text-tertiary)] mt-0.5 leading-snug">
+          <p className="text-xs text-[var(--text-tertiary)] mt-0.5 leading-snug">
             Deterministic HTTP endpoint for JSON, CSS, and SVG tokens.
           </p>
         </div>
 
         <span
-          className="font-mono text-[9px] px-2 py-0.5 rounded-xs border font-bold uppercase self-start sm:self-center flex-shrink-0"
+          className="font-mono text-xs px-2 py-0.5 rounded-xs border font-bold uppercase self-start sm:self-center flex-shrink-0"
           style={{
             backgroundColor: 'var(--color-primary-subtle)',
             color: 'var(--color-primary-text)',
@@ -60,7 +60,7 @@ export const MeshApiDocs: React.FC<MeshApiDocsProps> = ({ config }) => {
         style={{ borderRadius: 'var(--radius-md)' }}
       >
         <div className="flex flex-col gap-2 min-w-0">
-          <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-primary)] bg-[var(--bg-surface-2)] px-2.5 py-1.5 rounded-xs border border-[var(--border-subtle)] overflow-x-auto max-w-full min-w-0">
+          <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-primary)] bg-[var(--bg-surface-2)] px-2.5 py-1.5 rounded-xs border border-[var(--border-subtle)] overflow-x-auto max-w-full min-w-0">
             <span className="text-emerald-400 font-bold flex-shrink-0">GET</span>
             <span className="text-[var(--text-secondary)] flex-shrink-0">/api/mesh</span>
             <span className="text-[var(--text-tertiary)] truncate">?{queryString}</span>
@@ -74,7 +74,7 @@ export const MeshApiDocs: React.FC<MeshApiDocsProps> = ({ config }) => {
                   size="sm"
                   variant={selectedFormat === fmt ? 'filled' : 'ghost'}
                   onClick={() => setSelectedFormat(fmt)}
-                  className="flex-1 px-2 py-1 text-[10px] font-mono uppercase rounded-xs text-center"
+                  className="flex-1 px-2 py-1 text-xs font-mono uppercase rounded-xs text-center"
                 >
                   {fmt}
                 </KromaButton>
@@ -96,19 +96,19 @@ export const MeshApiDocs: React.FC<MeshApiDocsProps> = ({ config }) => {
 
         {/* cURL Code Block */}
         <div className="relative bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs p-3 font-mono text-xs text-[var(--text-primary)] max-w-full min-w-0">
-          <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[var(--border-subtle)] text-[10px] text-[var(--text-tertiary)] uppercase">
+          <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[var(--border-subtle)] text-xs text-[var(--text-tertiary)] uppercase">
             <span>cURL Request</span>
             <KromaButton
               size="sm"
               variant="ghost"
               onClick={handleCopyCurl}
-              className="text-[10px] p-1 h-auto"
+              className="text-xs p-1 h-auto"
               iconLeft={hasCopiedCurl ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
             >
               <span>{hasCopiedCurl ? 'Copied' : 'Copy'}</span>
             </KromaButton>
           </div>
-          <pre className="text-[10px] leading-relaxed select-all overflow-x-auto max-w-full">
+          <pre className="text-xs leading-relaxed select-all overflow-x-auto max-w-full">
             {curlSnippet}
           </pre>
         </div>

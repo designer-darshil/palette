@@ -472,7 +472,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-5 pt-3 lg:pt-0 border-t lg:border-t-0 border-black/[0.08] dark:border-white/[0.08]">
             {/* Metric 1: Local Time Card */}
             <div className="p-2.5 bg-white dark:bg-[#1C1D22] border border-black/[0.06] dark:border-white/[0.06] rounded-[3px] flex flex-col gap-0.5">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] flex items-center gap-1">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#707070] flex items-center gap-1">
                 <Clock size={11} /> LOCAL TIME
               </span>
               <span className="font-mono text-xs sm:text-[13px] font-bold text-[#171717] dark:text-white">
@@ -482,7 +482,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
 
             {/* Metric 2: Solar Phase Card */}
             <div className="p-2.5 bg-white dark:bg-[#1C1D22] border border-black/[0.06] dark:border-white/[0.06] rounded-[3px] flex flex-col gap-0.5">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] flex items-center gap-1">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#707070] flex items-center gap-1">
                 {getPhaseIcon(atmosphere.solarPhase)} SOLAR PHASE
               </span>
               <span className="font-sans text-xs sm:text-[13px] font-bold text-[#171717] dark:text-white truncate">
@@ -492,7 +492,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
 
             {/* Metric 3: Weather Condition Card */}
             <div className="p-2.5 bg-white dark:bg-[#1C1D22] border border-black/[0.06] dark:border-white/[0.06] rounded-[3px] flex flex-col gap-0.5">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] flex items-center gap-1">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#707070] flex items-center gap-1">
                 {getWeatherIcon()} WEATHER
               </span>
               <span className="font-sans text-xs sm:text-[13px] font-bold text-[#171717] dark:text-white truncate">
@@ -502,7 +502,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
 
             {/* Metric 4: Solar Elevation Angle Card */}
             <div className="p-2.5 bg-white dark:bg-[#1C1D22] border border-black/[0.06] dark:border-white/[0.06] rounded-[3px] flex flex-col gap-0.5">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] flex items-center gap-1">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#707070] flex items-center gap-1">
                 <Sun size={11} /> SOLAR ANGLE
               </span>
               <span className="font-mono text-xs sm:text-[13px] font-bold text-[#00AEEF]">
@@ -519,7 +519,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
           {/* Temperature & Thermal Chromatic Band */}
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex items-baseline justify-between">
-              <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-1.5">
+              <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-1.5">
                 <Thermometer size={12} className="text-[#FF9500]" />
                 <span>THERMAL CHROMATIC INDEX</span>
               </span>
@@ -544,7 +544,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               />
             </div>
 
-            <div className="flex justify-between font-mono text-[9.5px] text-[#707070] uppercase">
+            <div className="flex justify-between font-mono text-xs text-[#707070] uppercase">
               <span>-10°C (Glacial)</span>
               <span>15°C (Temperate)</span>
               <span>+40°C (Arid Solar)</span>
@@ -553,7 +553,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
 
           {/* Rayleigh Scatter & Light Density Narrative */}
           <div className="md:w-1/2 md:border-l md:border-black/[0.08] dark:md:border-white/[0.08] md:pl-6 flex flex-col justify-center">
-            <div className="flex items-center gap-1.5 font-mono text-[10.5px] text-[#707070] uppercase font-semibold mb-1">
+            <div className="flex items-center gap-1.5 font-mono text-xs text-[#707070] uppercase font-semibold mb-1">
               <SlidersHorizontal size={11} className="text-[#00AEEF]" />
               <span>ATMOSPHERIC RAYLEIGH SCATTERING</span>
             </div>
@@ -569,7 +569,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       <section className="flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
           <div>
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
               <span>01</span>
               <span>•</span>
               <span>GLOBAL OBSERVATORIES</span>
@@ -578,7 +578,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               World Atmospheric Conditions
             </h2>
           </div>
-          <span className="font-mono text-[10px] sm:text-xs text-[#707070] uppercase">
+          <span className="font-mono text-xs text-[#707070] uppercase">
             SELECT TO SYNTHESIZE LOCAL SKY SPECTRUM
           </span>
         </div>
@@ -606,10 +606,10 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               >
                 <div className="p-3 flex flex-col justify-between h-full gap-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] text-[#707070] uppercase">
+                    <span className="font-mono text-xs text-[#707070] uppercase">
                       {local.formatted}
                     </span>
-                    <span className="flex items-center gap-1 font-mono text-[9px] uppercase text-[#FF9500]">
+                    <span className="flex items-center gap-1 font-mono text-xs uppercase text-[#FF9500]">
                       {getPhaseIcon(phase)}
                     </span>
                   </div>
@@ -618,16 +618,16 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                     <div className="font-sans text-xs sm:text-sm font-bold text-[#171717] dark:text-white truncate">
                       {loc.name}
                     </div>
-                    <div className="font-sans text-[11px] text-[#707070] truncate">
+                    <div className="font-sans text-xs text-[#707070] truncate">
                       {loc.country}
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between pt-1.5 border-t border-black/[0.06] dark:border-white/[0.06]">
-                    <span className="font-mono text-[9px] text-[#707070] truncate">
+                    <span className="font-mono text-xs text-[#707070] truncate">
                       {loc.latitude > 0 ? `${loc.latitude.toFixed(0)}°N` : `${Math.abs(loc.latitude).toFixed(0)}°S`}
                     </span>
-                    <span className="font-mono text-[9px] font-semibold uppercase text-[#00AEEF] truncate">
+                    <span className="font-mono text-xs font-semibold uppercase text-[#00AEEF] truncate">
                       {phase}
                     </span>
                   </div>
@@ -649,7 +649,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative z-10">
               <div className="inline-flex items-center gap-2 bg-black/60 px-3 py-1 rounded-[3px] backdrop-blur-md border border-white/15 self-start">
                 <span className="w-2 h-2 rounded-full bg-[#34C759] animate-pulse" />
-                <span className="font-mono text-[11px] text-white uppercase tracking-wider font-semibold">
+                <span className="font-mono text-xs text-white uppercase tracking-wider font-semibold">
                   LIVE ATMOSPHERIC BROADCAST • {atmosphere.solarPhase.toUpperCase()} • {atmosphere.weatherSummary}
                 </span>
               </div>
@@ -667,7 +667,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
 
             {/* Bottom Hero Description */}
             <div className="relative z-10 mt-6 sm:mt-0">
-              <div className="font-mono text-[11px] tracking-[0.14em] uppercase text-white/80 mb-1">
+              <div className="font-mono text-xs tracking-[0.14em] uppercase text-white/80 mb-1">
                 CHROMATIC HORIZON CAPTURE
               </div>
               <h2 className="font-sans text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white m-0">
@@ -692,11 +692,11 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                 title={`Click to copy ${s.name} (${s.hex})`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px] w-fit">
+                  <span className="font-mono text-xs font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px] w-fit">
                     0{idx + 1}
                   </span>
                   {copiedHex === s.hex && (
-                    <span className="font-mono text-[10px] text-[#34C759] bg-black/80 px-1.5 py-0.5 rounded-[2px]">
+                    <span className="font-mono text-xs text-[#34C759] bg-black/80 px-1.5 py-0.5 rounded-[2px]">
                       COPIED
                     </span>
                   )}
@@ -706,7 +706,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                   <div className="font-mono text-xs sm:text-[13px] font-bold text-white drop-shadow-sm truncate">
                     {s.hex}
                   </div>
-                  <div className="font-sans text-[11px] sm:text-xs text-white/95 font-medium truncate">
+                  <div className="font-sans text-xs text-white/95 font-medium truncate">
                     {s.name}
                   </div>
                 </div>
@@ -720,7 +720,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       <section className="flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
           <div>
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
               <span>02</span>
               <span>•</span>
               <span>SOLAR TRAJECTORY</span>
@@ -763,10 +763,10 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                   <div className="flex-1 h-full" style={{ backgroundColor: mile.solarHex }} />
                 </div>
                 <div className="p-2.5 flex flex-col gap-0.5">
-                  <span className="font-sans text-[11.5px] font-bold text-[#171717] dark:text-white truncate">
+                  <span className="font-sans text-xs font-bold text-[#171717] dark:text-white truncate">
                     {mile.label}
                   </span>
-                  <span className="font-mono text-[10px] text-[#707070]">
+                  <span className="font-mono text-xs text-[#707070]">
                     {mile.time}
                   </span>
                 </div>
@@ -780,7 +780,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       <section className="flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
           <div>
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
               <span>03</span>
               <span>•</span>
               <span>CALIBRATED SWATCHES</span>
@@ -789,7 +789,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               Atmospheric Swatch Spectrum
             </h2>
           </div>
-          <span className="font-mono text-[10px] sm:text-xs text-[#707070] uppercase">
+          <span className="font-mono text-xs text-[#707070] uppercase">
             CLICK TO COPY HEX • {atmosphere.swatches.length} CALIBRATED TONES
           </span>
         </div>
@@ -809,7 +809,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                       onClick={() => handleCopySingleHex(s.hex, s.name)}
                       title={`Click to copy ${s.hex}`}
                     >
-                      <span className="font-mono text-[10px] font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px]">
+                      <span className="font-mono text-xs font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px]">
                         0{idx + 1}
                       </span>
                       <KromaButton
@@ -819,7 +819,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                           e.stopPropagation();
                           handleCopySingleHex(s.hex, s.name);
                         }}
-                        className="opacity-0 group-hover/card:opacity-100 transition-opacity bg-black/75 hover:bg-black text-white text-[10px] font-mono px-2 py-0.5 rounded-[2px] h-auto"
+                        className="opacity-0 group-hover/card:opacity-100 transition-opacity bg-black/75 hover:bg-black text-white text-xs font-mono px-2 py-0.5 rounded-[2px] h-auto"
                         iconLeft={<Copy size={10} />}
                       >
                         <span>{s.hex}</span>
@@ -842,11 +842,11 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                       </KromaButton>
                     </div>
 
-                    <div className="font-mono text-[10px] text-[#FF9500] uppercase font-medium">
+                    <div className="font-mono text-xs text-[#FF9500] uppercase font-medium">
                       ROLE: {s.role}
                     </div>
 
-                    <p className="font-sans text-[11px] text-[#707070] leading-relaxed m-0 mt-0.5">
+                    <p className="font-sans text-xs text-[#707070] leading-relaxed m-0 mt-0.5">
                       {s.description}
                     </p>
                   </KromaCardBody>
@@ -858,7 +858,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                       variant="ghost"
                       size="sm"
                       onClick={() => onNavigate({ path: 'color-detail', slug })}
-                      className="text-[11px] font-mono font-medium text-[#171717] dark:text-white hover:text-[#00AEEF] dark:hover:text-[#00AEEF] p-0 h-auto"
+                      className="text-xs font-mono font-medium text-[#171717] dark:text-white hover:text-[#00AEEF] dark:hover:text-[#00AEEF] p-0 h-auto"
                       iconRight={<ExternalLink size={10} />}
                     >
                       <span>View Specimen</span>
@@ -876,7 +876,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         <KromaCardBody className="p-5 sm:p-6 flex flex-col gap-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+              <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
                 <span>04</span>
                 <span>•</span>
                 <span>PRODUCTION TOKENS</span>
@@ -928,7 +928,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       <section className="flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
           <div>
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
               <span>05</span>
               <span>•</span>
               <span>PERSONAL WORKSPACE</span>
@@ -968,7 +968,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                         {item.title}
                       </div>
                       {item.metadata && (
-                        <div className="font-mono text-[10px] text-[#707070] truncate">
+                        <div className="font-mono text-xs text-[#707070] truncate">
                           {item.metadata}
                         </div>
                       )}
@@ -983,7 +983,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                         copyToClipboard(hexList.join(', '));
                         showToast('Copied saved palette hexes', item.title);
                       }}
-                      className="font-mono text-[11px] text-[#707070] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                      className="font-mono text-xs text-[#707070] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
                       iconLeft={<Copy size={11} />}
                     >
                       <span>Copy Hexes</span>
@@ -996,7 +996,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                         removeItem(item.id);
                         showToast('Removed saved atmosphere', item.title);
                       }}
-                      className="font-mono text-[11px] text-[#FF3B30] hover:underline p-0 h-auto"
+                      className="font-mono text-xs text-[#FF3B30] hover:underline p-0 h-auto"
                       iconLeft={<Trash2 size={11} />}
                     >
                       <span>Remove</span>
@@ -1038,7 +1038,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       {relatedPalettes.length > 0 && (
         <section className="flex flex-col gap-3.5">
           <div>
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
               <span>06</span>
               <span>•</span>
               <span>HARMONIC SPECIMENS</span>
@@ -1058,7 +1058,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       {relatedCombos.length > 0 && (
         <section className="flex flex-col gap-3.5">
           <div>
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
               <span>07</span>
               <span>•</span>
               <span>DUAL HARMONIES</span>
@@ -1078,7 +1078,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
       {relatedGradients.length > 0 && (
         <section className="flex flex-col gap-3.5">
           <div>
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] flex items-center gap-2">
               <span>08</span>
               <span>•</span>
               <span>ATMOSPHERIC GRADIENTS</span>

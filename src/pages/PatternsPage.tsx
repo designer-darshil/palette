@@ -110,7 +110,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
       {/* ─── 01. PAGE OPENING: COMPACT EDITORIAL INTRODUCTION ──────── */}
       <header className="flex flex-col gap-4 pt-4 border-b border-black/[0.08] dark:border-white/[0.08] pb-6 sm:pb-8">
         {/* Navigation Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] text-[#707070] uppercase tracking-wider">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-xs text-[#707070] uppercase tracking-wider">
           <Link to={{ path: 'home' }} onNavigate={onNavigate} className="hover:text-[#171717] dark:hover:text-white transition-colors">
             HOME
           </Link>
@@ -120,13 +120,13 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-2 max-w-2xl">
-            <span className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-[#707070]">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070]">
               PATTERN ARCHIVE
             </span>
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight leading-[0.95] text-[#171717] dark:text-white m-0">
+            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.08] text-[#171717] dark:text-white m-0">
               PATTERNS IN MOTION.
             </h1>
-            <p className="font-sans text-xs sm:text-sm text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0 mt-1 max-w-lg">
+            <p className="font-sans text-sm sm:text-base text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0 mt-1 max-w-lg">
               A collection of geometric systems, organic textures, repeating forms, and experimental color compositions.
             </p>
           </div>
@@ -149,8 +149,8 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
       {/* ─── 02. FEATURED PATTERN COMPOSITION ──────────────────────── */}
       {!searchQuery.trim() && activeCategory === 'all' && featuredPattern && (
         <section className="flex flex-col gap-2.5">
-          <div className="flex items-baseline justify-between font-mono text-[10.5px] text-[#707070] uppercase">
-            <span className="font-semibold tracking-[0.14em]">
+          <div className="flex items-baseline justify-between font-mono text-xs text-[#707070] uppercase">
+            <span className="font-semibold tracking-wider">
               FEATURED COMPOSITION • PATTERN 001
             </span>
             <span>
@@ -172,7 +172,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
               />
 
               {/* Quiet View Badge on Artwork */}
-              <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-black/75 text-white backdrop-blur-md border border-white/15 font-mono text-[10.5px] uppercase tracking-wider font-semibold opacity-90 group-hover/featured:opacity-100 transition-opacity">
+              <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-black/75 text-white backdrop-blur-md border border-white/15 font-mono text-xs uppercase tracking-wider font-semibold opacity-90 group-hover/featured:opacity-100 transition-opacity">
                 <span>VIEW SPECIMEN</span>
                 <ArrowUpRight size={11} className="transition-transform group-hover/featured:translate-x-0.5 group-hover/featured:-translate-y-0.5" />
               </div>
@@ -181,7 +181,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
             {/* Pattern Metadata Strip Below Artwork */}
             <div className="p-4 sm:p-6 border-t border-black/[0.08] dark:border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex flex-col gap-1 min-w-0">
-                <div className="flex items-center gap-2 font-mono text-[10px] uppercase text-[#707070] tracking-wider">
+                <div className="flex items-center gap-2 font-mono text-xs uppercase text-[#707070] tracking-wider">
                   <span className="font-semibold text-[#171717] dark:text-white">{featuredPattern.category}</span>
                   <span>•</span>
                   <span>{featuredPattern.tags.slice(0, 3).join(' / ')}</span>
@@ -277,11 +277,11 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
           <div className="flex items-baseline justify-between">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00AEEF] animate-pulse" />
-              <span className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070]">
+              <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070]">
                 NEW PATTERNS
               </span>
             </div>
-            <span className="font-mono text-[10.5px] text-[#707070] uppercase">
+            <span className="font-mono text-xs text-[#707070] uppercase">
               GENERATIVE RELEASES
             </span>
           </div>
@@ -317,13 +317,13 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                       className="w-full h-full transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/new:scale-105"
                       dangerouslySetInnerHTML={{ __html: svg }}
                     />
-                    <span className="absolute top-2 right-2 font-mono text-[8.5px] uppercase font-bold px-1.5 py-0.5 rounded-[2px] bg-black/75 text-white backdrop-blur-xs">
+                    <span className="absolute top-2 right-2 font-mono text-xs uppercase font-bold px-1.5 py-0.5 rounded-[2px] bg-black/75 text-white backdrop-blur-xs">
                       {pat.type}
                     </span>
                   </div>
 
                   <div className="p-2.5 flex flex-col gap-0.5">
-                    <span className="font-mono text-[9px] text-[#707070] uppercase truncate">
+                    <span className="font-mono text-xs text-[#707070] uppercase truncate">
                       {String(idx + 7).padStart(3, '0')} • {pat.category}
                     </span>
                     <span className="font-sans text-xs font-bold text-[#171717] dark:text-white truncate">
@@ -339,8 +339,8 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
 
       {/* ─── 05. ASYMMETRIC CONTROLLED EDITORIAL ARCHIVE LAYOUT ────── */}
       <section className="flex flex-col gap-4">
-        <div className="flex items-baseline justify-between font-mono text-[10.5px] text-[#707070] uppercase">
-          <span className="font-semibold tracking-[0.14em]">
+        <div className="flex items-baseline justify-between font-mono text-xs text-[#707070] uppercase">
+          <span className="font-semibold tracking-wider">
             CURATED SPECIMENS ({archiveItems.length})
           </span>
           <span>ARTWORK DOMINANT INDEX</span>
@@ -382,14 +382,14 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
 
                     {/* Small Metadata Reveal on Hover */}
                     <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5 opacity-90 group-hover/tile:opacity-100 transition-opacity">
-                      <span className="font-mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-[2px] bg-black/75 text-white backdrop-blur-xs tracking-wider">
+                      <span className="font-mono text-xs uppercase font-bold px-1.5 py-0.5 rounded-[2px] bg-black/75 text-white backdrop-blur-xs tracking-wider">
                         {pattern.type}
                       </span>
                     </div>
 
                     {/* Tactile VIEW pill indicator on hover */}
                     <div className="absolute bottom-3 left-3 opacity-0 group-hover/tile:opacity-100 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] translate-y-1 group-hover/tile:translate-y-0">
-                      <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase font-semibold px-2 py-0.5 rounded-[2px] bg-black/80 text-white backdrop-blur-xs">
+                      <span className="inline-flex items-center gap-1 font-mono text-xs uppercase font-semibold px-2 py-0.5 rounded-[2px] bg-black/80 text-white backdrop-blur-xs">
                         <span>VIEW SPECIMEN</span>
                         <ArrowUpRight size={10} />
                       </span>
@@ -399,7 +399,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                   {/* Tile Editorial Footer */}
                   <div className="p-3.5 sm:p-4 flex flex-col justify-between gap-2">
                     <div className="flex items-baseline justify-between gap-2">
-                      <div className="font-mono text-[9.5px] uppercase text-[#707070] tracking-wider truncate">
+                      <div className="font-mono text-xs uppercase text-[#707070] tracking-wider truncate">
                         {pattern.category} • {pattern.scale}PX GRID
                       </div>
                       <div className="flex items-center gap-1 shrink-0" title="Palette">
@@ -450,8 +450,8 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
 
       {/* ─── 06. VISUAL CATEGORY ARCHIVE INDEX ─────────────────────── */}
       <section className="flex flex-col gap-3.5 pt-4 border-t border-black/[0.08] dark:border-white/[0.08]">
-        <div className="flex items-baseline justify-between font-mono text-[10.5px] text-[#707070] uppercase">
-          <span className="font-semibold tracking-[0.14em]">
+        <div className="flex items-baseline justify-between font-mono text-xs text-[#707070] uppercase">
+          <span className="font-semibold tracking-wider">
             VISUAL CATEGORY INDEX
           </span>
           <span>TAXONOMY MARKERS</span>
@@ -497,7 +497,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                   className="w-full h-9 rounded-[2px] overflow-hidden border border-black/10 dark:border-white/10 select-none"
                   dangerouslySetInnerHTML={{ __html: previewSvg }}
                 />
-                <div className="flex items-center justify-between font-mono text-[10px] text-[#171717] dark:text-white uppercase font-bold">
+                <div className="flex items-center justify-between font-mono text-xs text-[#171717] dark:text-white uppercase font-bold">
                   <span>{cat.label}</span>
                   <span className="text-[#707070] font-normal">INDEX</span>
                 </div>
@@ -510,13 +510,13 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
       {/* ─── 07. FINAL CTA: RESTRAINED CREATION INVITATION ─────────── */}
       <section className="p-8 sm:p-12 rounded-[4px] border border-black/[0.08] dark:border-white/[0.08] bg-[#F8F8F8] dark:bg-[#141518] flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="flex flex-col gap-1.5 max-w-xl">
-          <span className="font-mono text-[10.5px] font-semibold tracking-[0.14em] uppercase text-[#707070]">
+          <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070]">
             CREATIVE WORKBENCH
           </span>
           <h2 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0">
             Make Your Own Pattern.
           </h2>
-          <p className="font-sans text-xs sm:text-sm text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0 mt-0.5">
+          <p className="font-sans text-sm text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0 mt-0.5">
             Turn colour, geometry, and repetition into something new with live mathematical controls and instant SVG export.
           </p>
         </div>

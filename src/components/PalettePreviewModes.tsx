@@ -92,7 +92,7 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
               <span className="font-bold text-xs font-mono tracking-wider">{palette.title.toUpperCase()}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-xs" style={{ backgroundColor: `${c2}22`, color: c4 }}>
+              <span className="text-xs font-mono px-2 py-0.5 rounded-xs" style={{ backgroundColor: `${c2}22`, color: c4 }}>
                 v2.4 TELEMETRY
               </span>
             </div>
@@ -101,19 +101,19 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
           {/* Simulated Dashboard Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="p-3.5 rounded-xs border" style={{ backgroundColor: `${c2}11`, borderColor: `${c2}25` }}>
-              <span className="text-[10px] font-mono uppercase" style={{ color: c2 }}>Active Sessions</span>
+              <span className="text-xs font-mono uppercase" style={{ color: c2 }}>Active Sessions</span>
               <div className="text-2xl font-extrabold mt-1" style={{ color: c4 }}>128,490</div>
-              <span className="text-[10px] font-mono" style={{ color: c1 }}>+14.8% vs last cycle</span>
+              <span className="text-xs font-mono" style={{ color: c1 }}>+14.8% vs last cycle</span>
             </div>
             <div className="p-3.5 rounded-xs border" style={{ backgroundColor: `${c2}11`, borderColor: `${c2}25` }}>
-              <span className="text-[10px] font-mono uppercase" style={{ color: c2 }}>Throughput</span>
+              <span className="text-xs font-mono uppercase" style={{ color: c2 }}>Throughput</span>
               <div className="text-2xl font-extrabold mt-1" style={{ color: c3 }}>99.98%</div>
-              <span className="text-[10px] font-mono" style={{ color: c2 }}>OKLCH Calibrated</span>
+              <span className="text-xs font-mono" style={{ color: c2 }}>OKLCH Calibrated</span>
             </div>
             <div className="p-3.5 rounded-xs border" style={{ backgroundColor: `${c2}11`, borderColor: `${c2}25` }}>
-              <span className="text-[10px] font-mono uppercase" style={{ color: c2 }}>Error Rate</span>
+              <span className="text-xs font-mono uppercase" style={{ color: c2 }}>Error Rate</span>
               <div className="text-2xl font-extrabold mt-1" style={{ color: c1 }}>0.002%</div>
-              <span className="text-[10px] font-mono" style={{ color: c2 }}>Zero friction</span>
+              <span className="text-xs font-mono" style={{ color: c2 }}>Zero friction</span>
             </div>
           </div>
 
@@ -148,7 +148,7 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
           style={{ backgroundColor: bg, color: bgText, borderColor: 'var(--border-strong)' }}
         >
           <div className="border-b-2 pb-2" style={{ borderColor: c1 }}>
-            <span className="font-mono text-[11px] font-bold tracking-widest uppercase" style={{ color: c3 }}>
+            <span className="font-mono text-xs font-bold tracking-widest uppercase" style={{ color: c3 }}>
               DISPATCH Nº 48 · CHROMA &amp; ARCHITECTURE
             </span>
           </div>
@@ -177,7 +177,7 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
             className="w-full max-w-[280px] rounded-2xl border-4 p-4 flex flex-col gap-4 shadow-xl"
             style={{ backgroundColor: bg, color: bgText, borderColor: `${c2}44` }}
           >
-            <div className="flex justify-between items-center text-[10px] font-mono" style={{ color: c2 }}>
+            <div className="flex justify-between items-center text-xs font-mono" style={{ color: c2 }}>
               <span>9:41</span>
               <span>5G 100%</span>
             </div>
@@ -193,9 +193,9 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
             </div>
 
             <div className="p-3 rounded-lg flex flex-col gap-1" style={{ backgroundColor: `${c2}18` }}>
-              <div className="text-[10px] font-mono" style={{ color: c2 }}>Recent Allocation</div>
+              <div className="text-xs font-mono" style={{ color: c2 }}>Recent Allocation</div>
               <div className="text-xs font-bold" style={{ color: c4 }}>Swiss Modernism Fund</div>
-              <div className="text-[10px] font-mono" style={{ color: c1 }}>+$1,240.50 (3.2%)</div>
+              <div className="text-xs font-mono" style={{ color: c1 }}>+$1,240.50 (3.2%)</div>
             </div>
 
             <KromaButton

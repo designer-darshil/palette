@@ -367,7 +367,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
       />
 
       {/* ─── 1. Minimal Kroma Breadcrumb ─────────────────────────── */}
-      <nav className="flex items-center gap-2 font-sans text-[11.5px] font-medium tracking-[0.04em] uppercase mb-6" aria-label="Breadcrumb">
+      <nav className="flex items-center gap-2 font-sans text-xs font-medium tracking-[0.04em] uppercase mb-6" aria-label="Breadcrumb">
         <KromaButton
           variant="ghost"
           size="sm"
@@ -391,11 +391,11 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
       {/* ─── 2. Compact Editorial Intro ─────────────────────────── */}
       <header className="mb-10 flex flex-col gap-2">
-        <div className="font-mono text-[11px] font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
+        <div className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-[1px] bg-[#FF9500]" />
           <span>DIGITAL PATTERN LAB • VECTOR SURFACE INSTRUMENT</span>
         </div>
-        <h1 className="font-sans text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-[-0.03em] leading-[0.98] text-[#171717] dark:text-white m-0 uppercase">
+        <h1 className="font-sans text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-[-0.03em] leading-[1.05] text-[#171717] dark:text-white m-0 uppercase">
           CREATE REPEATING WORLDS.
         </h1>
         <p className="font-sans text-[14.5px] text-[#707070] dark:text-[#9A9A9E] mt-1 mb-0 max-w-[500px] leading-[1.45]">
@@ -494,8 +494,8 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Instrument 1: Geometry / Shape Picker */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">GEOMETRY SHAPE</span>
-              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{patternType.toUpperCase()}</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">GEOMETRY SHAPE</span>
+              <span className="font-mono text-xs font-semibold text-[#171717] dark:text-white">{patternType.toUpperCase()}</span>
             </div>
             <div className="grid grid-cols-4 gap-1.5">
               {SHAPE_OPTIONS.map((opt) => (
@@ -504,7 +504,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                   variant={patternType === opt.type ? 'filled' : 'ghost'}
                   size="sm"
                   onClick={() => setPatternType(opt.type)}
-                  className={`flex flex-col items-center justify-center gap-1 border rounded-[2px] py-2 px-1 cursor-pointer transition-all font-mono text-[10px] font-medium uppercase h-auto w-full ${
+                  className={`flex flex-col items-center justify-center gap-1 border rounded-[2px] py-2 px-1 cursor-pointer transition-all font-mono text-xs font-medium uppercase h-auto w-full ${
                     patternType === opt.type
                       ? 'bg-[#171717] dark:bg-white text-white dark:text-[#171717] border-[#171717] dark:border-white'
                       : 'bg-transparent border-black/[0.08] dark:border-white/[0.08] text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white hover:border-black/[0.24] dark:hover:border-white/[0.24]'
@@ -521,8 +521,8 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Instrument 2: Scale / Tile Size */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">SCALE / TILE</span>
-              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{scale}PX</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">SCALE / TILE</span>
+              <span className="font-mono text-xs font-semibold text-[#171717] dark:text-white">{scale}PX</span>
             </div>
             <input
               type="range"
@@ -538,8 +538,8 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Instrument 3: Density / Spacing */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">DENSITY / RHYTHM</span>
-              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{density}%</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">DENSITY / RHYTHM</span>
+              <span className="font-mono text-xs font-semibold text-[#171717] dark:text-white">{density}%</span>
             </div>
             <input
               type="range"
@@ -555,8 +555,8 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Instrument 4: Rotation Angle */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">ROTATION ANGLE</span>
-              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{rotation}°</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">ROTATION ANGLE</span>
+              <span className="font-mono text-xs font-semibold text-[#171717] dark:text-white">{rotation}°</span>
             </div>
             <input
               type="range"
@@ -572,8 +572,8 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Instrument 5: Stroke Weight */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">STROKE WEIGHT</span>
-              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{strokeWidth}PX</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">STROKE WEIGHT</span>
+              <span className="font-mono text-xs font-semibold text-[#171717] dark:text-white">{strokeWidth}PX</span>
             </div>
             <input
               type="range"
@@ -590,8 +590,8 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Instrument 6: Opacity */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">OPACITY</span>
-              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{Math.round(opacity * 100)}%</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">OPACITY</span>
+              <span className="font-mono text-xs font-semibold text-[#171717] dark:text-white">{Math.round(opacity * 100)}%</span>
             </div>
             <input
               type="range"
@@ -608,11 +608,11 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Instrument 7: Visual Color System & Palette Assignment */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">ASSIGNED PALETTE</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">ASSIGNED PALETTE</span>
               <KromaButton
                 variant="ghost"
                 size="sm"
-                className="text-[11px] font-mono text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase transition-colors p-0 h-auto"
+                className="text-xs font-mono text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase transition-colors p-0 h-auto"
                 onClick={() => setShowPaletteDrawer(!showPaletteDrawer)}
               >
                 {showPaletteDrawer ? 'HIDE' : 'CHANGE'}
@@ -638,7 +638,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                     key={p.id}
                     variant="ghost"
                     size="sm"
-                    className={`flex items-center justify-between gap-2 border border-transparent rounded-[2px] px-1.5 py-1 cursor-pointer font-sans text-[11.5px] text-left transition-all w-full h-auto ${
+                    className={`flex items-center justify-between gap-2 border border-transparent rounded-[2px] px-1.5 py-1 cursor-pointer font-sans text-xs text-left transition-all w-full h-auto ${
                       selectedPaletteIndex === idx
                         ? 'bg-black/[0.06] dark:bg-white/10 font-semibold text-[#171717] dark:text-white'
                         : 'bg-transparent text-[#171717] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
@@ -664,8 +664,8 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Instrument 8: Canvas Background Color */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">BACKGROUND TONE</span>
-              <span className="font-mono text-[11px] font-semibold text-[#171717] dark:text-white">{currentBg.toUpperCase()}</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">BACKGROUND TONE</span>
+              <span className="font-mono text-xs font-semibold text-[#171717] dark:text-white">{currentBg.toUpperCase()}</span>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
               {['#F8F8F8', '#141518', '#000000', ...activePalette.slice(0, 4)].map((hex, bi) => (
@@ -733,7 +733,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                 />
                 <div className="p-3.5 sm:px-4 flex items-center justify-between gap-2">
                   <span className="font-sans text-[13.5px] font-semibold text-[#171717] dark:text-white truncate">{preset.title}</span>
-                  <span className="font-mono text-[10.5px] text-[#707070] uppercase shrink-0">{preset.type}</span>
+                  <span className="font-mono text-xs text-[#707070] uppercase shrink-0">{preset.type}</span>
                 </div>
               </div>
             );
@@ -777,7 +777,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                   className="w-full h-[110px] overflow-hidden [&>svg]:w-full [&>svg]:h-full [&>svg]:block"
                   dangerouslySetInnerHTML={{ __html: varSvg }}
                 />
-                <div className="p-2 sm:px-2.5 font-mono text-[10.5px] font-semibold text-[#707070] dark:text-[#8E8E93] text-center uppercase">{v.label}</div>
+                <div className="p-2 sm:px-2.5 font-mono text-xs font-semibold text-[#707070] dark:text-[#8E8E93] text-center uppercase">{v.label}</div>
               </div>
             );
           })}
@@ -851,7 +851,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
               </KromaButton>
             </div>
 
-            <pre className="font-mono text-[11.5px] bg-black/[0.03] dark:bg-white/[0.04] p-3 rounded-[2px] overflow-x-auto overflow-y-auto whitespace-pre-wrap break-words [overflow-wrap:anywhere] text-[#171717] dark:text-[#E0E0E0] max-h-[140px] w-full max-w-full min-w-0 box-border">
+            <pre className="font-mono text-xs bg-black/[0.03] dark:bg-white/[0.04] p-3 rounded-[2px] overflow-x-auto overflow-y-auto whitespace-pre-wrap break-words [overflow-wrap:anywhere] text-[#171717] dark:text-[#E0E0E0] max-h-[140px] w-full max-w-full min-w-0 box-border">
               <code className="block w-full max-w-full min-w-0 whitespace-inherit break-words [overflow-wrap:anywhere]">{cssCode}</code>
             </pre>
 

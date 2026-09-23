@@ -318,7 +318,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       />
 
       {/* ── 1. Minimal Editorial Breadcrumb ─────────────────────── */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-sans text-[11.5px] font-medium tracking-wider uppercase mb-6">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-sans text-xs font-medium tracking-wider uppercase mb-6">
         <KromaButton
           variant="ghost"
           size="sm"
@@ -342,7 +342,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
       {/* ── 2. Compact Editorial Intro ─────────────────────────── */}
       <header className="mb-8 flex flex-col gap-2">
-        <div className="font-mono text-[11px] font-semibold tracking-widest uppercase text-kroma-muted dark:text-[#8E8E93] flex items-center gap-2 flex-wrap">
+        <div className="font-mono text-xs font-semibold tracking-widest uppercase text-kroma-muted dark:text-[#8E8E93] flex items-center gap-2 flex-wrap">
           <span className="w-1.5 h-1.5 rounded-xs bg-[#BFA3F0]" />
           <span>COLOR LABORATORY</span>
           <span className="text-[var(--text-tertiary)]">•</span>
@@ -351,7 +351,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           <span>{harmony.toUpperCase()}</span>
         </div>
 
-        <h1 className="font-sans font-medium text-[clamp(36px,6vw,84px)] leading-[0.9] tracking-[-0.05em] text-kroma-text dark:text-white uppercase select-none my-0">
+        <h1 className="font-sans font-bold text-[clamp(36px,6vw,84px)] leading-[1.05] tracking-tight text-kroma-text dark:text-white uppercase select-none my-0">
           MAKE A COLOR SYSTEM.
         </h1>
 
@@ -436,7 +436,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                     </span>
 
                     <span
-                      className={`font-mono text-[10px] font-bold px-1.5 py-0.5 rounded-xs bg-black/25 text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity ${
+                      className={`font-mono text-xs font-bold px-1.5 py-0.5 rounded-xs bg-black/25 text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity ${
                         copiedHex === color.hex ? 'opacity-100 bg-[#34C759]! border-[#34C759]!' : ''
                       }`}
                     >
@@ -465,7 +465,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
             GENERATE
           </KromaButton>
 
-          <span className="font-mono text-[11px] text-kroma-muted dark:text-[#8E8E93] hidden md:inline">
+          <span className="font-mono text-xs text-kroma-muted dark:text-[#8E8E93] hidden md:inline">
             (SPACEBAR)
           </span>
 
@@ -539,7 +539,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Control 1: Base Color */}
           <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-3">
-            <div className="flex items-center justify-between font-mono text-[10.5px] font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
+            <div className="flex items-center justify-between font-mono text-xs font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
               <span className="tracking-wider">BASE COLOR</span>
               <span className="text-kroma-text dark:text-white font-bold">SEED</span>
             </div>
@@ -566,20 +566,20 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
               <div className="flex flex-col">
                 <span className="font-mono text-sm font-bold text-kroma-text dark:text-white">{baseColor}</span>
-                <span className="text-[10.5px] font-sans text-[var(--text-tertiary)] uppercase tracking-wider">
+                <span className="text-xs font-sans text-[var(--text-tertiary)] uppercase tracking-wider">
                   {findClosestColorName(baseColor)}
                 </span>
               </div>
             </div>
 
-            <p className="text-[11.5px] text-[var(--text-secondary)] m-0 leading-relaxed">
+            <p className="text-xs text-[var(--text-secondary)] m-0 leading-relaxed">
               Acts as chromatic anchor for harmonic distributions.
             </p>
           </div>
 
           {/* Control 2: Color Harmony */}
           <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-3">
-            <div className="flex items-center justify-between font-mono text-[10.5px] font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
+            <div className="flex items-center justify-between font-mono text-xs font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
               <span className="tracking-wider">HARMONY SYSTEM</span>
               <span className="text-kroma-text dark:text-white font-bold">{harmony.toUpperCase()}</span>
             </div>
@@ -600,7 +600,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                   variant={harmony === h.id ? 'filled' : 'outline'}
                   size="sm"
                   onClick={() => handleHarmonyChange(h.id)}
-                  className={`p-2 font-mono text-[11px] uppercase rounded-xs border transition-colors cursor-pointer flex items-center justify-between w-full h-auto ${
+                  className={`p-2 font-mono text-xs uppercase rounded-xs border transition-colors cursor-pointer flex items-center justify-between w-full h-auto ${
                     harmony === h.id
                       ? 'border-kroma-text dark:border-white font-bold bg-black/[0.06] dark:bg-white/[0.1] text-kroma-text dark:text-white'
                       : 'border-black/10 dark:border-white/10 text-kroma-muted hover:text-kroma-text dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
@@ -621,7 +621,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
           {/* Control 3: Colors Count & Contrast Intelligence */}
           <div className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-5 flex flex-col gap-3">
-            <div className="flex items-center justify-between font-mono text-[10.5px] font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
+            <div className="flex items-center justify-between font-mono text-xs font-bold uppercase border-b border-black/[0.06] dark:border-white/[0.06] pb-2 text-kroma-muted dark:text-[#8E8E93]">
               <span className="tracking-wider">PALETTE SIZE</span>
               <span className="text-kroma-text dark:text-white font-bold">{colorCount} STEPS</span>
             </div>
@@ -652,11 +652,11 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                 ) : (
                   <AlertCircle size={13} className="text-[#FF9500]" />
                 )}
-                <span className="font-mono text-[11px] font-bold text-[var(--text-primary)]">
+                <span className="font-mono text-xs font-bold text-[var(--text-primary)]">
                   {paletteContrast.label}
                 </span>
               </div>
-              <span className="font-mono text-[10.5px] text-[var(--text-secondary)]">
+              <span className="font-mono text-xs text-[var(--text-secondary)]">
                 {paletteContrast.ratio}:1 MAX
               </span>
             </div>
@@ -673,7 +673,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
               Alternative harmonic compositions derived from the current chromatic seed.
             </p>
           </div>
-          <span className="font-mono text-[11px] text-[var(--text-tertiary)] uppercase tracking-wider">
+          <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider">
             6 DERIVATIONS
           </span>
         </div>
@@ -695,7 +695,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                   />
                 ))}
               </div>
-              <div className="font-mono text-[10px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider text-center">{v.label}</div>
+              <div className="font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider text-center">{v.label}</div>
             </div>
           ))}
         </div>
@@ -720,24 +720,24 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
           <div className="flex items-center gap-6 flex-wrap">
             <div className="flex flex-col gap-0.5">
-              <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">NAME</span>
+              <span className="font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">NAME</span>
               <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">{activeColor.name}</span>
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">HEX</span>
+              <span className="font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">HEX</span>
               <span className="font-mono text-xs font-bold text-kroma-text dark:text-white">{activeColor.hex}</span>
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">RGB</span>
+              <span className="font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">RGB</span>
               <span className="font-mono text-xs font-bold text-kroma-text dark:text-white">
                 {activeRgb ? `${activeRgb.r}, ${activeRgb.g}, ${activeRgb.b}` : '—'}
               </span>
             </div>
 
             <div className="flex flex-col gap-0.5">
-              <span className="font-mono text-[9px] font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">OKLCH</span>
+              <span className="font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider">OKLCH</span>
               <span className="font-mono text-xs font-bold text-kroma-text dark:text-white truncate">{activeOklch}</span>
             </div>
           </div>

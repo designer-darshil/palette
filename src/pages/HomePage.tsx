@@ -160,8 +160,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
         {/* Hero Typography & Content */}
         <div className="relative z-10 max-w-full">
-          <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">THE COLOR STUDIO</span>
-          <h1 className="font-sans text-[clamp(64px,11vw,160px)] font-bold leading-[0.86] tracking-[-0.065em] text-[#171717] dark:text-white m-0 p-0 uppercase pointer-events-none">
+          <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">THE COLOR STUDIO</span>
+          <h1 className="font-sans text-[clamp(44px,9vw,140px)] font-bold leading-[1.02] tracking-tight text-[#171717] dark:text-white m-0 p-0 uppercase pointer-events-none">
             COLOR<br />
             CHANGES<br />
             EVERYTHING.
@@ -198,7 +198,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           SECTION 02 — COLOR OF THE MOMENT
           ═════════════════════════════════════════════════════════ */}
       <section className="my-12 md:my-16 lg:my-[88px] flex flex-col" aria-label="Color of the Moment">
-        <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">COLOR OF THE MOMENT</span>
+        <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">COLOR OF THE MOMENT</span>
         <div
           className="group/moment relative w-full min-h-[320px] md:min-h-[440px] rounded p-5 md:p-8 flex flex-col justify-between cursor-pointer transition-all duration-300 hover:scale-[1.012] hover:shadow-[0_20px_48px_-12px_rgba(0,0,0,0.2)] select-none box-border"
           style={{ backgroundColor: momentColor.hex, color: '#FFFFFF' }}
@@ -241,8 +241,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="my-16 md:my-24 lg:my-[120px]" aria-label="Discover Palettes">
         <div className="flex items-end justify-between mb-7">
           <div>
-            <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">CURATED SYSTEMS</span>
-            <h2 className="font-sans text-[clamp(28px,4vw,48px)] font-bold tracking-[-0.035em] uppercase m-0">DISCOVER PALETTES</h2>
+            <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">CURATED SYSTEMS</span>
+            <h2 className="font-sans text-[clamp(28px,4vw,48px)] font-bold tracking-tight uppercase m-0 leading-[1.08]">DISCOVER PALETTES</h2>
           </div>
           <KromaButton
             variant="outline"
@@ -275,7 +275,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
               <div className="p-3.5 sm:p-4 flex items-center justify-between">
                 <span className="font-sans text-[15px] font-bold tracking-[-0.01em] truncate">{palette.title}</span>
-                <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] group-hover/pcard:text-[#171717] dark:group-hover/pcard:text-white inline-flex items-center gap-1 transition-all group-hover/pcard:translate-x-0.5">
+                <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] group-hover/pcard:text-[#171717] dark:group-hover/pcard:text-white inline-flex items-center gap-1 transition-all group-hover/pcard:translate-x-0.5">
                   <span>VIEW</span>
                   <ArrowUpRight size={12} />
                 </span>
@@ -290,8 +290,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           ═════════════════════════════════════════════════════════ */}
       <section className="my-16 md:my-24 lg:my-[120px] grid grid-cols-1 md:grid-cols-[1fr_1.3fr] gap-8 md:gap-12 items-center" aria-label="Color Exploration">
         <div>
-          <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">EXPLORATION</span>
-          <h2 className="font-sans text-[clamp(48px,7vw,100px)] font-bold leading-[0.88] tracking-[-0.05em] uppercase mb-5">
+          <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">EXPLORATION</span>
+          <h2 className="font-sans text-[clamp(36px,6vw,84px)] font-bold leading-[1.04] tracking-tight uppercase mb-5">
             FIND<br />
             YOUR<br />
             COLOR.
@@ -312,7 +312,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               aria-label={`Explore ${family.name} color family`}
             >
               <span className="font-sans text-sm font-bold tracking-[-0.01em]">{family.name}</span>
-              <span className="font-mono text-[11px] font-semibold opacity-95">{family.hex}</span>
+              <span className="font-mono text-xs font-semibold opacity-95">{family.hex}</span>
             </Link>
           ))}
         </div>
@@ -324,8 +324,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="my-16 md:my-24 lg:my-[120px] bg-[#171717] text-[#F8F8F8] rounded-[4px] p-5 sm:p-9 md:p-12 lg:p-16 box-border" aria-label="Generative Engine">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-9 md:gap-12 items-center">
           <div>
-            <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#00AEEF] inline-flex items-center gap-2 mb-4">GENERATIVE STUDIO</span>
-            <h2 className="font-sans text-[clamp(36px,5.5vw,76px)] font-bold leading-[0.9] tracking-[-0.04em] uppercase mb-4 text-white">
+            <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#00AEEF] inline-flex items-center gap-2 mb-4">GENERATIVE STUDIO</span>
+            <h2 className="font-sans text-[clamp(32px,5.5vw,72px)] font-bold leading-[1.05] tracking-tight uppercase mb-4 text-white">
               MAKE<br />
               A COLOR<br />
               YOU'VE NEVER<br />
@@ -385,11 +385,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ═════════════════════════════════════════════════════════
           SECTION 06 — FROM IMAGE TO COLOR
           ═════════════════════════════════════════════════════════ */}
+      {/* ═════════════════════════════════════════════════════════
+          SECTION 06 — FROM IMAGE TO COLOR
+          ═════════════════════════════════════════════════════════ */}
       <section className="my-16 md:my-24 lg:my-[120px] flex flex-col gap-7" aria-label="Extract From Image">
         <div className="flex items-end justify-between flex-wrap gap-4">
           <div>
-            <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">PHOTO EXTRACTION</span>
-            <h2 className="font-sans text-[clamp(32px,5vw,68px)] font-bold tracking-[-0.035em] uppercase m-0 leading-[0.95]">YOUR IMAGE. YOUR PALETTE.</h2>
+            <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">PHOTO EXTRACTION</span>
+            <h2 className="font-sans text-[clamp(28px,5vw,60px)] font-bold tracking-tight uppercase m-0 leading-[1.08]">YOUR IMAGE. YOUR PALETTE.</h2>
           </div>
           <KromaButton
             variant="outline"
@@ -428,7 +431,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 key={pin.id}
                 variant="ghost"
                 size="sm"
-                className="flex items-center gap-1.5 font-mono text-[11px] text-white py-1 px-2 rounded-full bg-white/10"
+                className="flex items-center gap-1.5 font-mono text-xs text-white py-1 px-2.5 rounded-full bg-white/10"
                 onClick={() => handleCopyPinHex(pin.hex, pin.id)}
                 title={`Click to copy ${pin.hex}`}
                 iconLeft={<span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: pin.hex }} />}
@@ -446,8 +449,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="my-16 md:my-24 lg:my-[120px]" aria-label="Collections and Inspiration">
         <div className="flex items-end justify-between mb-7 flex-wrap gap-4">
           <div>
-            <span className="font-sans text-[11.5px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">INSPIRATION ARCHIVE</span>
-            <h2 className="font-sans text-[clamp(32px,5vw,68px)] font-bold tracking-[-0.035em] uppercase m-0 leading-[0.95]">KEEP WHAT INSPIRES YOU.</h2>
+            <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">INSPIRATION ARCHIVE</span>
+            <h2 className="font-sans text-[clamp(28px,5vw,60px)] font-bold tracking-tight uppercase m-0 leading-[1.08]">KEEP WHAT INSPIRES YOU.</h2>
           </div>
           <KromaButton
             variant="outline"
@@ -485,7 +488,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </div>
                 <div className="p-4 flex flex-col justify-between flex-1">
                   <div className="font-sans text-[16px] font-bold tracking-[-0.01em]">{col.title}</div>
-                  <div className="font-mono text-[11px] text-[#707070] dark:text-[#909090] flex items-center justify-between">
+                  <div className="font-mono text-xs text-[#707070] dark:text-[#909090] flex items-center justify-between">
                     <span>BY {col.creator.name.toUpperCase()}</span>
                     <span>{col.items.length} ITEMS</span>
                   </div>
@@ -500,7 +503,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           SECTION 08 — COLOR STATEMENT
           ═════════════════════════════════════════════════════════ */}
       <section className="flex flex-col items-center justify-center text-center pt-24 pb-28 select-none" aria-label="Final Creative Statement">
-        <h2 className="font-sans text-[clamp(48px,8vw,120px)] font-semibold leading-[0.9] tracking-[-0.055em] uppercase text-[#171717] dark:text-white max-w-[960px] mx-auto mb-9">
+        <h2 className="font-sans text-[clamp(40px,7.5vw,108px)] font-bold leading-[1.04] tracking-tight uppercase text-[#171717] dark:text-white max-w-[960px] mx-auto mb-9">
           THERE'S A<br />
           COLOR FOR<br />
           EVERY IDEA.

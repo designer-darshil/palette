@@ -16,7 +16,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
           <Sparkles size={14} style={{ color: 'var(--color-primary-text)' }} />
           <span>Curated Motion Presets</span>
         </label>
-        <span className="text-[11px] text-[var(--text-tertiary)] hidden sm:inline">
+        <span className="text-xs text-[var(--text-tertiary)] hidden sm:inline">
           Deterministic baseline physics profiles
         </span>
       </div>
@@ -53,7 +53,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ activePreset, on
               }
             >
               <span>{preset.name}</span>
-              <span className="text-[10px] text-[var(--text-tertiary)] opacity-80">
+              <span className="text-xs text-[var(--text-tertiary)] opacity-80">
                 {preset.config.gravityY !== undefined ? `(gy: ${preset.config.gravityY > 0 ? `+${preset.config.gravityY}` : preset.config.gravityY})` : ''}
               </span>
             </KromaButton>

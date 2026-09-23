@@ -89,7 +89,7 @@ export const PatternCard: React.FC<PatternCardProps> = ({
           className="w-full h-full transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/pat:scale-105 motion-reduce:transform-none"
           dangerouslySetInnerHTML={{ __html: svgPreview }}
         />
-        <span className="absolute top-2.5 right-2.5 font-mono text-[9px] font-semibold uppercase px-1.5 py-0.5 rounded-[2px] bg-black/70 text-white backdrop-blur-xs tracking-wider">
+        <span className="absolute top-2.5 right-2.5 font-mono text-xs font-semibold uppercase px-1.5 py-0.5 rounded-[2px] bg-black/70 text-white backdrop-blur-xs tracking-wider">
           {pattern.type}
         </span>
       </div>
@@ -129,7 +129,7 @@ export const PatternCard: React.FC<PatternCardProps> = ({
 
         {/* Minimal Footer & Controls */}
         <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
-          <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase tracking-wider">
             {pattern.scale}PX · {pattern.density}% DENSITY
           </span>
 

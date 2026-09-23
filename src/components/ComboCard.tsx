@@ -128,7 +128,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
 
         {/* Minimal Relationship Footer */}
         <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
-          <div className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+          <div className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090]">
             <span>{combo.harmonyType}</span>
             <ArrowRight size={11} className="transition-transform group-hover/combo:translate-x-0.5" />
           </div>

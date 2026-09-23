@@ -261,7 +261,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           {/* Quick Suggestions when empty: Color pills with actual colors */}
           {!rawQ && (
             <div className="p-4 flex flex-col gap-3">
-              <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
+              <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase tracking-wider font-semibold">
                 POPULAR CHROMATIC SEARCHES
               </span>
               <div className="flex flex-wrap gap-2">
@@ -305,7 +305,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                       <Wand2 size={13} />
                     </span>
                     <span className="font-bold text-xs text-[var(--text-primary)]">{tool.name}</span>
-                    <span className="text-[11px] text-[var(--text-secondary)]">{tool.desc}</span>
+                    <span className="text-xs text-[var(--text-secondary)]">{tool.desc}</span>
                   </div>
                   <ArrowRight size={13} className="text-[var(--text-tertiary)]" />
                 </div>
@@ -328,9 +328,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                   <div className="flex items-center gap-2.5">
                     <span className="w-4 h-4 rounded-xs border border-black/20" style={{ backgroundColor: c.hex }} />
                     <span className="font-bold text-xs text-[var(--text-primary)]">{c.name}</span>
-                    <span className="font-mono text-[11px] text-[var(--text-secondary)]">{c.hex}</span>
+                    <span className="font-mono text-xs text-[var(--text-secondary)]">{c.hex}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-[var(--text-tertiary)]">{c.family}</span>
+                  <span className="text-xs font-mono text-[var(--text-tertiary)]">{c.family}</span>
                 </div>
               ))}
             </div>
@@ -356,7 +356,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                     </div>
                     <span className="font-bold text-xs text-[var(--text-primary)]">{p.title}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">{p.category}</span>
+                  <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase">{p.category}</span>
                 </div>
               ))}
             </div>
@@ -378,7 +378,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                     <Layers size={14} className="text-[var(--color-primary)]" />
                     <span className="font-bold text-xs text-[var(--text-primary)]">{col.title}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-[var(--text-tertiary)]">{col.items.length} items</span>
+                  <span className="text-xs font-mono text-[var(--text-tertiary)]">{col.items.length} items</span>
                 </div>
               ))}
             </div>
@@ -400,7 +400,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                     <Grid size={14} className="text-[var(--accent-gold)]" />
                     <span className="font-bold text-xs text-[var(--text-primary)]">{pat.title}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">{pat.type}</span>
+                  <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase">{pat.type}</span>
                 </div>
               ))}
             </div>
@@ -422,7 +422,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                     <Users size={14} className="text-emerald-400" />
                     <span className="font-bold text-xs text-[var(--text-primary)]">{cr.name}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-[var(--text-tertiary)]">@{cr.username}</span>
+                  <span className="text-xs font-mono text-[var(--text-tertiary)]">@{cr.username}</span>
                 </div>
               ))}
             </div>

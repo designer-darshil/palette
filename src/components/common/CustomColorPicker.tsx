@@ -449,7 +449,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
     >
       {/* Header bar if onClose is provided */}
       {onClose && (
-        <div className="flex items-center justify-between pb-1 border-b border-[var(--border-subtle)] text-[10px] font-mono">
+        <div className="flex items-center justify-between pb-1 border-b border-[var(--border-subtle)] text-xs font-mono">
           <span className="font-bold uppercase tracking-wider text-[var(--text-secondary)]">
             Color Inspector
           </span>
@@ -609,7 +609,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
               size="sm"
               variant="ghost"
               onClick={handleCycleFormatMode}
-              className="flex items-center gap-1 px-1.5 py-1 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs text-[10px] font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] h-auto"
+              className="flex items-center gap-1 px-1.5 py-1 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs text-xs font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] h-auto"
               title="Click to cycle color format (HEX / RGB / HSL)"
               iconRight={<ChevronDown size={10} className="text-[var(--text-tertiary)]" />}
             >
@@ -621,7 +621,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
           <div className="flex-1 flex items-center gap-1 min-w-0">
             {formatMode === 'HEX' && (
               <div className="flex-1 flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-2 py-1 min-w-0 focus-within:border-[var(--color-primary)]">
-                <span className="font-mono text-[11px] text-[var(--text-tertiary)] mr-0.5">#</span>
+                <span className="font-mono text-xs text-[var(--text-tertiary)] mr-0.5">#</span>
                 <input
                   type="text"
                   maxLength={6}
@@ -641,7 +641,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                     key={channel}
                     className="flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-1.5 py-1 focus-within:border-[var(--color-primary)]"
                   >
-                    <span className="font-mono text-[9px] text-[var(--text-tertiary)] uppercase mr-1">
+                    <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase mr-1">
                       {channel}
                     </span>
                     <input
@@ -664,7 +664,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                     key={channel}
                     className="flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-1.5 py-1 focus-within:border-[var(--color-primary)]"
                   >
-                    <span className="font-mono text-[9px] text-[var(--text-tertiary)] uppercase mr-1">
+                    <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase mr-1">
                       {channel}
                     </span>
                     <input
@@ -705,7 +705,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
         </div>
 
         {/* Color Name Tag */}
-        <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-tertiary)] px-0.5">
+        <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)] px-0.5">
           <span className="truncate max-w-[150px]">{colorName}</span>
           <span>{currentHex}</span>
         </div>
@@ -714,7 +714,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
       {/* 4. Recent Swatches Row */}
       {showRecent && recentColors.length > 0 && (
         <div className="flex flex-col gap-1.5 pt-1.5 border-t border-[var(--border-subtle)]">
-          <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-tertiary)] uppercase font-semibold">
+          <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)] uppercase font-semibold">
             <span>Recent</span>
             <span>{recentColors.length} saved</span>
           </div>

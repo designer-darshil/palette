@@ -83,7 +83,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
       >
         {/* Subtle hover copy pill badge */}
         <span
-          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-[2px] font-mono text-[11px] font-medium tracking-wider text-white bg-black/70 backdrop-blur-xs shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-150 ${
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-[2px] font-mono text-xs font-semibold tracking-wider text-white bg-black/70 backdrop-blur-xs shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-150 ${
             copied ? 'opacity-100 scale-100' : 'opacity-0 scale-95 group-hover/color:opacity-100 group-hover/color:scale-100'
           }`}
         >
@@ -137,7 +137,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
 
         {/* Minimal Specimen Footer */}
         <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
-          <span className="font-mono text-[10px] uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+          <span className="font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090]">
             {color.family} • {color.tone}
           </span>
 

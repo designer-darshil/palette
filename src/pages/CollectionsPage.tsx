@@ -35,7 +35,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
 
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
-        <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+        <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold">COLLECTIONS</span>
@@ -54,7 +54,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
 
       {/* Hero */}
       <header className="mb-14">
-        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">INSPIRATION ARCHIVE</span>
+        <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-secondary block mb-4">INSPIRATION ARCHIVE</span>
         <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
           KEEP WHAT<br />
           INSPIRES YOU.
@@ -93,7 +93,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
 
                 <div className="p-5 sm:p-6 flex flex-col justify-between flex-1">
                   <div>
-                    <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase tracking-widest block mb-1.5">
+                    <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider block mb-1.5">
                       COLLECTION 0{idx + 1}
                     </span>
 
@@ -125,7 +125,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
             size="sm"
             variant="filled"
             onClick={() => onNavigate({ path: 'colors' })}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3"
+            className="font-mono text-xs font-medium tracking-[0.08em] uppercase px-6 py-3"
             iconRight={<ArrowUpRight size={13} />}
           >
             <span>EXPLORE COLORS</span>
@@ -141,7 +141,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
-              <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-0">NEW COLLECTION</span>
+              <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-secondary mb-0">NEW COLLECTION</span>
               <KromaButton
                 size="icon"
                 variant="ghost"

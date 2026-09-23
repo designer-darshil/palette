@@ -220,7 +220,7 @@ export const AdminCombosPage: React.FC = () => {
       <div className="admin-table-container">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] text-[#595959] dark:text-[#9DA3AF]">
+            <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-xs text-[#595959] dark:text-[#9DA3AF]">
               <th className="py-2.5 px-4 font-semibold">PAIRING SWATCHES</th>
               <th className="py-2.5 px-4 font-semibold">TITLE</th>
               <th className="py-2.5 px-4 font-semibold">HARMONY TYPE</th>
@@ -252,10 +252,10 @@ export const AdminCombosPage: React.FC = () => {
                 <td className="py-2.5 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
                   {combo.title}
                 </td>
-                <td className="py-2.5 px-4 font-mono text-[11px] text-[#595959] dark:text-[#9DA3AF]">
+                <td className="py-2.5 px-4 font-mono text-xs text-[#595959] dark:text-[#9DA3AF]">
                   {combo.harmonyType}
                 </td>
-                <td className="py-2.5 px-4 font-mono text-[11px]">
+                <td className="py-2.5 px-4 font-mono text-xs">
                   <span className="px-1.5 py-0.5 rounded-xs bg-[#1B8738]/10 text-[#1B8738] dark:bg-[#34C759]/15 dark:text-[#34C759] font-bold">
                     {combo.contrastScore}
                   </span>
@@ -354,7 +354,7 @@ export const AdminCombosPage: React.FC = () => {
 
             <form onSubmit={handleSave} className="flex flex-col gap-4 text-xs font-mono">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                   HARMONY TITLE
                 </label>
                 <input
@@ -369,7 +369,7 @@ export const AdminCombosPage: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                  <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                     HARMONY TYPE
                   </label>
                   <select
@@ -386,7 +386,7 @@ export const AdminCombosPage: React.FC = () => {
                   </select>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                  <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                     CONTRAST SCORE
                   </label>
                   <input
@@ -402,14 +402,14 @@ export const AdminCombosPage: React.FC = () => {
               {/* Color Role Swatches */}
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
-                  <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                  <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                     COLOR PARTICIPANTS ({formData.colors.length})
                   </label>
                   {formData.colors.length < 5 && (
                     <button
                       type="button"
                       onClick={addColorSlot}
-                      className="text-[11px] text-[#0077A8] dark:text-[#00AEEF] hover:underline font-bold"
+                      className="text-xs text-[#0077A8] dark:text-[#00AEEF] hover:underline font-bold"
                     >
                       + Add Swatch
                     </button>
@@ -421,7 +421,7 @@ export const AdminCombosPage: React.FC = () => {
                   {formData.colors.map((c, i) => (
                     <div
                       key={i}
-                      className="flex-1 h-full flex items-center justify-center text-[10px] font-mono font-bold text-white drop-shadow-sm"
+                      className="flex-1 h-full flex items-center justify-center text-xs font-mono font-bold text-white drop-shadow-sm"
                       style={{ backgroundColor: c.hex }}
                     >
                       {c.hex}
@@ -445,14 +445,14 @@ export const AdminCombosPage: React.FC = () => {
                         type="text"
                         value={c.hex}
                         onChange={(e) => updateColorSwatch(idx, e.target.value)}
-                        className="w-20 px-2 py-1 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs font-mono uppercase text-[11px]"
+                        className="w-20 px-2 py-1 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs font-mono uppercase text-xs"
                       />
                       <input
                         type="text"
                         value={c.role}
                         onChange={(e) => updateColorSwatch(idx, c.hex, e.target.value)}
                         placeholder="Role name..."
-                        className="flex-1 px-2 py-1 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs text-[11px]"
+                        className="flex-1 px-2 py-1 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs text-xs"
                       />
                       {formData.colors.length > 2 && (
                         <button
@@ -470,7 +470,7 @@ export const AdminCombosPage: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold text-[#595959] dark:text-[#9DA3AF]">
+                <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
                   DESCRIPTION / USAGE NOTES
                 </label>
                 <textarea
@@ -537,7 +537,7 @@ export const AdminCombosPage: React.FC = () => {
                   className="flex-1 h-full flex flex-col justify-end p-2"
                   style={{ backgroundColor: c.hex }}
                 >
-                  <span className="font-mono text-[9px] font-bold px-1 rounded-xs bg-black/50 text-white truncate text-center">
+                  <span className="font-mono text-xs font-bold px-1 rounded-xs bg-black/50 text-white truncate text-center">
                     {c.hex}
                   </span>
                 </div>

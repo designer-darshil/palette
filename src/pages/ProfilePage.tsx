@@ -128,7 +128,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
                       </KromaCardVisual>
                       <KromaCardBody className="py-2.5 px-3">
                         <div className="font-sans font-bold text-xs text-[#171717] dark:text-white truncate">{item.title}</div>
-                        <div className="font-mono text-[10px] text-[#707070] uppercase mt-0.5">{item.type}</div>
+                        <div className="font-mono text-xs text-[#707070] uppercase mt-0.5">{item.type}</div>
                       </KromaCardBody>
                     </div>
 
@@ -156,7 +156,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
                         size="icon"
                         variant="ghost"
                         onClick={() => removeItem(item.id)}
-                        className="text-[11px] text-[#707070] hover:text-[#FF3B30] p-1 h-6 w-6"
+                        className="text-xs text-[#707070] hover:text-[#FF3B30] p-1 h-6 w-6"
                         title="Remove from saved"
                         aria-label="Remove from saved"
                         iconLeft={<Trash2 size={12} />}
@@ -208,7 +208,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
                 <KromaCard key={item.id} variant="default">
                   <KromaCardBody className="p-3.5">
                     <div className="font-sans font-bold text-xs text-[#171717] dark:text-white truncate">{item.title}</div>
-                    <div className="font-mono text-[10px] text-[#707070] uppercase mt-0.5">{item.type}</div>
+                    <div className="font-mono text-xs text-[#707070] uppercase mt-0.5">{item.type}</div>
                   </KromaCardBody>
                 </KromaCard>
               ))}
@@ -234,7 +234,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
                 <KromaCard key={item.id} variant="default">
                   <KromaCardBody className="p-3.5">
                     <div className="font-sans font-bold text-xs text-[#171717] dark:text-white truncate">{item.title}</div>
-                    <div className="font-mono text-[10px] text-[#707070] uppercase mt-0.5">{item.metadata}</div>
+                    <div className="font-mono text-xs text-[#707070] uppercase mt-0.5">{item.metadata}</div>
                   </KromaCardBody>
                 </KromaCard>
               ))}

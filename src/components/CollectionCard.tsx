@@ -64,7 +64,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ collection, onNa
           </div>
         )}
 
-        <span className="absolute bottom-2.5 right-2.5 font-mono text-[10px] font-bold px-2 py-0.5 rounded-[2px] bg-black/75 text-white backdrop-blur-xs tracking-wider">
+        <span className="absolute bottom-2.5 right-2.5 font-mono text-xs font-bold px-2 py-0.5 rounded-[2px] bg-black/75 text-white backdrop-blur-xs tracking-wider">
           {collection.items.length} {collection.items.length === 1 ? 'SPECIMEN' : 'SPECIMENS'}
         </span>
       </div>
@@ -90,7 +90,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ collection, onNa
 
         {/* Minimal Footer & Actions */}
         <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
-          <span className="font-mono text-[10px] text-[#707070] dark:text-[#909090] uppercase tracking-wider truncate">
+          <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase tracking-wider truncate">
             BY {collection.creator.name}
           </span>
 

@@ -179,7 +179,7 @@ export const AdminUsersPage: React.FC = () => {
       <div className="admin-table-container">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF]">
+            <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">
               <th className="py-2.5 px-4 font-semibold">USER</th>
               <th className="py-2.5 px-4 font-semibold">EMAIL</th>
               <th className="py-2.5 px-4 font-semibold">ROLE</th>
@@ -197,15 +197,15 @@ export const AdminUsersPage: React.FC = () => {
                 <td className="py-2.5 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
                   {user.name}
                   {user.id === currentUser?.id && (
-                    <span className="ml-2 font-mono text-[9px] uppercase px-1 py-0.2 bg-[#D70015]/15 dark:bg-[#FF453A]/15 text-[#D70015] dark:text-[#FF453A] rounded-xs font-bold">
+                    <span className="ml-2 font-mono text-xs uppercase px-1.5 py-0.5 bg-[#D70015]/15 dark:bg-[#FF453A]/15 text-[#D70015] dark:text-[#FF453A] rounded-xs font-bold">
                       YOU
                     </span>
                   )}
                 </td>
-                <td className="py-2.5 px-4 font-mono text-[11px] text-[#595959] dark:text-[#9DA3AF]">
+                <td className="py-2.5 px-4 font-mono text-xs text-[#595959] dark:text-[#9DA3AF]">
                   {user.email}
                 </td>
-                <td className="py-2.5 px-4 font-mono text-[11px] uppercase">
+                <td className="py-2.5 px-4 font-mono text-xs uppercase">
                   <span
                     className={`font-bold ${user.role === 'super_admin' ? 'text-[#D70015] dark:text-[#FF453A]' : 'text-[#0077A8] dark:text-[#00AEEF]'}`}
                   >
@@ -214,7 +214,7 @@ export const AdminUsersPage: React.FC = () => {
                 </td>
                 <td className="py-2.5 px-4">
                   <span
-                    className={`inline-flex items-center gap-1 font-mono text-[10.5px] uppercase font-bold px-1.5 py-0.5 rounded-xs ${
+                    className={`inline-flex items-center gap-1 font-mono text-xs uppercase font-bold px-1.5 py-0.5 rounded-xs ${
                       user.status === 'active'
                         ? 'bg-[#1B8738]/10 text-[#1B8738] dark:bg-[#34C759]/10 dark:text-[#34C759]'
                         : 'bg-[#D70015]/10 text-[#D70015] dark:bg-[#FF453A]/10 dark:text-[#FF453A]'
@@ -224,7 +224,7 @@ export const AdminUsersPage: React.FC = () => {
                     {user.status}
                   </span>
                 </td>
-                <td className="py-2.5 px-4 font-mono text-[11px] text-[#595959] dark:text-[#9DA3AF]">
+                <td className="py-2.5 px-4 font-mono text-xs text-[#595959] dark:text-[#9DA3AF]">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td className="py-2.5 px-4 text-right">

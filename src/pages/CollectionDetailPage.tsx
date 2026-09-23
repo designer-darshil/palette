@@ -55,7 +55,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
 
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
-        <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+        <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
           <span>/</span>
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'collections' })}>COLLECTIONS</span>
@@ -96,8 +96,8 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
 
       {/* Header — Moodboard Identity */}
       <header className="mb-14">
-        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">CURATED MOODBOARD</span>
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">{collection.title}</h1>
+        <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">CURATED MOODBOARD</span>
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.08] tracking-tight text-text-primary uppercase m-0 mb-5">{collection.title}</h1>
         <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           {collection.description} Curated by {collection.creator.name} · {collection.items.length} specimens.
         </p>
@@ -133,7 +133,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-2">
+                  <div className="flex items-center justify-between font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider mb-2">
                     <span>SPECIMEN 0{idx + 1} · {item.type}</span>
                     <KromaButton
                       variant="ghost"
@@ -162,7 +162,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
                     {item.title}
                   </h3>
                   {item.metadata && (
-                    <p className="font-mono text-[11px] text-[var(--text-secondary)] uppercase">
+                    <p className="font-mono text-xs text-[var(--text-secondary)] uppercase">
                       {item.metadata}
                     </p>
                   )}
@@ -180,7 +180,7 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
                       else if (item.type === 'combo') onNavigate({ path: 'combo-detail', slug: item.slug });
                       else onNavigate({ path: 'pattern-detail', slug: item.slug });
                     }}
-                    className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary h-auto"
+                    className="font-mono text-xs tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary h-auto"
                   >
                     OPEN SPECIMEN
                   </KromaButton>

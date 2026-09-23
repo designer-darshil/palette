@@ -198,7 +198,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
       {/* ── 22: Editorial Breadcrumb ────────────────────────────── */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
-        <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+        <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
           <span>/</span>
           <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'explore' })}>TOOLS</span>
@@ -229,8 +229,8 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
       {/* ── 03: Page Intro ──────────────────────────────────────── */}
       <header className="mb-12">
-        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">COLOR / CONTRAST</span>
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
+        <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">COLOR / CONTRAST</span>
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
           SEE<br />
           HOW COLORS<br />
           SPEAK.
@@ -247,7 +247,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
           style={{ backgroundColor: bgHex, color: fgHex }}
         >
           {/* Top Canvas Label */}
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest opacity-80">
+          <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest opacity-80">
             <span>VISUAL CONTRAST FIELD</span>
             <span>{ratio}:1</span>
           </div>
@@ -275,7 +275,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
           {/* Background Control */}
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+            <div className="flex items-center justify-between font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
               <span>BACKGROUND</span>
               <span>{findClosestColorName(bgHex)}</span>
             </div>
@@ -328,12 +328,12 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
             </div>
 
             {/* Technical values with copy */}
-            <div className="flex items-center gap-3 font-mono text-[11px] text-[var(--text-secondary)]">
+            <div className="flex items-center gap-3 font-mono text-xs text-[var(--text-secondary)]">
               <KromaButton
                 variant="ghost"
                 size="sm"
                 onClick={() => handleCopyValue(bgHex, 'bg-hex')}
-                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="p-0 h-auto font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 HEX {copiedField === 'bg-hex' ? 'COPIED' : bgHex}
               </KromaButton>
@@ -342,7 +342,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={() => handleCopyValue(`rgb(${bgRgb?.r}, ${bgRgb?.g}, ${bgRgb?.b})`, 'bg-rgb')}
-                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="p-0 h-auto font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 RGB {copiedField === 'bg-rgb' ? 'COPIED' : `${bgRgb?.r}, ${bgRgb?.g}, ${bgRgb?.b}`}
               </KromaButton>
@@ -351,7 +351,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={() => handleCopyValue(`hsl(${bgHsl?.h}, ${bgHsl?.s}%, ${bgHsl?.l}%)`, 'bg-hsl')}
-                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="p-0 h-auto font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 HSL {copiedField === 'bg-hsl' ? 'COPIED' : `${bgHsl?.h}°, ${bgHsl?.s}%`}
               </KromaButton>
@@ -373,7 +373,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
           {/* Foreground Control */}
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+            <div className="flex items-center justify-between font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
               <span>FOREGROUND</span>
               <span>{findClosestColorName(fgHex)}</span>
             </div>
@@ -426,12 +426,12 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
             </div>
 
             {/* Technical values with copy */}
-            <div className="flex items-center gap-3 font-mono text-[11px] text-[var(--text-secondary)]">
+            <div className="flex items-center gap-3 font-mono text-xs text-[var(--text-secondary)]">
               <KromaButton
                 variant="ghost"
                 size="sm"
                 onClick={() => handleCopyValue(fgHex, 'fg-hex')}
-                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="p-0 h-auto font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 HEX {copiedField === 'fg-hex' ? 'COPIED' : fgHex}
               </KromaButton>
@@ -440,7 +440,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={() => handleCopyValue(`rgb(${fgRgb?.r}, ${fgRgb?.g}, ${fgRgb?.b})`, 'fg-rgb')}
-                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="p-0 h-auto font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 RGB {copiedField === 'fg-rgb' ? 'COPIED' : `${fgRgb?.r}, ${fgRgb?.g}, ${fgRgb?.b}`}
               </KromaButton>
@@ -449,7 +449,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={() => handleCopyValue(`hsl(${fgHsl?.h}, ${fgHsl?.s}%, ${fgHsl?.l}%)`, 'fg-hsl')}
-                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="p-0 h-auto font-mono text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 HSL {copiedField === 'fg-hsl' ? 'COPIED' : `${fgHsl?.h}°, ${fgHsl?.s}%`}
               </KromaButton>
@@ -463,7 +463,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
         {/* Left: Prominent Ratio & Scale (7 Cols) */}
         <div className="lg:col-span-7 flex flex-col justify-between">
           <div className="mb-6">
-            <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">LUMINANCE RATIO</span>
+            <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">LUMINANCE RATIO</span>
             <div className="flex items-baseline gap-4">
               <span className="font-sans text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[var(--text-primary)]">
                 {ratio} : 1
@@ -481,7 +481,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
           {/* 13: Horizontal Contrast Scale */}
           <div className="mt-4 pt-4 border-t border-[var(--border-subtle)]">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
+            <span className="font-mono text-xs uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
               CONTRAST SPECTRUM (1:1 TO 21:1)
             </span>
             <div className="w-full h-1 bg-border-subtle rounded-xs relative my-4 md:mb-6">
@@ -491,7 +491,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 title={`Current ratio: ${ratio}:1`}
               />
             </div>
-            <div className="flex justify-between font-mono text-[10px] text-[var(--text-secondary)] pt-1">
+            <div className="flex justify-between font-mono text-xs text-[var(--text-secondary)] pt-1">
               <span>1:1</span>
               <span>3:1 (AA Lg)</span>
               <span>4.5:1 (AA)</span>
@@ -503,7 +503,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
         {/* Right: 08 & 09 Accessibility Status (5 Cols) */}
         <div className="lg:col-span-5 p-5 border border-[var(--border-subtle)] rounded-xs">
-          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">WCAG 2.1 SPECIFICATION</span>
+          <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">WCAG 2.1 SPECIFICATION</span>
 
           <div className="flex flex-col">
             {/* Row 1: Normal AA */}
@@ -512,11 +512,11 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   NORMAL TEXT · AA
                 </div>
-                <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                <div className="font-mono text-xs text-[var(--text-secondary)]">
                   BODY TEXT &lt; 18PT (4.5:1)
                 </div>
               </div>
-              <span className={wcagNormalAA ? 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
+              <span className={wcagNormalAA ? 'font-mono text-xs font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-xs font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
                 ● {wcagNormalAA ? 'PASS' : 'FAIL'}
               </span>
             </div>
@@ -527,11 +527,11 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   NORMAL TEXT · AAA
                 </div>
-                <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                <div className="font-mono text-xs text-[var(--text-secondary)]">
                   ENHANCED READING (7.0:1)
                 </div>
               </div>
-              <span className={wcagNormalAAA ? 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
+              <span className={wcagNormalAAA ? 'font-mono text-xs font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-xs font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
                 ● {wcagNormalAAA ? 'PASS' : 'FAIL'}
               </span>
             </div>
@@ -542,11 +542,11 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   LARGE TEXT · AA
                 </div>
-                <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                <div className="font-mono text-xs text-[var(--text-secondary)]">
                   HEADINGS ≥ 18PT OR 14PT BOLD (3.0:1)
                 </div>
               </div>
-              <span className={wcagLargeAA ? 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
+              <span className={wcagLargeAA ? 'font-mono text-xs font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-xs font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
                 ● {wcagLargeAA ? 'PASS' : 'FAIL'}
               </span>
             </div>
@@ -557,11 +557,11 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 <div className="font-sans text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                   LARGE TEXT · AAA
                 </div>
-                <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                <div className="font-mono text-xs text-[var(--text-secondary)]">
                   ENHANCED HEADINGS (4.5:1)
                 </div>
               </div>
-              <span className={wcagLargeAAA ? 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-[11px] font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
+              <span className={wcagLargeAAA ? 'font-mono text-xs font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#34C759]/15 text-[#248A3D] dark:text-[#34C759] dark:bg-[#34C759]/20' : 'font-mono text-xs font-semibold tracking-wider px-2 py-0.5 rounded-xs bg-[#FF3B30]/15 text-[#C0271D] dark:text-[#FF453A] dark:bg-[#FF3B30]/20'}>
                 ● {wcagLargeAAA ? 'PASS' : 'FAIL'}
               </span>
             </div>
@@ -572,7 +572,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       {/* ── 10: Live Typography Test ("TEST IT.") ────────────────── */}
       <section className="mb-20">
         <div className="mb-6">
-          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">SCALE AUDIT</span>
+          <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">SCALE AUDIT</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             TEST IT.
           </h2>
@@ -584,7 +584,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
         >
           {/* 48px Display */}
           <div>
-            <span className="font-mono text-[10px] uppercase tracking-wider opacity-60 block mb-1">
+            <span className="font-mono text-xs uppercase tracking-wider opacity-60 block mb-1">
               48PX / DISPLAY HEADLINE
             </span>
             <div className="font-sans font-bold text-3xl sm:text-5xl tracking-tight leading-none">
@@ -594,7 +594,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
           {/* 24px Medium Heading */}
           <div>
-            <span className="font-mono text-[10px] uppercase tracking-wider opacity-60 block mb-1">
+            <span className="font-mono text-xs uppercase tracking-wider opacity-60 block mb-1">
               24PX / SECTION HEADING
             </span>
             <div className="font-sans font-semibold text-xl sm:text-2xl tracking-tight">
@@ -604,7 +604,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
           {/* 16px Paragraph */}
           <div>
-            <span className="font-mono text-[10px] uppercase tracking-wider opacity-60 block mb-1">
+            <span className="font-mono text-xs uppercase tracking-wider opacity-60 block mb-1">
               16PX / BODY PARAGRAPH
             </span>
             <p className="font-sans text-base leading-relaxed max-w-3xl opacity-90">
@@ -614,7 +614,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
           {/* 12px Small Body / Metadata */}
           <div>
-            <span className="font-mono text-[10px] uppercase tracking-wider opacity-60 block mb-1">
+            <span className="font-mono text-xs uppercase tracking-wider opacity-60 block mb-1">
               12PX / MICRO METADATA
             </span>
             <div className="font-mono text-xs uppercase tracking-wider opacity-80">
@@ -627,7 +627,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       {/* ── 11: Real-World Editorial Preview Composition ────────── */}
       <section className="mb-20">
         <div className="mb-6">
-          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">SURFACE COMPOSITION</span>
+          <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">SURFACE COMPOSITION</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             EDITORIAL PREVIEW
           </h2>
@@ -637,7 +637,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
           className="p-8 sm:p-12 rounded-xs border border-[var(--border-subtle)] flex flex-col justify-between min-h-[300px] transition-colors duration-300"
           style={{ backgroundColor: bgHex, color: fgHex }}
         >
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-widest pb-6 border-b border-current/15 opacity-80">
+          <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest pb-6 border-b border-current/15 opacity-80">
             <span>KROMA EDITORIAL</span>
             <span>ISSUE 04</span>
           </div>
@@ -661,7 +661,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       {/* ── 15: Quick Contrast Pairs ────────────────────────────── */}
       <section className="mb-20">
         <div className="mb-6">
-          <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">INSPIRATION</span>
+          <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-2">INSPIRATION</span>
           <h2 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-[var(--text-primary)]">
             TRY A COMBINATION
           </h2>
@@ -692,10 +692,10 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                 </div>
 
                 <div>
-                  <div className="font-sans text-[11px] font-bold uppercase truncate text-[var(--text-primary)]">
+                  <div className="font-sans text-xs font-bold uppercase truncate text-[var(--text-primary)]">
                     {pair.name}
                   </div>
-                  <div className="font-mono text-[10px] text-[var(--text-secondary)]">
+                  <div className="font-mono text-xs text-[var(--text-secondary)]">
                     {pairRatio}:1
                   </div>
                 </div>
@@ -707,7 +707,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
 
       {/* ── 14: Accessibility Explanation ──────────────────────── */}
       <section className="p-8 border border-[var(--border-subtle)] rounded-xs mb-16">
-        <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">WCAG ARCHITECTURE</span>
+        <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">WCAG ARCHITECTURE</span>
         <h3 className="font-sans text-lg font-bold uppercase tracking-tight text-[var(--text-primary)] mb-3">
           WHAT DOES THE RATIO MEAN?
         </h3>

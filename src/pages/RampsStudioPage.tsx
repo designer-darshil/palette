@@ -544,7 +544,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
         {/* ─── 1. Page Opening & Compact Editorial Intro ───────────── */}
         <section className="flex flex-col gap-3">
           {/* Breadcrumb Navigation */}
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] text-[#707070] uppercase tracking-wider">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-xs text-[#707070] uppercase tracking-wider">
             <KromaButton
               variant="ghost"
               size="sm"
@@ -569,16 +569,16 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
           {/* Compact Headline */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-black/[0.08] dark:border-white/[0.08] pb-4">
             <div>
-              <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider block mb-1">
+              <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider block mb-1">
                 COLOR RAMPS · SPECIMEN INSTRUMENT
               </span>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#171717] dark:text-white leading-none uppercase">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#171717] dark:text-white leading-[1.05] uppercase">
                 BUILD COLOR <br className="hidden sm:inline" />
                 <span className="text-[#707070] dark:text-[#888888] font-normal">IN MOTION.</span>
               </h1>
             </div>
 
-            <p className="max-w-md text-xs sm:text-[13px] text-[#707070] dark:text-[#A0A0A0] leading-relaxed">
+            <p className="max-w-md text-xs sm:text-sm text-[#707070] dark:text-[#A0A0A0] leading-relaxed">
               Explore continuous transitions between colors and build precise ramps for interfaces,
               artwork, gradients, and visual systems in uniform OKLCH space.
             </p>
@@ -590,10 +590,10 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717] dark:text-white font-bold">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#171717] dark:text-white font-bold">
                 {activeRamp?.label || 'BRAND'} RAMP
               </span>
-              <span className="font-mono text-[10px] text-[#707070] uppercase">
+              <span className="font-mono text-xs text-[#707070] uppercase">
                 ({interpolationModel.toUpperCase()} · {rampDirection})
               </span>
             </div>
@@ -604,7 +604,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                 variant={viewDisplayMode === 'continuous' ? 'filled' : 'ghost'}
                 size="sm"
                 onClick={() => setViewDisplayMode('continuous')}
-                className={`px-2.5 py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer h-auto ${
+                className={`px-2.5 py-1 text-xs font-mono rounded-xs transition-colors cursor-pointer h-auto ${
                   viewDisplayMode === 'continuous'
                     ? 'bg-white dark:bg-[#202020] text-[#171717] dark:text-white font-bold shadow-xs'
                     : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -616,7 +616,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                 variant={viewDisplayMode === 'stepped' ? 'filled' : 'ghost'}
                 size="sm"
                 onClick={() => setViewDisplayMode('stepped')}
-                className={`px-2.5 py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer h-auto ${
+                className={`px-2.5 py-1 text-xs font-mono rounded-xs transition-colors cursor-pointer h-auto ${
                   viewDisplayMode === 'stepped'
                     ? 'bg-white dark:bg-[#202020] text-[#171717] dark:text-white font-bold shadow-xs'
                     : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -628,7 +628,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                 variant={viewDisplayMode === 'curve' ? 'filled' : 'ghost'}
                 size="sm"
                 onClick={() => setViewDisplayMode('curve')}
-                className={`px-2.5 py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer h-auto ${
+                className={`px-2.5 py-1 text-xs font-mono rounded-xs transition-colors cursor-pointer h-auto ${
                   viewDisplayMode === 'curve'
                     ? 'bg-white dark:bg-[#202020] text-[#171717] dark:text-white font-bold shadow-xs'
                     : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -657,7 +657,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                         variant={activeCurveTab === tab ? 'filled' : 'ghost'}
                         size="sm"
                         onClick={() => setActiveCurveTab(tab)}
-                        className={`px-2 py-0.5 rounded-xs font-mono text-[10px] font-semibold transition-colors cursor-pointer h-auto ${
+                        className={`px-2 py-0.5 rounded-xs font-mono text-xs font-semibold transition-colors cursor-pointer h-auto ${
                           activeCurveTab === tab
                             ? 'bg-white text-black font-bold'
                             : 'text-neutral-400 hover:text-white'
@@ -725,7 +725,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                   </svg>
                 </div>
 
-                <div className="flex justify-between font-mono text-[9px] text-neutral-400 pt-2 border-t border-neutral-800">
+                <div className="flex justify-between font-mono text-xs text-neutral-400 pt-2 border-t border-neutral-800">
                   <span>STEP 50 · TINT</span>
                   <span>STEP 500 · BASE ANCHOR</span>
                   <span>STEP 950 · SHADE</span>
@@ -752,7 +752,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                           }`}
                         >
                           <span
-                            className="font-mono text-[10px] font-bold self-start px-1 py-0.5 rounded-xs"
+                            className="font-mono text-xs font-bold self-start px-1 py-0.5 rounded-xs"
                             style={{
                               backgroundColor: c.contrastWithWhite < 4.5 ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.7)',
                               color: c.contrastWithWhite < 4.5 ? '#FFFFFF' : '#000000',
@@ -761,7 +761,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                             {k}
                           </span>
                           <span
-                            className="font-mono text-[9px] self-end opacity-80"
+                            className="font-mono text-xs self-end opacity-80"
                             style={{ color: c.contrastWithWhite < 4.5 ? '#FFFFFF' : '#000000' }}
                           >
                             {c.hex}
@@ -804,7 +804,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                     >
                       {st.isLocked && <Lock size={8} className="text-black drop-shadow-xs" />}
                     </div>
-                    <span className="font-mono text-[9px] font-semibold text-[#707070] dark:text-[#909090] mt-1 whitespace-nowrap">
+                    <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] mt-1 whitespace-nowrap">
                       {idx + 1} · {st.pos}%
                     </span>
                   </div>
@@ -812,7 +812,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               })}
             </div>
 
-            <div className="flex items-center justify-between text-[11px] font-mono text-[#707070] dark:text-[#909090] px-1">
+            <div className="flex items-center justify-between text-xs font-mono text-[#707070] dark:text-[#909090] px-1">
               <span>0% · ORIGIN</span>
               <span>DRAG STOPS TO REFINE POSITION</span>
               <span>100% · TERMINUS</span>
@@ -823,7 +823,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
         {/* ─── 3. COLOR STOP SYSTEM (SPECIMEN TILES) ───────────────── */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+            <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
               COLOR STOPS ({stops.length}/6)
             </span>
             <div className="flex items-center gap-2">
@@ -854,7 +854,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] font-bold uppercase text-[#707070] dark:text-[#888888]">
+                    <span className="font-mono text-xs font-bold uppercase text-[#707070] dark:text-[#888888]">
                       STOP 0{idx + 1}
                     </span>
                     <KromaButton
@@ -889,7 +889,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                       <span className="font-mono text-xs font-bold text-[#171717] dark:text-white uppercase truncate">
                         {st.hex}
                       </span>
-                      <span className="font-mono text-[10px] text-[#707070] dark:text-[#888888]">
+                      <span className="font-mono text-xs text-[#707070] dark:text-[#888888]">
                         POS: {st.pos}%
                       </span>
                     </div>
@@ -906,7 +906,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                         setCopiedCodeType(st.hex);
                         setTimeout(() => setCopiedCodeType(null), 1500);
                       }}
-                      className="font-mono text-[9px] uppercase text-[#707070] hover:text-[#171717] dark:hover:text-white flex items-center gap-1 cursor-pointer p-0 h-auto"
+                      className="font-mono text-xs uppercase text-[#707070] hover:text-[#171717] dark:hover:text-white flex items-center gap-1 cursor-pointer p-0 h-auto"
                     >
                       {copiedCodeType === st.hex ? <Check size={10} className="text-emerald-500" /> : <Copy size={10} />}
                       <span>{copiedCodeType === st.hex ? 'COPIED' : 'COPY'}</span>
@@ -994,7 +994,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
             {/* Interpolation Space */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+              <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                 INTERPOLATION MODEL
               </span>
               <div className="grid grid-cols-3 gap-1 bg-black/[0.04] dark:bg-white/[0.04] p-1 rounded-xs">
@@ -1004,7 +1004,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                     variant={interpolationModel === model ? 'filled' : 'ghost'}
                     size="sm"
                     onClick={() => setInterpolationModel(model)}
-                    className={`py-1.5 text-center rounded-xs transition-colors uppercase font-semibold cursor-pointer text-[10.5px] h-auto ${
+                    className={`py-1.5 text-center rounded-xs transition-colors uppercase font-semibold cursor-pointer text-xs h-auto ${
                       interpolationModel === model
                         ? 'bg-white dark:bg-[#252525] text-[#171717] dark:text-white shadow-xs font-bold'
                         : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -1018,7 +1018,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
 
             {/* Direction */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+              <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                 DIRECTION
               </span>
               <div className="grid grid-cols-4 gap-1 bg-black/[0.04] dark:bg-white/[0.04] p-1 rounded-xs">
@@ -1035,7 +1035,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                     variant={rampDirection === d.id ? 'filled' : 'ghost'}
                     size="sm"
                     onClick={() => setRampDirection(d.id)}
-                    className={`py-1.5 text-center rounded-xs transition-colors uppercase font-semibold cursor-pointer text-[10.5px] h-auto ${
+                    className={`py-1.5 text-center rounded-xs transition-colors uppercase font-semibold cursor-pointer text-xs h-auto ${
                       rampDirection === d.id
                         ? 'bg-white dark:bg-[#252525] text-[#171717] dark:text-white shadow-xs font-bold'
                         : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -1049,13 +1049,13 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
 
             {/* Harmony Scheme */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+              <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                 HARMONIC SCHEME
               </span>
               <select
                 value={config.scheme}
                 onChange={(e) => handleConfigChange({ scheme: e.target.value as RampsScheme })}
-                className="w-full bg-black/[0.04] dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] rounded-xs px-2.5 py-1.5 font-mono text-[11px] text-[#171717] dark:text-white uppercase outline-none cursor-pointer"
+                className="w-full bg-black/[0.04] dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] rounded-xs px-2.5 py-1.5 font-mono text-xs text-[#171717] dark:text-white uppercase outline-none cursor-pointer"
               >
                 <option value="complementary">Complementary (180°)</option>
                 <option value="analogous">Analogous (±35°)</option>
@@ -1067,7 +1067,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
 
             {/* Accessibility Contrast Enforcement */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] uppercase font-bold text-[#707070] dark:text-[#909090]">
+              <span className="text-xs uppercase font-bold text-[#707070] dark:text-[#909090]">
                 WCAG TARGET
               </span>
               <div className="grid grid-cols-2 gap-1 bg-black/[0.04] dark:bg-white/[0.04] p-1 rounded-xs">
@@ -1077,7 +1077,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                     variant={config.wcag === lvl ? 'filled' : 'ghost'}
                     size="sm"
                     onClick={() => handleConfigChange({ wcag: lvl })}
-                    className={`py-1.5 text-center rounded-xs transition-colors uppercase font-semibold cursor-pointer text-[10.5px] h-auto ${
+                    className={`py-1.5 text-center rounded-xs transition-colors uppercase font-semibold cursor-pointer text-xs h-auto ${
                       config.wcag === lvl
                         ? 'bg-white dark:bg-[#252525] text-[#171717] dark:text-white shadow-xs font-bold'
                         : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -1094,10 +1094,10 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
         {/* ─── 5. INTERPOLATION VISUALIZATION STRIP ────────────────── */}
         <section className="flex flex-col gap-2.5">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+            <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
               INTERPOLATION COMPARISON · COLOR SCIENCE SPECIMEN
             </span>
-            <span className="font-mono text-[10px] text-[#707070] dark:text-[#888888]">
+            <span className="font-mono text-xs text-[#707070] dark:text-[#888888]">
               LIVE COMPARISON ACROSS COLOR SPACES
             </span>
           </div>
@@ -1117,7 +1117,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                   OKLCH · PERCEPTUAL
                 </span>
                 {interpolationModel === 'oklch' && (
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xs font-bold">
+                  <span className="font-mono text-xs px-1.5 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xs font-bold">
                     ACTIVE
                   </span>
                 )}
@@ -1126,7 +1126,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                 className="h-10 w-full rounded-xs shadow-inner"
                 style={{ background: interpolationGradients.oklch }}
               />
-              <span className="text-[11px] text-[#707070] dark:text-[#888888] leading-tight">
+              <span className="text-xs text-[#707070] dark:text-[#888888] leading-tight">
                 Uniform lightness & chromatic preservation. Eliminates the gray muddy dead-zone.
               </span>
             </div>
@@ -1145,7 +1145,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                   RGB · LINEAR
                 </span>
                 {interpolationModel === 'srgb' && (
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xs font-bold">
+                  <span className="font-mono text-xs px-1.5 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xs font-bold">
                     ACTIVE
                   </span>
                 )}
@@ -1154,7 +1154,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                 className="h-10 w-full rounded-xs shadow-inner"
                 style={{ background: interpolationGradients.srgb }}
               />
-              <span className="text-[11px] text-[#707070] dark:text-[#888888] leading-tight">
+              <span className="text-xs text-[#707070] dark:text-[#888888] leading-tight">
                 Standard CSS sRGB interpolation. Prone to desaturated intermediate midtones.
               </span>
             </div>
@@ -1173,7 +1173,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                   HSL · CYLINDRICAL
                 </span>
                 {interpolationModel === 'hsl' && (
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xs font-bold">
+                  <span className="font-mono text-xs px-1.5 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xs font-bold">
                     ACTIVE
                   </span>
                 )}
@@ -1182,7 +1182,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                 className="h-10 w-full rounded-xs shadow-inner"
                 style={{ background: interpolationGradients.hsl }}
               />
-              <span className="text-[11px] text-[#707070] dark:text-[#888888] leading-tight">
+              <span className="text-xs text-[#707070] dark:text-[#888888] leading-tight">
                 Traverses hue wheel angles. Creates intense rainbow shifts across stops.
               </span>
             </div>
@@ -1193,7 +1193,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
         <section className="flex flex-col gap-2.5">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
-              <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider block">
+              <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider block">
                 RAMP SCALE SHEET · 11 SPECIMEN STEPS
               </span>
               <span className="text-xs text-[#707070] dark:text-[#888888]">
@@ -1209,7 +1209,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                   variant={config.notation === not ? 'filled' : 'ghost'}
                   size="sm"
                   onClick={() => handleConfigChange({ notation: not })}
-                  className={`px-2 py-0.5 font-mono text-[10px] rounded-xs uppercase font-semibold transition-colors cursor-pointer h-auto ${
+                  className={`px-2 py-0.5 font-mono text-xs rounded-xs uppercase font-semibold transition-colors cursor-pointer h-auto ${
                     config.notation === not
                       ? 'bg-white dark:bg-[#202020] text-[#171717] dark:text-white font-bold shadow-xs'
                       : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
@@ -1246,9 +1246,9 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                       : 'border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.02] hover:border-black/20 dark:hover:border-white/20'
                   }`}
                 >
-                  <div className="flex items-center justify-between font-mono text-[10px] font-bold text-[#707070] dark:text-[#909090]">
+                  <div className="flex items-center justify-between font-mono text-xs font-bold text-[#707070] dark:text-[#909090]">
                     <span>{k}</span>
-                    <span className="text-[9px] font-normal">{(c.lightness * 100).toFixed(0)}%L</span>
+                    <span className="text-xs font-normal">{(c.lightness * 100).toFixed(0)}%L</span>
                   </div>
 
                   <div
@@ -1264,14 +1264,14 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                         setCopiedCodeType(displayVal);
                         setTimeout(() => setCopiedCodeType(null), 1500);
                       }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1 bg-black/60 text-white rounded-xs text-[10px] flex items-center gap-1 cursor-pointer h-auto w-auto min-h-0"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1 bg-black/60 text-white rounded-xs text-xs flex items-center gap-1 cursor-pointer h-auto w-auto min-h-0"
                       title="Copy Value"
                     >
                       {copiedCodeType === displayVal ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
                     </KromaButton>
                   </div>
 
-                  <div className="flex flex-col font-mono text-[9px] text-[#707070] dark:text-[#909090] min-w-0">
+                  <div className="flex flex-col font-mono text-xs text-[#707070] dark:text-[#909090] min-w-0">
                     <span className="font-bold text-[#171717] dark:text-white truncate">
                       {c.hex}
                     </span>
@@ -1314,7 +1314,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
             {/* Technical Typography & Coordinates */}
             <div className="flex-1 flex flex-col justify-between gap-4 font-mono min-w-0">
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-bold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+                <span className="text-xs font-bold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
                   CHROMATIC COORDINATES & COLOR SPACE MAPPINGS
                 </span>
                 <h3 className="text-xl font-bold text-[#171717] dark:text-white">
@@ -1325,26 +1325,26 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               {/* Data Values Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                 <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-                  <span className="text-[9px] text-[#707070] dark:text-[#909090] uppercase block">OKLCH</span>
-                  <span className="font-bold text-[#171717] dark:text-white text-[11px] truncate block">
+                  <span className="text-xs text-[#707070] dark:text-[#909090] uppercase block">OKLCH</span>
+                  <span className="font-bold text-[#171717] dark:text-white text-xs truncate block">
                     {activeStepData.oklch}
                   </span>
                 </div>
                 <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-                  <span className="text-[9px] text-[#707070] dark:text-[#909090] uppercase block">RGB (sRGB)</span>
-                  <span className="font-bold text-[#171717] dark:text-white text-[11px] truncate block">
+                  <span className="text-xs text-[#707070] dark:text-[#909090] uppercase block">RGB (sRGB)</span>
+                  <span className="font-bold text-[#171717] dark:text-white text-xs truncate block">
                     {activeStepData.rgb}
                   </span>
                 </div>
                 <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-                  <span className="text-[9px] text-[#707070] dark:text-[#909090] uppercase block">HSL</span>
-                  <span className="font-bold text-[#171717] dark:text-white text-[11px] truncate block">
+                  <span className="text-xs text-[#707070] dark:text-[#909090] uppercase block">HSL</span>
+                  <span className="font-bold text-[#171717] dark:text-white text-xs truncate block">
                     {activeStepData.hsl}
                   </span>
                 </div>
                 <div className="p-2.5 rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-                  <span className="text-[9px] text-[#707070] dark:text-[#909090] uppercase block">LIGHTNESS</span>
-                  <span className="font-bold text-[#171717] dark:text-white text-[11px] block">
+                  <span className="text-xs text-[#707070] dark:text-[#909090] uppercase block">LIGHTNESS</span>
+                  <span className="font-bold text-[#171717] dark:text-white text-xs block">
                     {(activeStepData.lightness * 100).toFixed(1)}% (L: {activeStepData.lightness.toFixed(3)})
                   </span>
                 </div>
@@ -1353,23 +1353,23 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               {/* Contrast & Accessibility Badges */}
               <div className="flex items-center gap-3 flex-wrap pt-2 border-t border-black/[0.06] dark:border-white/[0.06]">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-[#707070] dark:text-[#909090] uppercase">CONTRAST:</span>
-                  <span className="px-2 py-0.5 rounded-xs bg-black/5 dark:bg-white/10 text-[11px] font-bold">
+                  <span className="text-xs text-[#707070] dark:text-[#909090] uppercase">CONTRAST:</span>
+                  <span className="px-2 py-0.5 rounded-xs bg-black/5 dark:bg-white/10 text-xs font-bold">
                     WHITE: {activeStepData.contrastWithWhite.toFixed(2)}:1
                   </span>
-                  <span className="px-2 py-0.5 rounded-xs bg-black/5 dark:bg-white/10 text-[11px] font-bold">
+                  <span className="px-2 py-0.5 rounded-xs bg-black/5 dark:bg-white/10 text-xs font-bold">
                     BLACK: {activeStepData.contrastWithBlack.toFixed(2)}:1
                   </span>
                 </div>
 
                 <div className="flex items-center gap-1.5 ml-auto">
                   {activeStepData.contrastWithWhite >= 4.5 || activeStepData.contrastWithBlack >= 4.5 ? (
-                    <span className="px-2 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10.5px] font-bold">
+                    <span className="px-2 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
                       WCAG AA PASS
                     </span>
                   ) : null}
                   {activeStepData.contrastWithWhite >= 7.0 || activeStepData.contrastWithBlack >= 7.0 ? (
-                    <span className="px-2 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10.5px] font-bold">
+                    <span className="px-2 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
                       WCAG AAA PASS
                     </span>
                   ) : null}
@@ -1382,10 +1382,10 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
         {/* ─── 8. RAMP PRESETS (MINIATURE RAMP STRIPS) ─────────────── */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+            <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
               CURATED LABORATORY PRESETS
             </span>
-            <span className="font-mono text-[10px] text-[#707070] dark:text-[#888888]">
+            <span className="font-mono text-xs text-[#707070] dark:text-[#888888]">
               ONE-CLICK APPLIED HARMONIES
             </span>
           </div>
@@ -1403,7 +1403,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                     <span className="font-bold text-[#171717] dark:text-white group-hover:text-emerald-500 transition-colors">
                       {preset.name}
                     </span>
-                    <span className="text-[10px] text-[#707070] dark:text-[#888888] uppercase">
+                    <span className="text-xs text-[#707070] dark:text-[#888888] uppercase">
                       #{preset.brand.toUpperCase()}
                     </span>
                   </div>
@@ -1414,7 +1414,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                     style={{ background: bg }}
                   />
 
-                  <p className="text-[11px] text-[#707070] dark:text-[#909090] leading-snug line-clamp-1">
+                  <p className="text-xs text-[#707070] dark:text-[#909090] leading-snug line-clamp-1">
                     {preset.description}
                   </p>
                 </div>
@@ -1426,10 +1426,10 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
         {/* ─── 9. SIBLING RAMPS COLLECTION (VISUAL ARCHIVE) ────────── */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+            <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider">
               DERIVED SYSTEM RAMPS ARCHIVE ({Object.keys(paletteResult.ramps).length})
             </span>
-            <span className="font-mono text-[10px] text-[#707070] dark:text-[#888888]">
+            <span className="font-mono text-xs text-[#707070] dark:text-[#888888]">
               SELECT A RAMP TO FOCUS IN INSTRUMENT
             </span>
           </div>
@@ -1456,7 +1456,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                       <span className="font-mono text-xs font-bold text-[#171717] dark:text-white uppercase truncate">
                         {ramp.label}
                       </span>
-                      <span className="font-mono text-[9px] text-[#707070] dark:text-[#888888]">
+                      <span className="font-mono text-xs text-[#707070] dark:text-[#888888]">
                         HUE: {ramp.baseHue.toFixed(0)}° · C: {ramp.baseChroma.toFixed(2)}
                       </span>
                     </div>
@@ -1477,7 +1477,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                     })}
                   </div>
 
-                  <div className="font-mono text-[10px] text-[#707070] dark:text-[#888888] sm:w-20 text-right">
+                  <div className="font-mono text-xs text-[#707070] dark:text-[#888888] sm:w-20 text-right">
                     {isSelected ? (
                       <span className="text-emerald-600 dark:text-emerald-400 font-bold">FOCUSED</span>
                     ) : (
@@ -1623,7 +1623,7 @@ ${cssCustomPropertiesString.slice(0, 720)}
         {/* ─── 12. CREATE ANOTHER RAMP CALLOUT ─────────────────────── */}
         <section className="p-6 sm:p-8 rounded-sm border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex flex-col gap-1 max-w-lg">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#707070] dark:text-[#909090]">
               COLOR EXPERIMENTATION COMPLETE
             </span>
             <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-[#171717] dark:text-white">

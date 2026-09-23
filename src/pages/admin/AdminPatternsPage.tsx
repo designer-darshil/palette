@@ -266,18 +266,18 @@ export const AdminPatternsPage: React.FC = () => {
                     <h3 className="text-sm font-bold text-[#171717] dark:text-[#F8F8F8]">
                       {pattern.title}
                     </h3>
-                    <div className="font-mono text-[10.5px] text-[#707070] dark:text-[#9DA3AF] mt-0.5">
+                    <div className="font-mono text-xs text-[#707070] dark:text-[#9DA3AF] mt-0.5">
                       {pattern.category} · {pattern.type.toUpperCase()}
                     </div>
                   </div>
 
-                  <span className="font-mono text-[10px] uppercase px-1.5 py-0.5 rounded-xs bg-black/[0.04] dark:bg-white/[0.06] text-[#707070] dark:text-[#9DA3AF]">
+                  <span className="font-mono text-xs uppercase px-1.5 py-0.5 rounded-xs bg-black/[0.04] dark:bg-white/[0.06] text-[#707070] dark:text-[#9DA3AF]">
                     #{pattern.slug}
                   </span>
                 </div>
 
                 {/* Specs Pill Matrix */}
-                <div className="grid grid-cols-3 gap-1.5 font-mono text-[10px] text-[#707070] dark:text-[#9DA3AF] pt-2 border-t border-black/5 dark:border-white/5">
+                <div className="grid grid-cols-3 gap-1.5 font-mono text-xs text-[#707070] dark:text-[#9DA3AF] pt-2 border-t border-black/5 dark:border-white/5">
                   <div className="p-1 bg-black/[0.02] dark:bg-white/[0.04] rounded-xs text-center">
                     SCALE: {pattern.scale}%
                   </div>

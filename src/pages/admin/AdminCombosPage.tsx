@@ -4,6 +4,7 @@ import { ComboItem } from '../../types';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 
 interface ComboFormState {
   title: string;
@@ -183,9 +184,8 @@ export const AdminCombosPage: React.FC = () => {
       {/* Filter Bar */}
       <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="relative flex items-center">
-            <Search size={14} className="absolute left-2.5 text-[#595959] dark:text-[#9DA3AF]" />
-            <input
+          <div className="w-64">
+            <KromaInput
               type="text"
               placeholder="Search combos..."
               value={searchQuery}
@@ -193,7 +193,9 @@ export const AdminCombosPage: React.FC = () => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] dark:placeholder-[#9DA3AF] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
+              iconLeft={<Search size={14} />}
+              inputSize="sm"
+              variant="surface"
             />
           </div>
 
@@ -353,19 +355,15 @@ export const AdminCombosPage: React.FC = () => {
             </div>
 
             <form onSubmit={handleSave} className="flex flex-col gap-4 text-xs font-mono">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
-                  HARMONY TITLE
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="e.g. Electric Sapphire & Gold"
-                  className="px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
-                />
-              </div>
+              <KromaInput
+                label="Harmony Title"
+                type="text"
+                required
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="e.g. Electric Sapphire & Gold"
+                variant="surface"
+              />
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">
@@ -385,18 +383,14 @@ export const AdminCombosPage: React.FC = () => {
                     <option value="Monochromatic">Monochromatic</option>
                   </select>
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
-                    CONTRAST SCORE
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.contrastScore}
-                    onChange={(e) => setFormData({ ...formData, contrastScore: e.target.value })}
-                    placeholder="e.g. 7.5:1 (AAA)"
-                    className="px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
-                  />
-                </div>
+                <KromaInput
+                  label="Contrast Score"
+                  type="text"
+                  value={formData.contrastScore}
+                  onChange={(e) => setFormData({ ...formData, contrastScore: e.target.value })}
+                  placeholder="e.g. 7.5:1 (AAA)"
+                  variant="surface"
+                />
               </div>
 
               {/* Color Role Swatches */}

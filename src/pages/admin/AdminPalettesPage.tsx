@@ -17,6 +17,7 @@ import { PaletteItem } from '../../types';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 import { copyToClipboard } from '../../utils/colorUtils';
 
 export const AdminPalettesPage: React.FC = () => {
@@ -194,9 +195,8 @@ export const AdminPalettesPage: React.FC = () => {
       {/* Filter Bar */}
       <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="relative flex items-center">
-            <Search size={14} className="absolute left-2.5 text-[#707070] dark:text-[#9DA3AF]" />
-            <input
+          <div className="w-64">
+            <KromaInput
               type="text"
               placeholder="Search palette title or slug..."
               value={searchQuery}
@@ -204,7 +204,9 @@ export const AdminPalettesPage: React.FC = () => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] dark:placeholder-[#9DA3AF] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
+              iconLeft={<Search size={14} />}
+              inputSize="sm"
+              variant="surface"
             />
           </div>
 
@@ -510,18 +512,14 @@ export const AdminPalettesPage: React.FC = () => {
             </div>
 
             <form onSubmit={handleSaveForm} className="flex flex-col gap-4">
-              <div>
-                <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
-                  Palette Title
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formTitle}
-                  onChange={(e) => setFormTitle(e.target.value)}
-                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs font-medium text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
-                />
-              </div>
+              <KromaInput
+                label="Palette Title"
+                type="text"
+                required
+                value={formTitle}
+                onChange={(e) => setFormTitle(e.target.value)}
+                variant="surface"
+              />
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -544,17 +542,13 @@ export const AdminPalettesPage: React.FC = () => {
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
-                    Tags (Comma Separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={formTags}
-                    onChange={(e) => setFormTags(e.target.value)}
-                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
-                  />
-                </div>
+                <KromaInput
+                  label="Tags (Comma Separated)"
+                  type="text"
+                  value={formTags}
+                  onChange={(e) => setFormTags(e.target.value)}
+                  variant="surface"
+                />
               </div>
 
               {/* 5-Color Swatch Configurator */}

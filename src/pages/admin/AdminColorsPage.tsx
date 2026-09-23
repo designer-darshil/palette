@@ -17,6 +17,7 @@ import { ColorItem } from '../../types';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 import {
   hexToRgb,
   hexToHsl,
@@ -208,9 +209,8 @@ export const AdminColorsPage: React.FC = () => {
       {/* Filter & View Switcher Bar */}
       <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="relative flex items-center">
-            <Search size={14} className="absolute left-2.5 text-[#707070]" />
-            <input
+          <div className="w-64">
+            <KromaInput
               type="text"
               placeholder="Search name, HEX, slug..."
               value={searchQuery}
@@ -218,7 +218,9 @@ export const AdminColorsPage: React.FC = () => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
+              iconLeft={<Search size={14} />}
+              inputSize="sm"
+              variant="surface"
             />
           </div>
 
@@ -642,13 +644,13 @@ export const AdminColorsPage: React.FC = () => {
             <form onSubmit={handleSave} className="flex flex-col gap-4 text-xs font-mono">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Name</label>
-                  <input
+                  <KromaInput
+                    label="Name"
                     type="text"
                     required
                     value={formName}
                     onChange={(e) => setFormName(e.target.value)}
-                    className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-sm font-sans"
+                    variant="surface"
                     placeholder="e.g. Cobalt Cyan"
                   />
                 </div>
@@ -656,12 +658,13 @@ export const AdminColorsPage: React.FC = () => {
                 <div>
                   <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">HEX Code</label>
                   <div className="flex gap-2">
-                    <input
+                    <KromaInput
                       type="text"
                       required
                       value={formHex}
                       onChange={(e) => setFormHex(e.target.value)}
-                      className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-sm font-mono uppercase"
+                      variant="surface"
+                      className="font-mono uppercase"
                     />
                     <input
                       type="color"
@@ -742,15 +745,13 @@ export const AdminColorsPage: React.FC = () => {
                 />
               </div>
 
-              <div>
-                <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase">Tags (comma separated)</label>
-                <input
-                  type="text"
-                  value={formTags}
-                  onChange={(e) => setFormTags(e.target.value)}
-                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs"
-                />
-              </div>
+              <KromaInput
+                label="Tags (comma separated)"
+                type="text"
+                value={formTags}
+                onChange={(e) => setFormTags(e.target.value)}
+                variant="surface"
+              />
 
               <div className="flex justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
                 <KromaButton

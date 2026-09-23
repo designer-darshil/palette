@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { ShieldCheck, KeyRound, Eye, EyeOff, Check, AlertCircle } from 'lucide-react';
+import { ShieldCheck, KeyRound, Check, AlertCircle } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { validateAdminPassword } from '../../utils/passwordPolicy';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 
 export const AdminSecurityPage: React.FC = () => {
   const { currentUser, changePassword, isSuperAdmin } = useAdminAuth();
@@ -10,9 +11,6 @@ export const AdminSecurityPage: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showCurrent, setShowCurrent] = useState(false);
-  const [showNew, setShowNew] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
 
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -127,80 +125,43 @@ export const AdminSecurityPage: React.FC = () => {
         )}
 
         <form onSubmit={handlePasswordChange} className="flex flex-col gap-4">
-          {/* Current Password */}
-          <div>
-            <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
-              Current Password
-            </label>
-            <div className="relative flex items-center">
-              <input
-                type={showCurrent ? 'text' : 'password'}
-                required
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full px-3.5 py-2 pr-10 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
-                placeholder="Enter current password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowCurrent(!showCurrent)}
-                aria-label={showCurrent ? 'Hide password' : 'Show password'}
-                className="absolute right-3 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8] p-1"
-              >
-                {showCurrent ? <EyeOff size={14} /> : <Eye size={14} />}
-              </button>
-            </div>
-          </div>
+          <KromaInput
+            id="current-password"
+            label="Current Password"
+            type="password"
+            required
+            autoComplete="current-password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            placeholder="Enter current password"
+            showPasswordToggle
+          />
 
-          {/* New Password */}
-          <div>
-            <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
-              New Password
-            </label>
-            <div className="relative flex items-center">
-              <input
-                type={showNew ? 'text' : 'password'}
-                required
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-3.5 py-2 pr-10 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
-                placeholder="Minimum 8 characters"
-              />
-              <button
-                type="button"
-                onClick={() => setShowNew(!showNew)}
-                aria-label={showNew ? 'Hide password' : 'Show password'}
-                className="absolute right-3 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8] p-1"
-              >
-                {showNew ? <EyeOff size={14} /> : <Eye size={14} />}
-              </button>
-            </div>
-          </div>
+          <KromaInput
+            id="new-password"
+            label="New Password"
+            type="password"
+            required
+            minLength={8}
+            autoComplete="new-password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="Enter new password"
+            showPasswordToggle
+          />
 
-          {/* Confirm New Password */}
-          <div>
-            <label className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
-              Confirm New Password
-            </label>
-            <div className="relative flex items-center">
-              <input
-                type={showConfirm ? 'text' : 'password'}
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-3.5 py-2 pr-10 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
-                placeholder="Repeat new password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirm(!showConfirm)}
-                aria-label={showConfirm ? 'Hide password' : 'Show password'}
-                className="absolute right-3 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8] p-1"
-              >
-                {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
-              </button>
-            </div>
-          </div>
+          <KromaInput
+            id="confirm-password"
+            label="Confirm New Password"
+            type="password"
+            required
+            minLength={8}
+            autoComplete="new-password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Repeat new password"
+            showPasswordToggle
+          />
 
           {/* Live 8-Char Policy Checklist */}
           <div className="p-3 bg-black/[0.02] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs space-y-1.5 font-mono">

@@ -4,6 +4,7 @@ import { useAdminAuth } from '../../context/AdminAuthContext';
 import { MAINTENANCE_PRESETS, MaintenancePreset } from '../../types/maintenance';
 import { MaintenancePage } from '../MaintenancePage';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 import {
   ShieldAlert,
   Power,
@@ -495,19 +496,14 @@ export const AdminMaintenancePage: React.FC = () => {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div>
-                <label className="admin-form-label" style={{ fontSize: '0.75rem', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
-                  Headline Title
-                </label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) => handleInputChange('title', e.target.value)}
-                  placeholder="We'll be back shortly"
-                  className="admin-input"
-                  style={{ width: '100%', fontSize: '0.85rem' }}
-                />
-              </div>
+              <KromaInput
+                label="Headline Title"
+                type="text"
+                value={formData.title}
+                onChange={(e) => handleInputChange('title', e.target.value)}
+                placeholder="We'll be back shortly"
+                variant="surface"
+              />
 
               <div>
                 <label className="admin-form-label" style={{ fontSize: '0.75rem', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
@@ -524,19 +520,15 @@ export const AdminMaintenancePage: React.FC = () => {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <div>
-                  <label className="admin-form-label" style={{ fontSize: '0.75rem', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
-                    Support URL / Email
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.supportUrl}
-                    onChange={(e) => handleInputChange('supportUrl', e.target.value)}
-                    placeholder="mailto:support@kroma.design"
-                    className="admin-input"
-                    style={{ width: '100%', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}
-                  />
-                </div>
+                <KromaInput
+                  label="Support URL / Email"
+                  type="text"
+                  value={formData.supportUrl}
+                  onChange={(e) => handleInputChange('supportUrl', e.target.value)}
+                  placeholder="mailto:support@kroma.design"
+                  variant="surface"
+                  className="font-mono"
+                />
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingTop: '22px' }}>
                   <input

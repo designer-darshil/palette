@@ -5,6 +5,7 @@ import { CURATED_PATTERNS } from '../../data/patterns';
 import { generatePatternSvg, generatePatternCss } from '../../utils/patternEngine';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 import { copyToClipboard } from '../../utils/colorUtils';
 
 export const AdminPatternsPage: React.FC = () => {
@@ -178,14 +179,15 @@ export const AdminPatternsPage: React.FC = () => {
       {/* Filter Bar */}
       <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="relative flex items-center">
-            <Search size={14} className="absolute left-2.5 text-[#707070] dark:text-[#9DA3AF]" />
-            <input
+          <div className="w-64">
+            <KromaInput
               type="text"
               placeholder="Search pattern title or slug..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] dark:placeholder-[#9DA3AF] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
+              iconLeft={<Search size={14} />}
+              inputSize="sm"
+              variant="surface"
             />
           </div>
 
@@ -475,18 +477,14 @@ export const AdminPatternsPage: React.FC = () => {
             />
 
             <form onSubmit={handleSaveForm} className="flex flex-col gap-4 text-xs font-mono">
-              <div>
-                <label className="block text-[#707070] dark:text-[#9DA3AF] mb-1 uppercase tracking-wider">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formTitle}
-                  onChange={(e) => setFormTitle(e.target.value)}
-                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/15 dark:border-white/15 rounded-xs text-sm font-sans text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
-                />
-              </div>
+              <KromaInput
+                label="Title"
+                type="text"
+                required
+                value={formTitle}
+                onChange={(e) => setFormTitle(e.target.value)}
+                variant="surface"
+              />
 
               <div className="grid grid-cols-2 gap-3">
                 <div>

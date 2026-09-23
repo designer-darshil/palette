@@ -4,6 +4,7 @@ import { GradientItem } from '../../types';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 import { copyToClipboard } from '../../utils/colorUtils';
 
 interface GradientFormState {
@@ -194,9 +195,8 @@ export const AdminGradientsPage: React.FC = () => {
       {/* Filter Bar */}
       <div className="p-3 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="relative flex items-center">
-            <Search size={14} className="absolute left-2.5 text-[#595959] dark:text-[#9DA3AF]" />
-            <input
+          <div className="w-64">
+            <KromaInput
               type="text"
               placeholder="Search gradients..."
               value={searchQuery}
@@ -204,7 +204,9 @@ export const AdminGradientsPage: React.FC = () => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="pl-8 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-xs text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] dark:placeholder-[#9DA3AF] w-64 focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8]"
+              iconLeft={<Search size={14} />}
+              inputSize="sm"
+              variant="surface"
             />
           </div>
 
@@ -362,19 +364,15 @@ export const AdminGradientsPage: React.FC = () => {
             </div>
 
             <form onSubmit={handleSave} className="flex flex-col gap-4 text-xs font-mono">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-[#595959] dark:text-[#9DA3AF]">
-                  GRADIENT SPECIMEN TITLE
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="e.g. Neo-Tokyo Dusk"
-                  className="px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 rounded-xs text-[#171717] dark:text-[#F8F8F8] focus:outline-none"
-                />
-              </div>
+              <KromaInput
+                label="Gradient Specimen Title"
+                type="text"
+                required
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="e.g. Neo-Tokyo Dusk"
+                variant="surface"
+              />
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">

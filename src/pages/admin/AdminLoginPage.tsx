@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, Check, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Check, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { RouteType } from '../../types';
 import { SEOHead } from '../../components/seo/SEOHead';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 import { validateAdminPassword, PASSWORD_POLICY } from '../../utils/passwordPolicy';
 
 interface AdminLoginPageProps {
@@ -18,9 +19,8 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
   onLoginSuccess,
 }) => {
   const { login } = useAdminAuth();
-  const [email, setEmail] = useState('darshilbhuva4322@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -203,56 +203,29 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {/* Email Field */}
-            <div>
-              <label
-                htmlFor="admin-email"
-                className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] mb-1.5 uppercase tracking-wider"
-              >
-                Email
-              </label>
-              <input
-                id="admin-email"
-                type="email"
-                required
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs text-sm text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8] transition-colors"
-                placeholder="admin@kroma.design"
-              />
-            </div>
+            <KromaInput
+              id="admin-email"
+              label="Email"
+              type="email"
+              required
+              autoComplete="username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email address"
+            />
 
             {/* Password Field */}
-            <div>
-              <div className="flex justify-between items-center mb-1.5">
-                <label
-                  htmlFor="admin-password"
-                  className="block text-xs font-mono font-medium text-[#707070] dark:text-[#9DA3AF] uppercase tracking-wider"
-                >
-                  Password
-                </label>
-              </div>
-              <div className="relative flex items-center">
-                <input
-                  id="admin-password"
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3.5 py-2.5 pr-10 bg-white dark:bg-[#111216] border border-black/15 dark:border-white/15 rounded-xs text-sm text-[#171717] dark:text-[#F8F8F8] placeholder-[#707070] focus:outline-none focus:border-[#171717] dark:focus:border-[#F8F8F8] transition-colors"
-                  placeholder="Enter password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  className="absolute right-3 text-[#707070] hover:text-[#171717] dark:hover:text-[#F8F8F8] transition-colors p-1"
-                >
-                  {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-                </button>
-              </div>
-            </div>
+            <KromaInput
+              id="admin-password"
+              label="Password"
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+              showPasswordToggle
+            />
 
             {/* Action Button */}
             <div className="pt-2">
@@ -268,11 +241,6 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               </KromaButton>
             </div>
           </form>
-        </div>
-
-        {/* Footer System Info */}
-        <div className="text-center text-xs font-mono text-[#707070] dark:text-[#9DA3AF] mt-10">
-          KROMA COLOR OPERATIONS · INTERNAL SYSTEM v2.4
         </div>
       </section>
     </div>

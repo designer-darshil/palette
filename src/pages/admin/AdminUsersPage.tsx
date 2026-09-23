@@ -12,11 +12,10 @@ import {
   AlertCircle,
   X,
   KeyRound,
-  Eye,
-  EyeOff,
 } from 'lucide-react';
 import { useAdminAuth, UserRole, AdminUser } from '../../context/AdminAuthContext';
 import { KromaButton } from '../../components/common/KromaButton';
+import { KromaInput } from '../../components/common/KromaInput';
 
 export const AdminUsersPage: React.FC = () => {
   const {
@@ -39,7 +38,6 @@ export const AdminUsersPage: React.FC = () => {
   const [newName, setNewName] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [showNewPassword, setShowNewPassword] = useState(false);
   const [newRole, setNewRole] = useState<UserRole>('admin');
   const [addError, setAddError] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
@@ -52,7 +50,6 @@ export const AdminUsersPage: React.FC = () => {
   // Reset Password State
   const [resetTarget, setResetTarget] = useState<AdminUser | null>(null);
   const [resetPasswordVal, setResetPasswordVal] = useState('');
-  const [showResetPassword, setShowResetPassword] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
   const [isResetting, setIsResetting] = useState(false);
 
@@ -79,7 +76,6 @@ export const AdminUsersPage: React.FC = () => {
     setNewName('');
     setNewEmail('');
     setNewPassword('');
-    setShowNewPassword(false);
     setNewRole('admin');
     setAddError(null);
     setShowAddModal(true);
@@ -115,7 +111,6 @@ export const AdminUsersPage: React.FC = () => {
   const handleOpenResetModal = (user: AdminUser) => {
     setResetTarget(user);
     setResetPasswordVal('');
-    setShowResetPassword(false);
     setResetError(null);
   };
 
@@ -237,14 +232,16 @@ export const AdminUsersPage: React.FC = () => {
       {/* Filter Bar */}
       <div className="p-3 bg-kroma-card border border-kroma-border rounded-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="relative flex items-center">
-            <Search size={14} className="absolute left-3 text-kroma-muted pointer-events-none" />
-            <input
-              type="text"
+          <div className="w-64">
+            <KromaInput
+              type="search"
+              iconLeft={<Search size={14} />}
               placeholder="Search user name or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-3 py-1.5 bg-black/[0.03] dark:bg-white/[0.04] border border-kroma-border rounded-xs text-xs text-kroma-foreground placeholder-kroma-muted w-64 focus:outline-none focus:border-kroma-foreground font-sans"
+              onClear={() => setSearchQuery('')}
+              inputSize="sm"
+              variant="surface"
             />
           </div>
 
@@ -419,58 +416,39 @@ export const AdminUsersPage: React.FC = () => {
             )}
 
             <form onSubmit={handleAddSubmit} className="flex flex-col gap-4">
-              <div>
-                <label className="block text-xs font-mono text-kroma-muted mb-1 uppercase tracking-wider">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-kroma-border rounded-xs text-sm font-sans text-kroma-foreground focus:outline-none focus:border-kroma-foreground"
-                  placeholder="e.g. Kenji Sato"
-                />
-              </div>
+              <KromaInput
+                id="add-user-name"
+                label="Full Name"
+                required
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                placeholder="Enter full name"
+              />
 
-              <div>
-                <label className="block text-xs font-mono text-kroma-muted mb-1 uppercase tracking-wider">
-                  Email / Username
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-black/[0.03] dark:bg-white/[0.04] border border-kroma-border rounded-xs text-sm font-mono text-kroma-foreground focus:outline-none focus:border-kroma-foreground"
-                  placeholder="name@kroma.design"
-                />
-              </div>
+              <KromaInput
+                id="add-user-email"
+                label="Email / Username"
+                type="email"
+                required
+                autoComplete="username"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+                placeholder="Enter email address"
+              />
 
-              <div>
-                <label className="block text-xs font-mono text-kroma-muted mb-1 uppercase tracking-wider">
-                  Password <span className="normal-case text-kroma-muted">(min 8 characters)</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type={showNewPassword ? 'text' : 'password'}
-                    required
-                    minLength={8}
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full px-3 py-2 pr-10 bg-black/[0.03] dark:bg-white/[0.04] border border-kroma-border rounded-xs text-sm font-mono text-kroma-foreground focus:outline-none focus:border-kroma-foreground"
-                    placeholder="••••••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowNewPassword(!showNewPassword)}
-                    aria-label={showNewPassword ? 'Hide password' : 'Show password'}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-kroma-muted hover:text-kroma-foreground transition-colors"
-                  >
-                    {showNewPassword ? <EyeOff size={14} /> : <Eye size={14} />}
-                  </button>
-                </div>
-              </div>
+              <KromaInput
+                id="add-user-password"
+                label="Password"
+                helperText="Minimum 8 characters"
+                type="password"
+                required
+                minLength={8}
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter password"
+                showPasswordToggle
+              />
 
               <div>
                 <label className="block text-xs font-mono text-kroma-muted mb-1 uppercase tracking-wider">
@@ -548,30 +526,19 @@ export const AdminUsersPage: React.FC = () => {
             )}
 
             <form onSubmit={handleResetSubmit} className="flex flex-col gap-4">
-              <div>
-                <label className="block text-xs font-mono text-kroma-muted mb-1 uppercase tracking-wider">
-                  New Password <span className="normal-case text-kroma-muted">(min 8 characters)</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type={showResetPassword ? 'text' : 'password'}
-                    required
-                    minLength={8}
-                    value={resetPasswordVal}
-                    onChange={(e) => setResetPasswordVal(e.target.value)}
-                    className="w-full px-3 py-2 pr-10 bg-black/[0.03] dark:bg-white/[0.04] border border-kroma-border rounded-xs text-sm font-mono text-kroma-foreground focus:outline-none focus:border-kroma-foreground"
-                    placeholder="••••••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowResetPassword(!showResetPassword)}
-                    aria-label={showResetPassword ? 'Hide password' : 'Show password'}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-kroma-muted hover:text-kroma-foreground transition-colors"
-                  >
-                    {showResetPassword ? <EyeOff size={14} /> : <Eye size={14} />}
-                  </button>
-                </div>
-              </div>
+              <KromaInput
+                id="reset-user-password"
+                label="New Password"
+                helperText="Minimum 8 characters"
+                type="password"
+                required
+                minLength={8}
+                autoComplete="new-password"
+                value={resetPasswordVal}
+                onChange={(e) => setResetPasswordVal(e.target.value)}
+                placeholder="Enter new password"
+                showPasswordToggle
+              />
 
               <div className="flex justify-end gap-2 pt-3 border-t border-kroma-border">
                 <KromaButton

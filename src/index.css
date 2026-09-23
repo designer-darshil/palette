@@ -235,6 +235,36 @@ body,
   }
 }
 
+/* ─── Kroma Calibration Specimen Ambient Motion ─── */
+@keyframes kroma-calibration-scan {
+  0% {
+    left: 0%;
+    opacity: 0.2;
+  }
+  35% {
+    opacity: 0.9;
+  }
+  65% {
+    opacity: 0.9;
+  }
+  100% {
+    left: 100%;
+    opacity: 0.2;
+  }
+}
+
+.animate-calibration-scan {
+  animation: kroma-calibration-scan 7.5s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-calibration-scan {
+    animation: none !important;
+    left: 50% !important;
+    opacity: 0.5 !important;
+  }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

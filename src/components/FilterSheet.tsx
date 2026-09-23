@@ -31,12 +31,16 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm text-[var(--text-primary)]">Refine Spectrum</span>
           </div>
-          <button
+          <KromaButton
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={onClose}
-            className="p-1 rounded-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+            className="w-8 h-8 min-h-[32px] p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+            aria-label="Close filters"
           >
             <X size={18} />
-          </button>
+          </KromaButton>
         </div>
 
         {/* Categories */}
@@ -46,16 +50,22 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
               Category
             </span>
             <div className="flex flex-wrap gap-1.5">
-              <button
-                className={`filter-pill text-xs px-2.5 py-1 ${!filters.category ? 'active' : ''}`}
+              <KromaButton
+                type="button"
+                variant={!filters.category ? 'filled' : 'subtle'}
+                size="sm"
+                className="text-xs px-2.5 py-1 min-h-[30px]"
                 onClick={() => onChange({ ...filters, category: undefined })}
               >
                 All
-              </button>
+              </KromaButton>
               {categoriesList.map((cat) => (
-                <button
+                <KromaButton
                   key={cat}
-                  className={`filter-pill text-xs px-2.5 py-1 ${filters.category?.toLowerCase() === cat.toLowerCase() ? 'active' : ''}`}
+                  type="button"
+                  variant={filters.category?.toLowerCase() === cat.toLowerCase() ? 'filled' : 'subtle'}
+                  size="sm"
+                  className="text-xs px-2.5 py-1 min-h-[30px]"
                   onClick={() =>
                     onChange({
                       ...filters,
@@ -64,7 +74,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
                   }
                 >
                   {cat}
-                </button>
+                </KromaButton>
               ))}
             </div>
           </div>
@@ -77,9 +87,12 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
           </span>
           <div className="flex flex-wrap gap-1.5">
             {MOODS.map((m) => (
-              <button
+              <KromaButton
                 key={m.id}
-                className={`filter-pill text-xs px-2.5 py-1 ${filters.mood === m.id ? 'active' : ''}`}
+                type="button"
+                variant={filters.mood === m.id ? 'filled' : 'subtle'}
+                size="sm"
+                className="text-xs px-2.5 py-1 min-h-[30px]"
                 onClick={() =>
                   onChange({
                     ...filters,
@@ -88,7 +101,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
                 }
               >
                 {m.name}
-              </button>
+              </KromaButton>
             ))}
           </div>
         </div>
@@ -100,9 +113,12 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
           </span>
           <div className="flex flex-wrap gap-1.5">
             {VISUAL_CHARACTERS.map((vc) => (
-              <button
+              <KromaButton
                 key={vc.id}
-                className={`filter-pill text-xs px-2.5 py-1 ${filters.character === vc.id ? 'active' : ''}`}
+                type="button"
+                variant={filters.character === vc.id ? 'filled' : 'subtle'}
+                size="sm"
+                className="text-xs px-2.5 py-1 min-h-[30px]"
                 onClick={() =>
                   onChange({
                     ...filters,
@@ -111,7 +127,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
                 }
               >
                 {vc.name}
-              </button>
+              </KromaButton>
             ))}
           </div>
         </div>
@@ -123,9 +139,12 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
           </span>
           <div className="flex flex-wrap gap-1.5">
             {SEASONS.map((s) => (
-              <button
+              <KromaButton
                 key={s.id}
-                className={`filter-pill text-xs px-2.5 py-1 ${filters.season === s.id ? 'active' : ''}`}
+                type="button"
+                variant={filters.season === s.id ? 'filled' : 'subtle'}
+                size="sm"
+                className="text-xs px-2.5 py-1 min-h-[30px]"
                 onClick={() =>
                   onChange({
                     ...filters,
@@ -134,13 +153,16 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
                 }
               >
                 {s.name}
-              </button>
+              </KromaButton>
             ))}
           </div>
         </div>
 
         <div className="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between">
-          <button
+          <KromaButton
+            type="button"
+            variant="ghost"
+            size="sm"
             onClick={() =>
               onChange({
                 category: undefined,
@@ -150,10 +172,10 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
                 sortBy: 'trending',
               })
             }
-            className="text-xs text-[var(--text-tertiary)] hover:underline"
+            className="text-xs text-[var(--text-tertiary)]"
           >
             Reset All
-          </button>
+          </KromaButton>
           <KromaButton
             onClick={onClose}
             variant="filled"

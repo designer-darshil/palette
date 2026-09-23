@@ -8,6 +8,7 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { CURATED_PATTERNS } from '../data/patterns';
 import { Analytics } from '../utils/analytics';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface PatternStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -367,21 +368,23 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
       {/* ─── 1. Minimal Kroma Breadcrumb ─────────────────────────── */}
       <nav className="flex items-center gap-2 font-sans text-[11.5px] font-medium tracking-[0.04em] uppercase mb-6" aria-label="Breadcrumb">
-        <button
-          type="button"
+        <KromaButton
+          variant="ghost"
+          size="sm"
           onClick={() => onNavigate({ path: 'home' })}
-          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit"
+          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit h-auto"
         >
           HOME
-        </button>
+        </KromaButton>
         <span className="text-[#171717]/25 dark:text-white/25 font-light" aria-hidden="true">/</span>
-        <button
-          type="button"
+        <KromaButton
+          variant="ghost"
+          size="sm"
           onClick={() => onNavigate({ path: 'create' })}
-          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit"
+          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit h-auto"
         >
           STUDIO
-        </button>
+        </KromaButton>
         <span className="text-[#171717]/25 dark:text-white/25 font-light" aria-hidden="true">/</span>
         <span className="text-[#171717] dark:text-white font-semibold">PATTERN STUDIO</span>
       </nav>
@@ -415,67 +418,73 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {/* Minimal Canvas Action Toolbar */}
           <div className="flex items-center justify-between gap-3 flex-wrap py-2">
             <div className="flex items-center gap-2 flex-wrap">
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-[#171717] dark:bg-white text-white dark:text-[#171717] border border-[#171717] dark:border-white hover:bg-black dark:hover:bg-[#E5E5E5] rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] cursor-pointer transition-all"
+              <KromaButton
+                variant="filled"
+                size="sm"
                 onClick={handleRandomize}
+                iconLeft={<Sparkles size={13} />}
+                className="rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em]"
                 title="Synthesize surprise pattern parameters"
               >
-                <Sparkles size={13} />
-                <span>RANDOMIZE</span>
-              </button>
+                RANDOMIZE
+              </KromaButton>
 
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={handleReset}
+                iconLeft={<RotateCcw size={12} />}
+                className="rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em]"
                 title="Reset parameters to baseline defaults"
               >
-                <RotateCcw size={12} />
-                <span>RESET</span>
-              </button>
+                RESET
+              </KromaButton>
 
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={() => setCanvasFit((f) => (f === 'cover' ? 'contain' : 'cover'))}
+                iconLeft={<Maximize2 size={12} />}
+                className="rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em]"
                 title="Toggle canvas view aspect"
               >
-                <Maximize2 size={12} />
-                <span>{canvasFit === 'cover' ? 'FIT' : 'EXPAND'}</span>
-              </button>
+                {canvasFit === 'cover' ? 'FIT' : 'EXPAND'}
+              </KromaButton>
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={handleCopyCss}
+                iconLeft={copiedCss ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
+                className="rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em]"
                 title="Copy ready CSS snippet"
               >
-                {copiedCss ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
-                <span>{copiedCss ? 'COPIED' : 'COPY CSS'}</span>
-              </button>
+                {copiedCss ? 'COPIED' : 'COPY CSS'}
+              </KromaButton>
 
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={handleDownloadSvg}
+                iconLeft={<Download size={12} />}
+                className="rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em]"
                 title="Download scalable SVG file"
               >
-                <Download size={12} />
-                <span>SVG</span>
-              </button>
+                SVG
+              </KromaButton>
 
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all"
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={handleDownloadPng}
+                iconLeft={<Image size={12} />}
+                className="rounded-[2px] px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.03em]"
                 title="Download high-resolution 1800x1120 PNG"
               >
-                <Image size={12} />
-                <span>PNG</span>
-              </button>
+                PNG
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -490,11 +499,12 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
             </div>
             <div className="grid grid-cols-4 gap-1.5">
               {SHAPE_OPTIONS.map((opt) => (
-                <button
+                <KromaButton
                   key={opt.type}
-                  type="button"
+                  variant={patternType === opt.type ? 'filled' : 'ghost'}
+                  size="sm"
                   onClick={() => setPatternType(opt.type)}
-                  className={`flex flex-col items-center justify-center gap-1 border rounded-[2px] py-2 px-1 cursor-pointer transition-all font-mono text-[10px] font-medium uppercase ${
+                  className={`flex flex-col items-center justify-center gap-1 border rounded-[2px] py-2 px-1 cursor-pointer transition-all font-mono text-[10px] font-medium uppercase h-auto w-full ${
                     patternType === opt.type
                       ? 'bg-[#171717] dark:bg-white text-white dark:text-[#171717] border-[#171717] dark:border-white'
                       : 'bg-transparent border-black/[0.08] dark:border-white/[0.08] text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white hover:border-black/[0.24] dark:hover:border-white/[0.24]'
@@ -503,7 +513,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                 >
                   <span className="text-sm leading-none">{opt.glyph}</span>
                   <span>{opt.label}</span>
-                </button>
+                </KromaButton>
               ))}
             </div>
           </div>
@@ -599,13 +609,14 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <span className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">ASSIGNED PALETTE</span>
-              <button
-                type="button"
-                className="text-[11px] font-mono text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase transition-colors"
+              <KromaButton
+                variant="ghost"
+                size="sm"
+                className="text-[11px] font-mono text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase transition-colors p-0 h-auto"
                 onClick={() => setShowPaletteDrawer(!showPaletteDrawer)}
               >
                 {showPaletteDrawer ? 'HIDE' : 'CHANGE'}
-              </button>
+              </KromaButton>
             </div>
 
             {/* Visual Palette Strip Preview */}
@@ -623,10 +634,11 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
             {showPaletteDrawer && (
               <div className="flex flex-col gap-1.5 max-h-40 overflow-y-auto pr-1">
                 {palettes.slice(0, 24).map((p, idx) => (
-                  <button
+                  <KromaButton
                     key={p.id}
-                    type="button"
-                    className={`flex items-center justify-between gap-2 border border-transparent rounded-[2px] px-1.5 py-1 cursor-pointer font-sans text-[11.5px] text-left transition-all ${
+                    variant="ghost"
+                    size="sm"
+                    className={`flex items-center justify-between gap-2 border border-transparent rounded-[2px] px-1.5 py-1 cursor-pointer font-sans text-[11.5px] text-left transition-all w-full h-auto ${
                       selectedPaletteIndex === idx
                         ? 'bg-black/[0.06] dark:bg-white/10 font-semibold text-[#171717] dark:text-white'
                         : 'bg-transparent text-[#171717] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
@@ -643,7 +655,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                         <span key={ci} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
                       ))}
                     </div>
-                  </button>
+                  </KromaButton>
                 ))}
               </div>
             )}
@@ -707,7 +719,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
             return (
               <div
                 key={preset.id}
-                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden cursor-pointer flex flex-col transition-all duration-200 ease-out hover:-translate-y-1 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.4)]"
+                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden cursor-pointer flex flex-col transition-all duration-200 ease-out hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.4)]"
                 onClick={() => handleApplyPreset(preset)}
                 role="button"
                 tabIndex={0}
@@ -828,14 +840,15 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded p-4 sm:p-5 lg:p-6 flex flex-col gap-4 w-full max-w-full min-w-0 box-border">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 w-full max-w-full min-w-0 box-border">
               <span className="font-mono text-xs text-[#707070] dark:text-[#8E8E93] uppercase tracking-[0.04em] min-w-0 break-words">CSS Surface Declaration</span>
-              <button
-                type="button"
-                className="inline-flex items-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-2.5 py-1 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all shrink-0"
+              <KromaButton
+                variant="outline"
+                size="sm"
+                className="rounded-[2px] px-2.5 py-1 font-sans text-xs font-semibold tracking-[0.03em] shrink-0"
                 onClick={handleCopyCss}
+                iconLeft={copiedCss ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
               >
-                {copiedCss ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
-                <span>{copiedCss ? 'COPIED' : 'COPY CSS'}</span>
-              </button>
+                {copiedCss ? 'COPIED' : 'COPY CSS'}
+              </KromaButton>
             </div>
 
             <pre className="font-mono text-[11.5px] bg-black/[0.03] dark:bg-white/[0.04] p-3 rounded-[2px] overflow-x-auto overflow-y-auto whitespace-pre-wrap break-words [overflow-wrap:anywhere] text-[#171717] dark:text-[#E0E0E0] max-h-[140px] w-full max-w-full min-w-0 box-border">
@@ -843,23 +856,25 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
             </pre>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 pt-2 w-full max-w-full min-w-0 box-border [&>button]:min-w-0 [&>button]:box-border [&>button_span]:overflow-hidden [&>button_span]:text-ellipsis [&>button_span]:whitespace-nowrap">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center gap-1.5 bg-[#171717] dark:bg-white text-white dark:text-[#171717] border border-[#171717] dark:border-white hover:bg-black dark:hover:bg-[#E5E5E5] rounded-[2px] px-3 py-2 font-sans text-xs font-semibold tracking-[0.03em] cursor-pointer transition-all flex-1"
+              <KromaButton
+                variant="filled"
+                size="sm"
+                className="rounded-[2px] px-3 py-2 font-sans text-xs font-semibold tracking-[0.03em] flex-1"
                 onClick={handleDownloadSvg}
+                iconLeft={<Download size={13} />}
               >
-                <Download size={13} />
-                <span>DOWNLOAD SVG VECTOR</span>
-              </button>
+                DOWNLOAD SVG VECTOR
+              </KromaButton>
 
-              <button
-                type="button"
-                className="inline-flex items-center justify-center gap-1.5 bg-transparent border border-black/12 dark:border-white/12 rounded-[2px] px-3 py-2 font-sans text-xs font-semibold tracking-[0.03em] text-[#171717] dark:text-white hover:bg-black/5 dark:hover:bg-white/[0.08] hover:border-black/[0.28] dark:hover:border-white/[0.28] cursor-pointer transition-all flex-1"
+              <KromaButton
+                variant="outline"
+                size="sm"
+                className="rounded-[2px] px-3 py-2 font-sans text-xs font-semibold tracking-[0.03em] flex-1"
                 onClick={handleDownloadPng}
+                iconLeft={<Image size={13} />}
               >
-                <Image size={13} />
-                <span>DOWNLOAD 1800PX PNG</span>
-              </button>
+                DOWNLOAD 1800PX PNG
+              </KromaButton>
             </div>
           </div>
         </div>

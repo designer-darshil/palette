@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { MeshGradientConfig, serializeMeshConfig } from '../../utils/meshEngine';
-import { Terminal, Copy, Check, Play, FileJson } from 'lucide-react';
+import { Terminal, Copy, Check, Play } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface MeshApiDocsProps {
   config: MeshGradientConfig;
@@ -68,31 +69,28 @@ export const MeshApiDocs: React.FC<MeshApiDocsProps> = ({ config }) => {
           <div className="flex items-center gap-2 flex-wrap">
             <div className="flex items-center bg-[var(--bg-surface-2)] p-0.5 rounded-xs border border-[var(--border-subtle)] flex-1 min-w-[120px]">
               {(['json', 'css', 'svg'] as const).map((fmt) => (
-                <button
+                <KromaButton
                   key={fmt}
-                  type="button"
+                  size="sm"
+                  variant={selectedFormat === fmt ? 'filled' : 'ghost'}
                   onClick={() => setSelectedFormat(fmt)}
-                  className={`flex-1 px-2 py-1 text-[10px] font-mono uppercase rounded-xs transition-colors cursor-pointer text-center ${
-                    selectedFormat === fmt
-                      ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
+                  className="flex-1 px-2 py-1 text-[10px] font-mono uppercase rounded-xs text-center"
                 >
                   {fmt}
-                </button>
+                </KromaButton>
               ))}
             </div>
 
-            <button
-              type="button"
+            <KromaButton
+              variant="filled"
+              size="sm"
               onClick={handleTestInBrowser}
-              className="btn-secondary flex-1 min-w-[100px] justify-center"
-              style={{ padding: '5px 10px', fontSize: '0.75rem' }}
+              className="flex-1 min-w-[100px] justify-center"
               title="Open API endpoint directly in browser"
+              iconLeft={<Play size={11} className="flex-shrink-0" />}
             >
-              <Play size={11} className="flex-shrink-0" />
               <span>Test Endpoint</span>
-            </button>
+            </KromaButton>
           </div>
         </div>
 
@@ -100,14 +98,15 @@ export const MeshApiDocs: React.FC<MeshApiDocsProps> = ({ config }) => {
         <div className="relative bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs p-3 font-mono text-xs text-[var(--text-primary)] max-w-full min-w-0">
           <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[var(--border-subtle)] text-[10px] text-[var(--text-tertiary)] uppercase">
             <span>cURL Request</span>
-            <button
-              type="button"
+            <KromaButton
+              size="sm"
+              variant="ghost"
               onClick={handleCopyCurl}
-              className="flex items-center gap-1 hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+              className="text-[10px] p-1 h-auto"
+              iconLeft={hasCopiedCurl ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
             >
-              {hasCopiedCurl ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
               <span>{hasCopiedCurl ? 'Copied' : 'Copy'}</span>
-            </button>
+            </KromaButton>
           </div>
           <pre className="text-[10px] leading-relaxed select-all overflow-x-auto max-w-full">
             {curlSnippet}

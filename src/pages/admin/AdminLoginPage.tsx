@@ -174,22 +174,18 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--border-subtle)' }}>
-          <button
+          <KromaButton
+            variant="ghost"
+            size="sm"
             onClick={() => onNavigatePublic({ path: 'home' })}
+            iconLeft={<ArrowLeft size={13} />}
             style={{
-              background: 'transparent',
-              border: 'none',
               color: 'var(--text-secondary)',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
               fontSize: '0.8rem',
             }}
           >
-            <ArrowLeft size={13} />
-            <span>Return to Public Library</span>
-          </button>
+            Return to Public Library
+          </KromaButton>
         </div>
       </div>
     </div>

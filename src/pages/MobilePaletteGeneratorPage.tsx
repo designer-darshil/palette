@@ -39,6 +39,7 @@ import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface MobilePaletteGeneratorProps {
   initialColorsQuery?: string;
@@ -318,19 +319,23 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
       {/* ── 1. Minimal Editorial Breadcrumb ─────────────────────── */}
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-sans text-[11.5px] font-medium tracking-wider uppercase mb-6">
-        <button
+        <KromaButton
+          variant="ghost"
+          size="sm"
           onClick={() => onNavigate({ path: 'home' })}
-          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
+          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit h-auto"
         >
           HOME
-        </button>
+        </KromaButton>
         <span className="text-black/25 dark:text-white/25 font-light">/</span>
-        <button
+        <KromaButton
+          variant="ghost"
+          size="sm"
           onClick={() => onNavigate({ path: 'create' })}
-          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
+          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit h-auto"
         >
           STUDIO
-        </button>
+        </KromaButton>
         <span className="text-black/25 dark:text-white/25 font-light">/</span>
         <span className="text-kroma-text dark:text-white font-semibold">PALETTE GENERATOR</span>
       </nav>
@@ -391,16 +396,18 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                     {String(idx + 1).padStart(2, '0')}
                   </span>
 
-                  <button
+                  <KromaButton
+                    variant="ghost"
+                    size="icon"
                     onClick={(e) => toggleLock(idx, e)}
-                    className={`p-1.5 rounded-xs bg-black/20 hover:bg-black/35 backdrop-blur-xs text-white border border-white/20 cursor-pointer transition-all active:scale-95 ${
+                    className={`p-1.5 rounded-xs bg-black/20 hover:bg-black/35 backdrop-blur-xs text-white border border-white/20 cursor-pointer transition-all active:scale-95 h-auto w-auto min-h-0 ${
                       color.locked ? 'bg-black/50! border-white/40!' : ''
                     }`}
                     aria-label={color.locked ? `Unlock ${color.hex}` : `Lock ${color.hex}`}
                     title={color.locked ? 'Unlock swatch' : 'Lock swatch'}
                   >
                     {color.locked ? <Lock size={13} /> : <Unlock size={13} className="opacity-70" />}
-                  </button>
+                  </KromaButton>
                 </div>
 
                 {/* Column Footer: Color Name, HEX, and Copy Indicator */}
@@ -447,71 +454,83 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
       <div className="flex items-center justify-between gap-4 flex-wrap mb-12 p-3 bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm">
         <div className="flex items-center gap-3 flex-wrap">
           {/* Primary Action Button */}
-          <button
+          <KromaButton
+            variant="filled"
+            size="md"
             onClick={handleGenerate}
-            className="inline-flex items-center gap-2 bg-kroma-text hover:bg-black dark:bg-white dark:hover:bg-[#ECECEC] text-white dark:text-kroma-text border border-kroma-text dark:border-white rounded-xs px-5 py-2 font-sans text-xs font-bold tracking-wider uppercase cursor-pointer transition-all active:scale-98"
+            iconLeft={<RefreshCw size={14} className={isGenerating ? 'animate-spin' : ''} />}
+            className="rounded-xs px-5 py-2 font-sans text-xs font-bold tracking-wider uppercase active:scale-98"
             title="Press Spacebar to Generate"
           >
-            <RefreshCw size={14} className={isGenerating ? 'animate-spin' : ''} />
-            <span>GENERATE</span>
-          </button>
+            GENERATE
+          </KromaButton>
 
           <span className="font-mono text-[11px] text-kroma-muted dark:text-[#8E8E93] hidden md:inline">
             (SPACEBAR)
           </span>
 
           {/* Randomize Button */}
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={handleRandomize}
-            className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
+            iconLeft={<Sparkles size={13} />}
+            className="rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider"
             title="Generate random anchor palette"
           >
-            <Sparkles size={13} />
-            <span>RANDOMIZE</span>
-          </button>
+            RANDOMIZE
+          </KromaButton>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
           {/* Undo / Redo */}
-          <button
+          <KromaButton
+            variant="outline"
+            size="icon"
             onClick={handleUndo}
             disabled={historyIndex <= 0}
-            className="inline-flex items-center justify-center p-2 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs font-sans text-xs text-kroma-text dark:text-white cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-2 rounded-xs font-sans text-xs"
             aria-label="Undo palette state"
             title="Undo"
           >
             <RotateCcw size={13} />
-          </button>
+          </KromaButton>
 
-          <button
+          <KromaButton
+            variant="outline"
+            size="icon"
             onClick={handleRedo}
             disabled={historyIndex >= history.length - 1}
-            className="inline-flex items-center justify-center p-2 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs font-sans text-xs text-kroma-text dark:text-white cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            className="p-2 rounded-xs font-sans text-xs"
             aria-label="Redo palette state"
             title="Redo"
           >
             <RotateCw size={13} />
-          </button>
+          </KromaButton>
 
           {/* Save Palette */}
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={handleSavePalette}
-            className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
+            iconLeft={<Bookmark size={13} />}
+            className="rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider"
             title="Save to Studio Library"
           >
-            <Bookmark size={13} />
-            <span>{isCurrentSaved ? 'SAVED' : 'SAVE PALETTE'}</span>
-          </button>
+            {isCurrentSaved ? 'SAVED' : 'SAVE PALETTE'}
+          </KromaButton>
 
           {/* Export */}
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={() => setExportOpen(true)}
-            className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
+            iconLeft={<Code size={13} />}
+            className="rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider"
             title="Export Palette Code"
           >
-            <Code size={13} />
-            <span>EXPORT</span>
-          </button>
+            EXPORT
+          </KromaButton>
         </div>
       </div>
 
@@ -576,10 +595,12 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                   { id: 'monochromatic', label: 'Monochrome', dots: 5 },
                 ] as { id: HarmonyMode; label: string; dots: number }[]
               ).map((h) => (
-                <button
+                <KromaButton
                   key={h.id}
+                  variant={harmony === h.id ? 'filled' : 'outline'}
+                  size="sm"
                   onClick={() => handleHarmonyChange(h.id)}
-                  className={`p-2 font-mono text-[11px] uppercase rounded-xs border transition-colors cursor-pointer flex items-center justify-between ${
+                  className={`p-2 font-mono text-[11px] uppercase rounded-xs border transition-colors cursor-pointer flex items-center justify-between w-full h-auto ${
                     harmony === h.id
                       ? 'border-kroma-text dark:border-white font-bold bg-black/[0.06] dark:bg-white/[0.1] text-kroma-text dark:text-white'
                       : 'border-black/10 dark:border-white/10 text-kroma-muted hover:text-kroma-text dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
@@ -593,7 +614,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                       ))}
                     </div>
                   </div>
-                </button>
+                </KromaButton>
               ))}
             </div>
           </div>
@@ -607,17 +628,19 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
             <div className="flex gap-1.5">
               {[3, 4, 5, 6, 7].map((count) => (
-                <button
+                <KromaButton
                   key={count}
+                  variant={colorCount === count ? 'filled' : 'outline'}
+                  size="sm"
                   onClick={() => handleCountChange(count)}
-                  className={`flex-1 py-1.5 font-mono text-xs uppercase border rounded-xs transition-colors cursor-pointer ${
+                  className={`flex-1 py-1.5 font-mono text-xs uppercase border rounded-xs transition-colors cursor-pointer h-auto ${
                     colorCount === count
                       ? 'border-kroma-text! dark:border-white! font-bold! bg-kroma-text! text-white! dark:bg-white! dark:text-kroma-text!'
                       : 'border-black/15 dark:border-white/15 text-kroma-muted hover:text-kroma-text dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   {count}
-                </button>
+                </KromaButton>
               ))}
             </div>
 
@@ -719,13 +742,15 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
             </div>
           </div>
 
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={() => handleCopySingle(activeColor.hex, activeColor.name)}
-            className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
+            iconLeft={<Copy size={12} />}
+            className="rounded-xs px-3 py-1.5 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white"
           >
-            <Copy size={12} />
-            <span>{copiedHex === activeColor.hex ? 'COPIED' : 'COPY SPEC'}</span>
-          </button>
+            {copiedHex === activeColor.hex ? 'COPIED' : 'COPY SPEC'}
+          </KromaButton>
         </div>
       </section>
 
@@ -743,28 +768,32 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
               <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
                 EXPORT SYSTEM TOKENS
               </span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="icon"
                 onClick={() => setExportOpen(false)}
-                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-1 cursor-pointer"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-1 cursor-pointer h-auto w-auto min-h-0"
                 aria-label="Close export modal"
               >
                 <X size={16} />
-              </button>
+              </KromaButton>
             </div>
 
             <div className="flex gap-2">
               {(['css', 'tailwind', 'json', 'hex'] as const).map((fmt) => (
-                <button
+                <KromaButton
                   key={fmt}
+                  variant={exportFormat === fmt ? 'filled' : 'outline'}
+                  size="sm"
                   onClick={() => setExportFormat(fmt)}
-                  className={`flex-1 py-1.5 font-mono text-xs uppercase border rounded-xs transition-colors cursor-pointer ${
+                  className={`flex-1 py-1.5 font-mono text-xs uppercase border rounded-xs transition-colors cursor-pointer h-auto ${
                     exportFormat === fmt
                       ? 'border-kroma-text! dark:border-white! font-bold! bg-kroma-text! text-white! dark:bg-white! dark:text-kroma-text!'
                       : 'border-black/15 dark:border-white/15 text-kroma-muted hover:text-kroma-text dark:hover:text-white'
                   }`}
                 >
                   {fmt}
-                </button>
+                </KromaButton>
               ))}
             </div>
 
@@ -772,18 +801,20 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
               {formatPaletteExport(colors, exportFormat)}
             </pre>
 
-            <button
+            <KromaButton
+              variant="filled"
+              size="md"
               onClick={async () => {
                 const code = formatPaletteExport(colors, exportFormat);
                 await copyToClipboard(code);
                 showToast(`Copied ${exportFormat.toUpperCase()} tokens`);
                 setExportOpen(false);
               }}
-              className="inline-flex items-center justify-center gap-2 bg-kroma-text hover:bg-black dark:bg-white dark:hover:bg-[#ECECEC] text-white dark:text-kroma-text border border-kroma-text dark:border-white rounded-xs px-5 py-2.5 font-sans text-xs font-bold tracking-wider uppercase cursor-pointer transition-all w-full"
+              iconLeft={<Copy size={13} />}
+              className="rounded-xs px-5 py-2.5 font-sans text-xs font-bold tracking-wider uppercase w-full"
             >
-              <Copy size={13} />
-              <span>COPY CODE</span>
-            </button>
+              COPY CODE
+            </KromaButton>
           </div>
         </div>
       )}

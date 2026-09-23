@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ArrowUpRight, X } from 'lucide-react';
 import { RouteType } from '../types';
 import { Link } from './common/Link';
+import { KromaButton } from './common/KromaButton';
 
 export interface FooterProps {
   onNavigate: (route: RouteType) => void;
@@ -179,8 +180,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </Link>
               </li>
               <li>
-                <Link to={{ path: 'antigravity' }} onNavigate={handleNav} className="kroma-footer__link">
-                  Antigravity Physics
+                <Link to={{ path: 'springs' }} onNavigate={handleNav} className="kroma-footer__link">
+                  Springs Studio
                 </Link>
               </li>
               <li>
@@ -330,21 +331,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             Made with curiosity.
           </div>
           <div className="kroma-footer__bottom-right">
-            <button
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="sm"
               onClick={() => setLegalModal('privacy')}
-              className="kroma-footer__legal-link"
+              className="kroma-footer__legal-link h-auto p-0 min-h-0 text-xs font-normal lowercase tracking-normal"
             >
               Privacy
-            </button>
+            </KromaButton>
             <span className="kroma-footer__legal-sep" aria-hidden="true">•</span>
-            <button
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="sm"
               onClick={() => setLegalModal('terms')}
-              className="kroma-footer__legal-link"
+              className="kroma-footer__legal-link h-auto p-0 min-h-0 text-xs font-normal lowercase tracking-normal"
             >
               Terms
-            </button>
+            </KromaButton>
           </div>
         </div>
       </div>
@@ -366,14 +371,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <h3 className="text-base font-bold text-[var(--text-primary)] tracking-tight">
                 {legalModal === 'privacy' ? 'Privacy Policy' : 'Terms of Service'}
               </h3>
-              <button
+              <KromaButton
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => setLegalModal(null)}
-                className="p-1 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] transition-colors"
+                className="w-8 h-8 min-h-[32px] p-1 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] transition-colors"
                 aria-label="Close dialog"
               >
                 <X size={18} />
-              </button>
+              </KromaButton>
             </div>
             <div className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed space-y-3">
               {legalModal === 'privacy' ? (

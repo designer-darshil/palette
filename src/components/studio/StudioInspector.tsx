@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 /* ─── Inspector Tab System ─── */
 
@@ -42,7 +43,7 @@ export const StudioTabbedInspector: React.FC<StudioTabbedInspectorProps> = ({
         {tabs.map((tab, idx) => {
           const isActive = tab.id === activeTab;
           return (
-            <button
+            <KromaButton
               key={tab.id}
               type="button"
               role="tab"
@@ -52,11 +53,13 @@ export const StudioTabbedInspector: React.FC<StudioTabbedInspectorProps> = ({
               tabIndex={isActive ? 0 : -1}
               onClick={() => onTabChange(tab.id)}
               onKeyDown={(e) => handleKeyDown(e, idx)}
-              className={`studio-inspector-tab ${isActive ? 'active' : ''}`}
+              variant={isActive ? 'filled' : 'ghost'}
+              size="sm"
+              className={`studio-inspector-tab min-h-[30px] px-2.5 py-1 text-xs ${isActive ? 'active' : ''}`}
             >
               {tab.icon}
               <span>{tab.label}</span>
-            </button>
+            </KromaButton>
           );
         })}
       </div>
@@ -94,11 +97,13 @@ export const StudioInspectorSection: React.FC<StudioInspectorSectionProps> = ({
 
   return (
     <div className="studio-section">
-      <button
+      <KromaButton
         type="button"
+        variant="ghost"
+        size="sm"
         id={`section-header-${sectionId}`}
         onClick={() => setIsOpen(!isOpen)}
-        className="studio-section-header"
+        className="studio-section-header w-full flex items-center justify-between text-left min-h-[34px] px-3 py-2 rounded-none font-normal"
         aria-expanded={isOpen}
         aria-controls={`section-body-${sectionId}`}
       >
@@ -110,7 +115,7 @@ export const StudioInspectorSection: React.FC<StudioInspectorSectionProps> = ({
           size={12}
           className={`studio-section-chevron ${isOpen ? 'open' : ''}`}
         />
-      </button>
+      </KromaButton>
 
       {isOpen && (
         <div
@@ -224,15 +229,17 @@ export function StudioSegmented<T extends string>({ options, value, onChange }: 
       {options.map((opt) => {
         const isSelected = opt.id === value;
         return (
-          <button
+          <KromaButton
             key={opt.id}
             type="button"
+            variant={isSelected ? 'filled' : 'ghost'}
+            size="sm"
             onClick={() => onChange(opt.id)}
-            className={`studio-segmented-btn ${isSelected ? 'active' : ''}`}
+            className={`studio-segmented-btn min-h-[30px] px-2 py-1 text-xs ${isSelected ? 'active' : ''}`}
           >
             {opt.icon}
             <span>{opt.label}</span>
-          </button>
+          </KromaButton>
         );
       })}
     </div>

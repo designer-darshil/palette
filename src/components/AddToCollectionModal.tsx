@@ -56,12 +56,16 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({
               Add to Collection
             </span>
           </div>
-          <button
+          <KromaButton
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={onClose}
-            className="p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] rounded-xs"
+            className="w-7 h-7 min-h-[28px] p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+            aria-label="Close dialog"
           >
             <X size={16} />
-          </button>
+          </KromaButton>
         </div>
 
         {/* Item Preview */}
@@ -83,21 +87,23 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({
           {collections.map((col) => {
             const alreadyIn = col.items.some((i) => i.refId === item.refId);
             return (
-              <button
+              <KromaButton
                 key={col.id}
+                type="button"
+                variant="subtle"
                 onClick={() => handleAdd(col.id, col.title)}
-                className="flex items-center justify-between p-2.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] transition-colors text-left"
+                className="w-full flex items-center justify-between p-2.5 rounded-xs border border-[var(--border-subtle)] transition-colors text-left normal-case min-h-[44px]"
               >
-                <div className="min-w-0">
+                <div className="min-w-0 text-left">
                   <div className="text-xs font-bold text-[var(--text-primary)] truncate">{col.title}</div>
-                  <div className="text-[10px] text-[var(--text-tertiary)] font-mono">{col.items.length} items</div>
+                  <div className="text-[10px] text-[var(--text-tertiary)] font-mono font-normal">{col.items.length} items</div>
                 </div>
                 {alreadyIn ? (
                   <Check size={14} className="text-emerald-400 flex-shrink-0" />
                 ) : (
                   <Plus size={14} className="text-[var(--text-tertiary)] flex-shrink-0" />
                 )}
-              </button>
+              </KromaButton>
             );
           })}
         </div>
@@ -118,13 +124,16 @@ export const AddToCollectionModal: React.FC<AddToCollectionModalProps> = ({
             </KromaButton>
           </form>
         ) : (
-          <button
+          <KromaButton
+            type="button"
+            variant="ghost"
+            size="sm"
             onClick={() => setIsCreating(true)}
-            className="text-xs text-[var(--color-primary)] hover:underline flex items-center gap-1 font-semibold"
+            className="text-xs text-[var(--color-primary)] flex items-center gap-1 font-semibold"
+            iconLeft={<Plus size={13} />}
           >
-            <Plus size={13} />
             <span>Create new collection</span>
-          </button>
+          </KromaButton>
         )}
       </div>
     </div>

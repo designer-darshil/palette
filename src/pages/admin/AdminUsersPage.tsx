@@ -294,43 +294,40 @@ export const AdminUsersPage: React.FC = () => {
                 </td>
                 <td style={{ padding: '12px 14px', textAlign: 'right' }}>
                   <div style={{ display: 'inline-flex', gap: '6px' }}>
-                    <button
+                    <KromaButton
+                      variant="outline"
+                      size="sm"
                       onClick={() => {
                         setRoleChangeTarget(u);
                         setTargetNewRole(u.role);
                       }}
-                      className="btn-secondary"
                       style={{ padding: '3px 8px', fontSize: '0.72rem' }}
                       title="Modify Role"
                     >
-                      <span>Role</span>
-                    </button>
+                      Role
+                    </KromaButton>
 
-                    <button
+                    <KromaButton
+                      variant="outline"
+                      size="sm"
                       onClick={() => toggleUserStatus(u.id)}
                       disabled={u.id === currentUser?.id}
-                      className="btn-secondary"
                       style={{ padding: '3px 8px', fontSize: '0.72rem' }}
                       title={u.status === 'active' ? 'Suspend Account' : 'Reactivate Account'}
                     >
                       {u.status === 'active' ? <Ban size={12} /> : <CheckCircle2 size={12} color="#22C55E" />}
-                    </button>
+                    </KromaButton>
 
-                    <button
+                    <KromaButton
+                      variant="outline"
+                      size="icon"
                       onClick={() => setRemoveTarget(u)}
                       disabled={u.id === currentUser?.id}
-                      style={{
-                        background: 'transparent',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: '3px',
-                        padding: '4px 6px',
-                        color: u.id === currentUser?.id ? 'var(--text-tertiary)' : '#F87171',
-                        cursor: u.id === currentUser?.id ? 'not-allowed' : 'pointer',
-                      }}
+                      className="!w-7 !h-7 !p-0 text-red-400 hover:text-red-500 disabled:opacity-40 disabled:cursor-not-allowed"
                       title="Remove Account"
                     >
                       <Trash2 size={12} />
-                    </button>
+                    </KromaButton>
                   </div>
                 </td>
               </tr>
@@ -481,22 +478,19 @@ export const AdminUsersPage: React.FC = () => {
               <KromaButton type="button" variant="outline" size="sm" onClick={() => setRemoveTarget(null)}>
                 Cancel
               </KromaButton>
-              <button
+              <KromaButton
                 type="button"
+                variant="filled"
+                size="sm"
                 onClick={handleConfirmRemove}
                 style={{
                   background: '#E63946',
                   color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: 'var(--radius-xs)',
-                  padding: '8px 16px',
-                  fontWeight: 600,
-                  fontSize: '0.82rem',
-                  cursor: 'pointer',
+                  borderColor: '#E63946',
                 }}
               >
                 Permanently Remove
-              </button>
+              </KromaButton>
             </div>
           </div>
         </div>

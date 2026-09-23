@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { MeshGradientConfig, MeshPoint, isValidHex } from '../../utils/meshEngine';
 import {
-  Plus,
   Trash2,
   Eye,
   Edit3,
   Grid,
   RefreshCw,
 } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface MeshHeroCanvasProps {
   config: MeshGradientConfig;
@@ -297,26 +297,28 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
 
         {/* Canvas HUD */}
         <div className="studio-canvas-hud">
-          <button
-            type="button"
+          <KromaButton
+            size="sm"
+            variant={viewMode === 'edit' ? 'filled' : 'ghost'}
             onClick={onToggleViewMode}
             className={`studio-canvas-hud-btn ${viewMode === 'edit' ? 'active' : ''}`}
             title="Toggle Edit / Preview"
             style={{ width: 'auto', borderRadius: 'var(--radius-sm)', padding: '4px 10px', gap: '4px', display: 'flex' }}
+            iconLeft={viewMode === 'edit' ? <Edit3 size={12} /> : <Eye size={12} />}
           >
-            {viewMode === 'edit' ? <Edit3 size={12} /> : <Eye size={12} />}
             <span className="font-mono text-[10px] font-bold">{viewMode === 'edit' ? 'Edit' : 'View'}</span>
-          </button>
+          </KromaButton>
 
-          <button
-            type="button"
+          <KromaButton
+            size="icon"
+            variant="ghost"
             onClick={onToggleGridLines}
-            className={`studio-canvas-hud-btn ${showGridLines ? '' : ''}`}
+            className="studio-canvas-hud-btn"
             title="Toggle grid"
+            aria-label="Toggle grid"
             style={showGridLines ? { color: 'var(--color-primary)' } : {}}
-          >
-            <Grid size={12} />
-          </button>
+            iconLeft={<Grid size={12} />}
+          />
 
           <div className="studio-canvas-hud-divider" />
 
@@ -325,26 +327,28 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
           </span>
 
           {selectedPoint && onRandomizePointColor && (
-            <button
-              type="button"
+            <KromaButton
+              size="icon"
+              variant="ghost"
               onClick={() => onRandomizePointColor(selectedPoint.id)}
               className="studio-canvas-hud-btn"
               title="Randomize node color"
-            >
-              <RefreshCw size={11} />
-            </button>
+              aria-label="Randomize node color"
+              iconLeft={<RefreshCw size={11} />}
+            />
           )}
 
           {selectedPoint && config.points.length > 2 && (
-            <button
-              type="button"
+            <KromaButton
+              size="icon"
+              variant="ghost"
               onClick={() => onDeletePoint(selectedPoint.id)}
               className="studio-canvas-hud-btn"
               title="Delete node"
+              aria-label="Delete node"
               style={{ color: '#F87171' }}
-            >
-              <Trash2 size={11} />
-            </button>
+              iconLeft={<Trash2 size={11} />}
+            />
           )}
         </div>
       </div>

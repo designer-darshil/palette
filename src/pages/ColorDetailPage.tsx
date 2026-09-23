@@ -176,13 +176,14 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       <header className="pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
         {/* Editorial Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-wider text-[#707070] dark:text-[#909090] mb-3">
-          <button
-            type="button"
+          <KromaButton
+            variant="ghost"
+            size="sm"
             onClick={() => onNavigate({ path: 'colors' })}
-            className="hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0"
+            className="hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0 font-mono text-[10.5px] uppercase tracking-wider text-[#707070] dark:text-[#909090] h-auto"
           >
             COLOURS
-          </button>
+          </KromaButton>
           <span className="opacity-40">/</span>
           <span className="text-[#171717] dark:text-white font-semibold">{color.family.toUpperCase()}</span>
           <span className="opacity-40">/</span>
@@ -283,15 +284,16 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
             <span className="font-semibold drop-shadow-xs">
               SPECIMEN Nº {color.id.toUpperCase()} • {color.family.toUpperCase()} GAMUT
             </span>
-            <button
-              type="button"
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconLeft={<Copy size={12} />}
               onClick={() => handleCopyValue(color.hex, 'HEX')}
-              className="bg-black/35 hover:bg-black/55 text-white font-mono text-[11px] font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 backdrop-blur-xs transition-transform hover:scale-105 cursor-pointer shadow-xs"
+              className="bg-black/35 hover:bg-black/55 text-white font-mono text-[11px] font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 backdrop-blur-xs transition-transform hover:scale-105 cursor-pointer shadow-xs border-0"
               title="Click to copy HEX"
             >
-              <Copy size={12} />
-              <span>COPY HEX</span>
-            </button>
+              COPY HEX
+            </KromaButton>
           </div>
 
           {/* Bottom Title & Dominant Callout */}
@@ -605,14 +607,15 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
             <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
               PALETTE SYSTEMS FEATURING {color.name.toUpperCase()}
             </span>
-            <button
-              type="button"
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconRight={<ArrowUpRight size={12} />}
               onClick={() => onNavigate({ path: 'palettes' })}
-              className="text-xs font-mono uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer inline-flex items-center gap-1"
+              className="text-xs font-mono uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer p-0 h-auto"
             >
-              <span>EXPLORE ALL</span>
-              <ArrowUpRight size={12} />
-            </button>
+              EXPLORE ALL
+            </KromaButton>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {relatedPalettes.map((p) => (
@@ -628,14 +631,15 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
             <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
               TWO-COLOR RELATIONS IN THIS GAMUT
             </span>
-            <button
-              type="button"
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconRight={<ArrowUpRight size={12} />}
               onClick={() => onNavigate({ path: 'combos' })}
-              className="text-xs font-mono uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer inline-flex items-center gap-1"
+              className="text-xs font-mono uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer p-0 h-auto"
             >
-              <span>EXPLORE ALL</span>
-              <ArrowUpRight size={12} />
-            </button>
+              EXPLORE ALL
+            </KromaButton>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {relatedCombos.map((cb) => (
@@ -651,14 +655,15 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
             <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
               CURATED GRADIENTS IN THIS COLORWAY
             </span>
-            <button
-              type="button"
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconRight={<ArrowUpRight size={12} />}
               onClick={() => onNavigate({ path: 'gradients' })}
-              className="text-xs font-mono uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer inline-flex items-center gap-1"
+              className="text-xs font-mono uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer p-0 h-auto"
             >
-              <span>EXPLORE ALL</span>
-              <ArrowUpRight size={12} />
-            </button>
+              EXPLORE ALL
+            </KromaButton>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {relatedGradients.map((g) => (
@@ -674,14 +679,15 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
             <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#707070] dark:text-[#909090]">
               RELATED {color.family.toUpperCase()} SPECIMENS
             </span>
-            <button
-              type="button"
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconRight={<ArrowUpRight size={12} />}
               onClick={() => onNavigate({ path: 'colors' })}
-              className="text-xs font-mono uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer inline-flex items-center gap-1"
+              className="text-xs font-mono uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer p-0 h-auto"
             >
-              <span>ALL SPECIMENS</span>
-              <ArrowUpRight size={12} />
-            </button>
+              ALL SPECIMENS
+            </KromaButton>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {relatedColors.map((c) => (

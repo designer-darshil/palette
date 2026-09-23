@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
 import { KromaCard } from './common/KromaCard';
+import { KromaButton } from './common/KromaButton';
 import { Analytics } from '../utils/analytics';
 
 interface PaletteCardProps {
@@ -168,29 +169,35 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
 
         {/* Subtle, Non-Domineering Card Actions */}
         <div className="flex items-center gap-1 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
-          <button
+          <KromaButton
             type="button"
-            className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
+            variant="ghost"
+            size="icon"
+            className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
             onClick={handleCopyAllHexes}
             aria-label="Copy all hex values"
             title="Copy all hex values"
           >
             <Copy size={13} />
-          </button>
+          </KromaButton>
 
-          <button
+          <KromaButton
             type="button"
-            className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
+            variant="ghost"
+            size="icon"
+            className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
             onClick={handleShare}
             aria-label="Share palette link"
             title="Share palette link"
           >
             <Share2 size={13} />
-          </button>
+          </KromaButton>
 
-          <button
+          <KromaButton
             type="button"
-            className={`p-1.5 rounded-[2px] transition-colors ${
+            variant="ghost"
+            size="icon"
+            className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
               saved
                 ? 'text-[var(--accent-gold)]'
                 : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
@@ -200,7 +207,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
             title={saved ? 'Remove from saved' : 'Save palette'}
           >
             <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-          </button>
+          </KromaButton>
         </div>
       </div>
     </KromaCard>

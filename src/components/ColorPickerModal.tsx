@@ -63,14 +63,16 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
           <span className="font-mono text-xs font-bold text-[var(--color-primary-text)] tracking-wider uppercase">
             {title}
           </span>
-          <button
+          <KromaButton
             type="button"
+            variant="ghost"
+            size="icon"
             onClick={onClose}
-            className="w-6 h-6 flex items-center justify-center text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] rounded-xs transition-colors cursor-pointer"
+            className="w-6 h-6 min-h-[24px] p-0 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] rounded-xs"
             aria-label="Close color selector"
           >
             <X size={14} />
-          </button>
+          </KromaButton>
         </div>
 
         {/* Custom Color Picker Core */}

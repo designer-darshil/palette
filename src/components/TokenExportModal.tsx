@@ -64,40 +64,56 @@ export const TokenExportModal: React.FC<TokenExportModalProps> = ({
               Developer Tokens: {palette.title}
             </span>
           </div>
-          <button
+          <KromaButton
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={onClose}
-            className="p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] rounded-xs"
+            className="w-8 h-8 min-h-[32px] p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
+            aria-label="Close dialog"
           >
             <X size={18} />
-          </button>
+          </KromaButton>
         </div>
 
         {/* Format Selector Pills */}
         <div className="filter-pills flex flex-wrap gap-1.5">
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${format === 'css' ? 'active' : ''}`}
+          <KromaButton
+            type="button"
+            variant={format === 'css' ? 'filled' : 'subtle'}
+            size="sm"
+            className="text-xs px-3 py-1.5 min-h-[30px]"
             onClick={() => setFormat('css')}
           >
             CSS Variables
-          </button>
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${format === 'scss' ? 'active' : ''}`}
+          </KromaButton>
+          <KromaButton
+            type="button"
+            variant={format === 'scss' ? 'filled' : 'subtle'}
+            size="sm"
+            className="text-xs px-3 py-1.5 min-h-[30px]"
             onClick={() => setFormat('scss')}
           >
             SCSS Map
-          </button>
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${format === 'tailwind' ? 'active' : ''}`}
+          </KromaButton>
+          <KromaButton
+            type="button"
+            variant={format === 'tailwind' ? 'filled' : 'subtle'}
+            size="sm"
+            className="text-xs px-3 py-1.5 min-h-[30px]"
             onClick={() => setFormat('tailwind')}
           >
             Tailwind Config
-          </button>
-          <button
-            className={`filter-pill text-xs px-3 py-1.5 ${format === 'json' ? 'active' : ''}`}
+          </KromaButton>
+          <KromaButton
+            type="button"
+            variant={format === 'json' ? 'filled' : 'subtle'}
+            size="sm"
+            className="text-xs px-3 py-1.5 min-h-[30px]"
             onClick={() => setFormat('json')}
           >
             DTCG JSON Tokens
-          </button>
+          </KromaButton>
         </div>
 
         {/* Code Output Block */}
@@ -123,9 +139,9 @@ export const TokenExportModal: React.FC<TokenExportModalProps> = ({
 
         <div className="flex items-center justify-between text-xs text-[var(--text-tertiary)] font-mono">
           <span>{palette.colors.length} tokens generated</span>
-          <button onClick={onClose} className="hover:underline">
+          <KromaButton type="button" variant="ghost" size="sm" onClick={onClose} className="text-xs">
             Close
-          </button>
+          </KromaButton>
         </div>
       </div>
     </div>

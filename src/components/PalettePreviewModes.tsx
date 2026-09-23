@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Smartphone, BookOpen, Sparkles, Layers } from 'lucide-react';
 import { PaletteItem } from '../types';
 import { getTextColorForBackground } from '../utils/colorUtils';
+import { KromaButton } from './common/KromaButton';
 
 interface PalettePreviewModesProps {
   palette: PaletteItem;
@@ -35,34 +36,46 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
         </div>
 
         <div className="filter-pills flex flex-wrap gap-1">
-          <button
-            className={`filter-pill text-xs px-2.5 py-1 flex items-center gap-1 ${activeMode === 'ui' ? 'active' : ''}`}
+          <KromaButton
+            type="button"
+            variant={activeMode === 'ui' ? 'filled' : 'subtle'}
+            size="sm"
+            className="text-xs px-2.5 py-1 min-h-[30px]"
             onClick={() => setActiveMode('ui')}
+            iconLeft={<Layout size={12} />}
           >
-            <Layout size={12} />
             <span>SaaS Dashboard</span>
-          </button>
-          <button
-            className={`filter-pill text-xs px-2.5 py-1 flex items-center gap-1 ${activeMode === 'editorial' ? 'active' : ''}`}
+          </KromaButton>
+          <KromaButton
+            type="button"
+            variant={activeMode === 'editorial' ? 'filled' : 'subtle'}
+            size="sm"
+            className="text-xs px-2.5 py-1 min-h-[30px]"
             onClick={() => setActiveMode('editorial')}
+            iconLeft={<BookOpen size={12} />}
           >
-            <BookOpen size={12} />
             <span>Editorial</span>
-          </button>
-          <button
-            className={`filter-pill text-xs px-2.5 py-1 flex items-center gap-1 ${activeMode === 'mobile' ? 'active' : ''}`}
+          </KromaButton>
+          <KromaButton
+            type="button"
+            variant={activeMode === 'mobile' ? 'filled' : 'subtle'}
+            size="sm"
+            className="text-xs px-2.5 py-1 min-h-[30px]"
             onClick={() => setActiveMode('mobile')}
+            iconLeft={<Smartphone size={12} />}
           >
-            <Smartphone size={12} />
             <span>Mobile App</span>
-          </button>
-          <button
-            className={`filter-pill text-xs px-2.5 py-1 flex items-center gap-1 ${activeMode === 'branding' ? 'active' : ''}`}
+          </KromaButton>
+          <KromaButton
+            type="button"
+            variant={activeMode === 'branding' ? 'filled' : 'subtle'}
+            size="sm"
+            className="text-xs px-2.5 py-1 min-h-[30px]"
             onClick={() => setActiveMode('branding')}
+            iconLeft={<Sparkles size={12} />}
           >
-            <Sparkles size={12} />
             <span>Branding Identity</span>
-          </button>
+          </KromaButton>
         </div>
       </div>
 
@@ -106,18 +119,24 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
 
           {/* Primary & Secondary Action row */}
           <div className="flex items-center gap-3 pt-2">
-            <button
-              className="px-4 py-2 rounded-xs font-bold text-xs uppercase tracking-wider shadow-sm cursor-default"
+            <KromaButton
+              type="button"
+              variant="filled"
+              size="sm"
+              className="font-bold text-xs uppercase tracking-wider shadow-sm cursor-default"
               style={{ backgroundColor: c1, color: c1Text }}
             >
               Deploy Pipeline
-            </button>
-            <button
-              className="px-4 py-2 rounded-xs font-semibold text-xs border cursor-default"
+            </KromaButton>
+            <KromaButton
+              type="button"
+              variant="outline"
+              size="sm"
+              className="font-semibold text-xs border cursor-default"
               style={{ borderColor: c2, color: c4 }}
             >
               Inspect Logs
-            </button>
+            </KromaButton>
           </div>
         </div>
       )}
@@ -179,12 +198,15 @@ export const PalettePreviewModes: React.FC<PalettePreviewModesProps> = ({ palett
               <div className="text-[10px] font-mono" style={{ color: c1 }}>+$1,240.50 (3.2%)</div>
             </div>
 
-            <button
-              className="w-full py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider text-center"
+            <KromaButton
+              type="button"
+              variant="filled"
+              size="md"
+              className="w-full rounded-lg font-bold text-xs uppercase tracking-wider text-center"
               style={{ backgroundColor: c1, color: c1Text }}
             >
               Instant Transfer
-            </button>
+            </KromaButton>
           </div>
         </div>
       )}

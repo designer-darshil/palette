@@ -14,7 +14,7 @@ import { generateGradientSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 import { Analytics } from '../utils/analytics';
 
 interface GradientDetailPageProps {
@@ -159,31 +159,31 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
         description={`CSS gradient specimen featuring ${baseGradient.stops.length} color stops (${baseGradient.stops.map((s) => s.color).join(', ')}).`}
         actions={
           <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-            <Button
-              variant="primary"
+            <KromaButton
+              variant="filled"
               size="sm"
               iconLeft={<Copy size={13} />}
               onClick={handleCopyCss}
             >
               Copy CSS
-            </Button>
-            <Button
-              variant="secondary"
+            </KromaButton>
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<Share2 size={13} />}
               onClick={handleShare}
               title="Share Gradient URL"
             >
               Share
-            </Button>
-            <Button
-              variant="secondary"
+            </KromaButton>
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
               onClick={handleToggleSave}
             >
               {saved ? 'Saved' : 'Save'}
-            </Button>
+            </KromaButton>
           </div>
         }
       />
@@ -198,13 +198,15 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
             <span className="font-mono text-[10px] sm:text-xs text-white bg-black/50 px-2 py-0.5 rounded-xs uppercase tracking-wider font-semibold shadow-sm truncate">
               {baseGradient.type.toUpperCase()} • {baseGradient.stops.length} STOPS • {angle}°
             </span>
-            <button
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconLeft={<Copy size={12} />}
               onClick={handleCopyCss}
-              className="bg-black/50 hover:bg-black/70 text-white px-3 py-1.5 rounded-xs flex items-center gap-1.5 text-xs font-bold font-mono shadow-sm transition-colors whitespace-nowrap"
+              className="bg-black/50 hover:bg-black/70 text-white px-3 py-1.5 rounded-xs flex items-center gap-1.5 text-xs font-bold font-mono shadow-sm transition-colors whitespace-nowrap border-0"
             >
-              <Copy size={12} />
-              <span>COPY CSS</span>
-            </button>
+              COPY CSS
+            </KromaButton>
           </div>
 
           <div>
@@ -244,14 +246,15 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
                 Slide to recalibrate gradient angle in real-time.
               </p>
             </div>
-            <button
-              className="btn-secondary"
+            <KromaButton
+              variant="outline"
+              size="sm"
+              iconLeft={<RefreshCw size={12} />}
               onClick={() => setAngle(baseGradient.angle || 135)}
-              style={{ padding: '6px 10px', fontSize: '0.75rem' }}
+              className="text-xs"
             >
-              <RefreshCw size={12} />
-              <span>Reset Angle</span>
-            </button>
+              Reset Angle
+            </KromaButton>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -300,32 +303,29 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
                 />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{stop.name || `Stop 0${idx + 1}`}</span>
-                  <button
+                  <KromaButton
+                    variant="ghost"
+                    size="sm"
                     onClick={() => handleCopyStopHex(stop.color, stop.name || `Stop 0${idx + 1}`)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}
+                    className="p-0 h-auto font-mono text-[0.78rem] text-[var(--text-secondary)] hover:text-white cursor-pointer whitespace-nowrap border-0"
                   >
                     {stop.color}
-                  </button>
+                  </KromaButton>
                 </div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-tertiary)' }}>
                   POSITION: {stop.position}%
                 </div>
                 {slug && (
                   <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px solid var(--border-subtle)' }}>
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
+                      iconRight={<ExternalLink size={10} />}
                       onClick={() => onNavigate({ path: 'color-detail', slug })}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.72rem',
-                        fontFamily: 'var(--font-mono)',
-                        color: 'var(--text-secondary)',
-                      }}
+                      className="p-0 h-auto inline-flex items-center gap-1 text-[0.72rem] font-mono text-[var(--text-secondary)] hover:text-white cursor-pointer whitespace-nowrap border-0"
                     >
-                      <span>View Color Specimen</span>
-                      <ExternalLink size={10} />
-                    </button>
+                      View Color Specimen
+                    </KromaButton>
                   </div>
                 )}
               </div>
@@ -345,10 +345,14 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
               Standard modern cross-browser linear/radial declaration.
             </p>
           </div>
-          <button className="btn-primary" onClick={handleCopyCss} style={{ padding: '8px 14px', fontSize: '0.8rem' }}>
-            <Copy size={13} />
-            <span>Copy CSS</span>
-          </button>
+          <KromaButton
+            variant="filled"
+            size="sm"
+            iconLeft={<Copy size={13} />}
+            onClick={handleCopyCss}
+          >
+            Copy CSS
+          </KromaButton>
         </div>
 
         <div style={{ position: 'relative' }}>

@@ -7,6 +7,7 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { Search, Loader2, ArrowUpRight, Bookmark, Check, X, Copy } from 'lucide-react';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface ColorsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -156,8 +157,7 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
               <span>COLOUR SHOW</span>
             </div>
             <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight leading-[0.95] text-[#171717] dark:text-white m-0">
-              COLOUR, IN ITS<br />
-              PUREST FORM.
+              COLOUR, IN ITS PUREST FORM.
             </h1>
             <p className="font-sans text-sm sm:text-base text-[#707070] dark:text-[#A0A0A0] max-w-xl m-0 mt-1 leading-[1.5]">
               A curated collection of colour studies, combinations, specimens, and visual experiments.
@@ -173,19 +173,17 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
               {FAMILY_TILES.map((f) => {
                 const isActive = selectedFamily === f.familyKey;
                 return (
-                  <button
+                  <KromaButton
                     key={f.name}
+                    size="sm"
+                    variant={isActive ? 'filled' : 'ghost'}
                     onClick={() => setSelectedFamily(isActive ? 'all' : f.familyKey)}
-                    className={`h-7 px-2 rounded-[2px] font-mono text-[10px] tracking-wider uppercase inline-flex items-center gap-1.5 transition-all duration-150 cursor-pointer select-none border ${
-                      isActive
-                        ? 'bg-[#171717] text-white dark:bg-white dark:text-[#171717] border-transparent shadow-xs'
-                        : 'bg-transparent text-[#707070] dark:text-[#909090] border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 hover:text-[#171717] dark:hover:text-white'
-                    }`}
+                    className="h-7 px-2 font-mono text-[10px] tracking-wider uppercase inline-flex items-center gap-1.5"
                     title={`Filter ${f.name} gamut`}
+                    iconLeft={<span className="w-2 h-2 rounded-[1px] flex-shrink-0" style={{ backgroundColor: f.hex }} />}
                   >
-                    <span className="w-2 h-2 rounded-[1px]" style={{ backgroundColor: f.hex }} />
                     <span>{f.name}</span>
-                  </button>
+                  </KromaButton>
                 );
               })}
             </div>
@@ -202,28 +200,28 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
           {toneFilters.map((tone) => {
             const isActive = selectedTone === tone;
             return (
-              <button
+              <KromaButton
                 key={tone}
+                size="sm"
+                variant={isActive ? 'filled' : 'ghost'}
                 onClick={() => setSelectedTone(tone)}
-                className={`font-mono text-[11px] tracking-[0.08em] uppercase px-3 py-1.5 rounded-[2px] transition-colors duration-150 cursor-pointer select-none border ${
-                  isActive
-                    ? 'bg-[#171717] text-white dark:bg-white dark:text-[#171717] border-[#171717] dark:border-white font-semibold'
-                    : 'bg-transparent text-[#707070] dark:text-[#909090] border-black/[0.08] dark:border-white/[0.08] hover:border-black/25 dark:hover:border-white/25 hover:text-[#171717] dark:hover:text-white'
-                }`}
+                className="font-mono text-[11px] tracking-[0.08em] uppercase px-3 py-1.5"
               >
                 {tone.toUpperCase()}
-              </button>
+              </KromaButton>
             );
           })}
 
           {selectedFamily !== 'all' && (
-            <button
+            <KromaButton
+              size="sm"
+              variant="filled"
               onClick={() => setSelectedFamily('all')}
-              className="font-mono text-[11px] tracking-[0.08em] uppercase px-3 py-1.5 rounded-[2px] bg-[#171717] text-white dark:bg-white dark:text-[#171717] cursor-pointer select-none inline-flex items-center gap-1.5 ml-1"
+              className="font-mono text-[11px] tracking-[0.08em] uppercase px-3 py-1.5 ml-1"
+              iconRight={<X size={11} />}
             >
               <span>GAMUT: {selectedFamily.toUpperCase()}</span>
-              <X size={11} />
-            </button>
+            </KromaButton>
           )}
         </div>
 
@@ -245,16 +243,18 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
         <div className="py-20 text-center border border-dashed border-black/[0.08] dark:border-white/[0.08] rounded-[2px]">
           <p className="font-mono text-xs font-semibold tracking-widest uppercase text-[#707070] mb-2">NO SPECIMENS IN THIS GAMUT</p>
           <p className="font-sans text-xs text-[#707070] mb-6">Reset your query or explore a different tone filter.</p>
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={() => {
               setSelectedFamily('all');
               setSelectedTone('all');
               setSearchQuery('');
             }}
-            className="font-mono text-xs font-semibold tracking-wider uppercase px-4 py-2 border border-black/20 dark:border-white/20 hover:bg-[#171717] hover:text-white transition-colors"
+            className="font-mono text-xs font-semibold tracking-wider uppercase px-4 py-2"
           >
             RESET EXHIBITION
-          </button>
+          </KromaButton>
         </div>
       ) : (
         <>
@@ -301,37 +301,30 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
 
                     {/* Action Pill on Hover */}
                     <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/40 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-20 p-2">
-                      <button
-                        type="button"
+                      <KromaButton
+                        size="sm"
+                        variant="filled"
                         onClick={(e) => handleCopy(color.hex, color.name, e)}
-                        className="bg-white text-[#171717] font-mono text-[10.5px] font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105 cursor-pointer"
+                        className="bg-white text-[#171717] font-mono text-[10.5px] font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 shadow-sm"
                         title="Click to copy HEX"
+                        iconLeft={isCopied ? <Check size={12} className="text-emerald-600" /> : <Copy size={11} />}
                       >
-                        {isCopied ? (
-                          <>
-                            <Check size={12} className="text-emerald-600" />
-                            <span>COPIED</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy size={11} />
-                            <span>{color.hex}</span>
-                          </>
-                        )}
-                      </button>
+                        <span>{isCopied ? 'COPIED' : color.hex}</span>
+                      </KromaButton>
 
-                      <button
-                        type="button"
+                      <KromaButton
+                        size="icon"
+                        variant="ghost"
                         onClick={(e) => handleToggleSave(color, e)}
-                        className={`p-1.5 rounded-[2px] border transition-transform hover:scale-105 cursor-pointer ${
+                        className={`p-1.5 h-8 w-8 rounded-[2px] border ${
                           saved
                             ? 'bg-white text-black border-transparent'
                             : 'bg-black/60 text-white border-white/20 hover:bg-black/80'
                         }`}
                         title={saved ? 'Saved' : 'Save specimen'}
-                      >
-                        <Bookmark size={12} fill={saved ? 'currentColor' : 'none'} />
-                      </button>
+                        aria-label={saved ? 'Saved' : 'Save specimen'}
+                        iconLeft={<Bookmark size={12} fill={saved ? 'currentColor' : 'none'} />}
+                      />
                     </div>
                   </div>
 

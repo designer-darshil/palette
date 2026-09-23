@@ -5,7 +5,7 @@ import { generateOddOneOutRound, OddOneOutRound } from '../utils/gameEngines';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface OddOneOutGamePageProps {
   onNavigate: (route: RouteType) => void;
@@ -110,9 +110,9 @@ export const OddOneOutGamePage: React.FC<OddOneOutGamePageProps> = ({ onNavigate
           <p className="text-sm text-[var(--text-secondary)]">
             You reached <strong>Level {level}</strong> with a final score of <strong>{score}</strong>.
           </p>
-          <Button onClick={handleRestart} variant="primary" size="md">
+          <KromaButton onClick={handleRestart} variant="filled" size="md">
             Play Again
-          </Button>
+          </KromaButton>
         </div>
       )}
     </div>

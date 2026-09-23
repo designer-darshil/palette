@@ -269,6 +269,9 @@ export const KromaButton = React.forwardRef<HTMLElement, KromaButtonProps>(
       className
     );
 
+    const { style: customStyle, ...nativeRest } = rest;
+    const combinedStyle = { ...transformStyle, ...customStyle };
+
     // If 'to' is specified, render router Link
     if (to) {
       return (
@@ -277,13 +280,13 @@ export const KromaButton = React.forwardRef<HTMLElement, KromaButtonProps>(
           to={to}
           onNavigate={onNavigate}
           className={mergedClassName}
-          style={transformStyle}
+          style={combinedStyle}
           onMouseMove={handleMouseMove}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onPointerDown={handlePointerDown}
           onClick={handleClick}
-          {...(rest as any)}
+          {...(nativeRest as any)}
         >
           {content}
         </Link>
@@ -299,13 +302,13 @@ export const KromaButton = React.forwardRef<HTMLElement, KromaButtonProps>(
           target={target}
           rel={rel || (target === '_blank' ? 'noopener noreferrer' : undefined)}
           className={mergedClassName}
-          style={transformStyle}
+          style={combinedStyle}
           onMouseMove={handleMouseMove}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onPointerDown={handlePointerDown}
           onClick={handleClick}
-          {...(rest as any)}
+          {...(nativeRest as any)}
         >
           {content}
         </a>
@@ -319,13 +322,13 @@ export const KromaButton = React.forwardRef<HTMLElement, KromaButtonProps>(
         type={type}
         disabled={disabled || isLoading}
         className={mergedClassName}
-        style={transformStyle}
+        style={combinedStyle}
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onPointerDown={handlePointerDown}
         onClick={handleClick}
-        {...rest}
+        {...nativeRest}
       >
         {content}
       </button>

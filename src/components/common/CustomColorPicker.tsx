@@ -6,8 +6,8 @@ import {
   ClipboardPaste,
   ChevronDown,
   X,
-  RotateCcw,
 } from 'lucide-react';
+import { KromaButton } from './KromaButton';
 import {
   hexToHsv,
   hsvToHex,
@@ -453,14 +453,14 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
           <span className="font-bold uppercase tracking-wider text-[var(--text-secondary)]">
             Color Inspector
           </span>
-          <button
-            type="button"
+          <KromaButton
+            size="icon"
+            variant="ghost"
             onClick={onClose}
-            className="p-1 rounded-xs hover:bg-[var(--bg-surface-2)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+            className="p-1 h-6 w-6 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
             aria-label="Close picker"
-          >
-            <X size={12} />
-          </button>
+            iconLeft={<X size={12} />}
+          />
         </div>
       )}
 
@@ -520,15 +520,15 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
             </div>
 
             {isEyedropperSupported && (
-              <button
-                type="button"
+              <KromaButton
+                size="icon"
+                variant="ghost"
                 onClick={handleOpenEyedropper}
-                className="w-7 h-7 flex items-center justify-center rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] transition-colors cursor-pointer"
+                className="w-7 h-7 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]"
                 title="Sample screen color with eyedropper"
                 aria-label="Pick color from screen"
-              >
-                <Pipette size={13} />
-              </button>
+                iconLeft={<Pipette size={13} />}
+              />
             )}
           </div>
 
@@ -605,15 +605,16 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
         <div className="flex items-center gap-1.5">
           {/* Format Mode Switcher Pill */}
           {showFormatSwitcher && (
-            <button
-              type="button"
+            <KromaButton
+              size="sm"
+              variant="ghost"
               onClick={handleCycleFormatMode}
-              className="flex items-center gap-1 px-1.5 py-1 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs text-[10px] font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+              className="flex items-center gap-1 px-1.5 py-1 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs text-[10px] font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] h-auto"
               title="Click to cycle color format (HEX / RGB / HSL)"
+              iconRight={<ChevronDown size={10} className="text-[var(--text-tertiary)]" />}
             >
               <span>{formatMode}</span>
-              <ChevronDown size={10} className="text-[var(--text-tertiary)]" />
-            </button>
+            </KromaButton>
           )}
 
           {/* Inputs based on active mode */}
@@ -681,26 +682,26 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
           </div>
 
           {/* Quick Copy Action */}
-          <button
-            type="button"
+          <KromaButton
+            size="icon"
+            variant="ghost"
             onClick={handleCopyColor}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer flex-shrink-0"
+            className="p-1.5 h-7 w-7 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0"
             title="Copy color code"
             aria-label="Copy color"
-          >
-            {copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-          </button>
+            iconLeft={copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+          />
 
           {/* Quick Paste Action */}
-          <button
-            type="button"
+          <KromaButton
+            size="icon"
+            variant="ghost"
             onClick={handlePasteColor}
-            className="p-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer flex-shrink-0"
+            className="p-1.5 h-7 w-7 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0"
             title={pasteError || 'Paste color code'}
             aria-label="Paste color"
-          >
-            <ClipboardPaste size={12} className={pasteError ? 'text-rose-400' : ''} />
-          </button>
+            iconLeft={<ClipboardPaste size={12} className={pasteError ? 'text-rose-400' : ''} />}
+          />
         </div>
 
         {/* Color Name Tag */}

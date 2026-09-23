@@ -105,17 +105,19 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
       {savedItems.length > 0 && (
         <div className="flex items-center gap-4 border-b border-[var(--border-subtle)] pb-3 mb-8 overflow-x-auto scrollbar-none">
           {(['all', 'recent', 'warm', 'cool', 'neutral'] as FilterType[]).map((f) => (
-            <button
+            <KromaButton
               key={f}
+              variant="ghost"
+              size="sm"
               onClick={() => setFilter(f)}
-              className={`font-mono text-xs uppercase tracking-wider transition-colors pb-1 ${
+              className={`font-mono text-xs uppercase tracking-wider pb-1 h-auto rounded-none ${
                 filter === f
                   ? 'text-[var(--text-primary)] font-bold border-b-2 border-[var(--text-primary)]'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
               {f.toUpperCase()} {f === 'all' && `(${savedItems.length})`}
-            </button>
+            </KromaButton>
           ))}
         </div>
       )}
@@ -161,30 +163,34 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
                     </div>
                     <div className="font-mono text-[11px] text-[#707070] dark:text-[#909090] flex items-center justify-between">
                       <span className="truncate">{item.preview.split(',')[0]}</span>
-                      <button
+                      <KromaButton
+                        size="sm"
+                        variant="ghost"
                         onClick={(e) => handleCopy(item, e)}
-                        className="text-[10px] uppercase font-semibold tracking-wider hover:text-[#171717] dark:hover:text-white transition-colors"
+                        className="text-[10px] uppercase font-semibold tracking-wider hover:text-[#171717] dark:hover:text-white p-0 h-auto"
                         title="Copy HEX"
                       >
                         {isCopied ? 'COPIED' : 'COPY'}
-                      </button>
+                      </KromaButton>
                     </div>
                   </div>
 
                   {/* Quick Delete & Type Tag */}
                   <div className="pt-2 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-[10px] font-mono text-[#707070] dark:text-[#909090] uppercase tracking-wider">
                     <span>{item.type}</span>
-                    <button
+                    <KromaButton
+                      size="icon"
+                      variant="ghost"
                       onClick={(e) => {
                         e.stopPropagation();
                         removeItem(item.id);
                         showToast('Removed from saved', item.title);
                       }}
-                      className="hover:text-rose-500 transition-colors p-1"
+                      className="hover:text-rose-500 p-1 h-6 w-6"
                       title="Remove from saved drawer"
-                    >
-                      <Trash2 size={12} />
-                    </button>
+                      aria-label="Remove from saved drawer"
+                      iconLeft={<Trash2 size={12} />}
+                    />
                   </div>
                 </div>
               </div>

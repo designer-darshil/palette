@@ -8,6 +8,7 @@ import { generateCollectionPageSchema } from '../utils/schemaGenerator';
 import { PageHeader } from '../components/common/PageHeader';
 import { ResultsCountBar } from '../components/common/ResultsCountBar';
 import { EmptyState } from '../components/common/EmptyState';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface GradientsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -126,13 +127,15 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
           </span>
           <div className="filter-options filter-options--scroll flex-1">
             {categories.map((cat) => (
-              <button
+              <KromaButton
                 key={cat}
+                size="sm"
+                variant={selectedCategory === cat ? 'filled' : 'ghost'}
                 className={`filter-option ${selectedCategory === cat ? 'active' : ''}`}
                 onClick={() => setSelectedCategory(cat)}
               >
                 {cat}
-              </button>
+              </KromaButton>
             ))}
           </div>
         </div>

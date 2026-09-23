@@ -38,7 +38,7 @@ import { createPaletteSlug } from '../utils/canonicalResourceUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 import { Link } from '../components/common/Link';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { Analytics } from '../utils/analytics';
@@ -240,59 +240,55 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
         description="Identify exact and closest meaningful color names from curated editorial gamuts using human visual perceptual distance (ΔE)."
         actions={
           <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              variant="secondary"
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<Shuffle size={13} />}
               onClick={handleRandomColor}
               title="Generate Random Color"
             >
               Random
-            </Button>
-            <Button
-              variant="secondary"
+            </KromaButton>
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<Share2 size={13} />}
               onClick={handleShare}
               title="Share Color URL"
             >
               Share
-            </Button>
-            <Button
-              variant="primary"
+            </KromaButton>
+            <KromaButton
+              variant="filled"
               size="sm"
               iconLeft={<Bookmark size={13} fill={isColorSaved ? 'currentColor' : 'none'} />}
               onClick={handleSaveColor}
               title="Save Color Specimen"
             >
               {isColorSaved ? 'Saved' : 'Save'}
-            </Button>
+            </KromaButton>
           </div>
         }
       />
 
       {/* Mode Switcher Tabs (Single Color vs Palette Analyzer) */}
       <div className="flex items-center gap-2">
-        <button
+        <KromaButton
+          variant={activeTab === 'single' ? 'filled' : 'outline'}
+          size="sm"
           onClick={() => setActiveTab('single')}
-          className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xs transition-all ${
-            activeTab === 'single'
-              ? 'bg-[var(--text-primary)] text-[var(--text-inverse)]'
-              : 'bg-[var(--bg-surface-2)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
-          }`}
+          className="font-bold uppercase tracking-wider rounded-xs"
         >
           Single Color Specimen
-        </button>
-        <button
+        </KromaButton>
+        <KromaButton
+          variant={activeTab === 'palette' ? 'filled' : 'outline'}
+          size="sm"
           onClick={() => setActiveTab('palette')}
-          className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xs transition-all ${
-            activeTab === 'palette'
-              ? 'bg-[var(--text-primary)] text-[var(--text-inverse)]'
-              : 'bg-[var(--bg-surface-2)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]'
-          }`}
+          className="font-bold uppercase tracking-wider rounded-xs"
         >
           Analyze Palette Colors
-        </button>
+        </KromaButton>
       </div>
 
       {activeTab === 'single' ? (
@@ -454,10 +450,12 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {history.map((h, i) => (
-                    <button
+                    <KromaButton
                       key={i}
+                      variant="outline"
+                      size="sm"
                       onClick={() => handleSelectColor(h.hex)}
-                      className="inline-flex items-center gap-2 px-2.5 py-1.5 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs text-xs transition-colors"
+                      className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-xs text-xs font-normal h-auto min-h-0"
                     >
                       <span
                         className="w-3.5 h-3.5 rounded-xs border border-[var(--border-subtle)]"
@@ -466,7 +464,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                       <span className="font-bold text-[var(--text-primary)] truncate max-w-[120px]">
                         {h.name}
                       </span>
-                    </button>
+                    </KromaButton>
                   ))}
                 </div>
               </div>
@@ -535,7 +533,10 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button
+                  <KromaButton
+                    variant="outline"
+                    size="sm"
+                    iconLeft={<ShieldCheck size={13} color="#3B82F6" />}
                     onClick={() =>
                       onNavigate({
                         path: 'contrast-checker',
@@ -543,40 +544,40 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                         bg: '#111215',
                       })
                     }
-                    className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-xs transition-colors"
                     title="Check in Contrast Checker"
                   >
-                    <ShieldCheck size={13} color="#3B82F6" />
-                    <span>Contrast</span>
-                  </button>
+                    Contrast
+                  </KromaButton>
 
-                  <button
+                  <KromaButton
+                    variant="outline"
+                    size="sm"
+                    iconLeft={<Sparkles size={13} color="#E9C46A" />}
                     onClick={() =>
                       onNavigate({
                         path: 'palette-generator',
                         colors: currentHex,
                       })
                     }
-                    className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-xs transition-colors"
                     title="Open in Palette Generator"
                   >
-                    <Sparkles size={13} color="#E9C46A" />
-                    <span>Generator</span>
-                  </button>
+                    Generator
+                  </KromaButton>
 
-                  <button
+                  <KromaButton
+                    variant="outline"
+                    size="sm"
+                    iconRight={<ExternalLink size={11} />}
                     onClick={() =>
                       onNavigate({
                         path: 'color-detail',
                         slug: primaryMatch.slug || currentHex.replace('#', ''),
                       })
                     }
-                    className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold bg-[var(--bg-surface-3)] hover:bg-[var(--text-primary)] text-[var(--text-primary)] hover:text-[var(--text-inverse)] border border-[var(--border-medium)] rounded-xs transition-all"
                     title="View Color Specimen Detail"
                   >
-                    <span>Specimen Detail</span>
-                    <ExternalLink size={11} />
-                  </button>
+                    Specimen Detail
+                  </KromaButton>
                 </div>
               </div>
             </div>
@@ -695,13 +696,14 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
 
             {/* Action to open in Palette Detail */}
             <div className="flex justify-end mt-2">
-              <Button
-                variant="primary"
+              <KromaButton
+                variant="filled"
+                size="md"
                 onClick={() => onNavigate({ path: 'palette-detail', slug: selectedPalette.slug })}
                 iconRight={<ArrowRight size={14} />}
               >
                 View Full Palette Detail
-              </Button>
+              </KromaButton>
             </div>
           </div>
         </div>

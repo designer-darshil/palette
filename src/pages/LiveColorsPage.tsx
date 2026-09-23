@@ -55,7 +55,7 @@ import { useLibraryData } from '../context/LibraryDataContext';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button, KromaButton } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 import { PaletteCard } from '../components/PaletteCard';
 import { ComboCard } from '../components/ComboCard';
 import { GradientCard } from '../components/GradientCard';
@@ -388,8 +388,8 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         description="What does the world look like right now? Deterministic chromatic atmospheres synthesized from real-time solar elevation, Rayleigh scatter, geographic coordinates, and atmospheric temperatures."
         actions={
           <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap w-full sm:w-auto">
-            <Button
-              variant="secondary"
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<RefreshCw size={13} className={loadingWeather ? 'animate-spin' : ''} />}
               onClick={() => updateAtmosphere(selectedLocation, simulatedHour)}
@@ -397,27 +397,27 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
               title="Refresh environmental data"
             >
               {loadingWeather ? 'Syncing...' : 'Sync Live'}
-            </Button>
+            </KromaButton>
 
-            <Button
-              variant="secondary"
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<Share2 size={13} />}
               onClick={handleShare}
               title="Share Weather Color URL"
             >
               Share
-            </Button>
+            </KromaButton>
 
-            <Button
-              variant="primary"
+            <KromaButton
+              variant="filled"
               size="sm"
               iconLeft={<Bookmark size={13} fill={isCurrentSaved ? 'currentColor' : 'none'} />}
               onClick={handleSaveToWorkspace}
               title="Save to Personal Workspace"
             >
               {isCurrentSaved ? 'Saved' : 'Save System'}
-            </Button>
+            </KromaButton>
           </div>
         }
       />
@@ -654,13 +654,15 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                 </span>
               </div>
 
-              <button
+              <KromaButton
+                size="sm"
+                variant="ghost"
                 onClick={handleCopyAll}
-                className="bg-black/60 hover:bg-black/85 text-white px-3.5 py-1.5 rounded-[3px] border border-white/15 inline-flex items-center gap-2 text-xs font-mono font-medium backdrop-blur-md transition-all self-start sm:self-auto cursor-pointer"
+                className="bg-black/60 hover:bg-black/85 text-white px-3.5 py-1.5 rounded-[3px] border border-white/15 backdrop-blur-md self-start sm:self-auto"
+                iconLeft={<Copy size={12} />}
               >
-                <Copy size={12} />
                 <span>COPY SPECTRUM</span>
-              </button>
+              </KromaButton>
             </div>
 
             {/* Bottom Hero Description */}
@@ -728,13 +730,15 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
             </h2>
           </div>
           {simulatedHour !== null && (
-            <button
-              className="inline-flex items-center gap-1.5 font-mono text-xs text-[#FF3B30] hover:underline cursor-pointer bg-transparent border-0 p-0"
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              className="text-[#FF3B30] hover:underline p-0 h-auto font-mono text-xs"
               onClick={() => setSimulatedHour(null)}
+              iconLeft={<RefreshCw size={11} />}
             >
-              <RefreshCw size={11} />
               <span>Reset to Real-Time</span>
-            </button>
+            </KromaButton>
           )}
         </div>
 
@@ -808,16 +812,18 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                       <span className="font-mono text-[10px] font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px]">
                         0{idx + 1}
                       </span>
-                      <button
+                      <KromaButton
+                        size="sm"
+                        variant="filled"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCopySingleHex(s.hex, s.name);
                         }}
-                        className="opacity-0 group-hover/card:opacity-100 transition-opacity bg-black/75 hover:bg-black text-white text-[10px] font-mono px-2 py-0.5 rounded-[2px] inline-flex items-center gap-1 cursor-pointer"
+                        className="opacity-0 group-hover/card:opacity-100 transition-opacity bg-black/75 hover:bg-black text-white text-[10px] font-mono px-2 py-0.5 rounded-[2px] h-auto"
+                        iconLeft={<Copy size={10} />}
                       >
-                        <Copy size={10} />
                         <span>{s.hex}</span>
-                      </button>
+                      </KromaButton>
                     </div>
                   </KromaCardVisual>
 
@@ -826,12 +832,14 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                       <span className="font-sans font-bold text-xs sm:text-[13px] text-[#171717] dark:text-white truncate">
                         {s.name}
                       </span>
-                      <button
+                      <KromaButton
+                        size="sm"
+                        variant="ghost"
                         onClick={() => handleCopySingleHex(s.hex, s.name)}
-                        className="font-mono text-xs text-[#707070] hover:text-[#171717] dark:hover:text-white font-semibold cursor-pointer shrink-0"
+                        className="font-mono text-xs text-[#707070] hover:text-[#171717] dark:hover:text-white font-semibold shrink-0 p-0 h-auto"
                       >
                         {s.hex}
-                      </button>
+                      </KromaButton>
                     </div>
 
                     <div className="font-mono text-[10px] text-[#FF9500] uppercase font-medium">
@@ -846,13 +854,15 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
 
                 {slug && (
                   <KromaCardFooter className="px-3.5 py-2.5 border-t border-black/[0.08] dark:border-white/[0.08]">
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
                       onClick={() => onNavigate({ path: 'color-detail', slug })}
-                      className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-[#171717] dark:text-white hover:text-[#00AEEF] dark:hover:text-[#00AEEF] transition-colors cursor-pointer bg-transparent border-0 p-0"
+                      className="text-[11px] font-mono font-medium text-[#171717] dark:text-white hover:text-[#00AEEF] dark:hover:text-[#00AEEF] p-0 h-auto"
+                      iconRight={<ExternalLink size={10} />}
                     >
                       <span>View Specimen</span>
-                      <ExternalLink size={10} />
-                    </button>
+                    </KromaButton>
                   </KromaCardFooter>
                 )}
               </KromaCard>
@@ -878,17 +888,19 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
 
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
               {(['css', 'hex', 'tailwind', 'json'] as const).map((mode) => (
-                <button
+                <KromaButton
                   key={mode}
+                  size="sm"
+                  variant={exportMode === mode ? 'filled' : 'ghost'}
                   onClick={() => setExportMode(mode)}
-                  className={`px-3 py-1 rounded-[3px] font-mono text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`px-3 py-1 rounded-[3px] font-mono text-xs font-semibold uppercase tracking-wider ${
                     exportMode === mode
                       ? 'bg-[#171717] text-white dark:bg-white dark:text-[#171717]'
                       : 'bg-black/[0.05] dark:bg-white/[0.06] text-[#707070] hover:text-[#171717] dark:hover:text-white'
                   }`}
                 >
                   {mode}
-                </button>
+                </KromaButton>
               ))}
             </div>
           </div>
@@ -964,27 +976,31 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                   </div>
 
                   <div className="p-3.5 pt-0 flex items-center justify-between border-t border-black/[0.06] dark:border-white/[0.06] mt-2">
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
                       onClick={() => {
                         copyToClipboard(hexList.join(', '));
                         showToast('Copied saved palette hexes', item.title);
                       }}
-                      className="inline-flex items-center gap-1 font-mono text-[11px] text-[#707070] hover:text-[#171717] dark:hover:text-white cursor-pointer bg-transparent border-0 p-0"
+                      className="font-mono text-[11px] text-[#707070] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                      iconLeft={<Copy size={11} />}
                     >
-                      <Copy size={11} />
                       <span>Copy Hexes</span>
-                    </button>
+                    </KromaButton>
 
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
                       onClick={() => {
                         removeItem(item.id);
                         showToast('Removed saved atmosphere', item.title);
                       }}
-                      className="inline-flex items-center gap-1 font-mono text-[11px] text-[#FF3B30] hover:underline cursor-pointer bg-transparent border-0 p-0"
+                      className="font-mono text-[11px] text-[#FF3B30] hover:underline p-0 h-auto"
+                      iconLeft={<Trash2 size={11} />}
                     >
-                      <Trash2 size={11} />
                       <span>Remove</span>
-                    </button>
+                    </KromaButton>
                   </div>
                 </KromaCard>
               );

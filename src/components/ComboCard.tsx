@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
 import { KromaCard } from './common/KromaCard';
+import { KromaButton } from './common/KromaButton';
 import { Analytics } from '../utils/analytics';
 
 interface ComboCardProps {
@@ -90,15 +91,17 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
         <div className="grid grid-cols-2 gap-3">
           {/* Left Specimen Info */}
           <div className="flex flex-col gap-1 min-w-0">
-            <button
+            <KromaButton
               type="button"
-              className="inline-flex items-center gap-1 font-mono text-xs font-semibold px-2 py-0.5 rounded-[2px] bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[#171717] dark:text-white transition-colors w-fit"
+              variant="subtle"
+              size="sm"
+              className="inline-flex items-center gap-1 font-mono text-xs font-semibold px-2 py-0.5 min-h-0 h-auto rounded-[2px] w-fit"
               onClick={(e) => handleCopyHex(e, color1.hex, color1.name)}
               title="Click to copy HEX"
+              iconRight={copiedHex === color1.hex ? <Check size={11} className="text-emerald-400" /> : undefined}
             >
               <span>{copiedHex === color1.hex ? 'COPIED' : color1.hex}</span>
-              {copiedHex === color1.hex && <Check size={11} className="text-emerald-400" />}
-            </button>
+            </KromaButton>
             <span className="font-sans text-xs text-[#707070] dark:text-[#A0A0A0] truncate" title={color1.name}>
               {color1.name}
             </span>
@@ -106,15 +109,17 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
 
           {/* Right Specimen Info */}
           <div className="flex flex-col gap-1 min-w-0 items-end text-right">
-            <button
+            <KromaButton
               type="button"
-              className="inline-flex items-center gap-1 font-mono text-xs font-semibold px-2 py-0.5 rounded-[2px] bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[#171717] dark:text-white transition-colors w-fit"
+              variant="subtle"
+              size="sm"
+              className="inline-flex items-center gap-1 font-mono text-xs font-semibold px-2 py-0.5 min-h-0 h-auto rounded-[2px] w-fit"
               onClick={(e) => handleCopyHex(e, color2.hex, color2.name)}
               title="Click to copy HEX"
+              iconRight={copiedHex === color2.hex ? <Check size={11} className="text-emerald-400" /> : undefined}
             >
               <span>{copiedHex === color2.hex ? 'COPIED' : color2.hex}</span>
-              {copiedHex === color2.hex && <Check size={11} className="text-emerald-400" />}
-            </button>
+            </KromaButton>
             <span className="font-sans text-xs text-[#707070] dark:text-[#A0A0A0] truncate" title={color2.name}>
               {color2.name}
             </span>
@@ -129,18 +134,22 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
           </div>
 
           <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-            <button
+            <KromaButton
               type="button"
-              className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
+              variant="ghost"
+              size="icon"
+              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
               onClick={handleShare}
               aria-label="Share combo link"
               title="Share combo link"
             >
               <Share2 size={13} />
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
               type="button"
-              className={`p-1.5 rounded-[2px] transition-colors ${
+              variant="ghost"
+              size="icon"
+              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
                 saved
                   ? 'text-[var(--accent-gold)]'
                   : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
@@ -150,7 +159,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
               title={saved ? 'Saved' : 'Save combo'}
             >
               <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            </button>
+            </KromaButton>
           </div>
         </div>
       </div>

@@ -22,11 +22,13 @@ import {
   Code,
   CloudSun,
   ArrowRight,
+  Activity,
 } from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
 import { useTheme } from '../context/ThemeContext';
 import { Link } from './common/Link';
+import { KromaButton } from './common/KromaButton';
 
 export interface HeaderProps {
   currentRoute: RouteType;
@@ -45,12 +47,12 @@ const STUDIO_TOOLS = [
     path: { path: 'ramps' } as RouteType,
   },
   {
-    id: 'antigravity',
-    title: 'Antigravity Studio',
-    description: 'Physics & motion generator with deterministic exports',
-    icon: <Compass size={15} />,
+    id: 'springs',
+    title: 'Springs Studio',
+    description: 'Physics & spring motion lab with harmonic kinematics',
+    icon: <Activity size={15} />,
     color: '#00AEEF',
-    path: { path: 'antigravity' } as RouteType,
+    path: { path: 'springs' } as RouteType,
   },
   {
     id: 'mesh',
@@ -294,6 +296,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
 
   const isStudioActive =
     currentRoute.path === 'ramps' ||
+    currentRoute.path === 'springs' ||
     currentRoute.path === 'antigravity' ||
     currentRoute.path === 'mesh' ||
     currentRoute.path === 'pattern-studio' ||
@@ -399,8 +402,9 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 }
               }}
             >
-              <button
+              <KromaButton
                 type="button"
+                variant="ghost"
                 className={`kroma-header__dropdown-btn ${isStudioActive ? 'kroma-header__dropdown-btn--active' : ''}`}
                 onClick={() => {
                   setStudiosOpen(!studiosOpen);
@@ -420,7 +424,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <span className="kroma-header__nav-text">Studios</span>
                 <ChevronDown size={13} className="kroma-header__dropdown-chevron" aria-hidden="true" />
                 <span className="kroma-header__indicator" aria-hidden="true" />
-              </button>
+              </KromaButton>
 
               <div
                 className={`kroma-header__dropdown-menu kroma-header__dropdown-menu--studios ${
@@ -562,8 +566,9 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 }
               }}
             >
-              <button
+              <KromaButton
                 type="button"
+                variant="ghost"
                 className={`kroma-header__dropdown-btn ${isCommunityActive ? 'kroma-header__dropdown-btn--active' : ''}`}
                 onClick={() => {
                   setCommunityOpen(!communityOpen);
@@ -583,7 +588,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <span className="kroma-header__nav-text">Community</span>
                 <ChevronDown size={13} className="kroma-header__dropdown-chevron" aria-hidden="true" />
                 <span className="kroma-header__indicator" aria-hidden="true" />
-              </button>
+              </KromaButton>
 
               <div
                 className={`kroma-header__dropdown-menu kroma-header__dropdown-menu--community ${
@@ -670,15 +675,17 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
           {/* ─── ZONE 3 (RIGHT): Search (Icon Only), Saved, About, Theme ──── */}
           <div className="kroma-header__right">
             {/* Search: ICON ONLY, strictly no keyboard hint or label */}
-            <button
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="icon"
               className="kroma-header__search-btn"
               onClick={onOpenSearch}
               aria-label="Search"
               title="Search"
             >
               <Search size={18} strokeWidth={2} />
-            </button>
+            </KromaButton>
 
             {/* Saved Link with Live Badge */}
             <Link
@@ -713,29 +720,35 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             </Link>
 
             {/* Theme Toggle Button */}
-            <button
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="icon"
               className="kroma-header__theme-btn"
               onClick={cycleTheme}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title={`Appearance: ${theme}`}
             >
               {theme === 'dark' ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
-            </button>
+            </KromaButton>
 
             {/* ─── Mobile Actions: [ SEARCH ] [ MENU ] ────────── */}
             <div className="kroma-header__mobile-actions">
-              <button
+              <KromaButton
                 type="button"
+                variant="ghost"
+                size="icon"
                 className="kroma-header__mobile-search-btn"
                 onClick={onOpenSearch}
                 aria-label="Search"
               >
                 <Search size={19} strokeWidth={2} />
-              </button>
+              </KromaButton>
 
-              <button
+              <KromaButton
                 type="button"
+                variant="ghost"
+                size="icon"
                 className="kroma-header__mobile-menu-btn"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open navigation menu"
@@ -743,7 +756,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
               >
                 <span className="kroma-header__menu-bar" />
                 <span className="kroma-header__menu-bar" />
-              </button>
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -773,20 +786,23 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
               <span className="kroma-header__wordmark">Kroma</span>
             </Link>
 
-            <button
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="icon"
               className="kroma-mobile-menu__close-btn"
               onClick={() => setMobileOpen(false)}
               aria-label="Close menu"
             >
               <X size={20} strokeWidth={2.2} />
-            </button>
+            </KromaButton>
           </div>
 
           {/* Quick Search Action at Top (NO keyboard hints) */}
           <div className="kroma-mobile-menu__search-bar">
-            <button
+            <KromaButton
               type="button"
+              variant="subtle"
               className="kroma-mobile-menu__search-trigger"
               onClick={() => {
                 setMobileOpen(false);
@@ -796,7 +812,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             >
               <Search size={18} strokeWidth={2} />
               <span>Search color library...</span>
-            </button>
+            </KromaButton>
           </div>
 
           {/* Mobile Scrollable Navigation Content */}
@@ -911,14 +927,15 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
 
           {/* Mobile Footer & Theme Switcher */}
           <div className="kroma-mobile-menu__footer">
-            <button
+            <KromaButton
               type="button"
+              variant="outline"
               className="kroma-mobile-menu__theme-btn"
               onClick={cycleTheme}
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
               <span>{theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</span>
-            </button>
+            </KromaButton>
 
             <div className="kroma-mobile-menu__meta">
               <span>KROMA STUDIO REFERENCE</span>

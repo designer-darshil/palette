@@ -15,6 +15,7 @@ import {
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
 import { useMaintenance } from '../../context/MaintenanceContext';
+import { KromaButton } from '../../components/common/KromaButton';
 
 interface AdminDashboardPageProps {
   onNavigateTab: (tab: string) => void;
@@ -180,14 +181,15 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
             <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)' }}>
               Updated by: {state.updatedBy || 'admin'}
             </span>
-            <button
+            <KromaButton
+              variant="outline"
+              size="sm"
               onClick={() => onNavigateTab('maintenance')}
-              className="btn-secondary"
+              iconRight={<ArrowUpRight size={12} />}
               style={{ padding: '4px 10px', fontSize: '0.72rem' }}
             >
-              <span>Manage System Controls</span>
-              <ArrowUpRight size={12} />
-            </button>
+              Manage System Controls
+            </KromaButton>
           </div>
         </div>
 
@@ -244,14 +246,15 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
               <CheckCircle size={16} color="#22C55E" />
               <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Library Data Health</h2>
             </div>
-            <button
+            <KromaButton
+              variant="outline"
+              size="sm"
               onClick={() => onNavigateTab('validation')}
-              className="btn-secondary"
+              iconRight={<ArrowUpRight size={12} />}
               style={{ padding: '4px 10px', fontSize: '0.72rem' }}
             >
-              <span>View Audit</span>
-              <ArrowUpRight size={12} />
-            </button>
+              View Audit
+            </KromaButton>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '8px' }}>

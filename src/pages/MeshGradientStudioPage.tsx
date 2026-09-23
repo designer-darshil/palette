@@ -18,6 +18,7 @@ import {
 } from '../utils/meshEngine';
 import { MeshHeroCanvas } from '../components/mesh/MeshHeroCanvas';
 import { SEOHead } from '../components/seo/SEOHead';
+import { KromaButton } from '../components/common/KromaButton';
 import {
   Sparkles,
   RotateCcw,
@@ -351,19 +352,23 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
       {/* ── 1. Minimal Editorial Breadcrumb ─────────────────────── */}
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-sans text-[11.5px] font-medium tracking-wider uppercase mb-6">
-        <button
+        <KromaButton
+          variant="ghost"
+          size="sm"
           onClick={() => onNavigate({ path: 'home' })}
-          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
+          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit h-auto"
         >
           HOME
-        </button>
+        </KromaButton>
         <span className="text-black/25 dark:text-white/25 font-light">/</span>
-        <button
+        <KromaButton
+          variant="ghost"
+          size="sm"
           onClick={() => onNavigate({ path: 'create' })}
-          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
+          className="text-kroma-muted hover:text-kroma-text dark:hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit h-auto"
         >
           STUDIO
-        </button>
+        </KromaButton>
         <span className="text-black/25 dark:text-white/25 font-light">/</span>
         <span className="text-kroma-text dark:text-white font-semibold">MESH GRADIENT</span>
       </nav>
@@ -441,57 +446,61 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
           {/* Bottom Artboard Control Strip */}
           <div className="flex items-center justify-between px-4 py-2 border-t border-black/[0.08] dark:border-white/[0.08] bg-kroma-bg dark:bg-[#141518] flex-wrap gap-3">
             <div className="flex items-center gap-1 flex-wrap">
-              <button
-                type="button"
+              <KromaButton
+                variant={viewMode === 'edit' ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setViewMode(viewMode === 'edit' ? 'preview' : 'edit')}
-                className={`inline-flex items-center gap-1.5 bg-transparent border-none px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase cursor-pointer rounded-xs transition-colors ${
+                className={`px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase rounded-xs transition-colors h-auto ${
                   viewMode === 'edit'
                     ? 'text-kroma-text dark:text-white bg-black/[0.08] dark:bg-white/[0.12]'
                     : 'text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/[0.08]'
                 }`}
                 title="Toggle interactive handles"
               >
-                <span>{viewMode === 'edit' ? 'EDIT' : 'VIEW'}</span>
-              </button>
+                {viewMode === 'edit' ? 'EDIT' : 'VIEW'}
+              </KromaButton>
 
               <span className="w-px h-3 bg-black/10 dark:bg-white/10 mx-1" />
 
-              <button
-                type="button"
+              <KromaButton
+                variant={showGridLines ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setShowGridLines(!showGridLines)}
-                className={`inline-flex items-center gap-1.5 bg-transparent border-none px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase cursor-pointer rounded-xs transition-colors ${
+                className={`px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase rounded-xs transition-colors h-auto ${
                   showGridLines
                     ? 'text-kroma-text dark:text-white bg-black/[0.08] dark:bg-white/[0.12]'
                     : 'text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/[0.08]'
                 }`}
                 title="Toggle coordinate guide grid"
               >
-                <span>GRID {showGridLines ? 'ON' : 'OFF'}</span>
-              </button>
+                GRID {showGridLines ? 'ON' : 'OFF'}
+              </KromaButton>
 
               <span className="w-px h-3 bg-black/10 dark:bg-white/10 mx-1" />
 
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={handleRandomize}
-                className="inline-flex items-center gap-1.5 bg-transparent border-none px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white cursor-pointer rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08]"
+                iconLeft={<Sparkles size={11} className={isGenerating ? 'animate-spin' : ''} />}
+                className="px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
                 title="Generate fresh random gradient mesh"
               >
-                <Sparkles size={11} className={isGenerating ? 'animate-spin' : ''} />
-                <span>RANDOMIZE</span>
-              </button>
+                RANDOMIZE
+              </KromaButton>
 
               <span className="w-px h-3 bg-black/10 dark:bg-white/10 mx-1" />
 
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => handleAddPoint(50, 50)}
-                className="inline-flex items-center gap-1.5 bg-transparent border-none px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white cursor-pointer rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08]"
+                iconLeft={<Plus size={11} />}
+                className="px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
                 title="Add new color node to center"
               >
-                <Plus size={11} />
-                <span>ADD NODE</span>
-              </button>
+                ADD NODE
+              </KromaButton>
             </div>
 
             <div className="flex items-center gap-1 flex-wrap">
@@ -502,51 +511,55 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               <span className="w-px h-3 bg-black/10 dark:bg-white/10 mx-1" />
 
               {/* Undo / Redo */}
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="icon"
                 onClick={handleUndo}
                 disabled={historyIndex <= 0}
-                className="inline-flex items-center justify-center p-1.5 bg-transparent border-none font-sans text-[11px] text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white cursor-pointer rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed"
+                className="p-1.5 font-sans text-[11px] text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed h-auto w-auto min-h-0"
                 aria-label="Undo"
                 title="Undo"
               >
                 <RotateCcw size={12} />
-              </button>
+              </KromaButton>
 
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="icon"
                 onClick={handleRedo}
                 disabled={historyIndex >= history.length - 1}
-                className="inline-flex items-center justify-center p-1.5 bg-transparent border-none font-sans text-[11px] text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white cursor-pointer rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed"
+                className="p-1.5 font-sans text-[11px] text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed h-auto w-auto min-h-0"
                 aria-label="Redo"
                 title="Redo"
               >
                 <RotateCw size={12} />
-              </button>
+              </KromaButton>
 
               <span className="w-px h-3 bg-black/10 dark:bg-white/10 mx-1" />
 
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={handleShareUrl}
-                className="inline-flex items-center gap-1.5 bg-transparent border-none px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white cursor-pointer rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08]"
+                iconLeft={<Share2 size={11} />}
+                className="px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
                 title="Copy shareable URL"
               >
-                <Share2 size={11} />
-                <span>{hasCopiedShare ? 'COPIED' : 'SHARE'}</span>
-              </button>
+                {hasCopiedShare ? 'COPIED' : 'SHARE'}
+              </KromaButton>
 
               <span className="w-px h-3 bg-black/10 dark:bg-white/10 mx-1" />
 
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={handleSaveGradient}
-                className="inline-flex items-center gap-1.5 bg-transparent border-none px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-text dark:text-white cursor-pointer rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08]"
+                iconLeft={<Bookmark size={11} />}
+                className="px-2.5 py-1.5 font-sans text-[11px] font-semibold tracking-wider uppercase text-kroma-text dark:text-white rounded-xs transition-colors hover:bg-black/5 dark:hover:bg-white/[0.08] h-auto"
                 title="Save to Studio Library"
               >
-                <Bookmark size={11} />
-                <span>{isCurrentSaved ? 'SAVED' : 'SAVE'}</span>
-              </button>
+                {isCurrentSaved ? 'SAVED' : 'SAVE'}
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -588,17 +601,18 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               <span className="font-mono text-[11px] font-medium text-kroma-text dark:text-white uppercase">{pt.color}</span>
 
               {config.points.length > 2 && (
-                <button
-                  type="button"
+                <KromaButton
+                  variant="ghost"
+                  size="icon"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDeletePoint(pt.id);
                   }}
-                  className="text-kroma-muted dark:text-[#8E8E93] hover:text-kroma-red p-0.5 ml-0.5 transition-colors"
+                  className="text-kroma-muted dark:text-[#8E8E93] hover:text-kroma-red p-0.5 ml-0.5 transition-colors h-auto w-auto min-h-0"
                   title="Delete node"
                 >
                   <Trash2 size={11} />
-                </button>
+                </KromaButton>
               )}
             </div>
           );
@@ -745,18 +759,19 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               </div>
               <div className="flex gap-2">
                 {(['canvas', 'solid', 'transparent'] as const).map((bg) => (
-                  <button
+                  <KromaButton
                     key={bg}
-                    type="button"
+                    variant={config.background === bg ? 'filled' : 'ghost'}
+                    size="sm"
                     onClick={() => handleConfigChange({ background: bg })}
-                    className={`flex-1 py-1.5 font-mono text-[11px] uppercase tracking-wider rounded-xs border transition-colors ${
+                    className={`flex-1 py-1.5 font-mono text-[11px] uppercase tracking-wider rounded-xs border transition-colors h-auto ${
                       config.background === bg
                         ? 'border-[#171717] dark:border-white font-bold bg-[#171717] text-white dark:bg-white dark:text-[#171717]'
                         : 'border-transparent text-[#707070] hover:text-[#171717] dark:hover:text-white bg-black/5 dark:bg-white/5'
                     }`}
                   >
                     {bg}
-                  </button>
+                  </KromaButton>
                 ))}
               </div>
             </div>
@@ -838,14 +853,15 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                       { r: 2, c: 3, label: '2×3' },
                       { r: 3, c: 3, label: '3×3' },
                     ].map((g) => (
-                      <button
+                      <KromaButton
                         key={g.label}
-                        type="button"
+                        variant="outline"
+                        size="sm"
                         onClick={() => handleGenerateGrid(g.r, g.c)}
-                        className="flex-1 py-1 font-mono text-[11px] uppercase border border-black/10 dark:border-white/10 rounded-xs hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer"
+                        className="flex-1 py-1 font-mono text-[11px] uppercase rounded-xs h-auto"
                       >
                         {g.label}
-                      </button>
+                      </KromaButton>
                     ))}
                   </div>
                 </div>
@@ -945,11 +961,12 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
             {config.points.map((pt, idx) => {
               const isSelected = pt.id === activeSpecimen.id;
               return (
-                <button
+                <KromaButton
                   key={pt.id}
-                  type="button"
+                  variant={isSelected ? 'filled' : 'ghost'}
+                  size="sm"
                   onClick={() => setSelectedPointId(pt.id)}
-                  className={`inline-flex items-center gap-2 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider rounded-xs border transition-all whitespace-nowrap cursor-pointer ${
+                  className={`inline-flex items-center gap-2 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider rounded-xs border transition-all whitespace-nowrap cursor-pointer h-auto ${
                     isSelected
                       ? 'border-kroma-text dark:border-white bg-black/[0.07] dark:bg-white/[0.1] text-kroma-text dark:text-white'
                       : 'border-transparent text-kroma-muted dark:text-[#8E8E93] hover:text-kroma-text dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
@@ -961,7 +978,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                     style={{ backgroundColor: pt.color }}
                   />
                   <span>0{idx + 1} {pt.color}</span>
-                </button>
+                </KromaButton>
               );
             })}
           </div>
@@ -1010,21 +1027,22 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                     {activeSpecimen.color}
                   </span>
 
-                  <button
-                    type="button"
+                  <KromaButton
+                    variant="ghost"
+                    size="sm"
                     onClick={async () => {
                       await copyToClipboard(activeSpecimen.color);
                       setCopiedSpecimenHex(activeSpecimen.color);
                       showToast(`Copied ${activeSpecimen.color}`, specimenName, activeSpecimen.color);
                       setTimeout(() => setCopiedSpecimenHex(null), 1200);
                     }}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 bg-black/30 hover:bg-black/45 backdrop-blur-xs text-white border border-white/25 rounded-xs font-mono text-[11px] font-bold tracking-wider uppercase cursor-pointer transition-all shadow-xs active:scale-95 ${
+                    iconLeft={<Copy size={11} />}
+                    className={`px-3 py-1.5 bg-black/30 hover:bg-black/45 backdrop-blur-xs text-white border border-white/25 rounded-xs font-mono text-[11px] font-bold tracking-wider uppercase cursor-pointer transition-all shadow-xs active:scale-95 h-auto ${
                       copiedSpecimenHex === activeSpecimen.color ? 'bg-[#34C759]! border-[#34C759]!' : ''
                     }`}
                   >
-                    <Copy size={11} />
-                    <span>{copiedSpecimenHex === activeSpecimen.color ? 'COPIED' : 'COPY HEX'}</span>
-                  </button>
+                    {copiedSpecimenHex === activeSpecimen.color ? 'COPIED' : 'COPY HEX'}
+                  </KromaButton>
                 </div>
               </div>
             </div>
@@ -1148,15 +1166,16 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <button
-                      type="button"
+                    <KromaButton
+                      variant="outline"
+                      size="sm"
                       onClick={() => handleRandomizePointColor(activeSpecimen.id)}
-                      className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-2.5 py-1 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors"
+                      iconLeft={<RefreshCw size={11} />}
+                      className="rounded-xs px-2.5 py-1 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white"
                       title="Randomize this node's color"
                     >
-                      <RefreshCw size={11} />
-                      <span>RANDOMIZE TONE</span>
-                    </button>
+                      RANDOMIZE TONE
+                    </KromaButton>
                   </div>
                 </div>
               </div>
@@ -1297,18 +1316,20 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                 { id: 'agent', label: 'AGENT PROMPT', icon: <Cpu size={12} /> },
               ] as const
             ).map((t) => (
-              <button
+              <KromaButton
                 key={t.id}
+                variant={activeExportTab === t.id ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setActiveExportTab(t.id)}
-                className={`px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase border rounded-xs transition-colors cursor-pointer flex items-center gap-1.5 ${
+                iconLeft={t.icon}
+                className={`px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase border rounded-xs transition-colors cursor-pointer h-auto ${
                   activeExportTab === t.id
                     ? 'bg-kroma-text! text-white! border-kroma-text! dark:bg-white! dark:text-kroma-text! dark:border-white!'
                     : 'border-black/15 dark:border-white/15 bg-transparent text-kroma-muted hover:text-kroma-text dark:text-[#8E8E93] dark:hover:text-white'
                 }`}
               >
-                {t.icon}
-                <span>{t.label}</span>
-              </button>
+                {t.label}
+              </KromaButton>
             ))}
           </div>
 
@@ -1319,23 +1340,27 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
 
           {/* Action Buttons */}
           <div className="flex items-center gap-3 flex-wrap">
-            <button
+            <KromaButton
+              variant="filled"
+              size="md"
               onClick={() => handleCopyExport(activeExportTab)}
-              className="inline-flex items-center gap-2.5 bg-kroma-text hover:bg-black dark:bg-white dark:hover:bg-[#ECECEC] text-white dark:text-kroma-text border border-kroma-text dark:border-white rounded-xs px-6 py-2.5 font-sans text-[13px] font-semibold tracking-wider uppercase cursor-pointer transition-all active:scale-98"
+              iconLeft={copiedCodeFormat === activeExportTab ? <Check size={13} /> : <Copy size={13} />}
+              className="rounded-xs px-6 py-2.5 font-sans text-[13px] font-semibold tracking-wider uppercase active:scale-98"
             >
-              {copiedCodeFormat === activeExportTab ? <Check size={13} /> : <Copy size={13} />}
-              <span>{copiedCodeFormat === activeExportTab ? 'COPIED TO CLIPBOARD' : 'COPY CODE'}</span>
-            </button>
+              {copiedCodeFormat === activeExportTab ? 'COPIED TO CLIPBOARD' : 'COPY CODE'}
+            </KromaButton>
 
             {activeExportTab === 'svg' && (
-              <button
+              <KromaButton
+                variant="outline"
+                size="sm"
                 onClick={handleDownloadSvgFile}
-                className="inline-flex items-center gap-1.5 bg-transparent border border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/[0.08] rounded-xs px-3.5 py-2 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                iconLeft={<Download size={13} />}
+                className="rounded-xs px-3.5 py-2 font-sans text-xs font-semibold tracking-wider text-kroma-text dark:text-white"
                 title="Download .svg file"
               >
-                <Download size={13} />
-                <span>DOWNLOAD .SVG</span>
-              </button>
+                DOWNLOAD .SVG
+              </KromaButton>
             )}
           </div>
         </div>

@@ -8,6 +8,7 @@ import { CURATED_PATTERNS } from '../data/patterns';
 import { CURATED_CREATORS } from '../data/creators';
 import { CURATED_COLLECTIONS } from '../data/collections';
 import { RouteType } from '../types';
+import { KromaButton } from './common/KromaButton';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -123,10 +124,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
       route: { path: 'mesh' as const },
     },
     {
-      id: 'antigravity',
-      name: 'Antigravity Studio',
-      desc: 'Kinetic physics simulation & motion token exports',
-      route: { path: 'antigravity' as const },
+      id: 'springs',
+      name: 'Springs Studio',
+      desc: 'Physics spring playground & motion interaction laboratory',
+      route: { path: 'springs' as const },
     },
     {
       id: 'pattern-studio',
@@ -235,9 +236,16 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
               setSelectedIndex(0);
             }}
           />
-          <button onClick={onClose} aria-label="Close search">
+          <KromaButton
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            aria-label="Close search"
+            className="w-8 h-8 min-h-[32px] p-0"
+          >
             <X size={18} color="#9DA3AF" />
-          </button>
+          </KromaButton>
         </div>
 
         <div className="search-dialog-results">
@@ -261,14 +269,17 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                   { name: 'WARM NEUTRALS', hex: '#D4A373' },
                   { name: 'CYBERPUNK', hex: '#F72585' },
                 ].map((pill) => (
-                  <button
+                  <KromaButton
                     key={pill.name}
+                    type="button"
+                    variant="subtle"
+                    size="sm"
                     onClick={() => setQuery(pill.name.toLowerCase())}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 bg-white dark:bg-[#1C1E24] text-xs font-sans font-semibold tracking-wider uppercase text-neutral-800 dark:text-neutral-200 transition-colors"
+                    className="inline-flex items-center gap-2 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 bg-white dark:bg-[#1C1E24] text-xs font-semibold tracking-wider uppercase text-neutral-800 dark:text-neutral-200 transition-colors"
                   >
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: pill.hex }} />
+                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: pill.hex }} />
                     <span>{pill.name}</span>
-                  </button>
+                  </KromaButton>
                 ))}
               </div>
             </div>

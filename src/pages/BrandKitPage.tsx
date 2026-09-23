@@ -54,6 +54,7 @@ import { ColorPickerModal } from '../components/ColorPickerModal';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface BrandKitPageProps {
   initialId?: string;
@@ -345,12 +346,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
 
       {/* ── 01: Minimal Editorial Breadcrumb ─────────────────────── */}
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] text-text-secondary mb-8">
-        <button
+        <KromaButton
+          variant="ghost"
+          size="sm"
           onClick={() => onNavigate({ path: 'create' })}
-          className="text-text-secondary no-underline cursor-pointer transition-colors duration-150 hover:text-text-primary focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+          className="text-text-secondary no-underline cursor-pointer transition-colors duration-150 hover:text-text-primary p-0 h-auto font-inherit"
         >
           STUDIO
-        </button>
+        </KromaButton>
         <span className="text-text-tertiary">/</span>
         <span className="text-text-primary font-medium">BRAND KIT</span>
       </nav>
@@ -369,27 +372,33 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
 
         {/* Global Workspace Actions */}
         <div className="flex items-center gap-2.5 flex-wrap">
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={() => setShowExportModal(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] bg-transparent border border-[var(--border-subtle)] hover:border-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors outline-none"
+            iconLeft={<Code size={13} />}
+            className="rounded-[2px] px-3.5 py-2"
           >
-            <Code size={13} />
-            <span>Export Tokens</span>
-          </button>
-          <button
+            Export Tokens
+          </KromaButton>
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={handleShare}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] bg-transparent border border-[var(--border-subtle)] hover:border-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors outline-none"
+            iconLeft={<Share2 size={13} />}
+            className="rounded-[2px] px-3.5 py-2"
           >
-            <Share2 size={13} />
-            <span>Share</span>
-          </button>
-          <button
+            Share
+          </KromaButton>
+          <KromaButton
+            variant="filled"
+            size="sm"
             onClick={handleSaveBrandKit}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium tracking-wide text-white bg-[#171717] hover:bg-black focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#171717] rounded-[2px] transition-colors shadow-sm outline-none"
+            iconLeft={<Bookmark size={13} />}
+            className="rounded-[2px] px-4 py-2"
           >
-            <Bookmark size={13} />
-            <span>Save Brand Kit</span>
-          </button>
+            Save Brand Kit
+          </KromaButton>
         </div>
       </header>
 
@@ -402,13 +411,15 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </span>
           </div>
 
-          <button
+          <KromaButton
+            variant="ghost"
+            size="sm"
             onClick={() => setIsEditingIdentity((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] transition-colors outline-none"
+            iconLeft={<Sliders size={12} />}
+            className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] h-auto p-1"
           >
-            <Sliders size={12} />
-            <span>{isEditingIdentity ? 'Done Editing' : 'Edit Name & Tagline'}</span>
-          </button>
+            {isEditingIdentity ? 'Done Editing' : 'Edit Name & Tagline'}
+          </KromaButton>
         </div>
 
         {/* Subtle Brand Identity Inputs */}
@@ -551,10 +562,12 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           </span>
           <div className="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full">
             {palettes.slice(0, 6).map((pal) => (
-              <button
+              <KromaButton
                 key={pal.id}
+                variant="outline"
+                size="sm"
                 onClick={() => handleApplyPalette(pal)}
-                className="flex items-center gap-1.5 px-2 py-1 bg-transparent hover:bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors flex-shrink-0 outline-none"
+                className="flex items-center gap-1.5 px-2 py-1 bg-transparent hover:bg-[var(--bg-surface-2)] flex-shrink-0 h-auto"
                 title={`Apply ${pal.title} (${curatedQualityMap[pal.id] || 'AA ✓'})`}
               >
                 <div className="flex h-2.5 w-8 rounded-[1px] overflow-hidden">
@@ -568,7 +581,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 <span className="text-[9px] font-mono font-semibold px-1 py-0.5 rounded-[2px] bg-neutral-100 text-[var(--text-secondary)] border border-neutral-200">
                   {curatedQualityMap[pal.id] || 'AA ✓'}
                 </span>
-              </button>
+              </KromaButton>
             ))}
           </div>
         </div>
@@ -632,16 +645,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             <div className="flex flex-col gap-2 pt-3 border-t border-[var(--border-subtle)] text-xs font-mono">
               <div className="flex items-center justify-between">
                 <span className="text-[var(--text-secondary)]">HEX</span>
-                <button
+                <KromaButton
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleCopyColorValue('prim-hex', primaryRole.hex)}
-                  className="font-medium text-[var(--text-primary)] hover:underline flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+                  className="font-medium text-[var(--text-primary)] hover:underline flex items-center gap-1 p-0 h-auto font-mono text-xs"
                 >
                   {copiedKey === 'prim-hex' ? (
                     <span className="text-emerald-600 font-bold">COPIED</span>
                   ) : (
                     <span>{primaryRole.hex}</span>
                   )}
-                </button>
+                </KromaButton>
               </div>
 
               <div className="flex items-center justify-between">
@@ -650,16 +665,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   const oklch = hexToOklch(primaryRole.hex);
                   const str = oklchToCssString(oklch.L, oklch.C, oklch.H);
                   return (
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
                       onClick={() => handleCopyColorValue('prim-oklch', str)}
-                      className="font-medium text-[var(--text-primary)] hover:underline focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+                      className="font-medium text-[var(--text-primary)] hover:underline p-0 h-auto font-mono text-xs"
                     >
                       {copiedKey === 'prim-oklch' ? (
                         <span className="text-emerald-600 font-bold">COPIED</span>
                       ) : (
                         <span>{str}</span>
                       )}
-                    </button>
+                    </KromaButton>
                   );
                 })()}
               </div>
@@ -670,16 +687,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   const rgb = hexToRgb(primaryRole.hex);
                   const str = rgb ? `${rgb.r} / ${rgb.g} / ${rgb.b}` : '—';
                   return (
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
                       onClick={() => handleCopyColorValue('prim-rgb', str)}
-                      className="font-medium text-[var(--text-primary)] hover:underline focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+                      className="font-medium text-[var(--text-primary)] hover:underline p-0 h-auto font-mono text-xs"
                     >
                       {copiedKey === 'prim-rgb' ? (
                         <span className="text-emerald-600 font-bold">COPIED</span>
                       ) : (
                         <span>{str}</span>
                       )}
-                    </button>
+                    </KromaButton>
                   );
                 })()}
               </div>
@@ -755,16 +774,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     <span className="text-[var(--text-secondary)] truncate max-w-[100px]">
                       {oklchStr}
                     </span>
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
                       onClick={() => handleCopyColorValue(`role-${role.key}`, role.hex)}
-                      className="text-[var(--text-primary)] hover:underline focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+                      className="text-[var(--text-primary)] hover:underline p-0 h-auto font-mono text-[10px]"
                     >
                       {copiedKey === `role-${role.key}` ? (
                         <span className="text-emerald-600 font-bold">COPIED</span>
                       ) : (
                         <span>COPY HEX</span>
                       )}
-                    </button>
+                    </KromaButton>
                   </div>
                 </div>
               </div>
@@ -799,12 +820,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     </div>
                   </div>
                 </div>
-                <button
+                <KromaButton
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleCopyColorValue(`sup-${role.key}`, role.hex)}
-                  className="text-[9px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0 focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+                  className="text-[9px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0 p-0 h-auto"
                 >
                   {copiedKey === `sup-${role.key}` ? '✓' : 'COPY'}
-                </button>
+                </KromaButton>
               </div>
             ))}
           </div>
@@ -827,66 +850,76 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
             {/* Intelligent OKLCH Accessible Variant Toggle */}
             <div className="inline-flex items-center p-0.5 border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)]">
-              <button
+              <KromaButton
+                variant={previewColorMode === 'accessible' ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setPreviewColorMode('accessible')}
-                className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[1px] transition-colors outline-none ${
+                iconLeft={<ShieldCheck size={11} />}
+                className={`px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[1px] transition-colors h-auto ${
                   previewColorMode === 'accessible'
                     ? 'bg-[#171717] text-white font-semibold'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
                 title="Renders using OKLCH contrast-safe variants so text is guaranteed legible"
               >
-                <ShieldCheck size={11} />
-                <span>Accessible UI (OKLCH)</span>
-              </button>
-              <button
+                Accessible UI (OKLCH)
+              </KromaButton>
+              <KromaButton
+                variant={previewColorMode === 'original' ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setPreviewColorMode('original')}
-                className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[1px] transition-colors outline-none ${
+                className={`px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[1px] transition-colors h-auto ${
                   previewColorMode === 'original'
                     ? 'bg-[#171717] text-white font-semibold'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
                 title="Renders using raw original preset colors directly"
               >
-                <span>Original Palette</span>
-              </button>
+                Original Palette
+              </KromaButton>
             </div>
 
             {/* Segmented Switcher for Viewports */}
             <div className="inline-flex items-center p-0.5 border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)]">
-              <button
+              <KromaButton
+                variant={previewMode === 'website' ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setPreviewMode('website')}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors outline-none ${
+                iconLeft={<Layout size={12} />}
+                className={`px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors h-auto ${
                   previewMode === 'website'
                     ? 'bg-[#171717] text-white'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
-                <Layout size={12} />
-                <span>Website</span>
-              </button>
-              <button
+                Website
+              </KromaButton>
+              <KromaButton
+                variant={previewMode === 'mobile' ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setPreviewMode('mobile')}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors outline-none ${
+                iconLeft={<Smartphone size={12} />}
+                className={`px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors h-auto ${
                   previewMode === 'mobile'
                     ? 'bg-[#171717] text-white'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
-                <Smartphone size={12} />
-                <span>Mobile App</span>
-              </button>
-              <button
+                Mobile App
+              </KromaButton>
+              <KromaButton
+                variant={previewMode === 'dashboard' ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setPreviewMode('dashboard')}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors outline-none ${
+                iconLeft={<BarChart3 size={12} />}
+                className={`px-3 py-1.5 text-xs font-medium tracking-wider uppercase rounded-[1px] transition-colors h-auto ${
                   previewMode === 'dashboard'
                     ? 'bg-[#171717] text-white'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
-                <BarChart3 size={12} />
-                <span>Dashboard</span>
-              </button>
+                Dashboard
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -900,13 +933,15 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 OKLCH Accessible variants active ({intelligenceReport.adjustedRolesCount} roles optimized for guaranteed WCAG AA readability)
               </span>
             </div>
-            <button
+            <KromaButton
+              variant="ghost"
+              size="sm"
               onClick={handleAutoRemediateOklch}
-              className="text-[11px] font-bold text-[var(--text-primary)] hover:underline inline-flex items-center gap-1"
+              iconRight={<ArrowRight size={11} />}
+              className="text-[11px] font-bold text-[var(--text-primary)] hover:underline inline-flex items-center gap-1 p-0 h-auto"
             >
-              <span>Apply to Kit</span>
-              <ArrowRight size={11} />
-            </button>
+              Apply to Kit
+            </KromaButton>
           </div>
         )}
 
@@ -954,16 +989,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   <span>Manifesto</span>
                 </nav>
 
-                <button
-                  className="px-3 py-1.5 rounded-[2px] text-xs font-medium tracking-wide transition-opacity hover:opacity-90 inline-flex items-center gap-1"
+                <KromaButton
+                  variant="filled"
+                  size="sm"
+                  iconRight={<ArrowRight size={12} />}
+                  className="rounded-[2px] text-xs font-medium tracking-wide transition-opacity hover:opacity-90 inline-flex items-center gap-1"
                   style={{
                     backgroundColor: activePreviewRoles.button,
                     color: activePreviewRoles.buttonText,
                   }}
                 >
-                  <span>Explore Studio</span>
-                  <ArrowRight size={12} />
-                </button>
+                  Explore Studio
+                </KromaButton>
               </header>
 
               {/* Web Hero Section */}
@@ -997,17 +1034,21 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center gap-2.5 mt-2">
-                  <button
-                    className="px-4 py-2 rounded-[2px] text-xs font-medium tracking-wide shadow-sm"
+                  <KromaButton
+                    variant="filled"
+                    size="sm"
+                    className="rounded-[2px] text-xs font-medium tracking-wide shadow-sm px-4 py-2"
                     style={{
                       backgroundColor: activePreviewRoles.button,
                       color: activePreviewRoles.buttonText,
                     }}
                   >
                     Primary Action
-                  </button>
-                  <button
-                    className="px-4 py-2 rounded-[2px] text-xs font-medium tracking-wide border transition-colors"
+                  </KromaButton>
+                  <KromaButton
+                    variant="outline"
+                    size="sm"
+                    className="rounded-[2px] text-xs font-medium tracking-wide border transition-colors px-4 py-2"
                     style={{
                       backgroundColor: activePreviewRoles.surface,
                       color: activePreviewRoles.text,
@@ -1015,7 +1056,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     }}
                   >
                     Documentation
-                  </button>
+                  </KromaButton>
                 </div>
               </div>
 
@@ -1142,7 +1183,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   ))}
                 </div>
 
-                <button
+                <KromaButton
+                  variant="filled"
+                  size="sm"
                   className="w-full py-2 rounded font-medium text-xs shadow-sm"
                   style={{
                     backgroundColor: activePreviewRoles.button,
@@ -1150,7 +1193,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                   }}
                 >
                   Confirm Action
-                </button>
+                </KromaButton>
               </div>
             </div>
           )}
@@ -1167,12 +1210,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     Continuous cross-gamut color synchronization.
                   </p>
                 </div>
-                <button
+                <KromaButton
+                  variant="filled"
+                  size="sm"
                   className="px-3 py-1 rounded-[2px] text-xs font-medium shadow-sm"
                   style={{ backgroundColor: activePreviewRoles.button, color: activePreviewRoles.buttonText }}
                 >
                   Generate Report
-                </button>
+                </KromaButton>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1463,7 +1508,9 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 </span>
               </div>
 
-              <button
+              <KromaButton
+                variant="filled"
+                size="sm"
                 className="w-full py-1.5 rounded-[2px] text-[11px] font-medium"
                 style={{
                   backgroundColor: activePreviewRoles.button,
@@ -1471,7 +1518,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 }}
               >
                 Get Started
-              </button>
+              </KromaButton>
             </div>
             <div className="p-3 bg-[var(--bg-surface-1)] border-t border-[var(--border-subtle)]">
               <span className="text-xs font-medium text-[var(--text-primary)] block">
@@ -1603,16 +1650,20 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
 
             <div className="flex items-center gap-2">
               {intelligenceReport.overallQuality === 'WCAG AA NEEDS ADJUSTMENT' && (
-                <button
+                <KromaButton
+                  variant="filled"
+                  size="sm"
                   onClick={handleAutoRemediateOklch}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-white bg-[#171717] hover:bg-black focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors outline-none"
+                  iconLeft={<Sparkles size={11} />}
+                  className="!px-3 !py-1 !text-xs font-medium !rounded-[2px]"
                   title="Applies minimal OKLCH adjustments that preserve hue & chroma while satisfying contrast"
                 >
-                  <Sparkles size={11} />
-                  <span>Auto-Remediate (OKLCH)</span>
-                </button>
+                  Auto-Remediate (OKLCH)
+                </KromaButton>
               )}
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() =>
                   onNavigate({
                     path: 'contrast-checker',
@@ -1620,11 +1671,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     bg: brandKit.roles.background,
                   })
                 }
-                className="inline-flex items-center gap-1 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] transition-colors outline-none"
+                iconRight={<ExternalLink size={10} />}
+                className="!text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
-                <span>Contrast Checker</span>
-                <ExternalLink size={10} />
-              </button>
+                Contrast Checker
+              </KromaButton>
             </div>
           </div>
 
@@ -1667,12 +1718,14 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                     <span className="text-rose-800">
                       OKLCH: <strong>{check.suggestedFg}</strong> ({formatContrastRatio(check.suggestedRatio || 4.5)}:1)
                     </span>
-                    <button
+                    <KromaButton
+                      variant="filled"
+                      size="sm"
                       onClick={() => handleApplySingleCheckFix(check)}
-                      className="px-2 py-0.5 bg-[#171717] hover:bg-black text-white rounded-[2px] font-medium transition-colors"
+                      className="!px-2 !py-0.5 !text-[10px] !rounded-[2px] font-medium"
                     >
                       Apply
-                    </button>
+                    </KromaButton>
                   </div>
                 )}
               </div>
@@ -1765,16 +1818,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                         </span>
                       </td>
                       <td className="py-2.5 px-4 text-right">
-                        <button
+                        <KromaButton
+                          variant="ghost"
+                          size="sm"
                           onClick={() => handleCopyColorValue(`table-${row.key}`, row.hex)}
-                          className="text-[11px] font-mono text-[var(--text-primary)] hover:underline focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+                          className="!p-0 !min-h-0 text-[11px] font-mono text-[var(--text-primary)] hover:underline"
                         >
                           {copiedKey === `table-${row.key}` ? (
                             <span className="text-emerald-600 font-bold">COPIED</span>
                           ) : (
                             <span>COPY</span>
                           )}
-                        </button>
+                        </KromaButton>
                       </td>
                     </tr>
                   );
@@ -1791,20 +1846,24 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
           Kroma Brand Kit Studio • {brandKit.name} • {intelligenceReport.overallQuality}
         </div>
         <div className="flex items-center gap-2.5">
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={() => setShowExportModal(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium tracking-wide text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] rounded-[2px] transition-colors outline-none"
+            iconLeft={<Code size={13} />}
+            className="!px-3.5 !py-2 !text-xs font-medium tracking-wide !rounded-[2px]"
           >
-            <Code size={13} />
-            <span>Export Tokens</span>
-          </button>
-          <button
+            Export Tokens
+          </KromaButton>
+          <KromaButton
+            variant="filled"
+            size="sm"
             onClick={handleSaveBrandKit}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium tracking-wide text-white bg-[#171717] hover:bg-black focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#171717] rounded-[2px] transition-colors shadow-sm outline-none"
+            iconLeft={<Bookmark size={13} />}
+            className="!px-4 !py-2 !text-xs font-medium tracking-wide !rounded-[2px] shadow-sm"
           >
-            <Bookmark size={13} />
-            <span>Save Brand Kit</span>
-          </button>
+            Save Brand Kit
+          </KromaButton>
         </div>
       </footer>
 
@@ -1816,28 +1875,32 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
               <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[var(--text-primary)]">
                 Export Design Tokens
               </span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="icon"
                 onClick={() => setShowExportModal(false)}
-                className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+                className="!w-6 !h-6 !p-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 aria-label="Close modal"
               >
                 <X size={14} />
-              </button>
+              </KromaButton>
             </div>
 
             <div className="flex items-center gap-1 border-b border-[var(--border-subtle)] pb-2">
               {(['css', 'tailwind', 'json'] as const).map((fmt) => (
-                <button
+                <KromaButton
                   key={fmt}
+                  variant={exportFormat === fmt ? 'filled' : 'ghost'}
+                  size="sm"
                   onClick={() => setExportFormat(fmt)}
-                  className={`px-3 py-1 text-xs font-medium uppercase tracking-wider rounded-[2px] transition-colors outline-none ${
+                  className={`!px-3 !py-1 !text-xs font-medium uppercase tracking-wider !rounded-[2px] ${
                     exportFormat === fmt
-                      ? 'bg-[#171717] text-white'
+                      ? ''
                       : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   {fmt}
-                </button>
+                </KromaButton>
               ))}
             </div>
 
@@ -1846,19 +1909,23 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
             </pre>
 
             <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[var(--border-subtle)]">
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => setShowExportModal(false)}
-                className="px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:ring-1 focus-visible:ring-[#171717] outline-none"
+                className="!px-3 !py-1.5 !text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 Close
-              </button>
-              <button
+              </KromaButton>
+              <KromaButton
+                variant="filled"
+                size="sm"
                 onClick={handleCopyTokens}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium bg-[#171717] hover:bg-black text-white rounded-[2px] transition-colors shadow-sm outline-none"
+                iconLeft={<Copy size={13} />}
+                className="!px-3.5 !py-1.5 !text-xs font-medium !rounded-[2px] shadow-sm"
               >
-                <Copy size={13} />
-                <span>Copy Tokens</span>
-              </button>
+                Copy Tokens
+              </KromaButton>
             </div>
           </div>
         </div>

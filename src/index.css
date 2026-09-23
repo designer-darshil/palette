@@ -482,8 +482,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .kroma-header__nav-link--active .kroma-header__indicator,
-.kroma-header__action-link--active .kroma-header__indicator,
-.kroma-header__dropdown-btn--active .kroma-header__indicator {
+.kroma-header__action-link--active .kroma-header__indicator {
   transform: translateX(-50%) scaleX(1);
   opacity: 1;
 }
@@ -496,6 +495,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   align-items: center;
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-header__dropdown-btn {
   position: relative;
   display: inline-flex;
@@ -542,10 +542,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .kroma-header__dropdown-btn[aria-expanded="true"] .kroma-header__dropdown-chevron {
   opacity: 1;
 }
+*/
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-header__dropdown-btn[aria-expanded="true"] .kroma-header__dropdown-chevron {
   transform: rotate(180deg);
 }
+*/
 
 .kroma-header__dropdown-menu {
   position: absolute;
@@ -840,6 +843,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 /* Direct Search Button: Icon Only */
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-header__search-btn {
   display: inline-flex;
   align-items: center;
@@ -875,6 +879,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
 }
+*/
 
 /* Saved & About Action Links */
 .kroma-header__action-link {
@@ -926,6 +931,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 /* Theme Toggle Button */
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-header__theme-btn {
   display: inline-flex;
   align-items: center;
@@ -957,6 +963,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 :root:not([data-theme="light"]) .kroma-header__theme-btn:hover {
   background: rgba(255, 255, 255, 0.1);
 }
+*/
 
 /* Mobile Actions (Hidden on desktop) */
 .kroma-header__mobile-actions {
@@ -965,6 +972,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   gap: 8px;
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-header__mobile-search-btn {
   display: inline-flex;
   align-items: center;
@@ -977,7 +985,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   color: inherit;
   cursor: pointer;
 }
+*/
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-header__mobile-menu-btn {
   display: inline-flex;
   flex-direction: column;
@@ -993,6 +1003,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   cursor: pointer;
   padding: 0;
 }
+*/
 
 .kroma-header__menu-bar {
   width: 20px;
@@ -1029,9 +1040,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .kroma-header__center {
     display: none;
   }
+  /* UNUSED CSS — verified no project usage Migrated to KromaButton
   .kroma-header__search-btn,
-  .kroma-header__action-link,
-  .kroma-header__theme-btn {
+  .kroma-header__theme-btn
+  */
+  .kroma-header__action-link {
     display: none;
   }
   .kroma-header__mobile-actions {
@@ -1085,6 +1098,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   flex-shrink: 0;
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-mobile-menu__close-btn {
   display: inline-flex;
   align-items: center;
@@ -1097,6 +1111,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   color: var(--text-primary);
   cursor: pointer;
 }
+*/
 
 /* Quick Search at Top of Mobile Menu */
 .kroma-mobile-menu__search-bar {
@@ -1204,6 +1219,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   gap: 14px;
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-mobile-menu__theme-btn {
   width: 100%;
   display: flex;
@@ -1220,6 +1236,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   font-weight: 600;
   cursor: pointer;
 }
+*/
 
 .kroma-mobile-menu__meta {
   display: flex;
@@ -2155,7 +2172,8 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
 }
 */
 
-/* ─── Modern Global Kroma Button Classes (Home Page Source of Truth) ─── */
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
+/* ─── Modern Global Kroma Button Classes (Home Page Source of Truth) ─── * /
 .btn-primary,
 .btn-studio-primary {
   background-color: #171717;
@@ -2236,6 +2254,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.3);
 }
+*/
 
 /* ═══════════════════════════════════════════════════════
    STUDIO WORKSPACE SHELL — Global Responsive Containment
@@ -2278,11 +2297,13 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   }
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .studio-button {
   min-width: 0;
   white-space: nowrap;
   flex-shrink: 0;
 }
+*/
 
 .studio-heading {
   min-width: 0;
@@ -2396,6 +2417,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   flex-shrink: 0;
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .studio-topbar-icon-btn {
   display: flex;
   align-items: center;
@@ -2495,6 +2517,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
     padding: 5px 7px;
   }
 }
+*/
 
 /* — Export Dropdown & Items — */
 .export-menu,
@@ -2974,6 +2997,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   gap: 2px;
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .studio-segmented-btn {
   padding: 5px 6px;
   border-radius: var(--radius-xs);
@@ -3000,6 +3024,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   color: var(--text-primary);
   box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
+*/
 
 /* — Floating Canvas HUD (shared across all studios) — */
 .studio-canvas-hud {
@@ -3020,6 +3045,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   -webkit-backdrop-filter: blur(16px);
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .studio-canvas-hud-btn {
   display: flex;
   align-items: center;
@@ -3043,6 +3069,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   background: var(--color-primary);
   color: var(--color-primary-contrast);
 }
+*/
 
 .studio-canvas-hud-divider {
   width: 1px;
@@ -3433,6 +3460,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   margin-bottom: 8px;
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .kroma-footer__contact-btn {
   display: inline-flex;
   align-items: center;
@@ -3468,6 +3496,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
 .kroma-footer__contact-btn:hover .kroma-footer__contact-icon {
   transform: translate(2px, -2px);
 }
+*/
 
 /* ─── 2. 4-Column Navigation Area ──────────────────────────── */
 
@@ -3700,10 +3729,12 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
     width: 100%;
   }
 
+  /* UNUSED CSS — verified no project usage Migrated to KromaButton
   .kroma-footer__contact-btn {
     width: 100%;
     justify-content: center;
   }
+  */
 
   .kroma-footer__nav-grid {
     grid-template-columns: 1fr;
@@ -3762,8 +3793,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   }
 
   .kroma-footer__link,
-  .kroma-footer__link::before,
-  .kroma-footer__contact-btn {
+  .kroma-footer__link::before {
     transition: none !important;
   }
 }
@@ -3786,7 +3816,8 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
    Comprehensive Responsive & Admin Layout System
    ========================================================================== */
 
-/* Button Robustness — Zero Awkward Wrapping */
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
+/* Button Robustness — Zero Awkward Wrapping * /
 .btn-primary,
 .btn-secondary,
 .detail-back-btn,
@@ -3799,6 +3830,7 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   white-space: nowrap;
   flex-shrink: 0;
 }
+*/
 
 /* Admin Responsive Architecture */
 .admin-layout-wrapper {
@@ -3931,11 +3963,13 @@ Old purple #BFA3F0 button styles preserved in comments per project unused-CSS gu
   }
 }
 
+/* UNUSED CSS — verified no project usage Migrated to KromaButton
 .generator-action-btn.primary {
   background: var(--bg-surface-3);
   border-color: var(--accent-gold);
   color: var(--accent-gold);
 }
+*/
 
 
 /* ===================================================================

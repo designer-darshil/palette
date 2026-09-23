@@ -3,6 +3,7 @@ import { Plus, X, ArrowUpRight, FolderPlus } from 'lucide-react';
 import { RouteType } from '../types';
 import { useCollections } from '../context/CollectionContext';
 import { SEOHead } from '../components/seo/SEOHead';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface CollectionsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -40,13 +41,15 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
           <span className="text-[var(--text-primary)] font-semibold">COLLECTIONS</span>
         </div>
 
-        <button
+        <KromaButton
+          size="sm"
+          variant="filled"
           onClick={() => setModalOpen(true)}
-          className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-3.5 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
+          className="font-mono text-xs font-medium tracking-[0.08em] uppercase"
+          iconLeft={<Plus size={13} />}
         >
-          <Plus size={13} />
           <span>NEW COLLECTION</span>
-        </button>
+        </KromaButton>
       </div>
 
       {/* Hero */}
@@ -118,13 +121,15 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
           <p className="font-sans text-sm text-text-tertiary max-w-[420px] leading-relaxed">
             Start collecting colors that make you stop scrolling. Gather palettes, specimens, and gradients into your private archive.
           </p>
-          <button
+          <KromaButton
+            size="sm"
+            variant="filled"
             onClick={() => onNavigate({ path: 'colors' })}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
+            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3"
+            iconRight={<ArrowUpRight size={13} />}
           >
             <span>EXPLORE COLORS</span>
-            <ArrowUpRight size={13} />
-          </button>
+          </KromaButton>
         </div>
       )}
 
@@ -137,9 +142,14 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
           >
             <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
               <span className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-0">NEW COLLECTION</span>
-              <button onClick={() => setModalOpen(false)} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                <X size={16} />
-              </button>
+              <KromaButton
+                size="icon"
+                variant="ghost"
+                onClick={() => setModalOpen(false)}
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] h-6 w-6"
+                aria-label="Close modal"
+                iconLeft={<X size={16} />}
+              />
             </div>
 
             <form onSubmit={handleCreate} className="flex flex-col gap-4">
@@ -172,20 +182,24 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-2">
-                <button
+                <KromaButton
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => setModalOpen(false)}
-                  className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
+                  className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-3"
                 >
                   CANCEL
-                </button>
-                <button
+                </KromaButton>
+                <KromaButton
                   type="submit"
-                  className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-4 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
+                  variant="filled"
+                  size="sm"
+                  className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-4"
+                  iconRight={<Plus size={13} />}
                 >
                   <span>CREATE ARCHIVE</span>
-                  <Plus size={13} />
-                </button>
+                </KromaButton>
               </div>
             </form>
           </div>

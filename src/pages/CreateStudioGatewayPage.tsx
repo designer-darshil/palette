@@ -288,13 +288,15 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                   <span className="font-mono text-[11px] uppercase tracking-wider font-bold">
                     0{index + 1}
                   </span>
-                  <button
+                  <KromaButton
+                    size="icon"
+                    variant="ghost"
                     onClick={(e) => handleToggleLock(index, e)}
-                    className="p-1 rounded-xs bg-black/30 hover:bg-black/60 transition-colors"
+                    className="p-1 h-6 w-6 rounded-xs bg-black/30 hover:bg-black/60"
                     title={color.locked ? 'Unlock swatch' : 'Lock swatch'}
-                  >
-                    {color.locked ? <Lock size={12} /> : <Unlock size={12} className="opacity-60" />}
-                  </button>
+                    aria-label={color.locked ? 'Unlock swatch' : 'Lock swatch'}
+                    iconLeft={color.locked ? <Lock size={12} /> : <Unlock size={12} className="opacity-60" />}
+                  />
                 </div>
 
                 {/* Bottom info: Name, Hex, Click to copy */}
@@ -304,17 +306,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                     e.stopPropagation();
                     handleCopyHex(color.hex, color.name);
                   }}
-                  title="Click to copy HEX"
                 >
-                  <span className="font-sans text-xs font-semibold uppercase tracking-wider truncate">
+                  <span className="font-sans text-sm sm:text-base font-bold truncate">
                     {color.name}
                   </span>
-                  <span className="font-mono text-sm font-bold flex items-center justify-between">
+                  <div className="flex items-center justify-between font-mono text-xs">
                     <span>{color.hex}</span>
-                    <span className="text-[10px] opacity-0 hover:opacity-100 uppercase tracking-wider">
-                      COPY
-                    </span>
-                  </span>
+                    <span className="text-[10px] opacity-75">Click to copy</span>
+                  </div>
                 </div>
               </div>
             );
@@ -372,13 +371,15 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               RECENT WORK
             </h2>
           </div>
-          <button
+          <KromaButton
+            variant="ghost"
+            size="sm"
             onClick={() => onNavigate({ path: 'palettes' })}
-            className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
+            iconRight={<ArrowUpRight size={13} />}
+            className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary hover:text-text-primary !p-0 !min-h-0"
           >
-            <span>VIEW ALL PALETTES</span>
-            <ArrowUpRight size={13} />
-          </button>
+            VIEW ALL PALETTES
+          </KromaButton>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -452,13 +453,15 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 Obsidian · Vermilion · Solar · Cyan
               </span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => onNavigate({ path: 'palette-generator', colors: '171717-FF3B30-FFD60A-00AEEF' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                iconRight={<ArrowUpRight size={12} />}
               >
                 <span>STUDY</span>
-                <ArrowUpRight size={12} />
-              </button>
+              </KromaButton>
             </div>
           </div>
 
@@ -474,17 +477,17 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             </div>
             <div className="relative w-full h-[120px] mb-2">
               <div
-                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-2 left-2"
+                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:z-10 w-28 h-20 top-2 left-2"
                 style={{ backgroundColor: '#7B2CBF' }}
                 title="Deep Violet (#7B2CBF)"
               />
               <div
-                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-5 left-16"
+                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:z-10 w-28 h-20 top-5 left-16"
                 style={{ backgroundColor: '#00AEEF' }}
                 title="Electric Cyan (#00AEEF)"
               />
               <div
-                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:z-10 w-28 h-20 top-8 left-32"
+                className="absolute rounded-[3px] shadow-sm transition-all duration-200 hover:z-10 w-28 h-20 top-8 left-32"
                 style={{ backgroundColor: '#34C759' }}
                 title="Emerald Light (#34C759)"
               />
@@ -493,13 +496,15 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 Violet · Azure · Emerald
               </span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => onNavigate({ path: 'mesh' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                iconRight={<ArrowUpRight size={12} />}
               >
                 <span>MESH</span>
-                <ArrowUpRight size={12} />
-              </button>
+              </KromaButton>
             </div>
           </div>
 
@@ -514,15 +519,17 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             </div>
             <div className="flex items-center justify-between">
               <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
-                Physics Specimen
+                Springs Studio
               </span>
-              <button
-                onClick={() => onNavigate({ path: 'antigravity' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
+              <KromaButton
+                variant="ghost"
+                size="sm"
+                onClick={() => onNavigate({ path: 'springs' })}
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                iconRight={<ArrowUpRight size={12} />}
               >
-                <span>TEST</span>
-                <ArrowUpRight size={12} />
-              </button>
+                <span>BOUNCE</span>
+              </KromaButton>
             </div>
           </div>
 
@@ -544,13 +551,15 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 Surface Grid
               </span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => onNavigate({ path: 'pattern-studio' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                iconRight={<ArrowUpRight size={12} />}
               >
                 <span>VECTOR</span>
-                <ArrowUpRight size={12} />
-              </button>
+              </KromaButton>
             </div>
           </div>
 
@@ -575,13 +584,15 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 System Tokens
               </span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => onNavigate({ path: 'ramps' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                iconRight={<ArrowUpRight size={12} />}
               >
                 <span>RAMPS</span>
-                <ArrowUpRight size={12} />
-              </button>
+              </KromaButton>
             </div>
           </div>
 
@@ -605,13 +616,15 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
               <span className="font-sans text-xs font-semibold text-[#171717] dark:text-white uppercase">
                 Weather Color
               </span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => onNavigate({ path: 'live' })}
-                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-[#171717] dark:hover:text-white"
+                className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                iconRight={<ArrowUpRight size={12} />}
               >
                 <span>OBSERVE</span>
-                <ArrowUpRight size={12} />
-              </button>
+              </KromaButton>
             </div>
           </div>
         </div>

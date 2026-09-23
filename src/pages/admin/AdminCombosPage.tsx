@@ -3,6 +3,7 @@ import { Search, Plus, Trash2, Wand2, ChevronLeft, ChevronRight } from 'lucide-r
 import { ComboItem } from '../../types';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useLibraryData } from '../../context/LibraryDataContext';
+import { KromaButton } from '../../components/common/KromaButton';
 
 export const AdminCombosPage: React.FC = () => {
   const { logActivity } = useAdminAuth();
@@ -147,20 +148,15 @@ export const AdminCombosPage: React.FC = () => {
                 <td style={{ padding: '10px 14px' }}>{combo.harmonyType}</td>
                 <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>{combo.contrastScore}</td>
                 <td style={{ padding: '10px 14px', textAlign: 'right' }}>
-                  <button
+                  <KromaButton
+                    variant="outline"
+                    size="icon"
                     onClick={() => handleDelete(combo.id, combo.title)}
-                    style={{
-                      background: 'transparent',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: '3px',
-                      padding: '4px 8px',
-                      color: '#F87171',
-                      cursor: 'pointer',
-                    }}
+                    className="!w-7 !h-7 !p-0 text-red-400 hover:text-red-500"
                     title="Delete Combo"
                   >
                     <Trash2 size={12} />
-                  </button>
+                  </KromaButton>
                 </td>
               </tr>
             ))}
@@ -182,24 +178,26 @@ export const AdminCombosPage: React.FC = () => {
         >
           <div>PAGE {currentPage} OF {totalPages}</div>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button
+            <KromaButton
+              variant="outline"
+              size="sm"
               disabled={currentPage <= 1}
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              className="btn-secondary"
+              iconLeft={<ChevronLeft size={13} />}
               style={{ padding: '4px 10px', fontSize: '0.75rem' }}
             >
-              <ChevronLeft size={13} />
-              <span>Prev</span>
-            </button>
-            <button
+              Prev
+            </KromaButton>
+            <KromaButton
+              variant="outline"
+              size="sm"
               disabled={currentPage >= totalPages}
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              className="btn-secondary"
+              iconRight={<ChevronRight size={13} />}
               style={{ padding: '4px 10px', fontSize: '0.75rem' }}
             >
-              <span>Next</span>
-              <ChevronRight size={13} />
-            </button>
+              Next
+            </KromaButton>
           </div>
         </div>
       </div>

@@ -23,6 +23,7 @@ import {
   Code,
   FileText,
 } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface MeshContextualInspectorProps {
   config: MeshGradientConfig;
@@ -104,58 +105,50 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                     }}
                     className="flex-1 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-2.5 py-1 font-mono text-xs text-[var(--text-primary)] uppercase font-semibold"
                   />
-                  <button
-                    type="button"
+                  <KromaButton
+                    size="icon"
+                    variant="ghost"
                     onClick={() => onRandomizePointColor(selectedPoint.id)}
                     className="studio-topbar-icon-btn"
                     title="Randomize"
-                  >
-                    <RefreshCw size={12} />
-                  </button>
+                    aria-label="Randomize"
+                    iconLeft={<RefreshCw size={12} />}
+                  />
                 </div>
               </StudioControlRow>
 
               {/* Quick Swatches */}
               <StudioControlRow label="Swatches">
                 <div className="grid grid-cols-5 gap-1.5">
-                  {quickColors.map((hex) => {
-                    const isSelected = selectedPoint.color.toLowerCase() === hex.toLowerCase();
-                    return (
-                      <button
-                        key={hex}
-                        type="button"
-                        onClick={() => onUpdatePoint(selectedPoint.id, { color: hex })}
-                        className={`h-5 rounded-xs border transition-all cursor-pointer ${
-                          isSelected ? 'ring-2 ring-[var(--color-primary)] scale-110 z-10' : 'border-white/10 hover:scale-105'
-                        }`}
-                        style={{ backgroundColor: hex }}
-                        title={hex}
-                      />
-                    );
-                  })}
+                  {['#FF5252', '#FF4081', '#7C4DFF', '#536DFE', '#40C4FF', '#18FFFF', '#69F0AE', '#EEFF41', '#FFD740', '#FF6E40'].map((hex) => (
+                    <button
+                      key={hex}
+                      type="button"
+                      onClick={() => onUpdatePoint(selectedPoint.id, { color: hex })}
+                      className="h-5 rounded-xs border border-white/20 transition-transform hover:scale-110 cursor-pointer"
+                      style={{ backgroundColor: hex }}
+                    />
+                  ))}
                 </div>
               </StudioControlRow>
 
               {/* Position */}
               <div className="grid grid-cols-2 gap-2">
-                <StudioControlRow label="X" sublabel={`${selectedPoint.x}%`}>
+                <StudioControlRow label="X" sublabel={`${Math.round(selectedPoint.x)}%`}>
                   <StudioSliderInput
                     value={selectedPoint.x}
                     min={0}
                     max={100}
                     step={1}
-                    unit="%"
                     onChange={(x) => onUpdatePoint(selectedPoint.id, { x })}
                   />
                 </StudioControlRow>
-
-                <StudioControlRow label="Y" sublabel={`${selectedPoint.y}%`}>
+                <StudioControlRow label="Y" sublabel={`${Math.round(selectedPoint.y)}%`}>
                   <StudioSliderInput
                     value={selectedPoint.y}
                     min={0}
                     max={100}
                     step={1}
-                    unit="%"
                     onChange={(y) => onUpdatePoint(selectedPoint.id, { y })}
                   />
                 </StudioControlRow>
@@ -174,24 +167,26 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
 
               {/* Actions */}
               <div className="flex items-center gap-2 pt-1 border-t border-[var(--border-subtle)]">
-                <button
-                  type="button"
+                <KromaButton
+                  size="sm"
+                  variant="ghost"
                   onClick={() => onDuplicatePoint(selectedPoint.id)}
-                  className="flex-1 py-1.5 px-2 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] text-[10px] font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  className="flex-1 py-1.5 px-2 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] text-[10px] font-semibold"
+                  iconLeft={<Copy size={11} />}
                 >
-                  <Copy size={11} />
                   Duplicate
-                </button>
+                </KromaButton>
 
                 {config.points.length > 2 && (
-                  <button
-                    type="button"
+                  <KromaButton
+                    size="sm"
+                    variant="ghost"
                     onClick={() => onDeletePoint(selectedPoint.id)}
-                    className="py-1.5 px-2.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-rose-950/40 text-rose-400 border border-[var(--border-subtle)] text-[10px] font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    className="py-1.5 px-2.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-rose-950/40 text-rose-400 border border-[var(--border-subtle)] text-[10px] font-semibold"
+                    iconLeft={<Trash2 size={11} />}
                   >
-                    <Trash2 size={11} />
                     Delete
-                  </button>
+                  </KromaButton>
                 )}
               </div>
             </StudioInspectorSection>
@@ -207,23 +202,26 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
               {config.points.map((pt, idx) => {
                 const isActive = pt.id === selectedPoint?.id;
                 return (
-                  <button
+                  <KromaButton
                     key={pt.id}
-                    type="button"
+                    variant={isActive ? 'filled' : 'ghost'}
+                    size="sm"
                     onClick={() => onSelectPoint(pt.id)}
-                    className={`flex items-center gap-2 px-2 py-1.5 rounded-xs text-left transition-colors cursor-pointer ${
+                    className={`flex items-center gap-2 px-2 py-1.5 rounded-xs text-left transition-colors cursor-pointer w-full justify-start ${
                       isActive
                         ? 'bg-[var(--color-primary-subtle)] text-[var(--text-primary)]'
                         : 'hover:bg-[var(--bg-surface-2)] text-[var(--text-secondary)]'
                     }`}
+                    iconLeft={
+                      <div
+                        className="w-4 h-4 rounded-full flex-shrink-0 border border-white/30"
+                        style={{ backgroundColor: pt.color }}
+                      />
+                    }
                   >
-                    <div
-                      className="w-4 h-4 rounded-full flex-shrink-0 border border-white/30"
-                      style={{ backgroundColor: pt.color }}
-                    />
                     <span className="font-mono text-[10px] font-semibold">Node {idx + 1}</span>
                     <span className="font-mono text-[9px] text-[var(--text-tertiary)] ml-auto">{pt.color}</span>
-                  </button>
+                  </KromaButton>
                 );
               })}
             </div>
@@ -332,27 +330,30 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
 
             <StudioControlRow label="Grid Layout">
               <div className="grid grid-cols-3 gap-1.5">
-                <button
-                  type="button"
+                <KromaButton
+                  size="sm"
+                  variant="ghost"
                   onClick={() => onGenerateGrid(2, 2)}
-                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center transition-colors cursor-pointer"
+                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center"
                 >
                   2×2
-                </button>
-                <button
-                  type="button"
+                </KromaButton>
+                <KromaButton
+                  size="sm"
+                  variant="ghost"
                   onClick={() => onGenerateGrid(3, 3)}
-                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center transition-colors cursor-pointer"
+                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center"
                 >
                   3×3
-                </button>
-                <button
-                  type="button"
+                </KromaButton>
+                <KromaButton
+                  size="sm"
+                  variant="ghost"
                   onClick={() => onGenerateGrid(4, 4)}
-                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center transition-colors cursor-pointer"
+                  className="py-1.5 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)] font-mono text-[10px] font-semibold text-center"
                 >
                   4×4
-                </button>
+                </KromaButton>
               </div>
             </StudioControlRow>
           </StudioInspectorSection>
@@ -366,11 +367,11 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
               const isSelected = config.preset === p.id;
               const colors = p.colors || ['#3D7DFF', '#BFA3F0', '#00F0FF'];
               return (
-                <button
+                <KromaButton
                   key={p.id}
-                  type="button"
+                  variant="ghost"
                   onClick={() => onSelectPreset(p.id)}
-                  className={`flex flex-col rounded-sm border transition-all cursor-pointer overflow-hidden ${
+                  className={`flex flex-col rounded-sm border transition-all overflow-hidden p-0 h-auto ${
                     isSelected
                       ? 'border-[var(--color-primary)] ring-1 ring-[var(--color-primary)]'
                       : 'border-[var(--border-subtle)] hover:border-[var(--border-medium)]'
@@ -381,12 +382,12 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                     className="w-full h-12"
                     style={{ background: `linear-gradient(135deg, ${colors.join(', ')})` }}
                   />
-                  <div className="px-2 py-1.5 bg-[var(--bg-surface-2)]">
+                  <div className="w-full px-2 py-1.5 bg-[var(--bg-surface-2)]">
                     <span className={`font-mono text-[10px] font-bold ${isSelected ? 'text-[var(--color-primary)]' : 'text-[var(--text-primary)]'}`}>
                       {p.name}
                     </span>
                   </div>
-                </button>
+                </KromaButton>
               );
             })}
           </div>

@@ -3,6 +3,7 @@ import { useMaintenance } from '../../context/MaintenanceContext';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { MAINTENANCE_PRESETS, MaintenancePreset } from '../../types/maintenance';
 import { MaintenancePage } from '../MaintenancePage';
+import { KromaButton } from '../../components/common/KromaButton';
 import {
   ShieldAlert,
   Power,
@@ -190,26 +191,28 @@ export const AdminMaintenancePage: React.FC = () => {
 
         {/* Quick Top Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button
+          <KromaButton
             type="button"
+            variant="outline"
+            size="sm"
             onClick={refresh}
-            className="admin-btn-secondary"
-            style={{ fontSize: '0.75rem', padding: '6px 12px', display: 'flex', alignItems: 'center', gap: '6px' }}
+            iconLeft={<RefreshCw size={13} />}
+            style={{ fontSize: '0.75rem', padding: '6px 12px' }}
             title="Force refresh state from server"
           >
-            <RefreshCw size={13} />
-            <span>Sync</span>
-          </button>
+            Sync
+          </KromaButton>
 
-          <button
+          <KromaButton
             type="button"
+            variant="outline"
+            size="sm"
             onClick={() => setShowPreviewModal(true)}
-            className="admin-btn-secondary"
-            style={{ fontSize: '0.75rem', padding: '6px 12px', display: 'flex', alignItems: 'center', gap: '6px' }}
+            iconLeft={<Eye size={13} />}
+            style={{ fontSize: '0.75rem', padding: '6px 12px' }}
           >
-            <Eye size={13} />
-            <span>Preview Screen</span>
-          </button>
+            Preview Screen
+          </KromaButton>
         </div>
       </div>
 
@@ -283,49 +286,43 @@ export const AdminMaintenancePage: React.FC = () => {
           {isSuperAdmin ? (
             <div>
               {isActive ? (
-                <button
+                <KromaButton
                   type="button"
+                  variant="filled"
+                  size="sm"
                   onClick={() => handleToggleClick(false)}
+                  iconLeft={<Power size={15} />}
                   style={{
                     background: '#10B981',
                     color: '#FFFFFF',
-                    border: 'none',
+                    borderColor: '#10B981',
                     padding: '10px 20px',
-                    borderRadius: 'var(--radius-sm)',
                     fontWeight: 700,
                     fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
                     boxShadow: '0 4px 14px rgba(16, 185, 129, 0.3)',
                   }}
                 >
-                  <Power size={15} />
-                  <span>Disable Maintenance (Go Live)</span>
-                </button>
+                  Disable Maintenance (Go Live)
+                </KromaButton>
               ) : (
-                <button
+                <KromaButton
                   type="button"
+                  variant="filled"
+                  size="sm"
                   onClick={() => handleToggleClick(true)}
+                  iconLeft={<Power size={15} />}
                   style={{
                     background: '#EF4444',
                     color: '#FFFFFF',
-                    border: 'none',
+                    borderColor: '#EF4444',
                     padding: '10px 20px',
-                    borderRadius: 'var(--radius-sm)',
                     fontWeight: 700,
                     fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
                     boxShadow: '0 4px 14px rgba(239, 68, 68, 0.3)',
                   }}
                 >
-                  <Power size={15} />
-                  <span>Enable Maintenance Now</span>
-                </button>
+                  Enable Maintenance Now
+                </KromaButton>
               )}
             </div>
           ) : (
@@ -401,23 +398,17 @@ export const AdminMaintenancePage: React.FC = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px' }}>
               {MAINTENANCE_PRESETS.map((p) => (
-                <button
+                <KromaButton
                   key={p.id}
                   type="button"
+                  variant="outline"
+                  size="sm"
                   onClick={() => handleApplyPreset(p)}
-                  className="admin-btn-secondary"
-                  style={{
-                    textAlign: 'left',
-                    padding: '10px 12px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '2px',
-                    height: 'auto',
-                  }}
+                  className="!h-auto !p-2.5 !flex-col !items-start !text-left"
                 >
                   <div style={{ fontWeight: 700, fontSize: '0.8rem', color: 'var(--text-primary)' }}>{p.name}</div>
                   <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>{p.tagline}</div>
-                </button>
+                </KromaButton>
               ))}
             </div>
           </div>
@@ -578,29 +569,31 @@ export const AdminMaintenancePage: React.FC = () => {
 
                 <div style={{ display: 'flex', gap: '8px' }}>
                   {hasUnsavedChanges && (
-                    <button
+                    <KromaButton
                       type="button"
+                      variant="outline"
+                      size="sm"
                       onClick={handleDiscardChanges}
-                      className="admin-btn-secondary"
                       style={{ fontSize: '0.78rem', padding: '6px 12px' }}
                     >
                       Discard
-                    </button>
+                    </KromaButton>
                   )}
 
-                  <button
+                  <KromaButton
                     type="button"
+                    variant="filled"
+                    size="sm"
                     onClick={handleSaveChanges}
                     disabled={!hasUnsavedChanges || isSaving || !isSuperAdmin}
-                    className="admin-btn-primary"
+                    isLoading={isSaving}
                     style={{
                       fontSize: '0.78rem',
                       padding: '6px 16px',
-                      opacity: !hasUnsavedChanges || isSaving || !isSuperAdmin ? 0.5 : 1,
                     }}
                   >
                     {isSaving ? 'Saving...' : 'Save Configuration'}
-                  </button>
+                  </KromaButton>
                 </div>
               </div>
             </div>
@@ -662,25 +655,29 @@ export const AdminMaintenancePage: React.FC = () => {
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <button
+              <KromaButton
                 type="button"
+                variant="outline"
+                size="sm"
                 onClick={() => setShowPreviewModal(true)}
-                className="admin-btn-secondary"
-                style={{ width: '100%', fontSize: '0.75rem', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '6px' }}
+                iconLeft={<Eye size={13} />}
+                className="!w-full !justify-center"
+                style={{ fontSize: '0.75rem' }}
               >
-                <Eye size={13} />
-                <span>Open Screen Modal Preview</span>
-              </button>
+                Open Screen Modal Preview
+              </KromaButton>
 
-              <button
+              <KromaButton
                 type="button"
+                variant="outline"
+                size="sm"
                 onClick={handleCopyPreviewLink}
-                className="admin-btn-secondary"
-                style={{ width: '100%', fontSize: '0.75rem', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '6px' }}
+                iconLeft={copiedLink ? <Check size={13} color="#10B981" /> : <Copy size={13} />}
+                className="!w-full !justify-center"
+                style={{ fontSize: '0.75rem' }}
               >
-                {copiedLink ? <Check size={13} color="#10B981" /> : <Copy size={13} />}
-                <span>{copiedLink ? 'Copied Preview URL' : 'Copy Preview Link'}</span>
-              </button>
+                {copiedLink ? 'Copied Preview URL' : 'Copy Preview Link'}
+              </KromaButton>
             </div>
           </div>
 
@@ -780,31 +777,32 @@ export const AdminMaintenancePage: React.FC = () => {
             </p>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <button
+              <KromaButton
                 type="button"
+                variant="outline"
+                size="sm"
                 onClick={() => setShowConfirmModal(false)}
-                className="admin-btn-secondary"
                 style={{ fontSize: '0.8rem', padding: '8px 16px' }}
               >
                 Cancel
-              </button>
+              </KromaButton>
 
-              <button
+              <KromaButton
                 type="button"
+                variant="filled"
+                size="sm"
                 onClick={handleConfirmToggle}
                 style={{
                   background: pendingAction === 'enable' ? '#EF4444' : '#10B981',
                   color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: 'var(--radius-sm)',
+                  borderColor: pendingAction === 'enable' ? '#EF4444' : '#10B981',
                   padding: '8px 18px',
                   fontWeight: 700,
                   fontSize: '0.8rem',
-                  cursor: 'pointer',
                 }}
               >
                 {pendingAction === 'enable' ? 'Yes, Enable Maintenance' : 'Yes, Restore Public Site'}
-              </button>
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -843,14 +841,15 @@ export const AdminMaintenancePage: React.FC = () => {
               </span>
             </div>
 
-            <button
+            <KromaButton
               type="button"
+              variant="filled"
+              size="sm"
               onClick={() => setShowPreviewModal(false)}
-              className="admin-btn-primary"
               style={{ fontSize: '0.75rem', padding: '6px 14px' }}
             >
               Close Preview
-            </button>
+            </KromaButton>
           </div>
 
           {/* Embedded Maintenance Page Preview */}

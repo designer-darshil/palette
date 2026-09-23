@@ -8,6 +8,7 @@ import {
 } from '../../utils/meshEngine';
 import { StudioCodeBlock } from '../studio/StudioCodeBlock';
 import { Download, Image, Code2, FileJson, Sparkles } from 'lucide-react';
+import { KromaButton } from '../common/KromaButton';
 
 interface MeshCodeExportProps {
   config: MeshGradientConfig;
@@ -173,48 +174,39 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
           <div className="flex flex-col gap-1 min-w-0">
             <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase font-semibold">Resolution</span>
             <div className="grid grid-cols-3 gap-1 bg-[var(--bg-surface-2)] p-1 rounded-xs border border-[var(--border-subtle)] min-w-0">
-              <button
-                type="button"
+              <KromaButton
+                size="sm"
+                variant={rasterWidth === 1200 && rasterHeight === 800 ? 'filled' : 'ghost'}
                 onClick={() => {
                   setRasterWidth(1200);
                   setRasterHeight(800);
                 }}
-                className={`py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer text-center truncate ${
-                  rasterWidth === 1200 && rasterHeight === 800
-                    ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
+                className="py-1 text-[11px] font-mono rounded-xs text-center truncate"
               >
                 1200×800
-              </button>
-              <button
-                type="button"
+              </KromaButton>
+              <KromaButton
+                size="sm"
+                variant={rasterWidth === 1920 && rasterHeight === 1080 ? 'filled' : 'ghost'}
                 onClick={() => {
                   setRasterWidth(1920);
                   setRasterHeight(1080);
                 }}
-                className={`py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer text-center truncate ${
-                  rasterWidth === 1920 && rasterHeight === 1080
-                    ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
+                className="py-1 text-[11px] font-mono rounded-xs text-center truncate"
               >
                 1080p
-              </button>
-              <button
-                type="button"
+              </KromaButton>
+              <KromaButton
+                size="sm"
+                variant={rasterWidth === 3840 && rasterHeight === 2160 ? 'filled' : 'ghost'}
                 onClick={() => {
                   setRasterWidth(3840);
                   setRasterHeight(2160);
                 }}
-                className={`py-1 text-[11px] font-mono rounded-xs transition-colors cursor-pointer text-center truncate ${
-                  rasterWidth === 3840 && rasterHeight === 2160
-                    ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
+                className="py-1 text-[11px] font-mono rounded-xs text-center truncate"
               >
                 4K UHD
-              </button>
+              </KromaButton>
             </div>
           </div>
 
@@ -223,32 +215,30 @@ export const MeshCodeExport: React.FC<MeshCodeExportProps> = ({
             {/* Format Selector */}
             <div className="flex items-center bg-[var(--bg-surface-2)] p-1 rounded-xs border border-[var(--border-subtle)] flex-shrink-0">
               {(['png', 'webp'] as const).map((fmt) => (
-                <button
+                <KromaButton
                   key={fmt}
-                  type="button"
+                  size="sm"
+                  variant={rasterFormat === fmt ? 'filled' : 'ghost'}
                   onClick={() => setRasterFormat(fmt)}
-                  className={`px-2 py-1 text-[11px] font-mono uppercase rounded-xs transition-colors cursor-pointer ${
-                    rasterFormat === fmt
-                      ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold shadow-xs'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
+                  className="px-2 py-1 text-[11px] font-mono uppercase rounded-xs"
                 >
                   {fmt}
-                </button>
+                </KromaButton>
               ))}
             </div>
 
             {/* Download Button */}
-            <button
-              type="button"
+            <KromaButton
+              variant="filled"
+              size="sm"
               onClick={handleDownloadRaster}
               disabled={isExportingImage}
-              className="btn-studio-primary flex-1 justify-center whitespace-nowrap"
-              style={{ padding: '6px 12px', fontSize: '0.78rem' }}
+              isLoading={isExportingImage}
+              className="flex-1 justify-center whitespace-nowrap"
+              iconLeft={<Download size={13} />}
             >
-              <Download size={13} />
               <span className="whitespace-nowrap">{isExportingImage ? 'Rendering...' : `Download ${rasterFormat.toUpperCase()}`}</span>
-            </button>
+            </KromaButton>
           </div>
         </div>
       </div>

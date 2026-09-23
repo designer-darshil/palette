@@ -8,6 +8,7 @@ import { generateCollectionPageSchema } from '../utils/schemaGenerator';
 import { PageHeader } from '../components/common/PageHeader';
 import { ResultsCountBar } from '../components/common/ResultsCountBar';
 import { EmptyState } from '../components/common/EmptyState';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface CombosPageProps {
   onNavigate: (route: RouteType) => void;
@@ -127,13 +128,15 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
           </span>
           <div className="filter-options filter-options--scroll flex-1">
             {harmonyTypes.map((type) => (
-              <button
+              <KromaButton
                 key={type}
+                size="sm"
+                variant={selectedHarmony === type ? 'filled' : 'ghost'}
                 className={`filter-option ${selectedHarmony === type ? 'active' : ''}`}
                 onClick={() => setSelectedHarmony(type)}
               >
                 {type}
-              </button>
+              </KromaButton>
             ))}
           </div>
         </div>

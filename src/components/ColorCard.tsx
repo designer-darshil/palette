@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
 import { KromaCard } from './common/KromaCard';
+import { KromaButton } from './common/KromaButton';
 import { Analytics } from '../utils/analytics';
 
 interface ColorCardProps {
@@ -114,16 +115,18 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
             </Link>
           </h3>
 
-          <button
+          <KromaButton
             type="button"
-            className="font-mono text-xs font-semibold px-2 py-0.5 rounded-[2px] bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[#171717] dark:text-white transition-colors flex items-center gap-1 flex-shrink-0"
+            variant="subtle"
+            size="sm"
+            className="font-mono text-xs font-semibold px-2 py-0.5 min-h-0 h-auto gap-1 rounded-[2px]"
             onClick={handleCopyHex}
             aria-label={`Copy hex value ${color.hex}`}
             title="Click to copy HEX"
+            iconLeft={<Copy size={10} />}
           >
-            <Copy size={10} />
             <span>{color.hex}</span>
-          </button>
+          </KromaButton>
         </div>
 
         {color.description && (
@@ -139,9 +142,11 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
           </span>
 
           <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-            <button
+            <KromaButton
               type="button"
-              className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
+              variant="ghost"
+              size="icon"
+              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
               onClick={(e) => {
                 e.stopPropagation();
                 onNavigate({ path: 'color-name-finder', hex: color.hex });
@@ -150,19 +155,23 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
               title="Identify in Color Name Finder"
             >
               <Search size={13} />
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
               type="button"
-              className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
+              variant="ghost"
+              size="icon"
+              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
               onClick={handleShare}
               aria-label="Share specimen URL"
               title="Share specimen link"
             >
               <Share2 size={13} />
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
               type="button"
-              className={`p-1.5 rounded-[2px] transition-colors ${
+              variant="ghost"
+              size="icon"
+              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
                 saved ? 'text-[var(--accent-gold)]' : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
               }`}
               onClick={handleToggleSave}
@@ -170,7 +179,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
               title={saved ? 'Saved' : 'Save color'}
             >
               <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            </button>
+            </KromaButton>
           </div>
         </div>
       </div>

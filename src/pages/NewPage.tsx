@@ -13,6 +13,7 @@ import { sortNewestPalettes } from '../utils/rankingEngine';
 import { SEOHead } from '../components/seo/SEOHead';
 import { PageHeader } from '../components/common/PageHeader';
 import { ResultsCountBar } from '../components/common/ResultsCountBar';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface NewPageProps {
   onNavigate: (route: RouteType) => void;
@@ -53,30 +54,38 @@ export const NewPage: React.FC<NewPageProps> = ({ onNavigate, initialTab = 'pale
         description="Recently formulated and published chromatic systems, design tokens, and collections."
         actions={
           <div className="filter-pills flex flex-wrap gap-1.5">
-            <button
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'palettes' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'palettes' ? 'active' : ''}`}
               onClick={() => setActiveTab('palettes')}
             >
               Palettes ({newestPalettes.length})
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'colors' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'colors' ? 'active' : ''}`}
               onClick={() => setActiveTab('colors')}
             >
               Colors ({newestColors.length})
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'gradients' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'gradients' ? 'active' : ''}`}
               onClick={() => setActiveTab('gradients')}
             >
               Gradients ({newestGradients.length})
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'collections' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
               onClick={() => setActiveTab('collections')}
             >
               Collections ({newestCollections.length})
-            </button>
+            </KromaButton>
           </div>
         }
       />

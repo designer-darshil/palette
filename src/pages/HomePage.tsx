@@ -221,24 +221,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/20 backdrop-blur-md font-sans text-xs font-semibold tracking-[0.05em] uppercase border border-white/30 transition-all group-hover/moment:bg-white/35 group-hover/moment:-translate-y-0.5 cursor-pointer"
+            <KromaButton
+              variant="outline"
+              size="sm"
+              className="rounded-full bg-white/20 backdrop-blur-md font-sans text-xs font-semibold tracking-[0.05em] uppercase border border-white/30 text-inherit transition-all group-hover/moment:bg-white/35 group-hover/moment:-translate-y-0.5"
               onClick={handleCopyMoment}
               aria-label="Copy color"
+              iconLeft={momentCopied ? <Check size={14} /> : <Copy size={14} />}
             >
-              {momentCopied ? (
-                <>
-                  <Check size={14} />
-                  <span>COPIED</span>
-                </>
-              ) : (
-                <>
-                  <Copy size={14} />
-                  <span>COPY COLOR</span>
-                </>
-              )}
-            </button>
+              <span>{momentCopied ? 'COPIED' : 'COPY COLOR'}</span>
+            </KromaButton>
           </div>
         </div>
       </section>
@@ -432,16 +424,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           {/* Swatches strip overlay */}
           <div className="relative z-10 flex items-center gap-2.5 bg-[#171717]/80 backdrop-blur-md py-3 px-4 rounded-xl sm:rounded-full border border-white/15 max-w-fit flex-wrap sm:flex-nowrap">
             {IMAGE_SPECIMEN_PINS.map((pin) => (
-              <button
+              <KromaButton
                 key={pin.id}
-                type="button"
-                className="flex items-center gap-1.5 font-mono text-[11px] text-white py-1 px-2 rounded-full bg-white/10 cursor-pointer transition-transform hover:scale-105"
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-1.5 font-mono text-[11px] text-white py-1 px-2 rounded-full bg-white/10"
                 onClick={() => handleCopyPinHex(pin.hex, pin.id)}
                 title={`Click to copy ${pin.hex}`}
+                iconLeft={<span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: pin.hex }} />}
               >
-                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: pin.hex }} />
                 <span>{copiedPin === pin.id ? 'COPIED' : pin.hex}</span>
-              </button>
+              </KromaButton>
             ))}
           </div>
         </div>

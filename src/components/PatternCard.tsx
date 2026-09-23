@@ -7,6 +7,7 @@ import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
 import { KromaCard } from './common/KromaCard';
+import { KromaButton } from './common/KromaButton';
 
 interface PatternCardProps {
   pattern: PatternItem;
@@ -133,19 +134,23 @@ export const PatternCard: React.FC<PatternCardProps> = ({
           </span>
 
           <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-            <button
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={handleCopyCss}
-              className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
+              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
               title="Copy CSS Background"
               aria-label="Copy CSS Background"
             >
               <Copy size={13} />
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={handleToggleSave}
-              className={`p-1.5 rounded-[2px] transition-colors ${
+              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
                 saved
                   ? 'text-[var(--accent-gold)]'
                   : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
@@ -154,7 +159,7 @@ export const PatternCard: React.FC<PatternCardProps> = ({
               aria-label={saved ? 'Remove from saved' : 'Save pattern'}
             >
               <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            </button>
+            </KromaButton>
             <Link
               to={{
                 path: 'pattern-studio',

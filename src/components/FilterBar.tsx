@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { USE_CASES, MOODS, VISUAL_CHARACTERS, SEASONS } from '../utils/taxonomy';
 import { FilterSheet } from './FilterSheet';
+import { KromaButton } from './common/KromaButton';
 
 export interface FilterState {
   category?: string;
@@ -48,27 +49,36 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2 flex-wrap">
           {/* Mobile Filter Button */}
-          <button
+          <KromaButton
+            type="button"
+            variant="outline"
+            size="sm"
             onClick={() => setMobileSheetOpen(true)}
-            className="md:hidden btn-secondary text-xs px-3 py-1.5 flex items-center gap-1.5"
+            className="md:hidden text-xs flex items-center gap-1.5"
+            iconLeft={<SlidersHorizontal size={13} />}
           >
-            <SlidersHorizontal size={13} />
             <span>Filters {hasActiveFilters && '•'}</span>
-          </button>
+          </KromaButton>
 
           {/* Desktop Categories / Use Cases */}
           {showCategories && categoriesList.length > 0 && (
             <div className="hidden md:flex items-center gap-1.5 overflow-x-auto py-1">
-              <button
-                className={`filter-pill text-xs px-2.5 py-1 ${!filters.category ? 'active' : ''}`}
+              <KromaButton
+                type="button"
+                variant={!filters.category ? 'filled' : 'subtle'}
+                size="sm"
+                className="text-xs px-2.5 py-1 min-h-[30px]"
                 onClick={() => onChange({ ...filters, category: undefined })}
               >
                 All
-              </button>
+              </KromaButton>
               {categoriesList.map((cat) => (
-                <button
+                <KromaButton
                   key={cat}
-                  className={`filter-pill text-xs px-2.5 py-1 ${filters.category?.toLowerCase() === cat.toLowerCase() ? 'active' : ''}`}
+                  type="button"
+                  variant={filters.category?.toLowerCase() === cat.toLowerCase() ? 'filled' : 'subtle'}
+                  size="sm"
+                  className="text-xs px-2.5 py-1 min-h-[30px]"
                   onClick={() =>
                     onChange({
                       ...filters,
@@ -77,7 +87,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                   }
                 >
                   {cat}
-                </button>
+                </KromaButton>
               ))}
             </div>
           )}
@@ -112,13 +122,16 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           </div>
 
           {hasActiveFilters && (
-            <button
+            <KromaButton
+              type="button"
+              variant="ghost"
+              size="sm"
               onClick={clearAll}
-              className="text-xs text-[var(--accent-gold)] hover:underline flex items-center gap-1 font-mono"
+              className="text-xs text-[var(--accent-gold)] flex items-center gap-1 font-mono min-h-[30px] p-1.5"
+              iconLeft={<X size={12} />}
             >
-              <X size={12} />
               <span>Reset</span>
-            </button>
+            </KromaButton>
           )}
         </div>
 

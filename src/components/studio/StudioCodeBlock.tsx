@@ -100,27 +100,21 @@ export const StudioCodeBlock = <T extends string>({
         <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[var(--border-subtle)] bg-[var(--bg-surface-2)]/70 min-w-0">
           <div className="code-tabs items-center gap-1">
             {tabs.map((tab) => (
-              <button
+              <KromaButton
                 key={tab.id}
                 type="button"
+                variant={activeTab === tab.id ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => onTabChange(tab.id)}
-                className={`code-tab flex items-center gap-1 px-2.5 py-1 rounded-xs text-[11px] font-mono font-medium transition-all cursor-pointer ${
+                className={`code-tab min-h-[28px] px-2.5 py-1 text-[11px] font-mono normal-case font-medium ${
                   activeTab === tab.id
-                    ? 'bg-[var(--bg-surface-1)] text-[var(--text-primary)] font-bold border border-[var(--border-medium)] shadow-2xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-3)]'
+                    ? 'font-bold shadow-2xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
-                style={
-                  activeTab === tab.id
-                    ? {
-                        borderColor: 'var(--color-primary-border)',
-                        color: 'var(--text-primary)',
-                      }
-                    : {}
-                }
               >
                 {tab.icon}
                 <span>{tab.label}</span>
-              </button>
+              </KromaButton>
             ))}
           </div>
 

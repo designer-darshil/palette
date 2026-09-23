@@ -21,6 +21,7 @@ import {
 } from '../utils/imageColorExtractor';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface ExtractFromImagePageProps {
   imagePreset?: string;
@@ -222,27 +223,30 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
+            iconLeft={<Copy size={12} />}
             onClick={handleCopyAll}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
-            <Copy size={12} />
-            <span>{copiedAll ? 'COPIED ALL' : 'COPY ALL'}</span>
-          </button>
-          <button
+            {copiedAll ? 'COPIED ALL' : 'COPY ALL'}
+          </KromaButton>
+          <KromaButton
+            variant="outline"
+            size="sm"
+            iconLeft={<Sparkles size={12} />}
             onClick={handleGenerateVariation}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
-            <Sparkles size={12} />
-            <span>VARIATION</span>
-          </button>
-          <button
+            VARIATION
+          </KromaButton>
+          <KromaButton
+            variant="filled"
+            size="sm"
+            iconLeft={<Bookmark size={12} />}
             onClick={handleSavePalette}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
-            <Bookmark size={12} />
-            <span>{saved ? 'SAVED' : 'SAVE PALETTE'}</span>
-          </button>
+            {saved ? 'SAVED' : 'SAVE PALETTE'}
+          </KromaButton>
         </div>
       </div>
 
@@ -255,21 +259,19 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
           {IMAGE_PRESETS.map((p) => {
             const isSelected = selectedImage === p.url;
             return (
-              <button
+              <KromaButton
                 key={p.id}
+                variant={isSelected ? 'filled' : 'outline'}
+                size="sm"
                 onClick={() => handleSelectPreset(p)}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-xs border text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
-                  isSelected
-                    ? 'border-[var(--text-primary)] bg-[var(--text-primary)] text-[var(--bg-canvas)] font-bold'
-                    : 'border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)]'
-                }`}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xs text-xs font-mono uppercase tracking-wider whitespace-nowrap h-auto min-h-0"
               >
                 <span
                   className="w-3.5 h-3.5 rounded-xs bg-cover bg-center border border-black/10 flex-shrink-0"
                   style={{ backgroundImage: `url(${p.thumbnail})` }}
                 />
                 <span>{p.title.split(' ')[0]}</span>
-              </button>
+              </KromaButton>
             );
           })}
         </div>
@@ -282,13 +284,14 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
             className="hidden"
             onChange={handleFileChange}
           />
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
+            iconLeft={<Upload size={13} />}
             onClick={() => fileInputRef.current?.click()}
-            className="font-mono text-xs font-medium tracking-wider uppercase py-1.5 px-4 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
           >
-            <Upload size={13} />
-            <span>CHOOSE IMAGE</span>
-          </button>
+            CHOOSE IMAGE
+          </KromaButton>
         </div>
       </div>
 

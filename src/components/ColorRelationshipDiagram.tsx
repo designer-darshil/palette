@@ -5,6 +5,7 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { RouteType } from '../types';
 import { Link } from './common/Link';
+import { KromaButton } from './common/KromaButton';
 
 interface ColorRelationshipDiagramProps {
   profile: ColorRelationshipProfile;
@@ -47,18 +48,21 @@ export const ColorRelationshipDiagram: React.FC<ColorRelationshipDiagramProps> =
               { key: 'monochromatic', label: 'Monochromatic Tints/Shades' },
             ] as const
           ).map((tab) => (
-            <button
+            <KromaButton
               key={tab.key}
+              type="button"
+              variant={activeHarmonicTab === tab.key ? 'filled' : 'subtle'}
+              size="sm"
+              className="text-xs px-2.5 py-1 min-h-[30px]"
               onClick={() => {
                 setActiveHarmonicTab(tab.key);
                 if (profile.harmonies[tab.key]?.[0]) {
                   setSelectedNode(profile.harmonies[tab.key][0]);
                 }
               }}
-              className={`filter-pill text-xs px-2.5 py-1 ${activeHarmonicTab === tab.key ? 'active' : ''}`}
             >
               {tab.label}
-            </button>
+            </KromaButton>
           ))}
         </div>
       </div>
@@ -206,25 +210,28 @@ export const ColorRelationshipDiagram: React.FC<ColorRelationshipDiagramProps> =
 
           {/* Actions */}
           <div className="flex items-center gap-2 pt-3 border-t border-[var(--border-subtle)] flex-wrap">
-            <button
+            <KromaButton
+              type="button"
+              variant="filled"
+              size="sm"
               onClick={() => handleCopyHex(selectedNode.hex, selectedNode.name)}
-              className="btn-primary text-xs px-3.5 py-2 flex items-center gap-1.5"
+              iconLeft={<Copy size={13} />}
             >
-              <Copy size={13} />
               <span>Copy {selectedNode.hex}</span>
-            </button>
+            </KromaButton>
 
-            <Link
+            <KromaButton
+              variant="outline"
+              size="sm"
               to={{
                 path: 'palette-generator',
                 colors: `${profile.baseHex.replace('#', '')}-${selectedNode.hex.replace('#', '')}`,
               }}
               onNavigate={onNavigate}
-              className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5"
+              iconLeft={<Sparkles size={13} className="text-amber-400" />}
             >
-              <Sparkles size={13} className="text-amber-400" />
               <span>Create Palette with Pair</span>
-            </Link>
+            </KromaButton>
           </div>
         </div>
       </div>

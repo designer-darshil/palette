@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { RouteType } from '../types';
 import { SEOHead } from '../components/seo/SEOHead';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface NotFoundPageProps {
   requestedUrl?: string;
@@ -46,27 +47,33 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
 
         {/* Three simple text links */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 font-sans text-xs font-bold tracking-wider uppercase">
-          <button
+          <KromaButton
+            variant="ghost"
+            size="sm"
             onClick={() => onNavigate({ path: 'home' })}
-            className="text-neutral-900 dark:text-white hover:opacity-60 transition-opacity flex items-center gap-1"
+            className="text-neutral-900 dark:text-white uppercase font-bold text-xs p-0 h-auto"
+            iconRight={<ArrowUpRight size={14} />}
           >
             <span>TAKE ME HOME</span>
-            <ArrowUpRight size={14} />
-          </button>
-          <button
+          </KromaButton>
+          <KromaButton
+            variant="ghost"
+            size="sm"
             onClick={() => onNavigate({ path: 'colors' })}
-            className="text-neutral-900 dark:text-white hover:opacity-60 transition-opacity flex items-center gap-1"
+            className="text-neutral-900 dark:text-white uppercase font-bold text-xs p-0 h-auto"
+            iconRight={<ArrowUpRight size={14} />}
           >
             <span>EXPLORE COLORS</span>
-            <ArrowUpRight size={14} />
-          </button>
-          <button
+          </KromaButton>
+          <KromaButton
+            variant="ghost"
+            size="sm"
             onClick={() => onNavigate({ path: 'palette-generator' })}
-            className="text-neutral-900 dark:text-white hover:opacity-60 transition-opacity flex items-center gap-1"
+            className="text-neutral-900 dark:text-white uppercase font-bold text-xs p-0 h-auto"
+            iconRight={<ArrowUpRight size={14} />}
           >
             <span>GENERATE A PALETTE</span>
-            <ArrowUpRight size={14} />
-          </button>
+          </KromaButton>
         </div>
       </div>
     </div>

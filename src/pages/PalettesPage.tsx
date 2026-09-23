@@ -7,6 +7,7 @@ import { Search, Loader2 } from 'lucide-react';
 import { PaletteCard } from '../components/PaletteCard';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface PalettesPageProps {
   onNavigate: (route: RouteType) => void;
@@ -141,7 +142,9 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
       {/* Editorial Hero */}
       <header className="border-b border-border-subtle pb-8 md:pb-12 mb-8 md:mb-12">
         <div className="font-mono text-[11px] font-medium tracking-[0.12em] uppercase text-text-secondary mb-4">PALETTE LIBRARY</div>
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-normal leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">COLORS THAT BELONG TOGETHER.</h1>
+        <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight leading-[0.95] text-[#171717] dark:text-white m-0">
+          COLORS THAT BELONG TOGETHER.
+        </h1>
         <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
           A curated exhibition of harmonic color systems. Living palettes engineered for digital interfaces, editorial prints, and spatial identities.
         </p>
@@ -151,15 +154,15 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
         <div className="flex flex-wrap gap-2 mb-0">
           {FILTER_TABS.map((tab) => (
-            <button
+            <KromaButton
               key={tab.id}
-              className={`font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2 bg-surface-1 border border-border-subtle text-text-secondary cursor-pointer transition-colors duration-150 select-none hover:border-text-primary hover:text-text-primary ${
-                activeFilter === tab.id ? '!bg-text-primary !text-canvas !border-text-primary' : ''
-              }`}
+              size="sm"
+              variant={activeFilter === tab.id ? 'filled' : 'ghost'}
+              className="font-mono text-[11px] tracking-[0.08em] uppercase px-4 py-2"
               onClick={() => setActiveFilter(tab.id)}
             >
               {tab.label} {tab.id === 'all' && `(${palettes.length})`}
-            </button>
+            </KromaButton>
           ))}
         </div>
 
@@ -180,15 +183,17 @@ export const PalettesPage: React.FC<PalettesPageProps> = ({ onNavigate }) => {
         <div className="py-20 text-center border border-dashed border-neutral-200 dark:border-neutral-800 rounded-sm">
           <p className="font-sans text-sm font-semibold tracking-wider uppercase text-neutral-400 mb-2">NO PALETTES FOUND</p>
           <p className="font-sans text-xs text-neutral-500 mb-6">Try selecting a different filter or clearing your search.</p>
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={() => {
               setActiveFilter('all');
               setSearchQuery('');
             }}
-            className="font-sans text-xs font-semibold tracking-wider uppercase px-4 py-2 border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-900 hover:text-white transition-colors"
+            className="font-sans text-xs font-semibold tracking-wider uppercase px-4 py-2"
           >
             RESET ALL FILTERS
-          </button>
+          </KromaButton>
         </div>
       ) : (
         <>

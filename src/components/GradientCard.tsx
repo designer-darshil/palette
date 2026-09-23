@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
 import { KromaCard } from './common/KromaCard';
+import { KromaButton } from './common/KromaButton';
 import { Analytics } from '../utils/analytics';
 
 interface GradientCardProps {
@@ -142,18 +143,22 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
           </span>
 
           <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-            <button
+            <KromaButton
               type="button"
-              className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
+              variant="ghost"
+              size="icon"
+              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
               onClick={handleShare}
               aria-label="Share gradient link"
               title="Share gradient link"
             >
               <Share2 size={13} />
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
               type="button"
-              className={`p-1.5 rounded-[2px] transition-colors ${
+              variant="ghost"
+              size="icon"
+              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
                 saved
                   ? 'text-[var(--accent-gold)]'
                   : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
@@ -163,7 +168,7 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
               title={saved ? 'Saved' : 'Save gradient'}
             >
               <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            </button>
+            </KromaButton>
           </div>
         </div>
       </div>

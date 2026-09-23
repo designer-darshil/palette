@@ -22,6 +22,7 @@ import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useMaintenance } from '../../context/MaintenanceContext';
 import { RouteType } from '../../types';
+import { KromaButton } from '../../components/common/KromaButton';
 
 interface AdminLayoutProps {
   currentTab: string;
@@ -92,45 +93,35 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       {/* Mobile Top App Bar */}
       <header className="admin-mobile-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button
+          <KromaButton
+            variant="outline"
+            size="icon"
             onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
             aria-label="Toggle Admin Sidebar"
-            style={{
-              background: 'var(--bg-surface-2)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-xs)',
-              padding: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            className="!w-8 !h-8 !p-1"
           >
             {mobileSidebarOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
+          </KromaButton>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span className="brand-glyph" style={{ width: 10, height: 10 }} />
             <span style={{ fontWeight: 800, fontSize: '0.88rem', letterSpacing: '0.04em' }}>KROMA ADMIN</span>
           </div>
         </div>
 
-        <button
+        <KromaButton
+          variant="ghost"
+          size="sm"
           onClick={() => onNavigatePublic({ path: 'home' })}
           title="Return to Public Library"
+          iconLeft={<ArrowLeft size={13} />}
           style={{
-            background: 'transparent',
-            border: 'none',
             color: 'var(--text-secondary)',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
             fontSize: '0.75rem',
             fontFamily: 'var(--font-mono)',
           }}
         >
-          <ArrowLeft size={13} />
-          <span>Public</span>
-        </button>
+          Public
+        </KromaButton>
       </header>
 
       {/* Backdrop for Mobile Drawer */}
@@ -153,24 +144,20 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
               <span style={{ fontWeight: 800, fontSize: '0.95rem', letterSpacing: '0.05em' }}>KROMA ADMIN</span>
             </div>
 
-            <button
+            <KromaButton
+              variant="ghost"
+              size="sm"
               onClick={() => onNavigatePublic({ path: 'home' })}
               title="Return to Public Library"
+              iconLeft={<ArrowLeft size={13} />}
               style={{
-                background: 'transparent',
-                border: 'none',
                 color: 'var(--text-tertiary)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
                 fontSize: '0.72rem',
                 fontFamily: 'var(--font-mono)',
               }}
             >
-              <ArrowLeft size={13} />
-              <span>Public</span>
-            </button>
+              Public
+            </KromaButton>
           </div>
 
           {/* User Badge */}
@@ -205,30 +192,21 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                     const Icon = item.icon;
                     const isActive = currentTab === item.id;
                     return (
-                      <button
+                      <KromaButton
                         key={item.id}
+                        variant={isActive ? 'filled' : 'ghost'}
+                        size="sm"
                         onClick={() => handleTabClick(item.id)}
+                        iconLeft={<Icon size={15} color={isActive ? '#E9C46A' : 'currentColor'} />}
+                        className="!w-full !justify-start !text-left !px-2.5 !py-2 !text-[0.82rem] !rounded-[var(--radius-xs)] whitespace-nowrap"
                         style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '10px',
-                          padding: '8px 10px',
-                          borderRadius: 'var(--radius-xs)',
-                          border: 'none',
                           background: isActive ? 'var(--bg-surface-3)' : 'transparent',
                           color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                           fontWeight: isActive ? 600 : 400,
-                          fontSize: '0.82rem',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          width: '100%',
-                          transition: 'background 120ms ease',
-                          whiteSpace: 'nowrap',
                         }}
                       >
-                        <Icon size={15} color={isActive ? '#E9C46A' : 'currentColor'} />
-                        <span>{item.label}</span>
-                      </button>
+                        {item.label}
+                      </KromaButton>
                     );
                   })}
                 </div>
@@ -241,74 +219,45 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         <div style={{ paddingTop: '16px', borderTop: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '20px' }}>
           {/* Theme Quick Switcher */}
           <div style={{ display: 'flex', background: 'var(--bg-surface-2)', borderRadius: 'var(--radius-xs)', padding: '2px', gap: '2px' }}>
-            <button
+            <KromaButton
+              variant={theme === 'light' ? 'filled' : 'ghost'}
+              size="sm"
               onClick={() => setTheme('light')}
+              iconLeft={<Sun size={12} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />}
+              className="flex-1 !justify-center !py-1 !px-1.5 !text-[0.72rem] font-mono font-semibold !rounded-[2px]"
               style={{
-                flex: 1,
-                border: 'none',
                 background: theme === 'light' ? 'var(--bg-surface-3)' : 'transparent',
                 color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                padding: '5px',
-                borderRadius: '2px',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '4px',
-                fontSize: '0.72rem',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 600,
               }}
               title="Light Theme"
             >
-              <Sun size={12} color={theme === 'light' ? 'currentColor' : '#E9C46A'} />
-              <span>Light</span>
-            </button>
-            <button
+              Light
+            </KromaButton>
+            <KromaButton
+              variant={theme === 'dark' ? 'filled' : 'ghost'}
+              size="sm"
               onClick={() => setTheme('dark')}
+              iconLeft={<Moon size={12} />}
+              className="flex-1 !justify-center !py-1 !px-1.5 !text-[0.72rem] font-mono font-semibold !rounded-[2px]"
               style={{
-                flex: 1,
-                border: 'none',
                 background: theme === 'dark' ? 'var(--bg-surface-3)' : 'transparent',
                 color: theme === 'dark' ? 'var(--text-primary)' : 'var(--text-tertiary)',
-                padding: '5px',
-                borderRadius: '2px',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '4px',
-                fontSize: '0.72rem',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 600,
               }}
               title="Dark Theme"
             >
-              <Moon size={12} />
-              <span>Dark</span>
-            </button>
+              Dark
+            </KromaButton>
           </div>
 
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
             onClick={logout}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              padding: '8px',
-              background: 'transparent',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-xs)',
-              color: 'var(--text-secondary)',
-              fontSize: '0.78rem',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-            }}
+            iconLeft={<LogOut size={13} />}
+            className="!w-full !justify-center !text-[0.78rem] text-[var(--text-secondary)] whitespace-nowrap"
           >
-            <LogOut size={13} />
-            <span>Sign Out</span>
-          </button>
+            Sign Out
+          </KromaButton>
         </div>
       </aside>
 

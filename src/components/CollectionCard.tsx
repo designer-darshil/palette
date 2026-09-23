@@ -4,6 +4,7 @@ import { CollectionItem, RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
 import { Link } from './common/Link';
 import { KromaCard } from './common/KromaCard';
+import { KromaButton } from './common/KromaButton';
 
 interface CollectionCardProps {
   collection: CollectionItem;
@@ -94,21 +95,25 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ collection, onNa
           </span>
 
           <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-            <button
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={handleToggleLike}
-              className={`p-1.5 rounded-[2px] transition-colors ${
+              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
                 liked ? 'text-rose-500' : 'text-[#707070] dark:text-[#909090] hover:text-rose-500'
               }`}
               title={liked ? 'Unlike' : 'Like'}
               aria-label={liked ? 'Unlike collection' : 'Like collection'}
             >
               <Heart size={13} fill={liked ? 'currentColor' : 'none'} />
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={handleToggleSave}
-              className={`p-1.5 rounded-[2px] transition-colors ${
+              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
                 saved
                   ? 'text-[var(--accent-gold)]'
                   : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
@@ -117,7 +122,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ collection, onNa
               aria-label={saved ? 'Remove from saved' : 'Save collection'}
             >
               <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            </button>
+            </KromaButton>
             <Link
               to={{ path: 'collection-detail', slug: collection.slug }}
               onNavigate={onNavigate}

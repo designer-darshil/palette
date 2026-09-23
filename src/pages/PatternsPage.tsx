@@ -123,9 +123,8 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
             <span className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-[#707070]">
               PATTERN ARCHIVE
             </span>
-            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#171717] dark:text-white uppercase leading-[1.02] m-0">
-              PATTERNS<br />
-              IN MOTION.
+            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight leading-[0.95] text-[#171717] dark:text-white m-0">
+              PATTERNS IN MOTION.
             </h1>
             <p className="font-sans text-xs sm:text-sm text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0 mt-1 max-w-lg">
               A collection of geometric systems, organic textures, repeating forms, and experimental color compositions.
@@ -232,17 +231,19 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat.id;
             return (
-              <button
+              <KromaButton
                 key={cat.id}
+                variant="ghost"
+                size="sm"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`transition-colors py-1 cursor-pointer whitespace-nowrap bg-transparent border-0 p-0 ${
+                className={`py-1 whitespace-nowrap h-auto rounded-none ${
                   isActive
                     ? 'text-[#171717] dark:text-white font-bold border-b-2 border-[#171717] dark:border-white'
                     : 'text-[#707070] hover:text-[#171717] dark:hover:text-white font-medium'
                 }`}
               >
                 {cat.label}
-              </button>
+              </KromaButton>
             );
           })}
         </div>
@@ -258,12 +259,14 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
             className="w-full pl-8 pr-7 py-1.5 bg-transparent border-b border-black/15 dark:border-white/15 focus:border-[#171717] dark:focus:border-white text-xs font-mono text-[#171717] dark:text-white placeholder-[#707070] outline-none transition-colors"
           />
           {searchQuery && (
-            <button
+            <KromaButton
+              variant="ghost"
+              size="icon"
               onClick={() => setSearchQuery('')}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[#707070] hover:text-[#171717] dark:hover:text-white p-0.5 cursor-pointer"
-            >
-              <X size={12} />
-            </button>
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[#707070] hover:text-[#171717] dark:hover:text-white p-0.5 h-6 w-6"
+              aria-label="Clear search"
+              iconLeft={<X size={12} />}
+            />
           )}
         </div>
       </section>
@@ -304,7 +307,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                 <div
                   key={pat.id}
                   onClick={() => onNavigate({ path: 'pattern-detail', slug: pat.slug })}
-                  className="group/new rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none"
+                  className="group/new rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none"
                   role="button"
                   tabIndex={0}
                 >
@@ -347,29 +350,6 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
           /* Editorial Asymmetric Grid: Alternating Spans and Visual Densities */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 sm:gap-6">
             {archiveItems.map((pattern, idx) => {
-              // Intentionally art-directed cadence on 12-column grid:
-              // Index 0: 8-column wide focal specimen
-              // Index 1: 4-column compact specimen
-              // Index 2, 3, 4: 4-column triad
-              // Index 5: 12-column panoramic full-width specimen
-              // Index 6, 7: 6-column dual specimens
-              const spanClass =
-                idx % 7 === 0
-                  ? 'lg:col-span-8'
-                  : idx % 7 === 1
-                  ? 'lg:col-span-4'
-                  : idx % 7 === 5
-                  ? 'lg:col-span-12'
-                  : idx % 7 === 6
-                  ? 'lg:col-span-6'
-                  : 'lg:col-span-4';
-
-              const heightClass =
-                idx % 7 === 0
-                  ? 'h-64 sm:h-80'
-                  : idx % 7 === 5
-                  ? 'h-60 sm:h-72'
-                  : 'h-52 sm:h-60';
 
               const svg = generatePatternSvg(
                 {
@@ -389,12 +369,12 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                 <div
                   key={pattern.id}
                   onClick={() => onNavigate({ path: 'pattern-detail', slug: pattern.slug })}
-                  className={`group/tile ${spanClass} rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] flex flex-col justify-between cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none`}
+                  className={`group/tile col-span-4 rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] flex flex-col justify-between cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none`}
                   role="button"
                   tabIndex={0}
                 >
                   {/* Pattern Art Canvas (Visual Hero) */}
-                  <div className={`w-full ${heightClass} relative overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]`}>
+                  <div className={`w-full h-full relative overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]`}>
                     <div
                       className="w-full h-full transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/tile:scale-[1.03]"
                       dangerouslySetInnerHTML={{ __html: svg }}

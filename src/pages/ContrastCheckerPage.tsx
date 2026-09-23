@@ -21,6 +21,7 @@ import {
 import { findClosestColorName } from '../utils/paletteGenerator';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface ContrastCheckerPageProps {
   initialFg?: string;
@@ -206,21 +207,23 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
+            iconLeft={<Share2 size={12} />}
             onClick={handleShare}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             title="Share pair URL"
           >
-            <Share2 size={12} />
-            <span>{copiedField === 'share' ? 'COPIED' : 'SHARE'}</span>
-          </button>
-          <button
+            {copiedField === 'share' ? 'COPIED' : 'SHARE'}
+          </KromaButton>
+          <KromaButton
+            variant="filled"
+            size="sm"
+            iconLeft={<Bookmark size={12} />}
             onClick={handleSavePair}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
-            <Bookmark size={12} />
-            <span>{isSavedPair ? 'SAVED' : 'SAVE PAIR'}</span>
-          </button>
+            {isSavedPair ? 'SAVED' : 'SAVE PAIR'}
+          </KromaButton>
         </div>
       </div>
 
@@ -303,58 +306,69 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
               />
 
               <div className="flex items-center gap-1 font-mono text-xs">
-                <button
+                <KromaButton
+                  variant="outline"
+                  size="sm"
                   onClick={() => handleAdjustLightness('bg', -5)}
-                  className="px-2 py-1 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
+                  className="px-2 py-1 text-xs h-auto min-h-0"
                   title="Darken Background 5%"
                 >
                   -5%
-                </button>
-                <button
+                </KromaButton>
+                <KromaButton
+                  variant="outline"
+                  size="sm"
                   onClick={() => handleAdjustLightness('bg', 5)}
-                  className="px-2 py-1 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
+                  className="px-2 py-1 text-xs h-auto min-h-0"
                   title="Lighten Background 5%"
                 >
                   +5%
-                </button>
+                </KromaButton>
               </div>
             </div>
 
             {/* Technical values with copy */}
             <div className="flex items-center gap-3 font-mono text-[11px] text-[var(--text-secondary)]">
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => handleCopyValue(bgHex, 'bg-hex')}
-                className="hover:text-[var(--text-primary)] transition-colors"
+                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 HEX {copiedField === 'bg-hex' ? 'COPIED' : bgHex}
-              </button>
+              </KromaButton>
               <span>·</span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => handleCopyValue(`rgb(${bgRgb?.r}, ${bgRgb?.g}, ${bgRgb?.b})`, 'bg-rgb')}
-                className="hover:text-[var(--text-primary)] transition-colors"
+                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 RGB {copiedField === 'bg-rgb' ? 'COPIED' : `${bgRgb?.r}, ${bgRgb?.g}, ${bgRgb?.b}`}
-              </button>
+              </KromaButton>
               <span>·</span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => handleCopyValue(`hsl(${bgHsl?.h}, ${bgHsl?.s}%, ${bgHsl?.l}%)`, 'bg-hsl')}
-                className="hover:text-[var(--text-primary)] transition-colors"
+                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 HSL {copiedField === 'bg-hsl' ? 'COPIED' : `${bgHsl?.h}°, ${bgHsl?.s}%`}
-              </button>
+              </KromaButton>
             </div>
           </div>
 
           {/* Central SWAP Button */}
           <div className="flex justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 my-2 md:my-0">
-            <button
+            <KromaButton
+              variant="outline"
+              size="sm"
+              iconLeft={<ArrowLeftRight size={12} />}
               onClick={handleSwap}
-              className="font-mono text-xs font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-[var(--bg-canvas)] text-text-primary border border-border-subtle rounded cursor-pointer flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
               title="Swap Foreground and Background"
             >
-              <ArrowLeftRight size={12} />
-              <span>SWAP ↕</span>
-            </button>
+              SWAP ↕
+            </KromaButton>
           </div>
 
           {/* Foreground Control */}
@@ -390,45 +404,55 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
               />
 
               <div className="flex items-center gap-1 font-mono text-xs">
-                <button
+                <KromaButton
+                  variant="outline"
+                  size="sm"
                   onClick={() => handleAdjustLightness('fg', -5)}
-                  className="px-2 py-1 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
+                  className="px-2 py-1 text-xs h-auto min-h-0"
                   title="Darken Foreground 5%"
                 >
                   -5%
-                </button>
-                <button
+                </KromaButton>
+                <KromaButton
+                  variant="outline"
+                  size="sm"
                   onClick={() => handleAdjustLightness('fg', 5)}
-                  className="px-2 py-1 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
+                  className="px-2 py-1 text-xs h-auto min-h-0"
                   title="Lighten Foreground 5%"
                 >
                   +5%
-                </button>
+                </KromaButton>
               </div>
             </div>
 
             {/* Technical values with copy */}
             <div className="flex items-center gap-3 font-mono text-[11px] text-[var(--text-secondary)]">
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => handleCopyValue(fgHex, 'fg-hex')}
-                className="hover:text-[var(--text-primary)] transition-colors"
+                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 HEX {copiedField === 'fg-hex' ? 'COPIED' : fgHex}
-              </button>
+              </KromaButton>
               <span>·</span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => handleCopyValue(`rgb(${fgRgb?.r}, ${fgRgb?.g}, ${fgRgb?.b})`, 'fg-rgb')}
-                className="hover:text-[var(--text-primary)] transition-colors"
+                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 RGB {copiedField === 'fg-rgb' ? 'COPIED' : `${fgRgb?.r}, ${fgRgb?.g}, ${fgRgb?.b}`}
-              </button>
+              </KromaButton>
               <span>·</span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => handleCopyValue(`hsl(${fgHsl?.h}, ${fgHsl?.s}%, ${fgHsl?.l}%)`, 'fg-hsl')}
-                className="hover:text-[var(--text-primary)] transition-colors"
+                className="p-0 h-auto font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 HSL {copiedField === 'fg-hsl' ? 'COPIED' : `${fgHsl?.h}°, ${fgHsl?.s}%`}
-              </button>
+              </KromaButton>
             </div>
           </div>
         </div>
@@ -444,12 +468,14 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
               <span className="font-sans text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[var(--text-primary)]">
                 {ratio} : 1
               </span>
-              <button
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => handleCopyValue(`${ratio}:1`, 'ratio')}
-                className="font-mono text-xs uppercase tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="font-mono text-xs uppercase tracking-wider text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-0 h-auto"
               >
                 {copiedField === 'ratio' ? 'COPIED' : 'COPY'}
-              </button>
+              </KromaButton>
             </div>
           </div>
 

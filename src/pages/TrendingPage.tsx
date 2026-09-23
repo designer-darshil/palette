@@ -14,6 +14,7 @@ import { sortTrendingPalettes, sortTrendingColors, sortTrendingCollections, sort
 import { SEOHead } from '../components/seo/SEOHead';
 import { PageHeader } from '../components/common/PageHeader';
 import { ResultsCountBar } from '../components/common/ResultsCountBar';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface TrendingPageProps {
   onNavigate: (route: RouteType) => void;
@@ -51,36 +52,46 @@ export const TrendingPage: React.FC<TrendingPageProps> = ({ onNavigate, initialT
         description="Ranked by creator saves, active token exports, remixes, and community engagement."
         actions={
           <div className="filter-pills flex flex-wrap gap-1.5">
-            <button
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'palettes' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'palettes' ? 'active' : ''}`}
               onClick={() => setActiveTab('palettes')}
             >
               Palettes ({trendingPalettes.length})
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'colors' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'colors' ? 'active' : ''}`}
               onClick={() => setActiveTab('colors')}
             >
               Colors ({trendingColors.length})
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'gradients' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'gradients' ? 'active' : ''}`}
               onClick={() => setActiveTab('gradients')}
             >
               Gradients ({gradients.length})
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'collections' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
               onClick={() => setActiveTab('collections')}
             >
               Collections ({trendingCollections.length})
-            </button>
-            <button
+            </KromaButton>
+            <KromaButton
+              size="sm"
+              variant={activeTab === 'creators' ? 'filled' : 'ghost'}
               className={`filter-pill text-xs px-3 py-1.5 ${activeTab === 'creators' ? 'active' : ''}`}
               onClick={() => setActiveTab('creators')}
             >
               Creators ({trendingCreators.length})
-            </button>
+            </KromaButton>
           </div>
         }
       />

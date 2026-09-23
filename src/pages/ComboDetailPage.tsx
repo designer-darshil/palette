@@ -15,7 +15,7 @@ import { generateComboSchema } from '../utils/schemaGenerator';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 import { Analytics } from '../utils/analytics';
 
 interface ComboDetailPageProps {
@@ -170,16 +170,16 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
         description={combo.description}
         actions={
           <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-            <Button
-              variant="primary"
+            <KromaButton
+              variant="filled"
               size="sm"
               iconLeft={<Copy size={13} />}
               onClick={handleCopyAll}
             >
               Copy Tokens
-            </Button>
-            <Button
-              variant="secondary"
+            </KromaButton>
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<ShieldCheck size={13} className="text-blue-400" />}
               onClick={() =>
@@ -191,24 +191,24 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
               }
             >
               Test Contrast
-            </Button>
-            <Button
-              variant="secondary"
+            </KromaButton>
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<Share2 size={13} />}
               onClick={handleShare}
               title="Share Combo URL"
             >
               Share
-            </Button>
-            <Button
-              variant="secondary"
+            </KromaButton>
+            <KromaButton
+              variant="outline"
               size="sm"
               iconLeft={<Bookmark size={13} fill={saved ? '#E9C46A' : 'none'} color={saved ? '#E9C46A' : 'currentColor'} />}
               onClick={handleToggleSave}
             >
               {saved ? 'Saved' : 'Save'}
-            </Button>
+            </KromaButton>
           </div>
         }
       />
@@ -343,36 +343,29 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
                   <span style={{ fontWeight: 700, fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {c.name}
                   </span>
-                  <button
+                  <KromaButton
+                    variant="ghost"
+                    size="sm"
                     onClick={() => handleCopySingleHex(c.hex, c.name)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-secondary)', background: 'transparent', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                    className="p-0 h-auto font-mono text-[0.78rem] text-[var(--text-secondary)] hover:text-white cursor-pointer whitespace-nowrap border-0"
                   >
                     {c.hex}
-                  </button>
+                  </KromaButton>
                 </div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--accent-gold)', marginTop: '2px' }}>
                   {c.role} {c.percentage ? `(${c.percentage}%)` : ''}
                 </div>
                 {colorSlug && (
                   <div style={{ marginTop: '8px', paddingTop: '6px', borderTop: '1px solid var(--border-subtle)' }}>
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="sm"
+                      iconRight={<ExternalLink size={10} />}
                       onClick={() => onNavigate({ path: 'color-detail', slug: colorSlug })}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.72rem',
-                        fontFamily: 'var(--font-mono)',
-                        color: 'var(--text-secondary)',
-                        background: 'transparent',
-                        border: 'none',
-                        cursor: 'pointer',
-                        whiteSpace: 'nowrap',
-                      }}
+                      className="p-0 h-auto inline-flex items-center gap-1 text-[0.72rem] font-mono text-[var(--text-secondary)] hover:text-white cursor-pointer whitespace-nowrap border-0"
                     >
-                      <span>View Color Specimen</span>
-                      <ExternalLink size={10} />
-                    </button>
+                      View Color Specimen
+                    </KromaButton>
                   </div>
                 )}
               </div>

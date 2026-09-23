@@ -269,56 +269,61 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
 
             {/* Editorial Discovery Navigation */}
             <nav className="flex items-center gap-3 sm:gap-5 pt-3 mt-1 border-t border-black/[0.06] dark:border-white/[0.06] text-xs font-mono tracking-wider uppercase flex-wrap" aria-label="Archive navigation">
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   setActiveTab('all');
                   archiveRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="text-[#171717] dark:text-white font-bold hover:underline cursor-pointer transition-colors p-0 bg-transparent border-0 inline-flex items-center gap-1"
+                className="text-[#171717] dark:text-white font-bold hover:underline p-0 h-auto"
               >
                 <span>PALETTES</span>
-              </button>
+              </KromaButton>
               <span className="text-[#707070]/40">/</span>
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => onNavigate({ path: 'colors' })}
-                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0 inline-flex items-center gap-1"
+                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                iconRight={<ArrowUpRight size={11} />}
               >
                 <span>COLOURS</span>
-                <ArrowUpRight size={11} />
-              </button>
+              </KromaButton>
               <span className="text-[#707070]/40">/</span>
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => onNavigate({ path: 'patterns' })}
-                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0 inline-flex items-center gap-1"
+                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
+                iconRight={<ArrowUpRight size={11} />}
               >
                 <span>PATTERNS</span>
-                <ArrowUpRight size={11} />
-              </button>
+              </KromaButton>
               <span className="text-[#707070]/40">/</span>
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   const el = document.getElementById('daily-specimen-section');
                   el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0"
+                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
               >
                 <span>SPECIMENS</span>
-              </button>
+              </KromaButton>
               <span className="text-[#707070]/40">/</span>
-              <button
-                type="button"
+              <KromaButton
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   const el = document.getElementById('mood-stories-section');
                   el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0"
+                className="text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white p-0 h-auto"
               >
                 <span>STORIES</span>
-              </button>
+              </KromaButton>
             </nav>
           </div>
 
@@ -643,7 +648,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
           {trendingPalettes.map((palette) => (
             <div
               key={palette.id}
-              className="group/item bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.45)]"
+              className="group/item bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.45)]"
               onClick={() => onNavigate({ path: 'palette-detail', slug: palette.slug })}
               role="button"
               tabIndex={0}
@@ -779,17 +784,18 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
             {['all', 'trending', 'new', 'warm', 'cool', 'neutral', 'bold'].map((tab) => {
               const isActive = activeTab === tab;
               return (
-                <button
+                <KromaButton
                   key={tab}
-                  type="button"
-                  className={`inline-flex items-center gap-1.5 bg-transparent border-0 py-1.5 font-sans text-[12.5px] tracking-[0.06em] uppercase cursor-pointer transition-colors whitespace-nowrap ${
+                  variant="ghost"
+                  size="sm"
+                  className={`py-1.5 font-sans text-[12.5px] tracking-[0.06em] uppercase whitespace-nowrap h-auto ${
                     isActive ? 'text-[#171717] dark:text-white font-bold' : 'text-[#707070] dark:text-[#8E8E93] font-medium hover:text-[#171717] dark:hover:text-white'
                   }`}
                   onClick={() => setActiveTab(tab)}
+                  iconLeft={isActive ? <span className="w-1.5 h-1.5 rounded-[1px] bg-[#00AEEF] flex-shrink-0" /> : undefined}
                 >
-                  {isActive && <span className="w-1.5 h-1.5 rounded-[1px] bg-[#00AEEF]" />}
                   <span>{tab.toUpperCase()}</span>
-                </button>
+                </KromaButton>
               );
             })}
           </div>

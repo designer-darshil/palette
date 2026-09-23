@@ -10,7 +10,7 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 import { EmptyState } from '../components/common/EmptyState';
 import { KromaCard, KromaCardVisual, KromaCardBody, KromaCardFooter } from '../components/common/KromaCard';
 
@@ -47,47 +47,55 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
         title="Curator Workspace"
         description={`Local workstation library · ${savedItems.length} saved specimens · ${userCollections.length} custom collections.`}
         actions={
-          <Button
-            variant="primary"
+          <KromaButton
+            variant="filled"
             size="sm"
             iconLeft={<FolderPlus size={13} />}
             onClick={() => onNavigate({ path: 'collections' })}
           >
             Manage Collections
-          </Button>
+          </KromaButton>
         }
       />
 
       {/* Workspace Tabs */}
       <div className="filter-pills flex flex-wrap gap-1.5 border-b border-[var(--border-subtle)] pb-3">
-        <button
+        <KromaButton
+          size="sm"
+          variant={activeTab === 'saved' ? 'filled' : 'ghost'}
           className={`filter-pill text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'saved' ? 'active' : ''}`}
           onClick={() => setActiveTab('saved')}
+          iconLeft={<Bookmark size={13} />}
         >
-          <Bookmark size={13} />
           <span>Saved ({savedItems.length})</span>
-        </button>
-        <button
+        </KromaButton>
+        <KromaButton
+          size="sm"
+          variant={activeTab === 'collections' ? 'filled' : 'ghost'}
           className={`filter-pill text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'collections' ? 'active' : ''}`}
           onClick={() => setActiveTab('collections')}
+          iconLeft={<Layers size={13} />}
         >
-          <Layers size={13} />
           <span>My Collections ({userCollections.length})</span>
-        </button>
-        <button
+        </KromaButton>
+        <KromaButton
+          size="sm"
+          variant={activeTab === 'liked' ? 'filled' : 'ghost'}
           className={`filter-pill text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'liked' ? 'active' : ''}`}
           onClick={() => setActiveTab('liked')}
+          iconLeft={<Heart size={13} />}
         >
-          <Heart size={13} />
           <span>Liked ({likedItems.length})</span>
-        </button>
-        <button
+        </KromaButton>
+        <KromaButton
+          size="sm"
+          variant={activeTab === 'remixes' ? 'filled' : 'ghost'}
           className={`filter-pill text-xs px-3 py-1.5 flex items-center gap-1.5 ${activeTab === 'remixes' ? 'active' : ''}`}
           onClick={() => setActiveTab('remixes')}
+          iconLeft={<Wand2 size={13} />}
         >
-          <Wand2 size={13} />
           <span>Remixes ({remixItems.length})</span>
-        </button>
+        </KromaButton>
       </div>
 
       {/* Tab: Saved Items */}
@@ -144,13 +152,15 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, initialTab
                         <ExternalLink size={11} />
                       </Link>
 
-                      <button
+                      <KromaButton
+                        size="icon"
+                        variant="ghost"
                         onClick={() => removeItem(item.id)}
-                        className="text-[11px] text-[#707070] hover:text-[#FF3B30] p-1 transition-colors"
+                        className="text-[11px] text-[#707070] hover:text-[#FF3B30] p-1 h-6 w-6"
                         title="Remove from saved"
-                      >
-                        <Trash2 size={12} />
-                      </button>
+                        aria-label="Remove from saved"
+                        iconLeft={<Trash2 size={12} />}
+                      />
                     </KromaCardFooter>
                   </KromaCard>
                 );

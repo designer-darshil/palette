@@ -5,7 +5,7 @@ import { generatePaletteMatchRound, PaletteMatchRound } from '../utils/gameEngin
 import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface PaletteMatchGamePageProps {
   onNavigate: (route: RouteType) => void;
@@ -64,14 +64,14 @@ export const PaletteMatchGamePage: React.FC<PaletteMatchGamePageProps> = ({ onNa
         title="Palette Match: Harmonic Alignment"
         description="Click two swatches to swap their positions into correct harmonic alignment."
         actions={
-          <Button
-            variant="secondary"
+          <KromaButton
+            variant="outline"
             size="sm"
             iconLeft={<RefreshCw size={13} />}
             onClick={handleRestart}
           >
             New Palette
-          </Button>
+          </KromaButton>
         }
       />
 
@@ -118,9 +118,9 @@ export const PaletteMatchGamePage: React.FC<PaletteMatchGamePageProps> = ({ onNa
           <p className="text-xs text-[var(--text-secondary)]">
             You reconstructed <strong>{round.targetPaletteTitle}</strong> perfectly.
           </p>
-          <Button onClick={handleRestart} variant="primary" size="sm">
+          <KromaButton onClick={handleRestart} variant="filled" size="sm">
             Next Challenge
-          </Button>
+          </KromaButton>
         </div>
       )}
     </div>

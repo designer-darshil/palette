@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { NotFoundPage } from './NotFoundPage';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface CollectionDetailPageProps {
   slug: string;
@@ -63,29 +64,33 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
         </div>
 
         <div className="flex items-center gap-2">
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
+            iconLeft={<Share2 size={12} />}
             onClick={handleShare}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             title="Share collection link"
           >
-            <Share2 size={12} />
-            <span>SHARE</span>
-          </button>
-          <button
+            SHARE
+          </KromaButton>
+          <KromaButton
+            variant="outline"
+            size="sm"
+            iconLeft={<Copy size={12} />}
             onClick={handleDuplicate}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             title="Duplicate collection"
           >
-            <Copy size={12} />
-            <span>DUPLICATE</span>
-          </button>
-          <button
+            DUPLICATE
+          </KromaButton>
+          <KromaButton
+            variant="ghost"
+            size="icon"
             onClick={handleDelete}
             className="p-2 text-[var(--text-secondary)] hover:text-red-500 transition-colors"
             title="Delete collection"
           >
             <Trash2 size={14} />
-          </button>
+          </KromaButton>
         </div>
       </div>
 
@@ -105,13 +110,14 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
           <p className="font-sans text-sm text-text-tertiary max-w-[420px] leading-relaxed">
             Explore palettes, colors, or gradients and save them directly to this moodboard wall.
           </p>
-          <button
+          <KromaButton
+            variant="filled"
+            size="md"
+            iconRight={<ArrowUpRight size={13} />}
             onClick={() => onNavigate({ path: 'explore' })}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase px-6 py-3 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-2 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
-            <span>EXPLORE SPECIMENS</span>
-            <ArrowUpRight size={13} />
-          </button>
+            EXPLORE SPECIMENS
+          </KromaButton>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
@@ -129,13 +135,15 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
                 <div>
                   <div className="flex items-center justify-between font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-2">
                     <span>SPECIMEN 0{idx + 1} · {item.type}</span>
-                    <button
+                    <KromaButton
+                      variant="ghost"
+                      size="icon"
                       onClick={() => removeItemFromCollection(collection.id, item.id)}
-                      className="text-[var(--text-secondary)] hover:text-red-500 transition-colors"
+                      className="text-[var(--text-secondary)] hover:text-red-500 transition-colors p-1 h-auto"
                       title="Remove item"
                     >
                       <Trash2 size={12} />
-                    </button>
+                    </KromaButton>
                   </div>
 
                   {/* Visual Specimen Preview */}
@@ -161,7 +169,10 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
-                  <button
+                  <KromaButton
+                    variant="ghost"
+                    size="sm"
+                    iconRight={<ArrowUpRight size={12} />}
                     onClick={() => {
                       if (item.type === 'palette') onNavigate({ path: 'palette-detail', slug: item.slug });
                       else if (item.type === 'color') onNavigate({ path: 'color-detail', slug: item.slug });
@@ -169,11 +180,10 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
                       else if (item.type === 'combo') onNavigate({ path: 'combo-detail', slug: item.slug });
                       else onNavigate({ path: 'pattern-detail', slug: item.slug });
                     }}
-                    className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary"
+                    className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-secondary bg-transparent border-0 cursor-pointer inline-flex items-center gap-1.5 p-0 transition-colors duration-150 hover:text-text-primary h-auto"
                   >
-                    <span>OPEN SPECIMEN</span>
-                    <ArrowUpRight size={12} />
-                  </button>
+                    OPEN SPECIMEN
+                  </KromaButton>
                 </div>
               </div>
             );

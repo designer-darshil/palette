@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ShieldCheck, Lock, Check, AlertCircle, KeyRound, Eye, EyeOff, CheckCircle2, XCircle } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { validateAdminPassword, PASSWORD_POLICY } from '../../utils/passwordPolicy';
+import { KromaButton } from '../../components/common/KromaButton';
 
 export const AdminSecurityPage: React.FC = () => {
   const { currentUser, changePassword, isSuperAdmin } = useAdminAuth();
@@ -155,24 +156,20 @@ export const AdminSecurityPage: React.FC = () => {
             <h2 style={{ fontSize: '1.1rem', fontWeight: 700 }}>Change Super Admin Password</h2>
           </div>
 
-          <button
+          <KromaButton
             type="button"
+            variant="ghost"
+            size="sm"
             onClick={() => setShowPasswords(!showPasswords)}
+            iconLeft={showPasswords ? <EyeOff size={13} /> : <Eye size={13} />}
             style={{
-              background: 'transparent',
-              border: 'none',
               color: 'var(--text-secondary)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
               fontSize: '0.75rem',
             }}
             aria-label={showPasswords ? 'Hide password characters' : 'Show password characters'}
           >
-            {showPasswords ? <EyeOff size={13} /> : <Eye size={13} />}
-            <span>{showPasswords ? 'Hide' : 'Show'}</span>
-          </button>
+            {showPasswords ? 'Hide' : 'Show'}
+          </KromaButton>
         </div>
 
         {statusMessage && (
@@ -405,20 +402,19 @@ export const AdminSecurityPage: React.FC = () => {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
-            <button
+            <KromaButton
               type="submit"
+              variant="filled"
               disabled={loading || !validation.isValid || !passwordsMatch || !currentPassword}
-              className="btn-primary"
+              isLoading={loading}
+              iconLeft={<Lock size={14} />}
               style={{
                 padding: '10px 22px',
                 fontSize: '0.85rem',
-                opacity: loading || !validation.isValid || !passwordsMatch || !currentPassword ? 0.6 : 1,
-                cursor: loading || !validation.isValid || !passwordsMatch || !currentPassword ? 'not-allowed' : 'pointer',
               }}
             >
-              <Lock size={14} />
-              <span>{loading ? 'Validating & Updating...' : 'Update Master Password'}</span>
-            </button>
+              {loading ? 'Validating & Updating...' : 'Update Master Password'}
+            </KromaButton>
           </div>
         </form>
       </div>

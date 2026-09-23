@@ -31,6 +31,7 @@ import { NotFoundPage } from './NotFoundPage';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generatePaletteSchema } from '../utils/schemaGenerator';
 import { PaletteCard } from '../components/PaletteCard';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface PaletteDetailPageProps {
   slug: string;
@@ -180,13 +181,15 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
 
       {/* Top: Back Arrow & Palette Title in Large Sans Type */}
       <div className="pt-8 pb-6">
-        <button
+        <KromaButton
+          variant="ghost"
+          size="sm"
+          iconLeft={<ArrowLeft size={14} />}
           onClick={() => onNavigate({ path: 'palettes' })}
-          className="inline-flex items-center gap-1.5 text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors uppercase mb-6"
+          className="inline-flex items-center gap-1.5 text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors uppercase mb-6 p-0 h-auto"
         >
-          <ArrowLeft size={14} />
-          <span>ALL PALETTES</span>
-        </button>
+          ALL PALETTES
+        </KromaButton>
 
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <span className="font-sans text-[11px] font-semibold tracking-wider uppercase text-neutral-400">
@@ -323,22 +326,16 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           </div>
 
           {/* Copy Current HEX */}
-          <button
+          <KromaButton
+            variant="filled"
+            size="md"
+            iconLeft={copiedHex === currentColor.hex ? <Check size={14} className="text-emerald-400" /> : undefined}
+            iconRight={copiedHex === currentColor.hex ? undefined : <ArrowUpRight size={13} />}
             onClick={() => handleCopySingleHex(currentColor.hex, currentColor.name)}
-            className="self-start lg:self-center font-sans text-xs font-bold tracking-wider uppercase px-4 py-3 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-sm hover:opacity-90 transition-opacity flex items-center gap-2 whitespace-nowrap"
+            className="self-start lg:self-center font-sans text-xs font-bold tracking-wider uppercase px-4 py-3 whitespace-nowrap"
           >
-            {copiedHex === currentColor.hex ? (
-              <>
-                <Check size={14} className="text-emerald-400" />
-                <span>COPIED!</span>
-              </>
-            ) : (
-              <>
-                <span>COPY HEX</span>
-                <ArrowUpRight size={13} />
-              </>
-            )}
-          </button>
+            {copiedHex === currentColor.hex ? 'COPIED!' : 'COPY HEX'}
+          </KromaButton>
         </div>
       </section>
 
@@ -346,60 +343,68 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
       <section className="flex flex-wrap items-center justify-between gap-4 pb-12 border-b border-neutral-200 dark:border-neutral-800 mb-16">
         <div className="flex flex-wrap items-center gap-3">
           {/* SAVE PALETTE */}
-          <button
+          <KromaButton
+            variant={saved ? 'filled' : 'outline'}
+            size="md"
+            iconLeft={<Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />}
             onClick={handleToggleSave}
-            className={`font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border transition-colors flex items-center gap-2 ${
-              saved
-                ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-white dark:text-neutral-900 dark:border-white'
-                : 'bg-transparent text-neutral-900 dark:text-white border-neutral-300 dark:border-neutral-700 hover:border-neutral-900 dark:hover:border-white'
-            }`}
+            className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3"
           >
-            <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
-            <span>{saved ? 'SAVED TO STUDIO' : 'SAVE PALETTE'}</span>
-          </button>
+            {saved ? 'SAVED TO STUDIO' : 'SAVE PALETTE'}
+          </KromaButton>
 
           {/* COPY COLORS (All hexes) */}
-          <button
+          <KromaButton
+            variant="outline"
+            size="md"
+            iconLeft={copiedAll ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
             onClick={handleCopyAllColors}
-            className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-neutral-900 dark:hover:border-white transition-colors flex items-center gap-2"
+            className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3"
           >
-            {copiedAll ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
-            <span>{copiedAll ? 'ALL COPIED!' : 'COPY COLORS'}</span>
-          </button>
+            {copiedAll ? 'ALL COPIED!' : 'COPY COLORS'}
+          </KromaButton>
 
           {/* GENERATE SIMILAR */}
-          <button
+          <KromaButton
+            variant="outline"
+            size="md"
+            iconLeft={<RefreshCw size={14} />}
             onClick={() => onNavigate({ path: 'palette-generator', colors: currentColor.hex.replace('#', '') })}
-            className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-neutral-900 dark:hover:border-white transition-colors flex items-center gap-2"
+            className="font-sans text-xs font-bold tracking-wider uppercase px-5 py-3"
           >
-            <RefreshCw size={14} />
-            <span>GENERATE SIMILAR</span>
-          </button>
+            GENERATE SIMILAR
+          </KromaButton>
         </div>
 
         {/* Utility actions: Tokens, Collection, Share */}
         <div className="flex items-center gap-2">
-          <button
+          <KromaButton
+            variant="outline"
+            size="icon"
             onClick={() => setTokenModalOpen(true)}
-            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-neutral-800 rounded-sm transition-colors text-xs font-mono uppercase"
+            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border-neutral-200 dark:border-neutral-800"
             title="Export CSS / Tailwind tokens"
           >
             <Code size={15} />
-          </button>
-          <button
+          </KromaButton>
+          <KromaButton
+            variant="outline"
+            size="icon"
             onClick={() => setCollectionModalOpen(true)}
-            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-neutral-800 rounded-sm transition-colors text-xs font-mono uppercase"
+            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border-neutral-200 dark:border-neutral-800"
             title="Add to Collection"
           >
             <FolderPlus size={15} />
-          </button>
-          <button
+          </KromaButton>
+          <KromaButton
+            variant="outline"
+            size="icon"
             onClick={handleShare}
-            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-neutral-800 rounded-sm transition-colors text-xs font-mono uppercase"
+            className="p-2.5 text-neutral-500 hover:text-neutral-900 dark:hover:text-white border-neutral-200 dark:border-neutral-800"
             title="Share Palette"
           >
             <Share2 size={15} />
-          </button>
+          </KromaButton>
         </div>
       </section>
 
@@ -413,13 +418,15 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
                 MORE COLOR STUDIES
               </h2>
             </div>
-            <button
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconRight={<ArrowUpRight size={13} />}
               onClick={() => onNavigate({ path: 'palettes' })}
-              className="text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase inline-flex items-center gap-1"
+              className="text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white uppercase p-0 h-auto"
             >
-              <span>VIEW ALL</span>
-              <ArrowUpRight size={13} />
-            </button>
+              VIEW ALL
+            </KromaButton>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

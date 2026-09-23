@@ -287,27 +287,31 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 border border-black/10 dark:border-white/10 rounded-[3px] p-0.5 bg-black/[0.02] dark:bg-white/[0.04]">
               {[0.5, 1.0, 1.8].map((z) => (
-                <button
+                <KromaButton
                   key={z}
+                  variant={zoomMultiplier === z ? 'filled' : 'ghost'}
+                  size="sm"
                   onClick={() => setZoomMultiplier(z)}
-                  className={`px-2 py-0.5 rounded-[2px] text-[10px] font-semibold transition-colors cursor-pointer ${
+                  className={`px-2 py-0.5 rounded-[2px] text-[10px] font-semibold transition-colors cursor-pointer h-auto min-h-0 border-0 ${
                     zoomMultiplier === z
                       ? 'bg-[#171717] text-white dark:bg-white dark:text-[#171717]'
                       : 'text-[#707070] hover:text-[#171717] dark:hover:text-white'
                   }`}
                 >
                   {z === 0.5 ? '0.5×' : z === 1.0 ? '1.0×' : '2.0×'}
-                </button>
+                </KromaButton>
               ))}
             </div>
 
-            <button
+            <KromaButton
+              variant="ghost"
+              size="icon"
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-1.5 border border-black/10 dark:border-white/10 rounded-[3px] text-[#707070] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent"
+              className="p-1.5 border border-black/10 dark:border-white/10 rounded-[3px] text-[#707070] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent h-auto"
               title={isFullscreen ? 'Exit Fullscreen' : 'Expand Canvas'}
             >
               {isFullscreen ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
-            </button>
+            </KromaButton>
           </div>
         </div>
 
@@ -332,13 +336,15 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
           </div>
 
           <div className="absolute bottom-4 right-4">
-            <button
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconLeft={<Download size={12} />}
               onClick={handleDownloadSvg}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[3px] bg-black/80 hover:bg-black text-white text-xs font-mono font-medium backdrop-blur-md border border-white/15 cursor-pointer transition-all"
             >
-              <Download size={12} />
-              <span>EXPORT SVG</span>
-            </button>
+              EXPORT SVG
+            </KromaButton>
           </div>
         </div>
       </section>
@@ -352,13 +358,15 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
           </div>
 
           {(scale !== pattern.scale || density !== pattern.density || rotation !== pattern.rotation) && (
-            <button
+            <KromaButton
+              variant="ghost"
+              size="sm"
+              iconLeft={<RotateCcw size={11} />}
               onClick={handleResetControls}
-              className="inline-flex items-center gap-1 font-mono text-xs text-[#FF3B30] hover:underline cursor-pointer bg-transparent border-0 p-0"
+              className="inline-flex items-center gap-1 font-mono text-xs text-[#FF3B30] hover:underline cursor-pointer bg-transparent border-0 p-0 h-auto"
             >
-              <RotateCcw size={11} />
-              <span>Reset</span>
-            </button>
+              Reset
+            </KromaButton>
           )}
         </div>
 
@@ -584,17 +592,19 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
           {/* Tab Selector */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
             {(['css', 'svg', 'json'] as const).map((tab) => (
-              <button
+              <KromaButton
                 key={tab}
+                variant={activeCodeTab === tab ? 'filled' : 'ghost'}
+                size="sm"
                 onClick={() => setActiveCodeTab(tab)}
-                className={`px-3 py-1 rounded-[3px] font-mono text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-[3px] font-mono text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer h-auto min-h-0 border-0 ${
                   activeCodeTab === tab
                     ? 'bg-[#171717] text-white dark:bg-white dark:text-[#171717]'
                     : 'bg-black/[0.04] dark:bg-white/[0.05] text-[#707070] hover:text-[#171717] dark:hover:text-white'
                 }`}
               >
                 {tab === 'css' ? 'CSS' : tab === 'svg' ? 'SVG' : 'JSON'}
-              </button>
+              </KromaButton>
             ))}
           </div>
         </div>
@@ -662,7 +672,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
                 <div
                   key={pat.id}
                   onClick={() => onNavigate({ path: 'pattern-detail', slug: pat.slug })}
-                  className="group/rel rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none"
+                  className="group/rel rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none"
                   role="button"
                   tabIndex={0}
                 >

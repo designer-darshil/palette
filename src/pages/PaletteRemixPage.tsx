@@ -15,6 +15,7 @@ import {
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { NotFoundPage } from './NotFoundPage';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface PaletteRemixPageProps {
   slug: string;
@@ -49,41 +50,40 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
 
   const handleReset = () => {
     updateAdjustments(DEFAULT_REMIX_ADJUSTMENTS);
+    showToast('Reset to original parameters', originalPalette.title);
   };
 
   const handleApplyPreset = (preset: RemixPreset) => {
-    const next = applyRemixPreset(adjustments, preset);
-    updateAdjustments(next);
-    showToast(`Applied "${preset.replace('-', ' ')}" variation`);
+    const newAdj = applyRemixPreset(adjustments, preset);
+    updateAdjustments(newAdj);
+    showToast(`Applied preset: ${preset.toUpperCase()}`, originalPalette.title);
   };
 
   const remixedColors = useMemo(() => {
     return applyRemixAdjustments(originalPalette.colors, adjustments);
-  }, [originalPalette.colors, adjustments]);
-
-  const remixedPaletteObject: PaletteItem = useMemo(() => {
-    return createRemixedPalette(originalPalette, remixedColors, customTitle || undefined);
-  }, [originalPalette, remixedColors, customTitle]);
+  }, [originalPalette, adjustments]);
 
   const handleSaveRemix = () => {
-    addPalette(remixedPaletteObject);
+    const title = customTitle.trim() || `${originalPalette.title} (Remix)`;
+    const newPalette = createRemixedPalette(originalPalette, remixedColors, title);
+    addPalette(newPalette);
     saveItem({
-      id: remixedPaletteObject.id,
+      id: newPalette.id,
       type: 'palette',
-      title: remixedPaletteObject.title,
-      slug: remixedPaletteObject.slug,
-      preview: remixedColors.map((c) => c.hex).join(','),
-      metadata: `Remixed from ${originalPalette.title}`,
+      title: newPalette.title,
+      slug: newPalette.slug,
+      preview: newPalette.colors.map((c) => c.hex).join('-'),
+      metadata: `${newPalette.colors.length} colours • Remixed Studio Specimen`,
     });
-    showToast('Saved Remixed Palette System', remixedPaletteObject.title);
-    onNavigate({ path: 'palette-detail', slug: remixedPaletteObject.slug });
+    showToast('Saved remixed palette to library', newPalette.title);
+    onNavigate({ path: 'palette-detail', slug: newPalette.slug });
   };
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12 pb-16 md:pb-24 box-border">
       <SEOHead
-        title={`Remix: ${originalPalette.title} — Calibration Studio | KROMA`}
-        description={`Interactive remix workspace for ${originalPalette.title}. Fine-tune hues, saturation, temperature, and lightness.`}
+        title={`Remix ${originalPalette.title} — Parametric Color Synthesis | KROMA`}
+        description={`Sculpt hue, saturation, temperature, and luminance curves of ${originalPalette.title}.`}
         canonicalPath={`/palettes/${originalPalette.slug}/remix`}
       />
 
@@ -102,21 +102,23 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <KromaButton
+            variant="outline"
+            size="sm"
+            iconLeft={<RotateCcw size={12} />}
             onClick={handleReset}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3 bg-surface-1 text-text-primary border border-border-subtle rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:border-text-primary hover:-translate-y-0.5"
             title="Reset to original parameters"
           >
-            <RotateCcw size={12} />
-            <span>RESET</span>
-          </button>
-          <button
+            RESET
+          </KromaButton>
+          <KromaButton
+            variant="filled"
+            size="sm"
+            iconLeft={<Bookmark size={12} />}
             onClick={handleSaveRemix}
-            className="font-mono text-[11px] font-medium tracking-[0.08em] uppercase py-1.5 px-3.5 bg-text-primary text-canvas border border-text-primary rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-150 select-none hover:opacity-90 hover:-translate-y-0.5"
           >
-            <Bookmark size={12} />
-            <span>SAVE REMIX</span>
-          </button>
+            SAVE REMIX
+          </KromaButton>
         </div>
       </div>
 
@@ -183,13 +185,15 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
               { key: 'invert', label: 'INVERT HUES' },
             ] as const
           ).map((p) => (
-            <button
+            <KromaButton
               key={p.key}
+              variant="outline"
+              size="sm"
               onClick={() => handleApplyPreset(p.key)}
-              className="px-3 py-1.5 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] text-xs font-mono uppercase tracking-wider text-[var(--text-primary)] rounded-xs transition-colors"
+              className="text-xs font-mono uppercase tracking-wider rounded-xs h-auto min-h-0"
             >
               {p.label}
-            </button>
+            </KromaButton>
           ))}
         </div>
       </section>

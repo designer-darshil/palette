@@ -56,8 +56,16 @@ The platform solves critical frontend and design system challenges:
 /Users/jarvis/Documents/palette/
 ├── api/                    # Serverless edge endpoint handlers (/api/palette, /api/antigravity, /api/mesh, /api/maintenance)
 ├── public/                 # Static assets, OpenGraph previews, XML sitemaps, robots.txt, llms.txt, favicons
-├── scripts/                # Node/TypeScript test suites, dataset generators, and build scripts
+├── scripts/                # Node/TypeScript test suites (WCAG, Mesh, Physics, Security, Header), sitemap compilers
 ├── src/                    # Primary application source code (React, Context, Data, Utils, Components, Pages)
+├── PRD.md                  # Canonical Product Requirements Document
+├── AGENTS.md               # Canonical AI Coding Agent Operating Rules & Non-Negotiables
+├── DESIGN_SYSTEM.md        # Canonical Design System, Typography (General Sans), & Semantic Tokens
+├── ARCHITECTURE.md         # Canonical Technical Architecture & Header Stacking Hierarchy
+├── SECURITY.md             # Canonical Security, PBKDF2/SHA-256 Auth & Access Controls
+├── CODE_STYLE.md           # Canonical Code Style & React Safety Rules
+├── TESTING.md              # Canonical Testing Strategy & Verification Guidelines
+├── README.md               # Authoritative Technical Architecture & Codebase Map
 ├── index.html              # HTML5 root shell, font preconnects, zero-flash pre-boot script & critical boot loader
 ├── package.json            # Project manifest, dependencies, test scripts, and build tasks
 ├── package-lock.json       # Exact dependency lockfile
@@ -70,10 +78,17 @@ The platform solves critical frontend and design system challenges:
 ```
 
 ### Root File Responsibilities
+- [`PRD.md`](PRD.md): Product scope, public discovery catalogs, creative studios, and acceptance criteria.
+- [`AGENTS.md`](AGENTS.md): Strict operating contract for AI agents (scope precision, General Sans typography, semantic tokens, React hook safety).
+- [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md): Visual design specifications, color tokens (`--bg-navbar`, `--border-subtle`, `text-kroma-*`), and z-index hierarchy.
+- [`ARCHITECTURE.md`](ARCHITECTURE.md): System architecture, fixed header positioning (`z-index: 100`), studio layout integration, and routing.
+- [`SECURITY.md`](SECURITY.md): Salted password hashing, admin protections, raster upload validation, and security HTTP headers.
+- [`CODE_STYLE.md`](CODE_STYLE.md): Naming conventions, strict semantic token rules, and React hook stability.
+- [`TESTING.md`](TESTING.md): Test commands, coverage requirements, and header integrity verification.
 - [`package.json`](package.json): Defines npm scripts (`dev`, `build`, `test`, `test:palettes`, `preview`, `generate:sitemap`), dependencies (`react`, `lucide-react`, `clsx`), and dev dependencies.
 - [`vite.config.ts`](vite.config.ts): Configures React plugin, `devMaintenancePlugin` middleware for local `/api/maintenance` mock server, host exposure, and rollup vendor chunking.
 - [`index.html`](index.html): Houses Google Fonts (`Plus Jakarta Sans`, `Instrument Serif`, `JetBrains Mono`), pre-boot inline JS for dark mode instant initialization (`localStorage.getItem('kroma-theme')`), and the CSS Frame-0 `#kroma-boot-loader`.
-- [`tailwind.config.js`](tailwind.config.js): Sets `darkMode: ['selector', '[data-theme="dark"]']`, defines font families, custom canvas/surface colors, border radii, and 6 custom screen breakpoints.
+- [`tailwind.config.js`](tailwind.config.js): Sets `darkMode: ['selector', '[data-theme="dark"]']`, defines font families (`General Sans`), custom canvas/surface colors, and 6 custom screen breakpoints.
 - [`vercel.json`](vercel.json): Configures catch-all rewrite rule `{"source": "/(.*)", "destination": "/index.html"}` to enable HTML5 History API routing in production deployments.
 
 ---
@@ -1241,11 +1256,19 @@ api/palette.ts handler(req, res)
 # 1. Start local development server (with instant HMR)
 npm run dev
 
-# 2. Run complete test suite (WCAG accessibility, Mesh engine, Physics, Admin security)
+# 2. Run complete test suite (WCAG accessibility, Mesh engine, Physics, Admin security, Header integrity)
 npm test
 
-# 3. Run standalone WCAG AA/AAA palette accessibility audit
-npm run test:palettes
+# 3. Run individual targeted test suites
+npx tsx scripts/test-header-integrity.ts
+npx tsx scripts/test-palette-wcag.ts
+npx tsx scripts/test-mesh.ts
+npx tsx scripts/test-physics.ts
+npx tsx scripts/test-password-policy.ts
+npx tsx scripts/test-admin-auth.ts
+npx tsx scripts/test-oklch-brandkit.ts
+npx tsx scripts/test-security-audit.ts
+npx tsx scripts/test-preview-mime.ts
 
 # 4. Generate dynamic search engine XML sitemaps
 npm run generate:sitemap
@@ -1264,7 +1287,7 @@ npm run preview
 | Package | Purpose & Justification | Imported In | Safe to Remove? |
 | :--- | :--- | :--- | :--- |
 | `react` / `react-dom` | Core UI engine, virtual DOM, hooks, code-splitting | Everywhere in `src/` | ❌ No (Core runtime) |
-| `lucide-react` | Clean, accessible vector icons for UI buttons, tabs, tools | `Navbar.tsx`, cards, studios, admin | ❌ No (Core iconography) |
+| `lucide-react` | Clean, accessible vector icons for UI buttons, tabs, tools | `Header.tsx`, cards, studios, admin | ❌ No (Core iconography) |
 | `clsx` | Fast conditional class name composition | Component class generators | ❌ No (Class management) |
 | `tailwindcss` | Utility styling and responsive breakpoint engine | `src/index.css`, components | ❌ No (Core design system) |
 | `typescript` | Static typing, interface definitions, compiler safety | Build pipeline (`tsc`) | ❌ No (Type safety) |
@@ -1276,11 +1299,12 @@ npm run preview
 
 1. [`src/App.tsx`](src/App.tsx): Central routing orchestrator, URL parser, scroll restoration, layout shell. Breaking this breaks all navigation.
 2. [`src/index.css`](src/index.css): 3,400+ line master styling system. Breaking this causes universal layout degradation.
-3. [`src/types/index.ts`](src/types/index.ts): Core TypeScript domain interfaces. Changing fields breaks compile-time type safety across the entire application.
-4. [`src/utils/colorUtils.ts`](src/utils/colorUtils.ts): Mathematical color conversions and WCAG contrast algorithms used by every card, detail page, and studio.
-5. [`src/utils/rampsEngine.ts`](src/utils/rampsEngine.ts): Ramps scale generator and design system token engine.
-6. [`src/context/LibraryDataContext.tsx`](src/context/LibraryDataContext.tsx): In-memory data repository provider powering all catalog pages.
-7. [`index.html`](index.html): Houses critical fonts, pre-boot dark theme script, and Frame-0 boot loader.
+3. [`src/components/Header.tsx`](src/components/Header.tsx): Single source of truth for public and studio navigation.
+4. [`src/types/index.ts`](src/types/index.ts): Core TypeScript domain interfaces. Changing fields breaks compile-time type safety across the entire application.
+5. [`src/utils/colorUtils.ts`](src/utils/colorUtils.ts): Mathematical color conversions and WCAG contrast algorithms used by every card, detail page, and studio.
+6. [`src/utils/rampsEngine.ts`](src/utils/rampsEngine.ts): Ramps scale generator and design system token engine.
+7. [`src/context/LibraryDataContext.tsx`](src/context/LibraryDataContext.tsx): In-memory data repository provider powering all catalog pages.
+8. [`index.html`](index.html): Houses critical fonts, pre-boot dark theme script, and Frame-0 boot loader.
 
 ---
 
@@ -1288,6 +1312,8 @@ npm run preview
 
 | Subsystem | Authoritative Source of Truth File |
 | :--- | :--- |
+| **Canonical Project Governance** | [`PRD.md`](PRD.md), [`AGENTS.md`](AGENTS.md), [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`SECURITY.md`](SECURITY.md), [`CODE_STYLE.md`](CODE_STYLE.md), [`TESTING.md`](TESTING.md), [`README.md`](README.md) |
+| **Public Header Architecture** | [`src/components/Header.tsx`](src/components/Header.tsx) & [`src/index.css`](src/index.css) (`.kroma-header`) |
 | **Routing & URL Parsing** | [`src/App.tsx`](src/App.tsx) (`parseUrlToRoute` & `routeToUrl`) |
 | **Theme & Dark Mode** | [`src/context/ThemeContext.tsx`](src/context/ThemeContext.tsx) (`kroma-theme`) |
 | **Curated Color Dataset** | [`src/data/colorsCompact.json`](src/data/colorsCompact.json) & [`src/data/colors.ts`](src/data/colors.ts) |
@@ -1307,7 +1333,7 @@ npm run preview
 
 ```text
 COMPONENTS:
-- Navbar                 -> src/components/Navbar.tsx
+- Header / Navbar        -> src/components/Header.tsx (re-exported as Navbar)
 - SearchModal            -> src/components/SearchModal.tsx
 - ColorCard              -> src/components/ColorCard.tsx
 - PaletteCard            -> src/components/PaletteCard.tsx
@@ -1350,7 +1376,7 @@ API ENDPOINTS:
 # 53 — AI QUESTION ANSWERING GUIDE
 
 ### Example 1: Where is the search button and modal?
-- **Search Trigger Button**: Rendered in [`src/components/Navbar.tsx`](src/components/Navbar.tsx) (with class `.search-trigger-btn`).
+- **Search Trigger Button**: Rendered in [`src/components/Header.tsx`](src/components/Header.tsx).
 - **Search Modal Dialog**: Defined in [`src/components/SearchModal.tsx`](src/components/SearchModal.tsx).
 - **Mounted In**: [`src/App.tsx`](src/App.tsx) at root level.
 
@@ -1387,8 +1413,9 @@ API ENDPOINTS:
 
 # 56 — DOCUMENTATION VALIDATION
 
-- ✅ **All 165 source files verified** to exist in the repository.
+- ✅ **All 165+ source files verified** to exist in the repository.
+- ✅ **All 8 canonical project governance documents present** (`PRD.md`, `AGENTS.md`, `DESIGN_SYSTEM.md`, `ARCHITECTURE.md`, `SECURITY.md`, `CODE_STYLE.md`, `TESTING.md`, `README.md`).
 - ✅ **All 44+ route paths verified** against `parseUrlToRoute()` in `src/App.tsx`.
 - ✅ **All 22 localStorage keys verified** through source code inspection.
-- ✅ **All 4 test suites passed** (`npm test` returned 20 WCAG tests, 19 Mesh tests, 8 Physics tests, and Admin password tests with 0 failures).
+- ✅ **All 9 test suites passed** (`npm test` returned 100% pass across WCAG, Mesh, Physics, Admin Password, Admin Auth, OKLCH Brand Kit, Security Audit, Preview MIME, and Header Integrity suites with 0 failures).
 - ✅ **Zero hallucinated files, fake routes, or future roadmap claims**.

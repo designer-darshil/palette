@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { Trash2, Copy, Bookmark, Check, ArrowUpRight } from 'lucide-react';
+import { Trash2, ArrowUpRight } from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved, SavedItem } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface SavedPageProps {
   onNavigate: (route: RouteType) => void;
@@ -68,7 +69,7 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
         <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
+          <Link to={{ path: 'create' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">STUDIO</Link>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold">SAVED ARCHIVE</span>
         </div>
@@ -128,39 +129,59 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
           {filteredItems.map((item) => {
             const isCopied = copiedId === item.id;
             const isPalette = item.type === 'palette';
-            const colorsList = isPalette ? item.preview.split(',') : [];
+            const itemRoute: RouteType =
+              item.type === 'color'
+                ? { path: 'color-detail', slug: item.slug }
+                : item.type === 'palette'
+                ? { path: 'palette-detail', slug: item.slug }
+                : item.type === 'combo'
+                ? { path: 'combo-detail', slug: item.slug }
+                : { path: 'gradient-detail', slug: item.slug };
+
+            const colorsList = item.preview.split(',').filter(Boolean);
 
             return (
-              <div
+              <article
                 key={item.id}
-                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] group select-none"
-                onClick={() => handleOpenItem(item)}
-                role="button"
-                tabIndex={0}
+                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] group select-none"
               >
                 {/* Full-bleed Visual Swatch Hero */}
                 {isPalette ? (
-                  <div className="w-full h-28 sm:h-32 flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
+                  <Link
+                    to={itemRoute}
+                    onNavigate={onNavigate}
+                    className="w-full h-28 sm:h-32 flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06] cursor-pointer block"
+                    aria-label={`View ${item.title}`}
+                  >
                     {colorsList.map((c, i) => (
                       <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.trim() }} />
                     ))}
-                  </div>
+                  </Link>
                 ) : (
-                  <div
-                    className="w-full h-28 sm:h-32 border-b border-black/[0.06] dark:border-white/[0.06]"
+                  <Link
+                    to={itemRoute}
+                    onNavigate={onNavigate}
+                    className="w-full h-28 sm:h-32 border-b border-black/[0.06] dark:border-white/[0.06] cursor-pointer block"
                     style={{
                       background: item.preview.includes('gradient') ? item.preview : undefined,
                       backgroundColor: !item.preview.includes('gradient') ? item.preview : undefined,
                     }}
+                    aria-label={`View ${item.title}`}
                   />
                 )}
 
                 {/* Metadata & Copy */}
                 <div className="p-3 sm:p-3.5 flex flex-col gap-1.5 flex-1 justify-between">
                   <div>
-                    <div className="font-sans text-xs font-bold uppercase tracking-wider text-[#171717] dark:text-white truncate mb-0.5">
-                      {item.title}
-                    </div>
+                    <h3 className="m-0 font-sans text-xs font-bold uppercase tracking-wider text-[#171717] dark:text-white truncate mb-0.5">
+                      <Link
+                        to={itemRoute}
+                        onNavigate={onNavigate}
+                        className="hover:underline text-inherit no-underline"
+                      >
+                        {item.title}
+                      </Link>
+                    </h3>
                     <div className="font-mono text-xs text-[#707070] dark:text-[#909090] flex items-center justify-between">
                       <span className="truncate">{item.preview.split(',')[0]}</span>
                       <KromaButton
@@ -193,7 +214,7 @@ export const SavedPage: React.FC<SavedPageProps> = ({ onNavigate }) => {
                     />
                   </div>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

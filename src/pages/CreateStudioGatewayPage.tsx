@@ -1,14 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import {
   ArrowUpRight,
-  Sparkles,
   Lock,
   Unlock,
   Copy,
-  Check,
   RefreshCw,
-  Sliders,
-  Plus,
   Search,
 } from 'lucide-react';
 import { RouteType, PaletteItem } from '../types';
@@ -19,6 +15,7 @@ import { copyToClipboard, hexToRgb, hexToHsl, getTextColorForBackground } from '
 import { SEOHead } from '../components/seo/SEOHead';
 import { generatePalette, findClosestColorName } from '../utils/paletteGenerator';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface CreateStudioGatewayPageProps {
   onNavigate: (route: RouteType) => void;
@@ -152,14 +149,13 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
         <div className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-3 block">WORKSPACE ACTIONS</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {/* Action 1: Create Palette */}
-          <div
-            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none"
+          <button
+            type="button"
+            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none text-left w-full p-0"
             onClick={() => {
               const el = document.getElementById('studio-canvas-section');
               el?.scrollIntoView({ behavior: 'smooth' });
             }}
-            role="button"
-            tabIndex={0}
           >
             <div className="w-full h-[110px] flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
               {['#FF3B30', '#FF9500', '#FFD60A', '#171717'].map((hex, i) => (
@@ -173,14 +169,12 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Action 2: Generate */}
-          <div
-            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none"
-            onClick={() => onNavigate({ path: 'palette-generator' })}
-            role="button"
-            tabIndex={0}
+          <Link
+            to={{ path: 'palette-generator' }}
+            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none text-left no-underline"
           >
             <div className="w-full h-[110px] flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
               {['#00AEEF', '#7B2CBF', '#FF3B30'].map((hex, i) => (
@@ -194,14 +188,12 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Action 3: Image to Palette */}
-          <div
-            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none"
-            onClick={() => onNavigate({ path: 'extract-from-image' })}
-            role="button"
-            tabIndex={0}
+          <Link
+            to={{ path: 'extract-from-image' }}
+            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none text-left no-underline"
           >
             <div className="w-full h-[110px] flex items-center justify-center overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]" style={{ background: 'linear-gradient(135deg, #171717 0%, #34C759 50%, #00AEEF 100%)' }}>
               <div className="w-7 h-7 rounded-full border border-white bg-white/25 backdrop-blur-xs flex items-center justify-center">
@@ -215,14 +207,12 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Action 4: Explore Colors */}
-          <div
-            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none"
-            onClick={() => onNavigate({ path: 'colors' })}
-            role="button"
-            tabIndex={0}
+          <Link
+            to={{ path: 'colors' }}
+            className="group/tool bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between min-h-[230px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none text-left no-underline"
           >
             <div className="w-full h-[110px] flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
               {['#FF3B30', '#34C759', '#00AEEF', '#7B2CBF', '#FFD60A'].map((hex, i) => (
@@ -236,7 +226,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 <ArrowUpRight size={14} className="transition-transform group-hover/tool:translate-x-0.5 group-hover/tool:-translate-y-0.5" />
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 
@@ -282,15 +272,20 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
             return (
               <div
                 key={index}
-                onClick={() => setSelectedColorIndex(index)}
-                className={`relative flex flex-col justify-between p-6 box-border transition-all duration-300 cursor-pointer ${isSelected ? 'flex-[1.2]' : 'flex-1'}`}
+                className={`relative flex flex-col justify-between p-6 box-border transition-all duration-300 ${isSelected ? 'flex-[1.2]' : 'flex-1'}`}
                 style={{ backgroundColor: color.hex, color: textColor }}
               >
                 {/* Top controls: Lock & Number */}
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs uppercase tracking-wider font-bold">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedColorIndex(index)}
+                    aria-pressed={isSelected}
+                    aria-label={`Select slot ${index + 1}: ${color.name}`}
+                    className="font-mono text-xs uppercase tracking-wider font-bold border-0 bg-transparent p-0 cursor-pointer text-inherit focus-visible:outline-2 focus-visible:outline-white"
+                  >
                     0{index + 1}
-                  </span>
+                  </button>
                   <KromaButton
                     size="icon"
                     variant="ghost"
@@ -305,12 +300,14 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 </div>
 
                 {/* Bottom info: Name, Hex, Click to copy */}
-                <div
-                  className="flex flex-col gap-1"
-                  onClick={(e) => {
-                    e.stopPropagation();
+                <button
+                  type="button"
+                  className="flex flex-col gap-1 text-left bg-transparent border-0 p-0 cursor-pointer text-inherit focus-visible:outline-2 focus-visible:outline-white"
+                  onClick={() => {
+                    setSelectedColorIndex(index);
                     handleCopyHex(color.hex, color.name);
                   }}
+                  aria-label={`Select slot and copy hex code ${color.hex} for ${color.name}`}
                 >
                   <span className="font-sans text-sm sm:text-base font-bold truncate">
                     {color.name}
@@ -319,7 +316,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                     <span>{color.hex}</span>
                     <span className="text-xs opacity-75">Click to copy</span>
                   </div>
-                </div>
+                </button>
               </div>
             );
           })}
@@ -389,12 +386,10 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
 
         <div className="flex flex-col gap-2">
           {recentPalettes.map((p, idx) => (
-            <div
+            <Link
               key={p.id}
-              className="flex items-center justify-between p-4 sm:px-5 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] select-none hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] group"
-              onClick={() => onNavigate({ path: 'palette-detail', slug: p.slug })}
-              role="button"
-              tabIndex={0}
+              to={{ path: 'palette-detail', slug: p.slug }}
+              className="flex items-center justify-between p-4 sm:px-5 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] select-none hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] group no-underline text-inherit"
             >
               <div className="flex w-[140px] h-7 rounded-[2px] overflow-hidden border border-black/10 dark:border-white/10">
                 {p.colors.map((c, i) => (
@@ -415,7 +410,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 </span>
               </div>
               <ArrowUpRight size={14} className="text-[#707070] dark:text-[#909090] group-hover:text-[#171717] dark:group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -664,10 +659,10 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {filteredPalettes.slice(0, 6).map((p) => (
-                    <div
+                    <Link
                       key={p.id}
-                      onClick={() => onNavigate({ path: 'palette-detail', slug: p.slug })}
-                      className="p-3 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] cursor-pointer transition-colors"
+                      to={{ path: 'palette-detail', slug: p.slug }}
+                      className="p-3 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] cursor-pointer transition-colors no-underline block text-inherit"
                     >
                       <div className="h-14 flex rounded-xs overflow-hidden mb-2">
                         {p.colors.map((c, i) => (
@@ -677,7 +672,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                       <span className="font-sans text-xs font-bold uppercase text-[var(--text-primary)]">
                         {p.title}
                       </span>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -690,10 +685,12 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                 </span>
                 <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
                   {filteredColors.slice(0, 12).map((c) => (
-                    <div
+                    <button
                       key={c.id}
+                      type="button"
                       onClick={() => handleCopyHex(c.hex, c.name)}
-                      className="p-2 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] cursor-pointer transition-colors"
+                      aria-label={`Copy ${c.name} hex code ${c.hex}`}
+                      className="text-left w-full p-2 border border-[var(--border-subtle)] hover:border-[var(--text-primary)] cursor-pointer transition-colors bg-transparent"
                     >
                       <div className="h-12 rounded-xs mb-1.5" style={{ backgroundColor: c.hex }} />
                       <div className="font-sans text-xs font-bold uppercase truncate text-[var(--text-primary)]">
@@ -702,7 +699,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                       <div className="font-mono text-xs text-[var(--text-secondary)]">
                         {c.hex}
                       </div>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>

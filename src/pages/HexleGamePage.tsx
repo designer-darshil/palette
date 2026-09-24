@@ -6,7 +6,7 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Link } from '../components/common/Link';
 import { PageHeader } from '../components/common/PageHeader';
-import { Button } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface HexleGamePageProps {
   onNavigate: (route: RouteType) => void;
@@ -64,14 +64,14 @@ export const HexleGamePage: React.FC<HexleGamePageProps> = ({ onNavigate }) => {
         title="Hexle: Guess the HEX"
         description="Identify the color's RGB hexadecimal coordinates in 6 attempts or fewer."
         actions={
-          <Button
-            variant="secondary"
+          <KromaButton
+            variant="outline"
             size="sm"
             iconLeft={<RefreshCw size={13} />}
             onClick={handleRestart}
           >
             New Game
-          </Button>
+          </KromaButton>
         }
       />
 
@@ -148,9 +148,9 @@ export const HexleGamePage: React.FC<HexleGamePageProps> = ({ onNavigate }) => {
             maxLength={7}
             autoFocus
           />
-          <Button type="submit" variant="primary" size="md">
+          <KromaButton type="submit" variant="filled" size="md">
             Guess ({6 - guesses.length} left)
-          </Button>
+          </KromaButton>
         </form>
       ) : (
         <div className="p-6 bg-[var(--bg-surface-1)] border border-[var(--border-medium)] rounded-md text-center flex flex-col items-center gap-3">
@@ -160,9 +160,9 @@ export const HexleGamePage: React.FC<HexleGamePageProps> = ({ onNavigate }) => {
           <p className="text-xs text-[var(--text-secondary)] font-mono">
             Target color was <strong>{target.name}</strong> ({target.hex})
           </p>
-          <Button onClick={handleRestart} variant="primary" size="sm">
+          <KromaButton onClick={handleRestart} variant="filled" size="sm">
             Play Next Color
-          </Button>
+          </KromaButton>
         </div>
       )}
     </div>

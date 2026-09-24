@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteType } from '../../types';
+import { routeToUrl } from '../../utils/routes';
 
 interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to?: RouteType | string;
@@ -11,55 +12,7 @@ export function routeToHref(route: RouteType | string): string {
   if (typeof route === 'string') {
     return route.startsWith('/') ? route : `/${route}`;
   }
-
-  switch (route.path) {
-    case 'home':
-      return '/';
-    case 'colors':
-      return '/colors';
-    case 'color-detail':
-      return `/colors/${route.slug}`;
-    case 'palettes':
-      return '/palettes';
-    case 'palette-detail':
-      return `/palettes/${route.slug}`;
-    case 'combos':
-      return '/combos';
-    case 'combo-detail':
-      return `/combos/${route.slug}`;
-    case 'gradients':
-      return '/gradients';
-    case 'gradient-detail':
-      return `/gradients/${route.slug}`;
-    case 'live':
-      return '/palettes/live';
-    case 'palette-generator':
-      return route.colors ? `/palette-generator?colors=${route.colors}` : '/palette-generator';
-    case 'contrast-checker': {
-      const params = new URLSearchParams();
-      if (route.fg) params.set('fg', route.fg.replace('#', ''));
-      if (route.bg) params.set('bg', route.bg.replace('#', ''));
-      const qs = params.toString();
-      return qs ? `/contrast-checker?${qs}` : '/contrast-checker';
-    }
-    case 'color-name-finder':
-      return route.hex ? `/color-name-finder?hex=${route.hex.replace('#', '')}` : '/color-name-finder';
-    case 'extract-from-image':
-      return route.imagePreset ? `/extract-from-image?preset=${route.imagePreset}` : '/extract-from-image';
-    case 'brand-kit': {
-      if (route.id) return `/brand-kit/${route.id}`;
-      if (route.paletteSlug) return `/brand-kit?palette=${route.paletteSlug}`;
-      return '/brand-kit';
-    }
-    case 'admin':
-      return route.tab ? `/admin/${route.tab}` : '/admin';
-    case 'saved':
-      return '/saved';
-    case 'not-found':
-      return route.requestedUrl || '/404';
-    default:
-      return '/';
-  }
+  return routeToUrl(route);
 }
 
 export function hrefToRoute(href: string): RouteType {

@@ -2,10 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Upload,
   Copy,
-  Check,
   Bookmark,
-  RefreshCw,
-  ArrowUpRight,
   Sparkles,
 } from 'lucide-react';
 import { RouteType } from '../types';
@@ -22,6 +19,7 @@ import {
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface ExtractFromImagePageProps {
   imagePreset?: string;
@@ -230,7 +228,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
         <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
+          <Link to={{ path: 'create' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">STUDIO</Link>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold">IMAGE → PALETTE</span>
         </div>
@@ -334,13 +332,16 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
             const isActive = activeSwatchIndex === idx;
 
             return (
-              <div
+              <button
+                type="button"
                 key={swatch.id || idx}
+                aria-pressed={isActive}
+                aria-label={`Select and copy swatch 0${idx + 1}: ${swatch.name} (${swatch.hex})`}
                 style={{
                   top: pos.top,
                   left: pos.left,
                 }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer group flex flex-col items-center"
+                className="absolute -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer group flex flex-col items-center border-0 bg-transparent p-0"
                 onClick={() => {
                   setActiveSwatchIndex(idx);
                   handleCopySingle(swatch.hex, swatch.name);
@@ -360,7 +361,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-2 pointer-events-none bg-black/90 text-white px-2.5 py-1 rounded-xs font-mono text-xs tracking-wider uppercase whitespace-nowrap shadow-lg">
                   {swatch.name} • {swatch.hex}
                 </div>
-              </div>
+              </button>
             );
           })}
 
@@ -387,13 +388,16 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
             const isDark = textColor === '#000000';
 
             return (
-              <div
+              <button
+                type="button"
                 key={swatch.id || idx}
+                aria-pressed={isActive}
+                aria-label={`Select and copy swatch 0${idx + 1}: ${swatch.name} (${swatch.hex})`}
                 onClick={() => {
                   setActiveSwatchIndex(idx);
                   handleCopySingle(swatch.hex, swatch.name);
                 }}
-                className={`flex-1 p-5 min-h-[140px] flex flex-col justify-between cursor-pointer transition-all ${
+                className={`flex-1 p-5 min-h-[140px] flex flex-col justify-between cursor-pointer transition-all border-0 text-left ${
                   isActive ? 'ring-2 ring-[var(--text-primary)] z-10' : ''
                 }`}
                 style={{ backgroundColor: swatch.hex, color: textColor }}
@@ -420,7 +424,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                     </span>
                   </span>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>

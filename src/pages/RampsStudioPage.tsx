@@ -706,19 +706,32 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                       return (
                         <>
                           <path d={d} fill="none" stroke="url(#primaryCurveGradient)" strokeWidth="3" strokeLinecap="round" />
-                          {points.map((p) => (
-                            <circle
-                              key={p.k}
-                              cx={p.x}
-                              cy={p.y}
-                              r={selectedStep === p.k ? 6 : 3.5}
-                              fill={p.hex}
-                              stroke="#000000"
-                              strokeWidth="2"
-                              className="cursor-pointer transition-transform hover:scale-125"
-                              onClick={() => setSelectedStep(p.k as StepKey)}
-                            />
-                          ))}
+                          {points.map((p) => {
+                            const isSelected = selectedStep === p.k;
+                            return (
+                              <circle
+                                key={p.k}
+                                cx={p.x}
+                                cy={p.y}
+                                r={isSelected ? 6 : 3.5}
+                                fill={p.hex}
+                                stroke="#000000"
+                                strokeWidth="2"
+                                role="button"
+                                tabIndex={0}
+                                aria-pressed={isSelected}
+                                aria-label={`Select step ${p.k} on lightness curve: ${p.hex}`}
+                                className="cursor-pointer transition-transform hover:scale-125 focus-visible:outline-none"
+                                onClick={() => setSelectedStep(p.k as StepKey)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    setSelectedStep(p.k as StepKey);
+                                  }
+                                }}
+                              />
+                            );
+                          })}
                         </>
                       );
                     })()}
@@ -744,10 +757,13 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                       if (!c) return null;
                       const isSelected = selectedStep === k;
                       return (
-                        <div
+                        <button
+                          type="button"
                           key={k}
                           onClick={() => setSelectedStep(k)}
-                          className={`flex-1 h-full flex flex-col justify-between p-2 cursor-pointer transition-all ${
+                          aria-pressed={isSelected}
+                          aria-label={`Select step ${k}: ${c.hex}`}
+                          className={`flex-1 h-full flex flex-col justify-between p-2 cursor-pointer transition-all border-0 text-left focus-visible:outline-2 focus-visible:outline-white ${
                             isSelected ? 'ring-2 ring-white z-10' : 'hover:brightness-105'
                           }`}
                         >
@@ -766,7 +782,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                           >
                             {c.hex}
                           </span>
-                        </div>
+                        </button>
                       );
                     })}
                   </div>
@@ -846,17 +862,22 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               return (
                 <div
                   key={st.id}
-                  onClick={() => setSelectedStopId(st.id)}
-                  className={`p-2.5 rounded-sm border transition-all cursor-pointer flex flex-col justify-between gap-2.5 ${
+                  className={`p-2.5 rounded-sm border transition-all flex flex-col justify-between gap-2.5 ${
                     isSelected
                       ? 'border-[#171717] dark:border-white bg-white dark:bg-[#1A1A1A] shadow-sm ring-1 ring-black/5'
                       : 'border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.02] hover:border-black/20 dark:hover:border-white/20'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold uppercase text-[#707070] dark:text-[#888888]">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedStopId(st.id)}
+                      aria-pressed={isSelected}
+                      aria-label={`Select STOP 0${idx + 1}: ${st.hex}`}
+                      className="font-mono text-xs font-bold uppercase text-[#707070] dark:text-[#888888] hover:text-[#171717] dark:hover:text-white text-left cursor-pointer border-0 bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-primary-500"
+                    >
                       STOP 0{idx + 1}
-                    </span>
+                    </button>
                     <KromaButton
                       variant="ghost"
                       size="icon"
@@ -1104,9 +1125,12 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* OKLCH Preview */}
-            <div
+            <button
+              type="button"
               onClick={() => setInterpolationModel('oklch')}
-              className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col gap-2 ${
+              aria-pressed={interpolationModel === 'oklch'}
+              aria-label="Select OKLCH Perceptual interpolation model"
+              className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col gap-2 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 interpolationModel === 'oklch'
                   ? 'border-[#171717] dark:border-white bg-white dark:bg-[#1A1A1A] shadow-sm'
                   : 'border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.02] hover:border-black/20 dark:hover:border-white/20'
@@ -1129,12 +1153,15 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               <span className="text-xs text-[#707070] dark:text-[#888888] leading-tight">
                 Uniform lightness & chromatic preservation. Eliminates the gray muddy dead-zone.
               </span>
-            </div>
+            </button>
 
             {/* RGB Preview */}
-            <div
+            <button
+              type="button"
               onClick={() => setInterpolationModel('srgb')}
-              className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col gap-2 ${
+              aria-pressed={interpolationModel === 'srgb'}
+              aria-label="Select RGB Linear interpolation model"
+              className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col gap-2 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 interpolationModel === 'srgb'
                   ? 'border-[#171717] dark:border-white bg-white dark:bg-[#1A1A1A] shadow-sm'
                   : 'border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.02] hover:border-black/20 dark:hover:border-white/20'
@@ -1157,12 +1184,15 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               <span className="text-xs text-[#707070] dark:text-[#888888] leading-tight">
                 Standard CSS sRGB interpolation. Prone to desaturated intermediate midtones.
               </span>
-            </div>
+            </button>
 
             {/* HSL Preview */}
-            <div
+            <button
+              type="button"
               onClick={() => setInterpolationModel('hsl')}
-              className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col gap-2 ${
+              aria-pressed={interpolationModel === 'hsl'}
+              aria-label="Select HSL Cylindrical interpolation model"
+              className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col gap-2 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 interpolationModel === 'hsl'
                   ? 'border-[#171717] dark:border-white bg-white dark:bg-[#1A1A1A] shadow-sm'
                   : 'border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.02] hover:border-black/20 dark:hover:border-white/20'
@@ -1185,7 +1215,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               <span className="text-xs text-[#707070] dark:text-[#888888] leading-tight">
                 Traverses hue wheel angles. Creates intense rainbow shifts across stops.
               </span>
-            </div>
+            </button>
           </div>
         </section>
 
@@ -1239,17 +1269,22 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
               return (
                 <div
                   key={k}
-                  onClick={() => setSelectedStep(k)}
-                  className={`p-2 rounded-sm border transition-all cursor-pointer flex flex-col justify-between gap-2 ${
+                  className={`p-2 rounded-sm border transition-all flex flex-col justify-between gap-2 ${
                     isSelected
                       ? 'border-[#171717] dark:border-white bg-white dark:bg-[#1E1E1E] ring-1 ring-black/10 shadow-sm'
                       : 'border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.02] hover:border-black/20 dark:hover:border-white/20'
                   }`}
                 >
-                  <div className="flex items-center justify-between font-mono text-xs font-bold text-[#707070] dark:text-[#909090]">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedStep(k)}
+                    aria-pressed={isSelected}
+                    aria-label={`Select step ${k} (${c.hex})`}
+                    className="flex items-center justify-between font-mono text-xs font-bold text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white border-0 bg-transparent p-0 cursor-pointer w-full text-left focus-visible:outline-2 focus-visible:outline-primary-500"
+                  >
                     <span>{k}</span>
                     <span className="text-xs font-normal">{(c.lightness * 100).toFixed(0)}%L</span>
-                  </div>
+                  </button>
 
                   <div
                     className="h-12 w-full rounded-xs border border-black/10 dark:border-white/10 relative group flex items-center justify-center"
@@ -1394,10 +1429,12 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
             {LAB_PRESETS.map((preset) => {
               const bg = `linear-gradient(to right, ${preset.stops.map((s) => `${s.hex} ${s.pos}%`).join(', ')})`;
               return (
-                <div
+                <button
+                  type="button"
                   key={preset.id}
                   onClick={() => handleApplyPreset(preset)}
-                  className="p-3 rounded-sm border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] hover:border-black/30 dark:hover:border-white/30 transition-all cursor-pointer flex flex-col gap-2 group shadow-2xs"
+                  aria-label={`Apply ${preset.name} preset`}
+                  className="p-3 rounded-sm border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] hover:border-black/30 dark:hover:border-white/30 transition-all cursor-pointer flex flex-col gap-2 group shadow-2xs text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   <div className="flex items-center justify-between font-mono text-xs">
                     <span className="font-bold text-[#171717] dark:text-white group-hover:text-emerald-500 transition-colors">
@@ -1417,7 +1454,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                   <p className="text-xs text-[#707070] dark:text-[#909090] leading-snug line-clamp-1">
                     {preset.description}
                   </p>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -1438,10 +1475,13 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
             {Object.entries(paletteResult.ramps).map(([key, ramp]) => {
               const isSelected = key === selectedRampKey;
               return (
-                <div
+                <button
+                  type="button"
                   key={key}
                   onClick={() => setSelectedRampKey(key)}
-                  className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                  aria-pressed={isSelected}
+                  aria-label={`Select ramp ${ramp.label}`}
+                  className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     isSelected
                       ? 'border-[#171717] dark:border-white bg-white dark:bg-[#1A1A1A] shadow-sm'
                       : 'border-black/[0.08] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.02] hover:border-black/20 dark:hover:border-white/20'
@@ -1484,7 +1524,7 @@ export const RampsStudioPage: React.FC<RampsStudioPageProps> = ({ onNavigate, in
                       <span>FOCUS →</span>
                     )}
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>

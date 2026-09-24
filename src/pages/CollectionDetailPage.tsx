@@ -7,6 +7,7 @@ import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { NotFoundPage } from './NotFoundPage';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface CollectionDetailPageProps {
   slug: string;
@@ -56,9 +57,9 @@ export const CollectionDetailPage: React.FC<CollectionDetailPageProps> = ({ slug
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
         <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
+          <Link to={{ path: 'create' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">STUDIO</Link>
           <span>/</span>
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'collections' })}>COLLECTIONS</span>
+          <Link to={{ path: 'collections' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">COLLECTIONS</Link>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold truncate max-w-xs">{collection.title}</span>
         </div>

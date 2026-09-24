@@ -126,8 +126,18 @@ export const ColorRelationshipDiagram: React.FC<ColorRelationshipDiagramProps> =
               return (
                 <g
                   key={i}
-                  className="cursor-pointer transition-transform hover:scale-110"
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  aria-label={`Select harmonic node: ${node.label} (${node.hex}), angle offset ${node.angleDelta}°`}
+                  className="cursor-pointer transition-transform hover:scale-110 focus-visible:outline-none"
                   onClick={() => setSelectedNode(node)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedNode(node);
+                    }
+                  }}
                 >
                   <circle
                     cx={x}
@@ -171,11 +181,13 @@ export const ColorRelationshipDiagram: React.FC<ColorRelationshipDiagramProps> =
             </div>
 
             <div className="flex items-center gap-4">
-              <div
-                className="w-16 h-16 rounded-sm border border-[var(--border-subtle)] shadow-inner cursor-pointer"
+              <button
+                type="button"
+                className="w-16 h-16 rounded-sm border border-[var(--border-subtle)] shadow-inner cursor-pointer p-0"
                 style={{ backgroundColor: selectedNode.hex }}
                 onClick={() => handleCopyHex(selectedNode.hex, selectedNode.name)}
                 title="Click to copy HEX"
+                aria-label={`Copy hex code ${selectedNode.hex} for ${selectedNode.name}`}
               />
               <div>
                 <h4 className="text-xl font-extrabold text-[var(--text-primary)]">

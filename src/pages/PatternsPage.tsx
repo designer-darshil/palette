@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Search, X, ArrowUpRight, ArrowRight, Sliders, Sparkles, Layers, Eye } from 'lucide-react';
-import { RouteType, PatternItem } from '../types';
+import { Search, X, ArrowUpRight, Sliders } from 'lucide-react';
+import { RouteType } from '../types';
 import { CURATED_PATTERNS } from '../data/patterns';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generatePatternSvg } from '../utils/patternEngine';
@@ -159,13 +159,14 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
           </div>
 
           <div
-            className="group/featured relative w-full rounded-[4px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/20 dark:hover:border-white/20 select-none"
-            onClick={() => onNavigate({ path: 'pattern-detail', slug: featuredPattern.slug })}
-            role="button"
-            tabIndex={0}
+            className="group/featured relative w-full rounded-[4px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/20 dark:hover:border-white/20 select-none"
           >
             {/* Massive Pattern Artwork (Hero of the first viewport) */}
-            <div className="w-full h-80 sm:h-[420px] md:h-[500px] relative overflow-hidden">
+            <Link
+              to={{ path: 'pattern-detail', slug: featuredPattern.slug }}
+              aria-label={`View specimen ${featuredPattern.title}`}
+              className="block w-full h-80 sm:h-[420px] md:h-[500px] relative overflow-hidden cursor-pointer"
+            >
               <div
                 className="w-full h-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/featured:scale-[1.02] motion-reduce:transform-none"
                 dangerouslySetInnerHTML={{ __html: featuredSvg }}
@@ -176,7 +177,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                 <span>VIEW SPECIMEN</span>
                 <ArrowUpRight size={11} className="transition-transform group-hover/featured:translate-x-0.5 group-hover/featured:-translate-y-0.5" />
               </div>
-            </div>
+            </Link>
 
             {/* Pattern Metadata Strip Below Artwork */}
             <div className="p-4 sm:p-6 border-t border-black/[0.08] dark:border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -187,7 +188,12 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                   <span>{featuredPattern.tags.slice(0, 3).join(' / ')}</span>
                 </div>
                 <h2 className="font-sans text-xl sm:text-2xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0 truncate">
-                  {featuredPattern.title}
+                  <Link
+                    to={{ path: 'pattern-detail', slug: featuredPattern.slug }}
+                    className="hover:underline text-inherit no-underline"
+                  >
+                    {featuredPattern.title}
+                  </Link>
                 </h2>
                 <p className="font-sans text-xs text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0 max-w-2xl line-clamp-1">
                   {featuredPattern.description}
@@ -210,10 +216,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                 <KromaButton
                   variant="filled"
                   size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onNavigate({ path: 'pattern-detail', slug: featuredPattern.slug });
-                  }}
+                  to={{ path: 'pattern-detail', slug: featuredPattern.slug }}
                   iconRight={<ArrowUpRight size={13} />}
                 >
                   View Pattern
@@ -304,12 +307,10 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
               );
 
               return (
-                <div
+                <Link
                   key={pat.id}
-                  onClick={() => onNavigate({ path: 'pattern-detail', slug: pat.slug })}
-                  className="group/new rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none"
-                  role="button"
-                  tabIndex={0}
+                  to={{ path: 'pattern-detail', slug: pat.slug }}
+                  className="group/new rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none no-underline text-inherit"
                 >
                   {/* Square Pattern Art Canvas */}
                   <div className="w-full aspect-square relative overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
@@ -330,7 +331,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                       {pat.title}
                     </span>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -366,12 +367,10 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
               );
 
               return (
-                <div
+                <Link
                   key={pattern.id}
-                  onClick={() => onNavigate({ path: 'pattern-detail', slug: pattern.slug })}
-                  className={`group/tile col-span-4 rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] flex flex-col justify-between cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none`}
-                  role="button"
-                  tabIndex={0}
+                  to={{ path: 'pattern-detail', slug: pattern.slug }}
+                  className={`group/tile col-span-4 rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] flex flex-col justify-between cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none no-underline text-inherit`}
                 >
                   {/* Pattern Art Canvas (Visual Hero) */}
                   <div className={`w-full h-full relative overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]`}>
@@ -420,7 +419,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                       <ArrowUpRight size={13} className="text-[#707070] group-hover/tile:text-[#00AEEF] group-hover/tile:translate-x-0.5 group-hover/tile:-translate-y-0.5 transition-transform shrink-0" />
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -481,27 +480,28 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
             );
 
             return (
-              <div
+              <button
                 key={cat.id}
+                type="button"
                 onClick={() => {
                   setActiveCategory(cat.id);
                   setSearchQuery('');
                 }}
-                className={`p-2.5 rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col gap-2 transition-all hover:border-black/30 dark:hover:border-white/30 ${
+                aria-pressed={activeCategory === cat.id}
+                aria-label={`Category ${cat.label}`}
+                className={`p-2.5 rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col gap-2 transition-all hover:border-black/30 dark:hover:border-white/30 text-left ${
                   activeCategory === cat.id ? 'ring-1 ring-[#00AEEF] border-[#00AEEF]' : ''
                 }`}
-                role="button"
-                tabIndex={0}
               >
                 <div
                   className="w-full h-9 rounded-[2px] overflow-hidden border border-black/10 dark:border-white/10 select-none"
                   dangerouslySetInnerHTML={{ __html: previewSvg }}
                 />
-                <div className="flex items-center justify-between font-mono text-xs text-[#171717] dark:text-white uppercase font-bold">
+                <div className="flex items-center justify-between font-mono text-xs text-[#171717] dark:text-white uppercase font-bold w-full">
                   <span>{cat.label}</span>
                   <span className="text-[#707070] font-normal">INDEX</span>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>

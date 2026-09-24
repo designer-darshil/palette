@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowLeft, Copy, Bookmark, Sparkles, RefreshCw, Share2, ExternalLink } from 'lucide-react';
+import { Copy, Bookmark, RefreshCw, Share2, ExternalLink } from 'lucide-react';
 import { RouteType, GradientItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard } from '../utils/colorUtils';
@@ -11,8 +11,6 @@ import { ComboCard } from '../components/ComboCard';
 import { NotFoundPage } from './NotFoundPage';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateGradientSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
-import { Link } from '../components/common/Link';
 import { PageHeader } from '../components/common/PageHeader';
 import { KromaButton } from '../components/common/KromaButton';
 import { Analytics } from '../utils/analytics';
@@ -290,7 +288,8 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
             const slug = findMatchingColorSlug(stop.color);
             return (
               <div key={idx} className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-sm p-4 flex flex-col gap-1.5">
-                <div
+                <button
+                  type="button"
                   style={{
                     height: '40px',
                     backgroundColor: stop.color,
@@ -298,8 +297,13 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
                     border: '1px solid var(--border-subtle)',
                     marginBottom: '8px',
                     cursor: 'pointer',
+                    width: '100%',
+                    display: 'block',
+                    padding: 0,
                   }}
+                  className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   onClick={() => handleCopyStopHex(stop.color, stop.name || `Stop 0${idx + 1}`)}
+                  aria-label={`Copy stop color ${stop.name || `Stop 0${idx + 1}`} (${stop.color})`}
                 />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{stop.name || `Stop 0${idx + 1}`}</span>
@@ -321,7 +325,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
                       variant="ghost"
                       size="sm"
                       iconRight={<ExternalLink size={10} />}
-                      onClick={() => onNavigate({ path: 'color-detail', slug })}
+                      to={{ path: 'color-detail', slug }}
                       className="p-0 h-auto inline-flex items-center gap-1 text-[0.72rem] font-mono text-[var(--text-secondary)] hover:text-white cursor-pointer whitespace-nowrap border-0"
                     >
                       View Color Specimen

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Search, ArrowUpRight, Copy, Bookmark, Share2, ArrowRight, Loader2 } from 'lucide-react';
-import { RouteType, PaletteItem, ColorItem } from '../types';
+import { Search, ArrowUpRight, Copy, Bookmark, ArrowRight, Loader2 } from 'lucide-react';
+import { RouteType, PaletteItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useSaved } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
@@ -11,6 +11,7 @@ import { copyToClipboard, hexToRgb } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Analytics } from '../utils/analytics';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface ExplorePageProps {
   onNavigate: (route: RouteType) => void;
@@ -330,18 +331,15 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
           {/* Visual Hero — Digital Colour Magazine Composition (Real Library Content) */}
           <div className="grid grid-cols-12 grid-rows-6 gap-2 h-[260px] sm:h-[300px] w-full p-2 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[3px] overflow-hidden select-none" role="region" aria-label="Explore Visual Magazine Preview">
             {/* Dominant Featured Color Plate (Col 1-7, Row 1-6) */}
-            <div
-              className="col-span-7 row-span-6 rounded-[2px] p-3 sm:p-4 flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-transform duration-200 hover:scale-[0.995]"
+            <button
+              type="button"
+              className="col-span-7 row-span-6 rounded-[2px] p-3 sm:p-4 flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-transform duration-200 hover:scale-[0.995] text-left border-0"
               style={{ backgroundColor: dailyColor.color.hex, color: dailyColor.color.bestTextColor || '#FFFFFF' }}
               onClick={() => handleCopySingleHex(dailyColor.color.hex, dailyColor.color.name)}
               title={`Click to copy ${dailyColor.color.name} (${dailyColor.color.hex})`}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleCopySingleHex(dailyColor.color.hex, dailyColor.color.name);
-              }}
+              aria-label={`Copy ${dailyColor.color.name} (${dailyColor.color.hex})`}
             >
-              <div className="flex items-center justify-between font-mono text-xs uppercase tracking-wider opacity-90">
+              <div className="flex items-center justify-between font-mono text-xs uppercase tracking-wider opacity-90 w-full">
                 <span>FEATURED SPECIMEN</span>
                 <span className="px-1.5 py-0.5 rounded-[1px] bg-black/30 backdrop-blur-xs text-white">
                   {copiedColor === dailyColor.color.hex ? 'COPIED' : dailyColor.color.hex}
@@ -355,15 +353,15 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                   {dailyColor.color.family.toUpperCase()} GAMUT
                 </div>
               </div>
-            </div>
+            </button>
 
             {/* Top Palette Strip (Col 8-12, Row 1-3) */}
-            <div
-              className="col-span-5 row-span-3 rounded-[2px] overflow-hidden flex cursor-pointer border border-black/10 dark:border-white/10 group"
+            <button
+              type="button"
+              className="col-span-5 row-span-3 rounded-[2px] overflow-hidden flex cursor-pointer border border-black/10 dark:border-white/10 group p-0 bg-transparent text-left"
               onClick={() => handleCopyPalette(dailyPalette.palette)}
               title={`Click to copy palette ${dailyPalette.palette.title}`}
-              role="button"
-              tabIndex={0}
+              aria-label={`Copy palette ${dailyPalette.palette.title}`}
             >
               {dailyPalette.palette.colors.map((c, i) => (
                 <div
@@ -373,42 +371,42 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                   title={`${c.name} (${c.hex})`}
                 />
               ))}
-            </div>
+            </button>
 
             {/* Two Accent Specimen Tiles (Col 8-9 & 10-12, Row 4-6) */}
             {trendingPalettes[0] && (
-              <div
-                className="col-span-2 row-span-3 rounded-[2px] p-2 flex flex-col justify-between cursor-pointer transition-transform hover:scale-98"
+              <button
+                type="button"
+                className="col-span-2 row-span-3 rounded-[2px] p-2 flex flex-col justify-between cursor-pointer transition-transform hover:scale-98 text-left border-0"
                 style={{ backgroundColor: trendingPalettes[0].colors[0]?.hex || '#FF3B30' }}
                 onClick={() => handleCopySingleHex(trendingPalettes[0].colors[0]?.hex || '#FF3B30', trendingPalettes[0].colors[0]?.name || 'Accent')}
                 title={`Click to copy ${trendingPalettes[0].colors[0]?.hex}`}
-                role="button"
-                tabIndex={0}
+                aria-label={`Copy accent color ${trendingPalettes[0].colors[0]?.hex}`}
               >
                 <span className="font-mono text-xs text-white/90 drop-shadow-xs">01</span>
                 <span className="font-mono text-xs font-bold text-white drop-shadow-xs truncate">
                   {trendingPalettes[0].colors[0]?.hex}
                 </span>
-              </div>
+              </button>
             )}
 
             {trendingPalettes[0]?.colors[1] && (
-              <div
-                className="col-span-3 row-span-3 rounded-[2px] p-2 flex flex-col justify-between cursor-pointer transition-transform hover:scale-98"
+              <button
+                type="button"
+                className="col-span-3 row-span-3 rounded-[2px] p-2 flex flex-col justify-between cursor-pointer transition-transform hover:scale-98 text-left border-0"
                 style={{ backgroundColor: trendingPalettes[0].colors[1].hex }}
                 onClick={() => handleCopySingleHex(trendingPalettes[0].colors[1].hex, trendingPalettes[0].colors[1].name)}
                 title={`Click to copy ${trendingPalettes[0].colors[1].hex}`}
-                role="button"
-                tabIndex={0}
+                aria-label={`Copy accent color ${trendingPalettes[0].colors[1].hex}`}
               >
-                <div className="flex items-center justify-between font-mono text-xs text-white/90 drop-shadow-xs">
+                <div className="flex items-center justify-between font-mono text-xs text-white/90 drop-shadow-xs w-full">
                   <span>02</span>
                   <span className="truncate max-w-[70px] uppercase">{trendingPalettes[0].colors[1].name}</span>
                 </div>
                 <span className="font-mono text-xs font-bold text-white drop-shadow-xs">
                   {trendingPalettes[0].colors[1].hex}
                 </span>
-              </div>
+              </button>
             )}
           </div>
         </div>
@@ -432,32 +430,20 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
 
         <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden grid grid-cols-1 md:grid-cols-[1.4fr_1fr] items-stretch">
           {/* Heroic Color Field */}
-          <div
-            className="min-h-[220px] sm:min-h-[280px] relative flex items-end p-4 sm:p-6 cursor-pointer"
-            style={{ backgroundColor: dailyColor.color.hex }}
-            onClick={() =>
-              onNavigate({
-                path: 'color-detail',
-                slug: dailyColor.color.slug || dailyColor.color.hex.replace('#', '').toLowerCase(),
-              })
-            }
-            role="button"
-            tabIndex={0}
-            aria-label={`View details for ${dailyColor.color.name}`}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                onNavigate({
-                  path: 'color-detail',
-                  slug: dailyColor.color.slug || dailyColor.color.hex.replace('#', '').toLowerCase(),
-                });
-              }
+          <Link
+            to={{
+              path: 'color-detail',
+              slug: dailyColor.color.slug || dailyColor.color.hex.replace('#', '').toLowerCase(),
             }}
+            className="min-h-[220px] sm:min-h-[280px] relative flex items-end p-4 sm:p-6 cursor-pointer no-underline"
+            style={{ backgroundColor: dailyColor.color.hex }}
+            aria-label={`View details for ${dailyColor.color.name}`}
           >
             <span className="bg-black/85 text-white font-mono text-xs font-semibold py-1.5 px-3 rounded-[2px] inline-flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
               <span>INSPECT SPECIMEN</span>
               <ArrowUpRight size={13} />
             </span>
-          </div>
+          </Link>
 
           {/* Color Intelligence & Minimal Specs */}
           <div className="p-5 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
@@ -552,28 +538,22 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
               const isCopied = copiedColor === c.hex;
 
               return (
-                <div
+                <button
                   key={idx}
-                  className="group/bar h-full relative cursor-pointer transition-[flex] duration-200 ease-out hover:grow-[2.2] flex items-end justify-center p-3"
+                  type="button"
+                  className="group/bar h-full relative cursor-pointer transition-[flex] duration-200 ease-out hover:grow-[2.2] flex items-end justify-center p-3 border-0 bg-transparent"
                   style={{
                     backgroundColor: c.hex,
                     flex: flexWeight,
                   }}
                   onClick={() => handleCopySingleHex(c.hex, c.name)}
-                  role="button"
-                  tabIndex={0}
                   title={`Copy ${c.name} (${c.hex})`}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleCopySingleHex(c.hex, c.name);
-                    }
-                  }}
+                  aria-label={`Copy ${c.name} (${c.hex})`}
                 >
                   <span className={`opacity-0 group-hover/bar:opacity-100 font-mono text-xs font-semibold py-1 px-2.5 bg-black/85 text-white rounded-[2px] transition-opacity pointer-events-none whitespace-nowrap ${isCopied ? '!opacity-100' : ''}`}>
                     {isCopied ? 'COPIED' : c.hex}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -646,15 +626,10 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {trendingPalettes.map((palette) => (
-            <div
+            <Link
               key={palette.id}
-              className="group/item bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.45)]"
-              onClick={() => onNavigate({ path: 'palette-detail', slug: palette.slug })}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') onNavigate({ path: 'palette-detail', slug: palette.slug });
-              }}
+              to={{ path: 'palette-detail', slug: palette.slug }}
+              className="group/item bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden flex flex-col cursor-pointer transition-all duration-200 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.45)] no-underline text-inherit"
             >
               <div className="flex h-40 w-full">
                 {palette.colors.map((c, ci) => (
@@ -672,7 +647,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                   {palette.colors.length} TONES
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -695,15 +670,12 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {moodStories.map((mood) => (
-            <div
+            <button
               key={mood.id}
-              className="group/mood bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden p-4 flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.4)]"
+              type="button"
+              className="group/mood bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden p-4 flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.4)] text-left"
               onClick={() => handleFilterJump(mood.id)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleFilterJump(mood.id);
-              }}
+              aria-label={`Filter by ${mood.label} mood`}
             >
               <div className="flex items-center justify-between">
                 <span className="font-sans text-sm font-semibold tracking-wide uppercase text-[#171717] dark:text-white">{mood.label}</span>
@@ -718,7 +690,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
                   />
                 ))}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -741,15 +713,12 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {SPECTRUM_NAV.map((spec) => (
-            <div
+            <button
               key={spec.name}
-              className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded p-3.5 sm:px-4 flex flex-col gap-2 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_18px_-4px_rgba(0,0,0,0.06)]"
+              type="button"
+              className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded p-3.5 sm:px-4 flex flex-col gap-2 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_18px_-4px_rgba(0,0,0,0.06)] text-left"
               onClick={() => handleSpectrumJump(spec.tag)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleSpectrumJump(spec.tag);
-              }}
+              aria-label={`Filter by ${spec.name} color`}
             >
               <div
                 className="w-full h-2 rounded-[1px]"
@@ -757,7 +726,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
               />
               <span className="font-sans text-sm font-semibold text-[#171717] dark:text-white tracking-[0.02em]">{spec.name}</span>
               <span className="font-mono text-xs text-[#707070]">{spec.hex}</span>
-            </div>
+            </button>
           ))}
         </div>
       </section>

@@ -24,6 +24,7 @@ import { NotFoundPage } from './NotFoundPage';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateColorSchema } from '../utils/schemaGenerator';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 import { Analytics } from '../utils/analytics';
 
 interface ColorDetailPageProps {
@@ -176,14 +177,12 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
       <header className="pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
         {/* Editorial Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] mb-3">
-          <KromaButton
-            variant="ghost"
-            size="sm"
-            onClick={() => onNavigate({ path: 'colors' })}
-            className="hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 bg-transparent border-0 font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] h-auto"
+          <Link
+            to={{ path: 'colors' }}
+            className="hover:text-[#171717] dark:hover:text-white cursor-pointer transition-colors p-0 font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] no-underline"
           >
             COLOURS
-          </KromaButton>
+          </Link>
           <span className="opacity-40">/</span>
           <span className="text-[#171717] dark:text-white font-semibold">{color.family.toUpperCase()}</span>
           <span className="opacity-40">/</span>
@@ -324,25 +323,22 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {specLedger.map((spec) => (
-            <div
+            <button
               key={spec.label}
+              type="button"
               onClick={() => handleCopyValue(spec.value, spec.format)}
-              className="p-3.5 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] flex flex-col justify-between gap-2 cursor-pointer transition-all duration-150 hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 select-none group"
+              className="p-3.5 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] flex flex-col justify-between gap-2 cursor-pointer transition-all duration-150 hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 select-none group text-left"
               title={`Click to copy ${spec.label}`}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleCopyValue(spec.value, spec.format);
-              }}
+              aria-label={`Copy ${spec.label}: ${spec.value}`}
             >
-              <div className="flex items-center justify-between font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+              <div className="flex items-center justify-between font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] w-full">
                 <span>{spec.label}</span>
                 <Copy size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               <div className="font-mono text-sm sm:text-base font-bold text-[#171717] dark:text-white truncate">
                 {spec.value}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -439,8 +435,9 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Complementary (180°) */}
           <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] overflow-hidden flex flex-col justify-between min-h-[160px]">
-            <div
-              className="w-full h-24 cursor-pointer relative group flex items-end p-2"
+            <button
+              type="button"
+              className="w-full h-24 cursor-pointer relative group flex items-end p-2 border-0"
               style={{ backgroundColor: calculatedHarmonies.complementary }}
               onClick={() => {
                 const match = findMatchingColor(calculatedHarmonies.complementary);
@@ -448,13 +445,12 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                 else handleCopyValue(calculatedHarmonies.complementary, 'Complementary HEX');
               }}
               title="Click to inspect or copy"
-              role="button"
-              tabIndex={0}
+              aria-label={`Inspect or copy complementary color ${calculatedHarmonies.complementary}`}
             >
               <span className="font-mono text-xs font-bold text-white bg-black/50 px-1.5 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity">
                 {calculatedHarmonies.complementary}
               </span>
-            </div>
+            </button>
             <div className="p-3">
               <span className="font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090] block">
                 COMPLEMENTARY (180°)
@@ -469,9 +465,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
           <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] overflow-hidden flex flex-col justify-between min-h-[160px]">
             <div className="w-full h-24 flex">
               {calculatedHarmonies.analogous.map((hex, i) => (
-                <div
+                <button
                   key={i}
-                  className="flex-1 h-full cursor-pointer relative group flex items-end p-2"
+                  type="button"
+                  className="flex-1 h-full cursor-pointer relative group flex items-end p-2 border-0"
                   style={{ backgroundColor: hex }}
                   onClick={() => {
                     const match = findMatchingColor(hex);
@@ -479,13 +476,12 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                     else handleCopyValue(hex, 'Analogous HEX');
                   }}
                   title={`Analogous ${hex}`}
-                  role="button"
-                  tabIndex={0}
+                  aria-label={`Inspect or copy analogous color ${hex}`}
                 >
                   <span className="font-mono text-xs font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
                     {hex}
                   </span>
-                </div>
+                </button>
               ))}
             </div>
             <div className="p-3">
@@ -502,9 +498,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
           <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] overflow-hidden flex flex-col justify-between min-h-[160px]">
             <div className="w-full h-24 flex">
               {calculatedHarmonies.triadic.map((hex, i) => (
-                <div
+                <button
                   key={i}
-                  className="flex-1 h-full cursor-pointer relative group flex items-end p-2"
+                  type="button"
+                  className="flex-1 h-full cursor-pointer relative group flex items-end p-2 border-0"
                   style={{ backgroundColor: hex }}
                   onClick={() => {
                     const match = findMatchingColor(hex);
@@ -512,13 +509,12 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                     else handleCopyValue(hex, 'Triadic HEX');
                   }}
                   title={`Triadic ${hex}`}
-                  role="button"
-                  tabIndex={0}
+                  aria-label={`Inspect or copy triadic color ${hex}`}
                 >
                   <span className="font-mono text-xs font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
                     {hex}
                   </span>
-                </div>
+                </button>
               ))}
             </div>
             <div className="p-3">
@@ -535,9 +531,10 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
           <div className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] overflow-hidden flex flex-col justify-between min-h-[160px]">
             <div className="w-full h-24 flex">
               {calculatedHarmonies.splitComplementary.map((hex, i) => (
-                <div
+                <button
                   key={i}
-                  className="flex-1 h-full cursor-pointer relative group flex items-end p-2"
+                  type="button"
+                  className="flex-1 h-full cursor-pointer relative group flex items-end p-2 border-0"
                   style={{ backgroundColor: hex }}
                   onClick={() => {
                     const match = findMatchingColor(hex);
@@ -545,13 +542,12 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
                     else handleCopyValue(hex, 'Split Complementary HEX');
                   }}
                   title={`Split Complementary ${hex}`}
-                  role="button"
-                  tabIndex={0}
+                  aria-label={`Inspect or copy split complementary color ${hex}`}
                 >
                   <span className="font-mono text-xs font-bold text-white bg-black/50 px-1 py-0.5 rounded-[1px] opacity-0 group-hover:opacity-100 transition-opacity truncate">
                     {hex}
                   </span>
-                </div>
+                </button>
               ))}
             </div>
             <div className="p-3">
@@ -580,21 +576,21 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
         <div className="w-full overflow-x-auto pb-1.5 scrollbar-none">
           <div className="flex min-w-[620px] rounded-[2px] overflow-hidden border border-black/[0.08] dark:border-white/[0.08]">
             {color.shades.map((shade, idx) => (
-              <div
+              <button
                 key={idx}
-                className="flex-1 h-20 p-2.5 flex flex-col justify-between cursor-pointer transition-transform hover:scale-[1.02] hover:z-10 select-none"
+                type="button"
+                className="flex-1 h-20 p-2.5 flex flex-col justify-between cursor-pointer transition-transform hover:scale-[1.02] hover:z-10 select-none border-0 text-left"
                 style={{
                   backgroundColor: shade.hex,
                   color: idx < 3 ? '#111111' : '#FFFFFF',
                 }}
                 onClick={() => handleCopyValue(shade.hex, `Shade ${shade.level}`)}
                 title={`Copy Shade ${shade.level}: ${shade.hex}`}
-                role="button"
-                tabIndex={0}
+                aria-label={`Copy shade ${shade.level}: ${shade.hex}`}
               >
                 <span className="font-mono text-xs font-bold opacity-80">{shade.level}</span>
                 <span className="font-mono text-xs font-bold truncate">{shade.hex}</span>
-              </div>
+              </button>
             ))}
           </div>
         </div>

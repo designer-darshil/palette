@@ -307,10 +307,12 @@ export const AdminColorsPage: React.FC = () => {
                 className="bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs overflow-hidden flex flex-col justify-between"
               >
                 {/* Large Prominent Color Field */}
-                <div
-                  className="w-full h-28 cursor-pointer relative group flex items-end p-2 transition-transform duration-200"
+                <button
+                  type="button"
+                  className="w-full h-28 cursor-pointer relative group flex items-end p-2 transition-transform duration-200 border-0 text-left"
                   style={{ backgroundColor: color.hex }}
                   onClick={() => setInspectColor(color)}
+                  aria-label={`Inspect ${color.name} (${color.hex})`}
                 >
                   <span
                     className="font-mono text-xs px-1.5 py-0.5 rounded-xs backdrop-blur-md font-semibold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity"
@@ -321,7 +323,7 @@ export const AdminColorsPage: React.FC = () => {
                   >
                     Inspect
                   </span>
-                </div>
+                </button>
 
                 {/* Data & Real Metadata */}
                 <div className="p-3 flex flex-col gap-2">
@@ -413,10 +415,12 @@ export const AdminColorsPage: React.FC = () => {
                     className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
                   >
                     <td className="py-2 px-4">
-                      <div
-                        className="w-7 h-5 rounded-xs border border-black/15 dark:border-white/15 cursor-pointer"
+                      <button
+                        type="button"
+                        className="w-7 h-5 rounded-xs border border-black/15 dark:border-white/15 cursor-pointer block p-0"
                         style={{ backgroundColor: color.hex }}
                         onClick={() => setInspectColor(color)}
+                        aria-label={`Inspect ${color.name} (${color.hex})`}
                       />
                     </td>
                     <td className="py-2 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">

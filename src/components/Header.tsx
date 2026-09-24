@@ -402,9 +402,8 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 }
               }}
             >
-              <KromaButton
+              <button
                 type="button"
-                variant="ghost"
                 className={`kroma-header__dropdown-btn ${isStudioActive ? 'kroma-header__dropdown-btn--active' : ''}`}
                 onClick={() => {
                   setStudiosOpen(!studiosOpen);
@@ -424,7 +423,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <span className="kroma-header__nav-text">Studios</span>
                 <ChevronDown size={13} className="kroma-header__dropdown-chevron" aria-hidden="true" />
                 <span className="kroma-header__indicator" aria-hidden="true" />
-              </KromaButton>
+              </button>
 
               <div
                 className={`kroma-header__dropdown-menu kroma-header__dropdown-menu--studios ${
@@ -566,9 +565,8 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 }
               }}
             >
-              <KromaButton
+              <button
                 type="button"
-                variant="ghost"
                 className={`kroma-header__dropdown-btn ${isCommunityActive ? 'kroma-header__dropdown-btn--active' : ''}`}
                 onClick={() => {
                   setCommunityOpen(!communityOpen);
@@ -588,7 +586,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <span className="kroma-header__nav-text">Community</span>
                 <ChevronDown size={13} className="kroma-header__dropdown-chevron" aria-hidden="true" />
                 <span className="kroma-header__indicator" aria-hidden="true" />
-              </KromaButton>
+              </button>
 
               <div
                 className={`kroma-header__dropdown-menu kroma-header__dropdown-menu--community ${

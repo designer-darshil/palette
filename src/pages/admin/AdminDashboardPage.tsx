@@ -94,9 +94,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
           {/* Colors */}
-          <div
+          <button
+            type="button"
             onClick={() => onNavigateTab('colors')}
-            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#34C759] transition-colors flex flex-col justify-between"
+            aria-label={`View Colors: ${colors.length.toLocaleString()} total`}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#34C759] transition-colors flex flex-col justify-between text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
@@ -117,12 +119,14 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
               ))}
             </div>
-          </div>
+          </button>
 
           {/* Palettes */}
-          <div
+          <button
+            type="button"
             onClick={() => onNavigateTab('palettes')}
-            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#FFD60A] transition-colors flex flex-col justify-between"
+            aria-label={`View Palettes: ${palettes.length.toLocaleString()} total`}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#FFD60A] transition-colors flex flex-col justify-between text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
@@ -143,12 +147,14 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
               ))}
             </div>
-          </div>
+          </button>
 
           {/* Patterns */}
-          <div
+          <button
+            type="button"
             onClick={() => onNavigateTab('patterns')}
-            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#00AEEF] transition-colors flex flex-col justify-between"
+            aria-label={`View Patterns: ${CURATED_PATTERNS.length} total`}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#00AEEF] transition-colors flex flex-col justify-between text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
@@ -169,12 +175,14 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
               ))}
             </div>
-          </div>
+          </button>
 
           {/* Collections */}
-          <div
+          <button
+            type="button"
             onClick={() => onNavigateTab('collections')}
-            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#7B2CBF] transition-colors flex flex-col justify-between"
+            aria-label={`View Collections: ${CURATED_COLLECTIONS.length} total`}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#7B2CBF] transition-colors flex flex-col justify-between text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
@@ -195,12 +203,14 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
               ))}
             </div>
-          </div>
+          </button>
 
           {/* Harmonies */}
-          <div
+          <button
+            type="button"
             onClick={() => onNavigateTab('combos')}
-            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#FF9500] transition-colors flex flex-col justify-between"
+            aria-label={`View Harmonies: ${combos.length.toLocaleString()} total`}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#FF9500] transition-colors flex flex-col justify-between text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
@@ -221,12 +231,14 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
               ))}
             </div>
-          </div>
+          </button>
 
           {/* Gradients */}
-          <div
+          <button
+            type="button"
             onClick={() => onNavigateTab('gradients')}
-            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#00AEEF] transition-colors flex flex-col justify-between"
+            aria-label={`View Gradients: ${gradients.length.toLocaleString()} total`}
+            className="group cursor-pointer p-4 bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs hover:border-[#00AEEF] transition-colors flex flex-col justify-between text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <div>
               <div className="flex justify-between items-center text-[#707070] dark:text-[#9DA3AF] mb-3">
@@ -248,7 +260,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onNaviga
                 background: gradients[0]?.css || 'linear-gradient(90deg, #FF3B30 0%, #00AEEF 100%)',
               }}
             />
-          </div>
+          </button>
         </div>
       </section>
 

@@ -16,20 +16,9 @@ import {
   MapPin,
   Clock,
   Thermometer,
-  Layers,
-  ArrowRight,
   ExternalLink,
-  Code,
-  Sparkles,
-  Check,
   AlertCircle,
-  CloudSun,
   Trash2,
-  Sliders,
-  Eye,
-  Info,
-  Globe,
-  Radio,
   SlidersHorizontal,
 } from 'lucide-react';
 import { RouteType } from '../types';
@@ -593,16 +582,18 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
             return (
               <KromaCard
                 key={loc.name}
+                as="button"
+                type="button"
                 variant="default"
-                className={`cursor-pointer transition-all ${
+                className={`cursor-pointer transition-all text-left ${
                   isCurrent ? 'ring-2 ring-[#00AEEF] border-[#00AEEF]' : ''
                 }`}
                 onClick={() => {
                   setSelectedLocation(loc);
                   setSimulatedHour(null);
                 }}
-                role="button"
-                tabIndex={0}
+                aria-pressed={isCurrent}
+                aria-label={`Select location ${loc.name}, ${loc.country}`}
               >
                 <div className="p-3 flex flex-col justify-between h-full gap-2">
                   <div className="flex items-center justify-between">
@@ -684,12 +675,13 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
         <div className="w-full overflow-x-auto border-t border-black/[0.08] dark:border-white/[0.08]">
           <div className="h-32 sm:h-36 flex min-w-[540px] sm:min-w-0 w-full">
             {atmosphere.swatches.map((s, idx) => (
-              <div
+              <button
+                type="button"
                 key={idx}
                 style={{ backgroundColor: s.hex }}
-                className="group/swatch flex-1 flex flex-col justify-between p-3.5 sm:p-4 cursor-pointer transition-[flex] duration-200 hover:flex-[1.4]"
+                className="group/swatch flex-1 flex flex-col justify-between p-3.5 sm:p-4 cursor-pointer transition-[flex] duration-200 hover:flex-[1.4] text-left border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 onClick={() => handleCopySingleHex(s.hex, s.name)}
-                title={`Click to copy ${s.name} (${s.hex})`}
+                aria-label={`Copy color ${s.name} (${s.hex})`}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px] w-fit">
@@ -710,7 +702,7 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                     {s.name}
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -749,13 +741,15 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
             return (
               <KromaCard
                 key={mile.label}
+                as="button"
+                type="button"
                 variant="default"
-                className={`cursor-pointer transition-all ${
+                className={`cursor-pointer transition-all text-left ${
                   isSelected ? 'ring-2 ring-[#00AEEF] border-[#00AEEF]' : ''
                 }`}
                 onClick={() => setSimulatedHour(mile.hour)}
-                role="button"
-                tabIndex={0}
+                aria-pressed={isSelected}
+                aria-label={`Simulate ${mile.label} at ${mile.time}`}
               >
                 {/* Visual mini dual split */}
                 <div className="w-full h-12 flex overflow-hidden border-b border-black/[0.08] dark:border-white/[0.08]">
@@ -803,28 +797,23 @@ export const LiveColorsPage: React.FC<LiveColorsPageProps> = ({ onNavigate }) =>
                 <div>
                   {/* Full-bleed color swatch hero */}
                   <KromaCardVisual heightClass="h-28 relative">
-                    <div
-                      className="w-full h-full cursor-pointer flex items-end justify-between p-3"
+                    <button
+                      type="button"
+                      className="w-full h-full cursor-pointer flex items-end justify-between p-3 border-0 focus-visible:outline-2 focus-visible:outline-white"
                       style={{ backgroundColor: s.hex }}
                       onClick={() => handleCopySingleHex(s.hex, s.name)}
-                      title={`Click to copy ${s.hex}`}
+                      aria-label={`Copy color ${s.name} (${s.hex})`}
                     >
                       <span className="font-mono text-xs font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px]">
                         0{idx + 1}
                       </span>
-                      <KromaButton
-                        size="sm"
-                        variant="filled"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleCopySingleHex(s.hex, s.name);
-                        }}
-                        className="opacity-0 group-hover/card:opacity-100 transition-opacity bg-black/75 hover:bg-black text-white text-xs font-mono px-2 py-0.5 rounded-[2px] h-auto"
-                        iconLeft={<Copy size={10} />}
+                      <span
+                        className="opacity-0 group-hover/card:opacity-100 transition-opacity bg-black/75 hover:bg-black text-white text-xs font-mono px-2 py-0.5 rounded-[2px] inline-flex items-center gap-1"
                       >
+                        <Copy size={10} />
                         <span>{s.hex}</span>
-                      </KromaButton>
-                    </div>
+                      </span>
+                    </button>
                   </KromaCardVisual>
 
                   <KromaCardBody className="p-3.5 flex flex-col gap-1.5">

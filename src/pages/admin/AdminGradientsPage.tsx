@@ -248,10 +248,12 @@ export const AdminGradientsPage: React.FC = () => {
                 className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
               >
                 <td className="py-2.5 px-4">
-                  <div
-                    className="w-24 h-5 rounded-xs border border-black/10 dark:border-white/10 cursor-pointer shadow-xs"
+                  <button
+                    type="button"
+                    className="w-24 h-5 rounded-xs border border-black/10 dark:border-white/10 cursor-pointer shadow-xs p-0 block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     style={{ background: g.css }}
                     onClick={() => setInspectGradient(g)}
+                    aria-label={`Inspect ${g.title} gradient`}
                   />
                 </td>
                 <td className="py-2.5 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">

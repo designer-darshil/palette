@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Plus, X, ArrowUpRight, FolderPlus } from 'lucide-react';
+import { Plus, X, ArrowUpRight } from 'lucide-react';
 import { RouteType } from '../types';
 import { useCollections } from '../context/CollectionContext';
 import { SEOHead } from '../components/seo/SEOHead';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface CollectionsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -36,7 +37,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
         <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
+          <Link to={{ path: 'create' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">STUDIO</Link>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold">COLLECTIONS</span>
         </div>
@@ -73,12 +74,11 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
               .filter(Boolean);
 
             return (
-              <div
+              <Link
                 key={col.id}
-                className="group bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] cursor-pointer select-none"
-                onClick={() => onNavigate({ path: 'collection-detail', slug: col.slug })}
-                role="button"
-                tabIndex={0}
+                to={{ path: 'collection-detail', slug: col.slug }}
+                onNavigate={onNavigate}
+                className="group bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[4px] overflow-hidden flex flex-col justify-between transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] cursor-pointer select-none block no-underline text-inherit"
               >
                 {/* Edge-to-Edge Color Bands Hero */}
                 <div className="w-full h-36 sm:h-40 flex overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
@@ -110,7 +110,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
                     <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
@@ -135,7 +135,16 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = ({ onNavigate }) 
 
       {/* Create New Collection Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4" onClick={() => setModalOpen(false)}>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
+          onClick={() => setModalOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="New Collection"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setModalOpen(false);
+          }}
+        >
           <div
             className="w-full max-w-md bg-[var(--bg-canvas)] border border-[var(--border-subtle)] p-6 rounded-xs flex flex-col gap-4 text-[var(--text-primary)] shadow-2xl"
             onClick={(e) => e.stopPropagation()}

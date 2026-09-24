@@ -732,3 +732,29 @@ If an existing custom class can be replaced by Tailwind without losing required 
 If a custom class is no longer referenced after migration, delete it.
 
 If custom CSS is genuinely necessary, keep it minimal and document why it cannot reasonably be implemented with Tailwind.
+
+---
+
+# 23. Native Interactive Elements & Accessibility Specification
+
+All interactive UI elements across KROMA must use native HTML elements:
+
+1. **Actions, Toggles, Controls & Modals**:
+   - Use `<button type="button">` or `<KromaButton>`.
+   - Never use `<div onClick>`, `<span onClick>`, `<div role="button">`, or `<span role="button">`.
+2. **Navigation**:
+   - Use `<Link>` or `<a>` with a valid `to`/`href`.
+   - Never use fake anchors (`href="#"`) or JavaScript click handlers on buttons to emulate navigation.
+3. **No Nested Interactive Elements**:
+   - Never place a `<button>` inside a `<button>` or an `<a>` inside an `<a>`.
+   - Complex interactive cards must use structural tags (`<article>`, `<section>`) with distinct child interactive elements.
+4. **Custom Canvas & SVG Controls**:
+   - When elements must reside inside SVG or Canvas trees (e.g. spline handles, color relationship nodes), apply WAI-ARIA button patterns:
+     - `role="button"`
+     - `tabIndex={0}`
+     - `aria-label="..."`
+     - `aria-pressed={boolean}`
+     - `onKeyDown` supporting Enter (`key === 'Enter'`) and Space (`key === ' '`)
+5. **Visible Focus & Keyboard Accessibility**:
+   - All interactive controls must provide visible focus indicators (e.g. `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary`).
+

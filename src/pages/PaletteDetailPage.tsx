@@ -185,7 +185,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           variant="ghost"
           size="sm"
           iconLeft={<ArrowLeft size={14} />}
-          onClick={() => onNavigate({ path: 'palettes' })}
+          to={{ path: 'palettes' }}
           className="inline-flex items-center gap-1.5 text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors uppercase mb-6 p-0 h-auto"
         >
           ALL PALETTES
@@ -228,27 +228,21 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
             const isSelected = selectedColorIndex === idx;
 
             return (
-              <div
+              <button
                 key={idx}
+                type="button"
                 style={{
                   backgroundColor: color.hex,
                   flex: weight,
                   outline: isSelected ? '4px solid #171717' : 'none',
                   outlineOffset: '-4px',
                 }}
-                className="relative cursor-pointer transition-all duration-200 flex flex-col justify-between p-3 sm:p-5 group hover:brightness-105"
+                className="relative cursor-pointer transition-all duration-200 flex flex-col justify-between p-3 sm:p-5 group hover:brightness-105 border-0 text-left"
                 onClick={() => setSelectedColorIndex(idx)}
-                role="button"
-                tabIndex={0}
+                aria-pressed={isSelected}
                 aria-label={`${color.name} ${color.hex}, ${weight}% proportion`}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setSelectedColorIndex(idx);
-                  }
-                }}
               >
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start w-full">
                   <span className="font-mono text-xs font-bold px-1.5 py-0.5 rounded-xs bg-black/40 text-white backdrop-blur-sm">
                     {weight}%
                   </span>
@@ -257,7 +251,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
                   )}
                 </div>
 
-                <div className="opacity-0 group-hover:opacity-100 sm:opacity-100 transition-opacity">
+                <div className="opacity-0 group-hover:opacity-100 sm:opacity-100 transition-opacity w-full">
                   <div className="font-sans text-xs sm:text-sm font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] truncate">
                     {color.name}
                   </div>
@@ -265,7 +259,7 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
                     {color.hex}
                   </div>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>

@@ -251,15 +251,17 @@ export const AdminPatternsPage: React.FC = () => {
               className="bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs overflow-hidden flex flex-col justify-between"
             >
               {/* SVG Live Preview Container */}
-              <div
-                className="w-full h-36 bg-black/[0.03] dark:bg-black/30 border-b border-black/10 dark:border-white/10 cursor-pointer overflow-hidden flex items-center justify-center relative group"
+              <button
+                type="button"
+                className="w-full h-36 bg-black/[0.03] dark:bg-black/30 border-b border-black/10 dark:border-white/10 cursor-pointer overflow-hidden flex items-center justify-center relative group p-0 border-0 border-b focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 onClick={() => setInspectPattern(pattern)}
+                aria-label={`Inspect ${pattern.title} pattern`}
               >
                 <div
-                  className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none"
                   dangerouslySetInnerHTML={{ __html: svgString }}
                 />
-              </div>
+              </button>
 
               {/* Pattern Metadata */}
               <div className="p-4 flex flex-col gap-3">

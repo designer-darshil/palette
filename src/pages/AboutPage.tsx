@@ -1,9 +1,8 @@
 import React from 'react';
-import { Sparkles, Layers, ShieldCheck, Compass, Wand2, Grid, ArrowRight, BookOpen, Code2, Heart } from 'lucide-react';
+import { Layers, ShieldCheck, Wand2, ArrowRight, BookOpen, Code2, Heart } from 'lucide-react';
 import { RouteType } from '../types';
 import { SEOHead } from '../components/seo/SEOHead';
-import { Link } from '../components/common/Link';
-import { Button } from '../components/common/Button';
+import { KromaButton } from '../components/common/KromaButton';
 
 interface AboutPageProps {
   onNavigate: (route: RouteType) => void;
@@ -197,26 +196,25 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <Button
-            variant="primary"
-            onClick={() => onNavigate({ path: 'explore' })}
-            className="flex items-center gap-2"
+          <KromaButton
+            variant="filled"
+            to={{ path: 'explore' }}
+            iconRight={<ArrowRight size={15} />}
           >
-            <span>Explore Library</span>
-            <ArrowRight size={15} />
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => onNavigate({ path: 'generate' })}
+            Explore Library
+          </KromaButton>
+          <KromaButton
+            variant="outline"
+            to={{ path: 'generate' }}
           >
-            <span>Generate Palettes</span>
-          </Button>
-          <Button
+            Generate Palettes
+          </KromaButton>
+          <KromaButton
             variant="ghost"
-            onClick={() => onNavigate({ path: 'create' })}
+            to={{ path: 'create' }}
           >
-            <span>Studio Tools</span>
-          </Button>
+            Studio Tools
+          </KromaButton>
         </div>
       </section>
     </div>

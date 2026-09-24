@@ -115,23 +115,16 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
           const weight = getProportionWeight(idx, palette.colors.length);
 
           return (
-            <div
+            <button
+              type="button"
               key={idx}
-              className="relative cursor-pointer transition-[flex] duration-200 ease-out hover:grow-[2.2] flex items-end justify-center p-2.5 outline-none group/swatch"
+              className="relative cursor-pointer transition-[flex] duration-200 ease-out hover:grow-[2.2] flex items-end justify-center p-2.5 outline-none group/swatch border-0"
               style={{
                 backgroundColor: c.hex,
                 flex: weight,
               }}
               onClick={(e) => handleCopySingleHex(e, c.hex, c.name)}
-              role="button"
-              tabIndex={0}
               aria-label={`Copy ${c.name} (${c.hex})`}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleCopySingleHex(e, c.hex, c.name);
-                }
-              }}
             >
               <span
                 className={`font-mono text-xs font-semibold tracking-wider text-white bg-black/75 px-1.5 py-0.5 rounded-[2px] shadow-xs transition-all duration-150 ${
@@ -142,7 +135,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
               >
                 {isCopied ? 'COPIED' : c.hex}
               </span>
-            </div>
+            </button>
           );
         })}
       </div>
@@ -168,7 +161,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
         </div>
 
         {/* Subtle, Non-Domineering Card Actions */}
-        <div className="flex items-center gap-1 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-1 flex-shrink-0">
           <KromaButton
             type="button"
             variant="ghost"

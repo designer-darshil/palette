@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from './Button';
+import { KromaButton } from './KromaButton';
 
 export interface EmptyStateProps {
   title: string;
@@ -32,9 +32,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         </p>
       )}
       {actionLabel && onAction && (
-        <Button variant="secondary" size="sm" onClick={onAction}>
+        <KromaButton variant="outline" size="sm" onClick={onAction}>
           {actionLabel}
-        </Button>
+        </KromaButton>
       )}
     </div>
   );

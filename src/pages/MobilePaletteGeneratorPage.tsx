@@ -377,18 +377,13 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
             return (
               <div
                 key={color.id || idx}
-                onClick={() => {
-                  setSelectedColorIdx(idx);
-                  handleCopySingle(color.hex, color.name);
-                }}
-                className="flex-1 flex flex-col justify-between p-4 sm:p-6 cursor-pointer transition-all duration-200 relative group hover:flex-[1.35]"
+                className="flex-1 flex flex-col justify-between p-4 sm:p-6 transition-all duration-200 relative group hover:flex-[1.35]"
                 style={{
                   backgroundColor: color.hex,
                   color: textColor,
                   outline: isSelected ? '2px solid rgba(0,0,0,0.4)' : 'none',
                   outlineOffset: '-2px',
                 }}
-                title="Click to inspect & copy HEX"
               >
                 {/* Column Header: Index & Lock Button */}
                 <div className="flex items-center justify-between w-full">
@@ -410,8 +405,16 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                   </KromaButton>
                 </div>
 
-                {/* Column Footer: Color Name, HEX, and Copy Indicator */}
-                <div className="flex flex-col gap-1 select-none">
+                {/* Column Footer: Color Name, HEX, and Copy Indicator as Accessible Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedColorIdx(idx);
+                    handleCopySingle(color.hex, color.name);
+                  }}
+                  className="flex flex-col gap-1 select-none text-left border-0 bg-transparent p-0 cursor-pointer w-full focus-visible:outline-2 focus-visible:outline-white"
+                  aria-label={`Inspect and copy ${color.name} (${color.hex})`}
+                >
                   <div
                     className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider truncate"
                     style={{
@@ -443,7 +446,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                       {copiedHex === color.hex ? 'COPIED' : 'COPY'}
                     </span>
                   </div>
-                </div>
+                </button>
               </div>
             );
           })}
@@ -680,13 +683,14 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {variations.map((v, i) => (
-            <div
+            <button
+              type="button"
               key={i}
               onClick={() => applyVariation(v.palette)}
-              className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-2 cursor-pointer hover:border-black/25 dark:hover:border-white/25 transition-all flex flex-col gap-2"
-              title={`Apply ${v.label} variation`}
+              className="bg-kroma-bg dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-sm p-2 cursor-pointer hover:border-black/25 dark:hover:border-white/25 transition-all flex flex-col gap-2 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              aria-label={`Apply ${v.label} variation`}
             >
-              <div className="flex h-10 rounded-xs overflow-hidden border border-black/10 dark:border-white/10">
+              <div className="flex h-10 rounded-xs overflow-hidden border border-black/10 dark:border-white/10 pointer-events-none">
                 {v.palette.map((c, ci) => (
                   <div
                     key={ci}
@@ -696,7 +700,7 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
                 ))}
               </div>
               <div className="font-mono text-xs font-bold text-kroma-muted dark:text-[#8E8E93] uppercase tracking-wider text-center">{v.label}</div>
-            </div>
+            </button>
           ))}
         </div>
       </section>

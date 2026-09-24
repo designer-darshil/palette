@@ -67,19 +67,12 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
       onClick={() => onNavigate({ path: 'color-detail', slug: color.slug })}
     >
       {/* Edge-to-Edge Color Field (Hero of the Card) */}
-      <div
-        className="w-full h-44 sm:h-48 relative cursor-pointer flex items-end justify-center p-3 select-none"
+      <button
+        type="button"
+        className="w-full h-44 sm:h-48 relative cursor-pointer flex items-end justify-center p-3 select-none border-0"
         style={{ backgroundColor: color.hex }}
         onClick={handleCopyHex}
-        role="button"
-        tabIndex={0}
         aria-label={`Copy hex code ${color.hex}`}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleCopyHex(e);
-          }
-        }}
       >
         {/* Subtle hover copy pill badge */}
         <span
@@ -99,7 +92,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
             </>
           )}
         </span>
-      </div>
+      </button>
 
       {/* Editorial Information Layer */}
       <div className="p-3.5 sm:p-4 flex flex-col gap-1.5 flex-1 bg-[var(--bg-surface-1)]">
@@ -141,16 +134,12 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
             {color.family} • {color.tone}
           </span>
 
-          <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center gap-1">
             <KromaButton
-              type="button"
               variant="ghost"
               size="icon-sm"
               className="p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] rounded-[2px]"
-              onClick={(e) => {
-                e.stopPropagation();
-                onNavigate({ path: 'color-name-finder', hex: color.hex });
-              }}
+              to={{ path: 'color-name-finder', hex: color.hex }}
               aria-label="Find closest color name"
               title="Identify in Color Name Finder"
             >

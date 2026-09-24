@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ArrowLeft, Copy, Bookmark, Share2, ShieldCheck, ExternalLink, Check, Sparkles } from 'lucide-react';
+import { Copy, Bookmark, Share2, ShieldCheck, ExternalLink } from 'lucide-react';
 import { RouteType, ComboItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { copyToClipboard, getComboKeyColors } from '../utils/colorUtils';
@@ -12,8 +12,6 @@ import { findClosestColorName } from '../utils/paletteGenerator';
 import { NotFoundPage } from './NotFoundPage';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateComboSchema } from '../utils/schemaGenerator';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
-import { Link } from '../components/common/Link';
 import { PageHeader } from '../components/common/PageHeader';
 import { KromaButton } from '../components/common/KromaButton';
 import { Analytics } from '../utils/analytics';
@@ -217,11 +215,12 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
       <section className="rounded-md overflow-hidden border border-[var(--border-subtle)] shadow-xl">
         <div className="min-h-[260px] flex flex-col sm:flex-row w-full">
           {/* Focal Color 1 */}
-          <div
-            className="flex-1 min-h-[150px] sm:min-h-[220px] flex flex-col justify-between p-5 sm:p-7 cursor-pointer"
+          <button
+            type="button"
+            className="flex-1 min-h-[150px] sm:min-h-[220px] flex flex-col justify-between p-5 sm:p-7 cursor-pointer text-left border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             style={{ backgroundColor: focal1.hex }}
             onClick={() => handleCopySingleHex(focal1.hex, focal1.name)}
-            title={`Click to copy ${focal1.name} (${focal1.hex})`}
+            aria-label={`Copy ${focal1.name} (${focal1.hex})`}
           >
             <span className="font-mono text-xs font-bold text-white bg-black/45 px-2 py-0.5 rounded-xs w-fit uppercase tracking-wider shadow-sm">
               {focal1.role || 'Primary / Dominant'}
@@ -252,10 +251,12 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
                 {focal1.name}
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Focal Color 2 */}
-          <div
+          <button
+            type="button"
+            className="text-left border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             style={{
               backgroundColor: focal2.hex,
               flex: '1 1 240px',
@@ -267,7 +268,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
               cursor: 'pointer',
             }}
             onClick={() => handleCopySingleHex(focal2.hex, focal2.name)}
-            title={`Click to copy ${focal2.name} (${focal2.hex})`}
+            aria-label={`Copy ${focal2.name} (${focal2.hex})`}
           >
             <span
               style={{
@@ -312,7 +313,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
                 {focal2.name}
               </div>
             </div>
-          </div>
+          </button>
         </div>
       </section>
 
@@ -327,7 +328,8 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
             const colorSlug = findMatchingColorSlug(c.hex);
             return (
               <div key={idx} className="bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-sm p-4 flex flex-col gap-1.5">
-                <div
+                <button
+                  type="button"
                   style={{
                     height: '56px',
                     backgroundColor: c.hex,
@@ -335,9 +337,13 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
                     border: '1px solid var(--border-subtle)',
                     marginBottom: '8px',
                     cursor: 'pointer',
+                    width: '100%',
+                    display: 'block',
+                    padding: 0,
                   }}
+                  className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   onClick={() => handleCopySingleHex(c.hex, c.name)}
-                  title={`Click to copy ${c.hex}`}
+                  aria-label={`Copy ${c.name} (${c.hex})`}
                 />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '6px' }}>
                   <span style={{ fontWeight: 700, fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -361,7 +367,7 @@ export const ComboDetailPage: React.FC<ComboDetailPageProps> = ({ slug, onNaviga
                       variant="ghost"
                       size="sm"
                       iconRight={<ExternalLink size={10} />}
-                      onClick={() => onNavigate({ path: 'color-detail', slug: colorSlug })}
+                      to={{ path: 'color-detail', slug: colorSlug }}
                       className="p-0 h-auto inline-flex items-center gap-1 text-[0.72rem] font-mono text-[var(--text-secondary)] hover:text-white cursor-pointer whitespace-nowrap border-0"
                     >
                       View Color Specimen

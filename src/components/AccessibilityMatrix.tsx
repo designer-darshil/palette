@@ -104,29 +104,33 @@ export const AccessibilityMatrix: React.FC<AccessibilityMatrixProps> = ({ colors
                   const isSelected = selectedPair.fg === fgColor.hex && selectedPair.bg === bgColor.hex;
 
                   return (
-                    <td
-                      key={cIdx}
-                      onClick={() => setSelectedPair({ fg: fgColor.hex, bg: bgColor.hex })}
-                      className={`p-2 text-center cursor-pointer transition-all rounded-xs ${
-                        isSelected ? 'ring-2 ring-[var(--accent-gold)] bg-[var(--bg-surface-2)]' : 'hover:bg-[var(--bg-surface-2)]'
-                      }`}
-                      title={`Click to test ${fgColor.hex} on ${bgColor.hex} (${ratio}:1)`}
-                    >
-                      <div className="flex flex-col items-center">
-                        <span
-                          className={`px-1.5 py-0.5 rounded-2xs text-xs font-bold ${
-                            ratio >= 7.0
-                              ? 'bg-emerald-500/20 text-emerald-400'
-                              : ratio >= 4.5
-                              ? 'bg-blue-500/20 text-blue-400'
-                              : ratio >= 3.0
-                              ? 'bg-amber-500/20 text-amber-400'
-                              : 'bg-rose-500/10 text-rose-400'
-                          }`}
-                        >
-                          {ratio}:1
-                        </span>
-                      </div>
+                    <td key={cIdx} className="p-1 text-center">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedPair({ fg: fgColor.hex, bg: bgColor.hex })}
+                        className={`w-full p-2 text-center cursor-pointer transition-all rounded-xs border-0 bg-transparent ${
+                          isSelected ? 'ring-2 ring-[var(--accent-gold)] bg-[var(--bg-surface-2)]' : 'hover:bg-[var(--bg-surface-2)]'
+                        }`}
+                        title={`Click to test ${fgColor.hex} on ${bgColor.hex} (${ratio}:1)`}
+                        aria-label={`Test ${fgColor.hex} on ${bgColor.hex} contrast ratio ${ratio}:1`}
+                        aria-pressed={isSelected}
+                      >
+                        <div className="flex flex-col items-center">
+                          <span
+                            className={`px-1.5 py-0.5 rounded-2xs text-xs font-bold ${
+                              ratio >= 7.0
+                                ? 'bg-emerald-500/20 text-emerald-400'
+                                : ratio >= 4.5
+                                ? 'bg-blue-500/20 text-blue-400'
+                                : ratio >= 3.0
+                                ? 'bg-amber-500/20 text-amber-400'
+                                : 'bg-rose-500/10 text-rose-400'
+                            }`}
+                          >
+                            {ratio}:1
+                          </span>
+                        </div>
+                      </button>
                     </td>
                   );
                 })}

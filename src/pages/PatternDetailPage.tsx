@@ -9,10 +9,6 @@ import {
   Maximize2,
   Minimize2,
   RotateCcw,
-  Sparkles,
-  ExternalLink,
-  Code,
-  Layers,
   ArrowUpRight,
   ArrowRight,
   SlidersHorizontal,
@@ -452,18 +448,20 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
         {/* Visual Horizontal Color Strip */}
         <div className="w-full h-16 sm:h-20 rounded-[4px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden flex select-none">
           {pattern.palette.map((hex, i) => (
-            <div
+            <button
               key={i}
+              type="button"
               style={{ backgroundColor: hex }}
               onClick={() => handleCopyHex(hex)}
-              className="group/swatch flex-1 h-full p-2.5 sm:p-3 flex flex-col justify-between cursor-pointer transition-[flex] duration-200 hover:flex-[1.4] relative"
+              className="group/swatch flex-1 h-full p-2.5 sm:p-3 flex flex-col justify-between cursor-pointer transition-[flex] duration-200 hover:flex-[1.4] relative text-left border-0"
               title={`Click to copy ${hex}`}
+              aria-label={`Copy color ${hex}`}
             >
               <span className="font-mono text-xs font-semibold text-white bg-black/60 px-1.5 py-0.5 rounded-[2px] w-fit">
                 0{i + 1}
               </span>
 
-              <div className="flex items-baseline justify-between">
+              <div className="flex items-baseline justify-between w-full">
                 <span className="font-mono text-xs font-bold text-white drop-shadow-sm truncate">
                   {hex}
                 </span>
@@ -473,7 +471,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
                   </span>
                 )}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -669,12 +667,10 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
               );
 
               return (
-                <div
+                <Link
                   key={pat.id}
-                  onClick={() => onNavigate({ path: 'pattern-detail', slug: pat.slug })}
-                  className="group/rel rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none"
-                  role="button"
-                  tabIndex={0}
+                  to={{ path: 'pattern-detail', slug: pat.slug }}
+                  className="group/rel rounded-[3px] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden bg-[#F8F8F8] dark:bg-[#141518] cursor-pointer flex flex-col justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-black/25 dark:hover:border-white/25 hover:shadow-xs select-none no-underline text-inherit"
                 >
                   <div className="w-full h-40 relative overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
                     <div
@@ -697,7 +693,7 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
                       <ArrowUpRight size={12} className="text-[#707070] group-hover/rel:text-[#00AEEF] group-hover/rel:translate-x-0.5 group-hover/rel:-translate-y-0.5 transition-transform shrink-0" />
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

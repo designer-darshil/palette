@@ -2,7 +2,8 @@ import React from 'react';
 import { clsx } from 'clsx';
 
 export interface KromaCardProps extends React.HTMLAttributes<HTMLElement> {
-  as?: 'article' | 'div' | 'section' | 'li';
+  as?: 'article' | 'div' | 'section' | 'li' | 'button';
+  type?: 'button' | 'submit' | 'reset';
   interactive?: boolean;
   variant?: 'default' | 'flat' | 'featured' | 'compact';
 }
@@ -11,6 +12,7 @@ export const KromaCard = React.forwardRef<HTMLElement, KromaCardProps>(
   (
     {
       as: Component = 'article',
+      type,
       interactive = true,
       variant = 'default',
       className,
@@ -19,9 +21,15 @@ export const KromaCard = React.forwardRef<HTMLElement, KromaCardProps>(
     },
     ref
   ) => {
+    const componentProps: any = { ...props };
+    if (Component === 'button') {
+      componentProps.type = type || 'button';
+    }
+
     return (
       <Component
         ref={ref as any}
+        {...componentProps}
         className={clsx(
           // Kroma Card Foundation
           'group relative bg-[var(--bg-surface-1)] text-[var(--text-primary)]',

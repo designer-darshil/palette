@@ -4,7 +4,6 @@ import { ComboItem, RouteType } from '../types';
 import { copyToClipboard, getComboKeyColors } from '../utils/colorUtils';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
-import { Link } from './common/Link';
 import { KromaCard } from './common/KromaCard';
 import { KromaButton } from './common/KromaButton';
 import { Analytics } from '../utils/analytics';
@@ -71,16 +70,20 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
     >
       {/* Pure Two-Color Split Visual Hero — Zero Text Overlay */}
       <div className="w-full h-44 sm:h-48 flex select-none overflow-hidden relative">
-        <div
-          className="flex-1 h-full cursor-pointer transition-[flex] duration-200 hover:flex-[1.12]"
+        <button
+          type="button"
+          className="flex-1 h-full cursor-pointer transition-[flex] duration-200 hover:flex-[1.12] border-0 p-0"
           style={{ backgroundColor: color1.hex }}
           onClick={(e) => handleCopyHex(e, color1.hex, color1.name)}
+          aria-label={`Copy ${color1.name} (${color1.hex})`}
           title={`Click to copy ${color1.name} (${color1.hex})`}
         />
-        <div
-          className="flex-1 h-full cursor-pointer transition-[flex] duration-200 hover:flex-[1.12]"
+        <button
+          type="button"
+          className="flex-1 h-full cursor-pointer transition-[flex] duration-200 hover:flex-[1.12] border-0 p-0"
           style={{ backgroundColor: color2.hex }}
           onClick={(e) => handleCopyHex(e, color2.hex, color2.name)}
+          aria-label={`Copy ${color2.name} (${color2.hex})`}
           title={`Click to copy ${color2.name} (${color2.hex})`}
         />
       </div>
@@ -133,7 +136,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
             <ArrowRight size={11} className="transition-transform group-hover/combo:translate-x-0.5" />
           </div>
 
-          <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center gap-1">
             <KromaButton
               type="button"
               variant="ghost"

@@ -3,22 +3,14 @@ import {
   Search,
   Sparkles,
   Copy,
-  Check,
   Share2,
   Bookmark,
   Shuffle,
   ExternalLink,
-  Layers,
   ArrowRight,
   ShieldCheck,
-  Zap,
-  Info,
-  CheckCircle2,
-  Sliders,
-  RotateCcw,
-  Palette,
 } from 'lucide-react';
-import { RouteType, ColorItem } from '../types';
+import { RouteType } from '../types';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
@@ -32,16 +24,12 @@ import {
 import {
   findClosestColorMatches,
   searchColorsByName,
-  ColorMatchResult,
 } from '../utils/colorNameFinder';
-import { createPaletteSlug } from '../utils/canonicalResourceUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { PageHeader } from '../components/common/PageHeader';
 import { KromaButton } from '../components/common/KromaButton';
-import { Link } from '../components/common/Link';
 import { ColorSwatchPicker } from '../components/common/ColorSwatchPicker';
-import { Analytics } from '../utils/analytics';
 
 interface ColorNameFinderPageProps {
   initialHex?: string;
@@ -340,10 +328,12 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                       </div>
                     ) : (
                       nameSearchResults.map((res, idx) => (
-                        <div
+                        <button
                           key={idx}
+                          type="button"
                           onClick={() => handleSelectColor(res.hex)}
-                          className="flex items-center justify-between p-2.5 hover:bg-[var(--bg-surface-3)] cursor-pointer border-b border-[var(--border-subtle)] last:border-none transition-colors"
+                          className="w-full flex items-center justify-between p-2.5 hover:bg-[var(--bg-surface-3)] cursor-pointer border-b border-[var(--border-subtle)] last:border-none transition-colors text-left bg-transparent"
+                          aria-label={`Select color ${res.name} (${res.hex})`}
                         >
                           <div className="flex items-center gap-2.5">
                             <span
@@ -357,7 +347,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                           <span className="font-mono text-xs text-[var(--text-secondary)]">
                             {res.hex}
                           </span>
-                        </div>
+                        </button>
                       ))
                     )}
                   </div>
@@ -372,9 +362,11 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
               </span>
 
               <div className="grid grid-cols-2 gap-2.5">
-                <div
+                <button
+                  type="button"
                   onClick={() => handleCopy(currentHex, 'hex', 'HEX')}
-                  className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group"
+                  className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group text-left"
+                  aria-label={`Copy HEX code: ${currentHex}`}
                 >
                   <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase block">
                     HEX
@@ -383,14 +375,16 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                     <span>{currentHex}</span>
                     <Copy size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
-                </div>
+                </button>
 
-                <div
+                <button
+                  type="button"
                   onClick={() => {
                     const rgb = hexToRgb(currentHex);
                     if (rgb) handleCopy(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`, 'rgb', 'RGB');
                   }}
-                  className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group"
+                  className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group text-left"
+                  aria-label="Copy RGB value"
                 >
                   <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase block">
                     RGB
@@ -404,14 +398,16 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                     </span>
                     <Copy size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
-                </div>
+                </button>
 
-                <div
+                <button
+                  type="button"
                   onClick={() => {
                     const hsl = hexToHsl(currentHex);
                     if (hsl) handleCopy(`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`, 'hsl', 'HSL');
                   }}
-                  className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group"
+                  className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group text-left"
+                  aria-label="Copy HSL value"
                 >
                   <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase block">
                     HSL
@@ -425,11 +421,13 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                     </span>
                     <Copy size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
-                </div>
+                </button>
 
-                <div
+                <button
+                  type="button"
                   onClick={() => handleCopy(hexToOklch(currentHex), 'oklch', 'OKLCH')}
-                  className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group"
+                  className="p-3 bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-colors group text-left"
+                  aria-label="Copy OKLCH value"
                 >
                   <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase block">
                     OKLCH
@@ -438,7 +436,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                     <span className="truncate">{hexToOklch(currentHex)}</span>
                     <Copy size={11} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
-                </div>
+                </button>
               </div>
             </div>
 
@@ -595,10 +593,12 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
 
               <div className="flex flex-col gap-2">
                 {matches.slice(1).map((match, idx) => (
-                  <div
+                  <button
                     key={idx}
+                    type="button"
                     onClick={() => handleSelectColor(match.hex)}
-                    className="flex items-center justify-between p-3 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-all group"
+                    className="flex items-center justify-between p-3 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs cursor-pointer transition-all group text-left w-full"
+                    aria-label={`Select matching color ${match.name} (${match.hex})`}
                   >
                     <div className="flex items-center gap-3">
                       <span
@@ -626,7 +626,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                       </div>
                       <ArrowRight size={13} className="text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)] transition-colors" />
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -662,19 +662,21 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
             {/* Analyzed Swatch Breakdown */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mt-2">
               {analyzedPaletteColors.map((color, idx) => (
-                <div
+                <button
                   key={idx}
+                  type="button"
                   onClick={() => {
                     handleSelectColor(color.originalHex);
                     setActiveTab('single');
                   }}
-                  className="bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs p-3 flex flex-col gap-2 cursor-pointer transition-all"
+                  className="bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] rounded-xs p-3 flex flex-col gap-2 cursor-pointer transition-all text-left"
+                  aria-label={`Select color ${color.matchedName} (${color.originalHex})`}
                 >
                   <div
-                    className="h-20 rounded-xs border border-[var(--border-subtle)] shadow-inner"
+                    className="h-20 rounded-xs border border-[var(--border-subtle)] shadow-inner w-full"
                     style={{ backgroundColor: color.originalHex }}
                   />
-                  <div>
+                  <div className="w-full">
                     <div className="text-xs font-bold text-[var(--text-primary)] truncate">
                       {color.matchedName}
                     </div>
@@ -690,7 +692,7 @@ export const ColorNameFinderPage: React.FC<ColorNameFinderPageProps> = ({
                       </span>
                     )}
                   </div>
-                </div>
+                </button>
               ))}
             </div>
 

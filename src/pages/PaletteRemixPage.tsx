@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { RotateCcw, Bookmark, ArrowUpRight, Copy } from 'lucide-react';
-import { RouteType, PaletteItem } from '../types';
+import { RotateCcw, Bookmark } from 'lucide-react';
+import { RouteType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useSaved } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
@@ -12,10 +12,10 @@ import {
   createRemixedPalette,
   RemixPreset,
 } from '../utils/remixEngine';
-import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { NotFoundPage } from './NotFoundPage';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface PaletteRemixPageProps {
   slug: string;
@@ -90,13 +90,13 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
       {/* Editorial Breadcrumb */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
         <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
+          <Link to={{ path: 'create' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">STUDIO</Link>
           <span>/</span>
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'palettes' })}>PALETTES</span>
+          <Link to={{ path: 'palettes' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">PALETTES</Link>
           <span>/</span>
-          <span className="cursor-pointer hover:text-[var(--text-primary)] truncate max-w-xs" onClick={() => onNavigate({ path: 'palette-detail', slug: originalPalette.slug })}>
+          <Link to={{ path: 'palette-detail', slug: originalPalette.slug }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)] truncate max-w-xs">
             {originalPalette.title}
-          </span>
+          </Link>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold">REMIX</span>
         </div>

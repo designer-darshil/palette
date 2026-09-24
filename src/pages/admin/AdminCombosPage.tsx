@@ -237,9 +237,11 @@ export const AdminCombosPage: React.FC = () => {
                 className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
               >
                 <td className="py-2.5 px-4">
-                  <div
-                    className="flex w-20 h-5 rounded-xs overflow-hidden border border-black/10 dark:border-white/10 cursor-pointer shadow-xs"
+                  <button
+                    type="button"
+                    className="flex w-20 h-5 rounded-xs overflow-hidden border border-black/10 dark:border-white/10 cursor-pointer shadow-xs p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     onClick={() => setInspectCombo(combo)}
+                    aria-label={`Inspect ${combo.title} combo`}
                   >
                     {combo.colors.map((c, i) => (
                       <div
@@ -249,7 +251,7 @@ export const AdminCombosPage: React.FC = () => {
                         title={`${c.role || c.name}: ${c.hex}`}
                       />
                     ))}
-                  </div>
+                  </button>
                 </td>
                 <td className="py-2.5 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
                   {combo.title}

@@ -92,14 +92,16 @@ export const PaletteOfTheDayPage: React.FC<PaletteOfTheDayPageProps> = ({ onNavi
       {/* Palette Hero Swatch Banner */}
       <div className="h-44 sm:h-60 rounded-md overflow-hidden flex border border-[var(--border-subtle)] shadow-xl">
         {palette.colors.map((c, i) => (
-          <div
+          <button
+            type="button"
             key={i}
-            className="flex-1 flex flex-col justify-between p-3.5 sm:p-5 cursor-pointer transition-all hover:flex-[1.2]"
+            className="flex-1 flex flex-col justify-between p-3.5 sm:p-5 cursor-pointer transition-all hover:flex-[1.2] text-left border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             style={{ backgroundColor: c.hex }}
             onClick={async () => {
               await copyToClipboard(c.hex);
               showToast(`Copied ${c.hex}`, c.name, c.hex);
             }}
+            aria-label={`Copy color ${c.name} (${c.hex})`}
           >
             <span className="font-mono text-xs font-bold px-1.5 py-0.5 rounded-xs w-fit bg-black/25 text-white">
               0{i + 1}
@@ -108,7 +110,7 @@ export const PaletteOfTheDayPage: React.FC<PaletteOfTheDayPageProps> = ({ onNavi
               <div className="font-mono text-xs sm:text-sm font-bold">{c.hex}</div>
               <div className="text-xs truncate font-medium opacity-90">{c.name}</div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 

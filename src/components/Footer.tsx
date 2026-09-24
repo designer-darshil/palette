@@ -104,7 +104,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="kroma-footer__action-group">
             <a
               href="mailto:support@kroma.design"
-              className="kroma-footer__contact-btn"
+              className="flex items-center justify-center gap-2"
               aria-label="Contact Kroma via email at support@kroma.design"
             >
               <span>Get in touch</span>
@@ -336,7 +336,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               variant="ghost"
               size="sm"
               onClick={() => setLegalModal('privacy')}
-              className="kroma-footer__legal-link h-auto p-0 min-h-0 text-xs font-normal lowercase tracking-normal"
+              className="kroma-footer__legal-link h-auto p-0 min-h-0 text-xs font-normal capitalize tracking-normal rounded-none"
             >
               Privacy
             </KromaButton>
@@ -346,7 +346,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               variant="ghost"
               size="sm"
               onClick={() => setLegalModal('terms')}
-              className="kroma-footer__legal-link h-auto p-0 min-h-0 text-xs font-normal lowercase tracking-normal"
+              className="kroma-footer__legal-link h-auto p-0 min-h-0 text-xs font-normal capitalize tracking-normal rounded-none"
             >
               Terms
             </KromaButton>

@@ -781,10 +781,13 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
               );
 
               return (
-                <div
+                <button
+                  type="button"
                   key={preset.id}
                   onClick={() => handleApplyPreset(preset)}
-                  className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col justify-between gap-2.5 ${
+                  aria-pressed={isSelected}
+                  aria-label={`Select ${preset.name} spring preset`}
+                  className={`p-3 rounded-sm border transition-all cursor-pointer flex flex-col justify-between gap-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     isSelected
                       ? 'border-[#171717] dark:border-white bg-white dark:bg-[#1A1A1A] shadow-sm ring-1 ring-black/5'
                       : 'border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] hover:border-black/20 dark:hover:border-white/20'
@@ -802,7 +805,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                   </div>
 
                   {/* Motion specimen bar */}
-                  <div className="h-10 w-full rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] relative overflow-hidden flex items-center justify-center">
+                  <div className="h-10 w-full rounded-xs bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] relative overflow-hidden flex items-center justify-center pointer-events-none">
                     <div
                       className="w-5 h-5 rounded-full transition-transform"
                       style={{
@@ -821,7 +824,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                     <span>c: {preset.config.damping}</span>
                     <span>m: {preset.config.mass}kg</span>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -877,7 +880,8 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                 color: '#00AEEF',
               },
             ].map((exp) => (
-              <div
+              <button
+                type="button"
                 key={exp.tag}
                 onClick={() =>
                   handleConfigChange({
@@ -887,7 +891,8 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                     activeColor: exp.color,
                   })
                 }
-                className="p-3.5 rounded-sm border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] hover:border-black/20 dark:hover:border-white/20 transition-all cursor-pointer flex flex-col justify-between gap-2.5 group shadow-2xs"
+                aria-label={`Apply ${exp.title} (${exp.tag}) configuration`}
+                className="p-3.5 rounded-sm border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161616] hover:border-black/20 dark:hover:border-white/20 transition-all cursor-pointer flex flex-col justify-between gap-2.5 group shadow-2xs text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 <div className="flex items-center justify-between font-mono">
                   <span className="text-xs text-[#707070] dark:text-[#888888] uppercase">
@@ -912,7 +917,7 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                   <span>k={exp.k} · c={exp.c}</span>
                   <span className="text-[#171717] dark:text-white font-semibold">APPLY →</span>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </section>

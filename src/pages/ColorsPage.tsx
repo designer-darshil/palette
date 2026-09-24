@@ -8,6 +8,7 @@ import { Search, Loader2, ArrowUpRight, Bookmark, Check, X, Copy } from 'lucide-
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateCollectionPageSchema } from '../utils/schemaGenerator';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface ColorsPageProps {
   onNavigate: (route: RouteType) => void;
@@ -278,16 +279,9 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                 : 'col-span-1 min-h-[190px]';
 
               return (
-                <div
+                <article
                   key={color.id}
-                  className={`group relative bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] overflow-hidden flex flex-col justify-between cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none ${colSpanClass}`}
-                  onClick={() => onNavigate({ path: 'color-detail', slug: color.slug })}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') onNavigate({ path: 'color-detail', slug: color.slug });
-                  }}
-                  aria-label={`Inspect ${color.name} ${color.hex}`}
+                  className={`group relative bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded-[2px] overflow-hidden flex flex-col justify-between transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)] select-none ${colSpanClass}`}
                 >
                   {/* Dominant Color Field */}
                   <div
@@ -331,9 +325,14 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                   {/* Technical Exhibition Annotation */}
                   <div className="p-3 bg-[#F8F8F8] dark:bg-[#141518] border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between gap-2">
                     <div className="min-w-0 flex-1">
-                      <div className="font-sans text-sm font-bold text-[#171717] dark:text-white truncate uppercase tracking-tight">
-                        {color.name}
-                      </div>
+                      <h3 className="font-sans text-sm font-bold text-[#171717] dark:text-white truncate uppercase tracking-tight m-0">
+                        <Link
+                          to={{ path: 'color-detail', slug: color.slug }}
+                          className="hover:underline text-inherit no-underline"
+                        >
+                          {color.name}
+                        </Link>
+                      </h3>
                       <div className="font-mono text-xs text-[#707070] dark:text-[#909090] flex items-center gap-1.5 mt-0.5">
                         <span>{color.hex}</span>
                         {isAnchorHero && color.rgb && (
@@ -342,11 +341,15 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
                       </div>
                     </div>
 
-                    <div className="text-[#707070] group-hover:text-[#171717] dark:group-hover:text-white transition-colors shrink-0">
+                    <Link
+                      to={{ path: 'color-detail', slug: color.slug }}
+                      aria-label={`Inspect ${color.name} ${color.hex}`}
+                      className="text-[#707070] group-hover:text-[#171717] dark:group-hover:text-white transition-colors shrink-0"
+                    >
                       <ArrowUpRight size={13} className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </div>
+                    </Link>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>

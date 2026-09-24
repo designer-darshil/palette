@@ -22,6 +22,7 @@ import { findClosestColorName } from '../utils/paletteGenerator';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generateWebApplicationSchema } from '../utils/schemaGenerator';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface ContrastCheckerPageProps {
   initialFg?: string;
@@ -199,9 +200,9 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
       {/* ── 22: Editorial Breadcrumb ────────────────────────────── */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--border-subtle)]">
         <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'create' })}>STUDIO</span>
+          <Link to={{ path: 'create' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">STUDIO</Link>
           <span>/</span>
-          <span className="cursor-pointer hover:text-[var(--text-primary)]" onClick={() => onNavigate({ path: 'explore' })}>TOOLS</span>
+          <Link to={{ path: 'explore' }} onNavigate={onNavigate} className="hover:text-[var(--text-primary)]">TOOLS</Link>
           <span>/</span>
           <span className="text-[var(--text-primary)] font-semibold">CONTRAST</span>
         </div>
@@ -673,20 +674,23 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
             const isSelected = fgHex === pair.fg && bgHex === pair.bg;
 
             return (
-              <div
+              <button
+                type="button"
                 key={pair.name}
+                aria-pressed={isSelected}
+                aria-label={`Select contrast pair: ${pair.name} (${pairRatio}:1)`}
                 onClick={() => {
                   setFgHex(pair.fg);
                   setBgHex(pair.bg);
                 }}
-                className={`p-3 border rounded-xs cursor-pointer transition-all flex flex-col justify-between min-h-[110px] ${
+                className={`p-3 border rounded-xs cursor-pointer transition-all flex flex-col justify-between min-h-[110px] text-left bg-transparent w-full ${
                   isSelected
                     ? 'border-[var(--text-primary)] ring-1 ring-[var(--text-primary)]'
                     : 'border-[var(--border-subtle)] hover:border-[var(--text-primary)]'
                 }`}
               >
                 {/* 2-Color Preview Swatch */}
-                <div className="h-10 rounded-xs overflow-hidden flex border border-[var(--border-subtle)] mb-2">
+                <div className="h-10 rounded-xs overflow-hidden flex border border-[var(--border-subtle)] mb-2 w-full">
                   <div className="w-1/2 h-full" style={{ backgroundColor: pair.bg }} title={`Background: ${pair.bg}`} />
                   <div className="w-1/2 h-full" style={{ backgroundColor: pair.fg }} title={`Foreground: ${pair.fg}`} />
                 </div>
@@ -699,7 +703,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
                     {pairRatio}:1
                   </div>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>

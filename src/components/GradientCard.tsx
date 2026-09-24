@@ -67,19 +67,12 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
       onClick={() => onNavigate({ path: 'gradient-detail', slug: gradient.slug })}
     >
       {/* Edge-to-Edge Gradient Field (Hero of the Card) */}
-      <div
-        className="w-full h-44 sm:h-48 relative cursor-pointer flex items-end justify-between p-3 select-none"
+      <button
+        type="button"
+        className="w-full h-44 sm:h-48 relative cursor-pointer flex items-end justify-between p-3 select-none border-0"
         style={{ background: gradient.css }}
         onClick={handleCopyCss}
-        role="button"
-        tabIndex={0}
-        aria-label="Click to copy CSS gradient"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleCopyCss(e);
-          }
-        }}
+        aria-label={`Copy CSS for gradient ${gradient.title}`}
       >
         <span className="font-mono text-xs font-semibold text-white bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-[2px] shadow-xs uppercase tracking-wider">
           {gradient.type} {gradient.angle ? `${gradient.angle}°` : ''}
@@ -102,7 +95,7 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
             </>
           )}
         </span>
-      </div>
+      </button>
 
       {/* Editorial Content Layer */}
       <div className="p-3.5 sm:p-4 flex flex-col gap-2 flex-1 bg-[var(--bg-surface-1)]">
@@ -142,7 +135,7 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
             {gradient.category}
           </span>
 
-          <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center gap-1">
             <KromaButton
               type="button"
               variant="ghost"

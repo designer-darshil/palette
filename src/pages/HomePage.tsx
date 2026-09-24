@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowUpRight, RotateCcw, Copy, Check } from 'lucide-react';
 import { RouteType } from '../types';
 import { CURATED_PALETTES } from '../data/palettes';
@@ -200,13 +200,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="my-12 md:my-16 lg:my-[88px] flex flex-col" aria-label="Color of the Moment">
         <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">COLOR OF THE MOMENT</span>
         <div
-          className="group/moment relative w-full min-h-[320px] md:min-h-[440px] rounded p-5 md:p-8 flex flex-col justify-between cursor-pointer transition-all duration-300 hover:scale-[1.012] hover:shadow-[0_20px_48px_-12px_rgba(0,0,0,0.2)] select-none box-border"
+          className="group/moment relative w-full min-h-[320px] md:min-h-[440px] rounded p-5 md:p-8 flex flex-col justify-between transition-all duration-300 hover:scale-[1.012] hover:shadow-[0_20px_48px_-12px_rgba(0,0,0,0.2)] select-none box-border"
           style={{ backgroundColor: momentColor.hex, color: '#FFFFFF' }}
-          onClick={handleCopyMoment}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && handleCopyMoment()}
-          aria-label={`Copy color ${momentColor.name} (${momentColor.hex})`}
         >
           <div className="flex items-center justify-between font-mono text-xs tracking-[0.06em] uppercase">
             <span>SPECIMEN Nº 01</span>
@@ -349,9 +344,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           <div className="bg-[#202020] border border-white/10 rounded-[4px] p-5 sm:p-6 flex flex-col gap-5">
             <div className="flex h-[100px] rounded-[3px] overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.3)]">
               {generatedColors.map((col, idx) => (
-                <div
+                <button
+                  type="button"
                   key={col.id || idx}
-                  className="flex-1 h-full transition-colors duration-250 cursor-pointer"
+                  aria-pressed={selectedSlotIndex === idx}
+                  aria-label={`Select slot ${idx + 1}: ${col.name} (${col.hex})`}
+                  className="flex-1 h-full transition-colors duration-250 cursor-pointer border-0 p-0"
                   style={{
                     backgroundColor: col.hex,
                     outline: selectedSlotIndex === idx ? '2px solid #FFFFFF' : 'none',

@@ -94,7 +94,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ collection, onNa
             BY {collection.creator.name}
           </span>
 
-          <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center gap-1">
             <KromaButton
               type="button"
               variant="ghost"

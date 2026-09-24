@@ -27,3 +27,11 @@
 - Admin-specific views live in `src/pages/admin/`.
 - Reusable UI primitives live in `src/components/common/`.
 - Shared layout elements live in `src/components/`.
+
+## 6. Native Interactive Elements & Accessibility Standards
+- **Actions vs Navigation**: Use `<button type="button">` (or `<KromaButton>`) for actions, toggles, controls, and modal triggers. Use `<Link>` or `<a>` for route/URL navigation.
+- **Strictly Avoid Fake Buttons**: Never use `<div onClick>`, `<span onClick>`, `<div role="button">`, `<span role="button">`, or fake anchors `href="#"` when a native HTML element can perform the function.
+- **No Nested Interactive Elements**: Do not nest `<button>` inside `<button>` or `<a>` inside `<a>`. Cards with multiple interactive sub-elements must use structural wrappers (`<article>`, `<div>`) and distinct inner controls.
+- **Custom Canvas/SVG Elements**: Where native HTML elements cannot be rendered (e.g. SVG `<circle>`, `<g>`), provide the complete WAI-ARIA button pattern: `role="button"`, `tabIndex={0}`, `aria-label`, visible focus indicator (`focus-visible:outline`), and keyboard handler (`onKeyDown` handling Enter & Space).
+- **Accessible State**: Interactive elements must convey state using appropriate ARIA attributes (`aria-expanded`, `aria-pressed`, `aria-label`) and retain visible focus states (`focus-visible:outline-2`).
+

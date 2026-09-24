@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Plus, Trash2, Edit2, Eye, X, BookmarkCheck } from 'lucide-react';
+import { Search, Plus, Trash2, Edit2, Eye, X } from 'lucide-react';
 import { CollectionItem } from '../../types';
 import { CURATED_COLLECTIONS } from '../../data/collections';
 import { useAdminAuth } from '../../context/AdminAuthContext';
@@ -183,7 +183,12 @@ export const AdminCollectionsPage: React.FC = () => {
               className="bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs overflow-hidden flex flex-col justify-between"
             >
               {/* Cover Preview Strip */}
-              <div className="flex h-16 w-full border-b border-black/10 dark:border-white/10 cursor-pointer" onClick={() => setInspectCollection(col)}>
+              <button
+                type="button"
+                className="flex h-16 w-full border-b border-black/10 dark:border-white/10 cursor-pointer p-0 border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                onClick={() => setInspectCollection(col)}
+                aria-label={`Inspect ${col.title} collection`}
+              >
                 {coverHexes.length > 0 ? (
                   coverHexes.map((hex, i) => (
                     <div
@@ -198,7 +203,7 @@ export const AdminCollectionsPage: React.FC = () => {
                 ) : (
                   <div className="w-full h-full bg-[#111216]" />
                 )}
-              </div>
+              </button>
 
               {/* Content */}
               <div className="p-4 flex flex-col gap-3">

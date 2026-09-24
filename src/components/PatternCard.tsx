@@ -133,7 +133,7 @@ export const PatternCard: React.FC<PatternCardProps> = ({
             {pattern.scale}PX · {pattern.density}% DENSITY
           </span>
 
-          <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center gap-1">
             <KromaButton
               type="button"
               variant="ghost"

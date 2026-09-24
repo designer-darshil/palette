@@ -270,9 +270,11 @@ export const AdminPalettesPage: React.FC = () => {
               className="bg-white dark:bg-[#111216] border border-black/10 dark:border-white/10 rounded-xs overflow-hidden flex flex-col justify-between"
             >
               {/* Color Composition Dominates the Card (Full Width 5-Color Strip) */}
-              <div
-                className="w-full h-28 flex cursor-pointer group relative overflow-hidden"
+              <button
+                type="button"
+                className="w-full h-28 flex cursor-pointer group relative overflow-hidden border-0 p-0 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 onClick={() => setInspectPalette(palette)}
+                aria-label={`Inspect ${palette.title} palette`}
               >
                 {palette.colors.map((c, i) => (
                   <div
@@ -282,7 +284,7 @@ export const AdminPalettesPage: React.FC = () => {
                     title={`${c.name} (${c.hex})`}
                   />
                 ))}
-              </div>
+              </button>
 
               {/* Data & Real Metadata */}
               <div className="p-4 flex flex-col gap-3">
@@ -377,14 +379,16 @@ export const AdminPalettesPage: React.FC = () => {
                   className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
                 >
                   <td className="py-2 px-4">
-                    <div
-                      className="flex w-24 h-5 rounded-xs overflow-hidden border border-black/10 dark:border-white/10 cursor-pointer"
+                    <button
+                      type="button"
+                      className="flex w-24 h-5 rounded-xs overflow-hidden border border-black/10 dark:border-white/10 cursor-pointer p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                       onClick={() => setInspectPalette(palette)}
+                      aria-label={`Inspect ${palette.title} palette`}
                     >
                       {palette.colors.map((c, i) => (
                         <div key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
                       ))}
-                    </div>
+                    </button>
                   </td>
                   <td className="py-2 px-4 font-semibold text-[#171717] dark:text-[#F8F8F8]">
                     {palette.title}

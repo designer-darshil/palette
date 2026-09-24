@@ -88,22 +88,24 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
               return (
                 <div
                   key={stepKey}
-                  onClick={() => onSelectStep(isStopSelected ? null : stepNum)}
-                  className={`flex-1 h-full relative cursor-pointer group transition-all flex flex-col justify-between p-2 sm:p-2.5 ${
+                  className={`flex-1 h-full relative group transition-all flex flex-col justify-between p-2 sm:p-2.5 ${
                     isStopSelected ? 'ring-2 ring-[var(--color-primary)] z-10 scale-[1.02] shadow-lg' : 'hover:brightness-110'
                   }`}
                   style={{ backgroundColor: c.hex }}
-                  title={`${activeRamp.label} ${stepKey}: ${formattedVal}`}
                 >
-                  <span
-                    className="font-mono text-xs font-bold px-1 py-0.5 rounded-xs w-fit"
+                  <button
+                    type="button"
+                    onClick={() => onSelectStep(isStopSelected ? null : stepNum)}
+                    aria-pressed={isStopSelected}
+                    aria-label={`Select step ${stepKey}: ${formattedVal}`}
+                    className="font-mono text-xs font-bold px-1 py-0.5 rounded-xs w-fit border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-white"
                     style={{
                       backgroundColor: c.contrastWithWhite < 4.5 ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.65)',
                       color: c.contrastWithWhite < 4.5 ? '#FFFFFF' : '#000000',
                     }}
                   >
                     {stepKey}
-                  </span>
+                  </button>
 
                   <KromaButton
                     type="button"
@@ -243,19 +245,32 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                 return (
                   <>
                     <path d={d} fill="none" stroke="url(#curveGradient)" strokeWidth="2.5" strokeLinecap="round" />
-                    {points.map((p) => (
-                      <circle
-                        key={p.stepKey}
-                        cx={p.x}
-                        cy={p.y}
-                        r={selectedStep === parseInt(p.stepKey, 10) ? 4.5 : 2.5}
-                        fill={p.hex}
-                        stroke="var(--bg-canvas)"
-                        strokeWidth="1.5"
-                        className="cursor-pointer"
-                        onClick={() => onSelectStep(parseInt(p.stepKey, 10))}
-                      />
-                    ))}
+                    {points.map((p) => {
+                      const isSelected = selectedStep === parseInt(p.stepKey, 10);
+                      return (
+                        <circle
+                          key={p.stepKey}
+                          cx={p.x}
+                          cy={p.y}
+                          r={isSelected ? 4.5 : 2.5}
+                          fill={p.hex}
+                          stroke="var(--bg-canvas)"
+                          strokeWidth="1.5"
+                          role="button"
+                          tabIndex={0}
+                          aria-pressed={isSelected}
+                          aria-label={`Select step ${p.stepKey} on lightness curve: ${p.hex}`}
+                          className="cursor-pointer focus-visible:outline-none"
+                          onClick={() => onSelectStep(parseInt(p.stepKey, 10))}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onSelectStep(parseInt(p.stepKey, 10));
+                            }
+                          }}
+                        />
+                      );
+                    })}
                   </>
                 );
               })()}
@@ -275,17 +290,20 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
             {rampEntries.map(([rampKey, ramp]) => {
               const isSelected = rampKey === activeRampKey;
               return (
-                <div
+                <button
+                  type="button"
                   key={rampKey}
                   onClick={() => onSelectRampKey(rampKey)}
-                  className={`flex items-center gap-2 cursor-pointer group transition-all rounded-xs p-1 ${
+                  aria-pressed={isSelected}
+                  aria-label={`Select ramp ${ramp.label}`}
+                  className={`w-full flex items-center gap-2 cursor-pointer group transition-all rounded-xs p-1 border-0 bg-transparent text-left focus-visible:outline-2 focus-visible:outline-primary-500 ${
                     isSelected ? 'bg-[var(--bg-surface-1)]' : 'hover:bg-[var(--bg-surface-1)]/50'
                   }`}
                 >
                   <span className={`font-mono text-xs w-16 truncate ${isSelected ? 'font-bold text-[var(--text-primary)]' : 'text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]'}`}>
                     {ramp.label}
                   </span>
-                  <div className="flex-1 h-5 rounded-xs overflow-hidden flex">
+                  <div className="flex-1 h-5 rounded-xs overflow-hidden flex pointer-events-none">
                     {STEP_KEYS.map((stepKey) => {
                       const c = ramp.steps[stepKey];
                       return (
@@ -298,7 +316,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
                       );
                     })}
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>

@@ -536,3 +536,217 @@ Tailwind overrides
      ↓
 Application UI
 ```
+
+## Global CSS and Tailwind Migration Policy
+
+### Tailwind is the Primary UI Styling Layer
+
+Tailwind CSS is the canonical implementation layer for application UI.
+
+Do not create or expand component-level CSS abstractions in `src/index.css`.
+
+The following are prohibited for new UI work when Tailwind can express the same behavior:
+
+- BEM-style component selectors such as `.kroma-header__item`
+- page-specific selectors such as `.studio-*` or `.admin-*`
+- custom component classes such as `.kroma-button-*`
+- CSS classes that merely wrap Tailwind utilities
+- duplicate responsive systems
+- duplicate typography systems
+- duplicate spacing systems
+- `!important` used to fight Tailwind specificity
+- CSS selectors whose only purpose is to encode React component state
+
+### `src/index.css` Responsibility
+
+`src/index.css` is global infrastructure, not the application's primary component stylesheet.
+
+It may contain only:
+
+1. Tailwind directives/imports
+2. Runtime design tokens that genuinely require CSS variables
+3. Global base/reset styles
+4. Global typography defaults
+5. Global accessibility/focus defaults
+6. Required third-party stylesheet imports
+7. Browser-specific technical CSS that Tailwind cannot reasonably express
+
+Component styling does not belong here.
+
+### Technical CSS
+
+The following may remain outside Tailwind when technically necessary:
+
+- `::-webkit-scrollbar` and related scrollbar pseudo-elements
+- `::-webkit-slider-thumb`
+- `::-moz-range-thumb`
+- unavoidable browser-specific pseudo-elements
+- specialized preloaders
+- genuinely complex browser-specific rendering behavior
+
+Prefer isolating such styles in dedicated files under `src/styles/` rather than expanding `src/index.css`.
+
+### Migration Rule
+
+When modifying a component that currently depends on custom CSS:
+
+1. Inspect the component and its CSS together.
+2. Identify every selector used by the component.
+3. Determine whether Tailwind can express the behavior.
+4. Replace the CSS with Tailwind utilities in the component.
+5. Preserve visual behavior, responsive behavior, accessibility, interaction states, and animations.
+6. Remove the migrated CSS selector.
+7. Search the repository for remaining references to the selector.
+8. Do not create a replacement custom CSS class merely to avoid writing Tailwind utilities.
+
+Migration priority:
+
+1. Existing KROMA Tailwind token
+2. Existing Tailwind theme token
+3. Standard Tailwind utility
+4. Tailwind responsive/state variant
+5. Tailwind arbitrary value
+6. Dedicated technical CSS only when Tailwind cannot reasonably express the requirement
+
+### Design Tokens
+
+Preserve the KROMA visual design system.
+
+Do not remove design decisions merely because component CSS is being removed.
+
+However, design tokens must not be confused with component CSS.
+
+For example:
+
+Allowed:
+
+```tsx
+className = "bg-bg-surface-1 text-text-primary border-border-subtle";
+```
+
+if these are real Tailwind theme utilities.
+
+Not allowed:
+
+```css
+.kroma-card {
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-subtle);
+}
+```
+
+when the same result can be expressed through Tailwind.
+
+### Responsive Design
+
+Tailwind breakpoints are the canonical responsive system.
+
+Do not maintain a second breakpoint system in `index.css` unless a runtime CSS variable is technically required.
+
+Prefer:
+
+```tsx
+className = "px-4 md:px-6 lg:px-8";
+```
+
+over:
+
+```css
+@media (max-width: 768px) {
+  .component {
+    padding: 16px;
+  }
+}
+```
+
+### Component State
+
+Do not encode application state through CSS selectors when React already knows the state.
+
+Avoid patterns such as:
+
+```css
+.main-content:has(.studio-workspace) { ... }
+```
+
+Prefer explicit React state/structure with conditional Tailwind classes.
+
+Avoid creating modifier CSS such as:
+
+```css
+.component--open
+.component--active
+.component--visible
+```
+
+when the same state can be represented by conditional Tailwind classes.
+
+### Animation
+
+Prefer Tailwind animation utilities and Tailwind theme keyframes for reusable application animations.
+
+Do not create standalone CSS animation classes in `index.css` when the animation can be represented through the Tailwind theme.
+
+Keep dedicated CSS only for technically complex animations that genuinely require CSS beyond practical Tailwind expression.
+
+### Existing CSS Migration
+
+When touching a legacy component, migrate its existing custom CSS opportunistically rather than adding more custom CSS.
+
+Do not perform a blind global deletion.
+
+Before deleting a selector:
+
+- search for all usages;
+- inspect dynamic class construction;
+- inspect conditional class composition;
+- inspect third-party or non-React usage;
+- verify that equivalent Tailwind behavior exists.
+
+Unused selectors should be deleted.
+
+Migrated selectors should be deleted after verification.
+
+### `!important`
+
+Do not introduce `!important` to solve ordinary Tailwind conflicts.
+
+If existing CSS contains `!important`, treat it as a migration signal.
+
+Resolve the underlying specificity or architecture problem instead of reproducing the `!important` pattern.
+
+Use `!important` only where a genuine browser, accessibility, or third-party integration requirement makes it necessary.
+
+### Global CSS Quality Gate
+
+Before considering a UI task complete:
+
+- `src/index.css` contains no new component-level styling;
+- migrated selectors have been removed;
+- no duplicate Tailwind/CSS token systems were introduced;
+- no unnecessary `!important` rules were introduced;
+- no page-specific CSS was added to the global stylesheet;
+- responsive behavior uses Tailwind breakpoints;
+- interactive states use Tailwind variants or React state;
+- technical CSS is isolated when practical;
+- `npx tsc --noEmit` passes;
+- `npm test` passes;
+- `npm run build` passes when available.
+
+### Target Architecture
+
+The target styling architecture is:
+
+KROMA Design System
+→ Tailwind Theme / Runtime Tokens
+→ Tailwind Utilities
+→ React Components
+→ Application UI
+
+Not:
+
+KROMA Design System
+→ Large global CSS component layer
+→ Tailwind overrides
+→ `!important`
+→ Application UI

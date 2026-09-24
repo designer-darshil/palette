@@ -295,10 +295,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                 Studio Engines &amp; Utilities
               </div>
               {matchedTools.map((tool) => (
-                <div
+                <button
                   key={tool.id}
+                  type="button"
                   onClick={() => handleSelect(tool.route)}
-                  className="search-result-item cursor-pointer"
+                  className="search-result-item cursor-pointer w-full text-left"
                 >
                   <div className="flex items-center gap-2.5">
                     <span className="p-1 rounded-xs bg-[var(--bg-surface-3)] text-teal-400">
@@ -308,7 +309,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                     <span className="text-xs text-[var(--text-secondary)]">{tool.desc}</span>
                   </div>
                   <ArrowRight size={13} className="text-[var(--text-tertiary)]" />
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -320,10 +321,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                 Colors
               </div>
               {matchedColors.map((c) => (
-                <div
+                <button
                   key={c.id}
+                  type="button"
                   onClick={() => handleSelect({ path: 'color-detail', slug: c.slug })}
-                  className="search-result-item"
+                  className="search-result-item w-full text-left"
                 >
                   <div className="flex items-center gap-2.5">
                     <span className="w-4 h-4 rounded-xs border border-black/20" style={{ backgroundColor: c.hex }} />
@@ -331,7 +333,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                     <span className="font-mono text-xs text-[var(--text-secondary)]">{c.hex}</span>
                   </div>
                   <span className="text-xs font-mono text-[var(--text-tertiary)]">{c.family}</span>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -343,10 +345,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                 Palettes
               </div>
               {matchedPalettes.map((p) => (
-                <div
+                <button
                   key={p.id}
+                  type="button"
                   onClick={() => handleSelect({ path: 'palette-detail', slug: p.slug })}
-                  className="search-result-item"
+                  className="search-result-item w-full text-left"
                 >
                   <div className="flex items-center gap-2.5">
                     <div className="w-12 h-3.5 rounded-xs overflow-hidden flex">
@@ -357,7 +360,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                     <span className="font-bold text-xs text-[var(--text-primary)]">{p.title}</span>
                   </div>
                   <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase">{p.category}</span>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -369,17 +372,18 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                 Collections
               </div>
               {matchedCollections.map((col) => (
-                <div
+                <button
                   key={col.id}
+                  type="button"
                   onClick={() => handleSelect({ path: 'collection-detail', slug: col.slug })}
-                  className="search-result-item"
+                  className="search-result-item w-full text-left"
                 >
                   <div className="flex items-center gap-2.5">
                     <Layers size={14} className="text-[var(--color-primary)]" />
                     <span className="font-bold text-xs text-[var(--text-primary)]">{col.title}</span>
                   </div>
                   <span className="text-xs font-mono text-[var(--text-tertiary)]">{col.items.length} items</span>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -391,17 +395,18 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                 Patterns
               </div>
               {matchedPatterns.map((pat) => (
-                <div
+                <button
                   key={pat.id}
+                  type="button"
                   onClick={() => handleSelect({ path: 'pattern-detail', slug: pat.slug })}
-                  className="search-result-item"
+                  className="search-result-item w-full text-left"
                 >
                   <div className="flex items-center gap-2.5">
                     <Grid size={14} className="text-[var(--accent-gold)]" />
                     <span className="font-bold text-xs text-[var(--text-primary)]">{pat.title}</span>
                   </div>
                   <span className="text-xs font-mono text-[var(--text-tertiary)] uppercase">{pat.type}</span>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -413,17 +418,18 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                 Creators
               </div>
               {matchedCreators.map((cr) => (
-                <div
+                <button
                   key={cr.id}
+                  type="button"
                   onClick={() => handleSelect({ path: 'creator-detail', username: cr.username })}
-                  className="search-result-item"
+                  className="search-result-item w-full text-left"
                 >
                   <div className="flex items-center gap-2.5">
                     <Users size={14} className="text-emerald-400" />
                     <span className="font-bold text-xs text-[var(--text-primary)]">{cr.name}</span>
                   </div>
                   <span className="text-xs font-mono text-[var(--text-tertiary)]">@{cr.username}</span>
-                </div>
+                </button>
               ))}
             </div>
           )}

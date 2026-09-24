@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useRef } from 'react';
-import { Download, Copy, Sparkles, Check, RotateCcw, Image, Maximize2, Palette } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Download, Copy, Sparkles, Check, RotateCcw, Image, Maximize2 } from 'lucide-react';
 import { RouteType, PatternType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useToast } from '../context/ToastContext';
@@ -7,8 +7,8 @@ import { generatePatternSvg, generatePatternCss } from '../utils/patternEngine';
 import { copyToClipboard } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { CURATED_PATTERNS } from '../data/patterns';
-import { Analytics } from '../utils/analytics';
 import { KromaButton } from '../components/common/KromaButton';
+import { Link } from '../components/common/Link';
 
 interface PatternStudioPageProps {
   onNavigate: (route: RouteType) => void;
@@ -368,23 +368,19 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
       {/* ─── 1. Minimal Kroma Breadcrumb ─────────────────────────── */}
       <nav className="flex items-center gap-2 font-sans text-xs font-medium tracking-[0.04em] uppercase mb-6" aria-label="Breadcrumb">
-        <KromaButton
-          variant="ghost"
-          size="sm"
-          onClick={() => onNavigate({ path: 'home' })}
-          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit h-auto"
+        <Link
+          to={{ path: 'home' }}
+          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer no-underline"
         >
           HOME
-        </KromaButton>
+        </Link>
         <span className="text-[#171717]/25 dark:text-white/25 font-light" aria-hidden="true">/</span>
-        <KromaButton
-          variant="ghost"
-          size="sm"
-          onClick={() => onNavigate({ path: 'create' })}
-          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit h-auto"
+        <Link
+          to={{ path: 'create' }}
+          className="text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white transition-colors cursor-pointer no-underline"
         >
           STUDIO
-        </KromaButton>
+        </Link>
         <span className="text-[#171717]/25 dark:text-white/25 font-light" aria-hidden="true">/</span>
         <span className="text-[#171717] dark:text-white font-semibold">PATTERN STUDIO</span>
       </nav>
@@ -620,15 +616,18 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
             </div>
 
             {/* Visual Palette Strip Preview */}
-            <div
-              className="flex w-full h-8 rounded-[2px] overflow-hidden border border-black/[0.08] dark:border-white/[0.08] cursor-pointer hover:scale-[1.01] transition-transform"
+            <button
+              type="button"
+              className="flex w-full h-8 rounded-[2px] overflow-hidden border border-black/[0.08] dark:border-white/[0.08] cursor-pointer hover:scale-[1.01] transition-transform p-0 bg-transparent"
               onClick={() => setShowPaletteDrawer(!showPaletteDrawer)}
               title="Click to toggle palette selection"
+              aria-label="Toggle palette selection"
+              aria-expanded={showPaletteDrawer}
             >
               {activePalette.map((hex, i) => (
                 <span key={i} className="flex-1 h-full" style={{ backgroundColor: hex }} />
               ))}
-            </div>
+            </button>
 
             {/* Palette Drawer list when opened */}
             {showPaletteDrawer && (
@@ -717,25 +716,22 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
             );
 
             return (
-              <div
+              <button
                 key={preset.id}
-                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden cursor-pointer flex flex-col transition-all duration-200 ease-out hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.4)]"
+                type="button"
+                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden cursor-pointer flex flex-col transition-all duration-200 ease-out hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_10px_24px_-4px_rgba(0,0,0,0.4)] text-left p-0"
                 onClick={() => handleApplyPreset(preset)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleApplyPreset(preset);
-                }}
+                aria-label={`Apply preset ${preset.title}`}
               >
                 <div
                   className="w-full h-[150px] overflow-hidden bg-[#111215] [&>svg]:w-full [&>svg]:h-full [&>svg]:block"
                   dangerouslySetInnerHTML={{ __html: thumbSvg }}
                 />
-                <div className="p-3.5 sm:px-4 flex items-center justify-between gap-2">
+                <div className="p-3.5 sm:px-4 flex items-center justify-between gap-2 w-full">
                   <span className="font-sans text-[13.5px] font-semibold text-[#171717] dark:text-white truncate">{preset.title}</span>
                   <span className="font-mono text-xs text-[#707070] uppercase shrink-0">{preset.type}</span>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
@@ -759,26 +755,23 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
           {variations.map((v, vi) => {
             const varSvg = generatePatternSvg(v.config, 200, 110);
             return (
-              <div
+              <button
                 key={vi}
-                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden cursor-pointer flex flex-col transition-all duration-150 hover:-translate-y-0.5 hover:border-black/[0.24] dark:hover:border-white/[0.24]"
+                type="button"
+                className="bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded overflow-hidden cursor-pointer flex flex-col transition-all duration-150 hover:-translate-y-0.5 hover:border-black/[0.24] dark:hover:border-white/[0.24] text-left p-0"
                 onClick={() => {
                   v.apply();
                   showToast(`Applied Mutation: ${v.label}`);
                 }}
-                role="button"
-                tabIndex={0}
                 title={`Click to apply ${v.label}`}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') v.apply();
-                }}
+                aria-label={`Apply mutation ${v.label}`}
               >
                 <div
                   className="w-full h-[110px] overflow-hidden [&>svg]:w-full [&>svg]:h-full [&>svg]:block"
                   dangerouslySetInnerHTML={{ __html: varSvg }}
                 />
-                <div className="p-2 sm:px-2.5 font-mono text-xs font-semibold text-[#707070] dark:text-[#8E8E93] text-center uppercase">{v.label}</div>
-              </div>
+                <div className="p-2 sm:px-2.5 font-mono text-xs font-semibold text-[#707070] dark:text-[#8E8E93] text-center uppercase w-full">{v.label}</div>
+              </button>
             );
           })}
         </div>

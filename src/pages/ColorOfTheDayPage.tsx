@@ -96,10 +96,12 @@ export const ColorOfTheDayPage: React.FC<ColorOfTheDayPageProps> = ({ onNavigate
 
       {/* Hero Swatch Stage */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div
-          className="lg:col-span-7 h-64 sm:h-80 rounded-md border border-[var(--border-subtle)] p-6 flex flex-col justify-between shadow-xl cursor-pointer"
+        <button
+          type="button"
+          className="lg:col-span-7 h-64 sm:h-80 rounded-md border border-[var(--border-subtle)] p-6 flex flex-col justify-between shadow-xl cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           style={{ backgroundColor: color.hex, color: access.bestTextColor }}
           onClick={handleCopyHex}
+          aria-label={`Copy color ${color.name} (${color.hex})`}
         >
           <span className="font-mono text-xs font-bold px-2 py-0.5 rounded-xs w-fit bg-black/20 text-white backdrop-blur-xs">
             MASTER SPECIMEN
@@ -109,7 +111,7 @@ export const ColorOfTheDayPage: React.FC<ColorOfTheDayPageProps> = ({ onNavigate
             <div className="font-mono text-2xl sm:text-3xl font-black">{color.hex}</div>
             <div className="font-mono text-sm opacity-90">{color.oklch} • {color.rgb}</div>
           </div>
-        </div>
+        </button>
 
         {/* Technical Diagnostics */}
         <div className="lg:col-span-5 p-5 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md flex flex-col justify-between gap-4">

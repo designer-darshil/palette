@@ -3,7 +3,6 @@ import { RouteType } from '../types';
 import {
   MeshGradientConfig,
   MeshPoint,
-  DEFAULT_MESH_CONFIG,
   MESH_PRESETS,
   serializeMeshConfig,
   deserializeMeshConfig,
@@ -576,13 +575,11 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
           return (
             <div
               key={pt.id}
-              onClick={() => setSelectedPointId(pt.id)}
-              className={`flex items-center gap-2 px-2 py-1 bg-black/[0.04] dark:bg-white/[0.04] border rounded-xs cursor-pointer transition-all ${
+              className={`flex items-center gap-2 px-2 py-1 bg-black/[0.04] dark:bg-white/[0.04] border rounded-xs transition-all ${
                 isSelected
                   ? 'border-kroma-text dark:border-white ring-1 ring-kroma-text dark:ring-white bg-black/[0.07] dark:bg-white/[0.08]'
                   : 'border-black/[0.08] dark:border-white/[0.08] hover:border-black/25 dark:hover:border-white/25'
               }`}
-              title={`Node ${idx + 1}: ${pt.color} at (${pt.x}%, ${pt.y}%)`}
             >
               <div
                 className="w-4 h-4 rounded-xs border border-black/15 flex-shrink-0 relative overflow-hidden"
@@ -595,10 +592,19 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                   onClick={(e) => e.stopPropagation()}
                   className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                   title="Pick color"
+                  aria-label={`Pick color for node ${idx + 1}`}
                 />
               </div>
 
-              <span className="font-mono text-xs font-medium text-kroma-text dark:text-white uppercase">{pt.color}</span>
+              <button
+                type="button"
+                onClick={() => setSelectedPointId(pt.id)}
+                aria-pressed={isSelected}
+                aria-label={`Select node ${idx + 1}: ${pt.color} at (${pt.x}%, ${pt.y}%)`}
+                className="font-mono text-xs font-medium text-kroma-text dark:text-white uppercase border-0 bg-transparent p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-primary-500"
+              >
+                {pt.color}
+              </button>
 
               {config.points.length > 2 && (
                 <KromaButton
@@ -897,18 +903,20 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
               : '#090A0C';
 
             return (
-              <div
+              <button
+                type="button"
                 key={p.id}
                 onClick={() => handleSelectPreset(p.id)}
-                className={`bg-kroma-bg dark:bg-[#141518] border rounded-sm overflow-hidden p-2 cursor-pointer transition-all duration-150 flex flex-col gap-2 ${
+                aria-pressed={isActive}
+                aria-label={`Load preset ${p.name}`}
+                className={`bg-kroma-bg dark:bg-[#141518] border rounded-sm overflow-hidden p-2 cursor-pointer transition-all duration-150 flex flex-col gap-2 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                   isActive
                     ? 'border-kroma-text dark:border-white ring-1 ring-kroma-text dark:ring-white scale-[1.02]'
                     : 'border-black/[0.08] dark:border-white/[0.08] hover:border-black/25 dark:hover:border-white/25'
                 }`}
-                title={`Load ${p.name}`}
               >
                 <div
-                  className="w-full h-14 rounded-xs border border-black/10 dark:border-white/10"
+                  className="w-full h-14 rounded-xs border border-black/10 dark:border-white/10 pointer-events-none"
                   style={{ background: bgCss }}
                 />
                 <div className="flex flex-col gap-0.5">
@@ -916,7 +924,7 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
                   <span className="font-sans text-xs font-bold uppercase tracking-tight text-kroma-text dark:text-white truncate">{p.name}</span>
                   <span className="font-sans text-xs text-kroma-muted dark:text-[#8E8E93] truncate">{p.tagline}</span>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>

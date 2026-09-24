@@ -15,7 +15,6 @@ import {
   Bell,
   Activity,
   ShieldCheck,
-  Check,
   ArrowRight,
   X,
 } from 'lucide-react';
@@ -26,7 +25,6 @@ import { useLibraryData } from '../context/LibraryDataContext';
 import {
   copyToClipboard,
   hexToRgb,
-  hexToHsl,
 } from '../utils/colorUtils';
 import { findClosestColorName } from '../utils/paletteGenerator';
 import {
@@ -46,7 +44,6 @@ import {
   hexToOklch,
   oklchToCssString,
   getSmartForeground,
-  adjustColorForContrast,
   SemanticRolesModel,
   SemanticRelationshipCheck,
 } from '../utils/oklchColorSystem';
@@ -602,14 +599,15 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
         {/* Primary Swatch Dominance (Hero Block) */}
         <div className="border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)] p-4 sm:p-6 flex flex-col md:flex-row items-stretch gap-6 shadow-sm">
           {/* Large Color Swatch Block */}
-          <div
-            className="w-full md:w-3/5 h-44 sm:h-52 rounded-[2px] p-5 flex flex-col justify-between shadow-inner transition-colors duration-300 relative group cursor-pointer"
+          <button
+            type="button"
+            className="w-full md:w-3/5 h-44 sm:h-52 rounded-[2px] p-5 flex flex-col justify-between shadow-inner transition-colors duration-300 relative group cursor-pointer text-left border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             style={{
               backgroundColor: primaryRole.hex,
               color: canvasContrastText,
             }}
             onClick={() => setPickerTarget({ key: 'primary', label: 'Primary Brand Color', color: primaryRole.hex })}
-            title="Click to edit Primary Color"
+            aria-label={`Edit Primary Brand Color (${primaryRole.hex})`}
           >
             <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider opacity-85">
               <span>{primaryRole.roleId}</span>
@@ -626,7 +624,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 {findClosestColorName(primaryRole.hex)}
               </span>
             </div>
-          </div>
+          </button>
 
           {/* Primary Role Info & Values */}
           <div className="w-full md:w-2/5 flex flex-col justify-between gap-4 py-1">
@@ -730,11 +728,12 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 className="border border-[var(--border-subtle)] rounded-[2px] bg-[var(--bg-surface-1)] overflow-hidden flex flex-col justify-between shadow-sm transition-all"
               >
                 {/* Visual Swatch Dominance */}
-                <div
-                  className="h-28 p-3 flex flex-col justify-between transition-colors duration-300 cursor-pointer group"
+                <button
+                  type="button"
+                  className="h-28 p-3 flex flex-col justify-between transition-colors duration-300 cursor-pointer group text-left border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   style={{ backgroundColor: role.hex, color: fg }}
                   onClick={() => setPickerTarget({ key: role.key, label: role.label, color: role.hex })}
-                  title={`Edit ${role.label}`}
+                  aria-label={`Edit ${role.label} (${role.hex})`}
                 >
                   <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider opacity-85">
                     <span>{role.roleId}</span>
@@ -749,7 +748,7 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                       {findClosestColorName(role.hex)}
                     </span>
                   </div>
-                </div>
+                </button>
 
                 {/* Role Details */}
                 <div className="p-3 flex flex-col justify-between gap-2.5 flex-1">

@@ -23,6 +23,7 @@ import {
   CloudSun,
   ArrowRight,
   Activity,
+  Pipette,
 } from 'lucide-react';
 import { RouteType } from '../types';
 import { useSaved } from '../context/SavedContext';
@@ -38,6 +39,14 @@ export interface HeaderProps {
 
 /* ─── Studio Engines (from previous commit) ─── */
 const STUDIO_TOOLS = [
+  {
+    id: 'color-picker',
+    title: 'Color Picker',
+    description: 'Precision colorimetry, harmonic schemes & multi-space translation',
+    icon: <Pipette size={15} />,
+    color: '#3D7DFF',
+    path: { path: 'color-picker' } as RouteType,
+  },
   {
     id: 'ramps',
     title: 'Ramps Studio',
@@ -306,6 +315,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
     currentRoute.path === 'extract-from-image' ||
     currentRoute.path === 'brand-kit' ||
     currentRoute.path === 'contrast-checker' ||
+    currentRoute.path === 'color-picker' ||
     currentRoute.path === 'live';
 
   const isCommunityActive =
@@ -488,11 +498,15 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                     </div>
                     <div className="flex flex-col gap-2.5">
                       {[
-                        STUDIO_TOOLS[0], // Ramps
-                        STUDIO_TOOLS[4], // Palette Generator
-                        STUDIO_TOOLS[2], // Mesh Gradient
-                        STUDIO_TOOLS[3], // Pattern Studio
-                      ].map((tool) => {
+                        'color-picker',
+                        'ramps',
+                        'palette-generator',
+                        'mesh',
+                        'pattern-studio',
+                      ]
+                        .map((id) => STUDIO_TOOLS.find((t) => t.id === id))
+                        .filter((t): t is (typeof STUDIO_TOOLS)[number] => Boolean(t))
+                        .map((tool) => {
                         const isActive = currentRoute.path === tool.id;
                         return (
                           <Link
@@ -532,11 +546,15 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                     </div>
                     <div className="flex flex-col gap-2.5">
                       {[
-                        STUDIO_TOOLS[1], // Antigravity
-                        STUDIO_TOOLS[6], // Brand Kit
-                        STUDIO_TOOLS[7], // Contrast Checker
-                        STUDIO_TOOLS[5], // Extract from Image
-                      ].map((tool) => {
+                        'springs',
+                        'brand-kit',
+                        'contrast-checker',
+                        'extract-from-image',
+                        'live',
+                      ]
+                        .map((id) => STUDIO_TOOLS.find((t) => t.id === id))
+                        .filter((t): t is (typeof STUDIO_TOOLS)[number] => Boolean(t))
+                        .map((tool) => {
                         const isActive = currentRoute.path === tool.id;
                         return (
                           <Link

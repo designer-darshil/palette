@@ -27,6 +27,7 @@ KROMA (PaletteParadise) is an editorial-grade, high-performance digital colorime
 - **Collections & Creators** (`/collections`, `/creators`): Themed specimen anthologies and designer profiles.
 
 ### 3.3 Creative Studios
+- **Color Picker** (`/color-picker`, `/picker`): Mathematical colorimetry studio with bidirectional HEX, RGB, HSL, HSV & OKLCH translation, live harmonic schemes (Complementary, Analogous, Triadic, Tetradic, Monochromatic), tints/shades/tones scales, and WCAG 2.2 contrast compliance.
 - **Ramps Studio** (`/ramps`): 11-step design system scale generator (50–950) with automated semantic tokens and OKLCH color-space gamut fitting.
 - **Antigravity Studio** (`/antigravity`): Interactive 2D rigid-body kinetic physics simulator generating DTCG tokens and CSS keyframes.
 - **Mesh Gradient Studio** (`/mesh`): Multi-point procedural radial/conic gradient generator with deterministic PRNG seeding and SVG/CSS exports.

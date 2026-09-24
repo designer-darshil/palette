@@ -28,6 +28,7 @@ const LiveColorsPage = lazy(() => import('./pages/LiveColorsPage').then(m => ({ 
 const SavedPage = lazy(() => import('./pages/SavedPage').then(m => ({ default: m.SavedPage })));
 const MobilePaletteGeneratorPage = lazy(() => import('./pages/MobilePaletteGeneratorPage').then(m => ({ default: m.MobilePaletteGeneratorPage })));
 const ContrastCheckerPage = lazy(() => import('./pages/ContrastCheckerPage').then(m => ({ default: m.ContrastCheckerPage })));
+const ColorPickerPage = lazy(() => import('./pages/ColorPickerPage').then(m => ({ default: m.ColorPickerPage })));
 const ColorNameFinderPage = lazy(() => import('./pages/ColorNameFinderPage').then(m => ({ default: m.ColorNameFinderPage })));
 const ExtractFromImagePage = lazy(() => import('./pages/ExtractFromImagePage').then(m => ({ default: m.ExtractFromImagePage })));
 const BrandKitPage = lazy(() => import('./pages/BrandKitPage').then(m => ({ default: m.BrandKitPage })));
@@ -363,6 +364,10 @@ function parseUrlToRoute(): RouteType {
     const fg = searchParams.get('fg') || searchParams.get('foreground') || undefined;
     const bg = searchParams.get('bg') || searchParams.get('background') || undefined;
     return { path: 'contrast-checker', fg, bg };
+  }
+  if (s0 === 'color-picker' || s0 === 'picker' || s0 === 'colorpicker') {
+    const hex = searchParams.get('hex') || searchParams.get('color') || undefined;
+    return { path: 'color-picker', hex };
   }
   if (s0 === 'color-name-finder' || s0 === 'name-finder' || s0 === 'name') {
     const hex = searchParams.get('hex') || searchParams.get('color') || undefined;
@@ -773,6 +778,13 @@ export const App: React.FC = () => {
           <ContrastCheckerPage
             initialFg={currentRoute.fg}
             initialBg={currentRoute.bg}
+            onNavigate={handleNavigate}
+          />
+        );
+      case 'color-picker':
+        return (
+          <ColorPickerPage
+            initialHex={currentRoute.hex}
             onNavigate={handleNavigate}
           />
         );

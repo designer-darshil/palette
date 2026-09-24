@@ -226,6 +226,7 @@ export type RouteType =
   | { path: 'about' }
   | { path: 'search'; q?: string }
   | { path: 'contrast-checker'; fg?: string; bg?: string }
+  | { path: 'color-picker'; hex?: string }
   | { path: 'color-name-finder'; hex?: string }
   | { path: 'extract-from-image'; imagePreset?: string }
   | { path: 'brand-kit'; id?: string; paletteSlug?: string }

@@ -1,4 +1,5 @@
 // Color conversion and accessibility calculations
+import { oklchToHex as systemOklchToHex } from './oklchColorSystem';
 
 export function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const clean = hex.replace('#', '').trim();
@@ -151,6 +152,89 @@ export function hexToOklch(hex: string): string {
   if (H < 0) H += 360;
 
   return `oklch(${L.toFixed(2)} ${C.toFixed(2)} ${H.toFixed(1)})`;
+}
+
+export function hexToOklchNumbers(hex: string): { l: number; c: number; h: number } {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return { l: 0.5, c: 0, h: 0 };
+  const r = rgb.r / 255;
+  const g = rgb.g / 255;
+  const b = rgb.b / 255;
+  const lr = r > 0.04045 ? Math.pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
+  const lg = g > 0.04045 ? Math.pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
+  const lb = b > 0.04045 ? Math.pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
+
+  const l_ = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb);
+  const m_ = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb);
+  const s_ = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb);
+
+  const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+  const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+  const b_ = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+
+  const C = Math.sqrt(a * a + b_ * b_);
+  let H = Math.atan2(b_, a) * (180 / Math.PI);
+  if (H < 0) H += 360;
+
+  return {
+    l: parseFloat(L.toFixed(3)),
+    c: parseFloat(C.toFixed(3)),
+    h: parseFloat(H.toFixed(1)),
+  };
+}
+
+export function oklchToHex(l: number, c: number, h: number): string {
+  const clampedL = Math.max(0, Math.min(1, l));
+  const clampedC = Math.max(0, Math.min(0.4, c));
+  const normalizedH = ((h % 360) + 360) % 360;
+  return systemOklchToHex(clampedL, clampedC, normalizedH);
+}
+
+export function parseOklch(str: string): { l: number; c: number; h: number } | null {
+  if (!str) return null;
+  const clean = str.trim().toLowerCase();
+  const match = clean.match(/^(?:oklch\()?\s*([0-9.]+%?)\s+([0-9.]+)\s+([0-9.]+)(?:deg)?\s*\)?$/i);
+  if (!match) return null;
+
+  let l = match[1].endsWith('%') ? parseFloat(match[1]) / 100 : parseFloat(match[1]);
+  if (l > 1 && !match[1].endsWith('%')) l = l / 100;
+  const c = parseFloat(match[2]);
+  const h = parseFloat(match[3]);
+
+  if (isNaN(l) || isNaN(c) || isNaN(h)) return null;
+  return {
+    l: Math.max(0, Math.min(1, l)),
+    c: Math.max(0, Math.min(0.4, c)),
+    h: ((h % 360) + 360) % 360,
+  };
+}
+
+export function generateShadesAndTints(hex: string): { shades: string[]; tints: string[]; tones: string[] } {
+  const hsl = hexToHsl(hex) || { h: 0, s: 50, l: 50 };
+  const { h, s, l } = hsl;
+
+  // Shades: darker variations (L decreasing towards 5%)
+  const shades: string[] = [];
+  const shadeSteps = [0.85, 0.70, 0.55, 0.40, 0.25, 0.12];
+  for (const factor of shadeSteps) {
+    shades.push(hslToHex(h, s, Math.round(l * factor)));
+  }
+
+  // Tints: lighter variations (L increasing towards 95%)
+  const tints: string[] = [];
+  const tintSteps = [0.15, 0.30, 0.45, 0.60, 0.75, 0.90];
+  for (const factor of tintSteps) {
+    tints.push(hslToHex(h, s, Math.round(l + (100 - l) * factor)));
+  }
+
+  // Tones: desaturated variations (S decreasing towards 5%)
+  const tones: string[] = [];
+  const toneSteps = [0.85, 0.70, 0.55, 0.40, 0.25, 0.10];
+  for (const factor of toneSteps) {
+    tones.push(hslToHex(h, Math.round(s * factor), l));
+  }
+
+  return { shades, tints, tones };
 }
 
 export function hslToHex(h: number, s: number, l: number): string {

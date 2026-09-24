@@ -6,6 +6,8 @@ import {
   ClipboardPaste,
   ChevronDown,
   X,
+  Sparkles,
+  ShieldCheck,
 } from 'lucide-react';
 import { KromaButton } from './KromaButton';
 import {
@@ -15,6 +17,13 @@ import {
   rgbToHex,
   hexToHsl,
   hslToHex,
+  hexToOklchNumbers,
+  oklchToHex,
+  parseOklch,
+  calculateHarmonies,
+  generateShadesAndTints,
+  getColorAccessibility,
+  getTextColorForBackground,
   copyToClipboard,
 } from '../../utils/colorUtils';
 import { findClosestColorName } from '../../utils/paletteGenerator';
@@ -25,9 +34,16 @@ export interface CustomColorPickerProps {
   showAlpha?: boolean;
   showRecent?: boolean;
   showFormatSwitcher?: boolean;
+  showHarmonies?: boolean;
+  showShadesTints?: boolean;
+  showAccessibility?: boolean;
+  showEyedropper?: boolean;
   onClose?: () => void;
   className?: string;
+  title?: string;
 }
+
+export type KromaColorPickerProps = CustomColorPickerProps;
 
 const RECENT_COLORS_STORAGE_KEY = 'kroma_picker_recent_colors';
 const DEFAULT_RECENTS = [
@@ -41,7 +57,7 @@ const DEFAULT_RECENTS = [
   '#FFFFFF',
 ];
 
-export type ColorFormatMode = 'HEX' | 'RGB' | 'HSL';
+export type ColorFormatMode = 'HEX' | 'RGB' | 'HSL' | 'OKLCH';
 
 export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
   color,
@@ -49,8 +65,13 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
   showAlpha = false,
   showRecent = true,
   showFormatSwitcher = true,
+  showHarmonies = false,
+  showShadesTints = false,
+  showAccessibility = false,
+  showEyedropper = true,
   onClose,
   className = '',
+  title,
 }) => {
   // Normalize initial color to valid 6-char hex
   const normalizeHexColor = useCallback((raw: string): string => {
@@ -73,7 +94,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
   // Alpha state (0 to 1)
   const [alpha, setAlpha] = useState<number>(1);
 
-  // Format mode: HEX | RGB | HSL
+  // Format mode: HEX | RGB | HSL | OKLCH
   const [formatMode, setFormatMode] = useState<ColorFormatMode>('HEX');
 
   // Direct string input states for precision typing
@@ -117,9 +138,28 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
     return hexToHsl(currentHex) || { h: Math.round(hsv.h), s: Math.round(hsv.s), l: Math.round(hsv.v / 2) };
   }, [currentHex, hsv.h, hsv.s, hsv.v]);
 
+  const currentOklch = useMemo(() => {
+    return hexToOklchNumbers(currentHex);
+  }, [currentHex]);
+
   const colorName = useMemo(() => {
     return findClosestColorName(currentHex);
   }, [currentHex]);
+
+  const harmonies = useMemo(() => {
+    if (!showHarmonies) return null;
+    return calculateHarmonies(currentHex);
+  }, [currentHex, showHarmonies]);
+
+  const shadesAndTints = useMemo(() => {
+    if (!showShadesTints) return null;
+    return generateShadesAndTints(currentHex);
+  }, [currentHex, showShadesTints]);
+
+  const accessibility = useMemo(() => {
+    if (!showAccessibility) return null;
+    return getColorAccessibility(currentHex);
+  }, [currentHex, showAccessibility]);
 
   // Pure hue color for 2D area background
   const pureHueHex = useMemo(() => {
@@ -351,6 +391,19 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
     updateColorFromHsv(newHsv);
   };
 
+  // Mode Handlers: Direct typing in OKLCH inputs
+  const handleOklchChange = (channel: 'l' | 'c' | 'h', valStr: string) => {
+    const val = parseFloat(valStr);
+    if (isNaN(val)) return;
+    const targetL = channel === 'l' ? Math.max(0, Math.min(100, val)) / 100 : currentOklch.l;
+    const targetC = channel === 'c' ? Math.max(0, Math.min(0.4, val)) : currentOklch.c;
+    const targetH = channel === 'h' ? ((val % 360) + 360) % 360 : currentOklch.h;
+
+    const newHex = oklchToHex(targetL, targetC, targetH);
+    const newHsv = hexToHsv(newHex);
+    updateColorFromHsv(newHsv);
+  };
+
   // Copy Color Action
   const handleCopyColor = async () => {
     let textToCopy = currentHex;
@@ -362,6 +415,10 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
       textToCopy = showAlpha && alpha < 1
         ? `hsla(${currentHsl.h}, ${currentHsl.s}%, ${currentHsl.l}%, ${alpha})`
         : `hsl(${currentHsl.h}, ${currentHsl.s}%, ${currentHsl.l}%)`;
+    } else if (formatMode === 'OKLCH') {
+      textToCopy = showAlpha && alpha < 1
+        ? `oklch(${Math.round(currentOklch.l * 100)}% ${currentOklch.c} ${Math.round(currentOklch.h)} / ${alpha})`
+        : `oklch(${Math.round(currentOklch.l * 100)}% ${currentOklch.c} ${Math.round(currentOklch.h)})`;
     }
 
     const success = await copyToClipboard(textToCopy);
@@ -379,7 +436,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
       if (navigator.clipboard && navigator.clipboard.readText) {
         text = await navigator.clipboard.readText();
       } else {
-        const prompted = prompt('Paste color (HEX, RGB, or HSL):');
+        const prompted = prompt('Paste color (HEX, RGB, HSL, or OKLCH):');
         if (prompted) text = prompted;
       }
 
@@ -389,6 +446,16 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
       // Check for HEX
       if (/^#?[0-9A-Fa-f]{6}$/.test(text) || /^#?[0-9A-Fa-f]{3}$/.test(text)) {
         const hex = normalizeHexColor(text);
+        const newHsv = hexToHsv(hex);
+        updateColorFromHsv(newHsv);
+        addColorToRecents(hex);
+        return;
+      }
+
+      // Check for OKLCH
+      const oklchParsed = parseOklch(text);
+      if (oklchParsed) {
+        const hex = oklchToHex(oklchParsed.l, oklchParsed.c, oklchParsed.h);
         const newHsv = hexToHsv(hex);
         updateColorFromHsv(newHsv);
         addColorToRecents(hex);
@@ -429,38 +496,47 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
     }
   };
 
-  // Cycle format mode (HEX -> RGB -> HSL -> HEX)
+  // Cycle format mode (HEX -> RGB -> HSL -> OKLCH -> HEX)
   const handleCycleFormatMode = () => {
     if (formatMode === 'HEX') setFormatMode('RGB');
     else if (formatMode === 'RGB') setFormatMode('HSL');
+    else if (formatMode === 'HSL') setFormatMode('OKLCH');
     else setFormatMode('HEX');
+  };
+
+  const handleSelectColor = (hex: string) => {
+    const newHsv = hexToHsv(hex);
+    updateColorFromHsv(newHsv);
+    addColorToRecents(hex);
   };
 
   return (
     <div
-      className={`flex flex-col gap-3 p-3 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-md shadow-xl select-none text-[var(--text-primary)] ${className}`}
+      className={`flex flex-col gap-3 p-3 bg-surface-1 border border-border-subtle rounded-md shadow-xl select-none text-text-primary ${className}`}
       style={{
-        width: '248px',
+        width: showHarmonies || showShadesTints ? '320px' : '260px',
         maxWidth: '100%',
         borderRadius: 'var(--radius-md)',
       }}
       role="region"
-      aria-label="PaletteParadise Precision Color Picker"
+      aria-label="KROMA Precision Color Picker"
     >
-      {/* Header bar if onClose is provided */}
-      {onClose && (
-        <div className="flex items-center justify-between pb-1 border-b border-[var(--border-subtle)] text-xs font-mono">
-          <span className="font-bold uppercase tracking-wider text-[var(--text-secondary)]">
-            Color Inspector
+      {/* Header bar if onClose or title is provided */}
+      {(onClose || title) && (
+        <div className="flex items-center justify-between pb-1 border-b border-border-subtle text-xs font-mono">
+          <span className="font-bold uppercase tracking-wider text-text-secondary">
+            {title || 'Color Inspector'}
           </span>
-          <KromaButton
-            size="icon"
-            variant="ghost"
-            onClick={onClose}
-            className="p-1 h-6 w-6 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
-            aria-label="Close picker"
-            iconLeft={<X size={12} />}
-          />
+          {onClose && (
+            <KromaButton
+              size="icon"
+              variant="ghost"
+              onClick={onClose}
+              className="p-1 h-6 w-6 text-text-tertiary hover:text-text-primary"
+              aria-label="Close picker"
+              iconLeft={<X size={12} />}
+            />
+          )}
         </div>
       )}
 
@@ -473,7 +549,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
         onPointerUp={handlePointerUpSatVal}
         onPointerCancel={handlePointerUpSatVal}
         onKeyDown={handleKeyDownSatVal}
-        className="relative w-full h-36 rounded-xs cursor-crosshair touch-none border border-[var(--border-subtle)] overflow-hidden focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]"
+        className="relative w-full h-36 rounded-xs cursor-crosshair touch-none border border-border-subtle overflow-hidden focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]"
         style={{
           backgroundColor: pureHueHex,
           backgroundImage: `
@@ -501,7 +577,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
           {/* Active Preview Swatch with Eyedropper Button */}
           <div className="flex items-center gap-1 flex-shrink-0">
             <div
-              className="w-7 h-7 rounded-xs border border-[var(--border-subtle)] shadow-xs relative overflow-hidden flex-shrink-0"
+              className="w-7 h-7 rounded-xs border border-border-subtle shadow-xs relative overflow-hidden flex-shrink-0"
               style={{
                 backgroundImage:
                   'linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)',
@@ -519,12 +595,12 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
               />
             </div>
 
-            {isEyedropperSupported && (
+            {showEyedropper && isEyedropperSupported && (
               <KromaButton
                 size="icon"
                 variant="ghost"
                 onClick={handleOpenEyedropper}
-                className="w-7 h-7 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-subtle)]"
+                className="w-7 h-7 bg-surface-2 hover:bg-surface-3 text-text-secondary hover:text-text-primary border border-border-subtle"
                 title="Sample screen color with eyedropper"
                 aria-label="Pick color from screen"
                 iconLeft={<Pipette size={13} />}
@@ -541,7 +617,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
               onPointerMove={handlePointerMoveHue}
               onPointerUp={handlePointerUpHue}
               onPointerCancel={handlePointerUpHue}
-              className="relative w-full h-3 rounded-full cursor-pointer touch-none border border-[var(--border-subtle)]"
+              className="relative w-full h-3 rounded-full cursor-pointer touch-none border border-border-subtle"
               style={{
                 background: `linear-gradient(to right, 
                   #FF0000 0%, 
@@ -572,7 +648,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                 onPointerMove={handlePointerMoveAlpha}
                 onPointerUp={handlePointerUpAlpha}
                 onPointerCancel={handlePointerUpAlpha}
-                className="relative w-full h-3 rounded-full cursor-pointer touch-none border border-[var(--border-subtle)] overflow-hidden"
+                className="relative w-full h-3 rounded-full cursor-pointer touch-none border border-border-subtle overflow-hidden"
                 style={{
                   backgroundImage:
                     'linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)',
@@ -600,8 +676,8 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
         </div>
       </div>
 
-      {/* 3. Direct Inputs & Mode Section (HEX / RGB / HSL) */}
-      <div className="flex flex-col gap-1.5 pt-1 border-t border-[var(--border-subtle)]">
+      {/* 3. Direct Inputs & Mode Section (HEX / RGB / HSL / OKLCH) */}
+      <div className="flex flex-col gap-1.5 pt-1 border-t border-border-subtle">
         <div className="flex items-center gap-1.5">
           {/* Format Mode Switcher Pill */}
           {showFormatSwitcher && (
@@ -609,9 +685,9 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
               size="sm"
               variant="ghost"
               onClick={handleCycleFormatMode}
-              className="flex items-center gap-1 px-1.5 py-1 bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] rounded-xs text-xs font-mono font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] h-auto"
-              title="Click to cycle color format (HEX / RGB / HSL)"
-              iconRight={<ChevronDown size={10} className="text-[var(--text-tertiary)]" />}
+              className="flex items-center gap-1 px-1.5 py-1 bg-surface-2 hover:bg-surface-3 border border-border-subtle rounded-xs text-xs font-mono font-bold text-text-secondary hover:text-text-primary h-auto"
+              title="Click to cycle color format (HEX / RGB / HSL / OKLCH)"
+              iconRight={<ChevronDown size={10} className="text-text-tertiary" />}
             >
               <span>{formatMode}</span>
             </KromaButton>
@@ -620,14 +696,14 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
           {/* Inputs based on active mode */}
           <div className="flex-1 flex items-center gap-1 min-w-0">
             {formatMode === 'HEX' && (
-              <div className="flex-1 flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-2 py-1 min-w-0 focus-within:border-[var(--color-primary)]">
-                <span className="font-mono text-xs text-[var(--text-tertiary)] mr-0.5">#</span>
+              <div className="flex-1 flex items-center bg-surface-2 border border-border-subtle rounded-xs px-2 py-1 min-w-0 focus-within:border-[var(--color-primary)]">
+                <span className="font-mono text-xs text-text-tertiary mr-0.5">#</span>
                 <input
                   type="text"
                   maxLength={6}
                   value={hexInputValue.replace('#', '')}
                   onChange={handleHexInputChange}
-                  className="w-full bg-transparent font-mono text-xs font-semibold text-[var(--text-primary)] outline-none uppercase min-w-0"
+                  className="w-full bg-transparent font-mono text-xs font-semibold text-text-primary outline-none uppercase min-w-0"
                   placeholder="BFA3F0"
                   aria-label="Hex color string"
                 />
@@ -639,9 +715,9 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                 {(['r', 'g', 'b'] as const).map((channel) => (
                   <div
                     key={channel}
-                    className="flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-1.5 py-1 focus-within:border-[var(--color-primary)]"
+                    className="flex items-center bg-surface-2 border border-border-subtle rounded-xs px-1.5 py-1 focus-within:border-[var(--color-primary)]"
                   >
-                    <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase mr-1">
+                    <span className="font-mono text-xs text-text-tertiary uppercase mr-1">
                       {channel}
                     </span>
                     <input
@@ -650,7 +726,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                       max={255}
                       value={currentRgb[channel]}
                       onChange={(e) => handleRgbChange(channel, e.target.value)}
-                      className="w-full bg-transparent font-mono text-xs font-semibold text-[var(--text-primary)] outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0"
+                      className="w-full bg-transparent font-mono text-xs font-semibold text-text-primary outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0"
                     />
                   </div>
                 ))}
@@ -662,9 +738,9 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                 {(['h', 's', 'l'] as const).map((channel) => (
                   <div
                     key={channel}
-                    className="flex items-center bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] rounded-xs px-1.5 py-1 focus-within:border-[var(--color-primary)]"
+                    className="flex items-center bg-surface-2 border border-border-subtle rounded-xs px-1.5 py-1 focus-within:border-[var(--color-primary)]"
                   >
-                    <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase mr-1">
+                    <span className="font-mono text-xs text-text-tertiary uppercase mr-1">
                       {channel}
                     </span>
                     <input
@@ -673,10 +749,52 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                       max={channel === 'h' ? 360 : 100}
                       value={currentHsl[channel]}
                       onChange={(e) => handleHslChange(channel, e.target.value)}
-                      className="w-full bg-transparent font-mono text-xs font-semibold text-[var(--text-primary)] outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0"
+                      className="w-full bg-transparent font-mono text-xs font-semibold text-text-primary outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0"
                     />
                   </div>
                 ))}
+              </div>
+            )}
+
+            {formatMode === 'OKLCH' && (
+              <div className="grid grid-cols-3 gap-1 flex-1 min-w-0">
+                <div className="flex items-center bg-surface-2 border border-border-subtle rounded-xs px-1 py-1 focus-within:border-[var(--color-primary)]">
+                  <span className="font-mono text-[10px] text-text-tertiary uppercase mr-0.5">L</span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={Math.round(currentOklch.l * 100)}
+                    onChange={(e) => handleOklchChange('l', e.target.value)}
+                    className="w-full bg-transparent font-mono text-xs font-semibold text-text-primary outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0"
+                    title="Lightness percentage (0-100%)"
+                  />
+                </div>
+                <div className="flex items-center bg-surface-2 border border-border-subtle rounded-xs px-1 py-1 focus-within:border-[var(--color-primary)]">
+                  <span className="font-mono text-[10px] text-text-tertiary uppercase mr-0.5">C</span>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min={0}
+                    max={0.4}
+                    value={currentOklch.c}
+                    onChange={(e) => handleOklchChange('c', e.target.value)}
+                    className="w-full bg-transparent font-mono text-xs font-semibold text-text-primary outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0"
+                    title="Chroma (0.00-0.40)"
+                  />
+                </div>
+                <div className="flex items-center bg-surface-2 border border-border-subtle rounded-xs px-1 py-1 focus-within:border-[var(--color-primary)]">
+                  <span className="font-mono text-[10px] text-text-tertiary uppercase mr-0.5">H</span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={360}
+                    value={Math.round(currentOklch.h)}
+                    onChange={(e) => handleOklchChange('h', e.target.value)}
+                    className="w-full bg-transparent font-mono text-xs font-semibold text-text-primary outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0"
+                    title="Hue angle (0-360 deg)"
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -686,7 +804,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
             size="icon"
             variant="ghost"
             onClick={handleCopyColor}
-            className="p-1.5 h-7 w-7 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0"
+            className="p-1.5 h-7 w-7 rounded-xs bg-surface-2 hover:bg-surface-3 border border-border-subtle text-text-secondary hover:text-text-primary flex-shrink-0"
             title="Copy color code"
             aria-label="Copy color"
             iconLeft={copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
@@ -697,7 +815,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
             size="icon"
             variant="ghost"
             onClick={handlePasteColor}
-            className="p-1.5 h-7 w-7 rounded-xs bg-[var(--bg-surface-2)] hover:bg-[var(--bg-surface-3)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex-shrink-0"
+            className="p-1.5 h-7 w-7 rounded-xs bg-surface-2 hover:bg-surface-3 border border-border-subtle text-text-secondary hover:text-text-primary flex-shrink-0"
             title={pasteError || 'Paste color code'}
             aria-label="Paste color"
             iconLeft={<ClipboardPaste size={12} className={pasteError ? 'text-rose-400' : ''} />}
@@ -705,16 +823,135 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
         </div>
 
         {/* Color Name Tag */}
-        <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)] px-0.5">
+        <div className="flex items-center justify-between text-xs font-mono text-text-tertiary px-0.5">
           <span className="truncate max-w-[150px]">{colorName}</span>
           <span>{currentHex}</span>
         </div>
       </div>
 
-      {/* 4. Recent Swatches Row */}
+      {/* 4. Optional Harmonies Section (HTML Color Codes UX pattern) */}
+      {showHarmonies && harmonies && (
+        <div className="flex flex-col gap-2 pt-2 border-t border-border-subtle">
+          <div className="flex items-center justify-between text-xs font-mono text-text-secondary uppercase font-semibold">
+            <span className="flex items-center gap-1">
+              <Sparkles size={11} className="text-[var(--color-primary)]" />
+              Harmonies
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-1.5 text-xs font-mono">
+            {/* Complementary */}
+            <div className="flex items-center justify-between gap-1">
+              <span className="text-[10px] text-text-tertiary w-20">Complement</span>
+              <div className="flex items-center gap-1">
+                {[currentHex, harmonies.complementary].map((h, i) => (
+                  <button
+                    key={`${h}-${i}`}
+                    type="button"
+                    onClick={() => handleSelectColor(h)}
+                    className="w-6 h-5 rounded-xs border border-white/20 hover:scale-105 transition-transform"
+                    style={{ backgroundColor: h }}
+                    title={`Select ${h}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Triadic */}
+            <div className="flex items-center justify-between gap-1">
+              <span className="text-[10px] text-text-tertiary w-20">Triadic</span>
+              <div className="flex items-center gap-1">
+                {[currentHex, ...harmonies.triadic].map((h, i) => (
+                  <button
+                    key={`${h}-${i}`}
+                    type="button"
+                    onClick={() => handleSelectColor(h)}
+                    className="w-6 h-5 rounded-xs border border-white/20 hover:scale-105 transition-transform"
+                    style={{ backgroundColor: h }}
+                    title={`Select ${h}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Analogous */}
+            <div className="flex items-center justify-between gap-1">
+              <span className="text-[10px] text-text-tertiary w-20">Analogous</span>
+              <div className="flex items-center gap-1">
+                {[harmonies.analogous[0], currentHex, harmonies.analogous[1]].map((h, i) => (
+                  <button
+                    key={`${h}-${i}`}
+                    type="button"
+                    onClick={() => handleSelectColor(h)}
+                    className="w-6 h-5 rounded-xs border border-white/20 hover:scale-105 transition-transform"
+                    style={{ backgroundColor: h }}
+                    title={`Select ${h}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. Optional Shades & Tints Section */}
+      {showShadesTints && shadesAndTints && (
+        <div className="flex flex-col gap-1.5 pt-2 border-t border-border-subtle">
+          <span className="text-[10px] font-mono uppercase text-text-tertiary font-semibold">Tints & Shades</span>
+          {/* Tints strip */}
+          <div className="grid grid-cols-6 gap-1">
+            {shadesAndTints.tints.map((h, i) => (
+              <button
+                key={`tint-${h}-${i}`}
+                type="button"
+                onClick={() => handleSelectColor(h)}
+                className="h-4 rounded-xs border border-white/10 hover:scale-110 transition-transform"
+                style={{ backgroundColor: h }}
+                title={`Tint: ${h}`}
+              />
+            ))}
+          </div>
+          {/* Shades strip */}
+          <div className="grid grid-cols-6 gap-1">
+            {shadesAndTints.shades.map((h, i) => (
+              <button
+                key={`shade-${h}-${i}`}
+                type="button"
+                onClick={() => handleSelectColor(h)}
+                className="h-4 rounded-xs border border-white/10 hover:scale-110 transition-transform"
+                style={{ backgroundColor: h }}
+                title={`Shade: ${h}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 6. Optional WCAG Accessibility Section */}
+      {showAccessibility && accessibility && (
+        <div className="flex items-center justify-between pt-2 border-t border-border-subtle text-xs font-mono">
+          <div className="flex items-center gap-1 text-[11px] text-text-secondary">
+            <ShieldCheck size={12} className={accessibility.passAANormal ? 'text-emerald-400' : 'text-amber-400'} />
+            <span>WCAG: {accessibility.bestContrast}:1</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span
+              className="px-1.5 py-0.5 rounded-xs font-bold text-[10px] border border-border-subtle"
+              style={{
+                backgroundColor: currentHex,
+                color: getTextColorForBackground(currentHex),
+              }}
+            >
+              Text Preview
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* 7. Recent Swatches Row */}
       {showRecent && recentColors.length > 0 && (
-        <div className="flex flex-col gap-1.5 pt-1.5 border-t border-[var(--border-subtle)]">
-          <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)] uppercase font-semibold">
+        <div className="flex flex-col gap-1.5 pt-1.5 border-t border-border-subtle">
+          <div className="flex items-center justify-between text-xs font-mono text-text-tertiary uppercase font-semibold">
             <span>Recent</span>
             <span>{recentColors.length} saved</span>
           </div>
@@ -726,11 +963,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                 <button
                   key={`${hex}-${idx}`}
                   type="button"
-                  onClick={() => {
-                    const newHsv = hexToHsv(hex);
-                    updateColorFromHsv(newHsv);
-                    addColorToRecents(hex);
-                  }}
+                  onClick={() => handleSelectColor(hex)}
                   className={`h-5 w-full rounded-xs border transition-transform cursor-pointer relative ${
                     isSelected
                       ? 'ring-2 ring-[var(--color-primary)] scale-110 z-10 border-white'
@@ -748,3 +981,5 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
     </div>
   );
 };
+
+export const KromaColorPicker = CustomColorPicker;

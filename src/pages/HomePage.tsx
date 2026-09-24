@@ -296,7 +296,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </p>
         </div>
 
-        <div className="group/tilegrid grid grid-cols-2 sm:grid-cols-4 gap-3" role="group" aria-label="Color family tiles">
+        <div className="group/tilegrid grid grid-cols-2 sm:grid-cols-4 gap-3">
           {COLOR_FAMILIES.map((family) => (
             <Link
               key={family.name}

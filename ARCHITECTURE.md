@@ -6,8 +6,9 @@ KROMA is a client-side single page application (SPA) built with React 18, TypeSc
 ## 2. Directory Structure & Key Modules
 - `src/App.tsx`: Central application orchestrator, URL parser/serializer (`parseUrlToRoute`, `routeToUrl`), and root layout renderer.
 - `src/components/Header.tsx`: Single source of truth for the public header and mobile navigation drawer.
+- `src/components/common/CustomColorPicker.tsx` / `KromaColorPicker.tsx`: Canonical precision color picker engine supporting HEX, RGB, HSL, HSV, and OKLCH with 2D saturation/value field, spectrum sliders, and harmonics.
 - `src/components/studio/`: Framework components for hardware-accelerated creative studios.
-- `src/pages/`: Route-level pages for public catalog and creative studios.
+- `src/pages/`: Route-level pages for public catalog and creative studios (including `ColorPickerPage.tsx` at `/color-picker`).
 - `src/pages/admin/`: Admin Hub components and maintenance mode access controls.
 - `src/context/`: Global React contexts including `ThemeContext`, `ToastContext`, `AdminAuthContext`, and `MaintenanceContext`.
 - `src/services/maintenanceStore.ts`: Cross-tab synchronized storage service for maintenance state.

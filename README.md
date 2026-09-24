@@ -257,7 +257,7 @@ src/
 ### Common UI Components (`src/components/common/`)
 - [`src/components/common/Breadcrumbs.tsx`](src/components/common/Breadcrumbs.tsx): Renders semantic breadcrumb links (`Home / Category / Item`) with Schema.org breadcrumb list integration.
 - [`src/components/common/ColorSwatchPicker.tsx`](src/components/common/ColorSwatchPicker.tsx): Interactive popover color selector with curated palette swatches and native eyedropper support.
-- [`src/components/common/CustomColorPicker.tsx`](src/components/common/CustomColorPicker.tsx): Direct hex/hsl input color selector popover.
+- [`src/components/common/CustomColorPicker.tsx`](src/components/common/CustomColorPicker.tsx) / [`KromaColorPicker.tsx`](src/components/common/KromaColorPicker.tsx): Canonical precision color picker with 2D Saturation/Value field, Hue & Alpha sliders, multi-space modes (HEX, RGB, HSL, OKLCH), harmonic schemes, and WCAG accessibility indicators.
 - [`src/components/common/Link.tsx`](src/components/common/Link.tsx): Accessible SPA anchor wrapper preventing full-page reloads and triggering `onNavigate`.
 
 ### Studio System Components (`src/components/studio/`)
@@ -387,6 +387,7 @@ Root (src/main.tsx)
 | **CreatorsPage** | [`src/pages/CreatorsPage.tsx`](src/pages/CreatorsPage.tsx) | `/creators` | Featured color designer and architect directory | `CreatorContext`, `creators.ts` |
 | **CreatorDetailPage** | [`src/pages/CreatorDetailPage.tsx`](src/pages/CreatorDetailPage.tsx) | `/creators/:username` | Creator profile, published palettes, and bio | `CreatorContext`, `LibraryDataContext` |
 | **LiveColorsPage** | [`src/pages/LiveColorsPage.tsx`](src/pages/LiveColorsPage.tsx) | `/palettes/live` | Atmospheric weather & solar phase color simulation | `liveColorEngine.ts` |
+| **ColorPickerPage** | [`src/pages/ColorPickerPage.tsx`](src/pages/ColorPickerPage.tsx) | `/color-picker` | Precision colorimetry studio, multi-space translation, harmonic schemes & WCAG matrix | `colorUtils.ts` |
 | **RampsStudioPage** | [`src/pages/RampsStudioPage.tsx`](src/pages/RampsStudioPage.tsx) | `/ramps` | 11-step OKLCH design system tonal scale & token generator | `rampsEngine.ts` |
 | **AntigravityStudioPage** | [`src/pages/AntigravityStudioPage.tsx`](src/pages/AntigravityStudioPage.tsx) | `/antigravity` | 2D rigid-body physical motion and physics simulator | `antigravityEngine.ts` |
 | **MeshGradientStudioPage** | [`src/pages/MeshGradientStudioPage.tsx`](src/pages/MeshGradientStudioPage.tsx) | `/mesh` | Multi-point radial/conic mesh gradient creation tool | `meshEngine.ts` |

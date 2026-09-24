@@ -179,6 +179,8 @@ export function routeToUrl(route: RouteType): string {
         const qs = params.toString();
         return qs ? `/contrast-checker?${qs}` : '/contrast-checker';
       }
+    case 'color-picker':
+      return route.hex ? `/color-picker?hex=${route.hex.replace('#', '')}` : '/color-picker';
     case 'color-name-finder':
       return route.hex ? `/color-name-finder?hex=${route.hex.replace('#', '')}` : '/color-name-finder';
     case 'extract-from-image':

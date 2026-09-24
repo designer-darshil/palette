@@ -591,16 +591,18 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
                   variant={config.mode === m.id ? 'filled' : 'outline'}
                   size="sm"
                   onClick={() => handleConfigChange({ mode: m.id })}
-                  className={`p-3 rounded-xs text-left flex flex-col items-start gap-1 transition-all h-auto w-full min-h-0 ${
+                  className={`p-3 rounded-xs text-left flex flex-col items-start gap-1 transition-all h-auto w-full min-h-[72px] ${
                     config.mode === m.id
-                      ? 'border-[#171717] dark:border-white bg-[#F8F8F8] dark:bg-[#202020] shadow-xs text-[#171717] dark:text-white'
-                      : 'border-black/[0.08] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 bg-transparent text-[#171717] dark:text-white'
+                      ? 'border-[var(--text-primary)] bg-[var(--text-primary)] text-[var(--bg-canvas)] shadow-xs'
+                      : 'border-[var(--border-subtle)] hover:border-[var(--border-medium)] bg-transparent text-[var(--text-primary)]'
                   }`}
                 >
-                  <span className="font-bold text-xs uppercase">
+                  <span className="font-bold text-xs uppercase tracking-wider block">
                     {m.name}
                   </span>
-                  <span className="text-xs text-[#707070] dark:text-[#888888] leading-tight font-normal">
+                  <span className={`text-xs leading-tight font-normal block ${
+                    config.mode === m.id ? 'opacity-85' : 'text-[var(--text-secondary)]'
+                  }`}>
                     {m.desc}
                   </span>
                 </KromaButton>

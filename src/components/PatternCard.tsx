@@ -95,9 +95,9 @@ export const PatternCard: React.FC<PatternCardProps> = ({
       </div>
 
       {/* Editorial Content Layer */}
-      <div className="p-3.5 sm:p-4 flex flex-col gap-2 flex-1 bg-[#F8F8F8] dark:bg-[#141518]">
+      <div className="p-3.5 sm:p-4 flex flex-col gap-2 flex-1 bg-[var(--bg-surface-1)]">
         <div className="flex items-baseline justify-between gap-2">
-          <h3 className="font-sans font-bold text-[15px] leading-tight text-[#171717] dark:text-white tracking-[-0.01em] truncate m-0">
+          <h3 className="font-sans font-bold text-[15px] leading-tight text-[var(--text-primary)] tracking-[-0.01em] truncate m-0">
             <Link
               to={{ path: 'pattern-detail', slug: pattern.slug }}
               onNavigate={onNavigate}
@@ -110,7 +110,7 @@ export const PatternCard: React.FC<PatternCardProps> = ({
         </div>
 
         {pattern.description && (
-          <p className="text-xs text-[#707070] dark:text-[#A0A0A0] line-clamp-2 leading-relaxed m-0">
+          <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed m-0">
             {pattern.description}
           </p>
         )}
@@ -128,8 +128,8 @@ export const PatternCard: React.FC<PatternCardProps> = ({
         </div>
 
         {/* Minimal Footer & Controls */}
-        <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
-          <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase tracking-wider">
+        <div className="mt-auto pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs">
+          <span className="font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider">
             {pattern.scale}PX · {pattern.density}% DENSITY
           </span>
 
@@ -137,29 +137,27 @@ export const PatternCard: React.FC<PatternCardProps> = ({
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
+              size="icon-sm"
               onClick={handleCopyCss}
-              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs"
               title="Copy CSS Background"
               aria-label="Copy CSS Background"
-            >
-              <Copy size={13} />
-            </KromaButton>
+              iconLeft={<Copy size={13} />}
+            />
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
+              size="icon-sm"
               onClick={handleToggleSave}
-              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
+              className={`rounded-xs ${
                 saved
                   ? 'text-[var(--accent-gold)]'
-                  : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
               title={saved ? 'Remove from saved' : 'Save pattern'}
               aria-label={saved ? 'Remove from saved' : 'Save pattern'}
-            >
-              <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            </KromaButton>
+              iconLeft={<Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />}
+            />
             <Link
               to={{
                 path: 'pattern-studio',
@@ -171,7 +169,7 @@ export const PatternCard: React.FC<PatternCardProps> = ({
               }}
               onNavigate={onNavigate}
               onClick={(e) => e.stopPropagation()}
-              className="p-1.5 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px] transition-colors"
+              className="w-7 h-7 inline-flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs transition-colors"
               title="Open in Pattern Studio"
               aria-label="Open in Pattern Studio"
             >

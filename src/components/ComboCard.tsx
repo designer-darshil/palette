@@ -86,7 +86,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
       </div>
 
       {/* Editorial Information Layer */}
-      <div className="p-3.5 sm:p-4 flex flex-col gap-2.5 flex-1 bg-[#F8F8F8] dark:bg-[#141518]">
+      <div className="p-3.5 sm:p-4 flex flex-col gap-2.5 flex-1 bg-[var(--bg-surface-1)]">
         {/* Two-Column Aligned HEX Values & Names */}
         <div className="grid grid-cols-2 gap-3">
           {/* Left Specimen Info */}
@@ -102,7 +102,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
             >
               <span>{copiedHex === color1.hex ? 'COPIED' : color1.hex}</span>
             </KromaButton>
-            <span className="font-sans text-xs text-[#707070] dark:text-[#A0A0A0] truncate" title={color1.name}>
+            <span className="font-sans text-xs text-[var(--text-secondary)] truncate" title={color1.name}>
               {color1.name}
             </span>
           </div>
@@ -120,15 +120,15 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
             >
               <span>{copiedHex === color2.hex ? 'COPIED' : color2.hex}</span>
             </KromaButton>
-            <span className="font-sans text-xs text-[#707070] dark:text-[#A0A0A0] truncate" title={color2.name}>
+            <span className="font-sans text-xs text-[var(--text-secondary)] truncate" title={color2.name}>
               {color2.name}
             </span>
           </div>
         </div>
 
         {/* Minimal Relationship Footer */}
-        <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
-          <div className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+        <div className="mt-auto pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs">
+          <div className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-[var(--text-secondary)]">
             <span>{combo.harmonyType}</span>
             <ArrowRight size={11} className="transition-transform group-hover/combo:translate-x-0.5" />
           </div>
@@ -137,29 +137,27 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo, onNavigate }) => {
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
-              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
+              size="icon-sm"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs"
               onClick={handleShare}
               aria-label="Share combo link"
               title="Share combo link"
-            >
-              <Share2 size={13} />
-            </KromaButton>
+              iconLeft={<Share2 size={13} />}
+            />
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
-              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
+              size="icon-sm"
+              className={`rounded-xs ${
                 saved
                   ? 'text-[var(--accent-gold)]'
-                  : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
               onClick={handleToggleSave}
               aria-label={saved ? 'Remove from saved' : 'Save combo'}
               title={saved ? 'Saved' : 'Save combo'}
-            >
-              <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            </KromaButton>
+              iconLeft={<Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />}
+            />
           </div>
         </div>
       </div>

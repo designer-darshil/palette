@@ -15,7 +15,7 @@ import { RouteType, PaletteItem } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useSaved } from '../context/SavedContext';
 import { useToast } from '../context/ToastContext';
-import { copyToClipboard, hexToRgb, hexToHsl } from '../utils/colorUtils';
+import { copyToClipboard, hexToRgb, hexToHsl, getTextColorForBackground } from '../utils/colorUtils';
 import { SEOHead } from '../components/seo/SEOHead';
 import { generatePalette, findClosestColorName } from '../utils/paletteGenerator';
 import { KromaButton } from '../components/common/KromaButton';
@@ -276,15 +276,18 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
         <div className="flex flex-col md:flex-row w-full h-auto min-h-[480px] md:min-h-0 md:h-[380px] rounded overflow-hidden border border-[var(--border-subtle)]">
           {creatorColors.map((color, index) => {
             const isSelected = selectedColorIndex === index;
+            const textColor = getTextColorForBackground(color.hex);
+            const isDark = textColor === '#000000';
+
             return (
               <div
                 key={index}
                 onClick={() => setSelectedColorIndex(index)}
-                className={`relative flex flex-col justify-end p-6 box-border transition-all duration-300 cursor-pointer ${isSelected ? 'flex-[1.2]' : 'flex-1'}`}
-                style={{ backgroundColor: color.hex }}
+                className={`relative flex flex-col justify-between p-6 box-border transition-all duration-300 cursor-pointer ${isSelected ? 'flex-[1.2]' : 'flex-1'}`}
+                style={{ backgroundColor: color.hex, color: textColor }}
               >
                 {/* Top controls: Lock & Number */}
-                <div className="flex items-center justify-between text-white drop-shadow-md">
+                <div className="flex items-center justify-between">
                   <span className="font-mono text-xs uppercase tracking-wider font-bold">
                     0{index + 1}
                   </span>
@@ -292,7 +295,9 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                     size="icon"
                     variant="ghost"
                     onClick={(e) => handleToggleLock(index, e)}
-                    className="p-1 h-6 w-6 rounded-xs bg-black/30 hover:bg-black/60"
+                    className={`p-1 h-6 w-6 rounded-xs ${
+                      isDark ? 'bg-black/10 hover:bg-black/20 text-black' : 'bg-black/30 hover:bg-black/60 text-white'
+                    }`}
                     title={color.locked ? 'Unlock swatch' : 'Lock swatch'}
                     aria-label={color.locked ? 'Unlock swatch' : 'Lock swatch'}
                     iconLeft={color.locked ? <Lock size={12} /> : <Unlock size={12} className="opacity-60" />}
@@ -301,7 +306,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
 
                 {/* Bottom info: Name, Hex, Click to copy */}
                 <div
-                  className="flex flex-col gap-1 text-white drop-shadow-md"
+                  className="flex flex-col gap-1"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleCopyHex(color.hex, color.name);
@@ -310,7 +315,7 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
                   <span className="font-sans text-sm sm:text-base font-bold truncate">
                     {color.name}
                   </span>
-                  <div className="flex items-center justify-between font-mono text-xs">
+                  <div className="flex items-center justify-between font-mono text-xs mt-0.5">
                     <span>{color.hex}</span>
                     <span className="text-xs opacity-75">Click to copy</span>
                   </div>

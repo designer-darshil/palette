@@ -24,18 +24,18 @@ export const KromaCard = React.forwardRef<HTMLElement, KromaCardProps>(
         ref={ref as any}
         className={clsx(
           // Kroma Card Foundation
-          'group relative bg-[#F8F8F8] dark:bg-[#141518] text-[#171717] dark:text-white',
-          'border border-black/[0.08] dark:border-white/[0.08]',
+          'group relative bg-[var(--bg-surface-1)] text-[var(--text-primary)]',
+          'border border-[var(--border-subtle)]',
           'rounded-[4px] overflow-hidden flex flex-col box-border select-none',
           // Interactive Hover Motions (150-250ms, cubic-bezier)
           interactive && [
             'transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]',
             'hover:-translate-y-0.5',
-            'hover:border-black/20 dark:hover:border-white/20',
+            'hover:border-[var(--border-medium)]',
             'hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.35)]',
             'cursor-pointer',
           ],
-          variant === 'featured' && 'border-black/15 dark:border-white/15 shadow-[0_4px_16px_rgba(0,0,0,0.04)]',
+          variant === 'featured' && 'border-[var(--border-medium)] shadow-[0_4px_16px_rgba(0,0,0,0.04)]',
           variant === 'compact' && 'text-xs',
           className
         )}
@@ -104,7 +104,7 @@ export const KromaCardFooter: React.FC<KromaCardFooterProps> = ({
   return (
     <div
       className={clsx(
-        'mt-auto pt-2.5 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs',
+        'mt-auto pt-2.5 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs',
         className
       )}
       {...props}

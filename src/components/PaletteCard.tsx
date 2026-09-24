@@ -148,9 +148,9 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
       </div>
 
       {/* Quiet, Editorial Information & Action Area */}
-      <div className="p-3.5 sm:p-4 flex items-center justify-between gap-3 bg-[#F8F8F8] dark:bg-[#141518]">
+      <div className="p-3.5 sm:p-4 flex items-center justify-between gap-3 bg-[var(--bg-surface-1)]">
         <div className="min-w-0 flex flex-col gap-0.5">
-          <h3 className="font-sans font-bold text-[15px] leading-tight tracking-[-0.01em] text-[#171717] dark:text-white truncate m-0">
+          <h3 className="font-sans font-bold text-[15px] leading-tight tracking-[-0.01em] text-[var(--text-primary)] truncate m-0">
             <Link
               to={{ path: 'palette-detail', slug: palette.slug }}
               onNavigate={onNavigate}
@@ -160,7 +160,7 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
               {palette.title}
             </Link>
           </h3>
-          <div className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase tracking-wider flex items-center gap-1.5">
+          <div className="font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider flex items-center gap-1.5">
             <span>{palette.category}</span>
             <span>•</span>
             <span>{palette.colors.length} COLORS</span>
@@ -172,8 +172,8 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
           <KromaButton
             type="button"
             variant="ghost"
-            size="icon"
-            className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
+            size="icon-sm"
+            className="p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] rounded-[2px]"
             onClick={handleCopyAllHexes}
             aria-label="Copy all hex values"
             title="Copy all hex values"
@@ -184,8 +184,8 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
           <KromaButton
             type="button"
             variant="ghost"
-            size="icon"
-            className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
+            size="icon-sm"
+            className="p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] rounded-[2px]"
             onClick={handleShare}
             aria-label="Share palette link"
             title="Share palette link"
@@ -196,11 +196,11 @@ export const PaletteCard: React.FC<PaletteCardProps> = ({ palette, onNavigate })
           <KromaButton
             type="button"
             variant="ghost"
-            size="icon"
-            className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
+            size="icon-sm"
+            className={`p-1 rounded-[2px] ${
               saved
                 ? 'text-[var(--accent-gold)]'
-                : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)]'
             }`}
             onClick={handleToggleSave}
             aria-label={saved ? 'Remove from saved' : 'Save palette'}

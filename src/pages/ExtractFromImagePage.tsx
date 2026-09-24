@@ -12,7 +12,7 @@ import { RouteType } from '../types';
 import { useToast } from '../context/ToastContext';
 import { useSaved } from '../context/SavedContext';
 import { useLibraryData } from '../context/LibraryDataContext';
-import { copyToClipboard } from '../utils/colorUtils';
+import { copyToClipboard, getTextColorForBackground } from '../utils/colorUtils';
 import {
   extractColorsFromImage,
   ExtractedSwatch,
@@ -279,9 +279,10 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                 onClick={() => handleSelectPreset(p)}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-xs text-xs font-mono uppercase tracking-wider whitespace-nowrap h-auto min-h-0"
               >
-                <span
-                  className="w-3.5 h-3.5 rounded-xs bg-cover bg-center border border-black/10 flex-shrink-0"
-                  style={{ backgroundImage: `url(${p.thumbnail})` }}
+                <img
+                  src={p.thumbnail}
+                  alt=""
+                  className="w-4 h-4 rounded-[2px] object-cover shrink-0 border border-[var(--border-subtle)]"
                 />
                 <span>{p.title.split(' ')[0]}</span>
               </KromaButton>
@@ -382,6 +383,8 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
           {swatches.map((swatch, idx) => {
             const isActive = activeSwatchIndex === idx;
             const isCopied = copiedHex === swatch.hex;
+            const textColor = getTextColorForBackground(swatch.hex);
+            const isDark = textColor === '#000000';
 
             return (
               <div
@@ -393,23 +396,27 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
                 className={`flex-1 p-5 min-h-[140px] flex flex-col justify-between cursor-pointer transition-all ${
                   isActive ? 'ring-2 ring-[var(--text-primary)] z-10' : ''
                 }`}
-                style={{ backgroundColor: swatch.hex }}
+                style={{ backgroundColor: swatch.hex, color: textColor }}
               >
-                <div className="flex items-center justify-between text-white drop-shadow-md">
+                <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-bold">0{idx + 1}</span>
-                  <span className="font-mono text-xs uppercase tracking-wider bg-black/30 px-1.5 py-0.5 rounded-xs">
+                  <span
+                    className={`font-mono text-xs uppercase tracking-wider px-1.5 py-0.5 rounded-xs font-semibold ${
+                      isDark ? 'bg-black/10 text-black' : 'bg-black/30 text-white'
+                    }`}
+                  >
                     {Math.round(swatch.frequency)}%
                   </span>
                 </div>
 
-                <div className="text-white drop-shadow-md flex flex-col">
+                <div className="flex flex-col">
                   <span className="font-sans text-xs font-semibold uppercase tracking-wider truncate">
                     {swatch.name}
                   </span>
-                  <span className="font-mono text-xs font-bold flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold flex items-center justify-between mt-1">
                     <span>{swatch.hex}</span>
-                    <span className="text-xs font-mono opacity-0 hover:opacity-100 uppercase tracking-wider">
-                      {isCopied ? 'COPIED' : 'COPY'}
+                    <span className="text-xs font-mono uppercase tracking-wider font-semibold">
+                      {isCopied ? 'COPIED' : ''}
                     </span>
                   </span>
                 </div>

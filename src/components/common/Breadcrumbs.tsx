@@ -55,9 +55,9 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, onNavigate, cla
         }
 
         .kroma-breadcrumbs__link {
-          color: #707070;
+          color: var(--text-secondary);
           text-decoration: none;
-          opacity: 0.8;
+          opacity: 0.85;
           transition: color 200ms ease-out, opacity 200ms ease-out;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -65,37 +65,22 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, onNavigate, cla
           max-width: 220px;
         }
 
-        [data-theme="dark"] .kroma-breadcrumbs__link,
-        :root:not([data-theme="light"]) .kroma-breadcrumbs__link {
-          color: #9E9E9E;
-        }
-
         .kroma-breadcrumbs__link:hover {
-          color: #171717;
+          color: var(--text-primary);
           opacity: 1;
-        }
-
-        [data-theme="dark"] .kroma-breadcrumbs__link:hover,
-        :root:not([data-theme="light"]) .kroma-breadcrumbs__link:hover {
-          color: #FFFFFF;
         }
 
         .kroma-breadcrumbs__separator {
           margin: 0 8px;
-          color: #A0A0A0;
+          color: var(--text-tertiary);
           font-weight: 400;
           user-select: none;
           flex-shrink: 0;
         }
 
-        [data-theme="dark"] .kroma-breadcrumbs__separator,
-        :root:not([data-theme="light"]) .kroma-breadcrumbs__separator {
-          color: #666666;
-        }
-
         .kroma-breadcrumbs__current {
-          color: #171717;
-          font-weight: 500;
+          color: var(--text-primary);
+          font-weight: 600;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

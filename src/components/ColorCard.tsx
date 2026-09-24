@@ -102,9 +102,9 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
       </div>
 
       {/* Editorial Information Layer */}
-      <div className="p-3.5 sm:p-4 flex flex-col gap-1.5 flex-1 bg-[#F8F8F8] dark:bg-[#141518]">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 className="font-sans font-bold text-[15px] leading-tight text-[#171717] dark:text-white tracking-[-0.01em] truncate">
+      <div className="p-3.5 sm:p-4 flex flex-col gap-1.5 flex-1 bg-[var(--bg-surface-1)]">
+        <div className="flex items-baseline justify-between gap-2 min-w-0">
+          <h3 className="font-sans font-bold text-[15px] leading-tight text-[var(--text-primary)] tracking-[-0.01em] truncate min-w-0 flex-1">
             <Link
               to={{ path: 'color-detail', slug: color.slug }}
               onNavigate={onNavigate}
@@ -119,7 +119,7 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
             type="button"
             variant="subtle"
             size="sm"
-            className="font-mono text-xs font-semibold px-2 py-0.5 min-h-0 h-auto gap-1 rounded-[2px]"
+            className="font-mono text-xs font-semibold px-2 py-0.5 min-h-0 h-auto gap-1 rounded-[2px] shrink-0"
             onClick={handleCopyHex}
             aria-label={`Copy hex value ${color.hex}`}
             title="Click to copy HEX"
@@ -130,14 +130,14 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
         </div>
 
         {color.description && (
-          <p className="text-xs text-[#707070] dark:text-[#A0A0A0] line-clamp-2 leading-relaxed m-0">
+          <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed m-0">
             {color.description}
           </p>
         )}
 
         {/* Minimal Specimen Footer */}
-        <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
-          <span className="font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+        <div className="mt-auto pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs">
+          <span className="font-mono text-xs uppercase tracking-wider text-[var(--text-secondary)]">
             {color.family} • {color.tone}
           </span>
 
@@ -145,8 +145,8 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
-              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
+              size="icon-sm"
+              className="p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] rounded-[2px]"
               onClick={(e) => {
                 e.stopPropagation();
                 onNavigate({ path: 'color-name-finder', hex: color.hex });
@@ -159,8 +159,8 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
-              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
+              size="icon-sm"
+              className="p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)] rounded-[2px]"
               onClick={handleShare}
               aria-label="Share specimen URL"
               title="Share specimen link"
@@ -170,9 +170,9 @@ export const ColorCard: React.FC<ColorCardProps> = ({ color, onNavigate }) => {
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
-              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
-                saved ? 'text-[var(--accent-gold)]' : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
+              size="icon-sm"
+              className={`p-1 rounded-[2px] ${
+                saved ? 'text-[var(--accent-gold)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)]'
               }`}
               onClick={handleToggleSave}
               aria-label={saved ? 'Remove from saved' : 'Save color'}

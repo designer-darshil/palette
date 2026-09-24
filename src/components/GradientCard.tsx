@@ -105,9 +105,9 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
       </div>
 
       {/* Editorial Content Layer */}
-      <div className="p-3.5 sm:p-4 flex flex-col gap-2 flex-1 bg-[#F8F8F8] dark:bg-[#141518]">
+      <div className="p-3.5 sm:p-4 flex flex-col gap-2 flex-1 bg-[var(--bg-surface-1)]">
         <div className="flex items-baseline justify-between gap-2">
-          <h3 className="font-sans font-bold text-[15px] leading-tight text-[#171717] dark:text-white tracking-[-0.01em] truncate m-0">
+          <h3 className="font-sans font-bold text-[15px] leading-tight text-[var(--text-primary)] tracking-[-0.01em] truncate m-0">
             <Link
               to={{ path: 'gradient-detail', slug: gradient.slug }}
               onNavigate={onNavigate}
@@ -117,7 +117,7 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
               {gradient.title}
             </Link>
           </h3>
-          <span className="font-mono text-xs text-[#707070] dark:text-[#909090] uppercase tracking-wider flex-shrink-0">
+          <span className="font-mono text-xs text-[var(--text-secondary)] uppercase tracking-wider flex-shrink-0">
             {gradient.stops.length} STOPS
           </span>
         </div>
@@ -127,7 +127,7 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
           {gradient.stops.map((s, idx) => (
             <span
               key={idx}
-              className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] bg-black/5 dark:bg-white/10 font-mono text-xs text-[#707070] dark:text-[#A0A0A0]"
+              className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[2px] bg-[var(--bg-surface-2)] font-mono text-xs text-[var(--text-secondary)]"
               title={`${s.name || s.color} at ${s.position}%`}
             >
               <span className="w-2 h-2 rounded-full border border-black/10" style={{ backgroundColor: s.color }} />
@@ -137,8 +137,8 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
         </div>
 
         {/* Minimal Footer & Actions */}
-        <div className="mt-auto pt-3 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-xs">
-          <span className="font-mono text-xs uppercase tracking-wider text-[#707070] dark:text-[#909090]">
+        <div className="mt-auto pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs">
+          <span className="font-mono text-xs uppercase tracking-wider text-[var(--text-secondary)]">
             {gradient.category}
           </span>
 
@@ -146,29 +146,27 @@ export const GradientCard: React.FC<GradientCardProps> = ({ gradient, onNavigate
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
-              className="w-7 h-7 min-h-[28px] p-1 text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white rounded-[2px]"
+              size="icon-sm"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xs"
               onClick={handleShare}
               aria-label="Share gradient link"
               title="Share gradient link"
-            >
-              <Share2 size={13} />
-            </KromaButton>
+              iconLeft={<Share2 size={13} />}
+            />
             <KromaButton
               type="button"
               variant="ghost"
-              size="icon"
-              className={`w-7 h-7 min-h-[28px] p-1 rounded-[2px] ${
+              size="icon-sm"
+              className={`rounded-xs ${
                 saved
                   ? 'text-[var(--accent-gold)]'
-                  : 'text-[#707070] dark:text-[#909090] hover:text-[#171717] dark:hover:text-white'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
               onClick={handleToggleSave}
               aria-label={saved ? 'Remove from saved' : 'Save gradient'}
               title={saved ? 'Saved' : 'Save gradient'}
-            >
-              <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />
-            </KromaButton>
+              iconLeft={<Bookmark size={13} fill={saved ? 'currentColor' : 'none'} />}
+            />
           </div>
         </div>
       </div>

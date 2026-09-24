@@ -490,29 +490,29 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
         </div>
 
         {/* Right: Compact Creative Instrument Controls */}
-        <aside className="flex flex-col gap-7 bg-[#F8F8F8] dark:bg-[#141518] border border-black/[0.08] dark:border-white/[0.08] rounded p-6" aria-label="Pattern controls">
+        <aside className="flex flex-col gap-7 bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] rounded-xs p-6" aria-label="Pattern controls">
           {/* Instrument 1: Geometry / Shape Picker */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[#707070] dark:text-[#8E8E93]">GEOMETRY SHAPE</span>
-              <span className="font-mono text-xs font-semibold text-[#171717] dark:text-white">{patternType.toUpperCase()}</span>
+              <span className="font-mono text-xs font-semibold tracking-[0.08em] uppercase text-[var(--text-secondary)]">GEOMETRY SHAPE</span>
+              <span className="font-mono text-xs font-semibold text-[var(--text-primary)]">{patternType.toUpperCase()}</span>
             </div>
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-3 gap-2">
               {SHAPE_OPTIONS.map((opt) => (
                 <KromaButton
                   key={opt.type}
-                  variant={patternType === opt.type ? 'filled' : 'ghost'}
+                  variant={patternType === opt.type ? 'filled' : 'outline'}
                   size="sm"
                   onClick={() => setPatternType(opt.type)}
-                  className={`flex flex-col items-center justify-center gap-1 border rounded-[2px] py-2 px-1 cursor-pointer transition-all font-mono text-xs font-medium uppercase h-auto w-full ${
+                  className={`flex flex-col items-center justify-center gap-1.5 rounded-xs p-2 cursor-pointer transition-all font-mono text-xs font-medium uppercase h-auto min-h-[58px] w-full ${
                     patternType === opt.type
-                      ? 'bg-[#171717] dark:bg-white text-white dark:text-[#171717] border-[#171717] dark:border-white'
-                      : 'bg-transparent border-black/[0.08] dark:border-white/[0.08] text-[#707070] dark:text-[#8E8E93] hover:text-[#171717] dark:hover:text-white hover:border-black/[0.24] dark:hover:border-white/[0.24]'
+                      ? 'bg-[var(--text-primary)] text-[var(--bg-canvas)] border-[var(--text-primary)] shadow-sm'
+                      : 'bg-transparent border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-medium)]'
                   }`}
                   title={`Shape: ${opt.label}`}
                 >
-                  <span className="text-sm leading-none">{opt.glyph}</span>
-                  <span>{opt.label}</span>
+                  <span className="text-base leading-none shrink-0" aria-hidden="true">{opt.glyph}</span>
+                  <span className="text-[12px] font-mono leading-tight tracking-wider text-center">{opt.label}</span>
                 </KromaButton>
               ))}
             </div>
@@ -638,10 +638,10 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                     key={p.id}
                     variant="ghost"
                     size="sm"
-                    className={`flex items-center justify-between gap-2 border border-transparent rounded-[2px] px-1.5 py-1 cursor-pointer font-sans text-xs text-left transition-all w-full h-auto ${
+                    className={`flex items-center justify-between gap-2 border border-transparent rounded-xs px-2 py-1.5 cursor-pointer font-sans text-xs text-left transition-all w-full h-auto ${
                       selectedPaletteIndex === idx
-                        ? 'bg-black/[0.06] dark:bg-white/10 font-semibold text-[#171717] dark:text-white'
-                        : 'bg-transparent text-[#171717] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
+                        ? 'bg-[var(--bg-surface-2)] font-semibold text-[var(--text-primary)] border-[var(--border-subtle)]'
+                        : 'bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-2)]'
                     }`}
                     onClick={() => {
                       setSelectedPaletteIndex(idx);
@@ -649,7 +649,7 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
                       showToast(`Assigned Palette: ${p.title}`);
                     }}
                   >
-                    <span className="truncate">{p.title}</span>
+                    <span className="truncate min-w-0 pr-2">{p.title}</span>
                     <div className="flex w-14 h-3.5 rounded-[1px] overflow-hidden shrink-0">
                       {p.colors.map((c, ci) => (
                         <span key={ci} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />

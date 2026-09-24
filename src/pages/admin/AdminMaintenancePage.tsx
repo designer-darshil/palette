@@ -245,7 +245,7 @@ export const AdminMaintenancePage: React.FC = () => {
                   <Globe size={13} className="text-text-tertiary" />
                   Public Traffic Guard
                 </span>
-                <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded-xs uppercase tracking-wider font-semibold ${
+                <span className={`text-xs font-mono px-2 py-0.5 rounded-xs uppercase tracking-wider font-semibold ${
                   isActive
                     ? 'bg-kroma-red/10 text-kroma-red border border-kroma-red/20'
                     : 'bg-kroma-green/10 text-kroma-green border border-kroma-green/20'
@@ -269,12 +269,12 @@ export const AdminMaintenancePage: React.FC = () => {
                   <ShieldCheck size={13} className="text-text-tertiary" />
                   Admin Route Bypass
                 </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-xs uppercase tracking-wider font-semibold bg-surface-3 text-text-primary border border-border-subtle">
+                <span className="text-xs font-mono px-2 py-0.5 rounded-xs uppercase tracking-wider font-semibold bg-surface-3 text-text-primary border border-border-subtle">
                   Always Active
                 </span>
               </div>
               <p className="text-xs text-text-tertiary leading-relaxed">
-                <span className="font-mono text-[11px]">/admin/*</span> routes remain accessible for authenticated staff.
+                <span className="font-mono text-xs">/admin/*</span> routes remain accessible for authenticated staff.
               </p>
             </div>
           </div>

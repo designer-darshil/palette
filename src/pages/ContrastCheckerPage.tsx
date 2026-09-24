@@ -367,7 +367,7 @@ export const ContrastCheckerPage: React.FC<ContrastCheckerPageProps> = ({
               onClick={handleSwap}
               title="Swap Foreground and Background"
             >
-              SWAP ↕
+              SWAP
             </KromaButton>
           </div>
 

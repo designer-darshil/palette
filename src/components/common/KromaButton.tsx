@@ -4,7 +4,7 @@ import { Link } from './Link';
 import { RouteType } from '../../types';
 
 export type KromaButtonVariant = 'filled' | 'outline' | 'ghost' | 'subtle';
-export type KromaButtonSize = 'sm' | 'md' | 'lg' | 'icon';
+export type KromaButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'icon' | 'icon-sm';
 
 interface Ripple {
   x: number;
@@ -162,47 +162,58 @@ export const KromaButton = React.forwardRef<HTMLElement, KromaButtonProps>(
       onClick?.(e);
     };
 
-    // ─── Visual Tokens Matching Home Page Button Design ───
+    const isCustomFlexCol = className?.includes('flex-col');
+    const isJustifyBetween = className?.includes('justify-between');
+    const isItemsCenter = className?.includes('items-center');
+    const hasCustomRounded = className?.includes('rounded-') || className?.includes('rounded ');
+    const hasCustomMinHeight = className?.includes('min-h-') || className?.includes('h-auto') || className?.includes('h-');
+    const hasCustomCase = className?.includes('lowercase') || className?.includes('normal-case') || className?.includes('capitalize');
+
+    // ─── Visual Tokens Matching Canonical Kroma Design System ───
     const baseStyles = clsx(
-      'relative inline-flex items-center justify-center font-sans font-semibold tracking-[0.02em] uppercase',
-      'rounded-full select-none cursor-pointer overflow-hidden box-border no-underline',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171717] dark:focus-visible:ring-[#F8F8F8] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-canvas)]',
+      'relative inline-flex items-center justify-center font-sans font-semibold tracking-[0.02em]',
+      !hasCustomCase && 'uppercase',
+      !hasCustomRounded && 'rounded-full',
+      'select-none cursor-pointer overflow-hidden box-border no-underline',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-strong)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-canvas)]',
       'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none'
     );
 
     const sizeStyles = {
-      sm: 'px-4 py-2 text-xs gap-1.5 min-h-[34px]',
-      md: 'px-6 py-3 text-[13.5px] gap-2 min-h-[44px]', // Exact Home Page Proportions
-      lg: 'px-8 py-3.5 text-[15px] gap-2.5 min-h-[50px]',
-      icon: 'w-10 h-10 p-0 text-xs justify-center min-h-[40px]',
-    }[size];
+      xs: clsx('px-2.5 py-1 text-xs gap-1', !hasCustomMinHeight && 'min-h-[28px]'),
+      sm: clsx('px-3.5 py-1.5 text-xs gap-1.5', !hasCustomMinHeight && 'min-h-[34px]'),
+      md: clsx('px-6 py-3 text-[13.5px] gap-2', !hasCustomMinHeight && 'min-h-[44px]'), // Exact Home Page Proportions
+      lg: clsx('px-8 py-3.5 text-[15px] gap-2.5', !hasCustomMinHeight && 'min-h-[50px]'),
+      icon: clsx('w-10 h-10 p-0 text-xs justify-center', !hasCustomMinHeight && 'min-h-[40px]'),
+      'icon-sm': clsx('w-7 h-7 p-0 text-xs justify-center', !hasCustomMinHeight && 'min-h-[28px]'),
+    }[size as 'xs' | 'sm' | 'md' | 'lg' | 'icon' | 'icon-sm'] || clsx('px-6 py-3 text-[13.5px] gap-2', !hasCustomMinHeight && 'min-h-[44px]');
 
     const variantStyles = {
       filled: clsx(
-        'bg-[#171717] dark:bg-[#F8F8F8] text-[#F8F8F8] dark:text-[#171717]',
+        'bg-[var(--text-primary)] text-[var(--bg-canvas)]',
         'border-0 shadow-xs hover:opacity-90 active:opacity-95'
       ),
       outline: clsx(
-        'bg-transparent text-[#171717] dark:text-white',
-        'border border-black/20 dark:border-white/20',
-        'hover:bg-black/5 dark:hover:bg-white/10 hover:border-black/30 dark:hover:border-white/30',
-        'active:bg-black/10 dark:active:bg-white/15'
+        'bg-transparent text-[var(--text-primary)]',
+        'border border-[var(--border-medium)]',
+        'hover:bg-[var(--bg-surface-2)] hover:border-[var(--border-strong)]',
+        'active:bg-[var(--bg-surface-3)]'
       ),
       ghost: clsx(
-        'bg-transparent text-[#171717] dark:text-white border-0',
-        'hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/15'
+        'bg-transparent text-[var(--text-primary)] border-0',
+        'hover:bg-[var(--bg-surface-2)] active:bg-[var(--bg-surface-3)]'
       ),
       subtle: clsx(
-        'bg-black/5 dark:bg-white/10 text-[#171717] dark:text-white border-0',
-        'hover:bg-black/10 dark:hover:bg-white/15 active:bg-black/15 dark:active:bg-white/20'
+        'bg-[var(--bg-surface-2)] text-[var(--text-primary)] border-0',
+        'hover:bg-[var(--bg-surface-3)] active:bg-[var(--bg-surface-elevated)]'
       ),
     }[variant];
 
     // Ripple color matching variant
     const rippleColor =
       variant === 'filled'
-        ? 'bg-white/25 dark:bg-black/20'
-        : 'bg-black/10 dark:bg-white/20';
+        ? 'bg-current opacity-20'
+        : 'bg-current opacity-15';
 
     const transformStyle: React.CSSProperties = {
       transform: isMagneticActive
@@ -216,7 +227,7 @@ export const KromaButton = React.forwardRef<HTMLElement, KromaButtonProps>(
     const content = (
       <>
         {/* Ripple Layer */}
-        <span className="absolute inset-0 pointer-events-none overflow-hidden rounded-full z-0" aria-hidden="true">
+        <span className="absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0" aria-hidden="true">
           {ripples.map((ripple) => (
             <span
               key={ripple.id}
@@ -244,17 +255,30 @@ export const KromaButton = React.forwardRef<HTMLElement, KromaButtonProps>(
 
         {/* Icon Left */}
         {!isLoading && iconLeft && (
-          <span className="relative z-10 shrink-0 inline-flex items-center transition-transform duration-200 group-hover:-translate-x-0.5">
+          <span className="relative z-10 shrink-0 inline-flex items-center justify-center transition-transform duration-200 group-hover:-translate-x-0.5">
             {iconLeft}
           </span>
         )}
 
         {/* Text / Children */}
-        {children && <span className="relative z-10 leading-none">{children}</span>}
+        {children && (
+          <span
+            className={clsx(
+              'relative z-10',
+              isCustomFlexCol
+                ? clsx('flex flex-col gap-1 leading-normal w-full', isItemsCenter ? 'items-center text-center' : 'items-start')
+                : isJustifyBetween
+                  ? 'flex items-center justify-between gap-1.5 leading-none w-full min-w-0'
+                  : 'inline-flex items-center justify-center gap-1.5 leading-none'
+            )}
+          >
+            {children}
+          </span>
+        )}
 
         {/* Icon Right */}
         {!isLoading && iconRight && (
-          <span className="relative z-10 shrink-0 inline-flex items-center transition-transform duration-200 group-hover:translate-x-0.5">
+          <span className="relative z-10 shrink-0 inline-flex items-center justify-center transition-transform duration-200 group-hover:translate-x-0.5">
             {iconRight}
           </span>
         )}

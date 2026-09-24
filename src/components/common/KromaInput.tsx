@@ -80,11 +80,11 @@ export const KromaInput = forwardRef<HTMLInputElement, KromaInputProps>(
     // Variant backgrounds & borders
     const variantClasses: Record<KromaInputVariant, string> = {
       default:
-        'bg-white dark:bg-[#111216] border border-kroma-border text-kroma-foreground placeholder:text-kroma-muted',
+        'bg-[var(--bg-surface-1)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]',
       surface:
-        'bg-black/[0.03] dark:bg-white/[0.04] border border-kroma-border text-kroma-foreground placeholder:text-kroma-muted',
+        'bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]',
       filled:
-        'bg-black/[0.05] dark:bg-white/[0.06] border border-transparent text-kroma-foreground placeholder:text-kroma-muted',
+        'bg-[var(--bg-surface-3)] border border-transparent text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]',
     };
 
     // Horizontal padding adjustments for left/right elements
@@ -98,8 +98,8 @@ export const KromaInput = forwardRef<HTMLInputElement, KromaInputProps>(
 
     // Status borders & focus styles
     const statusClasses = error
-      ? 'border-[#D70015] dark:border-[#FF453A] focus:border-[#D70015] dark:focus:border-[#FF453A] focus:ring-1 focus:ring-[#D70015]/30'
-      : 'focus:border-kroma-foreground dark:focus:border-kroma-foreground focus:ring-1 focus:ring-kroma-foreground/20';
+      ? 'border-[var(--color-text-error,#FF453A)] focus:border-[var(--color-text-error,#FF453A)] focus:ring-1 focus:ring-[var(--color-text-error,#FF453A)]/30'
+      : 'focus:border-[var(--text-primary)] focus:ring-1 focus:ring-[var(--border-strong)]';
 
     const disabledClasses = disabled
       ? 'opacity-60 cursor-not-allowed bg-black/[0.03] dark:bg-white/[0.03]'
@@ -122,7 +122,7 @@ export const KromaInput = forwardRef<HTMLInputElement, KromaInputProps>(
             className="block text-xs font-mono font-medium text-kroma-muted uppercase tracking-wider mb-1.5 select-none"
           >
             {label}
-            {required && <span className="text-[#D70015] dark:text-[#FF453A] ml-1">*</span>}
+            {required && <span className="text-[var(--color-text-error,#FF453A)] ml-1">*</span>}
           </label>
         )}
 
@@ -219,7 +219,7 @@ export const KromaInput = forwardRef<HTMLInputElement, KromaInputProps>(
           <div
             id={errorId}
             role="alert"
-            className="flex items-center gap-1.5 mt-1.5 text-xs font-mono text-[#D70015] dark:text-[#FF453A]"
+            className="flex items-center gap-1.5 mt-1.5 text-xs font-mono text-[var(--color-text-error,#FF453A)]"
           >
             <AlertCircle size={13} className="shrink-0" />
             <span>{error}</span>

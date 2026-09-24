@@ -500,6 +500,51 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   align-items: center;
 }
 
+/* Custom Dropdown Trigger Button inside Header (aligned with nav links) */
+.kroma-header__dropdown-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 6px 2px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: none !important;
+  color: var(--text-secondary) !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  position: relative;
+  transition: opacity 160ms ease, color 160ms ease !important;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.kroma-header__dropdown-btn:hover {
+  color: var(--text-primary) !important;
+  background: transparent !important;
+}
+
+.kroma-header__dropdown-btn--active {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+}
+
+.kroma-header__dropdown-chevron {
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.kroma-header__dropdown-btn[aria-expanded="true"] .kroma-header__dropdown-chevron {
+  transform: rotate(180deg);
+}
+
 .kroma-header__dropdown-menu {
   position: absolute;
   top: calc(100% + 10px);
@@ -790,6 +835,25 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.kroma-header__search-btn,
+.kroma-header__theme-btn {
+  width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--text-secondary) !important;
+  transition: color 160ms ease, background-color 160ms ease !important;
+}
+
+.kroma-header__search-btn:hover,
+.kroma-header__theme-btn:hover {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-surface-2) !important;
 }
 
 /* Mobile Actions (Hidden on desktop) */

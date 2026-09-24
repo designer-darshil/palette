@@ -567,18 +567,18 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={() => handleApplyPalette(pal)}
-                className="flex items-center gap-1.5 px-2 py-1 bg-transparent hover:bg-[var(--bg-surface-2)] flex-shrink-0 h-auto"
+                className="inline-flex items-center gap-2 px-2.5 py-1.5 bg-transparent hover:bg-[var(--bg-surface-2)] flex-shrink-0 h-auto"
                 title={`Apply ${pal.title} (${curatedQualityMap[pal.id] || 'AA ✓'})`}
               >
-                <div className="flex h-2.5 w-8 rounded-[1px] overflow-hidden">
+                <div className="flex h-2.5 w-8 rounded-[1px] overflow-hidden shrink-0">
                   {pal.colors.slice(0, 4).map((c, i) => (
                     <span key={i} className="flex-1 h-full" style={{ backgroundColor: c.hex }} />
                   ))}
                 </div>
-                <span className="text-xs font-medium text-[var(--text-primary)] truncate max-w-[65px]">
+                <span className="text-xs font-medium text-[var(--text-primary)] truncate max-w-[120px] block">
                   {pal.title}
                 </span>
-                <span className="text-xs font-mono font-semibold px-1 py-0.5 rounded-[2px] bg-neutral-100 text-[var(--text-secondary)] border border-neutral-200">
+                <span className="text-xs font-mono font-semibold px-1.5 py-0.5 rounded-[2px] bg-[var(--bg-surface-2)] text-[var(--text-secondary)] border border-[var(--border-subtle)] shrink-0 whitespace-nowrap">
                   {curatedQualityMap[pal.id] || 'AA ✓'}
                 </span>
               </KromaButton>

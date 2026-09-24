@@ -76,11 +76,11 @@ export const CreatorDetailPage: React.FC<CreatorDetailPageProps> = ({ username, 
           />
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--text-primary)]">
+              <h1 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-[1.1] text-text-primary m-0">
                 {creator.name}
               </h1>
               {creator.featured && (
-                <ShieldCheck size={18} className="text-[var(--accent-gold)]" />
+                <ShieldCheck size={18} className="text-kroma-yellow" />
               )}
             </div>
             <div className="text-xs font-mono text-[var(--text-tertiary)] mb-2">

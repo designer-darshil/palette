@@ -35,13 +35,13 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
         </div>
 
         {/* Large Headline */}
-        <div className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2">SPECTRUM ANOMALY · 404</div>
-        <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase leading-[1.05] mb-4">
+        <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary mb-3">SPECTRUM ANOMALY · 404</div>
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
           THIS COLOR DOESN'T EXIST.
         </h1>
 
         {/* Subtitle */}
-        <p className="font-sans text-base leading-relaxed text-text-secondary text-center mb-10 max-w-md mx-auto">
+        <p className="text-sm sm:text-base text-text-secondary leading-relaxed text-center mb-10 max-w-md mx-auto mt-3">
           Or maybe it does, but we haven't found it yet.
         </p>
 

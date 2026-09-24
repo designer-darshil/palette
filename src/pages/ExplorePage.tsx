@@ -256,15 +256,14 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-14 items-center">
           {/* Editorial Headline & Discovery Navigation */}
           <div className="flex flex-col gap-4">
-            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090] flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-[1px] bg-[#00AEEF]" />
+            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-[1px] bg-kroma-blue" />
               <span>EXPLORE</span>
             </div>
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.05] text-[#171717] dark:text-white m-0 uppercase">
-              DISCOVER THE<br />
-              WORLD OF COLOUR.
+            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
+              DISCOVER THE WORLD OF COLOUR.
             </h1>
-            <p className="font-sans text-sm sm:text-base leading-[1.55] text-[#707070] dark:text-[#A0A0A0] max-w-[480px] m-0">
+            <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
               Explore palettes, colours, patterns, specimens, and visual studies created across Kroma.
             </p>
 

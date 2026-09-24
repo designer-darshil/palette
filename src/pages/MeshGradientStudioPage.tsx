@@ -389,11 +389,11 @@ export const MeshGradientStudioPage: React.FC<MeshGradientStudioPageProps> = ({
           )}
         </div>
 
-        <h1 className="font-sans font-bold text-[clamp(40px,7vw,92px)] leading-[1.05] tracking-tight text-kroma-text dark:text-white uppercase select-none my-0">
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
           MESH GRADIENT
         </h1>
 
-        <p className="font-sans text-[clamp(15px,1.4vw,18px)] leading-relaxed text-kroma-muted dark:text-[#8E8E93] max-w-[620px] mb-2 tracking-tight">
+        <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
           Create atmospheric color fields through layered color, position and movement.
         </p>
       </header>

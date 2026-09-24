@@ -387,14 +387,14 @@ export const PatternStudioPage: React.FC<PatternStudioPageProps> = ({
 
       {/* ─── 2. Compact Editorial Intro ─────────────────────────── */}
       <header className="mb-10 flex flex-col gap-2">
-        <div className="font-mono text-xs font-semibold tracking-[0.1em] uppercase text-[#707070] dark:text-[#8E8E93] flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-[1px] bg-[#FF9500]" />
+        <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-[1px] bg-kroma-orange" />
           <span>DIGITAL PATTERN LAB • VECTOR SURFACE INSTRUMENT</span>
         </div>
-        <h1 className="font-sans text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-[-0.03em] leading-[1.05] text-[#171717] dark:text-white m-0 uppercase">
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
           CREATE REPEATING WORLDS.
         </h1>
-        <p className="font-sans text-[14.5px] text-[#707070] dark:text-[#9A9A9E] mt-1 mb-0 max-w-[500px] leading-[1.45]">
+        <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
           Build algorithmic visual rhythm from shape, color, density, and spatial repetition.
         </p>
       </header>

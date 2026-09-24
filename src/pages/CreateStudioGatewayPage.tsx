@@ -133,20 +133,18 @@ export const CreateStudioGatewayPage: React.FC<CreateStudioGatewayPageProps> = (
 
       {/* ── 08: STUDIO INTRO ────────────────────────────────────── */}
       <header className="mb-16">
-        <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-4 block">THE STUDIO</span>
-        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
-          MAKE<br />
-          SOMETHING<br />
-          COLORFUL.
+        <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary mb-3 block">THE STUDIO</span>
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
+          MAKE SOMETHING COLORFUL.
         </h1>
-        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
+        <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
           A quiet place to explore, create and collect color.
         </p>
       </header>
 
       {/* ── 09: PRIMARY STUDIO ACTIONS ──────────────────────────── */}
       <section className="mb-20">
-        <div className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-3 block">WORKSPACE ACTIONS</div>
+        <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary mb-3 block">WORKSPACE ACTIONS</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {/* Action 1: Create Palette */}
           <button

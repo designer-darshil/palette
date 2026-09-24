@@ -109,6 +109,7 @@ export const GradientsPage: React.FC<GradientsPageProps> = ({ onNavigate }) => {
       />
 
       <PageHeader
+        variant="display"
         breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Gradients', isCurrent: true },

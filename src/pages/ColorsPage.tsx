@@ -151,23 +151,23 @@ export const ColorsPage: React.FC<ColorsPageProps> = ({ onNavigate }) => {
 
       {/* ── 01: Compact Editorial Exhibition Opening ────────────────── */}
       <header className="mb-8 pb-6 border-b border-black/[0.08] dark:border-white/[0.08]">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="flex flex-col justify-between gap-8 lg:gap-14">
           <div className="flex flex-col gap-2">
-            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090] flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-[1px] bg-[#FF3B30]" />
+            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-[1px] bg-kroma-red" />
               <span>COLOUR SHOW</span>
             </div>
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.08] text-[#171717] dark:text-white m-0">
+            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
               COLOUR, IN ITS PUREST FORM.
             </h1>
-            <p className="font-sans text-sm sm:text-base text-[#707070] dark:text-[#A0A0A0] max-w-xl m-0 mt-1 leading-[1.5]">
+            <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-2">
               A curated collection of colour studies, combinations, specimens, and visual experiments.
             </p>
           </div>
 
           {/* Gamut Counter & Quick Family Bar */}
           <div className="flex flex-col gap-2.5 lg:items-end">
-            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090]">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary">
               {filteredColors.length} EXHIBITION SPECIMENS
             </span>
             <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 scrollbar-none" role="region" aria-label="Color Gamuts">

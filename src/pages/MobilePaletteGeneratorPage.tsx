@@ -342,8 +342,8 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
 
       {/* ── 2. Compact Editorial Intro ─────────────────────────── */}
       <header className="mb-8 flex flex-col gap-2">
-        <div className="font-mono text-xs font-semibold tracking-widest uppercase text-kroma-muted dark:text-[#8E8E93] flex items-center gap-2 flex-wrap">
-          <span className="w-1.5 h-1.5 rounded-xs bg-[#BFA3F0]" />
+        <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary flex items-center gap-2 flex-wrap">
+          <span className="w-1.5 h-1.5 rounded-xs bg-[var(--color-primary)]" />
           <span>COLOR LABORATORY</span>
           <span className="text-[var(--text-tertiary)]">•</span>
           <span>{colorCount} COLORS</span>
@@ -351,11 +351,11 @@ export const MobilePaletteGeneratorPage: React.FC<MobilePaletteGeneratorProps> =
           <span>{harmony.toUpperCase()}</span>
         </div>
 
-        <h1 className="font-sans font-bold text-[clamp(36px,6vw,84px)] leading-[1.05] tracking-tight text-kroma-text dark:text-white uppercase select-none my-0">
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
           MAKE A COLOR SYSTEM.
         </h1>
 
-        <p className="font-sans text-[clamp(15px,1.4vw,18px)] leading-relaxed text-kroma-muted dark:text-[#8E8E93] max-w-[580px] mb-2 tracking-tight">
+        <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
           Generate, refine and save palettes built around color relationships.
         </p>
       </header>

@@ -124,12 +124,11 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
 
       {/* Header */}
       <header className="mb-12">
-        <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary block mb-4">PARAMETRIC CALIBRATION</span>
-        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0 mb-5">
-          REMIX:<br />
-          {originalPalette.title}
+        <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary mb-3 block">PARAMETRIC CALIBRATION</span>
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
+          REMIX: {originalPalette.title}
         </h1>
-        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-[680px] m-0">
+        <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
           Sculpt hue offsets, saturation intensity, temperature warmth, and luminance contrast across the entire chromatic lineage.
         </p>
       </header>

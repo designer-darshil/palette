@@ -110,6 +110,7 @@ export const CombosPage: React.FC<CombosPageProps> = ({ onNavigate }) => {
       />
 
       <PageHeader
+        variant="display"
         breadcrumbs={[
           { label: 'Home', to: { path: 'home' } },
           { label: 'Combos', isCurrent: true },

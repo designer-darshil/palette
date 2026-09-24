@@ -211,17 +211,17 @@ export const PatternDetailPage: React.FC<PatternDetailPageProps> = ({ slug, onNa
         </nav>
 
         {/* Minimal Specimen Header: Artwork Appears Immediately */}
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-black/[0.08] dark:border-white/[0.08] pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-border-subtle pb-4">
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <span className="font-mono text-xs font-bold text-[#FF9500] uppercase tracking-wider">
+            <span className="font-mono text-xs font-bold text-kroma-orange uppercase tracking-wider">
               PATTERN {patternIndex}
             </span>
-            <span className="text-[#707070]">•</span>
-            <h1 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] dark:text-white uppercase m-0">
+            <span className="text-text-tertiary">•</span>
+            <h1 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-[1.1] text-text-primary uppercase m-0">
               {pattern.title}
             </h1>
-            <span className="text-[#707070]">•</span>
-            <span className="font-sans text-xs text-[#707070] uppercase tracking-wide">
+            <span className="text-text-tertiary">•</span>
+            <span className="font-sans text-xs text-text-secondary uppercase tracking-wide">
               {pattern.category} repetition study
             </span>
           </div>

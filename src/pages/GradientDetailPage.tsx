@@ -208,7 +208,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
           </div>
 
           <div>
-            <h1
+            <h2
               className="text-[1.8rem] sm:text-[2.8rem] font-extrabold tracking-[-0.03em] leading-[1.1]"
               style={{
                 color: '#FFFFFF',
@@ -216,7 +216,7 @@ export const GradientDetailPage: React.FC<GradientDetailPageProps> = ({ slug, on
               }}
             >
               {baseGradient.title}
-            </h1>
+            </h2>
             <p
               style={{
                 color: '#FFFFFF',

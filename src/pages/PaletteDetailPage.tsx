@@ -186,30 +186,30 @@ export const PaletteDetailPage: React.FC<PaletteDetailPageProps> = ({ slug, onNa
           size="sm"
           iconLeft={<ArrowLeft size={14} />}
           to={{ path: 'palettes' }}
-          className="inline-flex items-center gap-1.5 text-xs font-sans font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors uppercase mb-6 p-0 h-auto"
+          className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold tracking-wider text-text-tertiary hover:text-text-primary transition-colors uppercase mb-6 p-0 h-auto"
         >
           ALL PALETTES
         </KromaButton>
 
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="font-sans text-xs font-semibold tracking-wider uppercase text-neutral-400">
+          <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary">
             {palette.category?.toUpperCase() || 'EDITORIAL STUDY'}
           </span>
           {palette.tags?.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-xs font-mono tracking-wider uppercase px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 rounded-xs"
+              className="text-xs font-mono tracking-wider uppercase px-2 py-0.5 bg-bg-surface-2 text-text-secondary rounded-xs"
             >
               #{tag}
             </span>
           ))}
         </div>
 
-        <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white uppercase leading-[1.08] mb-4">
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
           {palette.title}
         </h1>
 
-        <p className="font-sans text-base leading-relaxed text-text-secondary max-w-2xl m-0">
+        <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
           {palette.description || 'A physical color study exploring spatial weight, luminance hierarchy, and chromatic harmony.'}
         </p>
       </div>

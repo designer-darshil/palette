@@ -119,14 +119,14 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
         </nav>
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="flex flex-col gap-2 max-w-2xl">
-            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070]">
+          <div className="flex flex-col gap-2">
+            <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary">
               PATTERN ARCHIVE
             </span>
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-[1.08] text-[#171717] dark:text-white m-0">
+            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
               PATTERNS IN MOTION.
             </h1>
-            <p className="font-sans text-sm sm:text-base text-[#707070] dark:text-[#A0A0A0] leading-relaxed m-0 mt-1 max-w-lg">
+            <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
               A collection of geometric systems, organic textures, repeating forms, and experimental color compositions.
             </p>
           </div>

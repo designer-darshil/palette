@@ -290,18 +290,17 @@ export const SpringsStudioPage: React.FC<SpringsStudioPageProps> = ({
           </nav>
 
           {/* Compact Headline */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-black/[0.08] dark:border-white/[0.08] pb-4">
+          <div className="flex flex-col justify-between gap-4 border-b border-black/[0.08] dark:border-white/[0.08] pb-4">
             <div>
-              <span className="font-mono text-xs font-semibold text-[#707070] dark:text-[#909090] uppercase tracking-wider block mb-1">
+              <span className="font-mono text-xs font-semibold text-text-tertiary uppercase tracking-wider block mb-1">
                 SPRINGS · PHYSICS & INTERACTION LAB
               </span>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#171717] dark:text-white leading-[1.05] uppercase">
-                LET COLOR <br className="hidden sm:inline" />
-                <span className="text-[#707070] dark:text-[#888888] font-normal">BOUNCE.</span>
+              <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
+                LET COLOR BOUNCE.
               </h1>
             </div>
 
-            <p className="max-w-md text-xs sm:text-sm text-[#707070] dark:text-[#A0A0A0] leading-relaxed">
+            <p className="max-w-2xl text-sm sm:text-base text-text-secondary leading-relaxed">
               A playful physics laboratory for exploring spring motion, elasticity, weight, tension,
               and tactile interaction through real-time harmonic simulation.
             </p>

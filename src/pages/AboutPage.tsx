@@ -82,17 +82,17 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       />
 
       {/* Hero Statement */}
-      <section className="about-hero flex flex-col gap-6 max-w-3xl">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase bg-[var(--bg-surface-2)] border border-[var(--border-subtle)] text-[var(--text-secondary)] w-fit">
-          <span className="w-2 h-2 rounded-full bg-[#FF3B30] animate-pulse" />
+      <section className="about-hero flex flex-col gap-4 max-w-3xl">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-semibold tracking-wider uppercase bg-bg-surface-2 border border-border-subtle text-text-tertiary w-fit">
+          <span className="w-2 h-2 rounded-full bg-kroma-red animate-pulse" />
           <span>The Chromatic Studio</span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[var(--text-primary)] leading-[1.08]">
+        <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
           Color is the first syntax of visual design.
         </h1>
 
-        <p className="text-lg sm:text-xl text-[var(--text-secondary)] leading-relaxed font-normal">
+        <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
           KROMA is a modern color system, algorithmic creation laboratory, and curated design specimen reference calibrated for digital product designers, creative technologists, and engineers.
         </p>
 

@@ -758,3 +758,26 @@ All interactive UI elements across KROMA must use native HTML elements:
 5. **Visible Focus & Keyboard Accessibility**:
    - All interactive controls must provide visible focus indicators (e.g. `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary`).
 
+---
+
+# 24. Global Page Title & Header Typography System
+
+To ensure cross-page coherence across all primary pages, studios, and specimen libraries, KROMA enforces a unified, two-tier heading system:
+
+### 1. Display Variant (Hero, Major Studios, Catalogs & Public Landing Pages)
+Used on: `HomePage`, `ExplorePage`, `ColorsPage`, `PalettesPage`, `PatternsPage`, `GradientsPage`, `CombosPage`, `BrandKitPage`, `ContrastCheckerPage`, `MeshGradientStudioPage`, `MobilePaletteGeneratorPage`, `SpringsStudioPage`, `RampsStudioPage`, `PatternStudioPage`, `CreateStudioGatewayPage`, `CollectionsPage`, `CollectionDetailPage`, `SavedPage`, `PaletteRemixPage`, `AboutPage`, `NotFoundPage`, `MaintenancePage`.
+
+- **H1**: `font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0`
+- **Eyebrow**: `font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary mb-3 [inline-flex items-center gap-2 | block]`
+- **Description / Subtitle**: `text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3`
+
+### 2. Standard Variant (Detail, Tool, Game, Profile & Sub-Pages)
+Used on: `ColorRelationshipsPage`, `LiveColorsPage`, `ApiDocsPage`, `PlayHubPage`, `HexleGamePage`, `OddOneOutGamePage`, `PaletteMatchGamePage`, `ColorOfTheDayPage`, `PaletteOfTheDayPage`, `RandomDiscoveryPage`, `ColorNameFinderPage`, `ProfilePage`, `CreatorDetailPage`, `ComboDetailPage`, `GradientDetailPage`.
+
+- **H1**: `font-sans text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-[1.1] text-text-primary m-0`
+- **Eyebrow**: `text-xs font-semibold tracking-wider uppercase text-text-tertiary mb-2.5 block`
+- **Description**: `text-sm md:text-base text-text-secondary leading-relaxed mt-2.5`
+
+### Component Implementation: `<PageHeader>`
+Pages using breadcrumbs, actions, or standard layout headers should use `<PageHeader>` with `variant="display"` or `variant="standard"` (default). For custom layout pages, reuse `KROMA_TITLE_CLASSES.display` or `KROMA_TITLE_CLASSES.standard` from `src/components/common/PageHeader.tsx`.
+

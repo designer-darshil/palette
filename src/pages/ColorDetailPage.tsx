@@ -191,14 +191,14 @@ export const ColorDetailPage: React.FC<ColorDetailPageProps> = ({ slug, onNaviga
 
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
-            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#909090] mb-1.5 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-[1px] bg-[#00AEEF]" />
+            <div className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary mb-3 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-[1px] bg-kroma-blue" />
               <span>INSPECT SPECIMEN • Nº {color.id.toUpperCase()}</span>
             </div>
-            <h1 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight leading-[1.08] text-[#171717] dark:text-white m-0">
+            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
               INSPECT SPECIMENS
             </h1>
-            <p className="font-sans text-sm sm:text-base text-[#707070] dark:text-[#A0A0A0] max-w-xl m-0 mt-2 leading-[1.5]">
+            <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
               Study colour relationships, values, typography, and visual behaviour in detail.
             </p>
           </div>

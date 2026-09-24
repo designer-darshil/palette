@@ -160,8 +160,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
         {/* Hero Typography & Content */}
         <div className="relative z-10 max-w-full">
-          <span className="font-sans text-xs font-semibold tracking-wider uppercase text-[#707070] dark:text-[#9E9E9E] inline-flex items-center gap-2 mb-4">THE COLOR STUDIO</span>
-          <h1 className="font-sans text-[clamp(44px,9vw,140px)] font-bold leading-[1.02] tracking-tight text-[#171717] dark:text-white m-0 p-0 uppercase pointer-events-none">
+          <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary inline-flex items-center gap-2 mb-4">THE COLOR STUDIO</span>
+          <h1 className="font-sans text-[clamp(44px,9vw,140px)] font-bold leading-[1.02] tracking-tight text-text-primary m-0 p-0 uppercase pointer-events-none">
             COLOR<br />
             CHANGES<br />
             EVERYTHING.

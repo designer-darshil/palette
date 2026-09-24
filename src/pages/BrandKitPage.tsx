@@ -358,11 +358,11 @@ export const BrandKitPage: React.FC<BrandKitPageProps> = ({
       {/* ── 02: Intro Header ──────────────────────────────────────── */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[var(--border-subtle)]">
         <div>
-          <span className="font-mono text-xs font-medium tracking-[0.12em] uppercase text-text-secondary mb-2 block">BRAND KIT</span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-[var(--text-primary)] leading-[1.08] m-0">
+          <span className="font-mono text-xs font-semibold tracking-wider uppercase text-text-tertiary mb-3 block">BRAND KIT</span>
+          <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
             Your brand, in color.
           </h1>
-          <p className="text-sm text-[var(--text-secondary)] mt-2 max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-2xl mt-3">
             Collect, refine, and preview the colors that define your brand.
           </p>
         </div>

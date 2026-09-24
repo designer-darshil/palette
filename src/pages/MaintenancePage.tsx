@@ -99,10 +99,10 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
           </div>
 
           <div className="flex flex-col gap-4">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight uppercase leading-[0.95] text-text-primary">
+            <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold leading-[1.05] tracking-tight text-text-primary uppercase m-0">
               MAINTENANCE
             </h1>
-            <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-md">
+            <p className="text-sm sm:text-base text-text-secondary leading-relaxed max-w-md mt-2">
               {displayMessage}
             </p>
           </div>

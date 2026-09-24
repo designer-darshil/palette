@@ -1,0 +1,68 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL RANGE INPUT & NUMBER INPUT TECHNICAL BROWSER STYLES
+   Browser-specific pseudo-elements (Webkit / Firefox)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Range input base and track */
+.studio-range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--color-primary) 0%,
+    var(--color-primary) var(--slider-progress, 50%),
+    var(--bg-surface-3) var(--slider-progress, 50%),
+    var(--bg-surface-3) 100%
+  );
+  outline: none;
+  cursor: pointer;
+  transition: opacity var(--transition-quick);
+}
+
+.studio-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid var(--bg-surface-1);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 100ms ease;
+}
+
+.studio-range-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.studio-range-input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid var(--bg-surface-1);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.studio-range-input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Number input spinners eradication */
+.studio-slider-number-input::-webkit-outer-spin-button,
+.studio-slider-number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.studio-slider-number-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

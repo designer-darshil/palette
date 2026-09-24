@@ -10,7 +10,7 @@ let devMaintenanceState = {
   message: "PaletteParadise is undergoing scheduled system upgrades and performance calibration. Public access will resume momentarily.",
   estimatedReturn: null,
   showCountdown: true,
-  supportUrl: "mailto:support@kroma.design",
+  supportUrl: "mailto:designers.scrillo@gmail.com",
   updatedAt: new Date().toISOString(),
   updatedBy: "System Default",
   lastChangedTimestamp: Date.now(),

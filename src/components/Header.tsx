@@ -165,7 +165,7 @@ const RollerEmblem: React.FC<{ size?: number }> = ({ size = 20 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
-    className="kroma-header__roller-icon"
+    className="shrink-0 block"
   >
     {/* Roller head */}
     <rect x="3" y="3" width="10" height="14" rx="2.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
@@ -329,72 +329,106 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
           GLOBAL HEADER (Desktop, Tablet & Mobile Shell)
           ═══════════════════════════════════════════════════════════ */}
       <header
-        className={`kroma-header ${scrolled ? 'kroma-header--scrolled' : ''}`}
+        className={`z-[100] w-full h-[58px] md:h-[68px] bg-canvas/88 backdrop-blur-md border-b transition-all duration-200 ${
+          scrolled ? 'border-border-medium shadow-[0_1px_4px_rgba(0,0,0,0.06)]' : 'border-border-subtle'
+        }`}
         role="banner"
       >
-        <div className="kroma-header__container">
+        <div className="w-full max-w-[1400px] h-full mx-auto px-4 md:px-8 flex items-center justify-between gap-3 md:gap-6 flex-nowrap">
           {/* ─── ZONE 1 (LEFT): Brand / Logo ──────────────────── */}
-          <div className="kroma-header__left">
+          <div className="flex items-center shrink-0">
             <Link
               to={{ path: 'home' }}
               onNavigate={handleNav}
-              className="kroma-header__logo"
+              className="inline-flex items-center gap-2 text-text-primary select-none cursor-pointer hover:opacity-85 hover:-translate-y-[0.5px] transition-all"
               aria-label="KROMA Home"
             >
               <RollerEmblem size={20} />
-              <span className="kroma-header__wordmark">Kroma</span>
+              <span className="font-sans text-[1.15rem] font-[750] tracking-[-0.035em] leading-none text-text-primary">Kroma</span>
             </Link>
           </div>
 
           {/* ─── ZONE 2 (CENTER): Primary Navigation ──────────── */}
-          <nav className="kroma-header__center" aria-label="Primary navigation">
+          <nav className="hidden md:flex items-center gap-6 m-0 p-0 shrink-0 flex-nowrap" aria-label="Primary navigation">
             {/* Explore */}
             <Link
               to={{ path: 'explore' }}
               onNavigate={handleNav}
-              className={`kroma-header__nav-link ${isExploreActive ? 'kroma-header__nav-link--active' : ''}`}
-              style={{ '--link-color': '#FF3B30' } as React.CSSProperties}
+              className={`group relative inline-flex items-center py-1.5 px-0.5 font-sans text-sm tracking-[-0.01em] transition-colors select-none whitespace-nowrap shrink-0 ${
+                isExploreActive ? 'text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary font-medium'
+              }`}
             >
-              <span className="kroma-header__nav-text">Explore</span>
-              <span className="kroma-header__indicator" aria-hidden="true" />
+              <span className="relative z-10">Explore</span>
+              <span
+                className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-3.5 h-0.5 rounded-full transition-all duration-200 ease-out pointer-events-none ${
+                  isExploreActive
+                    ? 'scale-x-100 opacity-100 bg-[#FF3B30]'
+                    : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70 bg-[#FF3B30]'
+                }`}
+                aria-hidden="true"
+              />
             </Link>
 
             {/* Colors */}
             <Link
               to={{ path: 'colors' }}
               onNavigate={handleNav}
-              className={`kroma-header__nav-link ${isColorsActive ? 'kroma-header__nav-link--active' : ''}`}
-              style={{ '--link-color': '#FF9500' } as React.CSSProperties}
+              className={`group relative inline-flex items-center py-1.5 px-0.5 font-sans text-sm tracking-[-0.01em] transition-colors select-none whitespace-nowrap shrink-0 ${
+                isColorsActive ? 'text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary font-medium'
+              }`}
             >
-              <span className="kroma-header__nav-text">Colors</span>
-              <span className="kroma-header__indicator" aria-hidden="true" />
+              <span className="relative z-10">Colors</span>
+              <span
+                className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-3.5 h-0.5 rounded-full transition-all duration-200 ease-out pointer-events-none ${
+                  isColorsActive
+                    ? 'scale-x-100 opacity-100 bg-[#FF9500]'
+                    : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70 bg-[#FF9500]'
+                }`}
+                aria-hidden="true"
+              />
             </Link>
 
             {/* Palettes */}
             <Link
               to={{ path: 'palettes' }}
               onNavigate={handleNav}
-              className={`kroma-header__nav-link ${isPalettesActive ? 'kroma-header__nav-link--active' : ''}`}
-              style={{ '--link-color': '#FFD60A' } as React.CSSProperties}
+              className={`group relative inline-flex items-center py-1.5 px-0.5 font-sans text-sm tracking-[-0.01em] transition-colors select-none whitespace-nowrap shrink-0 ${
+                isPalettesActive ? 'text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary font-medium'
+              }`}
             >
-              <span className="kroma-header__nav-text">Palettes</span>
-              <span className="kroma-header__indicator" aria-hidden="true" />
+              <span className="relative z-10">Palettes</span>
+              <span
+                className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-3.5 h-0.5 rounded-full transition-all duration-200 ease-out pointer-events-none ${
+                  isPalettesActive
+                    ? 'scale-x-100 opacity-100 bg-[#FFD60A]'
+                    : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70 bg-[#FFD60A]'
+                }`}
+                aria-hidden="true"
+              />
             </Link>
 
             {/* Patterns */}
             <Link
               to={{ path: 'patterns' }}
               onNavigate={handleNav}
-              className={`kroma-header__nav-link ${isPatternsActive ? 'kroma-header__nav-link--active' : ''}`}
-              style={{ '--link-color': '#34C759' } as React.CSSProperties}
+              className={`group relative inline-flex items-center py-1.5 px-0.5 font-sans text-sm tracking-[-0.01em] transition-colors select-none whitespace-nowrap shrink-0 ${
+                isPatternsActive ? 'text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary font-medium'
+              }`}
             >
-              <span className="kroma-header__nav-text">Patterns</span>
-              <span className="kroma-header__indicator" aria-hidden="true" />
+              <span className="relative z-10">Patterns</span>
+              <span
+                className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-3.5 h-0.5 rounded-full transition-all duration-200 ease-out pointer-events-none ${
+                  isPatternsActive
+                    ? 'scale-x-100 opacity-100 bg-[#34C759]'
+                    : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70 bg-[#34C759]'
+                }`}
+                aria-hidden="true"
+              />
             </Link>
 
             {/* Studios Dropdown */}
             <div
-              className="kroma-header__dropdown"
+              className="relative inline-flex items-center"
               ref={studiosRef}
               onKeyDown={(e) => {
                 if (e.key === 'Escape') {
@@ -404,7 +438,9 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             >
               <button
                 type="button"
-                className={`kroma-header__dropdown-btn ${isStudioActive ? 'kroma-header__dropdown-btn--active' : ''}`}
+                className={`group relative inline-flex items-center gap-1 py-1.5 px-0.5 font-sans text-sm tracking-[-0.01em] transition-colors cursor-pointer select-none whitespace-nowrap bg-transparent border-0 ${
+                  isStudioActive ? 'text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary font-medium'
+                }`}
                 onClick={() => {
                   setStudiosOpen(!studiosOpen);
                   setCommunityOpen(false);
@@ -418,27 +454,39 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 }}
                 aria-expanded={studiosOpen}
                 aria-haspopup="true"
-                style={{ '--link-color': '#00AEEF' } as React.CSSProperties}
               >
-                <span className="kroma-header__nav-text">Studios</span>
-                <ChevronDown size={13} className="kroma-header__dropdown-chevron" aria-hidden="true" />
-                <span className="kroma-header__indicator" aria-hidden="true" />
+                <span className="relative z-10">Studios</span>
+                <ChevronDown
+                  size={13}
+                  className={`transition-transform duration-180 ease-out text-inherit shrink-0 ${studiosOpen ? 'rotate-180' : ''}`}
+                  aria-hidden="true"
+                />
+                <span
+                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-3.5 h-0.5 rounded-full transition-all duration-200 ease-out pointer-events-none ${
+                    isStudioActive
+                      ? 'scale-x-100 opacity-100 bg-[#00AEEF]'
+                      : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70 bg-[#00AEEF]'
+                  }`}
+                  aria-hidden="true"
+                />
               </button>
 
               <div
-                className={`kroma-header__dropdown-menu kroma-header__dropdown-menu--studios ${
-                  studiosOpen ? 'kroma-header__dropdown-menu--open' : ''
+                className={`absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-[min(720px,calc(100vw-32px))] p-6 rounded-xs bg-surface-1 border border-border-medium shadow-[0_16px_36px_-8px_rgba(0,0,0,0.25)] z-[1000] flex flex-col transition-all duration-180 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  studiosOpen
+                    ? 'opacity-100 pointer-events-auto visible translate-y-0'
+                    : 'opacity-0 pointer-events-none invisible -translate-y-1'
                 }`}
                 role="menu"
                 aria-label="Studio engines and generators"
               >
-                <div className="kroma-header__dropdown-grid">
+                <div className="grid grid-cols-[1fr_1fr_200px] gap-7 items-stretch">
                   {/* Column 1: Generators & Color Science */}
-                  <div className="kroma-header__dropdown-col">
-                    <div className="kroma-header__dropdown-category">
+                  <div className="flex flex-col gap-3 min-w-0">
+                    <div className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary pb-2 border-b border-border-subtle mb-1">
                       Generators &amp; Science
                     </div>
-                    <div className="kroma-header__dropdown-list">
+                    <div className="flex flex-col gap-2.5">
                       {[
                         STUDIO_TOOLS[0], // Ramps
                         STUDIO_TOOLS[4], // Palette Generator
@@ -451,21 +499,23 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                             key={tool.id}
                             to={tool.path}
                             onNavigate={handleNav}
-                            className={`kroma-header__dropdown-item ${
-                              isActive ? 'kroma-header__dropdown-item--active' : ''
+                            className={`group/item flex items-start gap-2.5 py-1.5 px-2 -mx-2 rounded-xs bg-transparent border-none cursor-pointer transition-colors relative text-left w-full hover:bg-surface-2/60 ${
+                              isActive ? 'bg-surface-2/70' : ''
                             }`}
                             role="menuitem"
                           >
                             <span
-                              className="kroma-header__dropdown-marker"
+                              className="w-1.5 h-1.5 rounded-[1px] mt-1.5 shrink-0 transition-transform duration-160 ease-out group-hover/item:scale-125"
                               style={{ backgroundColor: tool.color }}
                               aria-hidden="true"
                             />
-                            <div className="kroma-header__dropdown-text">
-                              <span className="kroma-header__dropdown-title">
+                            <div className="flex flex-col min-w-0">
+                              <span className={`font-sans text-sm leading-tight transition-colors inline-flex items-center gap-1 ${
+                                isActive ? 'font-semibold text-text-primary' : 'font-[550] text-text-primary'
+                              }`}>
                                 {tool.title}
                               </span>
-                              <span className="kroma-header__dropdown-desc">
+                              <span className="font-sans text-[13px] text-text-secondary leading-snug mt-0.5 line-clamp-2">
                                 {tool.description}
                               </span>
                             </div>
@@ -476,11 +526,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                   </div>
 
                   {/* Column 2: Systems & Workspaces */}
-                  <div className="kroma-header__dropdown-col">
-                    <div className="kroma-header__dropdown-category">
+                  <div className="flex flex-col gap-3 min-w-0">
+                    <div className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary pb-2 border-b border-border-subtle mb-1">
                       Systems &amp; Workspaces
                     </div>
-                    <div className="kroma-header__dropdown-list">
+                    <div className="flex flex-col gap-2.5">
                       {[
                         STUDIO_TOOLS[1], // Antigravity
                         STUDIO_TOOLS[6], // Brand Kit
@@ -493,21 +543,23 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                             key={tool.id}
                             to={tool.path}
                             onNavigate={handleNav}
-                            className={`kroma-header__dropdown-item ${
-                              isActive ? 'kroma-header__dropdown-item--active' : ''
+                            className={`group/item flex items-start gap-2.5 py-1.5 px-2 -mx-2 rounded-xs bg-transparent border-none cursor-pointer transition-colors relative text-left w-full hover:bg-surface-2/60 ${
+                              isActive ? 'bg-surface-2/70' : ''
                             }`}
                             role="menuitem"
                           >
                             <span
-                              className="kroma-header__dropdown-marker"
+                              className="w-1.5 h-1.5 rounded-[1px] mt-1.5 shrink-0 transition-transform duration-160 ease-out group-hover/item:scale-125"
                               style={{ backgroundColor: tool.color }}
                               aria-hidden="true"
                             />
-                            <div className="kroma-header__dropdown-text">
-                              <span className="kroma-header__dropdown-title">
+                            <div className="flex flex-col min-w-0">
+                              <span className={`font-sans text-sm leading-tight transition-colors inline-flex items-center gap-1 ${
+                                isActive ? 'font-semibold text-text-primary' : 'font-[550] text-text-primary'
+                              }`}>
                                 {tool.title}
                               </span>
-                              <span className="kroma-header__dropdown-desc">
+                              <span className="font-sans text-[13px] text-text-secondary leading-snug mt-0.5 line-clamp-2">
                                 {tool.description}
                               </span>
                             </div>
@@ -518,33 +570,33 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                   </div>
 
                   {/* Column 3: Editorial Featured Studio Strip */}
-                  <div className="kroma-header__dropdown-featured">
+                  <div className="border-l border-border-subtle pl-6 flex flex-col justify-between">
                     <div>
-                      <div className="kroma-header__dropdown-featured-tag">
+                      <div className="font-mono text-xs font-semibold tracking-widest uppercase text-text-tertiary mb-1.5">
                         WORKSPACE
                       </div>
-                      <div className="kroma-header__dropdown-featured-title">
+                      <div className="font-sans text-sm font-semibold text-text-primary leading-tight mb-1.5">
                         Kroma Studio Gateway
                       </div>
-                      <p className="kroma-header__dropdown-featured-desc">
+                      <p className="font-sans text-[13px] text-text-secondary leading-normal m-0 mb-4">
                         An integrated creative color laboratory for exploring harmonic relationships, gamuts, and design tokens.
                       </p>
                       <div
-                        className="kroma-header__dropdown-palette-strip"
+                        className="flex w-full h-1 rounded-[1px] overflow-hidden"
                         aria-hidden="true"
                       >
-                        <span style={{ backgroundColor: '#FF3B30' }} />
-                        <span style={{ backgroundColor: '#FF9500' }} />
-                        <span style={{ backgroundColor: '#FFD60A' }} />
-                        <span style={{ backgroundColor: '#34C759' }} />
-                        <span style={{ backgroundColor: '#00AEEF' }} />
-                        <span style={{ backgroundColor: '#7B2CBF' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#FF3B30' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#FF9500' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#FFD60A' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#34C759' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#00AEEF' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#7B2CBF' }} />
                       </div>
                     </div>
                     <Link
                       to={{ path: 'create' }}
                       onNavigate={handleNav}
-                      className="kroma-header__dropdown-featured-link"
+                      className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-text-primary hover:underline mt-4"
                       role="menuitem"
                     >
                       <span>Explore Studio Gateway</span>
@@ -557,7 +609,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
 
             {/* Community Dropdown */}
             <div
-              className="kroma-header__dropdown"
+              className="relative inline-flex items-center"
               ref={communityRef}
               onKeyDown={(e) => {
                 if (e.key === 'Escape') {
@@ -567,7 +619,9 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             >
               <button
                 type="button"
-                className={`kroma-header__dropdown-btn ${isCommunityActive ? 'kroma-header__dropdown-btn--active' : ''}`}
+                className={`group relative inline-flex items-center gap-1 py-1.5 px-0.5 font-sans text-sm tracking-[-0.01em] transition-colors cursor-pointer select-none whitespace-nowrap bg-transparent border-0 ${
+                  isCommunityActive ? 'text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary font-medium'
+                }`}
                 onClick={() => {
                   setCommunityOpen(!communityOpen);
                   setStudiosOpen(false);
@@ -581,27 +635,39 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 }}
                 aria-expanded={communityOpen}
                 aria-haspopup="true"
-                style={{ '--link-color': '#7B2CBF' } as React.CSSProperties}
               >
-                <span className="kroma-header__nav-text">Community</span>
-                <ChevronDown size={13} className="kroma-header__dropdown-chevron" aria-hidden="true" />
-                <span className="kroma-header__indicator" aria-hidden="true" />
+                <span className="relative z-10">Community</span>
+                <ChevronDown
+                  size={13}
+                  className={`transition-transform duration-180 ease-out text-inherit shrink-0 ${communityOpen ? 'rotate-180' : ''}`}
+                  aria-hidden="true"
+                />
+                <span
+                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-3.5 h-0.5 rounded-full transition-all duration-200 ease-out pointer-events-none ${
+                    isCommunityActive
+                      ? 'scale-x-100 opacity-100 bg-[#7B2CBF]'
+                      : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70 bg-[#7B2CBF]'
+                  }`}
+                  aria-hidden="true"
+                />
               </button>
 
               <div
-                className={`kroma-header__dropdown-menu kroma-header__dropdown-menu--community ${
-                  communityOpen ? 'kroma-header__dropdown-menu--open' : ''
+                className={`absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-[min(540px,calc(100vw-32px))] p-6 rounded-xs bg-surface-1 border border-border-medium shadow-[0_16px_36px_-8px_rgba(0,0,0,0.25)] z-[1000] flex flex-col transition-all duration-180 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  communityOpen
+                    ? 'opacity-100 pointer-events-auto visible translate-y-0'
+                    : 'opacity-0 pointer-events-none invisible -translate-y-1'
                 }`}
                 role="menu"
                 aria-label="Community and collections"
               >
-                <div className="kroma-header__dropdown-grid kroma-header__dropdown-grid--community">
+                <div className="grid grid-cols-[1fr_200px] gap-8">
                   {/* Column 1: Community Destinations */}
-                  <div className="kroma-header__dropdown-col">
-                    <div className="kroma-header__dropdown-category">
+                  <div className="flex flex-col gap-3 min-w-0">
+                    <div className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary pb-2 border-b border-border-subtle mb-1">
                       Curation &amp; Play
                     </div>
-                    <div className="kroma-header__dropdown-list">
+                    <div className="flex flex-col gap-2.5">
                       {COMMUNITY_LINKS.map((link) => {
                         const isActive = currentRoute.path === link.id;
                         return (
@@ -609,21 +675,23 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                             key={link.id}
                             to={link.path}
                             onNavigate={handleNav}
-                            className={`kroma-header__dropdown-item ${
-                              isActive ? 'kroma-header__dropdown-item--active' : ''
+                            className={`group/item flex items-start gap-2.5 py-1.5 px-2 -mx-2 rounded-xs bg-transparent border-none cursor-pointer transition-colors relative text-left w-full hover:bg-surface-2/60 ${
+                              isActive ? 'bg-surface-2/70' : ''
                             }`}
                             role="menuitem"
                           >
                             <span
-                              className="kroma-header__dropdown-marker"
+                              className="w-1.5 h-1.5 rounded-[1px] mt-1.5 shrink-0 transition-transform duration-160 ease-out group-hover/item:scale-125"
                               style={{ backgroundColor: link.color }}
                               aria-hidden="true"
                             />
-                            <div className="kroma-header__dropdown-text">
-                              <span className="kroma-header__dropdown-title">
+                            <div className="flex flex-col min-w-0">
+                              <span className={`font-sans text-sm leading-tight transition-colors inline-flex items-center gap-1 ${
+                                isActive ? 'font-semibold text-text-primary' : 'font-[550] text-text-primary'
+                              }`}>
                                 {link.title}
                               </span>
-                              <span className="kroma-header__dropdown-desc">
+                              <span className="font-sans text-[13px] text-text-secondary leading-snug mt-0.5 line-clamp-2">
                                 {link.description}
                               </span>
                             </div>
@@ -634,31 +702,31 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                   </div>
 
                   {/* Column 2: Editorial Featured Spotlight */}
-                  <div className="kroma-header__dropdown-featured">
+                  <div className="border-l border-border-subtle pl-6 flex flex-col justify-between">
                     <div>
-                      <div className="kroma-header__dropdown-featured-tag">
+                      <div className="font-mono text-xs font-semibold tracking-widest uppercase text-text-tertiary mb-1.5">
                         FEATURED
                       </div>
-                      <div className="kroma-header__dropdown-featured-title">
+                      <div className="font-sans text-sm font-semibold text-text-primary leading-tight mb-1.5">
                         Sensory Color Games
                       </div>
-                      <p className="kroma-header__dropdown-featured-desc">
+                      <p className="font-sans text-[13px] text-text-secondary leading-normal m-0 mb-4">
                         Train chromatic perception with interactive challenges including Hexle, Odd One Out, and Palette Match.
                       </p>
                       <div
-                        className="kroma-header__dropdown-palette-strip"
+                        className="flex w-full h-1 rounded-[1px] overflow-hidden"
                         aria-hidden="true"
                       >
-                        <span style={{ backgroundColor: '#00AEEF' }} />
-                        <span style={{ backgroundColor: '#34C759' }} />
-                        <span style={{ backgroundColor: '#FF9500' }} />
-                        <span style={{ backgroundColor: '#FF2D55' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#00AEEF' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#34C759' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#FF9500' }} />
+                        <span className="flex-1 h-full" style={{ backgroundColor: '#FF2D55' }} />
                       </div>
                     </div>
                     <Link
                       to={{ path: 'play' }}
                       onNavigate={handleNav}
-                      className="kroma-header__dropdown-featured-link"
+                      className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-text-primary hover:underline mt-4"
                       role="menuitem"
                     >
                       <span>Launch Games Hub</span>
@@ -671,13 +739,13 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
           </nav>
 
           {/* ─── ZONE 3 (RIGHT): Search (Icon Only), Saved, About, Theme ──── */}
-          <div className="kroma-header__right">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
             {/* Search: ICON ONLY, strictly no keyboard hint or label */}
             <KromaButton
               type="button"
               variant="ghost"
               size="icon"
-              className="kroma-header__search-btn"
+              className="hidden md:inline-flex w-8 h-8 p-0 items-center justify-center text-text-secondary hover:text-text-primary rounded-full hover:bg-surface-2/60 transition-colors"
               onClick={onOpenSearch}
               aria-label="Search"
               title="Search"
@@ -689,32 +757,50 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             <Link
               to={{ path: 'saved' }}
               onNavigate={handleNav}
-              className={`kroma-header__action-link ${isSavedActive ? 'kroma-header__action-link--active' : ''}`}
+              className={`group relative hidden md:inline-flex items-center gap-1.5 py-1.5 px-0.5 font-sans text-sm tracking-[-0.01em] transition-colors select-none whitespace-nowrap shrink-0 ${
+                isSavedActive ? 'text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary font-medium'
+              }`}
               aria-label="Saved collection"
               title="Saved specimens"
-              style={{ '--link-color': '#7B2CBF' } as React.CSSProperties}
             >
               <Bookmark
                 size={15}
                 strokeWidth={2}
                 fill={savedItems.length > 0 ? 'currentColor' : 'none'}
               />
-              <span className="kroma-header__action-label">Saved</span>
+              <span className="relative z-10">Saved</span>
               {savedItems.length > 0 && (
-                <span className="kroma-header__badge">{savedItems.length}</span>
+                <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[10px] font-mono font-bold bg-text-primary text-text-inverse">
+                  {savedItems.length}
+                </span>
               )}
-              <span className="kroma-header__indicator" aria-hidden="true" />
+              <span
+                className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-3.5 h-0.5 rounded-full transition-all duration-200 ease-out pointer-events-none ${
+                  isSavedActive
+                    ? 'scale-x-100 opacity-100 bg-[#7B2CBF]'
+                    : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70 bg-[#7B2CBF]'
+                }`}
+                aria-hidden="true"
+              />
             </Link>
 
             {/* About Link */}
             <Link
               to={{ path: 'about' }}
               onNavigate={handleNav}
-              className={`kroma-header__action-link ${isAboutActive ? 'kroma-header__action-link--active' : ''}`}
-              style={{ '--link-color': '#FF2D55' } as React.CSSProperties}
+              className={`group relative hidden md:inline-flex items-center gap-1.5 py-1.5 px-0.5 font-sans text-sm tracking-[-0.01em] transition-colors select-none whitespace-nowrap shrink-0 ${
+                isAboutActive ? 'text-text-primary font-semibold' : 'text-text-secondary hover:text-text-primary font-medium'
+              }`}
             >
-              <span className="kroma-header__action-label">About</span>
-              <span className="kroma-header__indicator" aria-hidden="true" />
+              <span className="relative z-10">About</span>
+              <span
+                className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-3.5 h-0.5 rounded-full transition-all duration-200 ease-out pointer-events-none ${
+                  isAboutActive
+                    ? 'scale-x-100 opacity-100 bg-[#FF2D55]'
+                    : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-70 bg-[#FF2D55]'
+                }`}
+                aria-hidden="true"
+              />
             </Link>
 
             {/* Theme Toggle Button */}
@@ -722,7 +808,7 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
               type="button"
               variant="ghost"
               size="icon"
-              className="kroma-header__theme-btn"
+              className="hidden md:inline-flex w-8 h-8 p-0 items-center justify-center text-text-secondary hover:text-text-primary rounded-full hover:bg-surface-2/60 transition-colors"
               onClick={cycleTheme}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title={`Appearance: ${theme}`}
@@ -731,12 +817,12 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             </KromaButton>
 
             {/* ─── Mobile Actions: [ SEARCH ] [ MENU ] ────────── */}
-            <div className="kroma-header__mobile-actions">
+            <div className="flex md:hidden items-center gap-1">
               <KromaButton
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="kroma-header__mobile-search-btn"
+                className="w-8 h-8 p-0 flex items-center justify-center text-text-secondary hover:text-text-primary"
                 onClick={onOpenSearch}
                 aria-label="Search"
               >
@@ -747,13 +833,13 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="kroma-header__mobile-menu-btn"
+                className="w-8 h-8 p-0 flex flex-col items-center justify-center gap-1 text-text-secondary hover:text-text-primary"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open navigation menu"
                 aria-expanded={mobileOpen}
               >
-                <span className="kroma-header__menu-bar" />
-                <span className="kroma-header__menu-bar" />
+                <span className="w-4 h-0.5 bg-current rounded-full" />
+                <span className="w-4 h-0.5 bg-current rounded-full" />
               </KromaButton>
             </div>
           </div>
@@ -765,30 +851,32 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
           All 100% of previous options cleanly organized into sections
           ═══════════════════════════════════════════════════════════ */}
       <div
-        className={`kroma-mobile-menu ${mobileOpen ? 'kroma-mobile-menu--open' : ''}`}
+        className={`fixed inset-0 z-[120] bg-canvas flex flex-col transition-all duration-240 ease-out ${
+          mobileOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'
+        }`}
         role="dialog"
         aria-modal="true"
         aria-label="Mobile Navigation"
         aria-hidden={!mobileOpen}
       >
-        <div className="kroma-mobile-menu__inner">
+        <div className="w-full h-full max-w-[480px] mx-auto flex flex-col px-5 overflow-hidden">
           {/* Mobile Menu Top Bar */}
-          <div className="kroma-mobile-menu__header">
+          <div className="h-[58px] flex items-center justify-between shrink-0 border-b border-border-subtle">
             <Link
               to={{ path: 'home' }}
               onNavigate={handleNav}
-              className="kroma-header__logo"
+              className="inline-flex items-center gap-2 text-text-primary select-none cursor-pointer"
               aria-label="KROMA Home"
             >
               <RollerEmblem size={20} />
-              <span className="kroma-header__wordmark">Kroma</span>
+              <span className="font-sans text-[1.15rem] font-[750] tracking-[-0.035em] leading-none text-text-primary">Kroma</span>
             </Link>
 
             <KromaButton
               type="button"
               variant="ghost"
               size="icon"
-              className="kroma-mobile-menu__close-btn"
+              className="w-8 h-8 p-0 flex items-center justify-center text-text-secondary hover:text-text-primary"
               onClick={() => setMobileOpen(false)}
               aria-label="Close menu"
             >
@@ -797,11 +885,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
           </div>
 
           {/* Quick Search Action at Top (NO keyboard hints) */}
-          <div className="kroma-mobile-menu__search-bar">
+          <div className="py-3 border-b border-border-subtle shrink-0">
             <KromaButton
               type="button"
               variant="subtle"
-              className="kroma-mobile-menu__search-trigger"
+              className="w-full flex items-center justify-start! gap-2.5 px-3 py-2 bg-surface-2 rounded-xs text-text-secondary text-sm font-sans hover:text-text-primary transition-colors text-left"
               onClick={() => {
                 setMobileOpen(false);
                 onOpenSearch();
@@ -814,15 +902,21 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
           </div>
 
           {/* Mobile Scrollable Navigation Content */}
-          <div className="kroma-mobile-menu__scrollable">
+          <div className="flex-1 overflow-y-auto py-4 space-y-6 scrollbar-thin">
             {/* Section 1: Discovery & Gamuts */}
-            <div className="kroma-mobile-menu__section">
-              <div className="kroma-mobile-menu__section-title">Discovery &amp; Gamuts</div>
-              <div className="kroma-mobile-menu__section-links">
+            <div className="flex flex-col gap-2">
+              <div className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary px-1">
+                Discovery &amp; Gamuts
+              </div>
+              <div className="flex flex-col gap-1">
                 <Link
                   to={{ path: 'explore' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'explore' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    currentRoute.path === 'explore'
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Compass size={16} className="text-kroma-red" />
                   <span>Explore Spectrum</span>
@@ -830,7 +924,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'colors' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${isColorsActive ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    isColorsActive
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Palette size={16} className="text-kroma-orange" />
                   <span>Color Specimens</span>
@@ -838,7 +936,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'palettes' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${isPalettesActive ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    isPalettesActive
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Layers size={16} className="text-kroma-yellow" />
                   <span>Palette Systems</span>
@@ -846,7 +948,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'patterns' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${isPatternsActive ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    isPatternsActive
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Grid size={16} className="text-kroma-green" />
                   <span>Generative Patterns</span>
@@ -854,7 +960,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'trending' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'trending' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    currentRoute.path === 'trending'
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <TrendingUp size={16} className="text-kroma-blue" />
                   <span>Trending Specimens</span>
@@ -862,7 +972,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'new' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'new' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    currentRoute.path === 'new'
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Clock size={16} className="text-kroma-yellow" />
                   <span>New Releases</span>
@@ -870,7 +984,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'random' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'random' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    currentRoute.path === 'random'
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Shuffle size={16} className="text-kroma-purple" />
                   <span>Random Discovery</span>
@@ -879,15 +997,21 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             </div>
 
             {/* Section 2: Studio Engines */}
-            <div className="kroma-mobile-menu__section">
-              <div className="kroma-mobile-menu__section-title">Studio Engines</div>
-              <div className="kroma-mobile-menu__section-links">
+            <div className="flex flex-col gap-2">
+              <div className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary px-1">
+                Studio Engines
+              </div>
+              <div className="flex flex-col gap-1">
                 {STUDIO_TOOLS.map((tool) => (
                   <Link
                     key={tool.id}
                     to={tool.path}
                     onNavigate={handleNav}
-                    className={`kroma-mobile-menu__item ${currentRoute.path === tool.id ? 'kroma-mobile-menu__item--active' : ''}`}
+                    className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                      currentRoute.path === tool.id
+                        ? 'text-text-primary font-semibold bg-surface-2'
+                        : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                    }`}
                   >
                     <span style={{ color: tool.color }}>{tool.icon}</span>
                     <span>{tool.title}</span>
@@ -897,13 +1021,19 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             </div>
 
             {/* Section 3: Community & Play */}
-            <div className="kroma-mobile-menu__section">
-              <div className="kroma-mobile-menu__section-title">Community &amp; Play</div>
-              <div className="kroma-mobile-menu__section-links">
+            <div className="flex flex-col gap-2">
+              <div className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary px-1">
+                Community &amp; Play
+              </div>
+              <div className="flex flex-col gap-1">
                 <Link
                   to={{ path: 'collections' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'collections' || currentRoute.path === 'collection-detail' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    currentRoute.path === 'collections' || currentRoute.path === 'collection-detail'
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Layers size={16} className="text-kroma-blue" />
                   <span>Curated Collections</span>
@@ -911,7 +1041,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'creators' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'creators' || currentRoute.path === 'creator-detail' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    currentRoute.path === 'creators' || currentRoute.path === 'creator-detail'
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Users size={16} className="text-kroma-green" />
                   <span>Designers &amp; Colorists</span>
@@ -919,7 +1053,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'play' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path.startsWith('play') ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    currentRoute.path.startsWith('play')
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Gamepad2 size={16} className="text-kroma-red" />
                   <span>Sensory Play &amp; Games</span>
@@ -928,13 +1066,19 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
             </div>
 
             {/* Section 4: Workspace & Reference */}
-            <div className="kroma-mobile-menu__section">
-              <div className="kroma-mobile-menu__section-title">Workspace &amp; Reference</div>
-              <div className="kroma-mobile-menu__section-links">
+            <div className="flex flex-col gap-2">
+              <div className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-text-tertiary px-1">
+                Workspace &amp; Reference
+              </div>
+              <div className="flex flex-col gap-1">
                 <Link
                   to={{ path: 'saved' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${isSavedActive ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    isSavedActive
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Bookmark size={16} className="text-kroma-purple" />
                   <span>Curator Workspace ({savedItems.length})</span>
@@ -942,7 +1086,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'about' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${isAboutActive ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    isAboutActive
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Compass size={16} className="text-kroma-red" />
                   <span>About Kroma</span>
@@ -950,7 +1098,11 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
                 <Link
                   to={{ path: 'api-docs' }}
                   onNavigate={handleNav}
-                  className={`kroma-mobile-menu__item ${currentRoute.path === 'api-docs' ? 'kroma-mobile-menu__item--active' : ''}`}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xs font-sans text-sm transition-colors ${
+                    currentRoute.path === 'api-docs'
+                      ? 'text-text-primary font-semibold bg-surface-2'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  }`}
                 >
                   <Code size={16} className="text-text-tertiary" />
                   <span>Developer API &amp; Tokens</span>
@@ -960,18 +1112,18 @@ export const Header: React.FC<HeaderProps> = ({ currentRoute, onNavigate, onOpen
           </div>
 
           {/* Mobile Footer & Theme Switcher */}
-          <div className="kroma-mobile-menu__footer">
+          <div className="pt-3 pb-5 border-t border-border-subtle shrink-0 flex flex-col gap-3">
             <KromaButton
               type="button"
               variant="outline"
-              className="kroma-mobile-menu__theme-btn"
+              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-sans font-medium text-text-secondary hover:text-text-primary"
               onClick={cycleTheme}
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
               <span>{theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</span>
             </KromaButton>
 
-            <div className="kroma-mobile-menu__meta">
+            <div className="flex items-center justify-center gap-2 text-[11px] font-mono text-text-tertiary">
               <span>KROMA STUDIO REFERENCE</span>
               <span>•</span>
               <Link to={{ path: 'api-docs' }} onNavigate={handleNav}>

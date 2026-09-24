@@ -1,0 +1,61 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL KROMA CUSTOM SCROLL SYSTEM
+   Universal, tactile, future-proof scrollbar inheritance across all pages,
+   drawers, modals, code blocks, and studio panels.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Firefox / Modern Standard Engine (Document & Elements) */
+html,
+body,
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
+}
+
+/* WebKit Engine (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+  width: var(--kroma-scrollbar-size);
+  height: var(--kroma-scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--kroma-scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--kroma-scrollbar-thumb);
+  border-radius: var(--kroma-scrollbar-radius);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--kroma-scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--kroma-scrollbar-thumb-active);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Reusable Kroma Scroll Utilities */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--kroma-scrollbar-thumb) var(--kroma-scrollbar-track);
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollbar-none {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}

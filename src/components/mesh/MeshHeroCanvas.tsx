@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { MeshGradientConfig, MeshPoint, isValidHex } from '../../utils/meshEngine';
+import { MeshGradientConfig, MeshPoint } from '../../utils/meshEngine';
 import {
   Trash2,
   Eye,
@@ -296,14 +296,13 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
         )}
 
         {/* Canvas HUD */}
-        <div className="studio-canvas-hud">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 bg-surface-1 border border-border-strong px-2.5 py-1 rounded-full shadow-elevated backdrop-blur-md">
           <KromaButton
             size="sm"
             variant={viewMode === 'edit' ? 'filled' : 'ghost'}
             onClick={onToggleViewMode}
-            className={`studio-canvas-hud-btn ${viewMode === 'edit' ? 'active' : ''}`}
+            className={`w-auto rounded-sm px-2.5 py-1 gap-1 flex ${viewMode === 'edit' ? 'active' : ''}`}
             title="Toggle Edit / Preview"
-            style={{ width: 'auto', borderRadius: 'var(--radius-sm)', padding: '4px 10px', gap: '4px', display: 'flex' }}
             iconLeft={viewMode === 'edit' ? <Edit3 size={12} /> : <Eye size={12} />}
           >
             <span className="font-mono text-xs font-bold">{viewMode === 'edit' ? 'Edit' : 'View'}</span>
@@ -313,17 +312,16 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
             size="icon"
             variant="ghost"
             onClick={onToggleGridLines}
-            className="studio-canvas-hud-btn"
             title="Toggle grid"
             aria-label="Toggle grid"
-            style={showGridLines ? { color: 'var(--color-primary)' } : {}}
+            className={showGridLines ? 'text-primary' : ''}
             iconLeft={<Grid size={12} />}
           />
 
-          <div className="studio-canvas-hud-divider" />
+          <div className="w-px h-4 bg-border-subtle mx-0.5" />
 
-          <span className="studio-canvas-hud-label">
-            <strong>{config.points.length}</strong> nodes
+          <span className="font-mono text-xs text-text-secondary flex items-center gap-1 px-1">
+            <strong className="text-text-primary">{config.points.length}</strong> nodes
           </span>
 
           {selectedPoint && onRandomizePointColor && (
@@ -331,7 +329,6 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
               size="icon"
               variant="ghost"
               onClick={() => onRandomizePointColor(selectedPoint.id)}
-              className="studio-canvas-hud-btn"
               title="Randomize node color"
               aria-label="Randomize node color"
               iconLeft={<RefreshCw size={11} />}
@@ -343,10 +340,9 @@ export const MeshHeroCanvas: React.FC<MeshHeroCanvasProps> = ({
               size="icon"
               variant="ghost"
               onClick={() => onDeletePoint(selectedPoint.id)}
-              className="studio-canvas-hud-btn"
               title="Delete node"
               aria-label="Delete node"
-              style={{ color: '#F87171' }}
+              className="text-rose-400"
               iconLeft={<Trash2 size={11} />}
             />
           )}

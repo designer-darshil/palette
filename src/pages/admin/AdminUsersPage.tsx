@@ -273,7 +273,7 @@ export const AdminUsersPage: React.FC = () => {
       </div>
 
       {/* User Table */}
-      <div className="admin-table-container bg-kroma-card border border-kroma-border rounded-xs overflow-hidden">
+      <div className="w-full overflow-x-auto bg-kroma-card border border-kroma-border rounded-xs overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-black/[0.02] dark:bg-white/[0.03] border-b border-kroma-border font-mono text-xs text-kroma-muted tracking-wider">

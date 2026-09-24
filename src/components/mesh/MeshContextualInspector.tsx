@@ -13,7 +13,6 @@ import { ColorSwatchPicker } from '../common/ColorSwatchPicker';
 import { MeshCodeExport } from './MeshCodeExport';
 import { MeshApiDocs } from './MeshApiDocs';
 import {
-  Sparkles,
   Trash2,
   Copy,
   RefreshCw,
@@ -57,12 +56,6 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
   sourceUrl,
 }) => {
   const [activeTab, setActiveTab] = useState('nodes');
-
-  const quickColors = [
-    '#3D7DFF', '#E63946', '#2A9D8F', '#7B2CBF', '#F77F00',
-    '#06D6A0', '#118AB2', '#E76F51', '#4361EE', '#F72585',
-    '#E9C46A', '#9B5DE5', '#00BBF9', '#00F5D4', '#F15BB5',
-  ];
 
   const tabs: InspectorTab[] = [
     { id: 'nodes', label: 'Nodes', icon: <Layers size={12} /> },
@@ -109,7 +102,6 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
                     size="icon"
                     variant="ghost"
                     onClick={() => onRandomizePointColor(selectedPoint.id)}
-                    className="studio-topbar-icon-btn"
                     title="Randomize"
                     aria-label="Randomize"
                     iconLeft={<RefreshCw size={12} />}
@@ -362,7 +354,7 @@ export const MeshContextualInspector: React.FC<MeshContextualInspectorProps> = (
 
       {activeTab === 'presets' && (
         <div className="p-3">
-          <div className="studio-preset-grid">
+          <div className="grid grid-cols-2 gap-2">
             {MESH_PRESETS.map((p) => {
               const isSelected = config.preset === p.id;
               const colors = p.colors || ['#3D7DFF', '#BFA3F0', '#00F0FF'];

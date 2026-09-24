@@ -50,7 +50,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
   };
 
   return (
-    <div className="admin-login-wrapper min-h-[100dvh] w-full flex flex-col lg:flex-row bg-[#F8F8F8] dark:bg-[#090A0C] text-[#171717] dark:text-[#F8F8F8]">
+    <div className="min-h-[100dvh] w-full flex flex-col lg:flex-row bg-[#F8F8F8] dark:bg-[#090A0C] text-[#171717] dark:text-[#F8F8F8] font-sans">
       <SEOHead
         title="Sign In | Kroma Admin Studio"
         description="Restricted administrative studio for Kroma Color Operations."

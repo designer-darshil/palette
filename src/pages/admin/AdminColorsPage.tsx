@@ -390,7 +390,7 @@ export const AdminColorsPage: React.FC = () => {
         </div>
       ) : (
         /* EDITORIAL DATA TABLE */
-        <div className="admin-table-container">
+        <div className="w-full overflow-x-auto border border-border-subtle rounded-xs bg-surface-1">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
               <tr className="bg-black/[0.02] dark:bg-white/[0.04] border-b border-black/10 dark:border-white/10 font-mono text-xs text-[#707070] dark:text-[#9DA3AF]">

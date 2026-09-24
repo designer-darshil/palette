@@ -172,7 +172,7 @@ export const RampsInstrumentCanvas: React.FC<RampsInstrumentCanvasProps> = ({
               variant="filled"
               size="sm"
               onClick={(e) => handleCopy(activeStop.hex, e)}
-              className="studio-topbar-accent-btn min-h-[28px] px-2 py-1 text-xs flex-shrink-0"
+              className="min-h-[28px] px-2 py-1 text-xs flex-shrink-0"
               iconLeft={copiedHex === activeStop.hex ? <Check size={11} /> : <Copy size={11} />}
             >
               <span>{copiedHex === activeStop.hex ? 'Copied' : activeStop.hex}</span>

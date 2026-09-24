@@ -17,7 +17,7 @@ const RollerEmblem: React.FC<{ size?: number }> = ({ size = 20 }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
-    className="kroma-footer__roller-icon"
+    className="shrink-0 block text-white"
   >
     {/* Roller head */}
     <rect x="3" y="3" width="10" height="14" rx="2.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
@@ -39,6 +39,50 @@ const RollerEmblem: React.FC<{ size?: number }> = ({ size = 20 }) => (
     <line x1="16" y1="18.5" x2="16" y2="22" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
   </svg>
 );
+
+interface NavLinkItemProps {
+  to?: RouteType;
+  href?: string;
+  dotColor: string;
+  children: React.ReactNode;
+  onNavigate?: (route: RouteType) => void;
+}
+
+const FooterNavLink: React.FC<NavLinkItemProps> = ({ to, href, dotColor, children, onNavigate }) => {
+  const content = (
+    <>
+      <span
+        className="w-1.5 h-1.5 rounded-full shrink-0 opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-150"
+        style={{ backgroundColor: dotColor }}
+        aria-hidden="true"
+      />
+      <span>{children}</span>
+    </>
+  );
+
+  if (to && onNavigate) {
+    return (
+      <Link
+        to={to}
+        onNavigate={onNavigate}
+        className="group inline-flex items-center gap-2 text-sm font-[450] text-[#B0B0B0] hover:text-white transition-all duration-150 hover:translate-x-0.5 py-0.5 select-none"
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target={href?.startsWith('http') ? '_blank' : undefined}
+      rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+      className="group inline-flex items-center gap-2 text-sm font-[450] text-[#B0B0B0] hover:text-white transition-all duration-150 hover:translate-x-0.5 py-0.5 select-none"
+    >
+      {content}
+    </a>
+  );
+};
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const [legalModal, setLegalModal] = useState<'privacy' | 'terms' | null>(null);
@@ -77,38 +121,42 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer
       ref={footerRef}
-      className={`kroma-footer ${isVisible ? 'kroma-footer--visible' : ''}`}
+      className="w-full bg-[#171717] text-[#F8F8F8] mt-auto border-t border-[rgba(248,248,248,0.08)] px-5 pt-16 pb-7 md:px-8 md:pt-20 md:pb-8 lg:px-10 lg:pt-24 lg:pb-8 relative z-10 box-border"
       role="contentinfo"
     >
-      <div className="kroma-footer__container">
+      <div className="max-w-[1400px] mx-auto w-full flex flex-col gap-12 md:gap-16">
         {/* ═════════════════════════════════════════════════════════
             1. LARGE CREATIVE STATEMENT & CTA SECTION
             ═════════════════════════════════════════════════════════ */}
-        <div className="kroma-footer__cta-section">
-          <div className="kroma-footer__statement-group">
-            <h2 className="kroma-footer__statement">
+        <div
+          className={`flex flex-col md:flex-row md:items-end justify-between gap-7 md:gap-10 flex-wrap pb-8 border-b border-[rgba(248,248,248,0.08)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+        >
+          <div className="max-w-[780px] flex flex-col gap-5">
+            <h2 className="font-serif text-[clamp(42px,13vw,64px)] md:text-[clamp(52px,6.5vw,78px)] font-normal tracking-[-0.035em] leading-[1.04] text-[#F8F8F8] m-0">
               Let’s create something colorful.
             </h2>
 
             {/* Subtle Signature Rainbow Strip: 6 solid color segments */}
-            <div className="kroma-footer__rainbow-strip" aria-hidden="true">
-              <span className="kroma-footer__rainbow-segment" style={{ backgroundColor: '#FF3B30' }} />
-              <span className="kroma-footer__rainbow-segment" style={{ backgroundColor: '#FF9500' }} />
-              <span className="kroma-footer__rainbow-segment" style={{ backgroundColor: '#FFD60A' }} />
-              <span className="kroma-footer__rainbow-segment" style={{ backgroundColor: '#34C759' }} />
-              <span className="kroma-footer__rainbow-segment" style={{ backgroundColor: '#00AEEF' }} />
-              <span className="kroma-footer__rainbow-segment" style={{ backgroundColor: '#7B2CBF' }} />
+            <div className="flex w-full max-w-[240px] h-[3px] rounded-xs overflow-hidden opacity-85 mt-2" aria-hidden="true">
+              <span className="flex-1 h-full" style={{ backgroundColor: '#FF3B30' }} />
+              <span className="flex-1 h-full" style={{ backgroundColor: '#FF9500' }} />
+              <span className="flex-1 h-full" style={{ backgroundColor: '#FFD60A' }} />
+              <span className="flex-1 h-full" style={{ backgroundColor: '#34C759' }} />
+              <span className="flex-1 h-full" style={{ backgroundColor: '#00AEEF' }} />
+              <span className="flex-1 h-full" style={{ backgroundColor: '#7B2CBF' }} />
             </div>
           </div>
 
-          <div className="kroma-footer__action-group">
+          <div className="w-full md:w-auto shrink-0">
             <a
-              href="mailto:support@kroma.design"
-              className="flex items-center justify-center gap-2"
-              aria-label="Contact Kroma via email at support@kroma.design"
+              href="mailto:designers.scrillo@gmail.com"
+              className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xs bg-[#F8F8F8] text-[#171717] font-sans text-sm font-semibold tracking-[-0.01em] transition-all duration-180 ease-out hover:bg-white hover:shadow-[0_8px_20px_rgba(255,255,255,0.12)] hover:-translate-y-0.5 active:translate-y-0"
+              aria-label="Contact Kroma via email at designers.scrillo@gmail.com"
             >
               <span>Get in touch</span>
-              <ArrowUpRight size={17} strokeWidth={2.2} className="kroma-footer__contact-icon" aria-hidden="true" />
+              <ArrowUpRight size={17} strokeWidth={2.2} className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -116,187 +164,168 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* ═════════════════════════════════════════════════════════
             2. ALL PREVIOUS NAVIGATION RESTORED (4 Organized Columns)
             ═════════════════════════════════════════════════════════ */}
-        <div className="kroma-footer__nav-grid">
+        <div
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 lg:gap-12 transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-75 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
           {/* Column 1: DISCOVERY & LIBRARY (Rainbow dot: Red #FF3B30) */}
-          <div
-            className="kroma-footer__nav-col"
-            style={{ '--col-dot-color': '#FF3B30' } as React.CSSProperties}
-          >
-            <span className="kroma-footer__col-label">Discovery &amp; Library</span>
-            <ul className="kroma-footer__col-list">
+          <div className="flex flex-col gap-4 min-w-0">
+            <span className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-[#888888]">
+              Discovery &amp; Library
+            </span>
+            <ul className="flex flex-col gap-2.5 list-none p-0 m-0">
               <li>
-                <Link to={{ path: 'explore' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'explore' }} onNavigate={handleNav} dotColor="#FF3B30">
                   Explore Hub
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'colors' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'colors' }} onNavigate={handleNav} dotColor="#FF3B30">
                   Curated Colors
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'palettes' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'palettes' }} onNavigate={handleNav} dotColor="#FF3B30">
                   Palette Systems
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'patterns' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'patterns' }} onNavigate={handleNav} dotColor="#FF3B30">
                   Vector Patterns
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'color-of-the-day' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'color-of-the-day' }} onNavigate={handleNav} dotColor="#FF3B30">
                   Color of the Day
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'palette-of-the-day' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'palette-of-the-day' }} onNavigate={handleNav} dotColor="#FF3B30">
                   Palette of the Day
-                </Link>
+                </FooterNavLink>
               </li>
             </ul>
           </div>
 
           {/* Column 2: CREATIVE STUDIOS & DEV (Rainbow dot: Orange #FF9500) */}
-          <div
-            className="kroma-footer__nav-col"
-            style={{ '--col-dot-color': '#FF9500' } as React.CSSProperties}
-          >
-            <span className="kroma-footer__col-label">Creative Studios &amp; Dev</span>
-            <ul className="kroma-footer__col-list">
+          <div className="flex flex-col gap-4 min-w-0">
+            <span className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-[#888888]">
+              Creative Studios &amp; Dev
+            </span>
+            <ul className="flex flex-col gap-2.5 list-none p-0 m-0">
               <li>
-                <Link to={{ path: 'ramps' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'ramps' }} onNavigate={handleNav} dotColor="#FF9500">
                   Ramps Studio (OKLCH)
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'pattern-studio' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'pattern-studio' }} onNavigate={handleNav} dotColor="#FF9500">
                   Pattern Studio
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'mesh' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'mesh' }} onNavigate={handleNav} dotColor="#FF9500">
                   Mesh Gradient Studio
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'springs' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'springs' }} onNavigate={handleNav} dotColor="#FF9500">
                   Springs Studio
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'palette-generator' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'palette-generator' }} onNavigate={handleNav} dotColor="#FF9500">
                   Palette Generator
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'extract-from-image' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'extract-from-image' }} onNavigate={handleNav} dotColor="#FF9500">
                   Image → Palette
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'live' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'live' }} onNavigate={handleNav} dotColor="#FF9500">
                   Atmospheric Weather Color
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'api-docs' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'api-docs' }} onNavigate={handleNav} dotColor="#FF9500">
                   Developer API &amp; Tokens
-                </Link>
+                </FooterNavLink>
               </li>
             </ul>
           </div>
 
           {/* Column 3: COMMUNITY & PLAY (Rainbow dot: Green #34C759) */}
-          <div
-            className="kroma-footer__nav-col"
-            style={{ '--col-dot-color': '#34C759' } as React.CSSProperties}
-          >
-            <span className="kroma-footer__col-label">Community &amp; Play</span>
-            <ul className="kroma-footer__col-list">
+          <div className="flex flex-col gap-4 min-w-0">
+            <span className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-[#888888]">
+              Community &amp; Play
+            </span>
+            <ul className="flex flex-col gap-2.5 list-none p-0 m-0">
               <li>
-                <Link to={{ path: 'collections' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'collections' }} onNavigate={handleNav} dotColor="#34C759">
                   Curated Collections
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'creators' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'creators' }} onNavigate={handleNav} dotColor="#34C759">
                   Designers &amp; Colorists
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'trending' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'trending' }} onNavigate={handleNav} dotColor="#34C759">
                   Trending Systems
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'new' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'new' }} onNavigate={handleNav} dotColor="#34C759">
                   New Releases
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'play' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'play' }} onNavigate={handleNav} dotColor="#34C759">
                   Color Play &amp; Hexle
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <Link to={{ path: 'saved' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'saved' }} onNavigate={handleNav} dotColor="#34C759">
                   Curator Workspace
-                </Link>
+                </FooterNavLink>
               </li>
             </ul>
           </div>
 
           {/* Column 4: CONNECT & BRAND (Rainbow dot: Blue #00AEEF) */}
-          <div
-            className="kroma-footer__nav-col"
-            style={{ '--col-dot-color': '#00AEEF' } as React.CSSProperties}
-          >
-            <span className="kroma-footer__col-label">Connect</span>
-            <ul className="kroma-footer__col-list">
+          <div className="flex flex-col gap-4 min-w-0">
+            <span className="font-sans text-xs font-semibold uppercase tracking-[0.08em] text-[#888888]">
+              Connect
+            </span>
+            <ul className="flex flex-col gap-2.5 list-none p-0 m-0">
               <li>
-                <Link to={{ path: 'about' }} onNavigate={handleNav} className="kroma-footer__link">
+                <FooterNavLink to={{ path: 'about' }} onNavigate={handleNav} dotColor="#00AEEF">
                   About Kroma
-                </Link>
+                </FooterNavLink>
               </li>
               <li>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="kroma-footer__link"
-                >
+                <FooterNavLink href="https://instagram.com" dotColor="#00AEEF">
                   Instagram
-                </a>
+                </FooterNavLink>
               </li>
               <li>
-                <a
-                  href="https://pinterest.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="kroma-footer__link"
-                >
+                <FooterNavLink href="https://pinterest.com" dotColor="#00AEEF">
                   Pinterest
-                </a>
+                </FooterNavLink>
               </li>
               <li>
-                <a
-                  href="https://behance.net"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="kroma-footer__link"
-                >
+                <FooterNavLink href="https://behance.net" dotColor="#00AEEF">
                   Behance
-                </a>
+                </FooterNavLink>
               </li>
               <li>
-                <a
-                  href="mailto:support@kroma.design"
-                  className="kroma-footer__link kroma-footer__link--email"
-                  style={{ '--col-dot-color': '#7B2CBF' } as React.CSSProperties}
-                >
-                  support@kroma.design
-                </a>
+                <FooterNavLink href="mailto:designers.scrillo@gmail.com" dotColor="#7B2CBF">
+                  designers.scrillo@gmail.com
+                </FooterNavLink>
               </li>
             </ul>
           </div>
@@ -305,17 +334,21 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* ═════════════════════════════════════════════════════════
             3. FOOTER BRAND AREA
             ═════════════════════════════════════════════════════════ */}
-        <div className="kroma-footer__brand-area">
+        <div
+          className={`flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-6 pt-8 border-t border-[rgba(248,248,248,0.08)] transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-100 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+          }`}
+        >
           <Link
             to={{ path: 'home' }}
             onNavigate={handleNav}
-            className="kroma-footer__logo"
+            className="inline-flex items-center gap-2.5 text-white hover:opacity-85 transition-opacity"
             aria-label="KROMA Home"
           >
             <RollerEmblem size={20} />
-            <span className="kroma-footer__wordmark">Kroma</span>
+            <span className="font-sans text-[1.15rem] font-[750] tracking-[-0.035em] leading-none text-white">Kroma</span>
           </Link>
-          <span className="kroma-footer__tagline">
+          <span className="font-sans text-[13.5px] text-[#888888]">
             Color, creativity &amp; visual exploration.
           </span>
         </div>
@@ -323,30 +356,34 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* ═════════════════════════════════════════════════════════
             4. BOTTOM LEGAL BAR
             ═════════════════════════════════════════════════════════ */}
-        <div className="kroma-footer__bottom-bar">
-          <div className="kroma-footer__bottom-left">
+        <div
+          className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-5 pt-6 border-t border-[rgba(248,248,248,0.12)] font-sans text-[13px] text-[#777777] flex-wrap transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-150 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+          }`}
+        >
+          <div className="flex-1 min-w-[140px]">
             &copy; 2026 Kroma. All specimens curated &amp; calibrated.
           </div>
-          <div className="kroma-footer__bottom-center">
+          <div className="flex-1 text-left md:text-center min-w-[140px]">
             Made with curiosity.
           </div>
-          <div className="kroma-footer__bottom-right">
+          <div className="flex-1 flex items-center justify-start md:justify-end gap-2 min-w-[140px]">
             <KromaButton
               type="button"
               variant="ghost"
               size="sm"
               onClick={() => setLegalModal('privacy')}
-              className="kroma-footer__legal-link h-auto p-0 min-h-0 text-xs font-normal capitalize tracking-normal rounded-none"
+              className="!h-auto !p-0 !min-h-0 !text-xs !font-normal !capitalize !tracking-normal !rounded-none !text-[#777777] hover:!text-[#F8F8F8] hover:underline"
             >
               Privacy
             </KromaButton>
-            <span className="kroma-footer__legal-sep" aria-hidden="true">•</span>
+            <span className="opacity-50 text-xs" aria-hidden="true">•</span>
             <KromaButton
               type="button"
               variant="ghost"
               size="sm"
               onClick={() => setLegalModal('terms')}
-              className="kroma-footer__legal-link h-auto p-0 min-h-0 text-xs font-normal capitalize tracking-normal rounded-none"
+              className="!h-auto !p-0 !min-h-0 !text-xs !font-normal !capitalize !tracking-normal !rounded-none !text-[#777777] hover:!text-[#F8F8F8] hover:underline"
             >
               Terms
             </KromaButton>

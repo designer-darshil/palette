@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Calendar, Wand2, Copy, Bookmark, Share2, Layers, Sparkles, ArrowRight } from 'lucide-react';
+import { Wand2, Bookmark } from 'lucide-react';
 import { RouteType } from '../types';
 import { useLibraryData } from '../context/LibraryDataContext';
 import { useSaved } from '../context/SavedContext';
@@ -13,7 +13,6 @@ import { AccessibilityMatrix } from '../components/AccessibilityMatrix';
 import { SEOHead } from '../components/seo/SEOHead';
 import { PageHeader } from '../components/common/PageHeader';
 import { Button } from '../components/common/Button';
-import { Link } from '../components/common/Link';
 
 interface PaletteOfTheDayPageProps {
   onNavigate: (route: RouteType) => void;
@@ -28,14 +27,6 @@ export const PaletteOfTheDayPage: React.FC<PaletteOfTheDayPageProps> = ({ onNavi
   const saved = isSaved(palette.id);
 
   const similarPalettes = useMemo(() => findSimilarPalettes(palette, palettes, 4), [palette, palettes]);
-
-  const handleCopyTokens = async () => {
-    const code = palette.colors.map((c) => `${c.name}: ${c.hex}`).join('\n');
-    const success = await copyToClipboard(code);
-    if (success) {
-      showToast('Copied Palette Colors', palette.title);
-    }
-  };
 
   const handleToggleSave = () => {
     saveItem({

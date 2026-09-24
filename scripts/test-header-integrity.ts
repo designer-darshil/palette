@@ -56,38 +56,35 @@ for (const line of lines) {
 }
 assert(!conditionalHookViolation, 'Zero conditional hook invocations in Header component');
 
-// 3. CSS Semantic Token Verification
-const indexCssPath = path.resolve('./src/index.css');
-const indexCssContent = fs.readFileSync(indexCssPath, 'utf-8');
+// 3. Header Styling Verification (Tailwind-first — checks Header.tsx directly)
+// After CSS-to-Tailwind migration, header styles live as Tailwind classes in the component.
 
-// Header section in index.css
-const headerCssStart = indexCssContent.indexOf('.kroma-header {');
-const headerCssEnd = indexCssContent.indexOf('/* ═══════════════════════════════════════════════════════════\n   BOTTOM NAVIGATION BAR');
-assert(headerCssStart !== -1, '.kroma-header class exists in index.css');
+// Check positioning: Header must use fixed positioning
+assert(headerContent.includes('fixed'), 'Header uses fixed positioning (Tailwind or inline)');
 
-const headerCssBlock = indexCssContent.slice(headerCssStart, headerCssEnd !== -1 ? headerCssEnd : headerCssStart + 15000);
+// Check z-index hierarchy: z-[100] on header, z-[120] on mobile drawer
+assert(headerContent.includes('z-[100]'), 'Header uses z-[100] for established z-index hierarchy');
+assert(headerContent.includes('z-[120]'), 'Mobile menu drawer uses z-[120] (above header, below modals)');
 
-// Check that hardcoded prohibited hex tokens are not used in the active header CSS block
+// Check backdrop blur
+assert(headerContent.includes('backdrop-blur'), 'Header uses backdrop-blur for background separation');
+
+// Check that header doesn't use hardcoded forbidden hex tokens inline
 const forbiddenTokens = ['#171717', '#707070', '#F8F8F8'];
 let hasForbiddenToken = false;
 for (const token of forbiddenTokens) {
-  // Ignore lines that are comments
-  const lines = headerCssBlock.split('\n');
+  const lines = headerContent.split('\n');
   for (const line of lines) {
-    if (!line.trim().startsWith('/*') && !line.trim().startsWith('*') && line.includes(token)) {
+    if (!line.trim().startsWith('//') && !line.trim().startsWith('/*') && !line.trim().startsWith('*') && line.includes(token)) {
       hasForbiddenToken = true;
-      console.error(`Found forbidden token ${token} in line: ${line.trim()}`);
+      console.error(`Found forbidden token ${token} in Header.tsx line: ${line.trim()}`);
     }
   }
 }
-assert(!hasForbiddenToken, 'Header CSS uses semantic variables instead of hardcoded hex colors (#171717, #707070, #F8F8F8)');
+assert(!hasForbiddenToken, 'Header component uses semantic Tailwind tokens instead of hardcoded hex colors (#171717, #707070, #F8F8F8)');
 
-// Check positioning and z-index hierarchy
-assert(headerCssBlock.includes('position: fixed;'), 'Header uses position: fixed for universal stability');
-assert(headerCssBlock.includes('z-index: 100;'), 'Header uses established z-index: 100');
-assert(headerCssBlock.includes('z-index: 120;'), 'Mobile menu drawer uses z-index: 120 (above header, below modals)');
-assert(headerCssBlock.includes('backdrop-filter: blur('), 'Header uses backdrop-filter blur for background separation');
-assert(headerCssBlock.includes('flex-wrap: nowrap;'), 'Header container and center use flex-wrap: nowrap to prevent unexpected height shifts');
+// Check flex-wrap: nowrap is preserved (via Tailwind flex-nowrap class)
+assert(headerContent.includes('flex-nowrap'), 'Header uses flex-nowrap to prevent unexpected height shifts');
 
 // 4. Active Route Matching
 assert(headerContent.includes("currentRoute.path === 'explore'"), 'Explore active route includes explore');

@@ -35,7 +35,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
   const [adjustments, setAdjustments] = useState<RemixAdjustments>(DEFAULT_REMIX_ADJUSTMENTS);
   const [history, setHistory] = useState<RemixAdjustments[]>([DEFAULT_REMIX_ADJUSTMENTS]);
   const [historyIndex, setHistoryIndex] = useState(0);
-  const [customTitle, setCustomTitle] = useState('');
+  const [customTitle] = useState('');
 
   if (!originalPalette) {
     return <NotFoundPage requestedUrl={`/palettes/${slug}/remix`} onNavigate={onNavigate} />;
@@ -170,7 +170,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
 
       {/* Harmonic Presets */}
       <section className="mb-12">
-        <span className="studio-label mb-3 block">ONE-CLICK HARMONICS</span>
+        <span className="uppercase tracking-wider text-xs font-semibold text-text-secondary mb-3 block">ONE-CLICK HARMONICS</span>
         <div className="flex flex-wrap gap-2">
           {(
             [
@@ -200,7 +200,7 @@ export const PaletteRemixPage: React.FC<PaletteRemixPageProps> = ({ slug, onNavi
 
       {/* Sliders Precision Controls */}
       <section className="p-6 border border-[var(--border-subtle)] rounded-xs mb-16">
-        <span className="studio-label mb-6 block">PRECISION PARAMETRIC CALIBRATION</span>
+        <span className="uppercase tracking-wider text-xs font-semibold text-text-secondary mb-6 block">PRECISION PARAMETRIC CALIBRATION</span>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Hue Shift */}

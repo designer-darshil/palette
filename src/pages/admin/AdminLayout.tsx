@@ -106,9 +106,9 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   }
 
   return (
-    <div className="admin-layout-wrapper">
+    <div className="flex flex-col min-h-[100dvh] bg-bg-canvas text-text-primary font-sans relative w-full lg:flex-row">
       {/* Mobile Top App Bar */}
-      <header className="admin-mobile-header" aria-label="Admin Navigation Header">
+      <header className="flex lg:hidden sticky top-0 z-[90] bg-surface-1 border-b border-border-subtle py-2.5 px-4 items-center justify-between w-full" aria-label="Admin Navigation Header">
         <div className="flex items-center gap-2.5">
           <button
             type="button"
@@ -138,7 +138,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       {/* Backdrop for Mobile Drawer */}
       {mobileSidebarOpen && (
         <div
-          className="admin-sidebar-backdrop"
+          className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[99] block lg:hidden"
           onClick={() => setMobileSidebarOpen(false)}
           aria-hidden="true"
         />
@@ -146,7 +146,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
       {/* Sidebar Rail */}
       <aside
-        className={`admin-sidebar ${mobileSidebarOpen ? 'open' : ''}`}
+        className={`w-[240px] bg-surface-1 border-r border-border-subtle flex flex-col justify-between p-4 flex-shrink-0 transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] h-[100dvh] sticky top-0 overflow-y-auto ${
+          mobileSidebarOpen
+            ? 'fixed inset-y-0 left-0 z-[100] shadow-[0_10px_30px_rgba(0,0,0,0.5)] translate-x-0'
+            : 'fixed -translate-x-full lg:static lg:translate-x-0'
+        }`}
         aria-label="Admin Navigation"
       >
         <div className="flex flex-col">
@@ -282,7 +286,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         </header>
 
         {/* Scrollable Content */}
-        <main className="admin-main-stage">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 pb-10 sm:p-6 sm:pb-12 bg-bg-canvas min-w-0">
           {children}
         </main>
       </div>

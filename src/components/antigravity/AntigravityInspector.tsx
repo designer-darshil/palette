@@ -153,7 +153,7 @@ export const AntigravityInspector: React.FC<AntigravityInspectorProps> = ({
 
       {activeTab === 'presets' && (
         <div className="p-3">
-          <div className="studio-preset-grid">
+          <div className="grid grid-cols-2 gap-2">
             {ANTIGRAVITY_PRESETS.map((p) => {
               const isSelected = config.preset === p.id;
               let icon = <Compass size={16} className="text-[var(--color-primary)]" />;

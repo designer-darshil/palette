@@ -55,7 +55,7 @@ export const ExtractFromImagePage: React.FC<ExtractFromImagePageProps> = ({
   });
 
   const [imageTitle, setImageTitle] = useState<string>(IMAGE_PRESETS[0].title);
-  const [colorCount, setColorCount] = useState<number>(5);
+  const [colorCount] = useState<number>(5);
   const [swatches, setSwatches] = useState<ExtractedSwatch[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);

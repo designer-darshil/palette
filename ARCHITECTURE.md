@@ -16,8 +16,8 @@ KROMA is a client-side single page application (SPA) built with React 18, TypeSc
 ## 3. Header Architecture & Positioning
 - **Component**: `src/components/Header.tsx`
 - **Positioning**: Fixed to top (`position: fixed; top: 0; left: 0; right: 0; z-index: 100`).
-- **Styling**: `src/index.css` (`.kroma-header`) uses backdrop blur (`backdrop-filter: blur(12px)`), solid `--bg-navbar` fill, and fine border (`border-bottom: 1px solid var(--border-subtle)`).
-- **Studio Layout Accommodation**: Studio routes (`create`, `mesh`, `pattern-studio`, etc.) use `.main-content-studio` with `height: calc(100dvh - var(--header-height))` and internal scroll containers. The fixed header with backdrop blur and border cleanly separates the header from studio toolbars regardless of window scroll position.
+- **Styling**: Tailwind utilities applied directly in `Header.tsx` (`fixed inset-x-0 top-0 z-[100] backdrop-blur-md bg-navbar border-b border-border-subtle`). Design tokens are consumed via Tailwind theme integration.
+- **Studio Layout Accommodation**: Studio routes (`create`, `mesh`, `pattern-studio`, etc.) use Tailwind responsive utilities for `h-[calc(100dvh-var(--header-height))]` containment with internal scroll containers. The fixed header with backdrop blur and border cleanly separates the header from studio toolbars regardless of window scroll position.
 - **Responsive System**:
   - Desktop (>1024px): Full brand mark, central primary navigation, and expanded action links.
   - Tablet (768px–1024px): Symmetrically centered dropdown menus with 2-column grid to prevent clipping.

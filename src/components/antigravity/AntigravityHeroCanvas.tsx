@@ -3,7 +3,6 @@ import {
   AntigravityConfig,
   PhysicsSimulation,
   SimulationState,
-  describeMotion,
 } from '../../utils/antigravityEngine';
 import {
   Play,
@@ -190,15 +189,15 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
         />
 
         {/* Corner: Gravity Vector */}
-        <div className="studio-corner-badge top-left">
-          <Compass size={11} className="text-[var(--color-primary)]" />
+        <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-surface-2 border border-border-subtle px-2 py-0.5 rounded-xs font-mono text-xs text-text-secondary pointer-events-none opacity-85">
+          <Compass size={11} className="text-primary" />
           <span>G: ({config.gravityX}, {config.gravityY})</span>
         </div>
 
         {/* Corner: State */}
-        <div className="studio-corner-badge top-right">
-          <span className={`studio-state-dot ${simState === 'dragging' ? 'dragging' : isPlaying ? 'playing' : 'paused'}`} />
-          <span className="font-bold text-[var(--text-primary)] uppercase text-xs">
+        <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-surface-2 border border-border-subtle px-2 py-0.5 rounded-xs font-mono text-xs text-text-secondary pointer-events-none opacity-85">
+          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${simState === 'dragging' ? 'bg-amber-400 animate-pulse' : isPlaying ? 'bg-emerald-400' : 'bg-rose-400'}`} />
+          <span className="font-bold text-text-primary uppercase text-xs">
             {simState === 'dragging' ? 'Drag' : isPlaying ? 'Live' : 'Paused'}
           </span>
         </div>
@@ -286,12 +285,11 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
         </div>
 
         {/* Compact Canvas HUD */}
-        <div className="studio-canvas-hud">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 bg-surface-1 border border-border-strong px-2.5 py-1 rounded-full shadow-elevated backdrop-blur-md">
           <KromaButton
             size="icon"
             variant="ghost"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="studio-canvas-hud-btn"
             title={isPlaying ? 'Pause' : 'Play'}
             aria-label={isPlaying ? 'Pause' : 'Play'}
             iconLeft={isPlaying ? <Pause size={12} /> : <Play size={12} className="text-emerald-400" />}
@@ -301,22 +299,21 @@ export const AntigravityHeroCanvas: React.FC<AntigravityHeroCanvasProps> = ({
             size="icon"
             variant="ghost"
             onClick={handleReset}
-            className="studio-canvas-hud-btn"
             title="Reset position"
             aria-label="Reset position"
             iconLeft={<RotateCcw size={12} />}
           />
 
-          <div className="studio-canvas-hud-divider" />
+          <div className="w-px h-4 bg-border-subtle mx-0.5" />
 
-          <div className="studio-canvas-hud-label">
-            <span className="text-[var(--text-tertiary)]">V:</span>
-            <strong>{hudMetrics.speed}</strong>
+          <div className="font-mono text-xs text-text-secondary flex items-center gap-1 px-1">
+            <span className="text-text-tertiary">V:</span>
+            <strong className="text-text-primary">{hudMetrics.speed}</strong>
           </div>
 
-          <div className="studio-canvas-hud-label hidden sm:flex">
-            <span className="text-[var(--text-tertiary)]">KE:</span>
-            <strong className="text-[var(--color-primary)]">{hudMetrics.energy}</strong>
+          <div className="font-mono text-xs text-text-secondary hidden sm:flex items-center gap-1 px-1">
+            <span className="text-text-tertiary">KE:</span>
+            <strong className="text-primary">{hudMetrics.energy}</strong>
           </div>
         </div>
       </div>

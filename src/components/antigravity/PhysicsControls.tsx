@@ -9,7 +9,6 @@ import {
   ChevronUp,
   Layers,
   Compass,
-  Sparkles,
 } from 'lucide-react';
 import { KromaButton } from '../common/KromaButton';
 
@@ -243,7 +242,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                   step={0.002}
                   value={config.damping}
                   onChange={(e) => onChange({ damping: parseFloat(e.target.value), preset: null })}
-                  className="w-full studio-slider"
+                  className="w-full studio-range-input"
                   aria-label="Air Damping"
                 />
                 <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)]">
@@ -268,7 +267,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                   step={0.02}
                   value={config.friction}
                   onChange={(e) => onChange({ friction: parseFloat(e.target.value), preset: null })}
-                  className="w-full studio-slider"
+                  className="w-full studio-range-input"
                   aria-label="Surface Friction"
                 />
                 <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)]">
@@ -293,7 +292,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                   step={10}
                   value={config.velocityX}
                   onChange={(e) => onChange({ velocityX: parseFloat(e.target.value), preset: null })}
-                  className="w-full studio-slider"
+                  className="w-full studio-range-input"
                   aria-label="Launch Velocity X"
                 />
               </div>
@@ -313,7 +312,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                   step={10}
                   value={config.velocityY}
                   onChange={(e) => onChange({ velocityY: parseFloat(e.target.value), preset: null })}
-                  className="w-full studio-slider"
+                  className="w-full studio-range-input"
                   aria-label="Launch Velocity Y"
                 />
               </div>
@@ -333,7 +332,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                   step={0.1}
                   value={config.timeScale}
                   onChange={(e) => onChange({ timeScale: parseFloat(e.target.value), preset: null })}
-                  className="w-full studio-slider"
+                  className="w-full studio-range-input"
                   aria-label="Time Scale"
                 />
               </div>
@@ -353,7 +352,7 @@ export const PhysicsControls: React.FC<PhysicsControlsProps> = ({
                   step={4}
                   value={config.boundaryPadding}
                   onChange={(e) => onChange({ boundaryPadding: parseInt(e.target.value, 10), preset: null })}
-                  className="w-full studio-slider"
+                  className="w-full studio-range-input"
                   aria-label="Boundary Padding"
                 />
               </div>

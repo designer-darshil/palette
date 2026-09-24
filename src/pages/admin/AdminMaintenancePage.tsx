@@ -349,7 +349,7 @@ export const AdminMaintenancePage: React.FC = () => {
             type="text"
             value={formData.supportUrl}
             onChange={(e) => handleInputChange('supportUrl', e.target.value)}
-            placeholder="mailto:support@kroma.design"
+            placeholder="mailto:designers.scrillo@gmail.com"
             variant="surface"
             className="font-mono"
           />

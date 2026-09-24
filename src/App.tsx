@@ -1,12 +1,10 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { RouteType } from './types';
 import { Header } from './components/Header';
-import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
 import { RainbowPaintRollerPreloader } from './components/common/RainbowPaintRollerPreloader';
-import { generateFullRampsSystem, normalizeHex, isValidHex, RampsScope, RampsScheme, RampsWcag, RampsNotation, RampsVividness } from './utils/rampsEngine';
-import { deserializeAntigravityConfig, serializeAntigravityConfig, generateMotionTokens, generateCssExport, generateJsExport, generateFramerMotionExport, describeMotion } from './utils/antigravityEngine';
+import { generateFullRampsSystem, normalizeHex, RampsScope, RampsScheme, RampsWcag, RampsNotation, RampsVividness } from './utils/rampsEngine';
 import { deserializeSpringsConfig, serializeSpringsConfig, generateCssSpringExport, generateJsSpringExport, generateFramerMotionSpringExport, generateDtcgSpringTokens, calculateSpringMetrics } from './utils/springsEngine';
 import { SpringsStudioPage } from './pages/SpringsStudioPage';
 import { deserializeMeshConfig, serializeMeshConfig, generateMeshCss, generateMeshSvg, generateMeshTokensJson } from './utils/meshEngine';
@@ -812,14 +810,20 @@ export const App: React.FC = () => {
   const isStudioView = ['create', 'mesh', 'pattern-studio'].includes(currentRoute.path);
 
   return (
-    <div className="app-container">
+    <div className="min-h-[100dvh] flex flex-col">
       <Header
         currentRoute={currentRoute}
         onNavigate={handleNavigate}
         onOpenSearch={() => setSearchOpen(true)}
       />
 
-      <main className={`main-content ${isStudioView ? 'main-content-studio' : ''}`}>
+      <main
+        className={
+          isStudioView
+            ? 'w-full max-w-full m-0 p-0 flex flex-col h-[calc(100dvh-58px)] md:h-[calc(100dvh-68px)] overflow-hidden'
+            : 'flex-1 w-full max-w-[1400px] mx-auto px-4 pt-6 pb-16 md:px-8 md:pt-6 md:pb-20'
+        }
+      >
         <Suspense fallback={<RainbowPaintRollerPreloader fullscreen={false} />}>
           {renderCurrentPage()}
         </Suspense>

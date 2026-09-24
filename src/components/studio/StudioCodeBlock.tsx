@@ -54,12 +54,12 @@ export const StudioCodeBlock = <T extends string>({
       {/* Section Header */}
       <div className="flex flex-col gap-2 min-w-0">
         <div className="min-w-0">
-          <h3 className="studio-section-title font-bold text-[var(--text-primary)] flex items-center gap-1.5 tracking-tight">
-            <FileCode size={15} className="text-[var(--text-secondary)] flex-shrink-0" />
-            <span className="studio-heading">{title}</span>
+          <h3 className="font-bold text-text-primary flex items-center gap-1.5 tracking-tight">
+            <FileCode size={15} className="text-text-secondary flex-shrink-0" />
+            <span className="font-display text-[13px] font-bold tracking-tight text-text-primary truncate">{title}</span>
           </h3>
           {description && (
-            <p className="text-xs text-[var(--text-tertiary)] mt-0.5 leading-snug break-words">
+            <p className="text-xs text-text-tertiary mt-0.5 leading-snug break-words">
               {description}
             </p>
           )}
@@ -92,13 +92,10 @@ export const StudioCodeBlock = <T extends string>({
       </div>
 
       {/* Code Container with Tabs Header */}
-      <div
-        className="code-wrapper rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface-1)] shadow-xs"
-        style={{ borderRadius: 'var(--radius-md)' }}
-      >
+      <div className="w-full min-w-0 max-w-full overflow-hidden rounded-md border border-border-subtle bg-surface-1 shadow-xs">
         {/* Tab Navigation Header */}
-        <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[var(--border-subtle)] bg-[var(--bg-surface-2)]/70 min-w-0">
-          <div className="code-tabs items-center gap-1">
+        <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-border-subtle bg-surface-2/70 min-w-0">
+          <div className="flex min-w-0 max-w-full overflow-x-auto overflow-y-hidden items-center gap-1 scrollbar-none">
             {tabs.map((tab) => (
               <KromaButton
                 key={tab.id}
@@ -106,10 +103,10 @@ export const StudioCodeBlock = <T extends string>({
                 variant={activeTab === tab.id ? 'filled' : 'ghost'}
                 size="sm"
                 onClick={() => onTabChange(tab.id)}
-                className={`code-tab min-h-[28px] px-2.5 py-1 text-xs font-mono normal-case font-medium ${
+                className={`shrink-0 whitespace-nowrap min-h-[28px] px-2.5 py-1 text-xs font-mono normal-case font-medium ${
                   activeTab === tab.id
                     ? 'font-bold shadow-2xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                    : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
                 {tab.icon}
@@ -118,7 +115,7 @@ export const StudioCodeBlock = <T extends string>({
             ))}
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-[var(--text-tertiary)] pl-2 flex-shrink-0">
+          <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-text-tertiary pl-2 flex-shrink-0">
             <span>{code.split('\n').length}L</span>
             <span>•</span>
             <span className="uppercase">{language}</span>
@@ -126,11 +123,8 @@ export const StudioCodeBlock = <T extends string>({
         </div>
 
         {/* Code Content Viewport (Strictly isolated horizontal scroll) */}
-        <div className="code-editor relative p-3 max-h-[380px] bg-[var(--bg-surface-1)]">
-          <pre
-            className="font-mono text-xs leading-relaxed text-[var(--text-primary)] selection:bg-[var(--color-primary)] selection:text-[var(--color-primary-contrast)] m-0"
-            style={{ fontFamily: 'var(--font-mono)' }}
-          >
+        <div className="w-full min-w-0 max-w-full overflow-x-auto overflow-y-auto overscroll-x-contain relative p-3 max-h-[380px] bg-surface-1">
+          <pre className="font-mono text-xs leading-relaxed text-text-primary selection:bg-primary selection:text-white m-0 w-max min-w-full whitespace-pre">
             <code>{code}</code>
           </pre>
         </div>
